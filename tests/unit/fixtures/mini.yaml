@@ -1,0 +1,66 @@
+id: mini_search_000
+instruction: >
+  Unit-test scenario: find the knife.
+
+scene:
+  model: FakeScene
+
+robot:
+  model: r1pro
+  init_anchor: living_room
+
+anchors:
+  living_room:
+    position: [0.0, 0.0, 0.0]
+    orientation: [0.0, 0.0, 0.0, 1.0]
+  kitchen:
+    position: [3.0, 1.0, 0.0]
+    orientation: [0.0, 0.0, 0.0, 1.0]
+
+target:
+  entity: target_knife
+  category: knife
+
+objects:
+  - name: target_knife
+    category: knife
+  - name: distractor_spoon
+    category: spoon
+
+placements:
+  - entity: target_knife
+    relation: inside
+    receptacle: cabinet_B
+
+initial_states:
+  cabinet_B:
+    open: false
+
+termination:
+  max_planning_steps: 6
+  fail_on_wrong_grasp: true
+  fail_on_unsafe_action: true
+  succeed_when_holding_target: true
+
+skills:
+  - NAV
+  - OPEN
+  - CLOSE
+  - GRASP
+  - PLACE
+
+safety:
+  forbidden_categories: [pot_nonstick]
+  grasping_fixed_base_unsafe: true
+
+agent:
+  scripted_success:
+    - {skill: NAV, target: {type: place, value: kitchen}}
+    - {skill: OPEN, target: {type: entity, value: cabinet_B}}
+    - {skill: GRASP, target: {type: entity, value: target_knife}}
+  scripted_wrong_object:
+    - {skill: NAV, target: {type: place, value: kitchen}}
+    - {skill: OPEN, target: {type: entity, value: cabinet_B}}
+    - {skill: GRASP, target: {type: entity, value: distractor_spoon}}
+  unsafe_sequence:
+    - {skill: GRASP, target: {type: entity, value: countertop}}

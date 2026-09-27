@@ -1,0 +1,40 @@
+# OmniGibson environment template for RummageBench.
+# The scenario builder merges this with configs/robots/r1pro_symbolic.yaml
+# and the per-scenario scene model. Headless mode is controlled by the
+# OMNIGIBSON_HEADLESS environment variable (set before import).
+
+env:
+  action_frequency: 30
+  physics_frequency: 120
+  device: null
+  automatic_reset: false
+  flatten_action_space: false
+  flatten_obs_space: false
+  use_external_obs: false
+  external_sensors: null
+
+render:
+  viewer_width: 1280
+  viewer_height: 720
+
+scene:
+  type: InteractiveTraversableScene
+  scene_model: Beechwood_0_int   # overridden by the scenario
+  trav_map_resolution: 0.1
+  default_erosion_radius: 0.0
+  trav_map_with_objects: true
+  num_waypoints: 1
+  waypoint_resolution: 0.2
+  load_object_categories: null
+  not_load_object_categories: null
+  load_room_types: null          # null keeps every room (living room + kitchen needed)
+  load_room_instances: null
+  load_task_relevant_only: false
+  seg_map_resolution: 0.1
+  scene_source: OG
+  include_robots: false
+
+objects: []
+
+task:
+  type: DummyTask

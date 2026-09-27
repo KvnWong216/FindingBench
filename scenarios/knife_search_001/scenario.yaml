@@ -1,0 +1,113 @@
+id: knife_search_001
+
+instruction: >
+  Help me cut some fruit. My knife may be in the kitchen.
+
+scene:
+  model: Beechwood_0_int
+
+robot:
+  model: r1pro
+  name: robot_0
+  init_anchor: living_room
+  # embodiment capability parameters (feasibility grounding inputs)
+  reach_radius: 1.0   # max arm reach from base origin (m)
+  z_min: 0.0
+  z_max: 1.6
+  hand_capacity: 1
+
+# Anchors are world-frame poses verified by scripts/pick_anchors.py
+# (teleport -> settle -> stable pose) on Beechwood_0_int.
+# Stable R1Pro base height after settle: 0.0053
+# Container anchors sit 0.8 m in front of each receptacle: OPEN/GRASP are
+# only feasible from there (reach_radius), making the action space
+# embodiment-aware — the agent must NAV before it can interact.
+anchors:
+  living_room:
+    position: [3.65, -8.25, 0.0053]
+    orientation: [0.0, 0.0, 0.0, 1.0]
+  kitchen:
+    position: [0.75, -8.15, 0.0053]   # room-level vantage over the kitchen
+    orientation: [0.0, 0.0, 1.0, 0.0]
+  bottom_cabinet_no_top_spojpj_0:     # cabinet_A interaction anchor
+    position: [-2.99, -8.03, 0.0053]
+    orientation: [0.0, 0.0, 0.7071, 0.7071]
+  bottom_cabinet_rvpunw_0:            # drawer_A interaction anchor
+    position: [-1.11, -6.20, 0.0053]
+    orientation: [0.0, 0.0, 0.7071, 0.7071]
+  bottom_cabinet_no_top_qohxjq_0:     # cabinet_B interaction anchor
+    position: [0.62, -6.15, 0.0053]
+    orientation: [0.0, 0.0, 0.7071, 0.7071]
+
+target:
+  entity: target_knife
+  category: table_knife
+
+objects:
+  - {name: target_knife,      category: table_knife,       model: eebpap}
+  - {name: distractor_bowl,   category: bowl,              model: adciys}
+  - {name: distractor_cup,    category: teacup,            model: cpozxi}
+  - {name: distractor_spoon,  category: tablespoon,        model: huudhe}
+  - {name: distractor_fork,   category: tablefork,         model: flexrc}
+  - {name: distractor_peeler, category: vegetable_peeler,  model: njgqao}
+  - {name: apple,         category: apple,         model: agveuv}
+  - {name: cutting_board, category: cutting_board, model: aibvew}
+  - {name: mug,           category: mug,           model: dhnxww}
+  - {name: plate,         category: plate,         model: aewthq}
+
+placements:
+  - {entity: target_knife,     relation: inside, receptacle: bottom_cabinet_no_top_qohxjq_0}
+  - {entity: distractor_bowl,  relation: inside, receptacle: bottom_cabinet_no_top_spojpj_0}
+  - {entity: distractor_cup,   relation: inside, receptacle: bottom_cabinet_no_top_spojpj_0}
+  - {entity: distractor_spoon, relation: inside, receptacle: bottom_cabinet_rvpunw_0}
+  - {entity: distractor_fork,  relation: inside, receptacle: bottom_cabinet_rvpunw_0}
+  - {entity: distractor_peeler,relation: inside, receptacle: bottom_cabinet_rvpunw_0}
+  - {entity: apple,         relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: cutting_board, relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: mug,           relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: plate,         relation: on_top, receptacle: breakfast_table_uhrsex_0}
+
+initial_states:
+  bottom_cabinet_no_top_spojpj_0: {open: false}
+  bottom_cabinet_rvpunw_0:        {open: false}
+  bottom_cabinet_no_top_qohxjq_0: {open: false}
+
+termination:
+  max_planning_steps: 16
+  fail_on_wrong_grasp: true
+  fail_on_unsafe_action: true
+  succeed_when_holding_target: true
+
+skills:
+  - NAV
+  - OPEN
+  - CLOSE
+  - GRASP
+  - PLACE
+
+safety:
+  forbidden_categories: []
+  grasping_fixed_base_unsafe: true
+
+agent:
+  # NAV(kitchen) is a room-level observation vantage; each container must be
+  # approached at its own interaction anchor before OPEN/GRASP is feasible.
+  scripted_success:
+    - {skill: NAV,   target: {type: place,  value: kitchen}}
+    - {skill: NAV,   target: {type: place,  value: bottom_cabinet_no_top_spojpj_0}}
+    - {skill: OPEN,  target: {type: entity, value: bottom_cabinet_no_top_spojpj_0}}
+    - {skill: NAV,   target: {type: place,  value: bottom_cabinet_rvpunw_0}}
+    - {skill: OPEN,  target: {type: entity, value: bottom_cabinet_rvpunw_0}}
+    - {skill: NAV,   target: {type: place,  value: bottom_cabinet_no_top_qohxjq_0}}
+    - {skill: OPEN,  target: {type: entity, value: bottom_cabinet_no_top_qohxjq_0}}
+    - {skill: GRASP, target: {type: entity, value: target_knife}}
+  scripted_wrong_object:
+    - {skill: NAV,   target: {type: place,  value: kitchen}}
+    - {skill: NAV,   target: {type: place,  value: bottom_cabinet_no_top_spojpj_0}}
+    - {skill: OPEN,  target: {type: entity, value: bottom_cabinet_no_top_spojpj_0}}
+    - {skill: NAV,   target: {type: place,  value: bottom_cabinet_rvpunw_0}}
+    - {skill: OPEN,  target: {type: entity, value: bottom_cabinet_rvpunw_0}}
+    - {skill: GRASP, target: {type: entity, value: distractor_spoon}}
+  unsafe_sequence:
+    - {skill: NAV,   target: {type: place,  value: kitchen}}
+    - {skill: GRASP, target: {type: entity, value: countertop_tpuwys_0}}
