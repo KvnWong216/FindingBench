@@ -1,27 +1,37 @@
 # RummageBench
 
-Embodiment-aware interactive object-search benchmark built on **BEHAVIOR-1K v3.9.3 + OmniGibson**.
+Embodiment-grounded interactive object-search benchmark built on
+**BEHAVIOR-1K v3.9.3 + OmniGibson**.
 
-**Positioning.** Existing embodied benchmarks evaluate agents through end-to-end
-successful execution, which entangles high-level decision quality with low-level
-execution noise. RummageBench is a *diagnostic* benchmark: the admissible action
-space is dynamically grounded from robot capability, object affordance and world
-state
+**Positioning.** Existing embodied benchmarks evaluate agents through
+end-to-end successful execution, which entangles high-level decision quality
+with low-level execution noise. RummageBench is a *diagnostic* benchmark:
+
+> **FindingBench abstracts away motor execution while preserving
+> embodiment-level physical constraints.**
+
+The admissible action space is dynamically grounded from the robot's REAL
+kinematic model, the object's interaction interface and the world state:
 
 ```
-A_t = Ground(Robot, Object, WorldState_t)
+A_t = Ground(RobotGeometry, ObjectInterface, WorldGeometry, WorldState_t)
+
+Robot model (URDF) -> IK -> collision geometry -> interaction feasibility
+                   -> grounded action space -> instant symbolic execution
 ```
 
-and every validated interaction executes as an instant symbolic state
-transition. The benchmark therefore measures **embodiment-aware interactive
-reasoning, not manipulation control** (the Action Expert is assumed to be a
-perfect executor: no trajectory optimization, no grasp controller, no physics
-manipulation).
+**Execution is symbolic; physical feasibility is real.** Every validated
+interaction executes as an instant, deterministic symbolic state transition —
+no trajectory optimization, no grasp controller, no physics manipulation —
+but a skill only EXISTS in the action space if at least one interaction
+configuration satisfies semantic preconditions, state preconditions, URDF-IK,
+joint limits and configuration-space collision constraints.
 
-The agent reasons at the semantic-skill level (`NAV` / `OPEN` / `CLOSE` /
-`GRASP` / `PLACE`); the backend realizes each validated action symbolically, so
-correct high-level reasoning never fails because of navigation, IK,
-motion-planning or grasp-controller noise.
+**FindingBench evaluates configuration-level physical feasibility, not
+trajectory-level executability.** No RRT/OMPL/CuRobo, no motion planning, no
+controller simulation: the feasibility question is "does at least one
+collision-free interaction configuration exist?", and the answer is derived
+from geometry, not from hand-authored capability proxies.
 
 ## Repository layout
 
@@ -32,27 +42,64 @@ src/rummagebench/
   core/        canonical data model, session, events (one schema everywhere)
   core/skill_grounder.py
                Embodied Action Grounding Engine (EAGE): regenerates the
-               available action space every step from robot x object x state
+               available action space every step from robot geometry x object
+               interface x world state
+  core/navigation.py
+               NavigationTargetProvider protocol (NamedAnchorProvider today;
+               NAV stays a perfect executor over build-time-verified anchors)
   object_interface/
                Rigid / Articulated / Receptacle adapters; each entity proposes
-               its semantically valid skill candidates (available_skills())
-  feasibility/ kinematic feasibility: IKSolver protocol (reachability proxy;
-               TRAC-IK pluggable for URDFs) + CollisionChecker with an
-               allowed-collision matrix (finger<->target allowed, closed
-               foreign volumes forbidden)
-  robots/      RobotEmbodiment capability parameters (reach radius, height
-               band, hand capacity) — the embodiment layer
-  skills/      NAV / OPEN / CLOSE / GRASP / PLACE (execution only, never
-               episode decisions)
+               semantically valid skill candidates AND its interaction
+               interfaces (interaction_targets): articulated handle links,
+               canonical rigid-body candidates, receptacle regions — never
+               the entity root pose
+  feasibility/ the physical grounding toolbox:
+               ik_solver.py        Pose/IKResult contracts; RobotKinematicsBackend
+                                   protocol; legacy reach-radius proxy (TESTS ONLY)
+               pinocchio_solver.py URDF-backed kinematics: FK, joint limits,
+                                   numerical SE(3) IK (damped least squares,
+                                   joint-limit projection, deterministic
+                                   multi-seed restarts, fine-grained failure
+                                   attribution: NO_IK_SOLUTION / JOINT_LIMIT /
+                                   NUMERICAL_FAILURE)
+               collision.py        AllowedCollisionMatrix, CollisionResult;
+                                   legacy point-vs-AABB checker (TESTS ONLY)
+               hpp_fcl_checker.py  configuration-space collision: robot
+                                   collision links (URDF <collision>) x world
+                                   geometry (coal/hpp-fcl), self-collision +
+                                   robot-world, ACM-filtered, q-based
+               interaction_target.py
+                                   interaction interfaces: handle links
+                                   (fallback_link_anchor auto-derived from the
+                                   articulation), canonical rigid candidates
+                                   (AABB center + face centers), receptacle
+                                   top/inside regions; gripper standoff applied
+  robots/      RobotEmbodiment capability data + model_loader (backend
+               selection; missing URDF / missing pinocchio FAILS LOUDLY,
+               never silently degrades to the reach-radius proxy)
+  state/       benchmark-owned world state (holding truth lives HERE, never
+               in the simulator's assisted-grasp internals)
+  skills/      NAV / OPEN / CLOSE / GRASP / PLACE (execution only; GRASP does
+               NOT move the base — implicit NAV is forbidden)
   environment/ JSON facade: env.reset() / env.step(action_json)
-  sim/         abstract SimBackend; OmniGibson lives ONLY under sim/omnigibson/
-  validation/  semantic / target / safety / feasibility validators
+  sim/         abstract SimBackend (articulation info, collision geometries,
+               link poses, receptacle regions, joint seeds); OmniGibson lives
+               ONLY under sim/omnigibson/ (incl. robot_export.py: USD
+               articulation -> URDF + FK cross-validation, and usd_collision.py:
+               world colliders -> coal geometries with recorded approximation
+               levels: physics mesh BVH / exact primitive / AABB fallback)
+  validation/  semantic / target / safety / feasibility validators; the
+               feasibility pipeline: state preconditions -> interaction
+               candidates -> per-candidate IK -> configuration collision ->
+               FEASIBLE(q, target) | structured failure (UNREACHABLE /
+               COLLISION / INVALID_STATE, fine-grained IK reasons preserved)
   grounding/   target grounding (oracle entity now, pixel later)
   authoring/   scene inspection, scenario builder
   evaluation/  episode loop, JSONL logs, metrics
   agents/      scripted success / wrong-object / timeout / unsafe (data-driven)
   adapters/    python_api + MCP (transport only, zero benchmark logic)
-tests/         unit (no simulator) + integration (marked `sim`)
+tests/         unit (no simulator; proxy fixtures + real URDF kinematics) +
+               integration (marked `sim`)
 build/ runs/   generated artifacts (gitignored)
 ```
 
@@ -67,11 +114,25 @@ conda activate behavior
 
 # RummageBench itself
 pip install -e .            # from this repo
+pip install pin             # real kinematics + coal collision (feasibility)
 pip install mcp             # only needed for serve-mcp
 ```
 
-Datasets land in `BEHAVIOR-1K/OmniGibson/datasets` by default; set
-`OMNIGIBSON_DATA_PATH` before importing to relocate them.
+## Supported kinematic robots
+
+The feasibility engine needs a URDF under `robot.kinematics.urdf_path`
+(joint limits, FK/IK and `<collision>` bodies are all URDF-derived — robot
+geometry is never hand-authored):
+
+| Robot | Status | URDF source |
+|---|---|---|
+| `test arms` (short_arm / long_arm, 3-DOF planar) | bundled test fixtures | `tests/unit/fixtures/robots/*.urdf` |
+| `r1pro` (OmniGibson mobile manipulator) | supported on the simulator host | exported from the OmniGibson articulation: `python scripts/export_robot_kinematics.py` (also auto-exported to `build/robots/r1pro.urdf` on first run); the exporter FK-cross-validates the result against the simulator and refuses to write a wrong model |
+
+`reach_radius / z_min / z_max` remain in the scenario YAML as coarse-prefilter
+data for the proxy backend (unit tests). They can NEVER authorize an
+interaction in the pinocchio backend, and `feasibility.backend: pinocchio`
+(the production default) raises instead of falling back to them.
 
 ## Authoring workflow (game levels, not scripts)
 
@@ -102,9 +163,18 @@ python -m rummagebench.cli serve-mcp        # stdio; tools: reset_episode / obse
 ## Tests
 
 ```bash
-python -m pytest tests/unit -q              # no simulator needed
+python -m pytest tests/unit -q              # no simulator needed (proxy + real-URDF kinematics tests)
 python -m pytest tests/integration -m sim -q # needs the built scenario + dataset
 ```
+
+Unit tests include the physical-grounding suite: real IK on URDF fixtures
+(reachable / unreachable / joint-limit attribution), the morphology headline
+(same world + task, different URDF morphology -> different admissible action
+sets), self-collision and world-collision gates, the allowed-collision matrix
+(finger<->target allowed, arm<->target forbidden), interaction-interface
+grounding (handle unreachable => OPEN unavailable even when the object center
+is "reachable"), no-base-teleport during GRASP, and the benchmark-owned
+holding-state lifecycle.
 
 ## Architecture rules enforced by the layout
 
@@ -114,12 +184,18 @@ python -m pytest tests/integration -m sim -q # needs the built scenario + datase
 4. MCP forwards transport; it contains zero benchmark logic.
 5. Generated files stay in `build/` and `runs/`.
 6. One canonical schema: `Action`, `Observation`, `StepResult`, `EpisodeStatus`, `ScenarioSpec`.
+7. Holding state is benchmark-owned; the backend's assisted grasp is
+   visualization/optional realization only.
 
-## Verified results (Beechwood_0_int, R1Pro, v3.9.3)
+## Verified results
+
+Proxy-era acceptance (v2, Beechwood_0_int, R1Pro, reach-radius grounding):
 
 ```
 MVP ACCEPTANCE OK:
-  scripted      SUCCESS            5 steps  (NAV kitchen -> OPEN x3 -> GRASP knife)
+  scripted      SUCCESS            8 steps  (NAV kitchen -> NAV cabinet A -> OPEN A
+                                             -> NAV drawer A -> OPEN drawer
+                                             -> NAV cabinet B -> OPEN B -> GRASP knife)
   wrong_object  FAIL_WRONG_TARGET  5 steps
   timeout       FAIL_MAX_STEPS     17 steps
   unsafe        FAIL_UNSAFE_ACTION 2 steps
@@ -127,21 +203,46 @@ MVP ACCEPTANCE OK:
 unit tests 35/35 - integration tests 11/11 - MCP acceptance OK
 ```
 
-## v2: embodiment-aware extension
+v3 (physical grounding correctness) re-acceptance on the simulator host:
+pending — run the unit suite (`pytest tests/unit`) anywhere, then
+`pytest tests/integration -m sim` + `scripts/run_all.py` on the GPU host
+after exporting the R1Pro URDF. Do not quote proxy-era numbers as
+kinematic-grounding results.
 
-- **Dynamic skill grounding.** `available_skills` in every observation is
-  regenerated each step: entity adapters propose semantically valid candidates,
-  the feasibility engine (reach + collision) filters them into the skills that
-  actually exist for this robot at this world state. A skill *emerges* from the
-  world; it does not pre-exist in a fixed action list.
-- **Feasibility as a first-class failure dimension.** Structured, non-terminal
-  failures `UNREACHABLE` / `COLLISION` / `INVALID_STATE` come from the IK /
-  collision / state validators — failure attribution is mechanical, not labeled.
-- **JSON environment API** (`environment/env.py`): `env.reset()` and
-  `env.step({"type": "OPEN", "target": "cabinet_01"})` with
-  `{status, reason, state_update, observation}` responses.
-- **Capability-parameterized robot.** `reach_radius`, `z_min/z_max`,
-  `hand_capacity` live in scenario YAML — same world, different embodiments.
+## v3: physical grounding correctness
+
+Replaced hand-authored capability proxies with geometry- and
+kinematics-derived admissible actions, while keeping execution symbolic and
+deterministic.
+
+- **Real kinematics.** `PinocchioKinematics` loads a URDF (link frames, joint
+  tree, joint limits, `<collision>` bodies), locks non-controlled joints
+  (mobile base) and answers IK with damped-least-squares CLIK, joint-limit
+  projection and deterministic multi-seed restarts. Failures are attributed
+  (NO_IK_SOLUTION / JOINT_LIMIT / NUMERICAL_FAILURE) and preserved in event
+  logs; the benchmark-facing reason stays UNREACHABLE.
+- **Real collision.** `PinocchioCollisionChecker` checks whole robot
+  CONFIGURATIONS: self-collision (adjacency-filtered) and robot-vs-world
+  pairwise coal queries over URDF `<collision>` bodies and backend-exported
+  world geometry, filtered by the AllowedCollisionMatrix
+  (finger<->target allowed, arm<->target forbidden, foreign volumes forbidden,
+  held-object semantics for PLACE). Visual meshes are never used.
+- **Interaction interfaces, not entity centers.** OPEN/CLOSE ground at the
+  articulated handle/moving-link anchor (auto-derived, `fallback_link_anchor`),
+  GRASP at canonical rigid-body candidates (AABB center + face centers; no
+  grasp annotation, no grasp quality), PLACE at the receptacle top/inside
+  region. A tool standoff keeps the gripper frame off the surface.
+- **Benchmark-owned state.** `BenchmarkWorldState.held_object` is the holding
+  truth; task success reads it. GRASP never moves the robot base (the
+  assisted-grasp joint is realization only), PLACE releases the
+  benchmark-held entity explicitly (`symbolic_place(entity, receptacle)`).
+- **Fail loudly.** `feasibility.backend: pinocchio` (production default)
+  requires `robot.kinematics.urdf_path` and the `pin` package; anything
+  missing raises `FeasibilityBackendError` instead of silently degrading to
+  the reach-radius proxy. `backend: proxy` is an explicit test-mode choice.
+- **Feasibility failure attribution** now separates task-level safety
+  (`UNSAFE_ACTION`, SafetyValidator) from physical failure
+  (`UNREACHABLE`/`COLLISION`, physical_failure: true in events).
 
 ### Difficulty ladder (roadmap)
 
@@ -150,16 +251,15 @@ unit tests 35/35 - integration tests 11/11 - MCP acceptance OK
 | 0 | Known location (interaction execution) | `knife_search_001` |
 | 1 | Unknown container (search planning) | `knife_search_001` |
 | 2 | Distractors (semantic discrimination) | `knife_search_001` |
-| 3 | Embodiment constraint (capability-aware planning) | supported: capability params + `tests/unit/test_embodiment.py` (same task, different embodiment -> different admissible action graph); multi-robot scenario variants pending |
+| 3 | Embodiment constraint (capability-aware planning) | supported: URDF morphology decides the grounded action graph (`tests/unit/test_morphology.py`); multi-robot scenario variants pending |
 | 4 | Occlusion / rearrangement (interactive perception) | future |
 
 ### Key experiment this design enables
 
-Same scene, same instruction, robots with different `reach_radius` / height
-band: the grounded action graph differs (`OPEN(top_cabinet)` exists for the
-mobile manipulator, not for the compact arm). An agent that understands
-*its own capability* vs *the world's capability* is exactly what Level 3
-measures.
+Same scene, same instruction, robots with different URDF morphologies: the
+grounded action graph differs because IK + collision say so — not because a
+reach scalar was tuned. An agent that understands *its own body* vs *the
+world's affordances* is exactly what Level 3 measures.
 
 ## Known limitations
 
@@ -172,8 +272,12 @@ measures.
   pixel-deterministic, so the acceptance gate is semantic + pose, not pixels.
 - `Inside` relation sampling is probabilistic; the builder retries 5x and
   falls back to direct pose placement, then verifies or fails the build.
-- GRASP teleports the robot base next to the target before establishing the
-  assisted-grasp joint (a joint created across the room breaks under stretch).
 - Pixel grounding is stubbed; oracle entity naming is the MVP grounding mode.
-- Safety is rule-based (fixed-base grasp, forbidden categories); it does NOT
-  evaluate grasp-region safety (no interaction_region in the action schema).
+- Not yet modelled (documented abstractions, not oversights): trajectory- and
+  path-level feasibility beyond the endpoint configuration (no
+  canonical-corridor sampling yet — `feasibility.mode: canonical_corridor` is
+  the planned extension), grasp force/momentum, held-object inertia, deformable
+  or articulated held objects, dynamics of any kind.
+- World-collision fidelity depends on the exported USD colliders
+  (approximation level recorded per body: mesh BVH / exact primitive /
+  AABB fallback).

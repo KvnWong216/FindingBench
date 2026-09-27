@@ -19,7 +19,7 @@ class NavSkill:
     name = "NAV"
     target_kind = TargetKind.PLACE
 
-    def execute(self, backend: SimBackend, resolved: ResolvedTarget) -> SkillResult:
+    def execute(self, backend: SimBackend, resolved: ResolvedTarget, state) -> SkillResult:
         assert resolved.anchor is not None, "NAV requires a resolved anchor"
         backend.teleport_robot(resolved.anchor)
         backend.settle()

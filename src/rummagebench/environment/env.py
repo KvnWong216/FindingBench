@@ -50,7 +50,8 @@ class InteractiveSearchEnv:
             "name": self._scenario.robot.name,
             "position": [round(v, 4) for v in pose],
             "orientation": [round(v, 4) for v in quat],
-            "holding": self._backend.held_count(),
+            # benchmark-owned holding state (never the backend's grasp joints)
+            "holding": self._session.world_state.held_object,
         }
 
     def _object_states(self) -> dict[str, Any]:
@@ -92,7 +93,7 @@ class InteractiveSearchEnv:
             "episode_status": result.episode_status.value,
             "planning_step": result.planning_step,
             "state_update": {
-                "held": self._backend.held_count(),
+                "held": self._session.world_state.held_object,
                 **{
                     entity: {"open": self._backend.is_open(entity)}
                     for entity in self._scenario.initial_states

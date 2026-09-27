@@ -1,0 +1,50 @@
+id: morph_test_000
+instruction: >
+  Unit-test scenario: morphology headline (URDF kinematics).
+
+scene:
+  model: FakeScene
+
+robot:
+  model: test_arm
+  init_anchor: living_room
+  kinematics:
+    # overwritten per-test (short_arm.urdf / long_arm.urdf)
+    urdf_path: tests/unit/fixtures/robots/long_arm.urdf
+    base_link: base_link
+    end_effector_link: gripper
+    joint_limits_source: urdf
+    ik_seed: 0
+
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+  ik_restarts: 40
+
+anchors:
+  living_room:
+    position: [0.0, 0.0, 0.0]
+    orientation: [0.0, 0.0, 0.0, 1.0]
+
+target:
+  entity: target_knife
+  category: knife
+
+objects:
+  - name: target_knife
+    category: knife
+
+termination:
+  max_planning_steps: 8
+  fail_on_wrong_grasp: true
+  fail_on_unsafe_action: true
+  succeed_when_holding_target: false
+
+skills:
+  - NAV
+  - OPEN
+  - GRASP
+
+safety:
+  forbidden_categories: []
+  grasping_fixed_base_unsafe: true

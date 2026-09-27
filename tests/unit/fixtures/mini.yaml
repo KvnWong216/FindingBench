@@ -9,6 +9,12 @@ robot:
   model: r1pro
   init_anchor: living_room
 
+# unit tests run the proxy feasibility engine (reach radius + point-AABB)
+# against the FakeBackend; production scenarios use backend: pinocchio
+feasibility:
+  backend: proxy
+  mode: endpoint
+
 anchors:
   living_room:
     position: [0.0, 0.0, 0.0]

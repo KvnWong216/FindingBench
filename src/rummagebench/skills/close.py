@@ -14,7 +14,7 @@ class CloseSkill:
     name = "CLOSE"
     target_kind = TargetKind.ENTITY
 
-    def execute(self, backend: SimBackend, resolved: ResolvedTarget) -> SkillResult:
+    def execute(self, backend: SimBackend, resolved: ResolvedTarget, state) -> SkillResult:
         assert resolved.entity is not None
         achieved = backend.set_open(resolved.entity, False)
         return SkillResult(

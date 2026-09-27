@@ -28,6 +28,55 @@ class SceneSpec(BaseModel):
     model: str
 
 
+class KinematicsSpec(BaseModel):
+    """Robot kinematic model definition (real embodiment grounding).
+
+    The URDF is the single source of robot geometry: link frames, joint tree,
+    joint limits (joint_limits_source: urdf) and <collision> bodies. It must
+    be derived from the robot asset (OmniGibson articulation export via
+    scripts/export_robot_kinematics.py or a vendor URDF) — never hand-written.
+
+    reach_radius / z_min / z_max stay on RobotSpec as a coarse prefilter for
+    the proxy backend (tests only); they can never authorize an interaction in
+    the pinocchio backend.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    urdf_path: str
+    base_link: str = "base_link"
+    end_effector_link: str
+    controlled_joints: Optional[list[str]] = None  # None -> all movable joints
+    joint_limits_source: Literal["urdf"] = "urdf"
+    # links treated as gripper/finger class by the allowed-collision matrix;
+    # None -> auto-derive (EEF link descendants + 'finger|gripper|hand' names)
+    gripper_links: Optional[list[str]] = None
+    # deterministic multi-seed IK restarts
+    ik_seed: int = 0
+
+
+class FeasibilitySpec(BaseModel):
+    """Feasibility engine configuration.
+
+    backend: production benchmark requires 'pinocchio' (real URDF kinematics
+    + configuration-space collision). 'proxy' (reach-radius) exists for unit
+    tests only; production sessions must never fall back to it silently.
+    mode: 'endpoint' (v1) checks existence of one collision-free interaction
+    configuration. 'canonical_corridor' (planned) additionally samples a short
+    straight approach; neither mode plans trajectories.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    backend: Literal["pinocchio", "proxy"] = "pinocchio"
+    mode: Literal["endpoint", "canonical_corridor"] = "endpoint"
+    ik_pos_tol: float = 0.005  # m
+    ik_rot_tol: float = 0.0873  # rad (~5 deg)
+    ik_max_iters: int = Field(default=200, ge=1)
+    ik_restarts: int = Field(default=25, ge=0)
+    collision_padding: float = 0.0  # m, safety margin subtracted from clearances
+
+
 class RobotSpec(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -38,11 +87,14 @@ class RobotSpec(BaseModel):
     image_width: int = 224
     image_height: int = 224
     grasping_mode: Literal["sticky", "assisted", "physical"] = "sticky"
-    # embodiment capability parameters for feasibility grounding
+    # embodiment capability parameters: coarse prefilter for the proxy
+    # backend (tests only); the pinocchio backend derives feasibility from
+    # the URDF instead.
     reach_radius: float = 1.0  # max arm reach from base origin (m)
     z_min: float = 0.0  # interaction height band (m, world frame)
     z_max: float = 1.6
     hand_capacity: int = 1
+    kinematics: Optional[KinematicsSpec] = None
 
 
 class ObjectSpec(BaseModel):
@@ -129,6 +181,7 @@ class ScenarioSpec(BaseModel):
     placements: list[PlacementSpec] = Field(default_factory=list)
     initial_states: dict[str, InitialStateSpec] = Field(default_factory=dict)
     termination: TerminationSpec = Field(default_factory=TerminationSpec)
+    feasibility: FeasibilitySpec = Field(default_factory=FeasibilitySpec)
     skills: list[str] = Field(default_factory=lambda: ["NAV", "OPEN", "GRASP"])
     safety: SafetySpec = Field(default_factory=SafetySpec)
     agent: AgentSpec = Field(default_factory=AgentSpec)

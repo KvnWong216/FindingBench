@@ -1,19 +1,18 @@
 """Dynamic skill grounding: regenerate the available action space each step.
 
-    A_t = Ground(Robot, Object, WorldState_t)
+    A_t = Ground(RobotGeometry, ObjectInterface, WorldGeometry, WorldState_t)
 
 For every entity, its adapter proposes semantically valid skill candidates;
-the feasibility engine (reach + collision) filters them into the skills that
-actually exist for THIS robot at THIS world state. The result feeds the agent
-observation (available_skills) and the event log.
+the feasibility engine (URDF kinematics IK + configuration-space collision +
+state preconditions) filters them into the skills that actually exist for
+THIS robot at THIS world state. The result feeds the agent observation
+(available_skills) and the event log.
 """
 
 from __future__ import annotations
 
 from rummagebench.core.scenario import ScenarioSpec
-from rummagebench.core.types import TargetKind, WorldState
-from rummagebench.feasibility.collision import CollisionChecker
-from rummagebench.feasibility.ik_solver import IKSolver
+from rummagebench.core.types import TargetKind
 from rummagebench.object_interface.base import build_object_interface
 from rummagebench.robots.robot import RobotEmbodiment
 from rummagebench.sim.base import ResolvedTarget, SimBackend
@@ -25,7 +24,7 @@ class SkillGrounder:
 
     This is the benchmark's core mechanism, the Embodied Action Grounding
     Engine: the admissible action space is not fixed by the skill library but
-    derived per step from robot capability x object affordance x world state.
+    derived per step from robot geometry x object interface x world state.
     """
 
     def __init__(
@@ -33,21 +32,17 @@ class SkillGrounder:
         backend: SimBackend,
         scenario: ScenarioSpec,
         feasibility: FeasibilityValidator | None = None,
-        ik_solver: IKSolver | None = None,
-        collision_checker: CollisionChecker | None = None,
     ):
         self._backend = backend
         self._scenario = scenario
         if feasibility is None:
-            feasibility = FeasibilityValidator(
-                backend,
-                ik_solver=ik_solver,
-                collision_checker=collision_checker,
-            )
+            from rummagebench.core.session import _build_feasibility
+
+            feasibility = _build_feasibility(backend, scenario)
         self._feasibility = feasibility
 
-    def ground(self, robot: RobotEmbodiment) -> list[str]:
-        world = WorldState(held_count=self._backend.held_count())
+    def ground(self, robot: RobotEmbodiment, world) -> list[str]:
+        """``world`` is the benchmark-owned state (BenchmarkWorldState)."""
         labels: list[str] = []
 
         # NAV: navigation executor is perfect; every verified anchor is a skill

@@ -3,6 +3,11 @@
 These tests verify the benchmark core (schema, validators, session, grounding,
 feasibility, failure branches) WITHOUT the simulator, which also validates
 that the backend abstraction is real and OmniGibson is genuinely pluggable.
+
+The double supports both feasibility engines:
+- proxy mode: entity poses + whole-entity AABBs (reach radius + point check)
+- configuration mode: articulation_info (configurable handle links/offsets),
+  link poses/AABBs and per-entity collision geometries (AABB boxes)
 """
 
 from __future__ import annotations
@@ -13,18 +18,24 @@ import numpy as np
 import pytest
 
 from rummagebench.sim.base import (
+    ArticulationInfo,
+    ArticulationJointInfo,
     EntityInfo,
     ResolvedTarget,
     SimBackend,
+    WorldCollisionObject,
 )
 from rummagebench.core.types import TargetKind
+from rummagebench.feasibility.ik_solver import Pose
 
 
 class FakeBackend(SimBackend):
     """Minimal backend double for unit tests.
 
     entities: name -> EntityInfo; holding: entity currently grasped;
-    opens: set of open entities; poses: name -> [x,y,z]; aabbs: name -> (lo,hi).
+    opens: set of open entities; poses: name -> [x,y,z];
+    aabbs: name -> (lo,hi); articulations: name -> ArticulationInfo;
+    link_poses: (entity, link) -> [x,y,z]; link_aabbs: (entity, link) -> (lo,hi).
     """
 
     def __init__(
@@ -33,14 +44,23 @@ class FakeBackend(SimBackend):
         anchors: set[str],
         poses: dict[str, list[float]] | None = None,
         aabbs: dict[str, tuple[list[float], list[float]]] | None = None,
+        articulations: dict[str, ArticulationInfo] | None = None,
+        link_poses: dict[tuple[str, str], list[float]] | None = None,
+        link_aabbs: dict[tuple[str, str], tuple[list[float], list[float]]] | None = None,
     ):
         self.entities = entities
         self.anchors = anchors
         self.poses = poses or {}
         self.aabbs = aabbs or {}
+        self.articulations = articulations or {}
+        self.link_poses = link_poses or {}
+        self.link_aabbs_map = link_aabbs or {}
         self.holding_entity: str | None = None
         self.opens: set[str] = set()
         self._counter = 0
+        # GRASP realization must never move the base: this records the base
+        # pose at grasp time for the no-teleport regression test
+        self.grasp_base_pose: tuple[list[float], list[float]] | None = None
 
     def setup(self, scenario):
         return {"ok": True}
@@ -82,6 +102,8 @@ class FakeBackend(SimBackend):
     def symbolic_grasp(self, entity: str) -> bool:
         if entity not in self.entities or not self.entities[entity].graspable:
             return False
+        # realization records (never moves) the base pose
+        self.grasp_base_pose = self.robot_pose()
         self.holding_entity = entity
         return True
 
@@ -115,17 +137,77 @@ class FakeBackend(SimBackend):
     def entity_aabb(self, name: str):
         return self.aabbs.get(name)
 
+    def entity_pose6d(self, name: str) -> Pose | None:
+        pos = self.entity_pose(name)
+        return Pose.from_lists(pos)
+
     def held_count(self) -> int:
         return 1 if self.holding_entity is not None else 0
 
-    def symbolic_place_held(self, receptacle: str) -> bool:
-        if self.holding_entity is None:
+    def symbolic_place(self, entity: str, receptacle: str) -> bool:
+        if self.holding_entity != entity:
             return False
         self.holding_entity = None
         return True
 
     def describe_entity(self, name: str) -> EntityInfo | None:
         return self.entities.get(name)
+
+    # ------------------------------------------------- physical grounding API
+
+    def articulation_info(self, entity: str) -> ArticulationInfo | None:
+        return self.articulations.get(entity)
+
+    def link_pose(self, entity: str, link: str) -> Pose | None:
+        pos = self.link_poses.get((entity, link))
+        if pos is None:
+            return None
+        return Pose.from_lists(pos)
+
+    def link_aabb(self, entity: str, link: str):
+        return self.link_aabbs_map.get((entity, link))
+
+    def receptacle_region(self, entity: str):
+        aabb = self.aabbs.get(entity)
+        if aabb is None:
+            return None
+        lo, hi = aabb
+        if entity in self.opens:
+            from rummagebench.feasibility.interaction_target import InteractionRegion
+
+            return InteractionRegion(lo=list(lo), hi=list(hi), kind="inside_volume")
+        from rummagebench.feasibility.interaction_target import InteractionRegion
+
+        return InteractionRegion(lo=list(lo), hi=list(hi), kind="top_surface")
+
+    def collision_geometries(self) -> list[WorldCollisionObject]:
+        """AABB boxes for every entity (approximation level recorded)."""
+        bodies: list[WorldCollisionObject] = []
+        for name, aabb in self.aabbs.items():
+            lo, hi = aabb
+            center = [(a + b) / 2 for a, b in zip(lo, hi)]
+            half = [(b - a) / 2 for a, b in zip(lo, hi)]
+            body = WorldCollisionObject(
+                entity=name,
+                link=None,
+                geometry=_coal_box(*half),
+                pose=Pose.from_lists(center),
+                category=self.entities[name].category if name in self.entities else "",
+                approximation="aabb_primitive",
+                aabb=(list(lo), list(hi)),
+            )
+            bodies.append(body)
+        return bodies
+
+
+def _coal_box(hx: float, hy: float, hz: float):
+    """coal Box geometry (requires the pin wheel; unit tests import it)."""
+    try:
+        import coal
+    except ImportError:
+        import pinocchio as pin
+        coal = pin.hppfcl
+    return coal.Box(hx, hy, hz)
 
 
 @pytest.fixture
@@ -162,9 +244,62 @@ def fake_backend():
             "hot_pot": [3.30, 1.30, 0.90],
         },
         aabbs={
+            "target_knife": ([3.02, 1.02, 0.32], [3.08, 1.08, 0.38]),
+            "distractor_spoon": ([2.99, 0.99, 0.27], [3.05, 1.05, 0.33]),
+            "hot_pot": ([3.24, 1.24, 0.84], [3.36, 1.36, 0.96]),
             "cabinet_B": ([2.7, 0.7, 0.0], [3.3, 1.3, 0.9]),
             "cabinet_A": ([2.0, 2.0, 0.0], [2.6, 2.6, 0.9]),
             "drawer_A": ([3.4, 0.2, 0.0], [3.9, 0.8, 0.6]),
             "countertop": ([2.4, 0.4, 0.5], [3.6, 1.6, 0.7]),
+        },
+        # articulated interaction interfaces: handle anchor 0.15 m in front of
+        # each cabinet root (proxy tests never use these; config-mode tests do)
+        articulations={
+            "cabinet_A": ArticulationInfo(
+                entity="cabinet_A",
+                joints=[
+                    ArticulationJointInfo(
+                        name="cabinet_A_door_joint", joint_type="revolute",
+                        parent_link="cabinet_A_body", child_link="cabinet_A_door",
+                        axis=[0.0, 0.0, 1.0], limits=(0.0, 1.6),
+                    )
+                ],
+                links=["cabinet_A_body", "cabinet_A_door"],
+            ),
+            "cabinet_B": ArticulationInfo(
+                entity="cabinet_B",
+                joints=[
+                    ArticulationJointInfo(
+                        name="cabinet_B_door_joint", joint_type="revolute",
+                        parent_link="cabinet_B_body", child_link="cabinet_B_door",
+                        axis=[0.0, 0.0, 1.0], limits=(0.0, 1.6),
+                    )
+                ],
+                links=["cabinet_B_body", "cabinet_B_door"],
+            ),
+            "drawer_A": ArticulationInfo(
+                entity="drawer_A",
+                joints=[
+                    ArticulationJointInfo(
+                        name="drawer_A_slide_joint", joint_type="prismatic",
+                        parent_link="drawer_A_body", child_link="drawer_A_front",
+                        axis=[1.0, 0.0, 0.0], limits=(0.0, 0.3),
+                    )
+                ],
+                links=["drawer_A_body", "drawer_A_front"],
+            ),
+        },
+        link_poses={
+            ("cabinet_A", "cabinet_A_body"): [2.30, 2.30, 0.45],
+            ("cabinet_A", "cabinet_A_door"): [2.15, 2.30, 0.45],
+            ("cabinet_B", "cabinet_B_body"): [3.00, 1.00, 0.45],
+            ("cabinet_B", "cabinet_B_door"): [2.85, 1.00, 0.45],
+            ("drawer_A", "drawer_A_body"): [3.65, 0.50, 0.30],
+            ("drawer_A", "drawer_A_front"): [3.50, 0.50, 0.30],
+        },
+        link_aabbs={
+            ("cabinet_A", "cabinet_A_door"): ([2.10, 2.25, 0.0], [2.20, 2.35, 0.9]),
+            ("cabinet_B", "cabinet_B_door"): ([2.80, 0.95, 0.0], [2.90, 1.05, 0.9]),
+            ("drawer_A", "drawer_A_front"): ([3.45, 0.45, 0.0], [3.55, 0.55, 0.6]),
         },
     )

@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!-- Test fixture: 3-DOF planar arm (XZ plane, joints about Y).
+     Topology shared with long_arm.urdf; only link lengths differ, so any
+     action-availability difference between the two is pure morphology.
+     reach: 0.30 + 0.25 = 0.55 m from the shoulder at z=0.30. -->
+<robot name="short_arm">
+  <link name="base_link">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.16 0.16 0.5"/></geometry>
+    </collision>
+  </link>
+  <link name="link1">
+    <collision>
+      <origin xyz="0 0 0.15" rpy="0 0 0"/>
+      <geometry><box size="0.05 0.05 0.3"/></geometry>
+    </collision>
+  </link>
+  <link name="link2">
+    <collision>
+      <origin xyz="0 0 0.125" rpy="0 0 0"/>
+      <geometry><box size="0.05 0.05 0.25"/></geometry>
+    </collision>
+  </link>
+  <link name="gripper">
+    <collision>
+      <origin xyz="0 0 -0.02" rpy="0 0 0"/>
+      <geometry><box size="0.04 0.04 0.04"/></geometry>
+    </collision>
+  </link>
+  <joint name="shoulder" type="revolute">
+    <parent link="base_link"/><child link="link1"/>
+    <origin xyz="0 0 0.30" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/><limit lower="-2.9" upper="2.9" effort="1e9" velocity="1e9"/>
+  </joint>
+  <joint name="elbow" type="revolute">
+    <parent link="link1"/><child link="link2"/>
+    <origin xyz="0 0 0.30" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/><limit lower="-2.9" upper="2.9" effort="1e9" velocity="1e9"/>
+  </joint>
+  <joint name="wrist" type="revolute">
+    <parent link="link2"/><child link="gripper"/>
+    <origin xyz="0 0 0.25" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/><limit lower="-2.9" upper="2.9" effort="1e9" velocity="1e9"/>
+  </joint>
+</robot>

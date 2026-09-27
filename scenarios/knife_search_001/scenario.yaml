@@ -10,11 +10,29 @@ robot:
   model: r1pro
   name: robot_0
   init_anchor: living_room
-  # embodiment capability parameters (feasibility grounding inputs)
+  # URDF-derived kinematics (production feasibility): joint limits, FK, IK
+  # and URDF <collision> bodies. The URDF is exported from the OmniGibson
+  # articulation by scripts/export_robot_kinematics.py (auto-exported to
+  # build/robots/r1pro.urdf on first run) — never hand-written.
+  kinematics:
+    urdf_path: build/robots/r1pro.urdf
+    base_link: base_link
+    end_effector_link: eef_link
+    joint_limits_source: urdf
+    ik_seed: 0
+  # coarse prefilter data for the proxy backend (tests only); the pinocchio
+  # backend derives feasibility from the URDF instead.
   reach_radius: 1.0   # max arm reach from base origin (m)
   z_min: 0.0
   z_max: 1.6
   hand_capacity: 1
+
+# Physical feasibility engine: production requires real URDF kinematics +
+# configuration-space collision (pinocchio). mode: endpoint = existence of a
+# collision-free interaction configuration (no trajectory planning).
+feasibility:
+  backend: pinocchio
+  mode: endpoint
 
 # Anchors are world-frame poses verified by scripts/pick_anchors.py
 # (teleport -> settle -> stable pose) on Beechwood_0_int.

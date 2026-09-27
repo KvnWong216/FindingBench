@@ -19,7 +19,9 @@ class Skill(Protocol):
     name: str
     target_kind: TargetKind
 
-    def execute(self, backend: SimBackend, resolved: ResolvedTarget) -> SkillResult: ...
+    def execute(
+        self, backend: SimBackend, resolved: ResolvedTarget, state
+    ) -> SkillResult: ...
 
 
 class SkillRegistry:

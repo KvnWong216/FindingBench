@@ -1,0 +1,276 @@
+"""Configuration-space collision checking (hpp-fcl / coal).
+
+robot configuration q -> URDF <collision> links -> world collision geometry
+-> pairwise coal queries, with self-collision and robot-world collision
+separated and attributed. Contact admissibility comes from the
+AllowedCollisionMatrix (finger<->target allowed, arm<->foreign forbidden).
+
+This is the production collision engine; the point-vs-AABB CollisionChecker
+in collision.py is the test-mode proxy and cannot substitute for it.
+"""
+
+from __future__ import annotations
+
+import logging
+from typing import Any
+
+import numpy as np
+
+from rummagebench.feasibility.collision import (
+    AllowedCollisionMatrix,
+    CollisionPair,
+    CollisionResult,
+    InteractionCollisionContext,
+)
+from rummagebench.feasibility.ik_solver import Pose
+from rummagebench.feasibility.pinocchio_solver import PinocchioKinematics, _coal
+from rummagebench.sim.base import WorldCollisionObject
+
+logger = logging.getLogger(__name__)
+
+
+def _coal_object_from_pose(coal, kin, pose: Pose, geometry: Any):
+    """coal.CollisionObject for a geometry placed at a base-frame Pose."""
+    T = coal.Transform3s(np.asarray(pose.position, dtype=float))
+    R = np.asarray(kin.quat_to_rotation_matrix(pose.orientation), dtype=float)
+    T.setRotation(R)
+    return coal.CollisionObject(geometry, T)
+
+
+class PinocchioCollisionChecker:
+    """q-based collision engine over a PinocchioKinematics model."""
+
+    def __init__(self, kinematics: PinocchioKinematics, compute_min_distance: bool = True):
+        self._kin = kinematics
+        self._coal = _coal()
+        self._acm = AllowedCollisionMatrix(kinematics.link_classes)
+        self._compute_min_distance = bool(compute_min_distance)
+        # coal objects reused across queries; geometry cached, transforms set
+        # per check_configuration call
+        self._link_classes = None
+        self._robot_geoms: list[Any] = [go for go in kinematics.geom_model.geometryObjects]
+        self._skip_self_pairs = self._self_collision_skip_pairs()
+        self._world: list[tuple[WorldCollisionObject, Any]] = []
+        self._world_warned = False
+        self._req: Any = None
+        self._dreq: Any = None
+
+    # ------------------------------------------------------------- world set
+
+    def refresh_world(self, backend: Any) -> None:
+        """(Re)load world collision geometry from the backend.
+
+        Called by the feasibility engine once per interaction check (not per
+        IK candidate). Empty world geometry is allowed but warned about once:
+        some scenes legitimately have no queryable colliders, yet production
+        grounding quality depends on this surface.
+        """
+        geoms = backend.collision_geometries()
+        self._world = [(g, g.geometry) for g in geoms if g.geometry is not None]
+        if not self._world and not self._world_warned:
+            self._world_warned = True
+            logger.warning(
+                "backend.collision_geometries() returned no world collision "
+                "bodies: robot-world collision checks will only see "
+                "self-collision. Check the backend's collision export."
+            )
+
+    # ------------------------------------------------------- self-collision
+
+    def _self_collision_skip_pairs(self) -> set[tuple[int, int]]:
+        """Geom index pairs excluded from self-collision queries: identical
+        joint or parent-child adjacent joints (permanent contact). Distal
+        links vs the base remain checked (real self-collision)."""
+        pin_model = self._kin.model
+        objs = self._kin.geom_model.geometryObjects
+        parents = pin_model.parents
+
+        skip: set[tuple[int, int]] = set()
+        for i in range(len(objs)):
+            for k in range(i + 1, len(objs)):
+                ji, jk = objs[i].parentJoint, objs[k].parentJoint
+                if ji == jk or parents[ji] == jk or parents[jk] == ji:
+                    skip.add((i, k))
+        return skip
+
+    # ----------------------------------------------------------------- check
+
+    def check_configuration(
+        self,
+        q: np.ndarray,
+        interaction_context: InteractionCollisionContext,
+    ) -> CollisionResult:
+        """Collision status of one robot configuration.
+
+        ``q`` is the controlled-joint vector (kinematics model order);
+        ``interaction_context.base_pose`` places the robot base in the world
+        so world geometry can be expressed in the base frame (robot bodies
+        stay in base frame).
+        """
+        if interaction_context.base_pose is None:
+            raise ValueError(
+                "check_configuration requires interaction_context.base_pose"
+            )
+        coal = self._coal
+        q = np.asarray(q, dtype=float)
+        base_pose = interaction_context.base_pose
+        robot_bodies = self._kin.collision_bodies(q)  # [(link, CollisionObject)]
+        T_base_world = base_pose.inverse()
+
+        result = CollisionResult(
+            collision_free=True, self_collision=False, world_collision=False
+        )
+
+        # --- self collision: all pairs EXCEPT the adjacency skip set ---
+        n_bodies = len(robot_bodies)
+        for i in range(n_bodies):
+            for k in range(i + 1, n_bodies):
+                if (i, k) in self._skip_self_pairs:
+                    continue
+                req = self._collision_request()
+                res = coal.CollisionResult()
+                coal.collide(robot_bodies[i][1], robot_bodies[k][1], req, res)
+                if res.isCollision():
+                    result.collision_free = False
+                    result.self_collision = True
+                    result.pairs.append(
+                        CollisionPair(
+                            robot_link=robot_bodies[i][0],
+                            other=robot_bodies[k][0],
+                            kind="self",
+                        )
+                    )
+
+        # --- robot vs world ---
+        min_distance = float("inf")
+        ctx = interaction_context
+        for wco, geometry in self._world:
+            if wco.entity == ctx.held_entity:
+                continue  # travels with the tool; handled as a tool body
+            # broadphase: distance from base origin to the body's world AABB
+            if not self._broadphase_ok(wco, T_base_world):
+                continue
+            for link, body in robot_bodies:
+                if self._acm.is_allowed(
+                    link,
+                    wco.entity,
+                    ctx.skill,
+                    ctx.target_entity,
+                    interaction_link=ctx.interaction_link,
+                    world_link=wco.link,
+                    held_entity=ctx.held_entity,
+                ):
+                    continue
+                req = self._collision_request()
+                res = coal.CollisionResult()
+                world_obj = self._coal_object(wco, geometry, T_base_world)
+                coal.collide(body, world_obj, req, res)
+                if res.isCollision():
+                    result.collision_free = False
+                    result.world_collision = True
+                    result.pairs.append(
+                        CollisionPair(
+                            robot_link=link,
+                            other=(
+                                wco.entity if wco.link is None else f"{wco.entity}:{wco.link}"
+                            ),
+                            kind="world",
+                        )
+                    )
+                elif self._compute_min_distance:
+                    dreq = self._distance_request()
+                    dres = self._coal.DistanceResult()
+                    d = coal.distance(body, world_obj, dreq, dres)
+                    min_distance = min(min_distance, float(d))
+
+        # --- held object as a tool body (PLACE admissibility etc.) ---
+        held_body = self._held_body(q, T_base_world, ctx)
+        if held_body is not None:
+            for wco, geometry in self._world:
+                if wco.entity == ctx.held_entity:
+                    continue
+                if not self._broadphase_ok(wco, T_base_world):
+                    continue
+                if self._acm.is_allowed(
+                    f"held:{ctx.held_entity}",
+                    wco.entity,
+                    ctx.skill,
+                    ctx.target_entity,
+                    interaction_link=ctx.interaction_link,
+                    world_link=wco.link,
+                    held_entity=ctx.held_entity,
+                ):
+                    continue
+                req = self._collision_request()
+                res = coal.CollisionResult()
+                world_obj = self._coal_object(wco, geometry, T_base_world)
+                coal.collide(held_body, world_obj, req, res)
+                if res.isCollision():
+                    result.collision_free = False
+                    result.world_collision = True
+                    result.pairs.append(
+                        CollisionPair(
+                            robot_link=f"held:{ctx.held_entity}",
+                            other=(
+                                wco.entity if wco.link is None else f"{wco.entity}:{wco.link}"
+                            ),
+                            kind="world",
+                        )
+                    )
+                    break
+
+        if min_distance != float("inf"):
+            result.min_distance = round(min_distance, 6)
+        return result
+
+    # ---------------------------------------------------------------- helpers
+
+    def _coal_object(self, wco: WorldCollisionObject, geometry: Any, T_base_world):
+        return _coal_object_from_pose(self._coal, self._kin, T_base_world.compose(wco.pose), geometry)
+
+    def _held_body(self, q, T_base_world, ctx):
+        """Coal body for the held object at its grasp offset from the EEF."""
+        if ctx.held_entity is None or ctx.held_offset is None:
+            return None
+        eef_base = self._kin.eef_pose(q)
+        held_base = eef_base.compose(ctx.held_offset)
+        geometry = self._held_geometry(ctx.held_entity)
+        if geometry is None:
+            return None
+        return _coal_object_from_pose(self._coal, self._kin, held_base, geometry)
+
+    def _held_geometry(self, entity: str):
+        for wco, geometry in self._world:
+            if wco.entity == entity:
+                return geometry
+        return None
+
+    def _broadphase_ok(self, wco: WorldCollisionObject, T_base_world) -> bool:
+        aabb = wco.aabb
+        if aabb is None:
+            return True
+        lo, hi = np.asarray(aabb[0], dtype=float), np.asarray(aabb[1], dtype=float)
+        center = T_base_world.transform_point((lo + hi) / 2.0)
+        radius = float(np.linalg.norm(hi - lo)) / 2.0
+        # conservative robot extent: farthest collision-body origin + slack
+        robot_reach = getattr(self, "_robot_reach", None)
+        if robot_reach is None:
+            robot_reach = 0.0
+            for go in self._kin.geom_model.geometryObjects:
+                robot_reach = max(robot_reach, float(np.linalg.norm(go.placement.translation)))
+            robot_reach += 2.0  # link lengths slack
+            self._robot_reach = robot_reach
+        return float(np.linalg.norm(center)) <= robot_reach + radius
+
+    def _collision_request(self):
+        if self._req is None:
+            req = self._coal.CollisionRequest()
+            if self._kin.collision_padding and hasattr(req, "security_margin"):
+                req.security_margin = float(self._kin.collision_padding)
+            self._req = req
+        return self._req
+
+    def _distance_request(self):
+        if self._dreq is None:
+            self._dreq = self._coal.DistanceRequest()
+        return self._dreq

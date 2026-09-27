@@ -22,3 +22,12 @@ class UnresolvableTargetError(RummageBenchError):
     This is NOT a crash: BenchmarkSession converts it into an invalid-action
     step result. It is raised internally by the grounding layer.
     """
+
+
+class FeasibilityBackendError(RummageBenchError):
+    """The physical feasibility backend could not be initialized or used.
+
+    Raised instead of silently degrading to the reach-radius proxy: production
+    benchmark runs must be grounded in real kinematics/collision or fail
+    loudly with an actionable message (export the URDF, install pinocchio...).
+    """

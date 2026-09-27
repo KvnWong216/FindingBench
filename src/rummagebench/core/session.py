@@ -8,8 +8,13 @@ Pipeline per action:
 
 All checks live here, not in agent adapters. Skills never decide episode
 outcome; this class applies termination rules and the success definition.
-The available action space is dynamic: A_t = Ground(Robot, Object, WorldState_t)
+The available action space is dynamic:
+
+    A_t = Ground(RobotGeometry, ObjectInterface, WorldGeometry, WorldState_t)
+
 — regenerated after every world update and exposed via the observation.
+Physical feasibility (real IK + configuration-space collision in production)
+gates every interaction; execution itself stays symbolic/instant.
 """
 
 from __future__ import annotations
@@ -17,7 +22,7 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-from rummagebench.core.errors import UnresolvableTargetError
+from rummagebench.core.errors import FeasibilityBackendError, UnresolvableTargetError
 from rummagebench.core.events import EpisodeLogWriter, make_event
 from rummagebench.core.scenario import ScenarioSpec
 from rummagebench.core.skill_grounder import SkillGrounder
@@ -28,20 +33,51 @@ from rummagebench.core.types import (
     FeasibilityVerdict,
     Observation,
     StepResult,
-    WorldState,
 )
-from rummagebench.feasibility.collision import CollisionChecker
-from rummagebench.feasibility.ik_solver import default_solver
 from rummagebench.grounding.entity import OracleEntityGrounding
+from rummagebench.robots.model_loader import load_kinematics_backend
 from rummagebench.robots.robot import RobotEmbodiment
 from rummagebench.sim.base import SimBackend
 from rummagebench.skills.registry import SkillRegistry, default_registry
+from rummagebench.state.benchmark_state import BenchmarkWorldState
 from rummagebench.validation.feasibility import FeasibilityValidator
 from rummagebench.validation.safety import SafetyValidator
 from rummagebench.validation.semantic import SemanticValidator
 from rummagebench.validation.target import TargetValidator
 
 logger = logging.getLogger(__name__)
+
+
+def _build_feasibility(backend: SimBackend, scenario: ScenarioSpec) -> FeasibilityValidator:
+    """Select the feasibility engine from the scenario config.
+
+    backend=pinocchio (production): URDF kinematics + q-based collision; any
+    failure to initialize raises FeasibilityBackendError (no silent fallback
+    to the reach-radius proxy).
+    backend=proxy: reach-radius + point-vs-AABB, unit-test mode only.
+    """
+    spec = scenario.feasibility
+    kinematics = load_kinematics_backend(scenario.robot, spec)
+    if spec.backend == "pinocchio":
+        from rummagebench.feasibility.hpp_fcl_checker import PinocchioCollisionChecker
+
+        collision = PinocchioCollisionChecker(
+            kinematics, compute_min_distance=False
+        )
+        return FeasibilityValidator(
+            backend,
+            kinematics=kinematics,
+            config_collision=collision,
+            mode=spec.mode,
+        )
+    from rummagebench.feasibility.collision import CollisionChecker
+
+    return FeasibilityValidator(
+        backend,
+        ik_solver=kinematics,  # ReachabilityIKSolver
+        collision_checker=CollisionChecker(backend),
+        mode=spec.mode,
+    )
 
 
 class BenchmarkSession:
@@ -51,6 +87,7 @@ class BenchmarkSession:
         scenario: ScenarioSpec,
         log_path: str | None = None,
         registry: SkillRegistry | None = None,
+        feasibility: FeasibilityValidator | None = None,
     ):
         self._backend = backend
         self._scenario = scenario
@@ -59,13 +96,13 @@ class BenchmarkSession:
         self._target = TargetValidator()
         self._safety = SafetyValidator(scenario)
         self._robot_emb = RobotEmbodiment.from_spec(scenario.robot)
-        self._feasibility = FeasibilityValidator(
-            backend,
-            ik_solver=default_solver(),
-            collision_checker=CollisionChecker(backend),
-        )
+        self._feasibility = feasibility or _build_feasibility(backend, scenario)
         self._grounder = SkillGrounder(backend, scenario, feasibility=self._feasibility)
         self._grounding = OracleEntityGrounding(backend, scenario)
+
+        # benchmark-owned semantic state (holding truth lives HERE, never in
+        # the simulator's assisted-grasp internals)
+        self._world_state = BenchmarkWorldState()
 
         self._status = EpisodeStatus.RUNNING
         self._planning_step = 0
@@ -89,10 +126,20 @@ class BenchmarkSession:
     def robot(self) -> RobotEmbodiment:
         return self._robot_emb
 
+    @property
+    def world_state(self) -> BenchmarkWorldState:
+        return self._world_state
+
     def available_skills(self) -> list[str]:
-        """The dynamically grounded action space A_t (may be empty on error)."""
+        """The dynamically grounded action space A_t (may be empty on error).
+
+        A FeasibilityBackendError (misconfigured physical grounding) is NEVER
+        swallowed: it propagates loudly instead of degrading the observation.
+        """
         try:
-            return self._grounder.ground(self._robot_emb)
+            return self._grounder.ground(self._robot_emb, self._world_state)
+        except FeasibilityBackendError:
+            raise
         except Exception as e:
             logger.warning("skill grounding failed: %s", e)
             return []
@@ -100,6 +147,7 @@ class BenchmarkSession:
     def reset(self) -> Observation:
         """Restore the deterministic initial snapshot and clear episode state."""
         self._backend.reset()
+        self._world_state.clear()
         self._status = EpisodeStatus.RUNNING
         self._planning_step = 0
         self._safe_history = True
@@ -192,7 +240,7 @@ class BenchmarkSession:
                 resolved=resolved,
             )
 
-        # 3. safety validation (before any state transition)
+        # 3. safety validation (task/policy-level rules; before any state transition)
         safety = self._safety.check(action.skill, resolved)
         validation["safe"] = safety.safe
         if not safety.safe:
@@ -203,28 +251,33 @@ class BenchmarkSession:
                 action, step, validation, executed=False, postcondition=None,
                 failure_reason=FailureReason.UNSAFE_ACTION,
                 events=[{"event": "unsafe_action", "reason": safety.reason,
+                         "safety_violation": True, "physical_failure": False,
                          "details": safety.details}],
                 resolved=resolved,
             )
 
-        # 4. feasibility validation (embodiment + geometry + state; non-terminal)
-        world = WorldState(held_count=self._backend.held_count())
-        feasibility = self._feasibility.check(action.skill, resolved, self._robot_emb, world)
+        # 4. physical feasibility validation (kinematics + collision + state;
+        # non-terminal structured failure)
+        feasibility = self._feasibility.check(
+            action.skill, resolved, self._robot_emb, self._world_state
+        )
         validation["feasible"] = feasibility.feasible
         if not feasibility.feasible:
             reason = FailureReason[feasibility.reason]  # UNREACHABLE/COLLISION/INVALID_STATE
+            physical = reason in (FailureReason.UNREACHABLE, FailureReason.COLLISION)
             return self._finish_step(
                 action, step, validation, executed=False, postcondition=None,
                 failure_reason=reason,
                 events=[{"event": "infeasible_action", "reason": feasibility.reason,
+                         "safety_violation": False, "physical_failure": physical,
                          "details": feasibility.details}],
                 resolved=resolved,
             )
 
-        # 5. execute skill (instant symbolic transition)
+        # 5. execute skill (instant symbolic transition; no hidden navigation)
         skill = self._registry.get(action.skill)
         assert skill is not None  # semantic validation guarantees this
-        skill_result = skill.execute(self._backend, resolved)
+        skill_result = skill.execute(self._backend, resolved, self._world_state)
         executed = skill_result.executed
         events.extend(skill_result.events)
         validation["postcondition_satisfied"] = skill_result.postcondition_satisfied
@@ -247,11 +300,15 @@ class BenchmarkSession:
     def _apply_post_execution_rules(
         self, action: Action, skill_result, resolved
     ) -> None:
-        """Success / wrong-target policy. Skills never decide these (Rule 4)."""
+        """Success / wrong-target policy. Skills never decide these (Rule 4).
+
+        Task success is evaluated against the BENCHMARK-owned holding state,
+        never against the simulator's assisted-grasp internals.
+        """
         term = self._scenario.termination
 
         if action.skill == "GRASP" and skill_result.executed and skill_result.postcondition_satisfied:
-            held_entity = resolved.entity
+            held_entity = self._world_state.held_object
             if held_entity == self._scenario.target.entity:
                 if term.succeed_when_holding_target and self._safe_history:
                     self._status = EpisodeStatus.SUCCESS

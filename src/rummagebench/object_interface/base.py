@@ -7,10 +7,13 @@ feasibility is applied afterwards by the feasibility engine.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from rummagebench.core.types import WorldState
 from rummagebench.robots.robot import RobotEmbodiment
+
+if TYPE_CHECKING:  # pragma: no cover
+    from rummagebench.feasibility.interaction_target import InteractionTarget
 
 
 @dataclass
@@ -43,6 +46,16 @@ class ObjectInterface:
     def available_skills(
         self, robot: RobotEmbodiment, world: WorldState
     ) -> list[SkillCandidate]:
+        return []
+
+    def interaction_targets(self, skill_name: str, world: WorldState) -> list["InteractionTarget"]:
+        """Interaction interfaces this object offers for one skill.
+
+        Default: no interface (the object does not host this skill). Subclasses
+        ground OPEN/CLOSE at articulated links, GRASP at canonical rigid-body
+        candidates and PLACE at receptacle regions — never at the entity root
+        pose.
+        """
         return []
 
 

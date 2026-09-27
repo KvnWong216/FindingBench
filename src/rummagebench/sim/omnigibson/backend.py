@@ -16,7 +16,7 @@ import numpy as np
 from rummagebench.core.errors import SimBackendError
 from rummagebench.core.scenario import AnchorSpec, ScenarioSpec
 from rummagebench.core.types import TargetKind
-from rummagebench.sim.base import ResolvedTarget, SimBackend
+from rummagebench.sim.base import ResolvedTarget, SimBackend, WorldCollisionObject
 from rummagebench.sim.omnigibson.env_factory import apply_runtime_env, build_env
 from rummagebench.sim.omnigibson.entity_resolver import build_entity_info, resolve_object
 from rummagebench.sim.omnigibson.observation import capture_head_rgb
@@ -41,6 +41,10 @@ class OmniGibsonBackend(SimBackend):
         self._entity_infos: dict[str, Any] = {}
         self._build_report: dict[str, Any] | None = None
         self._commanded_pose: tuple[list[float], list[float]] | None = None
+        # world collision export caches: geometry per collider prim (static),
+        # body list until a state transition moves objects
+        self._geom_cache: dict[str, Any] = {}
+        self._collision_body_cache: list[WorldCollisionObject] | None = None
 
     # ------------------------------------------------------------------ setup
 
@@ -212,6 +216,7 @@ class OmniGibsonBackend(SimBackend):
 
     def reset(self) -> None:
         assert self._initial_state is not None, "backend.setup() has not run"
+        self._collision_body_cache = None
         # release any assisted grasp first: the snapshot predates it, and a
         # lingering joint would yank the held object out of its container
         ag = getattr(self._robot, "_ag_obj_in_hand", {})
@@ -293,6 +298,7 @@ class OmniGibsonBackend(SimBackend):
     def set_open(self, entity: str, open_value: bool) -> bool:
         from omnigibson.object_states import Open
 
+        self._collision_body_cache = None  # articulated links moved
         obj = resolve_object(self._env.scene, entity)
         if obj.states.get(Open) is None:
             return False
@@ -307,27 +313,13 @@ class OmniGibsonBackend(SimBackend):
         return bool(obj.states[Open].get_value())
 
     def symbolic_grasp(self, entity: str) -> bool:
+        """Assisted-grasp realization for the (already feasibility-validated)
+        grasp. Realization ONLY: it never moves the robot base (implicit NAV
+        is forbidden) and never defines benchmark holding state — the
+        benchmark-owned state is the semantic truth. A long-range assisted
+        joint may fail physically; that is visualization noise, logged and
+        ignored by the benchmark."""
         obj = resolve_object(self._env.scene, entity)
-        # Privileged realization: bring the robot base near the target first.
-        # An assisted-grasp joint created across the room stretches and breaks.
-        try:
-            obj_pos = obj.get_position_orientation()[0]
-            if hasattr(obj_pos, "detach"):
-                obj_pos = obj_pos.detach().cpu().numpy()
-            r_pos, r_quat = self.robot_pose()
-            flat = np.asarray([obj_pos[0] - r_pos[0], obj_pos[1] - r_pos[1]])
-            dist = float(np.linalg.norm(flat))
-            if dist > 1.2:
-                step = flat / dist * (dist - 0.8)
-                anchor = AnchorSpec(
-                    position=[r_pos[0] + step[0], r_pos[1] + step[1], r_pos[2]],
-                    orientation=[float(v) for v in r_quat],
-                )
-                self.teleport_robot(anchor)
-                self.settle(5)
-        except Exception as e:
-            logger.warning("pre-grasp repositioning failed: %s", e)
-
         arm = self._pick_arm(obj)
         if arm is None:
             return False
@@ -368,7 +360,7 @@ class OmniGibsonBackend(SimBackend):
                 if self.is_holding(entity):
                     return True
         except Exception as e:
-            logger.warning("symbolic_grasp(%s) failed: %s", entity, e)
+            logger.warning("symbolic_grasp(%s) realization failed: %s", entity, e)
         return self.is_holding(entity)
 
     def _pick_arm(self, obj) -> str | None:
@@ -464,27 +456,35 @@ class OmniGibsonBackend(SimBackend):
         ag = getattr(self._robot, "_ag_obj_in_hand", {})
         return sum(1 for v in ag.values() if v is not None)
 
-    def symbolic_place_held(self, receptacle: str) -> bool:
-        """Release the held object at the receptacle (instant transition)."""
-        ag = getattr(self._robot, "_ag_obj_in_hand", {})
-        arm = next((a for a, v in ag.items() if v is not None), None)
-        if arm is None:
-            return False
-        try:
-            self._robot._release_grasp(arm=arm)
-        except Exception as e:
-            logger.warning("release on place failed: %s", e)
-            return False
+    def symbolic_place(self, entity: str, receptacle: str) -> bool:
+        """Release the benchmark-held ``entity`` onto/into ``receptacle``.
+
+        The held object is passed explicitly by the benchmark core (never
+        re-derived from an internal grasp dict); this is realization only.
+        """
+        obj = resolve_object(self._env.scene, entity)
         rec = resolve_object(self._env.scene, receptacle)
+        self._collision_body_cache = None  # the placed object moves
+        # release whichever assisted-grasp joint holds this exact object
+        ag = getattr(self._robot, "_ag_obj_in_hand", {})
+        for arm in getattr(self._robot, "arm_names", []):
+            if ag.get(arm) is obj:
+                try:
+                    self._robot._release_grasp(arm=arm)
+                except Exception as e:
+                    logger.warning("release on place failed for %s: %s", entity, e)
+                break
         pos, _ = rec.get_position_orientation()
         if hasattr(pos, "detach"):
             pos = pos.detach().cpu().numpy()
-        held = ag.get(arm)
-        if held is not None:
-            held.set_position_orientation(
+        try:
+            obj.set_position_orientation(
                 position=[float(pos[0]), float(pos[1]), float(pos[2]) + 0.15],
                 orientation=[0, 0, 0, 1],
             )
+        except Exception as e:
+            logger.warning("place pose write failed for %s: %s", entity, e)
+            return False
         self.settle(10)
         return True
 
@@ -496,6 +496,176 @@ class OmniGibsonBackend(SimBackend):
                 return None
             self._entity_infos[name] = build_entity_info(obj)
         return self._entity_infos[name]
+
+    # ------------------------------------------------- physical grounding API
+    # Surfaces the geometry/kinematics data the pinocchio feasibility engine
+    # needs. Approximation levels are recorded on every body (never silent).
+
+    def articulation_info(self, entity: str):
+        """Articulation decomposition from the USD physics schema."""
+        from rummagebench.sim.base import ArticulationInfo, ArticulationJointInfo
+        from rummagebench.sim.omnigibson.robot_export import collect_articulation
+
+        obj = resolve_object(self._env.scene, entity)
+        try:
+            art = collect_articulation(obj.prim)
+        except Exception as e:
+            logger.warning("articulation_info(%s) failed: %s", entity, e)
+            return None
+        joints = [
+            ArticulationJointInfo(
+                name=j["name"],
+                joint_type=j["type"],
+                parent_link=j["parent"],
+                child_link=j["child"],
+                axis=j["axis"],
+                limits=j["limits"],
+                position=None,
+            )
+            for j in art["joints"]
+        ]
+        return ArticulationInfo(
+            entity=entity,
+            joints=joints,
+            links=list(art["links"]),
+            handle_link=art["handle_link"],
+        )
+
+    def collision_geometries(self) -> list[WorldCollisionObject]:
+        """World collision bodies, link-granular where the asset has them.
+
+        Cached until a state transition moves objects (OPEN/CLOSE, PLACE,
+        reset). Geometry fidelity per body is recorded (approximation level):
+        mesh colliders are exported as exact triangle-mesh BVHs when the
+        triangle budget allows, else as world-aligned AABB boxes. The robot
+        itself is excluded (its collision geometry comes from the URDF).
+        """
+        if self._env is None:
+            return []
+        if self._collision_body_cache is not None:
+            return self._collision_body_cache
+        robot_name = getattr(self._robot, "name", None)
+        out: list[WorldCollisionObject] = []
+        from rummagebench.sim.omnigibson.usd_collision import (
+            collect_entity_collision,
+        )
+
+        for obj in self._env.scene.objects:
+            if robot_name is not None and obj.name == robot_name:
+                continue
+            try:
+                out.extend(collect_entity_collision(obj, self._geom_cache))
+            except Exception as e:
+                logger.warning(
+                    "collision geometry export failed for %s: %s", obj.name, e
+                )
+        self._collision_body_cache = out
+        return out
+
+    def receptacle_region(self, entity: str):
+        """Support region: top surface; inside volume for open containers."""
+        from rummagebench.feasibility.interaction_target import InteractionRegion
+
+        aabb = self.entity_aabb(entity)
+        if aabb is None:
+            return None
+        lo, hi = aabb
+        if self.is_open(entity):
+            return InteractionRegion(lo=lo, hi=hi, kind="inside_volume")
+        top = list(lo)
+        top[2] = hi[2]
+        return InteractionRegion(lo=lo, hi=[hi[0], hi[1], hi[2]], kind="top_surface")
+
+    def link_pose(self, entity: str, link: str):
+        from rummagebench.feasibility.ik_solver import Pose
+
+        obj = resolve_object(self._env.scene, entity)
+        link_prim = (obj.links or {}).get(link)
+        if link_prim is None:
+            return None
+        try:
+            pos, quat = link_prim.get_position_orientation(frame="world")
+        except TypeError:
+            pos, quat = link_prim.get_position_orientation()
+        if hasattr(pos, "detach"):
+            pos = pos.detach().cpu().numpy()
+        if hasattr(quat, "detach"):
+            quat = quat.detach().cpu().numpy()
+        return Pose.from_lists(
+            [float(v) for v in np.asarray(pos).reshape(-1)[:3]],
+            [float(v) for v in np.asarray(quat).reshape(-1)[:4]],
+        )
+
+    def link_aabb(self, entity: str, link: str):
+        from rummagebench.sim.omnigibson.usd_collision import compute_link_aabb
+
+        obj = resolve_object(self._env.scene, entity)
+        link_prim = (obj.links or {}).get(link)
+        if link_prim is None:
+            return None
+        return compute_link_aabb(link_prim)
+
+    def eef_pose(self):
+        from rummagebench.feasibility.ik_solver import Pose
+
+        arms = list(getattr(self._robot, "arm_names", []) or [])
+        if not arms:
+            return None
+        arm = arms[0]
+        eef = getattr(self._robot, "eef_links", {}).get(arm)
+        if eef is None:
+            return None
+        try:
+            pos, quat = eef.get_position_orientation(frame="world")
+        except TypeError:
+            pos, quat = eef.get_position_orientation()
+        if hasattr(pos, "detach"):
+            pos = pos.detach().cpu().numpy()
+        if hasattr(quat, "detach"):
+            quat = quat.detach().cpu().numpy()
+        return Pose.from_lists(
+            [float(v) for v in np.asarray(pos).reshape(-1)[:3]],
+            [float(v) for v in np.asarray(quat).reshape(-1)[:4]],
+        )
+
+    def entity_pose6d(self, entity: str):
+        from rummagebench.feasibility.ik_solver import Pose
+
+        obj = resolve_object(self._env.scene, entity)
+        pos, quat = obj.get_position_orientation()
+        if hasattr(pos, "detach"):
+            pos = pos.detach().cpu().numpy()
+        if hasattr(quat, "detach"):
+            quat = quat.detach().cpu().numpy()
+        return Pose.from_lists(
+            [float(v) for v in np.asarray(pos).reshape(-1)[:3]],
+            [float(v) for v in np.asarray(quat).reshape(-1)[:4]],
+        )
+
+    def robot_joint_positions(self) -> dict[str, float] | None:
+        """Current joint positions (URDF joint names -> radians/meters),
+        used as the IK seed. USD joint names must match the exported URDF."""
+        try:
+            joints = getattr(self._robot, "joints", None) or {}
+            positions: dict[str, float] = {}
+            for jname, jprim in joints.items():
+                try:
+                    state = jprim.get_state()
+                    positions[jname] = float(state[0]) if state is not None else 0.0
+                except Exception:
+                    continue
+            return positions or None
+        except Exception as e:
+            logger.warning("robot_joint_positions unavailable: %s", e)
+            return None
+
+    def export_kinematics_urdf(self, out_path: str) -> dict:
+        """Export this robot's articulation to URDF (+ manifest + FK
+        cross-validation). Called automatically when a scenario configures
+        kinematics whose urdf_path does not exist yet."""
+        from rummagebench.sim.omnigibson.robot_export import export_robot_urdf
+
+        return export_robot_urdf(self._robot, out_path)
 
     def close(self) -> None:
         try:
