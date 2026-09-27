@@ -240,32 +240,49 @@ class OmniGibsonBackend(SimBackend):
     # ------------------------------------------------------------------ NAV
 
     def teleport_robot(self, anchor: AnchorSpec) -> None:
-        # kill residual velocity BEFORE the pose jump only: zeroing velocities
-        # after the teleport keeps the suspension joints from settling (the
-        # body needs to re-settle dynamically at the new anchor). A suspended
-        # dynamic body teleported with residual velocity destabilizes PhysX
-        # broadphase (Illegal BroadPhaseUpdateData -> NaN base orientation).
-        if hasattr(self._robot, "keep_still"):
-            self._robot.keep_still()
-        self._robot.set_position_orientation(
-            position=np.asarray(anchor.position, dtype=float),
-            orientation=np.asarray(anchor.orientation, dtype=float),
-            frame="world",
-        )
+        # NOTE: do not zero velocities / call keep_still() here. Both were
+        # tried and both destabilize the position-controlled suspension
+        # (keep_still zeroes joint effort targets -> chassis collapses).
+        # Teleport is a pure semantic jump; residual physics noise is handled
+        # by robot_pose()'s NaN fallback below, not by touching the physics.
+        position = np.asarray(anchor.position, dtype=float)
+        orientation = np.asarray(anchor.orientation, dtype=float)
+        try:
+            self._robot.set_position_orientation(
+                position=position, orientation=orientation, frame="world"
+            )
+        except (AssertionError, ValueError):
+            # physics already NaN-corrupted: the Robot-level override reads
+            # EEF link poses (and asserts on NaN) to preserve arm poses. Fall
+            # back to the EntityPrim-level setter, which writes the root pose
+            # without reading link states.
+            from omnigibson.prims.entity_prim import EntityPrim
+
+            EntityPrim.set_position_orientation(
+                self._robot, position=position, orientation=orientation, frame="world"
+            )
         self._commanded_pose = (
             [float(v) for v in anchor.position],
             [float(v) for v in anchor.orientation],
         )
 
     def robot_pose(self) -> tuple[list[float], list[float]]:
-        pos, quat = self._robot.get_position_orientation(frame="world")
+        try:
+            pos, quat = self._robot.get_position_orientation(frame="world")
+        except (AssertionError, ValueError):
+            # physics diverged (NaN base orientation after PhysX broadphase
+            # corruption); OmniGibson asserts before returning. The semantic
+            # truth is the last commanded anchor pose — a perfect executor
+            # would be there. Execution noise must not kill the episode.
+            commanded = getattr(self, "_commanded_pose", None)
+            if commanded is not None:
+                return [list(commanded[0]), list(commanded[1])]
+            raise
         pos = pos.detach().cpu().numpy() if hasattr(pos, "detach") else np.asarray(pos)
         quat = quat.detach().cpu().numpy() if hasattr(quat, "detach") else np.asarray(quat)
         pos = [float(v) for v in pos]
         quat = [float(v) for v in quat]
         if not (all(math.isfinite(v) for v in pos) and all(math.isfinite(v) for v in quat)):
-            # physics diverged (execution noise); the semantic truth is the
-            # last commanded anchor pose — a perfect executor would be there
             commanded = getattr(self, "_commanded_pose", None)
             if commanded is not None:
                 return [list(commanded[0]), list(commanded[1])]

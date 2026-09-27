@@ -1,7 +1,7 @@
 # RummageBench 交接文档
 
 > 交接日期：2026-09-27（v2 更新）
-> 状态：MVP 验收通过；v2 具身感知扩展已实现（35/35 单测），集成测试见 §2
+> 状态：MVP + v2 具身感知扩展全部验收通过（单测 35/35，集成 11/11）
 > 仓库：GitHub `KvnWong216/FindingBench`（本目录即其工作副本）
 > 主机：10.20.37.124（8x RTX 5880 Ada 49G，/data1 约 8.8T 可用）
 
@@ -151,11 +151,17 @@ StepResult(+JSONL 事件) -> Observation`。成败/步数/安全由 Session 判�
     pip 慢时用 `-i https://pypi.tuna.tsinghua.edu.cn/simple`；数据集解密
     key 在 `datasets/omnigibson.key`（storage.googleapis.com 直连可用）。
 11. **NAV 传送物理发散（v2 修）**：timeout 轨迹反复传送后 PhysX 报
-    `Illegal BroadPhaseUpdateData`，机器人 base_link 四元数变 NaN
-    （assert 崩溃）。根因是悬挂动态机身带残余速度被瞬移。修复：
-    `teleport_robot` 前后 `keep_still()` 清零速度；`robot_pose()` 读数遇
-    NaN 回退到最后命令的锚点位姿（完美执行器假设——物理发散是执行噪声，
-    不污染语义状态）。
+    `Illegal BroadPhaseUpdateData`（全套件约 240 次），机器人链接四元数
+    变 NaN。这是 OmniGibson/Isaac Sim 5.1 对运行中动态关节体反复
+    `set_position_orientation` 的固有不稳定，**不要在传送前后碰物理**：
+    - `keep_still()` 会清零关节 effort 目标 → 位置控制的悬挂直接塌地，
+      scripted/reset 全挂（实测两次）；
+    - 传送前清零根部线/角速度同样引发非确定性塌落（实测）。
+    最终修复（保持基线物理路径不动）：`robot_pose()` 读取包 try/except +
+    NaN 检查，异常/非有限时回退到最后命令的锚点位姿（完美执行器假设，
+    物理发散是执行噪声，不污染语义状态、不终止 episode）；
+    `teleport_robot()` 在 Robot 级 setter 因内部读 EEF 断言崩溃时，降级
+    到 `EntityPrim.set_position_orientation`（只写根位姿、不读链接）。
 12. **GitHub 推送**：服务器无凭据，从本机推；`~/.gitconfig` 里给 GitHub
     配的代理 127.0.0.1:8080 已失效，用
     `git -c http.https://github.com/.proxy="" push`（SSH key 认证为
