@@ -1,16 +1,49 @@
 # RummageBench 交接文档
 
-> 交接日期：2026-09-26
-> 状态：MVP 已完成并通过全部验收（场景 knife_search_001 端到端跑通）
+> 交接日期：2026-09-27（v2 更新）
+> 状态：MVP 验收通过；v2 具身感知扩展已实现（35/35 单测），集成测试见 §2
+> 仓库：GitHub `KvnWong216/FindingBench`（本目录即其工作副本）
 > 主机：10.20.37.124（8x RTX 5880 Ada 49G，/data1 约 8.8T 可用）
+
+## 0. v2 具身感知扩展（2026-09-27）
+
+按设计对话定稿的 prompt 实现，核心不变量仍是：**只评估具身感知的交互推理，
+不评估操作控制**（Action Expert 完美执行器）。
+
+新增模块：
+
+| 模块 | 内容 |
+|---|---|
+| `object_interface/` | Rigid/Articulated/Receptacle 适配器，实体自己提议语义合法技能（`available_skills(robot, state)`） |
+| `feasibility/` | `ik_solver.py`（IKSolver 协议 + reach_radius/z带 可达性代理，TRAC-IK 可插拔）、`collision.py`（交互点 vs AABB + 允许碰撞矩阵：指<->目标允许，关闭异物体积禁止） |
+| `core/skill_grounder.py` | **EAGE（Embodied Action Grounding Engine）**：A_t = Ground(Robot, Object, WorldState_t)，每步重生成可用动作空间 |
+| `environment/env.py` | JSON 门面：`env.reset()` / `env.step({"type":"OPEN","target":...})` |
+| `robots/robot.py` | RobotEmbodiment 能力参数（reach_radius、z_min/z_max、hand_capacity），进 scenario YAML |
+| skills | 新增 PLACE / CLOSE（5 技能集：NAV/OPEN/CLOSE/GRASP/PLACE） |
+
+行为变化：
+
+- Observation 增 `available_skills`（动态动作空间）
+- FailureReason 增 `UNREACHABLE` / `COLLISION` / `INVALID_STATE`（结构化失败、非终态、消耗一步）
+- metrics 增 `interaction_efficiency` / `feasibility_failures` / `reasoning_failures`
+- scenario.yaml：5 技能、5 锚点、robot 能力参数；scripted_success 每柜先 NAV 再 OPEN（8 步）
+
+### 设计对话结论（论文定位，来自 ChatGPT 设计讨论定稿）
+
+- **三支柱创新**：① 动态具身条件化动作空间（动作从世界状态"涌现"，非固定动作表）；② 物理可行性作为一等评估维度（UNREACHABLE/COLLISION/INVALID_STATE 来自 IK+碰撞+状态校验器，失败归因是机械可信的）；③ 推理与执行解耦的因子化评估（回应 ForageBench：现有基准把高层决策质量和底层执行噪声搅在一起）。
+- **定位一句话**：Existing benchmarks evaluate embodied agents through successful execution, making it difficult to distinguish whether failures originate from reasoning or embodiment limitations. We introduce an embodiment-grounded diagnostic environment that explicitly derives executable interaction spaces from robot capabilities and object states, enabling controlled evaluation of interactive reasoning.
+- **不要打的点**：不要声称"首次支持 open/pick/place"（RoboCasa/BEHAVIOR-1K 都有）；不要比资产规模。技能本身不是创新，**grounding 机制**才是。
+- **核心实验**：同一场景同一指令，只换机器人能力参数（reach/高度带）→ 同一观测下可用动作图不同。智能体必须理解"我的能力 ≠ 世界的能力"。已落地为 `tests/unit/test_embodiment.py`（同任务不同本体 → OPEN(cabinet_B)/OPEN(drawer_A) 可用性翻转）。
+- **难度阶梯**：L0 已知位置 / L1 未知容器 / L2 干扰物 / L3 本体约束 / L4 遮挡重排。当前场景覆盖 L0-L2；L3 已有机制与单测支撑（多本体场景变体待做）；L4 未来。
 
 ## 1. 这是什么
 
 RummageBench：基于 BEHAVIOR-1K + OmniGibson 的长时程具身物体搜索基准。
-智能体只做语义决策（NAV / OPEN / GRASP），后端用符号/特权机制保证语义后果
-可靠实现；基准以"语义规划步数"计时，不考核导航、IK、抓取控制等底层执行。
+智能体只做语义决策（NAV / OPEN / CLOSE / GRASP / PLACE），后端用符号/特权机制
+保证语义后果可靠实现；基准以"语义规划步数"计时，不考核导航、IK、抓取控制等
+底层执行。
 
-**验收结论（全部通过）**：
+**验收结论（MVP，全部通过）**：
 
 | 项 | 结果 |
 |---|---|
@@ -20,7 +53,7 @@ RummageBench：基于 BEHAVIOR-1K + OmniGibson 的长时程具身物体搜索基
 | timeout | FAIL_MAX_STEPS，17 步 |
 | unsafe | FAIL_UNSAFE_ACTION，2 步 |
 | 复位确定性 | 语义严格复原，位姿 <2cm |
-| 单元测试（无模拟器） | 24/24 |
+| 单元测试（无模拟器） | 24/24（v2 后 35/35） |
 | 集成测试（真实模拟器） | 11/11 |
 | MCP 验收 | 与 Python API 结果一致 |
 
@@ -28,7 +61,8 @@ RummageBench：基于 BEHAVIOR-1K + OmniGibson 的长时程具身物体搜索基
 
 | 内容 | 路径 |
 |---|---|
-| 本项目 | `/data1/ygwang/codes/Find-Bench` |
+| 本项目（GitHub 工作副本） | `/data1/ygwang/codes/FindingBench` |
+| 旧开发目录（v2 之前的开发副本，内容已并入新仓库） | `/data1/ygwang/codes/Find-Bench` |
 | BEHAVIOR-1K v3.9.3（外部依赖，勿改源码） | `/data1/ygwang/codes/BEHAVIOR-1K`（OmniGibson/bddl3 以 editable 方式装入环境） |
 | BEHAVIOR 数据集（31G，含密钥） | `/data1/ygwang/codes/BEHAVIOR-1K/datasets` |
 | conda 环境 `behavior`（Python 3.11 + Isaac Sim 5.1 + OmniGibson 3.9.3 + torch 2.7.0 cu128） | `/data1/ygwang/miniconda3/envs/behavior` |
@@ -46,9 +80,10 @@ conda activate /data1/ygwang/miniconda3/envs/behavior   # 按路径激活
 ## 3. 快速上手
 
 ```bash
-cd /data1/ygwang/codes/Find-Bench
-export CUDA_VISIBLE_DEVICES=0        # 挑一块空闲 GPU（nvidia-smi 查看）
-export PYTHONPATH=/data1/ygwang/codes/Find-Bench/src
+cd /data1/ygwang/codes/FindingBench
+export CUDA_VISIBLE_DEVICES=5        # 挑一块空闲 GPU（nvidia-smi 查看）
+/data1/ygwang/miniconda3/envs/behavior/bin/pip install -e . --no-deps   # 首次
+export PYTHONPATH=/data1/ygwang/codes/FindingBench/src
 
 # 一键全量验收（单进程：构建场景 + 4 条轨迹 + 复位确定性，约 15-25 分钟）
 python scripts/run_all.py            # 预期输出 ACCEPTANCE OK
@@ -115,16 +150,26 @@ StepResult(+JSONL 事件) -> Observation`。成败/步数/安全由 Session 判�
 10. **huggingface 被墙**：下载用 `HF_ENDPOINT=https://hf-mirror.com`；
     pip 慢时用 `-i https://pypi.tuna.tsinghua.edu.cn/simple`；数据集解密
     key 在 `datasets/omnigibson.key`（storage.googleapis.com 直连可用）。
+11. **NAV 传送物理发散（v2 修）**：timeout 轨迹反复传送后 PhysX 报
+    `Illegal BroadPhaseUpdateData`，机器人 base_link 四元数变 NaN
+    （assert 崩溃）。根因是悬挂动态机身带残余速度被瞬移。修复：
+    `teleport_robot` 前后 `keep_still()` 清零速度；`robot_pose()` 读数遇
+    NaN 回退到最后命令的锚点位姿（完美执行器假设——物理发散是执行噪声，
+    不污染语义状态）。
+12. **GitHub 推送**：服务器无凭据，从本机推；`~/.gitconfig` 里给 GitHub
+    配的代理 127.0.0.1:8080 已失效，用
+    `git -c http.https://github.com/.proxy="" push`（SSH key 认证为
+    KvnWong216）或删掉该段配置。
 
 ## 6. 关键产物位置
 
 ```
-Find-Bench/runs/setup_report.json                       Phase 1 环境验证
-Find-Bench/runs/acceptance_report.json                  总验收报告
-Find-Bench/runs/acceptance_knife_search_001_*/          四条轨迹（events.jsonl+summary+逐步截图）
-Find-Bench/runs/anchors_gpu2.json                       Phase 2 锚点实测数据
-Find-Bench/build/scenarios/knife_search_001/            编译产物（snapshot/preview/报告）
-Find-Bench/logs/                                        安装/运行日志
+FindingBench/runs/setup_report.json                       Phase 1 环境验证
+FindingBench/runs/acceptance_report.json                  总验收报告
+FindingBench/runs/acceptance_knife_search_001_*/          四条轨迹（events.jsonl+summary+逐步截图）
+FindingBench/runs/anchors_gpu2.json                       Phase 2 锚点实测数据
+FindingBench/build/scenarios/knife_search_001/            编译产物（snapshot/preview/报告）
+FindingBench/logs/                                        安装/运行日志
 ```
 
 ## 7. 已知限制与下一步建议
@@ -146,6 +191,6 @@ HF_ENDPOINT=https://hf-mirror.com ./setup.sh --new-env behavior --omnigibson --b
     --accept-conda-tos --accept-nvidia-eula --accept-dataset-tos
 # setup.sh 结束后补三件事：
 pip install warp-lang==1.12.0 pillow==11.3.0      # warp 必须手动装/锁版本
-pip install -e /data1/ygwang/codes/Find-Bench --no-deps
+pip install -e /data1/ygwang/codes/FindingBench --no-deps
 pip install "mcp<2" pytest                         # mcp 必须 <2（2.x 改了 API）
 ```

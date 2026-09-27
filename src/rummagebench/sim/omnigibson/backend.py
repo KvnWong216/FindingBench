@@ -7,6 +7,7 @@ validators, session) depends only on rummagebench.sim.base.SimBackend.
 from __future__ import annotations
 
 import logging
+import math
 from pathlib import Path
 from typing import Any
 
@@ -39,6 +40,7 @@ class OmniGibsonBackend(SimBackend):
         self._initial_state: Any = None
         self._entity_infos: dict[str, Any] = {}
         self._build_report: dict[str, Any] | None = None
+        self._commanded_pose: tuple[list[float], list[float]] | None = None
 
     # ------------------------------------------------------------------ setup
 
@@ -238,17 +240,36 @@ class OmniGibsonBackend(SimBackend):
     # ------------------------------------------------------------------ NAV
 
     def teleport_robot(self, anchor: AnchorSpec) -> None:
+        # kill residual velocity BEFORE the pose jump only: zeroing velocities
+        # after the teleport keeps the suspension joints from settling (the
+        # body needs to re-settle dynamically at the new anchor). A suspended
+        # dynamic body teleported with residual velocity destabilizes PhysX
+        # broadphase (Illegal BroadPhaseUpdateData -> NaN base orientation).
+        if hasattr(self._robot, "keep_still"):
+            self._robot.keep_still()
         self._robot.set_position_orientation(
             position=np.asarray(anchor.position, dtype=float),
             orientation=np.asarray(anchor.orientation, dtype=float),
             frame="world",
+        )
+        self._commanded_pose = (
+            [float(v) for v in anchor.position],
+            [float(v) for v in anchor.orientation],
         )
 
     def robot_pose(self) -> tuple[list[float], list[float]]:
         pos, quat = self._robot.get_position_orientation(frame="world")
         pos = pos.detach().cpu().numpy() if hasattr(pos, "detach") else np.asarray(pos)
         quat = quat.detach().cpu().numpy() if hasattr(quat, "detach") else np.asarray(quat)
-        return [float(v) for v in pos], [float(v) for v in quat]
+        pos = [float(v) for v in pos]
+        quat = [float(v) for v in quat]
+        if not (all(math.isfinite(v) for v in pos) and all(math.isfinite(v) for v in quat)):
+            # physics diverged (execution noise); the semantic truth is the
+            # last commanded anchor pose — a perfect executor would be there
+            commanded = getattr(self, "_commanded_pose", None)
+            if commanded is not None:
+                return [list(commanded[0]), list(commanded[1])]
+        return pos, quat
 
     # ---------------------------------------------------------- OPEN / GRASP
 

@@ -1,9 +1,27 @@
-# RummageBench MVP
+# RummageBench
 
-Long-horizon embodied object-search benchmark built on **BEHAVIOR-1K v3.9.3 + OmniGibson**.
-The agent reasons at the semantic-skill level (`NAV` / `OPEN` / `GRASP`); the backend
-realizes each validated action symbolically, so correct high-level reasoning never fails
-because of navigation, IK, motion-planning or grasp-controller noise.
+Embodiment-aware interactive object-search benchmark built on **BEHAVIOR-1K v3.9.3 + OmniGibson**.
+
+**Positioning.** Existing embodied benchmarks evaluate agents through end-to-end
+successful execution, which entangles high-level decision quality with low-level
+execution noise. RummageBench is a *diagnostic* benchmark: the admissible action
+space is dynamically grounded from robot capability, object affordance and world
+state
+
+```
+A_t = Ground(Robot, Object, WorldState_t)
+```
+
+and every validated interaction executes as an instant symbolic state
+transition. The benchmark therefore measures **embodiment-aware interactive
+reasoning, not manipulation control** (the Action Expert is assumed to be a
+perfect executor: no trajectory optimization, no grasp controller, no physics
+manipulation).
+
+The agent reasons at the semantic-skill level (`NAV` / `OPEN` / `CLOSE` /
+`GRASP` / `PLACE`); the backend realizes each validated action symbolically, so
+correct high-level reasoning never fails because of navigation, IK,
+motion-planning or grasp-controller noise.
 
 ## Repository layout
 
@@ -12,9 +30,23 @@ configs/       simulator + robot configs (data, not code)
 scenarios/     data-driven episode definitions (YAML) — "game levels"
 src/rummagebench/
   core/        canonical data model, session, events (one schema everywhere)
+  core/skill_grounder.py
+               Embodied Action Grounding Engine (EAGE): regenerates the
+               available action space every step from robot x object x state
+  object_interface/
+               Rigid / Articulated / Receptacle adapters; each entity proposes
+               its semantically valid skill candidates (available_skills())
+  feasibility/ kinematic feasibility: IKSolver protocol (reachability proxy;
+               TRAC-IK pluggable for URDFs) + CollisionChecker with an
+               allowed-collision matrix (finger<->target allowed, closed
+               foreign volumes forbidden)
+  robots/      RobotEmbodiment capability parameters (reach radius, height
+               band, hand capacity) — the embodiment layer
+  skills/      NAV / OPEN / CLOSE / GRASP / PLACE (execution only, never
+               episode decisions)
+  environment/ JSON facade: env.reset() / env.step(action_json)
   sim/         abstract SimBackend; OmniGibson lives ONLY under sim/omnigibson/
-  skills/      NAV / OPEN / GRASP (execution only, never episode decisions)
-  validation/  semantic / target / safety validators
+  validation/  semantic / target / safety / feasibility validators
   grounding/   target grounding (oracle entity now, pixel later)
   authoring/   scene inspection, scenario builder
   evaluation/  episode loop, JSONL logs, metrics
@@ -86,14 +118,48 @@ python -m pytest tests/integration -m sim -q # needs the built scenario + datase
 ## Verified results (Beechwood_0_int, R1Pro, v3.9.3)
 
 ```
-ACCEPTANCE OK:
+MVP ACCEPTANCE OK:
   scripted      SUCCESS            5 steps  (NAV kitchen -> OPEN x3 -> GRASP knife)
   wrong_object  FAIL_WRONG_TARGET  5 steps
   timeout       FAIL_MAX_STEPS     17 steps
   unsafe        FAIL_UNSAFE_ACTION 2 steps
   reset determinism: semantic state + pose (<10 cm) restored
-unit tests 24/24 - integration tests 11/11 - MCP acceptance OK
+unit tests 35/35 - integration tests 11/11 - MCP acceptance OK
 ```
+
+## v2: embodiment-aware extension
+
+- **Dynamic skill grounding.** `available_skills` in every observation is
+  regenerated each step: entity adapters propose semantically valid candidates,
+  the feasibility engine (reach + collision) filters them into the skills that
+  actually exist for this robot at this world state. A skill *emerges* from the
+  world; it does not pre-exist in a fixed action list.
+- **Feasibility as a first-class failure dimension.** Structured, non-terminal
+  failures `UNREACHABLE` / `COLLISION` / `INVALID_STATE` come from the IK /
+  collision / state validators — failure attribution is mechanical, not labeled.
+- **JSON environment API** (`environment/env.py`): `env.reset()` and
+  `env.step({"type": "OPEN", "target": "cabinet_01"})` with
+  `{status, reason, state_update, observation}` responses.
+- **Capability-parameterized robot.** `reach_radius`, `z_min/z_max`,
+  `hand_capacity` live in scenario YAML — same world, different embodiments.
+
+### Difficulty ladder (roadmap)
+
+| Level | Axis | Status |
+|---|---|---|
+| 0 | Known location (interaction execution) | `knife_search_001` |
+| 1 | Unknown container (search planning) | `knife_search_001` |
+| 2 | Distractors (semantic discrimination) | `knife_search_001` |
+| 3 | Embodiment constraint (capability-aware planning) | supported: capability params + `tests/unit/test_embodiment.py` (same task, different embodiment -> different admissible action graph); multi-robot scenario variants pending |
+| 4 | Occlusion / rearrangement (interactive perception) | future |
+
+### Key experiment this design enables
+
+Same scene, same instruction, robots with different `reach_radius` / height
+band: the grounded action graph differs (`OPEN(top_cabinet)` exists for the
+mobile manipulator, not for the compact arm). An agent that understands
+*its own capability* vs *the world's capability* is exactly what Level 3
+measures.
 
 ## Known limitations
 

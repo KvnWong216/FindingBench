@@ -21,7 +21,12 @@ from rummagebench.validation.feasibility import FeasibilityValidator
 
 
 class SkillGrounder:
-    """Enumerates the skills that exist for the robot right now."""
+    """Enumerates the skills that exist for the robot right now.
+
+    This is the benchmark's core mechanism, the Embodied Action Grounding
+    Engine: the admissible action space is not fixed by the skill library but
+    derived per step from robot capability x object affordance x world state.
+    """
 
     def __init__(
         self,
@@ -62,3 +67,8 @@ class SkillGrounder:
                     labels.append(cand.label())
 
         return sorted(set(labels))
+
+
+# Paper-facing alias: the grounder is the Embodied Action Grounding Engine
+# (EAGE) described in the benchmark design notes.
+EmbodiedActionGroundingEngine = SkillGrounder
