@@ -77,8 +77,7 @@ def test_open_unavailable_when_only_handle_is_out_of_reach():
     assert "OPEN(cabinet_B)" not in session.available_skills()
     result = session.act(_open())
     assert result.executed is False
-    assert result.failure_reason.value == "INVALID_ACTION"
-    assert result.events[-1].get("not_in_manipulation_space") is True
+    assert result.failure_reason.value == "UNREACHABLE"
     details = result.events[-1]["details"]
     assert details["candidates"], "candidate evidence missing"
     for candidate in details["candidates"]:

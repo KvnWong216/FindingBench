@@ -1,0 +1,33 @@
+# Task-family location priors for knife_search placement regimes (§6).
+#
+# These priors define WHERE the target (table_knife) is placed under each
+# regime. They are explicit benchmark data — never vague randomness.
+#
+# natural        kitchen storage: drawers hold cutlery, cabinets hold utensils
+# counterfactual locations that violate/weaken the household prior while
+#                remaining semantically executable, physically legal and
+#                oracle-certifiable
+#
+# Each regime lists (relation, containers). Containers must exist in the
+# scene, and counterfactual locations require a build-time-verified NAV
+# anchor named after the container (pick_anchors.py) — certification
+# excludes episodes whose location is not oracle-solvable for the
+# embodiment.
+
+target_category: table_knife
+
+natural:
+  relation: inside
+  containers:
+    - bottom_cabinet_no_top_qohxjq_0   # kitchen cabinet (no top)
+    - bottom_cabinet_no_top_spojpj_0   # kitchen cabinet (no top)
+    - bottom_cabinet_rvpunw_0          # kitchen cutlery drawer
+
+counterfactual:
+  relation: on_top
+  containers:
+    - breakfast_table_uhrsex_0         # knife lying on the dining table
+  # strong counterfactual locations requiring anchor verification before
+  # they can be certified (NAV anchor does not exist yet):
+  future_requires_anchor:
+    - fridge_dszchb_0                  # knife stored in the fridge

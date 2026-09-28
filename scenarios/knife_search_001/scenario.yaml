@@ -99,9 +99,8 @@ termination:
   fail_on_unsafe_action: true
   succeed_when_holding_target: true
 
-# clairvoyant oracle minimum planning steps (NAV + OPEN + GRASP), used by
-# Search Efficiency; agents are never told the target location
-oracle_min_steps: 3
+# oracle_min_steps is NOT hand-authored: it is computed by the oracle
+# semantic planner during certification (cli certify / certify-split)
 
 skills:
   - NAV

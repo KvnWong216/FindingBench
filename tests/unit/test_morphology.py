@@ -107,10 +107,10 @@ def test_short_arm_structured_failure_is_unreachable():
         Action(skill="OPEN", target=TargetRef(type=TargetKind.ENTITY, value="cabinet_B"))
     )
     assert result.executed is False
-    # out of the manipulation space -> not a listed skill, attempt is invalid
-    assert result.failure_reason.value == "INVALID_ACTION"
+    # semantic candidate exists, no IK under this morphology -> UNREACHABLE
+    assert result.failure_reason.value == "UNREACHABLE"
     event = result.events[-1]
-    assert event.get("not_in_manipulation_space") is True
+    assert event.get("not_in_manipulation_space") is True  # debug flag only
     # fine-grained internal attribution is preserved in the event details
     ik_reasons = {
         c["ik"].get("reason") for c in event["details"]["candidates"]

@@ -23,28 +23,44 @@ from rummagebench.evaluation.action_graph import (
 FIXTURE = Path(__file__).parent / "fixtures" / "mini.yaml"
 TEMPLATE = Path(__file__).parent / "fixtures" / "template_search.yaml"
 
+# task priors matching the template fixture containers
+FIXTURE_PRIORS = {
+    "target_category": "knife",
+    "natural": {
+        "relation": "inside",
+        "containers": ["cabinet_A", "drawer_A", "cabinet_B"],
+    },
+    "counterfactual": {
+        "relation": "inside",
+        "containers": ["cabinet_A", "drawer_A", "cabinet_B"],
+    },
+}
+
 
 def test_episode_generator_is_deterministic(tmp_path):
-    a = generate_episode(TEMPLATE, seed=7, target_container="cabinet_A")
-    b = generate_episode(TEMPLATE, seed=7, target_container="cabinet_A")
+    a = generate_episode(TEMPLATE, seed=7, task_priors=FIXTURE_PRIORS, target_container="cabinet_A")
+    b = generate_episode(TEMPLATE, seed=7, task_priors=FIXTURE_PRIORS, target_container="cabinet_A")
     assert a.model_dump() == b.model_dump()
+    # regime + pair metadata present
+    assert a.placement_regime == "natural"
+    assert a.oracle_min_steps is None  # never hand-authored
 
 
 def test_episode_generator_moves_target_and_distractors():
-    scenario = generate_episode(TEMPLATE, seed=3, target_container="drawer_A")
+    scenario = generate_episode(TEMPLATE, seed=3, task_priors=FIXTURE_PRIORS, target_container="drawer_A")
     target_placement = next(
         p for p in scenario.placements if p.entity == scenario.target.entity
     )
     assert target_placement.receptacle == "drawer_A"
-    # no distractor shares the target container
+    # distractor placement is target-independent (paired generation): all
+    # distractors are present
     inside = {p.entity: p.receptacle for p in scenario.placements if p.relation == "inside"}
     distractors = [e for e in inside if e != scenario.target.entity]
-    assert distractors, "generator needs distractors"
-    assert all(inside[e] != "drawer_A" for e in distractors)
+    assert len(distractors) == 3, "generator needs all distractors"
 
 
 def test_generated_scripted_success_ends_at_target_container():
-    scenario = generate_episode(TEMPLATE, seed=5, target_container="cabinet_B")
+    scenario = generate_episode(TEMPLATE, seed=5, task_priors=FIXTURE_PRIORS, target_container="cabinet_B")
     seq = scenario.agent.scripted_success
     # last two actions: OPEN(target container) then GRASP(target)
     assert seq[-2]["skill"] == "OPEN"
@@ -57,7 +73,7 @@ def test_generated_scripted_success_ends_at_target_container():
 
 
 def test_generated_wrong_object_grasps_a_distractor():
-    scenario = generate_episode(TEMPLATE, seed=11, target_container="cabinet_A")
+    scenario = generate_episode(TEMPLATE, seed=11, task_priors=FIXTURE_PRIORS, target_container="cabinet_A")
     seq = scenario.agent.scripted_wrong_object
     assert seq[-1]["skill"] == "GRASP"
     grasped = seq[-1]["target"]["value"]
@@ -72,6 +88,7 @@ def test_generate_episodes_distribution_and_split(tmp_path):
     paths = generate_episodes(
         TEMPLATE, seeds=list(range(6)), out_dir=tmp_path / "gen",
         target_containers=["cabinet_A", "drawer_A", "cabinet_B"],
+        task_priors=FIXTURE_PRIORS,
     )
     assert len(paths) == 6
     for path in paths:
@@ -84,12 +101,45 @@ def test_generate_episodes_distribution_and_split(tmp_path):
 
 
 def test_robot_variant_requires_kinematics(tmp_path):
-    scenario = generate_episode(TEMPLATE, seed=1, target_container="cabinet_A",
+    scenario = generate_episode(TEMPLATE, seed=1, task_priors=FIXTURE_PRIORS, target_container="cabinet_A",
                                 robot_variant="r1pro_restricted")
     assert scenario.robot.kinematics.urdf_path == "build/robots/r1pro_restricted.urdf"
     assert scenario.robot.kinematics.controlled_joints == "auto"
     # capability scalars untouched
     assert scenario.robot.reach_radius == 1.0
+
+
+def test_counterfactual_regime_pairing(tmp_path):
+    """§6: natural/counterfactual regimes from the task priors, paired ids."""
+    import copy
+    from rummagebench.authoring.episode_generator import load_task_priors
+
+    priors = load_task_priors()
+    # use the template containers as both regimes for the fixture
+    priors = copy.deepcopy(priors)
+    priors["counterfactual"] = {
+        "relation": "inside",
+        "containers": ["drawer_A"],
+    }
+    a = generate_episode(TEMPLATE, seed=4, task_priors=FIXTURE_PRIORS, target_container="cabinet_A",
+                         placement_regime="natural")
+    b = generate_episode(TEMPLATE, seed=4, target_container="drawer_A",
+                         placement_regime="counterfactual",
+                         pair_id="knife_001", task_priors=priors)
+    assert a.placement_regime == "natural"
+    assert b.placement_regime == "counterfactual"
+    assert a.pair_id is None and b.pair_id == "knife_001"
+    # paired: same seed -> same instruction + same distractor spread
+    assert a.instruction == b.instruction
+    a_rel = {p.entity: (p.relation, p.receptacle) for p in a.placements}
+    b_rel = {p.entity: (p.relation, p.receptacle) for p in b.placements}
+    # paired arms share the EXACT distractor placement (target-independent
+    # round-robin) — paired statistics require this
+    for d in ("distractor_spoon", "distractor_fork", "distractor_peeler"):
+        assert a_rel[d] == b_rel[d], d
+    # target placement differs per regime
+    assert a_rel["target_knife"][1] == "cabinet_A"
+    assert b_rel["target_knife"][1] == "drawer_A"
 
 
 # ---------------------------------------------------------------------------

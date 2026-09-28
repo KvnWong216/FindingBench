@@ -160,7 +160,8 @@ def _run_trajectories(session, out_root, report):
         session.set_log(None)
         session.set_trace(None)
         summary["metrics"] = compute_metrics(
-            load_events(run_dir / "events.jsonl"), scenario.oracle_min_steps
+            load_events(run_dir / "events.jsonl"), scenario.oracle_min_steps,
+            scenario,
         )
         trajectories[agent_name] = summary
         status = summary["status"]
@@ -259,7 +260,9 @@ def _run_episodes(session, out_root, report, args):
             episode_session.reset()
             summary = run_episode(episode_session, agent, run_dir, save_images=False)
             summary["metrics"] = compute_metrics(
-                load_events(run_dir / "events.jsonl"), episode_scenario.oracle_min_steps
+                load_events(run_dir / "events.jsonl"),
+                episode_scenario.oracle_min_steps,
+                episode_scenario,
             )
             gen_results.append({
                 "episode": episode_scenario.id,

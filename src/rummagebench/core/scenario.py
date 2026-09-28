@@ -204,9 +204,12 @@ class ScenarioSpec(BaseModel):
     termination: TerminationSpec = Field(default_factory=TerminationSpec)
     feasibility: FeasibilitySpec = Field(default_factory=FeasibilitySpec)
     action_interface: ActionInterfaceSpec = Field(default_factory=ActionInterfaceSpec)
-    # clairvoyant oracle minimum planning steps for Search Efficiency
-    # (generator-provided; None -> metrics report raw steps only)
+    # exact oracle semantic depth d* — computed by the oracle planner during
+    # episode certification; NEVER hand-authored (None until certified)
     oracle_min_steps: Optional[int] = None
+    # §6 placement regime + paired-episode id (natural/counterfactual pairs)
+    placement_regime: Optional[str] = None
+    pair_id: Optional[str] = None
     skills: list[str] = Field(default_factory=lambda: ["NAV", "OPEN", "GRASP"])
     safety: SafetySpec = Field(default_factory=SafetySpec)
     agent: AgentSpec = Field(default_factory=AgentSpec)

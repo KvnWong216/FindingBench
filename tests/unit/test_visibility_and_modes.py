@@ -100,10 +100,9 @@ def test_candidate_mode_attempt_runs_real_feasibility_oracle(fake_backend):
         Action(skill="OPEN", target=TargetRef(type=TargetKind.ENTITY, value="drawer_A"))
     )
     assert result.executed is False
-    # candidate mode exposes it, but the attempt lands outside the
-    # manipulation space -> INVALID_ACTION with the attribution flag
-    assert result.failure_reason.value == "INVALID_ACTION"
-    assert any(ev.get("not_in_manipulation_space") for ev in result.events)
+    # candidate mode exposes it; the attempt returns the structured
+    # feasibility result: no IK -> UNREACHABLE
+    assert result.failure_reason.value == "UNREACHABLE"
     assert session.status().value == "RUNNING"
 
 
@@ -133,7 +132,7 @@ def _events_for_rates():
          "events": [],
          "status": "RUNNING"},
         {"action": {"skill": "OPEN", "target": {"type": "entity", "value": "drawer_A"}},
-         "execution": {"executed": False, "failure_reason": "INVALID_ACTION"},
+         "execution": {"executed": False, "failure_reason": "UNREACHABLE"},
          "events": [{"not_in_manipulation_space": True}],
          "validation": {"semantic_valid": True, "target_valid": True, "safe": True},
          "status": "RUNNING"},
@@ -154,13 +153,18 @@ def test_embodiment_awareness_rates():
     metrics = compute_metrics(_events_for_rates())
     # 4 interaction attempts: 1 OK, 1 UNREACHABLE, 1 COLLISION, 1 UNSAFE
     assert metrics["interaction_attempts"] == 4
-    assert metrics["not_in_space_attempt_rate"] == 0.25
+    assert metrics["unreachable_attempt_rate"] == 0.25
     assert metrics["collision_attempt_rate"] == 0.25
+    # IAR = (UNREACHABLE + COLLISION) / attempts = 0.5
     assert metrics["infeasible_attempt_rate"] == 0.5
     assert metrics["wrong_target_rate"] == 0.0
     assert metrics["unsafe_action_rate"] == 0.2  # 1 unsafe / 5 actions
     assert metrics["task_success"] is False
-    assert metrics["search_efficiency"] is None  # no oracle minimum provided
+    # NSE/ESC require a certified oracle depth — None without one
+    assert metrics["normalized_semantic_efficiency"] is None
+    assert metrics["excess_search_cost"] is None
+    # RER requires the scenario ground truth — None without it
+    assert metrics["revisit_error_rate"] is None
 
 
 def test_search_efficiency_with_oracle_minimum():
@@ -170,4 +174,6 @@ def test_search_efficiency_with_oracle_minimum():
                                "postcondition_satisfied": True}
     metrics = compute_metrics(events, oracle_min_steps=3)
     assert metrics["task_success"] is True
-    assert metrics["search_efficiency"] == round(3 / 5, 3)
+    # NSE = success * d* / max(d*, N) = 3/5
+    assert metrics["normalized_semantic_efficiency"] == round(3 / 5, 3)
+    assert metrics["excess_search_cost"] == 2

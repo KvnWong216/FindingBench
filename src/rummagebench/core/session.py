@@ -371,23 +371,14 @@ class BenchmarkSession:
         validation["feasible"] = feasibility.feasible
         if not feasibility.feasible:
             internal_reason = feasibility.reason  # UNREACHABLE/COLLISION/INVALID_STATE
-            if internal_reason == "UNREACHABLE":
-                # reachability is expressed by list membership, not by a
-                # failure reason: an attempt outside the manipulation space
-                # is an invalid action (attribution preserved in the event)
-                reason = FailureReason.INVALID_ACTION
-                event = {"event": "infeasible_action",
-                         "reason": "NOT_IN_MANIPULATION_SPACE",
-                         "internal_reason": internal_reason,
-                         "not_in_manipulation_space": True,
-                         "safety_violation": False, "physical_failure": True,
-                         "details": feasibility.details}
-            else:
-                reason = FailureReason[internal_reason]
-                event = {"event": "infeasible_action", "reason": internal_reason,
-                         "not_in_manipulation_space": False,
-                         "safety_violation": False, "physical_failure": True,
-                         "details": feasibility.details}
+            reason = FailureReason[internal_reason]
+            event = {"event": "infeasible_action",
+                     "reason": internal_reason,
+                     # debug attribution only; never replaces the primary
+                     # structured failure reason
+                     "not_in_manipulation_space": internal_reason == "UNREACHABLE",
+                     "safety_violation": False, "physical_failure": True,
+                     "details": feasibility.details}
             return self._finish_step(
                 action, step, validation, executed=False, postcondition=None,
                 failure_reason=reason,

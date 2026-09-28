@@ -176,6 +176,52 @@ grounding (handle unreachable => OPEN unavailable even when the object center
 is "reachable"), no-base-teleport during GRASP, and the benchmark-owned
 holding-state lifecycle.
 
+## Scientific evaluation layer (certified difficulty)
+
+**Episode difficulty is certified by an oracle semantic planner rather than
+manually assigned.** `evaluation/oracle_planner.py` computes the exact
+full-information semantic depth d*_E(s) with BFS over the canonical semantic
+state (robot anchor, open set, held object, object relations), using the
+PRODUCTION feasibility engine through an overlay backend — per-open-set
+geometry snapshots make oracle admissibility identical to production
+admissibility, and consistency tests lock that equality over every
+BFS-reachable state.
+
+- **Certification.** `evaluation/certification.py` + `cli certify` /
+  `certify-split`: every benchmark episode gets a certificate
+  (`build/certificates/<episode_id>.json`: solvable, oracle depth, optimal
+  plan, scenario/URDF hashes). Episodes proven
+  UNSOLVABLE_FOR_EMBODIMENT are excluded from the standard split and
+  retained in an embodiment_stress split. `oracle_min_steps` is written
+  back from the certificate — it is computed, never hand-authored.
+- **Metrics (§9).** NSE = success * d*/max(d*, N); ESC = N - d*; IAR =
+  (UNREACHABLE + COLLISION) / interaction_attempts; mechanical RER =
+  exhausted-location revisits / search interactions (§5,
+  `evaluation/search_state.py`: UNSEEN / PARTIALLY_OBSERVED /
+  EXHAUSTED_EMPTY / TARGET_FOUND). NSE/ESC/RER return None rather than an
+  invented value when certification/ground truth is missing. The old crude
+  repetition counter is renamed `repeated_location_actions` and is NOT RER.
+- **Failure taxonomy (§4).** INVALID_ACTION (malformed/unknown) /
+  INVALID_STATE (wrong current state) / UNREACHABLE (semantic candidate
+  exists, no IK under joint limits) / COLLISION (IK exists, every candidate
+  collides) / UNSAFE_ACTION (policy) / MAX_STEPS / WRONG_TARGET. In
+  candidate mode, a no-IK attempt returns UNREACHABLE (with a debug-only
+  not_in_manipulation_space flag).
+- **Placement regimes (§6).** `configs/task_priors/knife_search.yaml`
+  declares natural vs counterfactual target locations (explicit benchmark
+  data, not vague randomness); paired episodes share
+  scene/target/distractors/embodiment via target-independent distractor
+  assignment and carry `pair_id` for paired statistics. PRG = Perf_natural -
+  Perf_counterfactual is computed in evaluation, not at generation.
+- **History counterfactual (§7).** `diagnostics/history_counterfactual.py`
+  builds paired situations with identical present-time observable state and
+  different valid histories (container inspected+restored vs never
+  touched); the history-consistent next-search sets differ, and HTA scores
+  a deterministic output against them.
+
+Exact FULL-INFORMATION oracle depth is supported; exact partial-observation
+optimal cost is future work (no belief-space solver yet).
+
 ## FindingBench Core v0.1 — FROZEN
 
 Validated 2026-09 on the simulator host against all ten freeze criteria:

@@ -84,6 +84,29 @@ class FeasibilityValidator:
                 "for production or (ik_solver, collision_checker) for test proxy"
             )
 
+    def with_backend(self, backend: SimBackend) -> "FeasibilityValidator":
+        """Same engine (IK solver / collision checker / mode), bound to a
+        different backend view. Used by the oracle planner to evaluate
+        hypothetical states through the production engine.
+
+        The legacy CollisionChecker holds its own backend reference (for
+        open-state queries), so it must be REBOUND, not shared.
+        """
+        clone = FeasibilityValidator.__new__(FeasibilityValidator)
+        clone._backend = backend
+        clone._mode = self._mode
+        clone._kinematics = self._kinematics
+        clone._config_collision = self._config_collision
+        clone._ik = self._ik
+        if self._collision is not None:
+            from rummagebench.feasibility.collision import CollisionChecker
+
+            clone._collision = CollisionChecker(backend)
+        else:
+            clone._collision = None
+        clone.engine = self.engine
+        return clone
+
     # ------------------------------------------------------------------ main
 
     def check(

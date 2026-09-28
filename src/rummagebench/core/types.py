@@ -26,12 +26,21 @@ class EpisodeStatus(str, Enum):
 class FailureReason(str, Enum):
     """Why a single step or the episode failed. NONE means no failure.
 
-    UNREACHABLE is deliberately NOT an exposed reason: reachability is
-    expressed by action-LIST MEMBERSHIP (a skill outside the embodiment's
-    manipulation space never enters the grounded action space). An attempt on
-    such an action is reported as INVALID_ACTION with the event detail
-    not_in_manipulation_space=true; the fine-grained internal attribution
-    (NO_IK_SOLUTION / JOINT_LIMIT / ...) lives in the grounding trace.
+    Paper-facing taxonomy (§4):
+
+    INVALID_ACTION   malformed action / unknown skill / invalid target schema
+                     / semantically nonexistent action
+    INVALID_STATE    valid semantic action but wrong current state
+    UNREACHABLE      semantic candidate exists but no valid IK / joint-limit
+                     satisfying interaction configuration exists
+    COLLISION        IK configuration exists but every interaction candidate
+                     violates collision constraints
+    UNSAFE_ACTION    task-level safety policy violation
+    MAX_STEPS        planning horizon exceeded
+    WRONG_TARGET     grasped a non-target object with fail_on_wrong_grasp
+
+    The debug flag not_in_manipulation_space may accompany UNREACHABLE events
+    but never replaces the primary structured reason.
     """
 
     NONE = "NONE"
@@ -40,6 +49,7 @@ class FailureReason(str, Enum):
     WRONG_TARGET = "WRONG_TARGET"
     UNSAFE_ACTION = "UNSAFE_ACTION"
     # embodiment feasibility failures (structured, non-terminal)
+    UNREACHABLE = "UNREACHABLE"
     COLLISION = "COLLISION"
     INVALID_STATE = "INVALID_STATE"
 

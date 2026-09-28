@@ -59,7 +59,8 @@ def cmd_run(args: argparse.Namespace) -> int:
     from rummagebench.evaluation.metrics import compute_metrics
 
     summary["metrics"] = compute_metrics(
-        load_events(run_dir / "events.jsonl"), scenario.oracle_min_steps
+        load_events(run_dir / "events.jsonl"), scenario.oracle_min_steps,
+        scenario,
     )
     if trace is not None:
         summary["grounding_trace"] = str(trace)
@@ -224,6 +225,81 @@ def cmd_generate_episodes(args: argparse.Namespace) -> int:
     for p in paths:
         print(f"  {p}")
     print(f"split: {split}")
+    return 0
+
+
+def cmd_certify(args: argparse.Namespace) -> int:
+    """§12: certify one scenario with the oracle planner."""
+    import json
+
+    from rummagebench.adapters.python_api import create_session
+    from rummagebench.evaluation.certification import save_certificate
+
+    scenario_path = _scenario_file(args.scenario)
+    session = create_session(scenario_path, run_dir=None, seed=args.seed)
+    certificate = certify_session_scenario(session)
+    path = save_certificate(certificate, args.out)
+    print(json.dumps({
+        "episode_id": certificate.episode_id,
+        "solvable": certificate.solvable,
+        "oracle_depth": certificate.oracle_depth,
+        "plan": certificate.oracle_plan,
+        "reason": certificate.reason,
+        "certificate": str(path),
+    }, indent=2))
+    return 0 if certificate.solvable else 1
+
+
+def certify_session_scenario(session):
+    from rummagebench.evaluation.certification import certify_episode
+
+    return certify_episode(session.scenario, session)
+
+
+def cmd_certify_split(args: argparse.Namespace) -> int:
+    import subprocess
+
+    cmd = [
+        sys.executable, str(Path(__file__).resolve().parents[1] / "scripts" / "certify_split.py"),
+        "--split", args.split, "--out", args.out,
+        "--robots", *args.robots,
+    ]
+    os.execv(cmd[0], cmd)  # delegate; certify_split manages Kit lifecycle
+
+
+def cmd_generate_diagnostics(args: argparse.Namespace) -> int:
+    """§7: generate the history-counterfactual diagnostic family."""
+    import json
+
+    from rummagebench.core.scenario import load_scenario
+    from rummagebench.diagnostics.history_counterfactual import (
+        generate_diagnostic_pairs,
+    )
+
+    scenario = load_scenario(_scenario_file(args.scenario))
+    pairs = generate_diagnostic_pairs(scenario)
+    out = Path(args.out)
+    out.mkdir(parents=True, exist_ok=True)
+    path = out / "history_counterfactual.json"
+    path.write_text(json.dumps(
+        {"family": args.type, "pairs": [p.to_dict() for p in pairs]}, indent=2,
+    ), encoding="utf-8")
+    print(f"{len(pairs)} history-counterfactual pairs -> {path}")
+    return 0
+
+
+def cmd_inspect_search_state(args: argparse.Namespace) -> int:
+    """§5: search-location states + revisit errors of a run."""
+    import json
+
+    from rummagebench.core.events import load_events
+    from rummagebench.core.scenario import load_scenario
+    from rummagebench.evaluation.search_state import track_search_states
+
+    events = load_events(Path(args.run) / "events.jsonl")
+    scenario = load_scenario(_scenario_file(args.scenario))
+    tracker = track_search_states(events, scenario)
+    print(json.dumps(tracker.summary(), indent=2))
     return 0
 
 
@@ -396,6 +472,34 @@ def main(argv: list[str] | None = None) -> int:
     ge_p.add_argument("--split", default="knife_search_v0")
     ge_p.add_argument("--robot-variant", default="default")
     ge_p.set_defaults(func=cmd_generate_episodes)
+
+    cert_p = sub.add_parser("certify",
+                            help="certify one scenario with the oracle planner")
+    cert_p.add_argument("--scenario", required=True)
+    cert_p.add_argument("--out", default="build/certificates")
+    cert_p.add_argument("--seed", type=int, default=0)
+    cert_p.set_defaults(func=cmd_certify)
+
+    certs_p = sub.add_parser("certify-split",
+                             help="certify every episode in a benchmark split")
+    certs_p.add_argument("--split", required=True)
+    certs_p.add_argument("--robots", nargs="+", default=["default"])
+    certs_p.add_argument("--out", default="build/certificates")
+    certs_p.set_defaults(func=cmd_certify_split)
+
+    hcf_p = sub.add_parser("generate-diagnostics",
+                           help="generate diagnostic families")
+    hcf_p.add_argument("--type", default="history-counterfactual",
+                       choices=["history-counterfactual"])
+    hcf_p.add_argument("--scenario", required=True)
+    hcf_p.add_argument("--out", default="build/diagnostics")
+    hcf_p.set_defaults(func=cmd_generate_diagnostics)
+
+    iss_p = sub.add_parser("inspect-search-state",
+                           help="search-location states + revisit errors of a run")
+    iss_p.add_argument("--run", required=True, help="run dir with events.jsonl")
+    iss_p.add_argument("--scenario", required=True)
+    iss_p.set_defaults(func=cmd_inspect_search_state)
 
     ag_p = sub.add_parser("export-action-graph",
                           help="export the grounded action graph (scripted trajectory)")

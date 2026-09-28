@@ -16,12 +16,15 @@ FEASIBILITY_FAILURES = {"UNREACHABLE", "COLLISION", "INVALID_STATE"}
 
 
 def compute_metrics(
-    events: list[dict[str, Any]], oracle_min_steps: int | None = None
+    events: list[dict[str, Any]], oracle_min_steps: int | None = None,
+    scenario=None,
 ) -> dict[str, Any]:
-    """Benchmark v0 metric set (§23).
+    """Benchmark metric set (§9/§23).
 
     Rates are per INTERACTION ATTEMPT (OPEN/CLOSE/GRASP/PLACE events) unless
     stated otherwise; they are never folded into task success.
+    NSE/ESC/RER require a certified oracle depth / the scenario ground truth;
+    they return None rather than an invented value.
     """
     if not events:
         return {"steps": 0}
@@ -61,20 +64,21 @@ def compute_metrics(
     invalid_actions = sum(
         1
         for e in events
-        if not e["validation"]["semantic_valid"]
+        if not e["validation"].get("semantic_valid", True)
         or not e["validation"].get("target_valid", True)
     )
     wrong_target_grasps = sum(
         1 for e in events if e["action"]["skill"] == "GRASP" and e["status"] == "FAIL_WRONG_TARGET"
     )
-    revisits = sum(
+    # crude repetition counter — NOT the paper's RER; kept under an explicit
+    # name (see evaluation/search_state.py for the mechanical RER)
+    repeated_location_actions = sum(
         c - 1 for c in Counter(opened + navigated).values() if c > 1
     )
 
     # §10: embodiment-awareness rates over interaction attempts.
-    # UNREACHABLE is not an exposed reason: reachability is list membership.
-    # Attempts outside the manipulation space show up as INVALID_ACTION with
-    # the not_in_manipulation_space event flag.
+    # IAR = (UNREACHABLE + COLLISION) / interaction_attempts (paper-facing);
+    # INVALID_STATE is reported separately.
     attempts = [e for e in events if e["action"]["skill"] in INTERACTION_SKILLS]
     n_attempts = len(attempts)
 
@@ -83,23 +87,13 @@ def compute_metrics(
             return None
         return round(feasibility_failures.get(counter_key, 0) / n_attempts, 3)
 
-    not_in_space_attempts = sum(
-        1 for e in events
-        for flag in [any(
-            ev.get("not_in_manipulation_space") for ev in e.get("events", [])
-        )]
-        if flag
-    )
-    not_in_space_rate = (
-        round(not_in_space_attempts / n_attempts, 3) if n_attempts else None
-    )
+    unreachable_rate = _rate("UNREACHABLE")
     collision_rate = _rate("COLLISION")
     invalid_state_rate = _rate("INVALID_STATE")
     infeasible_rate = (
         round(
-            (not_in_space_attempts
-             + feasibility_failures.get("COLLISION", 0)
-             + feasibility_failures.get("INVALID_STATE", 0)) / n_attempts,
+            (feasibility_failures.get("UNREACHABLE", 0)
+             + feasibility_failures.get("COLLISION", 0)) / n_attempts,
             3,
         )
         if n_attempts
@@ -110,12 +104,26 @@ def compute_metrics(
     )
     unsafe_action_rate = round(safety_failures / len(events), 3) if events else None
 
-    # §23: Search Efficiency = success * N*/N (clairvoyant oracle minimum);
-    # without an oracle minimum only raw steps are reported — never invented.
+    # §23/§9: NSE = success * d* / max(d*, N); ESC = N - d*.
+    # Both require a CERTIFIED oracle depth d* — never invented.
     success = 1 if events[-1]["status"] == "SUCCESS" else 0
-    search_efficiency = None
-    if oracle_min_steps:
-        search_efficiency = round(success * oracle_min_steps / len(events), 3)
+    n_steps = len(events)
+    normalized_semantic_efficiency = None
+    excess_search_cost = None
+    if oracle_min_steps and oracle_min_steps > 0:
+        normalized_semantic_efficiency = round(
+            success * oracle_min_steps / max(oracle_min_steps, n_steps), 3
+        )
+        excess_search_cost = n_steps - oracle_min_steps
+
+    # §5: mechanical RER over the explicit search-location states
+    from rummagebench.evaluation.search_state import track_search_states
+
+    tracker = track_search_states(events, scenario) if scenario is not None else None
+    exhausted_location_revisits = (
+        len(tracker.exhausted_location_revisits) if tracker else None
+    )
+    revisit_error_rate = tracker.revisit_error_rate() if tracker else None
 
     return {
         "steps": len(events),
@@ -125,7 +133,7 @@ def compute_metrics(
         "interaction_efficiency": interaction_efficiency,
         "feasibility_failures": feasibility_failures,
         "infeasible_attempt_rate": infeasible_rate,
-        "not_in_space_attempt_rate": not_in_space_rate,
+        "unreachable_attempt_rate": unreachable_rate,
         "collision_attempt_rate": collision_rate,
         "invalid_state_attempt_rate": invalid_state_rate,
         "wrong_target_rate": wrong_target_rate,
@@ -134,10 +142,14 @@ def compute_metrics(
         "reasoning_failures": {
             "wrong_target_grasps": wrong_target_grasps,
             "invalid_actions": invalid_actions,
-            "unnecessary_exploration": revisits,
+            "unnecessary_exploration": repeated_location_actions,
         },
-        "search_efficiency": search_efficiency,
-        "oracle_min_steps": oracle_min_steps,
+        "oracle_semantic_depth": oracle_min_steps,
+        "normalized_semantic_efficiency": normalized_semantic_efficiency,
+        "excess_search_cost": excess_search_cost,
+        "exhausted_location_revisits": exhausted_location_revisits,
+        "revisit_error_rate": revisit_error_rate,
+        "repeated_location_actions": repeated_location_actions,
         "task_success": bool(success),
         "final_status": events[-1]["status"],
     }
