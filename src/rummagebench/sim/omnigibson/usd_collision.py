@@ -44,7 +44,7 @@ def _quat_xyzw(q) -> list[float]:
 
 def collect_entity_collision(obj, geom_cache: dict[str, Any]) -> list[WorldCollisionObject]:
     """All collision bodies of one scene object, with current world poses."""
-    from pxr import UsdGeom, UsdPhysics
+    from pxr import Usd, UsdGeom, UsdPhysics
 
     coal = _coal()
     prim = obj.prim
@@ -181,16 +181,20 @@ def _mesh_geometry(mesh, coal):
 
 
 def compute_link_aabb(link_prim):
-    """World-frame AABB (lo, hi) of a link's collider bounds."""
-    from pxr import UsdGeom
+    """World-frame AABB (lo, hi) of a link's collider bounds.
+
+    Accepts either a pxr Usd.Prim or an OmniGibson prim wrapper (.prim)."""
+    from pxr import Usd, UsdGeom
+
+    prim = getattr(link_prim, "prim", link_prim)
 
     cache = UsdGeom.BBoxCache(
         Usd.TimeCode.Default(),
         includedPurposes=[UsdGeom.Tokens.default_, UsdGeom.Tokens.render],
     )
     try:
-        rng = cache.ComputeWorldBound(link_prim).ComputeAlignedRange()
+        rng = cache.ComputeWorldBound(prim).ComputeAlignedRange()
         return ([float(v) for v in rng.min], [float(v) for v in rng.max])
     except Exception as e:
-        logger.warning("link aabb failed for %s: %s", link_prim.GetPath(), e)
+        logger.warning("link aabb failed for %s: %s", getattr(prim, "GetPath", lambda: "?")(), e)
         return None

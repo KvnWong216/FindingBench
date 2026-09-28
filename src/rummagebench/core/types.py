@@ -24,7 +24,15 @@ class EpisodeStatus(str, Enum):
 
 
 class FailureReason(str, Enum):
-    """Why a single step or the episode failed. NONE means no failure."""
+    """Why a single step or the episode failed. NONE means no failure.
+
+    UNREACHABLE is deliberately NOT an exposed reason: reachability is
+    expressed by action-LIST MEMBERSHIP (a skill outside the embodiment's
+    manipulation space never enters the grounded action space). An attempt on
+    such an action is reported as INVALID_ACTION with the event detail
+    not_in_manipulation_space=true; the fine-grained internal attribution
+    (NO_IK_SOLUTION / JOINT_LIMIT / ...) lives in the grounding trace.
+    """
 
     NONE = "NONE"
     INVALID_ACTION = "INVALID_ACTION"
@@ -32,7 +40,6 @@ class FailureReason(str, Enum):
     WRONG_TARGET = "WRONG_TARGET"
     UNSAFE_ACTION = "UNSAFE_ACTION"
     # embodiment feasibility failures (structured, non-terminal)
-    UNREACHABLE = "UNREACHABLE"
     COLLISION = "COLLISION"
     INVALID_STATE = "INVALID_STATE"
 
@@ -120,6 +127,10 @@ class Observation(BaseModel):
     # dynamic action space: skills available to THIS robot at THIS world state
     # (embodiment-aware grounding output; empty when the scenario disables it)
     available_skills: list[str] = Field(default_factory=list)
+    # action_interface.mode == "candidate": semantic+state-valid skills for
+    # VISIBLE objects only — no IK/collision filtering, no feasibility
+    # metadata (the oracle verdict arrives as structured step feedback)
+    candidate_skills: list[str] = Field(default_factory=list)
 
 
 class FeasibilityVerdict(BaseModel):

@@ -24,6 +24,7 @@ from typing import Any
 
 from rummagebench.core.errors import FeasibilityBackendError, UnresolvableTargetError
 from rummagebench.core.events import EpisodeLogWriter, make_event
+from rummagebench.core.grounding_trace import GroundingTracer
 from rummagebench.core.scenario import ScenarioSpec
 from rummagebench.core.skill_grounder import SkillGrounder
 from rummagebench.core.types import (
@@ -88,6 +89,7 @@ class BenchmarkSession:
         log_path: str | None = None,
         registry: SkillRegistry | None = None,
         feasibility: FeasibilityValidator | None = None,
+        trace_path: str | None = None,
     ):
         self._backend = backend
         self._scenario = scenario
@@ -97,12 +99,13 @@ class BenchmarkSession:
         self._safety = SafetyValidator(scenario)
         self._robot_emb = RobotEmbodiment.from_spec(scenario.robot)
         self._feasibility = feasibility or _build_feasibility(backend, scenario)
-        self._grounder = SkillGrounder(backend, scenario, feasibility=self._feasibility)
         self._grounding = OracleEntityGrounding(backend, scenario)
 
         # benchmark-owned semantic state (holding truth lives HERE, never in
         # the simulator's assisted-grasp internals)
         self._world_state = BenchmarkWorldState()
+        self._grounder = SkillGrounder(backend, scenario, feasibility=self._feasibility)
+        self._grounder.bind_world(self._world_state)
 
         self._status = EpisodeStatus.RUNNING
         self._planning_step = 0
@@ -111,6 +114,7 @@ class BenchmarkSession:
         self._instruction = scenario.instruction
 
         self._log = EpisodeLogWriter(log_path) if log_path else None
+        self._tracer = GroundingTracer(trace_path) if trace_path else None
 
     # --------------------------------------------------------------- contract
 
@@ -130,19 +134,110 @@ class BenchmarkSession:
     def world_state(self) -> BenchmarkWorldState:
         return self._world_state
 
+    def set_trace(self, path: str | Path | None) -> None:
+        """Point the grounding tracer at a new JSONL file (per-trajectory
+        traces within one simulator process)."""
+        self._tracer = GroundingTracer(path) if path else None
+
+    def set_log(self, path: str | Path | None) -> None:
+        """Point the JSONL event log at a new file (per-trajectory event
+        logs within one simulator process)."""
+        self._log = EpisodeLogWriter(path) if path else None
+
     def available_skills(self) -> list[str]:
-        """The dynamically grounded action space A_t (may be empty on error).
+        """The dynamically grounded action space A_t per the configured
+        action-interface protocol (may be empty on error).
 
         A FeasibilityBackendError (misconfigured physical grounding) is NEVER
         swallowed: it propagates loudly instead of degrading the observation.
         """
         try:
+            if self._tracer is not None:
+                return self._ground_and_trace()
             return self._grounder.ground(self._robot_emb, self._world_state)
         except FeasibilityBackendError:
             raise
         except Exception as e:
             logger.warning("skill grounding failed: %s", e)
             return []
+
+    def candidate_skills(self) -> list[str]:
+        """A_t^candidate: semantic+state-valid skills for VISIBLE objects,
+        without the physical filter (action_interface.mode == candidate)."""
+        try:
+            return self._grounder.candidate_labels(self._robot_emb, self._world_state)
+        except FeasibilityBackendError:
+            raise
+        except Exception as e:
+            logger.warning("candidate grounding failed: %s", e)
+            return []
+
+    def _ground_and_trace(self) -> list[str]:
+        """Evaluator-side grounding with a full per-candidate verdict trace."""
+        candidates, kept, verdicts = self._grounder.ground_with_verdicts(
+            self._robot_emb, self._world_state
+        )
+        pos, quat = self._backend.robot_pose()
+        opens = sorted(
+            e for e in self._backend.entity_names() if self._backend.is_open(e)
+        )
+        self._tracer.record(
+            step=self._planning_step,
+            mode=self._scenario.action_interface.mode,
+            base_pose=[*pos, *quat],
+            world_state={
+                "held_object": self._world_state.held_object,
+                "opens": opens,
+            },
+            candidates=[c.label() for c in candidates],
+            grounded=[c.label() for c in kept],
+            verdicts=[
+                {
+                    "skill": v.candidate.skill,
+                    "target": v.candidate.target,
+                    "result": v.reason,
+                    "feasible": v.feasible,
+                    "details": v.details,
+                }
+                for v in verdicts
+            ],
+        )
+        return sorted({c.label() for c in kept})
+
+    def swap_morphology(self, urdf_path: str, controlled_joints=None) -> None:
+        """Rebuild the feasibility stack against a DIFFERENT kinematic URDF
+        (same simulator, same world, same episode): the basis of the
+        same-task / different-morphology action-graph comparison without a
+        second simulator launch. Only the URDF-derived kinematics change —
+        capability scalars (reach_radius, z band) are never consulted."""
+        from rummagebench.feasibility.hpp_fcl_checker import PinocchioCollisionChecker
+        from rummagebench.feasibility.pinocchio_solver import PinocchioKinematics
+        from rummagebench.robots.model_loader import resolve_urdf_path
+
+        if self._feasibility.engine != "pinocchio":
+            raise FeasibilityBackendError(
+                "swap_morphology requires the production pinocchio backend"
+            )
+        old = self._feasibility._kinematics
+        kin = PinocchioKinematics(
+            urdf_path=str(resolve_urdf_path(urdf_path)),
+            base_link=old.base_link,
+            eef_link=old.eef_link,
+            controlled_joints=controlled_joints or "auto",
+            pos_tol=self._scenario.feasibility.ik_pos_tol,
+            rot_tol=self._scenario.feasibility.ik_rot_tol,
+            max_iters=self._scenario.feasibility.ik_max_iters,
+            restarts=self._scenario.feasibility.ik_restarts,
+            seed=self._scenario.robot.kinematics.ik_seed if self._scenario.robot.kinematics else 0,
+        )
+        self._feasibility = FeasibilityValidator(
+            self._backend,
+            kinematics=kin,
+            config_collision=PinocchioCollisionChecker(kin, compute_min_distance=False),
+            mode=self._scenario.feasibility.mode,
+        )
+        self._grounder = SkillGrounder(self._backend, self._scenario, feasibility=self._feasibility)
+        self._grounder.bind_world(self._world_state)
 
     def reset(self) -> Observation:
         """Restore the deterministic initial snapshot and clear episode state."""
@@ -155,15 +250,27 @@ class BenchmarkSession:
         return self.observe()
 
     def observe(self) -> Observation:
+        mode = self._scenario.action_interface.mode
+        expose = self._scenario.expose_available_skills
+        if mode == "candidate":
+            skills, candidate_skills = [], (
+                self.candidate_skills() if expose else []
+            )
+            if self._tracer is not None:
+                # keep the oracle trace flowing in candidate mode too
+                self.available_skills()
+        else:
+            skills, candidate_skills = (
+                self.available_skills() if expose else []
+            ), []
         return Observation(
             instruction=self._instruction,
             rgb=self._backend.get_observation(),
             planning_step=self._planning_step,
             max_planning_steps=self._scenario.termination.max_planning_steps,
             previous_action_result=self._previous_result,
-            available_skills=(
-                self.available_skills() if self._scenario.expose_available_skills else []
-            ),
+            available_skills=skills,
+            candidate_skills=candidate_skills,
         )
 
     def status(self) -> EpisodeStatus:
@@ -263,14 +370,28 @@ class BenchmarkSession:
         )
         validation["feasible"] = feasibility.feasible
         if not feasibility.feasible:
-            reason = FailureReason[feasibility.reason]  # UNREACHABLE/COLLISION/INVALID_STATE
-            physical = reason in (FailureReason.UNREACHABLE, FailureReason.COLLISION)
+            internal_reason = feasibility.reason  # UNREACHABLE/COLLISION/INVALID_STATE
+            if internal_reason == "UNREACHABLE":
+                # reachability is expressed by list membership, not by a
+                # failure reason: an attempt outside the manipulation space
+                # is an invalid action (attribution preserved in the event)
+                reason = FailureReason.INVALID_ACTION
+                event = {"event": "infeasible_action",
+                         "reason": "NOT_IN_MANIPULATION_SPACE",
+                         "internal_reason": internal_reason,
+                         "not_in_manipulation_space": True,
+                         "safety_violation": False, "physical_failure": True,
+                         "details": feasibility.details}
+            else:
+                reason = FailureReason[internal_reason]
+                event = {"event": "infeasible_action", "reason": internal_reason,
+                         "not_in_manipulation_space": False,
+                         "safety_violation": False, "physical_failure": True,
+                         "details": feasibility.details}
             return self._finish_step(
                 action, step, validation, executed=False, postcondition=None,
                 failure_reason=reason,
-                events=[{"event": "infeasible_action", "reason": feasibility.reason,
-                         "safety_violation": False, "physical_failure": physical,
-                         "details": feasibility.details}],
+                events=[event],
                 resolved=resolved,
             )
 
@@ -328,15 +449,26 @@ class BenchmarkSession:
         resolved,
         extra: dict[str, Any] | None = None,
     ) -> StepResult:
+        mode = self._scenario.action_interface.mode
+        expose = self._scenario.expose_available_skills
+        if mode == "candidate":
+            step_skills, step_candidates = [], (
+                self.candidate_skills() if expose else []
+            )
+            if self._tracer is not None:
+                self.available_skills()  # keep the oracle trace flowing
+        else:
+            step_skills, step_candidates = (
+                self.available_skills() if expose else []
+            ), []
         observation = Observation(
             instruction=self._instruction,
             rgb=self._backend.get_observation(),
             planning_step=step,
             max_planning_steps=self._scenario.termination.max_planning_steps,
             previous_action_result=None,  # filled below
-            available_skills=(
-                self.available_skills() if self._scenario.expose_available_skills else []
-            ),
+            available_skills=step_skills,
+            candidate_skills=step_candidates,
         )
 
         action_result = {
@@ -374,6 +506,7 @@ class BenchmarkSession:
                         if resolved is not None
                         else None
                     ),
+                    events=events,
                 )
             )
         return step_result

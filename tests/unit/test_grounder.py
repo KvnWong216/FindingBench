@@ -54,13 +54,20 @@ def test_skills_appear_after_nav_and_open(fake_backend):
     assert "CLOSE(cabinet_B)" in av
 
 
-def test_unreachable_is_structured_non_terminal(fake_backend):
+def test_out_of_space_attempt_is_invalid_action_not_listed(fake_backend):
+    """Reachability is list membership: attempting an action outside the
+    manipulation space is INVALID_ACTION (never an exposed UNREACHABLE)."""
     s = _session(fake_backend)
     s.reset()
+    assert "OPEN(cabinet_B)" not in s.available_skills()
     r = s.act(Action(skill="OPEN", target=TargetRef(type=TargetKind.ENTITY, value="cabinet_B")))
     assert r.executed is False
-    assert r.failure_reason.value == "UNREACHABLE"
-    assert r.observation.previous_action_result["failure_reason"] == "UNREACHABLE"
+    assert r.failure_reason.value == "INVALID_ACTION"
+    flag = any(
+        ev.get("not_in_manipulation_space") for ev in r.events
+    )
+    assert flag
+    assert r.observation.previous_action_result["failure_reason"] == "INVALID_ACTION"
     assert s.status().value == "RUNNING"
 
 

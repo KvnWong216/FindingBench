@@ -17,7 +17,10 @@ robot:
   kinematics:
     urdf_path: build/robots/r1pro.urdf
     base_link: base_link
-    end_effector_link: eef_link
+    end_effector_link: right_eef_link
+    # "auto": control exactly the joints on the base->EEF path (torso + arm);
+    # wheels / casters / suspension stay locked (never enter arm IK)
+    controlled_joints: auto
     joint_limits_source: urdf
     ik_seed: 0
   # coarse prefilter data for the proxy backend (tests only); the pinocchio
@@ -95,6 +98,10 @@ termination:
   fail_on_wrong_grasp: true
   fail_on_unsafe_action: true
   succeed_when_holding_target: true
+
+# clairvoyant oracle minimum planning steps (NAV + OPEN + GRASP), used by
+# Search Efficiency; agents are never told the target location
+oracle_min_steps: 3
 
 skills:
   - NAV

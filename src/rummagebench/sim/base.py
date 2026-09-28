@@ -230,3 +230,13 @@ class SimBackend(ABC):
         """Current joint positions by joint name (IK seed), None when
         unavailable (the solver then uses neutral + deterministic restarts)."""
         return None
+
+    def visible_entities(self) -> list[str]:
+        """Entities the AGENT may currently be offered skills for.
+
+        Default: everything (backends without a visibility model). Real
+        backends must override: closed-container contents are NOT observable
+        and must not leak into the agent-facing action space (oracle entity
+        grounding stays available for action execution and evaluation).
+        """
+        return self.entity_names()

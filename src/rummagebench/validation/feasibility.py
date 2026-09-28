@@ -177,6 +177,19 @@ class FeasibilityValidator:
             ) from e
 
         base_pose = self._robot_base_pose()
+        if not (
+            np.all(np.isfinite(base_pose.position))
+            and np.all(np.isfinite(base_pose.orientation))
+        ):
+            # PhysX corruption poisoned the base pose: no finite interaction
+            # configuration can be derived from it (structured failure, never
+            # NaN into pinocchio/coal — those segfault on NaN inputs)
+            return FeasibilityVerdict(
+                feasible=False,
+                reason="UNREACHABLE",
+                details={"engine": "pinocchio", "mode": self._mode,
+                         "entity": entity, "note": "non-finite base pose"},
+            )
         seed_q = self._current_seed_q()
         held_entity = getattr(world, "held_object", None)
 
@@ -184,34 +197,56 @@ class FeasibilityValidator:
         saw_collision = False
         candidates: list[dict] = []
 
+        evaluation_errors = 0
         for target in targets:
             assert target.pose is not None
             base_target = base_pose.inverse().compose(target.pose)
-            ik = kinematics.solve_ik(base_target, seed_q=seed_q)
-            if not ik.success:
+            if not (
+                np.all(np.isfinite(base_target.position))
+                and np.all(np.isfinite(base_target.orientation))
+            ):
+                candidates.append({
+                    "target": target.to_dict(),
+                    "evaluation_error": "non-finite interaction target",
+                })
+                continue
+            # per-candidate isolation: one corrupted object (PhysX execution
+            # noise) degrades only itself, never the episode
+            try:
+                ik = kinematics.solve_ik(base_target, seed_q=seed_q)
+                if not ik.success:
+                    candidates.append(
+                        {
+                            "target": target.to_dict(),
+                            "ik": {
+                                "success": False,
+                                "reason": ik.reason,
+                                "position_error": ik.position_error,
+                                "orientation_error": ik.orientation_error,
+                            },
+                        }
+                    )
+                    continue
+                saw_ik = True
+
+                ctx = InteractionCollisionContext(
+                    skill=skill_name,
+                    target_entity=entity,
+                    interaction_link=target.link,
+                    held_entity=held_entity,
+                    held_offset=getattr(world, "held_offset", None),
+                    base_pose=base_pose,
+                )
+                collision_result = collision.check_configuration(ik.q, ctx)
+            except Exception as e:
+                evaluation_errors += 1
                 candidates.append(
                     {
                         "target": target.to_dict(),
-                        "ik": {
-                            "success": False,
-                            "reason": ik.reason,
-                            "position_error": ik.position_error,
-                            "orientation_error": ik.orientation_error,
-                        },
+                        "evaluation_error": str(e),
                     }
                 )
                 continue
-            saw_ik = True
-
-            ctx = InteractionCollisionContext(
-                skill=skill_name,
-                target_entity=entity,
-                interaction_link=target.link,
-                held_entity=held_entity,
-                held_offset=getattr(world, "held_offset", None),
-                base_pose=base_pose,
-            )
-            collision_result = collision.check_configuration(ik.q, ctx)
             if collision_result.collision_free:
                 return FeasibilityVerdict(
                     feasible=True,
@@ -251,17 +286,16 @@ class FeasibilityValidator:
             reason = "UNREACHABLE"
         else:  # defensive: IK ok everywhere but nothing reported collision-free
             reason = "UNREACHABLE"
-        return FeasibilityVerdict(
-            feasible=False,
-            reason=reason,
-            details={
-                "engine": "pinocchio",
-                "mode": self._mode,
-                "entity": entity,
-                "candidates": candidates,
-                "candidates_evaluated": len(candidates),
-            },
-        )
+        details = {
+            "engine": "pinocchio",
+            "mode": self._mode,
+            "entity": entity,
+            "candidates": candidates,
+            "candidates_evaluated": len(candidates),
+        }
+        if evaluation_errors:
+            details["evaluation_errors"] = evaluation_errors
+        return FeasibilityVerdict(feasible=False, reason=reason, details=details)
 
     def _robot_base_pose(self) -> Pose:
         pos, quat = self._backend.robot_pose()

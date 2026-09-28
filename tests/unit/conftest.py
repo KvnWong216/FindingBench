@@ -57,6 +57,8 @@ class FakeBackend(SimBackend):
         self.link_aabbs_map = link_aabbs or {}
         self.holding_entity: str | None = None
         self.opens: set[str] = set()
+        # container -> [entities inside it] (visibility model, §20)
+        self.contains: dict[str, list[str]] = {}
         self._counter = 0
         # GRASP realization must never move the base: this records the base
         # pose at grasp time for the no-teleport regression test
@@ -179,6 +181,14 @@ class FakeBackend(SimBackend):
         from rummagebench.feasibility.interaction_target import InteractionRegion
 
         return InteractionRegion(lo=list(lo), hi=list(hi), kind="top_surface")
+
+    def visible_entities(self) -> list[str]:
+        """Closed-container contents are not observable (§19/§20)."""
+        hidden: set[str] = set()
+        for container, entities in self.contains.items():
+            if container not in self.opens:
+                hidden.update(entities)
+        return [n for n in self.entities if n not in hidden]
 
     def collision_geometries(self) -> list[WorldCollisionObject]:
         """AABB boxes for every entity (approximation level recorded)."""

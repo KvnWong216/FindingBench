@@ -7,10 +7,12 @@ by a YAML file validated into these models at load time.
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any, Literal, Optional
+from typing import Any, Literal, Optional, Union
 
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+
+from rummagebench.core.errors import ScenarioValidationError
 
 
 class AnchorSpec(BaseModel):
@@ -46,13 +48,32 @@ class KinematicsSpec(BaseModel):
     urdf_path: str
     base_link: str = "base_link"
     end_effector_link: str
-    controlled_joints: Optional[list[str]] = None  # None -> all movable joints
+    # None -> all movable joints; "auto" -> the base->EEF chain only
+    controlled_joints: Optional[Union[list[str], Literal["auto"]]] = None
     joint_limits_source: Literal["urdf"] = "urdf"
     # links treated as gripper/finger class by the allowed-collision matrix;
     # None -> auto-derive (EEF link descendants + 'finger|gripper|hand' names)
     gripper_links: Optional[list[str]] = None
     # deterministic multi-seed IK restarts
     ik_seed: int = 0
+
+
+class ActionInterfaceSpec(BaseModel):
+    """Agent-facing action protocol.
+
+    admissible: expose only skills that passed the physical feasibility
+    filter (A_t^admissible) via Observation.available_skills.
+    candidate: expose semantic+state-valid skills for VISIBLE objects
+    (A_t^candidate) via Observation.candidate_skills — no IK/collision
+    filtering and no feasibility metadata; attempted actions are still
+    judged by the in-environment feasibility oracle and answered with
+    structured step feedback (SUCCESS / UNREACHABLE / COLLISION /
+    INVALID_STATE), never with scores.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    mode: Literal["admissible", "candidate"] = "admissible"
 
 
 class FeasibilitySpec(BaseModel):
@@ -182,6 +203,10 @@ class ScenarioSpec(BaseModel):
     initial_states: dict[str, InitialStateSpec] = Field(default_factory=dict)
     termination: TerminationSpec = Field(default_factory=TerminationSpec)
     feasibility: FeasibilitySpec = Field(default_factory=FeasibilitySpec)
+    action_interface: ActionInterfaceSpec = Field(default_factory=ActionInterfaceSpec)
+    # clairvoyant oracle minimum planning steps for Search Efficiency
+    # (generator-provided; None -> metrics report raw steps only)
+    oracle_min_steps: Optional[int] = None
     skills: list[str] = Field(default_factory=lambda: ["NAV", "OPEN", "GRASP"])
     safety: SafetySpec = Field(default_factory=SafetySpec)
     agent: AgentSpec = Field(default_factory=AgentSpec)

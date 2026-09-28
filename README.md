@@ -176,6 +176,17 @@ grounding (handle unreachable => OPEN unavailable even when the object center
 is "reachable"), no-base-teleport during GRASP, and the benchmark-owned
 holding-state lifecycle.
 
+## FindingBench Core v0.1 — FROZEN
+
+Validated 2026-09 on the simulator host against all ten freeze criteria:
+URDF cross-validation pass, production pinocchio knife_search runs, q-based
+collision on real BEHAVIOR geometry, no silent proxy fallback, hidden objects
+do not leak, admissible/candidate interfaces, benchmark-owned holding state,
+GRASP without base motion, generated episode distribution, morphology-different
+action graphs. Core mechanisms (skills, grounding pipeline, feasibility
+engine, scenario schema) are frozen; new work goes into agents, evaluation
+and additional scenarios.
+
 ## Architecture rules enforced by the layout
 
 1. No scenario-specific Python — scenario differences live in YAML.
@@ -189,25 +200,79 @@ holding-state lifecycle.
 
 ## Verified results
 
-Proxy-era acceptance (v2, Beechwood_0_int, R1Pro, reach-radius grounding):
+### v3 physical grounding acceptance (HISTORICAL numbers below are v2/proxy-era)
+
+Production run on the simulator host (BEHAVIOR-1K v3.9.3 + OmniGibson +
+Beechwood_0_int + R1Pro, `feasibility: backend: pinocchio, mode: endpoint`):
 
 ```
-MVP ACCEPTANCE OK:
-  scripted      SUCCESS            8 steps  (NAV kitchen -> NAV cabinet A -> OPEN A
-                                             -> NAV drawer A -> OPEN drawer
-                                             -> NAV cabinet B -> OPEN B -> GRASP knife)
-  wrong_object  FAIL_WRONG_TARGET  5 steps
+R1Pro URDF export cross-validation (§2):
+  50 random joint configurations, simulator vs Pinocchio FK
+  max translation error 2e-06 m   max rotation error 0.0001 deg   PASSED
+  (gates: 0.01 m / 3 deg — a failing sample REJECTS the export)
+
+v3 acceptance trajectories (real IK + q-based collision, no proxy):
+  scripted      SUCCESS            8 steps
+  wrong_object  FAIL_WRONG_TARGET  6 steps
   timeout       FAIL_MAX_STEPS     17 steps
   unsafe        FAIL_UNSAFE_ACTION 2 steps
-  reset determinism: semantic state + pose (<10 cm) restored
-unit tests 35/35 - integration tests 11/11 - MCP acceptance OK
+  grounding_trace.jsonl per run: interaction targets (fallback_link_anchor /
+  canonical_candidates / receptacle regions), per-candidate IK errors and
+  collision results, final grounded action set
+
+Morphology action-graph comparison (full arm vs restricted arm, same
+episode): graphs_differ=True — 9/9 trajectory positions diverge; concrete
+differences include GRASP(breakfast_table) / OPEN(fridge) available only to
+the full arm. Real URDF morphology (right_arm_joint2 fixed), no reach_radius.
+
+Memory pre-flight (scripts/probe_memory.py, required before benchmark runs
+on shared GPUs): peak ~8.9 GB device memory for the full production path;
+>= 3 GiB free-VRAM headroom gate enforced.
+
+Generated episode distribution: 30 knife-search episodes (10 x target in
+cabinet_A / drawer_A / cabinet_B, distractor permutations, instruction
+paraphrases) + benchmark_splits/knife_search_v0.yaml. Physics-corruption
+note: OmniGibson's teleport instability accumulates; long single-process
+batches degrade after ~4 episodes — run episodes via the resilient
+per-episode driver (scripts/acc_resume.sh pattern: one fresh Kit process
+per episode, ~6 min each).
 ```
 
-v3 (physical grounding correctness) re-acceptance on the simulator host:
-pending — run the unit suite (`pytest tests/unit`) anywhere, then
-`pytest tests/integration -m sim` + `scripts/run_all.py` on the GPU host
-after exporting the R1Pro URDF. Do not quote proxy-era numbers as
-kinematic-grounding results.
+### v2 proxy-era results (HISTORICAL — superseded by v3 above)
+
+```
+  scripted SUCCESS 8 steps / wrong_object FAIL_WRONG_TARGET / timeout
+  FAIL_MAX_STEPS / unsafe FAIL_UNSAFE_ACTION with reach-radius grounding;
+  unit tests 35/35, integration 11/11 (proxy engine)
+```
+
+## Action interface protocols (§7)
+
+`action_interface.mode` in the scenario YAML selects the agent-facing
+protocol; the feasibility oracle is identical underneath (§9 layering:
+`semantic_candidates` -> `physical_filter`, no duplicated logic):
+
+- **admissible** (default): `Observation.available_skills` = skills with at
+  least one collision-free interaction configuration. For evaluating
+  search/planning over physically admissible action spaces.
+- **candidate**: `Observation.candidate_skills` = semantic + state-valid
+  skills for VISIBLE objects, no IK/collision filtering, no feasibility
+  metadata. Attempts are answered by the in-environment oracle with
+  structured step feedback (SUCCESS / INVALID_ACTION / COLLISION /
+  INVALID_STATE / ...). For evaluating whether the agent understands its own
+  embodiment limitations. `infeasible_attempt_rate`,
+  `not_in_space_attempt_rate`, `collision_attempt_rate` decompose those
+  attempts in the metrics.
+
+**UNREACHABLE is not an exposed failure reason** (design decision): reach-
+ability is expressed by action-LIST membership — a skill outside the
+embodiment's manipulation space never enters the grounded action space, and
+attempting it yields INVALID_ACTION with the `not_in_manipulation_space`
+event flag (fine-grained IK attribution stays in the grounding trace).
+
+**Visibility**: agent-facing skills are grounded over `backend.visible_entities()`
+only — contents of closed containers are never exposed (§19-22 tests), while
+oracle entity grounding remains available for execution and evaluation.
 
 ## v3: physical grounding correctness
 

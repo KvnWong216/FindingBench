@@ -19,6 +19,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
+import logging
+
 import numpy as np
 
 from rummagebench.feasibility.ik_solver import (
@@ -27,6 +29,8 @@ from rummagebench.feasibility.ik_solver import (
     aabb_surface_point,
     look_at_quaternion,
 )
+
+logger = logging.getLogger(__name__)
 
 # gripper-frame standoff behind each interface surface point: the tool frame
 # is placed this far back along -outward so the tool body approaches the
@@ -161,10 +165,16 @@ def _link_anchor(entity: str, backend: Any, joint, link: str):
     user approaches from), projected onto the link's world AABB surface.
     Returns (anchor | None, outward | None, used_aabb).
     """
-    link_pose = backend.link_pose(entity, link)
+    try:
+        link_pose = backend.link_pose(entity, link)
+        lo_hi = backend.link_aabb(entity, link)
+    except Exception as e:
+        # PhysX execution noise can corrupt individual links: this candidate
+        # interface is skipped, the grounding pass continues
+        logger.warning("link anchor query failed for %s/%s: %s", entity, link, e)
+        return None, None, False
     if link_pose is None:
         return None, None, False
-    lo_hi = backend.link_aabb(entity, link)
     anchor = np.asarray(link_pose.position, dtype=float)
 
     parent_pose = (

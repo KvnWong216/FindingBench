@@ -214,6 +214,58 @@ class OmniGibsonBackend(SimBackend):
 
     # ------------------------------------------------------------- episode IO
 
+    def reapply_scenario(self, scenario: ScenarioSpec) -> dict:
+        """Re-apply a generated episode's placements / initial states on the
+        ALREADY built scene (same object set, different relations), then
+        re-capture the deterministic snapshot.
+
+        This is the cheap path that makes a 30-episode distribution runnable
+        in one simulator process: no scene reload, no new Kit launch. The
+        physics sampler is re-seeded per call so the same (seed, episode)
+        pair reproduces the same placement.
+        """
+        from omnigibson.object_states import Open
+
+        seed_everything(int(scenario.id.encode().hex()[-6:], 16) % (2**31))
+        report: dict[str, Any] = {"placements": [], "initial_states": []}
+        from omnigibson.object_states import Inside, OnTop
+
+        # start from the clean snapshot (releases lingering assisted grasps)
+        self.reset()
+        for p in scenario.placements:
+            obj = resolve_object(self._env.scene, p.entity)
+            rec = resolve_object(self._env.scene, p.receptacle)
+            verified = False
+            for attempt in range(3):
+                ok = self._place(obj, rec, p.relation, Open)
+                verified = self._verify_relation(obj, rec, p.relation, Inside, OnTop)
+                if verified:
+                    break
+            report["placements"].append({
+                "entity": p.entity,
+                "relation": p.relation,
+                "receptacle": p.receptacle,
+                "placed": bool(ok),
+                "verified": bool(verified),
+            })
+            if not verified:
+                raise SimBackendError(
+                    f"reapply placement failed verification: {p.entity} "
+                    f"{p.relation} {p.receptacle}"
+                )
+        for entity, st in scenario.initial_states.items():
+            obj = resolve_object(self._env.scene, entity)
+            if st.open is not None:
+                if obj.states.get(Open) is None:
+                    raise SimBackendError(f"{entity} has no Open state")
+                obj.states[Open].set_value(st.open, fully=True)
+                report["initial_states"].append({"entity": entity, "open": st.open})
+        self.settle()
+        # re-capture the deterministic snapshot for THIS episode
+        self._collision_body_cache = None
+        self._initial_state = dump_state(self._sim)
+        return report
+
     def reset(self) -> None:
         assert self._initial_state is not None, "backend.setup() has not run"
         self._collision_body_cache = None
@@ -591,10 +643,13 @@ class OmniGibsonBackend(SimBackend):
             pos = pos.detach().cpu().numpy()
         if hasattr(quat, "detach"):
             quat = quat.detach().cpu().numpy()
-        return Pose.from_lists(
-            [float(v) for v in np.asarray(pos).reshape(-1)[:3]],
-            [float(v) for v in np.asarray(quat).reshape(-1)[:4]],
-        )
+        pos = np.asarray(pos).reshape(-1)[:3]
+        quat = np.asarray(quat).reshape(-1)[:4]
+        # PhysX teleport corruption can yield NaN link poses: degrade this
+        # single query to None instead of poisoning the whole grounding pass
+        if not (np.all(np.isfinite(pos)) and np.all(np.isfinite(quat))):
+            return None
+        return Pose.from_lists([float(v) for v in pos], [float(v) for v in quat])
 
     def link_aabb(self, entity: str, link: str):
         from rummagebench.sim.omnigibson.usd_collision import compute_link_aabb
@@ -637,10 +692,45 @@ class OmniGibsonBackend(SimBackend):
             pos = pos.detach().cpu().numpy()
         if hasattr(quat, "detach"):
             quat = quat.detach().cpu().numpy()
-        return Pose.from_lists(
-            [float(v) for v in np.asarray(pos).reshape(-1)[:3]],
-            [float(v) for v in np.asarray(quat).reshape(-1)[:4]],
-        )
+        pos = np.asarray(pos).reshape(-1)[:3]
+        quat = np.asarray(quat).reshape(-1)[:4]
+        if not (np.all(np.isfinite(pos)) and np.all(np.isfinite(quat))):
+            return None
+        return Pose.from_lists([float(v) for v in pos], [float(v) for v in quat])
+
+    def visible_entities(self) -> list[str]:
+        """Objects observable by the agent right now (§20): everything except
+        the contents of CLOSED openable containers. Scene furniture and
+        open-container contents are visible. Oracle knowledge (evaluation,
+        traces) keeps using entity_names(); this method is the agent-facing
+        view only."""
+        from omnigibson.object_states import Inside, Open
+
+        scene_objects = self._env.scene.objects
+        containers = [
+            o for o in scene_objects
+            if getattr(o, "fixed_base", False) and o.states.get(Open) is not None
+        ]
+        closed = [
+            c for c in containers if not bool(c.states[Open].get_value())
+        ]
+        visible: list[str] = []
+        for obj in scene_objects:
+            if obj.fixed_base:
+                visible.append(obj.name)  # furniture is part of the room
+                continue
+            hidden = False
+            for container in closed:
+                try:
+                    inside = obj.states.get(Inside)
+                    if inside is not None and bool(inside.get_value(container)):
+                        hidden = True
+                        break
+                except Exception:
+                    continue  # corrupted state during PhysX noise: skip query
+            if not hidden:
+                visible.append(obj.name)
+        return visible
 
     def robot_joint_positions(self) -> dict[str, float] | None:
         """Current joint positions (URDF joint names -> radians/meters),

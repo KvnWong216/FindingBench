@@ -20,6 +20,7 @@ No motion planning happens here: single-configuration queries only.
 from __future__ import annotations
 
 import logging
+import math
 from typing import Any
 
 import numpy as np
@@ -75,6 +76,7 @@ class PinocchioKinematics:
 
         full_model = pin.buildModelFromUrdf(self.urdf_path)
         lock_ids = self._joints_to_lock(full_model, controlled_joints)
+        self._locked_joint_names = [full_model.names[j] for j in lock_ids]
         if lock_ids:
             self.model = pin.buildReducedModel(
                 full_model, lock_ids, np.zeros(full_model.nq)
@@ -85,6 +87,7 @@ class PinocchioKinematics:
 
         self._validate_frames()
         self.frame_id = self.model.getFrameId(eef_link, pin.FrameType.BODY)
+        self._validate_eef_in_controlled_chain(controlled_joints)
 
         # joint limits (urdf-sourced); +-inf = continuous joint (no clamp)
         self.lower = np.asarray(self.model.lowerPositionLimit, dtype=float).copy()
@@ -105,15 +108,40 @@ class PinocchioKinematics:
         )
         self.geom_data = self.geom_model.createData()
 
+        # exact kinematic reach bound of the controlled chain: for a chain of
+        # revolute joints, max |p_eef| <= sum of ||joint origin translations||
+        # (+ prismatic travel). A target beyond this bound is PROVABLY
+        # NO_IK_SOLUTION — skipping the numerical search there is
+        # semantics-preserving (identical observable result, no restart cost).
+        reach = 0.0
+        for jid in range(1, self.model.njoints):
+            origin_t = self.model.jointPlacements[jid].translation
+            reach += float(np.linalg.norm(origin_t))
+            jtype = str(self.model.joints[jid].shortname())
+            if "Prismatic" in jtype or "prismatic" in jtype:
+                lo_j = float(self.model.lowerPositionLimit[self.model.joints[jid].idx_q])
+                hi_j = float(self.model.upperPositionLimit[self.model.joints[jid].idx_q])
+                if math.isfinite(lo_j) and math.isfinite(hi_j):
+                    reach += abs(hi_j - lo_j)
+                else:
+                    reach += 2.0 * math.pi  # unbounded prismatic (unphysical)
+        self.max_reach = reach + self.pos_tol
+
         self._link_classes = self._compute_link_classes(gripper_links)
         self._req: Any = None
         self._dreq: Any = None
 
     # ------------------------------------------------------------ validation
 
-    def _joints_to_lock(self, model, controlled_joints: list[str] | None) -> list[int]:
+    def _joints_to_lock(self, model, controlled_joints) -> list[int]:
         """Movable joints absent from controlled_joints are locked (id 0 =
-        universe is never a lock candidate)."""
+        universe is never a lock candidate).
+
+        controlled_joints="auto" derives the chain from the asset: every
+        movable joint on the kinematic path from the base to the end-effector
+        frame (torso/arm joints of a mobile manipulator), so wheels/casters/
+        suspension are locked by construction.
+        """
         movable = [
             jid
             for jid in range(1, model.njoints)
@@ -121,6 +149,9 @@ class PinocchioKinematics:
         ]
         if controlled_joints is None:
             return []
+        if controlled_joints == "auto":
+            keep = self._auto_controlled_chain(model)
+            return [jid for jid in movable if jid not in keep]
         names = list(model.names)
         keep = set(controlled_joints)
         missing = keep - set(names)
@@ -128,7 +159,25 @@ class PinocchioKinematics:
             raise ValueError(
                 f"controlled_joints not present in URDF {self.urdf_path}: {sorted(missing)}"
             )
-        return [jid for jid in movable if names[jid] not in keep]
+        keep_ids = {names.index(n) for n in keep}
+        self._explicit_controlled_ids = keep_ids
+        return [jid for jid in movable if jid not in keep_ids]
+
+    def _auto_controlled_chain(self, model) -> set[int]:
+        """Movable joint ids on the path from the root to the EEF joint."""
+        frame_id = model.getFrameId(self.eef_link, self._pin.FrameType.BODY)
+        if frame_id >= model.nframes:
+            raise ValueError(
+                f"end_effector_link {self.eef_link!r} not found in URDF {self.urdf_path}"
+            )
+        eef_joint = model.frames[frame_id].parentJoint
+        chain: set[int] = set()
+        j = eef_joint
+        while j > 0:
+            if model.joints[j].nv > 0:
+                chain.add(j)
+            j = model.parents[j]
+        return chain
 
     def _validate_frames(self) -> None:
         pin = self._pin
@@ -150,6 +199,41 @@ class PinocchioKinematics:
             raise ValueError(
                 f"end_effector_link {self.eef_link!r} not found in URDF {self.urdf_path}"
             )
+
+    def _validate_eef_in_controlled_chain(self, controlled_joints) -> None:
+        """§3: the EEF must be reachable by the controlled chain, otherwise
+        IK could never move it — fail loudly instead of grounding blindly."""
+        pin = self._pin
+        eef_joint = self.model.frames[self.frame_id].parentJoint
+        controlled_ids = set(range(1, self.model.njoints))
+        if controlled_joints == "auto" or controlled_joints is None:
+            return  # chain derived from / includes the EEF path by construction
+        j = eef_joint
+        while j > 0:
+            if j in getattr(self, "_explicit_controlled_ids", set()):
+                return
+            j = self.model.parents[j]
+        raise ValueError(
+            f"end_effector_link {self.eef_link!r} (joint "
+            f"{self.model.names[eef_joint]!r}) is not under the controlled "
+            f"joint chain {sorted(controlled_joints)} — IK could never move "
+            "it. Fix controlled_joints or end_effector_link."
+        )
+
+    def chain_info(self) -> dict:
+        """§3 inspect payload: base link, controlled chain, locked joints.
+
+        Locked = joints present in the source URDF but excluded from the
+        kinematic model (mobile base, suspension, or a restricted variant's
+        fixed distal joints).
+        """
+        controlled = [self.model.names[j] for j in range(1, self.model.njoints)]
+        return {
+            "base_link": self.base_link,
+            "eef_link": self.eef_link,
+            "controlled_joints": controlled,
+            "locked_joints": list(self._locked_joint_names),
+        }
 
     def _compute_link_classes(self, gripper_links: list[str] | None) -> dict[str, str]:
         """Allowed-collision-matrix link classes for every collision body.
@@ -260,6 +344,17 @@ class PinocchioKinematics:
         re-running the search with limit projection disabled.
         """
         target = self._pose_to_se3(target_pose)
+        # provable unreachability: beyond the chain's kinematic reach bound
+        target_dist = float(np.linalg.norm(target.translation))
+        if target_dist > self.max_reach:
+            return IKResult(
+                success=False,
+                q=None,
+                reason=IKFailureReason.NO_IK_SOLUTION,
+                position_error=target_dist - self.max_reach + self.pos_tol,
+                orientation_error=None,
+                details={"beyond_kinematic_reach": True, "max_reach": self.max_reach},
+            )
         seeds: list[np.ndarray] = []
         if seed_q is not None:
             seeds.append(np.clip(np.asarray(seed_q, dtype=float), self.lower, self.upper))

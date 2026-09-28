@@ -68,6 +68,9 @@ class InteractiveSearchEnv:
             "max_planning_steps": obs.max_planning_steps,
             "previous_action_result": obs.previous_action_result,
             "available_skills": list(obs.available_skills),
+            # candidate protocol (action_interface.mode == candidate):
+            # semantic+state-valid, visible objects only, no feasibility info
+            "candidate_skills": list(obs.candidate_skills),
             "image_png_b64": _rgb_to_png_b64(obs.rgb),
         }
 

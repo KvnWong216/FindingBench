@@ -32,7 +32,7 @@ logger = logging.getLogger(__name__)
 
 # link-name substrings treated as gripper/finger class when no explicit list
 # is configured (used by the allowed-collision matrix)
-_GRIPPER_NAME_HINTS = ("finger", "gripper", "hand", "wrist_3_link_grip")
+_GRIPPER_NAME_HINTS = ("finger", "gripper", "hand", "eef")
 
 
 def resolve_urdf_path(raw: str, scenario_dir: Path | None = None) -> Path:
