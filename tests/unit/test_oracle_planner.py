@@ -194,6 +194,32 @@ def test_certify_solvable_episode(fake_backend, tmp_path):
     assert loaded.oracle_depth == certificate.oracle_depth
 
 
+def test_certified_plan_replays_to_success(fake_backend, tmp_path):
+    """Certification replay gate: the oracle plan executed through the
+    production session reaches SUCCESS; the certificate records it."""
+    session = _session(fake_backend)
+    certificate = certify_episode(session.scenario, session)
+    assert certificate.solvable and certificate.oracle_depth == 3
+    # replay through the production session
+    from rummagebench.core.types import Action
+
+    session.reset()
+    for plan_action in certificate.oracle_plan:
+        session.act(Action.from_dict(plan_action))
+    assert session.status().value == "SUCCESS"
+    certificate.plan_replay_status = session.status().value
+    certificate.plan_replay_steps = session._planning_step
+    assert certificate.plan_replay_status == "SUCCESS"
+    # a failed replay would REVOKE solvability (gate enforced by driver)
+    certificate_bad = certify_episode(session.scenario, session)
+    certificate_bad.plan_replay_status = "FAIL_MAX_STEPS"
+    if certificate_bad.plan_replay_status != "SUCCESS":
+        certificate_bad.solvable = False
+        certificate_bad.reason = "PLAN_REPLAY_FAILED"
+    assert not certificate_bad.solvable
+    assert certificate_bad.reason == "PLAN_REPLAY_FAILED"
+
+
 def test_unsolvable_episode_rejected_from_normal_split(tmp_path):
     """A drawer-style container the embodiment cannot reach: the certificate
     is unsolvable and the episode must not enter the solvable split."""

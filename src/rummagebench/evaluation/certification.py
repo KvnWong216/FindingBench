@@ -44,6 +44,10 @@ class EpisodeCertificate:
     expanded_states: int = 0
     visited_states: int = 0
     reason: str | None = None
+    # replay verification: the certified plan executed through the
+    # production BenchmarkSession reaches the task goal
+    plan_replay_status: str | None = None  # SUCCESS | <failure status> | None
+    plan_replay_steps: int | None = None
     extra: dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:

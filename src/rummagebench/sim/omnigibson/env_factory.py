@@ -37,6 +37,21 @@ def apply_runtime_env(gpu_id: int | None = None) -> None:
         os.environ["OMNIGIBSON_GPU_ID"] = str(gpu_id)
 
 
+def apply_sim_settings() -> None:
+    """Set OmniGibson global macros that must be applied AFTER
+    `import omnigibson` (which exposes `omnigibson.macros.gm`) but BEFORE
+    the simulator launches.
+
+    USE_GPU_DYNAMICS enables the GPU particle systems (sludge etc.) that the
+    Inside-placement sampler initializes when re-applying episode
+    placements; without it the sampler raises
+    "Failed to initialize sludge system".
+    """
+    import omnigibson as og
+
+    og.macros.gm.USE_GPU_DYNAMICS = True
+
+
 def _load_yaml(path: Path) -> dict:
     with path.open("r", encoding="utf-8") as f:
         return yaml.safe_load(f)

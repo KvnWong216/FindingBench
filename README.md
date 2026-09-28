@@ -277,14 +277,20 @@ on shared GPUs): peak ~8.9 GB device memory for the full production path;
 
 Generated episode distribution: 30 knife-search episodes (10 x target in
 cabinet_A / drawer_A / cabinet_B, distractor permutations, instruction
-paraphrases) + benchmark_splits/knife_search_v0.yaml. Verified in-process:
-s000/s001/s004 SUCCESS (8 steps, real IK grounding); s003 (knife in the
-DRAWER) FAIL at GRASP — the drawer interior is genuinely unreachable for the
-R1Pro arm at the verified anchor: a physical finding, not a bug (re-anchor
-with pick_anchors.py is future work). Single-process batches degrade after
-~4 episodes from OmniGibson teleport corruption (NaN BroadPhase cascade);
-the resilient per-episode driver (scripts/acc_resume.sh: one fresh Kit
-process per episode, ~6 min) is the supported batch path.
+paraphrases) + benchmark_splits/knife_search_v0.yaml. Certified so far:
+knife_search_001 (base) and s000/s001 — oracle depth **2** each (NAV +
+GRASP: the no-top cabinet exposes the knife WITHOUT opening; the hand-
+authored depth-3 assumption — NAV, OPEN, GRASP — was mechanically WRONG),
+plan replays SUCCESS through the production session. The replay gate
+revokes certification when a plan fails to execute.
+
+Batch note: single-process episode batches degrade after ~4 episodes from
+OmniGibson teleport corruption (NaN BroadPhase cascade); the supported
+batch path is the chunked certifier with per-episode resume
+(scripts/certify_final.sh: 5-episode chunks, fresh Kit process per chunk,
+auto-retry). Remote certification of the remaining episodes is pending on
+sim-host GPU availability (Warp CUDA 700 errors from competing workloads
+abort scene loads; rerun scripts/certify_final.sh when GPUs free up).
 ```
 
 ### v2 proxy-era results (HISTORICAL — superseded by v3 above)
@@ -307,17 +313,27 @@ protocol; the feasibility oracle is identical underneath (§9 layering:
 - **candidate**: `Observation.candidate_skills` = semantic + state-valid
   skills for VISIBLE objects, no IK/collision filtering, no feasibility
   metadata. Attempts are answered by the in-environment oracle with
-  structured step feedback (SUCCESS / INVALID_ACTION / COLLISION /
+  structured step feedback (SUCCESS / UNREACHABLE / COLLISION /
   INVALID_STATE / ...). For evaluating whether the agent understands its own
-  embodiment limitations. `infeasible_attempt_rate`,
-  `not_in_space_attempt_rate`, `collision_attempt_rate` decompose those
-  attempts in the metrics.
+  embodiment limitations. `unreachable_attempt_rate`,
+  `collision_attempt_rate`, `infeasible_attempt_rate` (= (UNREACHABLE +
+  COLLISION) / attempts) decompose those attempts in the metrics.
 
-**UNREACHABLE is not an exposed failure reason** (design decision): reach-
-ability is expressed by action-LIST membership — a skill outside the
-embodiment's manipulation space never enters the grounded action space, and
-attempting it yields INVALID_ACTION with the `not_in_manipulation_space`
-event flag (fine-grained IK attribution stays in the grounding trace).
+**Failure taxonomy (paper-facing, uniform across admissible and candidate
+modes):**
+
+| reason | meaning |
+|---|---|
+| `INVALID_ACTION` | malformed action / unknown skill / invalid target schema |
+| `INVALID_STATE` | valid semantic action but wrong current state |
+| `UNREACHABLE` | semantic candidate exists, but no valid IK / joint-limit-satisfying interaction configuration |
+| `COLLISION` | IK configuration exists, but every interaction candidate violates collision constraints |
+| `UNSAFE_ACTION` | task-level safety policy violation |
+| `MAX_STEPS` / `WRONG_TARGET` | horizon / non-target grasp termination |
+
+IAR = (UNREACHABLE + COLLISION) / interaction_attempts; INVALID_STATE is
+reported separately. The `not_in_manipulation_space` event flag survives as
+a debug annotation on UNREACHABLE events only.
 
 **Visibility**: agent-facing skills are grounded over `backend.visible_entities()`
 only — contents of closed containers are never exposed (§19-22 tests), while

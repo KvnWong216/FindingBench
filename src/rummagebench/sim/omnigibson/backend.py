@@ -55,6 +55,9 @@ class OmniGibsonBackend(SimBackend):
         import omnigibson as og
         from omnigibson.objects import DatasetObject
 
+        from rummagebench.sim.omnigibson.env_factory import apply_sim_settings
+
+        apply_sim_settings()
         self._og = og
         self._env, _ = build_env(scenario)
         self._sim = og.sim

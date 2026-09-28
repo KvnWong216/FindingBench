@@ -32,6 +32,12 @@ def main() -> int:
     ap.add_argument("--robots", nargs="+", default=["default"])
     ap.add_argument("--out", default="build/certificates")
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--start", type=int, default=0,
+                    help="first episode index (chunked certification)")
+    ap.add_argument("--count", type=int, default=0,
+                    help="episodes this process certifies (0 = all)")
+    ap.add_argument("--skip-splits", action="store_true",
+                    help="only certify + write certificates (chunk mode)")
     args = ap.parse_args()
 
     import yaml
@@ -46,19 +52,50 @@ def main() -> int:
 
     split = yaml.safe_load((REPO_ROOT / args.split).read_text(encoding="utf-8"))
     episode_paths = [REPO_ROOT / p for p in split["episodes"]]
+    if args.count > 0:
+        episode_paths = episode_paths[args.start:args.start + args.count]
 
     session = create_session(episode_paths[0], run_dir=None, seed=args.seed)
     out_dir = REPO_ROOT / args.out
 
+    from rummagebench.core.types import Action
+    from rummagebench.evaluation.certification import certify_episode
+
     solvable, unsolvable = [], []
     for path in episode_paths:
         scenario = load_scenario(path)
+        # resume support: an episode with a REPLAYED certificate is skipped
+        existing = out_dir / f"{scenario.id}.json"
+        if existing.is_file():
+            from rummagebench.evaluation.certification import load_certificate
+
+            prior = load_certificate(existing)
+            if prior.plan_replay_status is not None:
+                print(f"[certify] skip {scenario.id} (already certified, "
+                      f"replay={prior.plan_replay_status})", flush=True)
+                (solvable if prior.solvable else unsolvable).append((path, prior))
+                continue
         # re-apply THIS episode's placements on the built scene
         session._backend.reapply_scenario(scenario)
-        certificate = certify = None
-        from rummagebench.evaluation.certification import certify_episode
-
         certificate = certify_episode(scenario, session)
+        # replay gate: the certified plan must EXECUTE to the task goal
+        # through the production BenchmarkSession — certification without a
+        # successful replay is not accepted
+        if certificate.solvable and certificate.oracle_plan:
+            session.reset()
+            for plan_action in certificate.oracle_plan:
+                session.act(Action.from_dict(plan_action))
+            certificate.plan_replay_status = session.status().value
+            certificate.plan_replay_steps = session._planning_step
+            print(
+                f"[certify] replay {certificate.episode_id}: "
+                f"{certificate.plan_replay_status} "
+                f"({certificate.plan_replay_steps} steps)",
+                flush=True,
+            )
+            if certificate.plan_replay_status != "SUCCESS":
+                certificate.solvable = False
+                certificate.reason = "PLAN_REPLAY_FAILED"
         cert_path = save_certificate(certificate, out_dir)
         if certificate.solvable:
             solvable.append((path, certificate))
@@ -79,6 +116,14 @@ def main() -> int:
                 yaml.safe_dump(scenario.model_dump(mode="json"), sort_keys=False),
                 encoding="utf-8",
             )
+
+    print(json.dumps({
+        "chunk_certified": len(solvable) + len(unsolvable),
+        "chunk_solvable": len(solvable),
+        "chunk_unsolvable": len(unsolvable),
+    }, indent=2))
+    if args.skip_splits:
+        os._exit(0)
 
     stats = depth_statistics([c for _, c in solvable + unsolvable])
     cert_dir_rel = str(Path(args.out))
