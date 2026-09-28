@@ -36,20 +36,16 @@ def apply_runtime_env(gpu_id: int | None = None) -> None:
     if gpu_id is not None:
         os.environ["OMNIGIBSON_GPU_ID"] = str(gpu_id)
 
-
-def apply_sim_settings() -> None:
-    """Set OmniGibson global macros that must be applied AFTER
-    `import omnigibson` (which exposes `omnigibson.macros.gm`) but BEFORE
-    the simulator launches.
-
-    USE_GPU_DYNAMICS enables the GPU particle systems (sludge etc.) that the
-    Inside-placement sampler initializes when re-applying episode
-    placements; without it the sampler raises
-    "Failed to initialize sludge system".
-    """
-    import omnigibson as og
-
-    og.macros.gm.USE_GPU_DYNAMICS = True
+NOTE_ON_SLUDGE_SEGFAULT = (
+    "Known host-level instability (2026-09-28): after another user's IsaacLab "
+    "workload saturates the GPUs, Beechwood scene import fails with "
+    "'Failed to initialize sludge system' (a PhysX particle-system "
+    "allocation) followed by a hard segfault during Kit cleanup — on every "
+    "GPU, including previously-idle ones. The same code loads fine when the "
+    "host is quiet. Not fixable benchmark-side; recover by re-running when "
+    "the competing workload finishes (or a driver reset). Do NOT enable "
+    "gm.USE_GPU_DYNAMICS as a workaround: it segfaults scene import too."
+)
 
 
 def _load_yaml(path: Path) -> dict:
