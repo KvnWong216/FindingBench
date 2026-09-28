@@ -231,11 +231,14 @@ on shared GPUs): peak ~8.9 GB device memory for the full production path;
 
 Generated episode distribution: 30 knife-search episodes (10 x target in
 cabinet_A / drawer_A / cabinet_B, distractor permutations, instruction
-paraphrases) + benchmark_splits/knife_search_v0.yaml. Physics-corruption
-note: OmniGibson's teleport instability accumulates; long single-process
-batches degrade after ~4 episodes — run episodes via the resilient
-per-episode driver (scripts/acc_resume.sh pattern: one fresh Kit process
-per episode, ~6 min each).
+paraphrases) + benchmark_splits/knife_search_v0.yaml. Verified in-process:
+s000/s001/s004 SUCCESS (8 steps, real IK grounding); s003 (knife in the
+DRAWER) FAIL at GRASP — the drawer interior is genuinely unreachable for the
+R1Pro arm at the verified anchor: a physical finding, not a bug (re-anchor
+with pick_anchors.py is future work). Single-process batches degrade after
+~4 episodes from OmniGibson teleport corruption (NaN BroadPhase cascade);
+the resilient per-episode driver (scripts/acc_resume.sh: one fresh Kit
+process per episode, ~6 min) is the supported batch path.
 ```
 
 ### v2 proxy-era results (HISTORICAL — superseded by v3 above)
