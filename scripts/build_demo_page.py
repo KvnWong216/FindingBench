@@ -24,7 +24,7 @@ ANALYSIS = {
         "embodiment-aware reasoning predicts: it NAVs to the kitchen, and for every closed "
         "container it first NAVs to that container's interaction anchor and only then OPENs, "
         "because <code>OPEN(cabinet)</code> is <em>grounded</em> (present in "
-        "<code>available_skills</code>) only within the robot's reach radius. "
+        "<code>available_skills</code>) only when an interaction configuration exists. "
         "<code>GRASP(knife)</code> does not exist in the action space until the knife's "
         "container is open — the action emerges from the world state. 8/8 selected actions "
         "were grounded at selection time and executed."
@@ -89,25 +89,33 @@ def build(runs_dir: Path, out_dir: Path) -> None:
         ]
         asset_dir = assets / agent_name
         asset_dir.mkdir(exist_ok=True)
-        video_name = Path(info["video"]).name  # episode.mp4 (ffmpeg) or episode.gif fallback
-        video_src = f"assets/{agent_name}/{video_name}"
-        # index stores the sim host's absolute path; resolve relative to runs/
-        video_path = Path(info["video"])
-        if not video_path.exists():
-            video_path = runs_dir / f"demo_{index['scenario']}_{agent_name}" / video_name
-        shutil.copy2(video_path, asset_dir / video_name)
-        # prefer MP4: <video> cannot play GIFs
-        if video_name.endswith(".gif") and shutil.which("ffmpeg"):
-            import subprocess
+        import subprocess
 
-            mp4 = asset_dir / "episode.mp4"
+        # Preferred path: encode directly from the rendered frame PNGs (the
+        # sim host has no ffmpeg, so it only writes GIFs — and old ffmpeg
+        # builds misread PIL GIF frame delays, so GIF->MP4 collapses the
+        # timeline to a single frame; PNG sequences encode correctly).
+        mp4 = asset_dir / "episode.mp4"
+        encoded = False
+        if shutil.which("ffmpeg"):
             r = subprocess.run(
-                ["ffmpeg", "-y", "-loglevel", "error", "-i", str(asset_dir / video_name),
-                 "-pix_fmt", "yuv420p", str(mp4)]
+                ["ffmpeg", "-y", "-loglevel", "error", "-framerate", "2",
+                 "-i", str(runs_dir / f"demo_{index['scenario']}_{agent_name}" / "frame_%04d.png"),
+                 "-pix_fmt", "yuv420p", str(mp4)],
+                capture_output=True,
             )
-            if r.returncode == 0 and mp4.stat().st_size > 0:
-                (asset_dir / video_name).unlink()
-                video_src = f"assets/{agent_name}/episode.mp4"
+            encoded = r.returncode == 0 and mp4.exists() and mp4.stat().st_size > 0
+        if encoded:
+            video_src = f"assets/{agent_name}/episode.mp4"
+        else:
+            # fallback: copy the GIF (rename to .gif asset; <img> fallback is
+            # handled by the browser since <video> cannot play GIFs)
+            video_name = Path(info["video"]).name
+            video_src = f"assets/{agent_name}/{video_name}"
+            video_path = Path(info["video"])
+            if not video_path.exists():
+                video_path = runs_dir / f"demo_{index['scenario']}_{agent_name}" / video_name
+            shutil.copy2(video_path, asset_dir / video_name)
 
         title, kind = TITLES[agent_name]
         rows = []
@@ -173,7 +181,7 @@ def build(runs_dir: Path, out_dir: Path) -> None:
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RummageBench — Demo</title>
+<title>FindingBench — Demo</title>
 <style>
   :root {{ --ink:#1a1a2e; --accent:#0f6e4e; --bad:#b3261e; --warn:#b26a00; }}
   html, body {{ background: #fff; }}
@@ -214,10 +222,10 @@ def build(runs_dir: Path, out_dir: Path) -> None:
 </style>
 </head>
 <body>
-<h1>RummageBench</h1>
+<h1>FindingBench</h1>
 <p class="tagline">An embodiment-aware diagnostic benchmark for <b>interactive object search</b>:
-the admissible action space is dynamically grounded from robot capability, object affordance
-and world state — and execution is perfect by construction.</p>
+the admissible action space is dynamically grounded from robot kinematics, object interaction
+interfaces and world state — and execution is perfect by construction.</p>
 <p class="links">
   <a href="https://github.com/KvnWong216/FindingBench">Code</a>
   <a href="#framework">Framework</a>
@@ -226,20 +234,20 @@ and world state — and execution is perfect by construction.</p>
 </p>
 
 <h2 id="teaser">Teaser: find the hidden knife</h2>
-<p>{esc(index['instruction'])} — Beechwood_0_int (BEHAVIOR-1K v3.9.3), R1 Pro mobile manipulator.
-Green overlay text is the agent's decision at each semantic step; physics renders the egocentric
-view, but the benchmark itself never measures control.</p>
+<p>{esc(index['instruction'])} — Beechwood_0_int (BEHAVIOR-1K v3.9.3), R1 Pro wheeled dual-arm
+mobile manipulator. Green overlay text is the agent's decision at each semantic step; physics
+renders the egocentric view, but the benchmark itself never measures control.</p>
 <video controls preload="metadata" src="assets/scripted/{teaser_name}" style="width:100%; max-width:860px; border:1px solid #ccc; border-radius:6px;"></video>
 
 <h2 id="framework">Framework: the Embodied Action Grounding Engine</h2>
 <p>Existing embodied benchmarks evaluate agents through end-to-end successful execution, which
-entangles high-level decision quality with low-level execution noise. RummageBench factors the
+entangles high-level decision quality with low-level execution noise. FindingBench factors the
 two apart. Every step, the admissible action space is <b>regenerated</b>:</p>
 <p class="mono" style="text-align:center;">A<sub>t</sub> = Ground(Robot, Object, WorldState<sub>t</sub>)</p>
 <div class="pipeline">
-  <div class="pipe"><b>Object adapters</b><br>rigid / articulated /<br>receptacle propose<br>semantic candidates</div>
+  <div class="pipe"><b>Object adapters</b><br>rigid / articulated /<br>receptacle propose<br>semantic candidates +<br>interaction interfaces<br>(handle links, regions)</div>
   <div class="arr">&#8594;</div>
-  <div class="pipe"><b>Feasibility filter</b><br>reach radius + height band (IK)<br>collision (allowed-matrix)<br>state constraints</div>
+  <div class="pipe"><b>Feasibility filter</b><br>URDF kinematics (pinocchio)<br>SE(3) IK + joint limits<br>c-space collision (coal)<br>state constraints</div>
   <div class="arr">&#8594;</div>
   <div class="pipe"><b>available_skills</b><br>NAV / OPEN / CLOSE /<br>GRASP / PLACE — only what<br>exists right now</div>
   <div class="arr">&#8594;</div>
@@ -247,9 +255,16 @@ two apart. Every step, the admissible action space is <b>regenerated</b>:</p>
   <div class="arr">&#8594;</div>
   <div class="pipe"><b>World update</b><br>&amp; regenerate A<sub>t+1</sub></div>
 </div>
-<p>A skill is not chosen from a fixed list — it <b>emerges</b> from the world. Structured failures
-(<code>UNREACHABLE</code>, <code>COLLISION</code>, <code>INVALID_STATE</code>) come from the
-validators themselves, so failure attribution is mechanical, not hand-labeled.</p>
+<p>A skill is not chosen from a fixed list — it <b>emerges</b> from the world. Feasibility is
+configuration-level ("does at least one collision-free interaction configuration exist?"),
+derived from the robot's URDF exported and FK-cross-validated against the simulator — never
+hand-authored capability proxies. Structured failures (<code>UNREACHABLE</code>,
+<code>COLLISION</code>, <code>INVALID_STATE</code>) come from the validators themselves, so
+failure attribution is mechanical, not hand-labeled.</p>
+<p><b>Certified difficulty.</b> Every episode's optimal semantic depth d* is computed by an
+oracle BFS planner over the canonical state using the production feasibility engine —
+difficulty is measured, never assigned. Episodes proven unsolvable for the embodiment are
+excluded from the standard split (19/30 oracle-solvable in the current split).</p>
 
 <h2>Benchmark: difficulty ladder</h2>
 <table class="ladder">
@@ -276,13 +291,13 @@ grounded action space <code>A<sub>t</sub></code> the agent saw when deciding.</p
 from YAML only, no scenario-specific Python.</p>
 
 <h2>BibTeX</h2>
-<pre><code>@misc{{rummagebench2026,
-  title  = {{RummageBench: An Embodiment-Aware Diagnostic Benchmark for Interactive Object Search}},
+<pre><code>@misc{{findingbench2026,
+  title  = {{FindingBench: An Embodiment-Aware Diagnostic Benchmark for Interactive Object Search}},
   year   = {{2026}},
   url    = {{https://github.com/KvnWong216/FindingBench}}
 }}</code></pre>
 
-<footer>RummageBench demo page — episode videos rendered with
+<footer>FindingBench demo page — episode videos rendered with
 <code>scripts/render_demo_all.py</code> (BEHAVIOR-1K v3.9.3 + OmniGibson, single process,
 semantic steps only). Page layout modeled after the HumanCLAW project page.</footer>
 </body>

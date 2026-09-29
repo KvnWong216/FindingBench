@@ -154,6 +154,21 @@ python -m rummagebench.cli run --scenario knife_search_001 --agent unsafe       
 
 Trajectories: `runs/<run_id>/events.jsonl` + `summary.json` (+ per-step PNGs unless `--no-images`).
 
+## Play (human interface)
+
+```bash
+CUDA_VISIBLE_DEVICES=5 python scripts/serve_play.py [--scenario scenarios/knife_search_001/scenario.yaml] [--port 8090]
+```
+
+Boots the real simulator, then serves a browser UI on `http://0.0.0.0:8090`.
+Top-left card: the task instruction and step budget. Bottom: one square button
+per available skill type (icon + caption), with the layout density tracking
+the size of the grounded action space A_t. Clicking an object-directed skill
+(OPEN/CLOSE/GRASP) executes directly when exactly one target is grounded;
+otherwise a dialog lists the currently grounded targets to choose from
+(NAV/PLACE always ask). RESET restarts the episode. The player sees exactly
+what the benchmark exposes — the egocentric view and A_t, nothing else.
+
 ## MCP adapter
 
 ```bash
