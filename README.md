@@ -154,6 +154,60 @@ python -m rummagebench.cli run --scenario knife_search_001 --agent unsafe       
 
 Trajectories: `runs/<run_id>/events.jsonl` + `summary.json` (+ per-step PNGs unless `--no-images`).
 
+## Final Agent Protocol
+
+The evaluated agent (AGENT mode — `InteractiveSearchEnv`, MCP, human-play UI)
+receives **only**: the current RGB frame (+ opaque `frame_id`), the task
+instruction, a fixed skill library, and four-class feedback for its previous
+action.
+
+1. **8 skills**: `MOVE` `TURN` `OPEN` `CLOSE` `GRASP` `PLACE` `OBSERVE`
+   `REPORT_DONE`.
+2. **Signed conventions**: `MOVE.distance_cm` > 0 forward / < 0 backward
+   (5..100 cm); `TURN.angle_deg` > 0 left CCW / < 0 right CW (5..180 deg).
+   No clamping; out-of-range = `INVALID_ACTION`.
+3. **Point convention**: object skills address the object by a normalized 2D
+   point on the CURRENT frame (`origin top-left`, x right, y down, [0,1]) plus
+   the mandatory `frame_id`; stale frames are `INVALID_ACTION`.
+4. **Bridge**: point -> synchronized private frame -> robust instance
+   selection (11x11 patch, >=20 px, >=50% dominance) -> owning-entity
+   canonicalization -> median in-instance depth -> depth unprojection
+   (convention VERIFIED, not assumed) -> private 3D surface point.
+5. The click selects the OBJECT; the `ObjectInterface` — never the clicked
+   point — selects the physical interaction target.
+6. `OUT_OF_CAPABILITY` = visual target exists and is semantically valid but no
+   joint-limit-valid IK exists. `UNSAFE` = IK exists but every configuration
+   collides, or a swept MOVE/TURN is blocked, or no safe OBSERVE viewpoint
+   exists. Everything else invalid maps to `INVALID_ACTION`.
+7. `OBSERVE(point)` = object-centric active perception: 8 deterministic
+   viewpoints around the object AABB, accepted only when base-collision-free
+   and the object is visibly present (>=100 private pixels); the robot pose is
+   exactly restored; returned views are RGB-only reasoning evidence and are
+   NOT valid point-reference frames.
+8. Wrong-object grasps are RECOVERABLE (no `WRONG_TARGET`); the agent infers
+   mistakes visually.
+9. `REPORT_DONE` is the only normal success trigger; a false completion is
+   terminal `FAIL_FALSE_COMPLETION`.
+10. Only the current RGB frame is a valid point-reference frame.
+11. The agent never receives entity names, object states, robot pose, held
+    entity, admissible/candidate action lists, segmentation, depth, camera
+    extrinsics, or oracle state. Episode IDs are opaque.
+12. **SR / ST**: success rate and mean planning steps of successful episodes.
+13. **Layout generation**: `scripts/generate_layout.py` builds deterministic
+    BEHAVIOR layouts (layout_seed) separately from episode content
+    (episode_seed); manifest hash is reproducible.
+14. **Render profiles**: `configs/render/*.yaml` (visual-quality pass happens
+    only AFTER layout acceptance, §32).
+15. **Reproduce**:
+
+    ```bash
+    python -m pytest tests/unit -q                    # no simulator
+    python -m pytest tests/integration -m sim -q      # real simulator
+    python scripts/generate_layout.py \
+        --config configs/layouts/kitchen_search_v1.yaml \
+        --catalog configs/layouts/asset_pool_v1.yaml --seed 0
+    ```
+
 ## Play (human interface)
 
 ```bash

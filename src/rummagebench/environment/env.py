@@ -1,12 +1,16 @@
-"""Environment API: the JSON facade over BenchmarkSession.
+"""Environment API: the JSON facade over the benchmark.
 
-Transport-independent, matching the benchmark contract:
+    env.reset()  -> {episode_id, observation: PublicObservation}
+    env.step(action_json) -> {episode_status, planning_step, feedback, observation}
 
-    env.reset()  -> {robot_state, object_states, observation}
-    env.step(action_json) -> {status: SUCCESS|FAILURE, reason, state_update, observation}
+AGENT mode (default, §5/§19): the AGENT contract exposes ONLY the public
+protocol — fixed 8-skill library, signed MOVE/TURN parameters, 2D-point
+object targeting on the CURRENT frame, four-class feedback. No robot state,
+object states, entity names, admissible action lists or state_update ever
+cross this boundary.
 
-Zero benchmark logic lives here: it only translates between dicts and the
-canonical session types (Rule 7 — one schema everywhere).
+ORACLE mode (mode="oracle") preserves the legacy privileged contract for
+scripted acceptance agents, certification and the oracle planner.
 """
 
 from __future__ import annotations
@@ -16,10 +20,8 @@ import io
 from pathlib import Path
 from typing import Any
 
+from rummagebench.core.public_types import PublicActionFeedback, SessionMode
 from rummagebench.core.scenario import load_scenario
-from rummagebench.core.session import BenchmarkSession
-from rummagebench.core.types import EpisodeStatus
-
 
 def _rgb_to_png_b64(rgb) -> str | None:
     if rgb is None:
@@ -34,58 +36,40 @@ def _rgb_to_png_b64(rgb) -> str | None:
 class InteractiveSearchEnv:
     """JSON facade over one benchmark scenario."""
 
-    def __init__(self, scenario_path: str | Path, seed: int = 0):
+    def __init__(self, scenario_path: str | Path, seed: int = 0,
+                 mode: str | SessionMode = SessionMode.AGENT,
+                 trace_path: str | Path | None = None):
+        self.mode = SessionMode(mode)
         self._scenario = load_scenario(scenario_path)
         from rummagebench.sim.omnigibson.backend import OmniGibsonBackend
 
         self._backend = OmniGibsonBackend(seed=seed)
         self._backend.setup(self._scenario)
-        self._session = BenchmarkSession(self._backend, self._scenario)
+        if self.mode is SessionMode.AGENT:
+            from rummagebench.core.visual_session import VisualProtocolSession
 
-    # ---------------------------------------------------------------- helpers
+            self._session = VisualProtocolSession(self._backend, self._scenario)
+            self._session.set_trace(trace_path)
+        else:
+            from rummagebench.core.session import BenchmarkSession
 
-    def _robot_state(self) -> dict[str, Any]:
-        pose, quat = self._backend.robot_pose()
-        return {
-            "name": self._scenario.robot.name,
-            "position": [round(v, 4) for v in pose],
-            "orientation": [round(v, 4) for v in quat],
-            # benchmark-owned holding state (never the backend's grasp joints)
-            "holding": self._session.world_state.held_object,
-        }
-
-    def _object_states(self) -> dict[str, Any]:
-        states: dict[str, Any] = {}
-        for entity in self._scenario.initial_states:
-            states[entity] = {"open": self._backend.is_open(entity)}
-        return states
-
-    def _observation(self) -> dict[str, Any]:
-        obs = self._session.observe()
-        return {
-            "instruction": obs.instruction,
-            "planning_step": obs.planning_step,
-            "max_planning_steps": obs.max_planning_steps,
-            "previous_action_result": obs.previous_action_result,
-            "available_skills": list(obs.available_skills),
-            # candidate protocol (action_interface.mode == candidate):
-            # semantic+state-valid, visible objects only, no feasibility info
-            "candidate_skills": list(obs.candidate_skills),
-            "image_png_b64": _rgb_to_png_b64(obs.rgb),
-        }
+            self._session = BenchmarkSession(self._backend, self._scenario)
 
     # --------------------------------------------------------------- contract
 
     def reset(self) -> dict[str, Any]:
-        self._session.reset()
+        observation = self._session.reset()
+        if self.mode is SessionMode.AGENT:
+            return {"episode_id": "episode_0", "observation": observation.model_dump()}
         return {
             "episode_id": self._scenario.id,
-            "robot_state": self._robot_state(),
-            "object_states": self._object_states(),
-            "observation": self._observation(),
+            "observation": self._oracle_observation(),
         }
 
     def step(self, action: dict[str, Any]) -> dict[str, Any]:
+        if self.mode is SessionMode.AGENT:
+            result = self._session.step(action)
+            return result.model_dump()
         result = self._session.act(action)
         return {
             "status": "SUCCESS"
@@ -102,11 +86,27 @@ class InteractiveSearchEnv:
                     for entity in self._scenario.initial_states
                 },
             },
-            "observation": self._observation(),
+            "observation": self._oracle_observation(),
         }
 
     def status(self) -> dict[str, Any]:
-        return {"episode_status": self._session.status().value}
+        return {"episode_status": self._session.status().value
+                if hasattr(self._session.status(), "value")
+                else self._session.status()}
+
+    # -------------------------------------------------------- ORACLE helper
+
+    def _oracle_observation(self) -> dict[str, Any]:
+        obs = self._session.observe()
+        return {
+            "instruction": obs.instruction,
+            "planning_step": obs.planning_step,
+            "max_planning_steps": obs.max_planning_steps,
+            "previous_action_result": obs.previous_action_result,
+            "available_skills": list(obs.available_skills),
+            "candidate_skills": list(obs.candidate_skills),
+            "image_png_b64": _rgb_to_png_b64(obs.rgb),
+        }
 
     def close(self) -> None:
         self._backend.close()

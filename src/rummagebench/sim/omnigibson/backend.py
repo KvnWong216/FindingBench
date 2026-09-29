@@ -764,3 +764,108 @@ class OmniGibsonBackend(SimBackend):
         except Exception:
             pass
         self._env = None
+
+    # ================================================== visual protocol (§7)
+
+    def capture_visual_frame(self):
+        """Synchronized private bundle: rgb + depth + seg_instance + camera
+        geometry, one render. The id->label map from env.get_obs() info gives
+        instance -> OmniGibson object name == benchmark entity name (§8.3:
+        handle/door/link instances are canonicalized to the owner by the
+        simulator itself)."""
+        from rummagebench.perception.frame_store import VisualFramePrivate
+        from rummagebench.perception.camera_geometry import default_intrinsics
+        from rummagebench.sim.omnigibson.observation import camera_extrinsics
+
+        obs_list, info = self._env.get_obs()
+        obs = obs_list[0]
+        robot_obs = obs.get(self._robot.name, {})
+        rgb = depth = seg = None
+        labels: dict[str, str] = {}
+        for _sensor, sensor_obs in robot_obs.items():
+            if not isinstance(sensor_obs, dict):
+                continue
+            if rgb is None and sensor_obs.get("rgb") is not None:
+                rgb = sensor_obs["rgb"]
+            if depth is None and sensor_obs.get("depth") is not None:
+                depth = sensor_obs["depth"]
+            if seg is None and sensor_obs.get("seg_instance") is not None:
+                seg = sensor_obs["seg_instance"]
+                mapping = info.get("seg_instance") or {}
+                for key, value in mapping.items():
+                    if isinstance(value, dict):
+                        value = value.get("class", "")
+                    labels[str(key)] = str(value)
+        if rgb is None:
+            raise RuntimeError("visual protocol: no RGB sensor in observation")
+
+        for name, arr in (("rgb", rgb), ("depth", depth), ("seg", seg)):
+            if arr is None:
+                continue
+            if hasattr(arr, "detach"):
+                arr = arr.detach().cpu().numpy()
+            if name == "rgb":
+                rgb = np.asarray(arr)
+                if rgb.ndim == 3 and rgb.shape[-1] == 4:
+                    rgb = rgb[..., :3]
+                rgb = rgb.astype(np.uint8)
+            elif name == "depth":
+                depth = np.asarray(arr, dtype=float)
+            else:
+                seg = np.asarray(arr)
+                if seg.ndim == 3 and seg.shape[-1] == 1:
+                    seg = seg[..., 0]
+
+        H, W = rgb.shape[:2]
+        if depth is None or depth.shape[:2] != (H, W):
+            depth = np.full((H, W), np.nan)
+        if seg is None or seg.shape[:2] != (H, W):
+            seg = np.zeros((H, W))
+
+        self._instance_labels = labels
+        sensors = []
+        try:
+            sensors = [k for k in robot_obs.keys() if k != "proprio"]
+        except Exception:
+            pass
+        T_world_camera = camera_extrinsics(self._env, self._robot.name,
+                                           sensors[0] if sensors else None)
+        return VisualFramePrivate(
+            frame_id="",  # assigned by the FrameStore
+            rgb=rgb,
+            depth=depth,
+            instance_segmentation=seg,
+            camera_intrinsics=default_intrinsics(W, H),
+            camera_extrinsics=T_world_camera,
+            image_width=W,
+            image_height=H,
+            depth_convention="z_depth",  # §8.5 integration test verifies
+        )
+
+    def instance_to_entity(self, instance) -> str | None:
+        labels = getattr(self, "_instance_labels", {})
+        label = labels.get(str(instance.item() if hasattr(instance, "item") else instance))
+        if not label or label.lower() in ("background", "unlabelled", "groundplane"):
+            return None
+        try:
+            if label in self.entity_names() or label in self._entity_infos:
+                return label
+        except Exception:
+            pass
+        return None
+
+    def entity_visible_pixels(self, frame, entity: str) -> int:
+        """Private visible-pixel count of `entity` in a captured frame."""
+        seg = np.asarray(frame.instance_segmentation)
+        target = None
+        labels = getattr(self, "_instance_labels", {})
+        for key, label in labels.items():
+            if label == entity:
+                target = key
+                break
+        if target is None:
+            return 0
+        try:
+            return int(np.count_nonzero(seg == int(target)))
+        except (TypeError, ValueError):
+            return int(np.count_nonzero(seg == target))

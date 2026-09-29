@@ -1,69 +1,260 @@
 #!/usr/bin/env python3
-"""FindingBench interactive play server — the human entry point.
+"""FindingBench human play UI — the final visual interaction protocol.
 
-    CUDA_VISIBLE_DEVICES=5 python scripts/serve_play.py [--scenario knife_search_001] [--port 8090]
+    CUDA_VISIBLE_DEVICES=5 python scripts/serve_play.py [--scenario ...] [--port 8090]
 
-Boots the real simulator (BEHAVIOR-1K + OmniGibson), then serves a browser
-UI on http://0.0.0.0:<port>:
+Same information boundary as the evaluated agent (§21): the player sees the
+current RGB, the task, eight skill buttons and four-class feedback — never
+entity names, target lists, feasibility state or simulator labels.
 
-  - egocentric head-cam view, with a small task card in the TOP-LEFT corner
-    (instruction + step budget + last action verdict)
-  - BOTTOM bar: one square button per available skill type — icon in the
-    center, small caption underneath (door icon + "open" for OPEN, etc.).
-    Button layout DENSITY tracks the size of the grounded action space A_t:
-    a handful of skills -> large sparse buttons, many -> a dense grid.
-  - click behavior: object-directed skills (OPEN/CLOSE/GRASP) execute
-    directly when exactly one target is grounded; if a skill needs a
-    parameter (NAV destination, or several candidate objects) a dialog pops
-    up listing the currently grounded targets to choose from.
-  - RESET button restarts the episode from the compiled initial state.
+    MOVE  -> dialog asking signed distance in cm
+    TURN  -> dialog asking signed angle in degrees
+    OPEN / CLOSE / GRASP / PLACE / OBSERVE
+          -> crosshair mode: click the current RGB; the normalized point plus
+             the current frame_id are submitted automatically
+    REPORT_DONE -> no parameter
 
-No embodiment parameters or interaction regions are shown: the player sees
-exactly what the benchmark exposes — the egocentric view and A_t.
+OBSERVE results render as a non-interactive gallery strip; auxiliary views
+are never valid point-reference frames.
 """
 
 import argparse
 import base64
 import json
-import re
 import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
 
-SKILL_ORDER = ["NAV", "OPEN", "CLOSE", "GRASP", "PLACE"]
-
 ICONS = {
-    "NAV": '<svg viewBox="0 0 48 48"><path d="M24 6 38 40 24 32 10 40Z" fill="none" stroke="#0f6e4e" stroke-width="3" stroke-linejoin="round"/><circle cx="24" cy="23" r="3" fill="#0f6e4e"/></svg>',
+    "MOVE": '<svg viewBox="0 0 48 48"><path d="M8 24h26m0 0-8-8m8 8-8 8M38 14v20" fill="none" stroke="#0f6e4e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    "TURN": '<svg viewBox="0 0 48 48"><path d="M38 24a14 14 0 1 1-6-11.5M32 6v7h7" fill="none" stroke="#0f6e4e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     "OPEN": '<svg viewBox="0 0 48 48"><path d="M12 6h20a2 2 0 0 1 2 2v32a2 2 0 0 1-2 2H12" fill="none" stroke="#0f6e4e" stroke-width="3"/><path d="M34 14h8v20h-8" fill="none" stroke="#0f6e4e" stroke-width="3"/><circle cx="29" cy="24" r="2.5" fill="#0f6e4e"/></svg>',
     "CLOSE": '<svg viewBox="0 0 48 48"><rect x="12" y="6" width="24" height="36" rx="2" fill="none" stroke="#0f6e4e" stroke-width="3"/><circle cx="30" cy="24" r="2.5" fill="#0f6e4e"/><path d="M40 8l-6 6M40 40l-6-6" stroke="#b3261e" stroke-width="3"/></svg>',
     "GRASP": '<svg viewBox="0 0 48 48"><path d="M14 26V14a3 3 0 0 1 6 0v8m0-10a3 3 0 0 1 6 0v10m0-12a3 3 0 0 1 6 0v12m0-8a3 3 0 0 1 6 0v10c0 8-5 14-12 14h-2c-6 0-10-4-10-10v-6" fill="none" stroke="#0f6e4e" stroke-width="3" stroke-linecap="round"/></svg>',
     "PLACE": '<svg viewBox="0 0 48 48"><path d="M24 8v18m0 0-7-7m7 7 7-7" fill="none" stroke="#0f6e4e" stroke-width="3" stroke-linecap="round"/><path d="M8 32v6a4 4 0 0 0 4 4h24a4 4 0 0 0 4-4v-6" fill="none" stroke="#0f6e4e" stroke-width="3" stroke-linecap="round"/></svg>',
+    "OBSERVE": '<svg viewBox="0 0 48 48"><path d="M4 24s8-12 20-12 20 12 20 12-8 12-20 12S4 24 4 24Z" fill="none" stroke="#0f6e4e" stroke-width="3"/><circle cx="24" cy="24" r="6" fill="none" stroke="#0f6e4e" stroke-width="3"/></svg>',
+    "REPORT_DONE": '<svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="17" fill="none" stroke="#0f6e4e" stroke-width="3"/><path d="M15 24l6 6 12-13" fill="none" stroke="#0f6e4e" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
 }
 
-INTERACTIVE_TYPES = {"OPEN", "CLOSE", "GRASP"}  # direct-execute when unambiguous
+POINT_SKILLS = ["OPEN", "CLOSE", "GRASP", "PLACE", "OBSERVE"]
 
-SKILL_RE = re.compile(r"^([A-Z]+)\((.*)\)$")
+PAGE = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FindingBench — Play</title>
+<style>
+  :root { --ink:#182028; --accent:#0f6e4e; --bad:#b3261e; --warn:#b26a00; }
+  html,body { background:#f2f4f3; color:var(--ink); margin:0;
+              font-family:'Segoe UI',system-ui,sans-serif; }
+  .wrap { max-width:880px; margin:0 auto; padding:10px 12px 30px; }
+  header { display:flex; align-items:baseline; gap:14px; padding:6px 2px 10px; }
+  header h1 { font-size:1.15em; margin:0; color:var(--accent); }
+  header .st { font-size:0.9em; color:#555; }
+  #view { position:relative; background:#000; border-radius:8px; overflow:hidden; }
+  #view img { display:block; width:100%; }
+  #view.selecting { cursor:crosshair; outline:3px solid var(--warn); }
+  #task { position:absolute; top:10px; left:10px; background:rgba(10,14,12,.82);
+          color:#e8ffe9; border-radius:8px; padding:8px 12px; max-width:62%;
+          font-size:0.82em; line-height:1.45; }
+  #task .t { color:#7dffb0; font-weight:600; }
+  #verdict { position:absolute; top:10px; right:10px; font-size:0.75em;
+             background:rgba(10,14,12,.82); border-radius:8px;
+             padding:6px 10px; max-width:40%; text-align:right; color:#eee; }
+  .v-executed { color:#7dffb0; } .v-invalid { color:#ffd479; }
+  .v-capability { color:#9ecbff; } .v-unsafe { color:#ff9c93; }
+  #skills { margin-top:12px; }
+  #skills .lbl { font-size:0.78em; color:#667; margin-bottom:6px; }
+  #btns { display:flex; flex-wrap:wrap; gap:10px; }
+  .sk { width:84px; aspect-ratio:1; border:1.5px solid #cdd6d1; border-radius:12px;
+        background:#fff; cursor:pointer; display:flex; flex-direction:column;
+        align-items:center; justify-content:center; gap:2px; padding:4px;
+        transition:transform .06s, border-color .06s; }
+  .sk:hover { border-color:var(--accent); transform:translateY(-2px); }
+  .sk.active { border-color:var(--warn); background:#fff8ef; }
+  .sk svg { width:58%; height:58%; }
+  .sk .cap { font-size:0.58em; color:#445; letter-spacing:.03em; text-align:center; }
+  .sk:disabled { opacity:.45; cursor:wait; }
+  #gallery { display:none; margin-top:10px; gap:8px; overflow-x:auto; padding-bottom:4px; }
+  #gallery img { height:130px; border:1px solid #ccc; border-radius:6px; pointer-events:none; }
+  #modal { position:fixed; inset:0; background:rgba(20,26,24,.55); display:none;
+           align-items:center; justify-content:center; }
+  #modal .box { background:#fff; border-radius:12px; padding:18px;
+                width:min(420px, 92%); }
+  #modal h3 { margin:2px 0 12px; font-size:1em; }
+  #modal input { width:100%; box-sizing:border-box; padding:10px; font-size:1em;
+                 border:1.2px solid #cdd6d1; border-radius:8px; margin-bottom:4px; }
+  #modal .hint { font-size:0.78em; color:#667; margin:2px 0 10px; }
+  #modal .row { display:flex; gap:8px; }
+  #modal button { flex:1; padding:10px; border-radius:8px; border:1.2px solid #cdd6d1;
+                  background:#fafcfb; cursor:pointer; font-size:0.9em; }
+  #modal .go { background:var(--accent); color:#fff; border-color:var(--accent); }
+  #boot { padding:40px; text-align:center; color:#567; font-size:0.95em; }
+  .spin { display:inline-block; width:18px; height:18px; border:3px solid #cde;
+          border-top-color:var(--accent); border-radius:50%;
+          animation:sp 1s linear infinite; vertical-align:-4px; margin-right:8px; }
+  @keyframes sp { to { transform:rotate(360deg); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>FindingBench · Play</h1>
+    <span class="st" id="status">booting…</span>
+  </header>
+  <div id="view">
+    <div id="boot"><span class="spin"></span>launching the simulator (a few minutes)…</div>
+    <img id="cam" alt="egocentric view" style="display:none"
+         data-tip="click a point to target the selected skill">
+    <div id="task" style="display:none">
+      <span class="t" id="instruction"></span><br>
+      <span id="steps"></span><br>
+      <span id="mode" style="color:#ffd479"></span>
+    </div>
+    <div id="verdict" style="display:none"></div>
+  </div>
+  <div id="gallery"></div>
+  <div id="skills">
+    <div class="lbl">skill library — object skills target the current frame by click</div>
+    <div id="btns"></div>
+  </div>
+</div>
+<div id="modal"><div class="box">
+  <h3 id="m-title"></h3>
+  <div id="m-body"></div>
+</div></div>
+<script>
+const ICONS = __ICONS__;
+const POINT_SKILLS = ["OPEN", "CLOSE", "GRASP", "PLACE", "OBSERVE"];
+const SKILLS = ["MOVE", "TURN", "OPEN", "CLOSE", "GRASP", "PLACE", "OBSERVE", "REPORT_DONE"];
+let cur = null, pendingSkill = null, busy = false, lastVerdictKey = null;
 
+function $g(id) { return document.getElementById(id); }
+function setBusy(b) {
+  busy = b;
+  document.querySelectorAll(".sk").forEach(el => el.disabled = b);
+}
+const VCLASS = { EXECUTED: "v-executed", INVALID_ACTION: "v-invalid",
+                 OUT_OF_CAPABILITY: "v-capability", UNSAFE: "v-unsafe" };
 
-def parse_skills(available: list[str]) -> dict[str, list[str]]:
-    grouped: dict[str, list[str]] = {}
-    for entry in available or []:
-        m = SKILL_RE.match(entry)
-        if m:
-            grouped.setdefault(m.group(1), []).append(m.group(2))
-    return grouped
+function renderSkills() {
+  const btns = $g("btns");
+  btns.innerHTML = "";
+  SKILLS.forEach(t => {
+    const b = document.createElement("button");
+    b.className = "sk" + (pendingSkill === t ? " active" : "");
+    b.disabled = busy;
+    b.innerHTML = ICONS[t] + `<span class="cap">${t.replace("_", " ").toLowerCase()}</span>`;
+    b.onclick = () => onSkill(t);
+    btns.appendChild(b);
+  });
+}
+
+function onSkill(t) {
+  if (busy) return;
+  if (t === "REPORT_DONE") { submit({ skill: "REPORT_DONE" }); return; }
+  if (t === "MOVE") return askNumber(t, "signed distance in cm", "positive = forward, negative = backward", 40);
+  if (t === "TURN") return askNumber(t, "signed angle in degrees", "positive = left (CCW), negative = right (CW)", 45);
+  // point skills: enter crosshair mode
+  pendingSkill = (pendingSkill === t) ? null : t;
+  $g("view").classList.toggle("selecting", pendingSkill !== null);
+  $g("mode").textContent = pendingSkill ? `${pendingSkill}: click a point on the image` : "";
+  renderSkills();
+}
+
+function askNumber(skill, label, hint, def) {
+  const m = $g("modal");
+  $g("m-title").textContent = skill;
+  $g("m-body").innerHTML =
+    `<input id="m-val" type="number" step="5" value="${def}">` +
+    `<div class="hint">${hint} — legal magnitude ${skill === "MOVE" ? "5..100 cm" : "5..180 deg"}</div>` +
+    `<div class="row"><button id="m-cancel">cancel</button><button id="m-go" class="go">execute</button></div>`;
+  m.style.display = "flex";
+  $g("m-cancel").onclick = () => m.style.display = "none";
+  $g("m-go").onclick = () => {
+    const v = parseFloat($g("m-val").value);
+    m.style.display = "none";
+    if (Number.isNaN(v)) return;
+    submit(skill === "MOVE" ? { skill, distance_cm: v } : { skill, angle_deg: v });
+  };
+}
+
+$g("cam").addEventListener("click", (ev) => {
+  if (!pendingSkill || busy || !cur) return;
+  const rect = ev.target.getBoundingClientRect();
+  const x = (ev.clientX - rect.left) / rect.width;
+  const y = (ev.clientY - rect.top) / rect.height;
+  const skill = pendingSkill;
+  pendingSkill = null;
+  $g("view").classList.remove("selecting");
+  $g("mode").textContent = "";
+  renderSkills();
+  submit({ skill, point: { frame_id: cur.frame_id, x: +x.toFixed(4), y: +y.toFixed(4) } });
+});
+
+async function submit(action) {
+  setBusy(true);
+  lastVerdictKey = cur ? JSON.stringify(cur.feedback) : null;
+  try {
+    const r = await fetch("/act", { method: "POST",
+      headers: {"Content-Type": "application/json"}, body: JSON.stringify(action) });
+    const j = await r.json();
+    if (j.error) alert(j.error);
+  } catch (e) { /* transient */ }
+}
+
+function render(st) {
+  cur = st;
+  if (st.error) { $g("boot").innerHTML = "BOOT FAILED: " + st.error; return; }
+  if (!st.ready) return;
+  if (busy && lastVerdictKey !== null &&
+      JSON.stringify(st.feedback) !== lastVerdictKey) {
+    lastVerdictKey = null; setBusy(false);
+  }
+  if (st.pending === false && busy && lastVerdictKey !== null &&
+      JSON.stringify(st.feedback) === lastVerdictKey) {
+    // queued request vanished without feedback (engine error): unblock
+    lastVerdictKey = null; setBusy(false);
+  }
+  $g("boot").style.display = "none";
+  $g("cam").style.display = "block";
+  $g("task").style.display = "block";
+  if (st.image_png_b64) $g("cam").src = "data:image/png;base64," + st.image_png_b64;
+  $g("instruction").textContent = st.instruction;
+  $g("steps").textContent = "step " + st.planning_step + " / " + st.max_planning_steps;
+  $g("status").textContent = "episode: " + st.episode_status;
+  const v = $g("verdict");
+  if (st.feedback) {
+    const f = st.feedback;
+    v.style.display = "block";
+    v.innerHTML = `<span class="${VCLASS[f.code] || ""}">${f.code}</span>`;
+  } else { v.style.display = "none"; }
+  const gal = $g("gallery");
+  if (st.observe_views && st.observe_views.length) {
+    gal.style.display = "flex";
+    gal.innerHTML = st.observe_views
+      .map(vw => `<img src="data:image/png;base64,${vw.image_png_b64}">`).join("");
+  } else { gal.style.display = "none"; gal.innerHTML = ""; }
+  renderSkills();
+}
+
+async function refresh() {
+  try { render(await (await fetch("/state")).json()); } catch (e) { /* transient */ }
+}
+renderSkills();
+refresh();
+setInterval(refresh, 2000);
+</script>
+</body>
+</html>"""
 
 
 class PlayState:
-    """Shared state between the sim worker and the HTTP handlers.
-
-    OmniGibson/Kit calls MUST run on the thread that created the app, so the
-    HTTP handlers only ENQUEUE actions; the main thread (which booted the
-    simulator) executes them. /act therefore returns {"queued": true} and the
-    UI polls /state until the sequence counter advances.
-    """
+    """Shared state. HTTP threads ENQUEUE; the main thread (which booted the
+    simulator) executes — Kit calls deadlock off their creating thread."""
 
     def __init__(self, scenario_path: str, seed: int):
         self.scenario_path = scenario_path
@@ -72,152 +263,89 @@ class PlayState:
         self.ready = False
         self.error: str | None = None
         self.env = None
-        self.snapshot: dict = {}
-        self.last_result: dict | None = None
+        self.snapshot: dict = {"ready": False}
         self.seq = 0
-        self._pending: tuple[str, str] | None = None
+        self._pending: dict | None = None
 
     def boot(self) -> None:
         from rummagebench.environment.env import InteractiveSearchEnv
 
         try:
-            env = InteractiveSearchEnv(self.scenario_path, seed=self.seed)
-            reset = env.reset()
+            env = InteractiveSearchEnv(self.scenario_path, seed=self.seed,
+                                       mode="agent",
+                                       trace_path="runs/play_trace.jsonl")
+            obs = env.reset()["observation"]
             self.env = env
-            self.snapshot = self._pack(reset["observation"], status="RUNNING")
+            self.snapshot = obs
+            self.snapshot.update({"ready": True, "pending": False})
             self.ready = True
             print("== simulator ready", flush=True)
-        except Exception as e:  # surface boot failures to the browser
+        except Exception as e:
             self.error = f"{type(e).__name__}: {e}"
             print(f"== BOOT FAILED: {self.error}", flush=True)
             raise
 
-    def _pack(self, observation: dict, status: str) -> dict:
-        return {
-            "instruction": observation["instruction"],
-            "planning_step": observation["planning_step"],
-            "max_planning_steps": observation["max_planning_steps"],
-            "available_skills": observation["available_skills"],
-            "previous_action_result": observation.get("previous_action_result"),
-            "image_png_b64": observation.get("image_png_b64"),
-            "episode_status": status,
-        }
-
-    # ------------------------------------------------------- HTTP-facing API
-
-    def enqueue(self, skill: str, target: str) -> dict:
+    def enqueue(self, action: dict) -> dict:
         with self.lock:
             if not self.ready:
                 return {"error": "simulator not ready"}
             if self._pending is not None:
-                return {"error": "an action is already executing", "queued": False}
-            self._pending = (skill, target)
-            return {"queued": True}
-
-    def reset_request(self) -> dict:
-        with self.lock:
-            if not self.ready:
-                return {"error": "simulator not ready"}
-            if self._pending is not None:
-                return {"error": "an action is already executing", "queued": False}
-            self._pending = ("RESET", "")
+                return {"error": "an action is already executing"}
+            self._pending = action
             return {"queued": True}
 
     def state_payload(self) -> dict:
         payload = dict(self.snapshot)
         payload["ready"] = self.ready
         payload["error"] = self.error
-        payload["last_result"] = self.last_result
-        payload["seq"] = self.seq
         payload["pending"] = self._pending is not None
+        payload["seq"] = self.seq
         return payload
 
-    # ---------------------------------------------------- main-thread worker
-
     def run_worker(self) -> None:
-        """Runs on the MAIN thread forever: executes queued sim calls and
-        refreshes the egocentric view between actions."""
         import time
 
-        last_view = 0.0
+        last_view = time.time()
         while True:
-            now = time.time()
-            pending = self._pending
-            if pending is not None:
-                skill, target = pending
-                self._pending = None
+            action, self._pending = self._pending, None
+            if action is not None:
                 try:
-                    if skill == "RESET":
-                        reset = self.env.reset()
-                        self.snapshot = self._pack(reset["observation"], status="RUNNING")
-                        self.last_result = {
-                            "skill": None, "target": None, "status": "RESET",
-                            "reason": None, "episode_status": "RUNNING",
-                        }
-                    else:
-                        action = {
-                            "skill": skill,
-                            "target": {
-                                "type": "place" if skill == "NAV" else "entity",
-                                "value": target,
-                            },
-                        }
-                        result = self.env.step(action)
-                        self.snapshot = self._pack(
-                            result["observation"], status=result["episode_status"]
-                        )
-                        self.last_result = {
-                            "skill": skill,
-                            "target": target,
-                            "status": result["status"],
-                            "reason": result["reason"],
-                            "episode_status": result["episode_status"],
-                            "planning_step": result["planning_step"],
-                            "state_update": result["state_update"],
-                        }
-                    self.seq += 1
-                    last_view = now  # action responses carry a fresh frame
+                    result = self.env.step(action)
+                    self.snapshot = result["observation"]
+                    self.snapshot.update({"ready": True, "pending": False})
                 except Exception as e:
-                    self.last_result = {
-                        "skill": skill, "target": target, "status": "ERROR",
-                        "reason": f"{type(e).__name__}: {e}",
-                    }
-                    self.seq += 1
                     print(f"== action error: {e}", flush=True)
-            elif self.ready and now - last_view > 5.0:
-                # idle refresh: the view keeps tracking the settling scene
-                try:
-                    self.snapshot = self._pack(
-                        self.env._observation(), status=self.snapshot.get("episode_status", "RUNNING")
-                    )
-                    self.seq += 1
-                except Exception:
-                    pass
-                last_view = now
+                self.seq += 1
+                last_view = time.time()
+            elif self.ready and time.time() - last_view > 5.0:
+                self.seq += 1  # nudge the UI; snapshot unchanged between steps
+                last_view = time.time()
             time.sleep(0.2)
 
 
 class Handler(BaseHTTPRequestHandler):
-    state: PlayState  # injected via server attribute
+    state: PlayState
 
-    # silence per-request logging
     def log_message(self, *args):
         pass
 
-    def _send(self, code: int, body: bytes, ctype: str) -> None:
+    def _json(self, obj: dict, code: int = 200) -> None:
+        body = json.dumps(obj).encode()
         self.send_response(code)
-        self.send_header("Content-Type", ctype)
+        self.send_header("Content-Type", "application/json")
         self.send_header("Content-Length", str(len(body)))
         self.send_header("Cache-Control", "no-store")
         self.end_headers()
         self.wfile.write(body)
 
-    def _json(self, obj: dict, code: int = 200) -> None:
-        self._send(code, json.dumps(obj).encode(), "application/json")
-
     def do_GET(self) -> None:
         if self.path in ("/", "/index.html"):
-            self._send(200, PAGE.encode(), "text/html; charset=utf-8")
+            body = PAGE.encode()
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
         elif self.path == "/state":
             self._json(self.state.state_payload())
         else:
@@ -231,237 +359,12 @@ class Handler(BaseHTTPRequestHandler):
             self._json({"error": "bad json"}, 400)
             return
         if self.path == "/act":
-            skill, target = body.get("skill"), body.get("target")
-            if not skill or target is None:
-                self._json({"error": "skill and target required"}, 400)
+            if not body.get("skill"):
+                self._json({"error": "skill required"}, 400)
                 return
-            self._json(self.state.enqueue(skill, target))
-        elif self.path == "/reset":
-            self._json(self.state.reset_request())
+            self._json(self.state.enqueue(body))
         else:
             self._json({"error": "not found"}, 404)
-
-
-PAGE = """<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FindingBench — Play</title>
-<style>
-  :root { --ink:#182028; --accent:#0f6e4e; --bad:#b3261e; --warn:#b26a00; }
-  html,body { background:#f2f4f3; color:var(--ink); margin:0;
-              font-family:'Segoe UI',system-ui,sans-serif; height:100%; }
-  .wrap { max-width:900px; margin:0 auto; padding:10px 12px 30px; }
-  header { display:flex; align-items:baseline; gap:14px; padding:6px 2px 10px; }
-  header h1 { font-size:1.15em; margin:0; color:var(--accent); }
-  header .st { font-size:0.9em; color:#555; }
-  header button { margin-left:auto; }
-  #view { position:relative; background:#000; border-radius:8px; overflow:hidden;
-          min-height:340px; }
-  #view img { display:block; width:100%; }
-  #task { position:absolute; top:10px; left:10px; background:rgba(10,14,12,.82);
-          color:#e8ffe9; border-radius:8px; padding:8px 12px; max-width:62%;
-          font-size:0.82em; line-height:1.45; }
-  #task .t { color:#7dffb0; font-weight:600; }
-  #verdict { position:absolute; top:10px; right:10px; font-size:0.75em;
-             background:rgba(10,14,12,.82); color:#ffd; border-radius:8px;
-             padding:6px 10px; max-width:34%; text-align:right; }
-  .verdict-ok { color:#7dffb0; } .verdict-bad { color:#ff9c93; }
-  #skills { margin-top:12px; min-height:110px; }
-  #skills .lbl { font-size:0.78em; color:#667; margin-bottom:6px; }
-  #btns { display:grid; gap:10px; justify-content:start; }
-  #btns.d1 { grid-template-columns:repeat(auto-fill, 96px); }
-  #btns.d2 { grid-template-columns:repeat(auto-fill, 76px); }
-  #btns.d3 { grid-template-columns:repeat(auto-fill, 60px); gap:6px; }
-  .sk { width:100%; aspect-ratio:1; border:1.5px solid #cdd6d1; border-radius:12px;
-        background:#fff; cursor:pointer; display:flex; flex-direction:column;
-        align-items:center; justify-content:center; gap:2px; padding:4px;
-        transition:transform .06s, border-color .06s; position:relative; }
-  .sk:hover { border-color:var(--accent); transform:translateY(-2px); }
-  .sk:active { transform:translateY(0); }
-  .sk svg { width:62%; height:62%; }
-  .sk .cap { font-size:0.62em; color:#445; letter-spacing:.04em; }
-  .sk .n { position:absolute; top:3px; right:5px; font-size:0.58em; color:#899; }
-  .sk:disabled { opacity:.45; cursor:wait; }
-  #modal { position:fixed; inset:0; background:rgba(20,26,24,.55); display:none;
-           align-items:center; justify-content:center; }
-  #modal .box { background:#fff; border-radius:12px; padding:16px 18px;
-                max-width:520px; width:92%; max-height:70vh; overflow:auto; }
-  #modal h3 { margin:2px 0 10px; font-size:1em; }
-  #modal .opt { display:block; width:100%; text-align:left; margin:6px 0;
-                padding:9px 12px; border:1.2px solid #cdd6d1; border-radius:8px;
-                background:#fafcfb; cursor:pointer; font-size:0.9em;
-                font-family:Menlo,Consolas,monospace; }
-  #modal .opt:hover { border-color:var(--accent); background:#f0f7f4; }
-  #modal .cancel { background:none; border:none; color:#777; cursor:pointer;
-                   margin-top:8px; }
-  #boot { padding:40px; text-align:center; color:#567; font-size:0.95em; }
-  .spin { display:inline-block; width:18px; height:18px; border:3px solid #cde;
-          border-top-color:var(--accent); border-radius:50%;
-          animation:sp 1s linear infinite; vertical-align:-4px; margin-right:8px; }
-  @keyframes sp { to { transform:rotate(360deg); } }
-</style>
-</head>
-<body>
-<div class="wrap">
-  <header>
-    <h1>FindingBench · Play</h1>
-    <span class="st" id="status">booting…</span>
-    <button id="reset">RESET</button>
-  </header>
-  <div id="view">
-    <div id="boot"><span class="spin"></span>launching the simulator (scene build takes a few minutes)…</div>
-    <img id="cam" alt="egocentric view" style="display:none">
-    <div id="task" style="display:none">
-      <span class="t" id="instruction"></span><br>
-      <span id="steps"></span>
-    </div>
-    <div id="verdict" style="display:none"></div>
-  </div>
-  <div id="skills">
-    <div class="lbl">available skills (A<sub>t</sub>) — the grounded action space</div>
-    <div id="btns"></div>
-  </div>
-</div>
-<div id="modal"><div class="box">
-  <h3 id="m-title"></h3>
-  <div id="m-opts"></div>
-  <button class="cancel" id="m-cancel">cancel</button>
-</div></div>
-<script>
-const INTERACTIVE = ["OPEN", "CLOSE", "GRASP"];
-const ICONS = __ICONS__;
-let busy = false, cur = null, busyKey = null;
-
-function $g(id) { return document.getElementById(id); }
-
-function setBusy(b) {
-  busy = b;
-  document.querySelectorAll(".sk").forEach(el => el.disabled = b);
-  $g("reset").disabled = b;
-}
-
-function verdictHtml(lr) {
-  if (!lr) return "";
-  if (lr.status === "RESET") return "episode reset";
-  const ok = lr.status === "SUCCESS";
-  const cls = ok ? "verdict-ok" : "verdict-bad";
-  let s = `<span class="${cls}">${lr.skill}(${lr.target ?? ""})<br>${ok ? "SUCCESS" : "FAILURE · " + lr.reason}</span>`;
-  if (lr.episode_status && lr.episode_status !== "RUNNING")
-    s += `<br>EPISODE: <b>${lr.episode_status}</b>`;
-  return s;
-}
-
-function render(st) {
-  cur = st;
-  if (st.error) { $g("boot").innerHTML = "BOOT FAILED: " + st.error; return; }
-  if (!st.ready) return;
-  // actions are queued server-side: busy clears when last_result changes
-  if (busy && busyKey !== null) {
-    const k = JSON.stringify(st.last_result);
-    if (k !== busyKey) { busyKey = null; setBusy(false); }
-    else if (st.pending === false) { busyKey = null; setBusy(false); }
-  }
-  $g("boot").style.display = "none";
-  $g("cam").style.display = "block";
-  $g("task").style.display = "block";
-  if (st.image_png_b64) $g("cam").src = "data:image/png;base64," + st.image_png_b64;
-  $g("instruction").textContent = st.instruction;
-  $g("steps").textContent = "step " + st.planning_step + " / " + st.max_planning_steps;
-  const es = st.episode_status;
-  $g("status").textContent = "episode: " + es;
-  const v = $g("verdict");
-  const vh = verdictHtml(st.last_result);
-  v.style.display = vh ? "block" : "none";
-  v.innerHTML = vh;
-  renderSkills(st.available_skills);
-}
-
-function renderSkills(available) {
-  const grouped = {};
-  (available || []).forEach(e => {
-    const m = e.match(/^([A-Z]+)\\((.*)\\)$/);
-    if (m) (grouped[m[1]] = grouped[m[1]] || []).push(m[2]);
-  });
-  const types = __SKILL_ORDER__.filter(t => grouped[t]);
-  const nInstances = (available || []).length;
-  const dens = nInstances <= 4 ? "d1" : (nInstances <= 8 ? "d2" : "d3");
-  const btns = $g("btns");
-  btns.className = dens;
-  btns.innerHTML = "";
-  types.forEach(t => {
-    const b = document.createElement("button");
-    b.className = "sk";
-    b.disabled = busy;
-    b.innerHTML = ICONS[t] + `<span class="cap">${t.toLowerCase()}</span>` +
-      (grouped[t].length > 1 ? `<span class="n">×${grouped[t].length}</span>` : "");
-    b.onclick = () => onSkill(t, grouped[t]);
-    btns.appendChild(b);
-  });
-  if (!types.length)
-    btns.innerHTML = "<span style='color:#899;font-size:.85em'>no grounded skills — episode over? press RESET</span>";
-}
-
-function onSkill(type, targets) {
-  if (busy) return;
-  // interactive object skill with exactly one grounded target: direct execute
-  if (INTERACTIVE.includes(type) && targets.length === 1) {
-    act(type, targets[0]);
-    return;
-  }
-  // otherwise (NAV/PLACE destinations, or several candidate objects):
-  // pop a dialog to provide the parameter
-  const m = $g("modal");
-  $g("m-title").textContent = type + " — choose target";
-  const opts = $g("m-opts");
-  opts.innerHTML = "";
-  targets.forEach(t => {
-    const b = document.createElement("button");
-    b.className = "opt";
-    b.textContent = t;
-    b.onclick = () => { m.style.display = "none"; act(type, t); };
-    opts.appendChild(b);
-  });
-  m.style.display = "flex";
-}
-
-async function act(skill, target) {
-  if (busy) return;
-  setBusy(true);
-  busyKey = JSON.stringify(cur ? cur.last_result : null);
-  try {
-    const r = await fetch("/act", { method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({ skill, target }) });
-    const j = await r.json();
-    if (j.error) { alert(j.error); busyKey = null; setBusy(false); }
-  } catch (e) { busyKey = null; setBusy(false); }
-}
-
-$g("reset").onclick = async () => {
-  if (busy) return;
-  setBusy(true);
-  busyKey = JSON.stringify(cur ? cur.last_result : null);
-  try {
-    const r = await fetch("/reset", { method: "POST" });
-    const j = await r.json();
-    if (j.error) { alert(j.error); busyKey = null; setBusy(false); }
-  } catch (e) { busyKey = null; setBusy(false); }
-};
-$g("m-cancel").onclick = () => $g("modal").style.display = "none";
-
-async function refresh() {
-  try {
-    const r = await fetch("/state");
-    render(await r.json());
-  } catch (e) { /* transient */ }
-}
-refresh();
-setInterval(refresh, 2500);
-</script>
-</body>
-</html>"""
 
 
 def main() -> int:
@@ -476,11 +379,9 @@ def main() -> int:
         scenario_path = str(REPO / args.scenario)
 
     state = PlayState(scenario_path, seed=args.seed)
-    page = PAGE.replace("__ICONS__", json.dumps(ICONS)).replace(
-        "__SKILL_ORDER__", json.dumps(SKILL_ORDER)
-    )
-    globals()["PAGE"] = page
     Handler.state = state
+    page = PAGE.replace("__ICONS__", json.dumps(ICONS))
+    globals()["PAGE"] = page
 
     server = ThreadingHTTPServer(("0.0.0.0", args.port), Handler)
     threading.Thread(target=server.serve_forever, daemon=True).start()

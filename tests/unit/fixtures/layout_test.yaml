@@ -1,0 +1,15 @@
+# Deterministic layout-test config (unit-test fixture): tight regions.
+layout:
+  id: layout_test
+  base_scene: Beechwood_0_int
+  storage_units: 3
+  work_surfaces: 1
+  clutter_per_surface: 2
+  min_furniture_clearance_m: 0.10
+  min_robot_clearance_m: 0.55
+  max_sampling_attempts: 500
+  placement_regions:
+    - [-4.0, -10.0, 0.0, -7.0]
+    - [0.0, -7.0, 3.5, -5.0]
+    - [-2.0, -5.2, 1.0, -3.8]
+  robot_spawn: [0.75, -8.15]

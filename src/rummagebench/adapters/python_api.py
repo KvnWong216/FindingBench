@@ -50,11 +50,18 @@ def create_session(
     run_dir: str | Path | None = None,
     seed: int = 0,
     trace_path: str | Path | None = None,
-) -> BenchmarkSession:
+    mode: str = "agent",
+):
     """Build the simulator for this scenario and return a ready session.
 
     Call session.reset() before acting. ``trace_path`` enables the §4
     grounding trace (runs/<run_id>/grounding_trace.jsonl).
+
+    mode="agent" (default): the final visual interaction protocol — fixed
+    8-skill library, 2D-point targeting, four-class feedback, public
+    observation only (§5). mode="oracle": the legacy privileged
+    BenchmarkSession for scripted acceptance agents, certification and the
+    oracle planner.
     """
     scenario = load_scenario(scenario_path)
     backend = OmniGibsonBackend(seed=seed)
@@ -63,4 +70,10 @@ def create_session(
     log_path = None
     if run_dir is not None:
         log_path = str(Path(run_dir) / "events.jsonl")
+    if mode == "agent":
+        from rummagebench.core.visual_session import VisualProtocolSession
+
+        session = VisualProtocolSession(backend, scenario)
+        session.set_trace(trace_path)
+        return session
     return BenchmarkSession(backend, scenario, log_path=log_path, trace_path=trace_path)

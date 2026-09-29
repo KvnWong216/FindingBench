@@ -240,3 +240,22 @@ class SimBackend(ABC):
         grounding stays available for action execution and evaluation).
         """
         return self.entity_names()
+
+    # -------------------------------------------------- visual protocol API
+
+    def capture_visual_frame(self):
+        """Synchronized private camera bundle (protocol §7): a
+        perception.frame_store.VisualFramePrivate with rgb + depth + instance
+        segmentation + camera intrinsics/extrinsics. Raises
+        NotImplementedError on backends without a visual protocol."""
+        raise NotImplementedError("visual protocol requires a camera backend")
+
+    def instance_to_entity(self, instance) -> str | None:
+        """Canonicalize a renderer instance (handle/door/link/child prim) to
+        the OWNING benchmark entity name, or None for background/unknown."""
+        return None
+
+    def entity_visible_pixels(self, frame, entity: str) -> int:
+        """Private pixel count of `entity` in a captured frame's instance
+        segmentation (OBSERVE viewpoint gating). Default: unavailable."""
+        return 0

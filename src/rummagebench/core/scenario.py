@@ -104,6 +104,10 @@ class RobotSpec(BaseModel):
     model: str = "r1pro"
     name: str = "robot_0"
     init_anchor: str
+    # §7: AGENT-mode scenarios request the synchronized private bundle by
+    # declaring obs_modalities: [rgb, depth, seg_instance] in the scenario
+    # (seg_semantic is auto-enabled by the sensor). Legacy scenarios stay
+    # rgb-only.
     obs_modalities: list[str] = Field(default_factory=lambda: ["rgb"])
     image_width: int = 224
     image_height: int = 224

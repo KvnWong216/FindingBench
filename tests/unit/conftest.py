@@ -16,6 +16,9 @@ from typing import Any
 
 import numpy as np
 import pytest
+from pathlib import Path
+
+FIXTURE = Path(__file__).parent / "fixtures" / "mini.yaml"
 
 from rummagebench.sim.base import (
     ArticulationInfo,
@@ -313,3 +316,101 @@ def fake_backend():
             ("drawer_A", "drawer_A_front"): ([3.45, 0.45, 0.0], [3.55, 0.55, 0.6]),
         },
     )
+
+
+# ============================================================================
+# Visual-protocol fixtures (final AGENT protocol): a FakeBackend with
+# synchronized synthetic camera frames (rgb/depth/seg_instance) so the whole
+# public-protocol pipeline runs WITHOUT the simulator.
+# ============================================================================
+
+FRAME_H = FRAME_W = 64
+
+
+class VisualFakeBackend(FakeBackend):
+    """FakeBackend + protocol §7 private frame capture.
+
+    Synthetic frames: each entity in `frame_entities` renders as a filled
+    square at a fixed pixel slot with constant depth 1.0 m; camera K default
+    90-deg HFOV, extrinsics identity, convention z_depth.
+    """
+
+    def __init__(self, *args, frame_entities=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.frame_entities = frame_entities or {}  # entity -> (u, v, w, h)
+        self._teleports: list[tuple] = []
+
+    def teleport_robot(self, anchor) -> None:
+        self._teleports.append((tuple(anchor.position), tuple(anchor.orientation)))
+        self._last_anchor_position = list(anchor.position)
+
+    def _synthetic_frame(self):
+        from rummagebench.perception.frame_store import VisualFramePrivate
+        from rummagebench.perception.camera_geometry import default_intrinsics
+
+        seg = np.zeros((FRAME_H, FRAME_W), dtype=np.int64)
+        depth = np.full((FRAME_H, FRAME_W), np.nan)
+        rgb = np.zeros((FRAME_H, FRAME_W, 3), dtype=np.uint8)
+        labels: dict[str, str] = {}
+        for idx, (entity, (u, v, w, h)) in enumerate(self.frame_entities.items(), start=2):
+            seg[v:v + h, u:u + w] = idx
+            depth[v:v + h, u:u + w] = 1.0
+            rgb[v:v + h, u:u + w] = (200, 200, 200)
+            labels[str(idx)] = entity
+        self._instance_labels = labels
+        return VisualFramePrivate(
+            frame_id="", rgb=rgb, depth=depth, instance_segmentation=seg,
+            camera_intrinsics=default_intrinsics(FRAME_W, FRAME_H),
+            camera_extrinsics=np.eye(4),
+            image_width=FRAME_W, image_height=FRAME_H,
+            depth_convention="z_depth",
+        )
+
+    # protocol API
+    def capture_visual_frame(self):
+        return self._synthetic_frame()
+
+    def instance_to_entity(self, instance):
+        labels = getattr(self, "_instance_labels", {})
+        label = labels.get(str(instance.item() if hasattr(instance, "item") else instance))
+        return label if label in self.entities else None
+
+    def entity_visible_pixels(self, frame, entity: str) -> int:
+        seg = np.asarray(frame.instance_segmentation)
+        for key, label in getattr(self, "_instance_labels", {}).items():
+            if label == entity:
+                return int(np.count_nonzero(seg == int(key)))
+        return 0
+
+
+@pytest.fixture
+def visual_backend(fake_backend):
+    """FakeBackend with the mini-fixture world + synthetic frames:
+    cabinet_B at left of frame, distractor_spoon at right, knife hidden
+    (not in frame: closed-container contents never render)."""
+    from rummagebench.core.scenario import load_scenario
+
+    vb = VisualFakeBackend(
+        fake_backend.entities,
+        fake_backend.anchors,
+        poses=fake_backend.poses,
+        aabbs=fake_backend.aabbs,
+        frame_entities={
+            "cabinet_B": (4, 24, 20, 20),
+            "distractor_spoon": (44, 24, 12, 12),
+        },
+    )
+    vb._scenario = load_scenario(FIXTURE)
+    return vb
+
+
+@pytest.fixture
+def visual_session(visual_backend):
+    from rummagebench.core.scenario import load_scenario
+    from rummagebench.core.visual_session import VisualProtocolSession
+
+    scenario = load_scenario(FIXTURE)
+    session = VisualProtocolSession(visual_backend, scenario)
+    session.set_trace(None)
+    session.reset()
+    return session

@@ -61,9 +61,9 @@ def _worker_main(conn, scenario_path: str, gpu_id: int) -> None:
     try:
         from rummagebench.adapters.python_api import create_session
 
-        session = create_session(scenario_path)
+        session = create_session(scenario_path, mode="agent")
         obs = session.reset()
-        conn.send({"ok": True, **_obs_payload(obs)})
+        conn.send({"ok": True, "reset": obs})
     except Exception as e:
         conn.send({"ok": False, "error": f"{type(e).__name__}: {e}"})
         return
@@ -75,24 +75,21 @@ def _worker_main(conn, scenario_path: str, gpu_id: int) -> None:
             return
         try:
             if cmd == "observe":
-                conn.send({"ok": True, **_obs_payload(session.observe())})
+                # AGENT contract: state payload IS the public observation
+                conn.send({"ok": True, "observation": session.state_payload()})
             elif cmd == "act":
-                result = session.act(payload)
+                result = session.step(payload)
                 conn.send(
                     {
                         "ok": True,
-                        "episode_status": result.episode_status.value,
+                        "episode_status": result.episode_status,
                         "planning_step": result.planning_step,
-                        "action": result.action,
-                        "executed": result.executed,
-                        "failure_reason": result.failure_reason.value,
-                        "events": result.events,
-                        "previous_action_result": result.observation.previous_action_result,
-                        "image_png_b64": _rgb_to_png_b64(result.observation.rgb),
+                        "feedback": result.feedback.model_dump(),
+                        "observation": result.observation.model_dump(),
                     }
                 )
             elif cmd == "status":
-                conn.send({"ok": True, "status": session.status().value})
+                conn.send({"ok": True, "status": session.status()})
             elif cmd == "exit":
                 conn.send({"ok": True})
                 return

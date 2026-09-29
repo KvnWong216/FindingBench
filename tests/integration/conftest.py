@@ -24,7 +24,9 @@ def sim_session(tmp_path_factory):
     from rummagebench.adapters.python_api import create_session
 
     run_dir = tmp_path_factory.mktemp("simrun")
-    session = create_session(SCENARIO, run_dir=run_dir, seed=0)
+    # legacy privileged session: scripted acceptance / reset checks (§5
+    # requires oracle tests to opt in explicitly)
+    session = create_session(SCENARIO, run_dir=run_dir, seed=0, mode="oracle")
     session.reset()
     yield session
     # no og.shutdown here: Kit teardown hangs/segfaults; pytest writes its
