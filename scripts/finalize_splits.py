@@ -25,6 +25,7 @@ def main() -> int:
 
     import yaml
 
+    from rummagebench.core.scenario import load_scenario
     from rummagebench.evaluation.certification import (
         depth_statistics,
         load_certificate,
