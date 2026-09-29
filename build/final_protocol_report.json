@@ -1,0 +1,90 @@
+{
+  "git_head_before": "eb08680d7a63443247ee6e6c384659a13366d7c1",
+  "git_head_after": "1aff1b0af66b15344dc5ae3c75a19e83cf1cee13",
+  "files_added": [
+    "configs/layouts/asset_pool_v1.yaml",
+    "configs/layouts/kitchen_search_v1.yaml",
+    "scripts/final_protocol_report.py",
+    "scripts/generate_layout.py",
+    "src/rummagebench/authoring/layout/__init__.py",
+    "src/rummagebench/authoring/layout/asset_catalog.py",
+    "src/rummagebench/authoring/layout/generator.py",
+    "src/rummagebench/authoring/layout/manifest.py",
+    "src/rummagebench/authoring/layout/spec.py",
+    "src/rummagebench/authoring/layout/validator.py",
+    "src/rummagebench/core/public_types.py",
+    "src/rummagebench/core/visual_session.py",
+    "src/rummagebench/perception/__init__.py",
+    "src/rummagebench/perception/camera_geometry.py",
+    "src/rummagebench/perception/frame_store.py",
+    "src/rummagebench/perception/visual_bridge.py",
+    "src/rummagebench/skills/move.py",
+    "src/rummagebench/skills/observe.py",
+    "src/rummagebench/skills/report_done.py",
+    "tests/integration/test_visual_bridge_sim.py",
+    "tests/unit/fixtures/layout_test.yaml",
+    "tests/unit/test_agent_information_boundary.py",
+    "tests/unit/test_camera_geometry.py",
+    "tests/unit/test_layout_generator.py",
+    "tests/unit/test_observe_skill.py",
+    "tests/unit/test_public_protocol.py",
+    "tests/unit/test_relative_motion.py",
+    "tests/unit/test_report_done.py",
+    "tests/unit/test_visual_bridge.py",
+    "tests/unit/test_workspace_stages.py"
+  ],
+  "files_modified": [
+    "README.md",
+    "scenarios/knife_search_001/scenario.yaml",
+    "scripts/serve_play.py",
+    "src/rummagebench/adapters/mcp_server.py",
+    "src/rummagebench/adapters/python_api.py",
+    "src/rummagebench/core/scenario.py",
+    "src/rummagebench/environment/env.py",
+    "src/rummagebench/sim/base.py",
+    "src/rummagebench/sim/omnigibson/backend.py",
+    "src/rummagebench/sim/omnigibson/observation.py",
+    "tests/integration/conftest.py",
+    "tests/unit/conftest.py"
+  ],
+  "tests_before": {
+    "unit_passed": 103,
+    "unit_failed": 0
+  },
+  "tests_after": {
+    "unit_passed": 162,
+    "unit_failed": 0,
+    "integration": "11/11 legacy ORACLE green at 2026-09-29 23:30. Visual-bridge sim tests (2, marked sim) could not execute afterwards: the documented host-level 'sludge segfault' instability (env_factory.NOTE_ON_SLUDGE_SEGFAULT, first recorded 2026-09-28) re-triggered when a third-party IsaacLab workload saturated GPU memory \u2014 every NEW Isaac boot segfaults in the syntheticdata graph on every GPU incl. idle ones, including the previously-green legacy suite. Not a code regression (rgb-only path byte-identical to the green run); not ssh/network (tunnel and direct egress verified alive). Rerun the two tests when the host is quiet."
+  },
+  "visual_bridge_roundtrip_error": {},
+  "reference_layout_manifest_hash": "79a7260dbe74804c36b001984bccbb5778bdfc5ca816643ab9eedbd97b2378aa",
+  "layout_validation_summary": {
+    "no_furniture_overlap": true,
+    "required_storage_units": true,
+    "robot_spawn_free": true,
+    "search_regions_reachable": true,
+    "storage_base_regions": true,
+    "observe_viewpoints": true,
+    "stage_a_interactable": true,
+    "model_ids_in_catalog": true,
+    "valid": true
+  },
+  "render_profile_summary": {
+    "status": "deferred by \u00a732 phase order",
+    "reason": "rendering/texture quality starts only after layout generator + validation + reproducibility acceptance"
+  },
+  "knife_search_v1_regression_result": {
+    "status": "PrivilegedRegressionAgent scenario pending (Phase K); engine correctness covered by 162 unit tests + sim suite"
+  },
+  "known_limitations": [
+    "exact AGENT-protocol shortest-path depth is NOT provided (\u00a718): the semantic BFS oracle remains ORACLE-mode-only",
+    "camera extrinsics fall back to identity when the sensor prim pose is unavailable; the \u00a78.6 sim roundtrip test guards this",
+    "kitchen_search_v1 layout placement regions are hand-banded approximations of Beechwood_0_int rooms until the sim-side occupancy check runs",
+    "extended camera modalities (depth/seg_instance) additionally crash this Isaac Sim 5.1 host build even in quiet windows; the host therefore runs the AGENT protocol in rgb-only mode pending a host fix \u2014 per-spec segmentation/depth bridge code is in place and activates when the modalities are enabled in the scenario"
+  ],
+  "host_status": {
+    "sludge_note": "env_factory.NOTE_ON_SLUDGE_SEGFAULT (2026-09-28)",
+    "verified_not_gpu_hardware": "crash reproduces on idle GPUs 2/3/4/5 and GPU 1 (where a foreign Isaac process survives)",
+    "verified_not_ssh_network": "server port 1080 tunnel alive (HTTP 200 through it), no proxy env in login shell, direct egress OK"
+  }
+}
