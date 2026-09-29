@@ -8,12 +8,12 @@ scene:
 
 robot:
   model: r1pro
-  # §7 synchronized private bundle for the visual protocol (depth +
-  # instance segmentation are evaluator-private). NOTE (2026-09-30): the
-  # current sim host segfaults in the syntheticdata graph when these
-  # annotators are enabled (Isaac Sim 5.1 build issue, GPU-pressure
-  # correlated) — legacy rgb-only runs remain stable.
-  obs_modalities: [rgb, depth, seg_instance]
+  # §7 modalities: the segmentation/depth annotators deterministically
+  # segfault the syntheticdata graph on the current Isaac Sim 5.1 host build
+  # (reproduced on idle GPUs, rgb-only always stable), so the production
+  # visual bridge on this host is the raycast fallback (backend
+  # pixel_ray_hit); hosts with a stable syntheticdata build may re-enable:
+  #   obs_modalities: [rgb, depth, seg_instance]
   name: robot_0
   init_anchor: living_room
   # URDF-derived kinematics (production feasibility): joint limits, FK, IK

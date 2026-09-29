@@ -782,11 +782,13 @@ class OmniGibsonBackend(SimBackend):
         robot_obs = obs.get(self._robot.name, {})
         rgb = depth = seg = None
         labels: dict[str, str] = {}
+        rgb_sensor_name = None
         for _sensor, sensor_obs in robot_obs.items():
             if not isinstance(sensor_obs, dict):
                 continue
             if rgb is None and sensor_obs.get("rgb") is not None:
                 rgb = sensor_obs["rgb"]
+                rgb_sensor_name = _sensor
             if depth is None and sensor_obs.get("depth") is not None:
                 depth = sensor_obs["depth"]
             if seg is None and sensor_obs.get("seg_instance") is not None:
@@ -823,23 +825,38 @@ class OmniGibsonBackend(SimBackend):
             seg = np.zeros((H, W))
 
         self._instance_labels = labels
+        cam_prim = self._camera_prim(rgb_sensor_name)
         sensors = []
         try:
             sensors = [k for k in robot_obs.keys() if k != "proprio"]
         except Exception:
             pass
-        T_world_camera = camera_extrinsics(self._env, self._robot.name,
-                                           sensors[0] if sensors else None)
+        T_world_camera = None
+        cam_pose = self._camera_pose(rgb_sensor_name)
+        if cam_pose is not None:
+            from scipy.spatial.transform import Rotation as R
+
+            pos, quat = cam_pose
+            T_world_camera = np.eye(4)
+            T_world_camera[:3, 3] = pos
+            T_world_camera[:3, :3] = R.from_quat(quat[[1, 2, 3, 0]]).as_matrix()
+        if T_world_camera is None:
+            T_world_camera = self._camera_prim_extrinsics(cam_prim)
+        if T_world_camera is None:
+            T_world_camera = camera_extrinsics(self._env, self._robot.name,
+                                               sensors[0] if sensors else None)
         return VisualFramePrivate(
             frame_id="",  # assigned by the FrameStore
             rgb=rgb,
             depth=depth,
             instance_segmentation=seg,
-            camera_intrinsics=default_intrinsics(W, H),
+            camera_intrinsics=self._camera_intrinsics_from_prim(cam_prim, W, H)
+            if cam_prim is not None else default_intrinsics(W, H),
             camera_extrinsics=T_world_camera,
             image_width=W,
             image_height=H,
             depth_convention="z_depth",  # §8.5 integration test verifies
+            meta={"bridge": "segmentation" if seg.any() else "raycast"},
         )
 
     def instance_to_entity(self, instance) -> str | None:
@@ -869,3 +886,148 @@ class OmniGibsonBackend(SimBackend):
             return int(np.count_nonzero(seg == int(target)))
         except (TypeError, ValueError):
             return int(np.count_nonzero(seg == target))
+
+    # -------------------------------------------- rgb-only raycast fallback
+
+    def _camera_prim(self, sensor_name: str | None = None):
+        """The VisionSensor's USD camera prim (for intrinsics/extrinsics)."""
+        try:
+            sensors = ([self._robot.sensors[sensor_name]]
+                       if sensor_name and sensor_name in self._robot.sensors
+                       else list(self._robot.sensors.values()))
+            for sensor in sensors:
+                pp = getattr(sensor, "prim_path", None)
+                if not pp:
+                    continue
+                import omnigibson.lazy as lazy
+
+                prim = lazy.omni.isaac.core.utils.prims.get_prim_at_path(pp)
+                if prim is not None:
+                    return prim
+        except Exception:
+            pass
+        return None
+
+    def _camera_pose(self, sensor_name: str | None = None):
+        """World (position, quat xyzw) of the rgb sensor, via the sensor
+        object's own XFormPrim API — the same path the robot pose uses."""
+        try:
+            sensors = ([self._robot.sensors[sensor_name]]
+                       if sensor_name and sensor_name in self._robot.sensors
+                       else list(self._robot.sensors.values()))
+            for sensor in sensors:
+                if hasattr(sensor, "get_position_orientation"):
+                    pos, quat = sensor.get_position_orientation()
+                    return (np.asarray(pos, dtype=float)[:3],
+                            np.asarray(quat, dtype=float))
+        except Exception:
+            pass
+        return None
+
+    def _camera_intrinsics_from_prim(self, prim, width: int, height: int):
+        """Pinhole K from the USD camera focalLength / horizontalAperture
+        (both mm); falls back to the 90-deg HFOV default."""
+        import numpy as np
+        from rummagebench.perception.camera_geometry import default_intrinsics
+
+        if prim is None:
+            return default_intrinsics(width, height)
+        try:
+            focal = prim.GetAttribute("focalLength").Get()
+            aperture = prim.GetAttribute("horizontalAperture").Get()
+            if not focal or not aperture:
+                return default_intrinsics(width, height)
+            fx = width * float(focal) / float(aperture)
+            fy = height * float(focal) / float(aperture)  # square pixels
+            cx, cy = (width - 1) / 2.0, (height - 1) / 2.0
+            return np.array([[fx, 0.0, cx], [0.0, fy, cy], [0.0, 0.0, 1.0]])
+        except Exception:
+            return default_intrinsics(width, height)
+
+    def pixel_ray_hit(self, frame, x: float, y: float):
+        """RGB-only host mode (§8.7 recorded approximation level): resolve a
+        normalized image point through a PhysX raytest instead of the
+        instance-segmentation annotator (which segfaults this Isaac build).
+
+        Returns (entity_name | None, hit_position_world | None). The hit
+        collision prim is canonicalized to the OWNING OmniGibson object by
+        prim-path prefix, exactly mirroring §8.3."""
+        from rummagebench.perception.camera_geometry import (
+            normalized_to_pixel, unproject_z_depth,
+        )
+
+        T = np.asarray(frame.camera_extrinsics)
+        K = np.asarray(frame.camera_intrinsics)
+        u, v = normalized_to_pixel(x, y, frame.image_width, frame.image_height)
+        dir_cam = unproject_z_depth(u, v, 1.0, K)
+        dir_cam = dir_cam / np.linalg.norm(dir_cam)
+        origin = T[:3, 3]
+        direction = T[:3, :3] @ dir_cam
+        end = origin + direction * 20.0
+
+        from omnigibson.utils.sampling_utils import raytest
+
+        # the camera rides on the robot: never let the ray hit the robot's
+        # own body (self-occlusion of the mount is not scene occlusion)
+        ignore = [self._robot.prim_path] + [
+            link.prim_path for link in getattr(self._robot, "links", {}).values()
+        ]
+        hit = raytest(start_point=[float(v) for v in origin],
+                      end_point=[float(v) for v in end],
+                      ignore_bodies=ignore)
+        if not hit or not hit.get("hit"):
+            return None, None
+
+        rigid_path = hit.get("rigidBody") or hit.get("collision") or ""
+        obj = self._owning_object(rigid_path)
+        if obj is None:
+            return None, None
+        pos = hit.get("position")
+        return obj.name, ([float(v) for v in pos] if pos is not None else None)
+
+    def _owning_object(self, prim_path: str):
+        """Walk the prim-path ancestry to the registered OmniGibson object."""
+        if not prim_path:
+            return None
+        try:
+            scene = self._env.scene
+            obj = scene.object_registry("prim_path", prim_path)
+            if obj is not None:
+                return obj
+            parts = prim_path.split("/")
+            for i in range(len(parts) - 1, 0, -1):
+                candidate = "/".join(parts[:i])
+                if not candidate:
+                    continue
+                obj = scene.object_registry("prim_path", candidate)
+                if obj is not None:
+                    return obj
+        except Exception:
+            return None
+        return None
+
+
+    def _camera_prim_extrinsics(self, cam_prim):
+        """T_world_camera 4x4 from the camera prim's WORLD pose, or None.
+
+        The raw xformOp on the prim is its LOCAL pose relative to the robot
+        — the world pose must come from the OmniGibson XFormPrim API."""
+        if cam_prim is None:
+            return None
+        try:
+            import numpy as _np
+            import omnigibson.lazy as lazy
+
+            pos, quat = lazy.omni.isaac.core.utils.xforms.get_world_pose(
+                str(cam_prim.GetPath())
+            )
+            quat = _np.asarray(quat)  # omni convention wxyz
+            T = _np.eye(4)
+            T[:3, 3] = _np.asarray(pos, dtype=float)[:3]
+            from scipy.spatial.transform import Rotation as R
+
+            T[:3, :3] = R.from_quat(quat[[1, 2, 3, 0]]).as_matrix()
+            return T
+        except Exception:
+            return None
+        return None

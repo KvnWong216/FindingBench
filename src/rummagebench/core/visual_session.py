@@ -295,9 +295,36 @@ class VisualProtocolSession:
         if action.skill == "OBSERVE":
             return self._step_observe(action, frame, record)
 
+        resolved = self._resolve_point(frame, action.point.x, action.point.y, record)
+        if resolved is None:
+            return None
+        entity, surface = resolved
+        return self._dispatch_entity_skill(action.skill, entity, record)
+
+    def _resolve_point(self, frame, x: float, y: float, record):
+        """Point -> (entity, private surface point). Segmentation bridge when
+        the host provides it (§8); PhysX raytest fallback on rgb-only hosts
+        (§8.7 approximation, recorded per frame)."""
+        import numpy as np
+
+        seg_has_data = bool(np.asarray(frame.instance_segmentation).any())
+        if not seg_has_data:
+            try:
+                entity, surface = self._backend.pixel_ray_hit(frame, x, y)
+            except Exception as e:
+                entity, surface = None, None
+                record["private_reason"] = f"RAYCAST:{type(e).__name__}"
+            if entity is None:
+                self._last_feedback = self._feedback(PublicActionFeedback.INVALID_ACTION)
+                record.setdefault("feedback", "INVALID_ACTION")
+                record.setdefault("private_reason", "NO_VISUAL_TARGET")
+                return None
+            record.update(bridge_mode="raycast",
+                          selected_surface_point_world=[round(float(v), 4) for v in surface])
+            return entity, np.asarray(surface)
         try:
             entity, surface, detail = self._bridge.resolve(
-                frame, action.point.x, action.point.y,
+                frame, x, y,
                 self._backend.instance_to_entity,
             )
         except VisualGroundingError as e:
@@ -309,7 +336,7 @@ class VisualProtocolSession:
             selected_surface_point_world=[round(float(v), 4) for v in surface],
             **{f"bridge_{k}": v for k, v in detail.items()},
         )
-        return self._dispatch_entity_skill(action.skill, entity, record)
+        return entity, surface
 
     def _skill_applicable(self, skill: str, entity: str) -> bool:
         """Adapter-level applicability (§3.2): OPEN on a non-openable object,
@@ -361,15 +388,10 @@ class VisualProtocolSession:
         return self._feedback(PublicActionFeedback.INVALID_ACTION)
 
     def _step_observe(self, action, frame, record):
-        try:
-            entity, surface, detail = self._bridge.resolve(
-                frame, action.point.x, action.point.y,
-                self._backend.instance_to_entity,
-            )
-        except VisualGroundingError as e:
-            self._last_feedback = self._feedback(PublicActionFeedback.INVALID_ACTION)
-            record.update({"feedback": "INVALID_ACTION", "private_reason": e.subreason})
+        resolved = self._resolve_point(frame, action.point.x, action.point.y, record)
+        if resolved is None:
             return None
+        entity, _surface = resolved
         record.update(selected_entity=entity, observe_target=True)
 
         accepted = run_observe(

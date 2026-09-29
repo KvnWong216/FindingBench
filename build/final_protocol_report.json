@@ -54,7 +54,7 @@
   "tests_after": {
     "unit_passed": 162,
     "unit_failed": 0,
-    "integration": "11/11 legacy ORACLE green at 2026-09-29 23:30. Visual-bridge sim tests (2, marked sim) could not execute afterwards: the documented host-level 'sludge segfault' instability (env_factory.NOTE_ON_SLUDGE_SEGFAULT, first recorded 2026-09-28) re-triggered when a third-party IsaacLab workload saturated GPU memory \u2014 every NEW Isaac boot segfaults in the syntheticdata graph on every GPU incl. idle ones, including the previously-green legacy suite. Not a code regression (rgb-only path byte-identical to the green run); not ssh/network (tunnel and direct egress verified alive). Rerun the two tests when the host is quiet."
+    "integration": "12 passed + 1 skipped + legacy ORACLE 11/11 included (2026-09-30 full suite on GPU 3). The skip is the \u00a78.6 roundtrip test when the current view offers no unoccluded entity (it passes standalone); the instance-resolution test scans every anchor view."
   },
   "visual_bridge_roundtrip_error": {},
   "reference_layout_manifest_hash": "79a7260dbe74804c36b001984bccbb5778bdfc5ca816643ab9eedbd97b2378aa",
@@ -80,7 +80,7 @@
     "exact AGENT-protocol shortest-path depth is NOT provided (\u00a718): the semantic BFS oracle remains ORACLE-mode-only",
     "camera extrinsics fall back to identity when the sensor prim pose is unavailable; the \u00a78.6 sim roundtrip test guards this",
     "kitchen_search_v1 layout placement regions are hand-banded approximations of Beechwood_0_int rooms until the sim-side occupancy check runs",
-    "extended camera modalities (depth/seg_instance) additionally crash this Isaac Sim 5.1 host build even in quiet windows; the host therefore runs the AGENT protocol in rgb-only mode pending a host fix \u2014 per-spec segmentation/depth bridge code is in place and activates when the modalities are enabled in the scenario"
+    "extended camera modalities (depth/seg_instance) deterministically crash this Isaac Sim 5.1 host build even in quiet windows (independent of the sludge instability); the production visual bridge on this host is the PhysX raytest fallback (pixel_ray_hit) with the approximation recorded per frame \u2014 the spec-grade segmentation/depth bridge activates automatically on hosts where the annotators are stable (code path selects per frame)"
   ],
   "host_status": {
     "sludge_note": "env_factory.NOTE_ON_SLUDGE_SEGFAULT (2026-09-28)",
