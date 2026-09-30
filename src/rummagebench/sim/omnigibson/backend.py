@@ -30,14 +30,17 @@ logger = logging.getLogger(__name__)
 
 
 class OmniGibsonBackend(SimBackend):
-    def __init__(self, seed: int = 0, settle_steps: int = 15):
+    def __init__(self, seed: int = 0, settle_steps: int = 15, spawn_stopped: bool = True, validate_legacy_anchors: bool = False):
         self._seed = seed
         self._settle_steps = settle_steps
+        self._spawn_stopped = spawn_stopped
+        self._validate_legacy_anchors = validate_legacy_anchors
         self._env = None
         self._og = None
         self._sim = None
         self._robot = None
         self._initial_state: Any = None
+        self._validated_anchor_poses = {}
         self._entity_infos: dict[str, Any] = {}
         self._build_report: dict[str, Any] | None = None
         self._commanded_pose: tuple[list[float], list[float]] | None = None
@@ -49,6 +52,7 @@ class OmniGibsonBackend(SimBackend):
     # ------------------------------------------------------------------ setup
 
     def setup(self, scenario: ScenarioSpec) -> dict[str, Any]:
+        self._validated_anchor_poses.clear()
         seed_everything(self._seed)
         apply_runtime_env()
 
@@ -68,6 +72,11 @@ class OmniGibsonBackend(SimBackend):
         # 1. spawn scenario objects
         from rummagebench.sim.omnigibson.dataset import pick_model_for_category
 
+        # Import all task objects before resuming simulation. Repeated live
+        # imports invalidate PhysX views while renderer semantic graphs are active.
+        # The live-import sequence reproduced graph crashes on this host.
+        if self._spawn_stopped:
+            self._sim.stop()
         for spec in scenario.objects:
             model = spec.model or pick_model_for_category(spec.category)
             obj = DatasetObject(
@@ -84,7 +93,11 @@ class OmniGibsonBackend(SimBackend):
                 orientation=[0, 0, 0, 1],
             )
             report["spawned"].append({"name": spec.name, "category": spec.category, "model": model})
-            self._og.sim.step()
+            if not self._spawn_stopped:
+                self._og.sim.step()
+        if self._spawn_stopped:
+            self._sim.play()
+            self._sim.step()
 
         # 2. placements via semantic relations
         from omnigibson.object_states import Inside, OnTop, Open
@@ -119,11 +132,18 @@ class OmniGibsonBackend(SimBackend):
 
         self.settle()
 
-        # 4. verify all anchors are reachable poses, then return to init anchor
+        # AGENT uses only the initial spawn; visiting legacy ORACLE navigation
+        # anchors here can collide with furniture and poison the saved world.
+        # Keep legacy diagnostics explicit, and never label untested anchors valid.
         init_anchor = scenario.anchors[scenario.robot.init_anchor]
-        for name, anchor in scenario.anchors.items():
+        anchors = (scenario.anchors if self._validate_legacy_anchors
+                   else {scenario.robot.init_anchor: init_anchor})
+        report["anchor_validation_scope"] = "all_legacy" if self._validate_legacy_anchors else "initial_spawn"
+        report["untested_anchors"] = [name for name in scenario.anchors if name not in anchors]
+        for name, anchor in anchors.items():
             self.teleport_robot(anchor)
             self.settle(5)
+            self.validate_physics_state()
             pos, _ = self.robot_pose()
             dist = float(np.linalg.norm(np.asarray(pos) - np.asarray(anchor.position)))
             report["anchors"].append({"anchor": name, "distance_to_anchor": dist})
@@ -134,9 +154,15 @@ class OmniGibsonBackend(SimBackend):
         self.teleport_robot(init_anchor)
         self.settle()
 
+        self.validate_physics_state()
+
+        self._validate_spawn_clearance()
+
         # 5. capture deterministic snapshot
         self._initial_state = dump_state(self._sim)
         self._build_report = report
+        self._validated_anchor_poses = {name: (tuple(anchor.position), tuple(anchor.orientation))
+                                        for name, anchor in anchors.items()}
         return report
 
     def _seed_pose_for(self, spec) -> list[float]:
@@ -284,6 +310,15 @@ class OmniGibsonBackend(SimBackend):
         # the same duration as setup so both paths converge to the same pose.
         self.teleport_robot(self._scenario.anchors[self._scenario.robot.init_anchor])
         self.settle(15)
+        self.validate_physics_state()
+        self._validate_spawn_clearance()
+
+    def _validate_spawn_clearance(self) -> None:
+        from rummagebench.skills.move import base_pose_collision_free, yaw_from_quat
+        position, orientation = self.robot_pose()
+        if not base_pose_collision_free(self, position[0], position[1],
+                                        yaw_from_quat(orientation), 0.40, 0.03):
+            raise SimBackendError("Initial robot footprint overlaps an obstacle; invalid spawn")
 
     def get_observation(self) -> np.ndarray:
         return capture_head_rgb(self._env, self._robot.name)
@@ -296,28 +331,17 @@ class OmniGibsonBackend(SimBackend):
 
     # ------------------------------------------------------------------ NAV
 
+    def is_anchor_validated(self, name: str, anchor) -> bool:
+        return (anchor is not None and self._validated_anchor_poses.get(name)
+                == (tuple(anchor.position), tuple(anchor.orientation)))
+
     def teleport_robot(self, anchor: AnchorSpec) -> None:
-        # NOTE: do not zero velocities / call keep_still() here. Both were
-        # tried and both destabilize the position-controlled suspension
-        # (keep_still zeroes joint effort targets -> chassis collapses).
-        # Teleport is a pure semantic jump; residual physics noise is handled
-        # by robot_pose()'s NaN fallback below, not by touching the physics.
+        # Never hide a corrupt articulation behind a commanded pose.
         position = np.asarray(anchor.position, dtype=float)
         orientation = np.asarray(anchor.orientation, dtype=float)
-        try:
-            self._robot.set_position_orientation(
-                position=position, orientation=orientation, frame="world"
-            )
-        except (AssertionError, ValueError):
-            # physics already NaN-corrupted: the Robot-level override reads
-            # EEF link poses (and asserts on NaN) to preserve arm poses. Fall
-            # back to the EntityPrim-level setter, which writes the root pose
-            # without reading link states.
-            from omnigibson.prims.entity_prim import EntityPrim
-
-            EntityPrim.set_position_orientation(
-                self._robot, position=position, orientation=orientation, frame="world"
-            )
+        self._robot.set_position_orientation(
+            position=position, orientation=orientation, frame="world"
+        )
         self._commanded_pose = (
             [float(v) for v in anchor.position],
             [float(v) for v in anchor.orientation],
@@ -326,24 +350,15 @@ class OmniGibsonBackend(SimBackend):
     def robot_pose(self) -> tuple[list[float], list[float]]:
         try:
             pos, quat = self._robot.get_position_orientation(frame="world")
-        except (AssertionError, ValueError):
-            # physics diverged (NaN base orientation after PhysX broadphase
-            # corruption); OmniGibson asserts before returning. The semantic
-            # truth is the last commanded anchor pose — a perfect executor
-            # would be there. Execution noise must not kill the episode.
-            commanded = getattr(self, "_commanded_pose", None)
-            if commanded is not None:
-                return [list(commanded[0]), list(commanded[1])]
-            raise
+        except (AssertionError, ValueError) as error:
+            raise SimBackendError("Robot physics pose is invalid; run is invalid") from error
         pos = pos.detach().cpu().numpy() if hasattr(pos, "detach") else np.asarray(pos)
         quat = quat.detach().cpu().numpy() if hasattr(quat, "detach") else np.asarray(quat)
-        pos = [float(v) for v in pos]
-        quat = [float(v) for v in quat]
-        if not (all(math.isfinite(v) for v in pos) and all(math.isfinite(v) for v in quat)):
-            commanded = getattr(self, "_commanded_pose", None)
-            if commanded is not None:
-                return [list(commanded[0]), list(commanded[1])]
-        return pos, quat
+        if (pos.shape != (3,) or quat.shape != (4,)
+                or not np.isfinite(pos).all() or not np.isfinite(quat).all()
+                or not np.isclose(np.linalg.norm(quat), 1.0, atol=1e-3)):
+            raise SimBackendError("Robot physics pose is nonfinite or invalid; run is invalid")
+        return pos.astype(float).tolist(), quat.astype(float).tolist()
 
     # ---------------------------------------------------------- OPEN / GRASP
 
@@ -457,6 +472,25 @@ class OmniGibsonBackend(SimBackend):
         for _ in range(n):
             self._sim.step()
 
+    def validate_physics_state(self) -> None:
+        """Fail an invalid run before corrupt physics reaches rendering/scoring."""
+        def finite(value):
+            value = value.detach().cpu().numpy() if hasattr(value, "detach") else np.asarray(value)
+            return bool(np.isfinite(value).all())
+        try:
+            for obj in self._env.scene.objects:
+                position, quaternion = obj.get_position_orientation()
+                if not finite(position) or not finite(quaternion):
+                    raise ValueError("nonfinite object pose")
+                if obj.n_joints and not finite(obj.get_joint_positions()):
+                    raise ValueError("nonfinite joint positions")
+                for link in obj.links.values():
+                    position, quaternion = link.get_position_orientation()
+                    if not finite(position) or not finite(quaternion):
+                        raise ValueError("nonfinite link pose")
+        except (AssertionError, ValueError) as error:
+            raise SimBackendError("Physics state is invalid; run must not be scored") from error
+
     def dump_state(self) -> Any:
         return dump_state(self._sim)
 
@@ -488,6 +522,9 @@ class OmniGibsonBackend(SimBackend):
         return self._build_report
 
     # ------------------------------------------------- embodiment grounding
+
+    def robot_entity_names(self) -> set[str]:
+        return {self._robot.name}
 
     def entity_names(self) -> list[str]:
         return [o.name for o in self._env.scene.objects]
@@ -802,11 +839,27 @@ class OmniGibsonBackend(SimBackend):
 
         obs_list, infos = self._env.get_obs()
         robot_obs = obs_list[0].get(self._robot.name, {})
-        selected = next(((name, data) for name, data in robot_obs.items()
-                         if isinstance(data, dict) and data.get("rgb") is not None), None)
-        if selected is None:
-            raise RuntimeError("visual protocol: no RGB sensor in observation")
-        sensor_name, data = selected
+        from rummagebench.sim.omnigibson.observation import select_head_rgb_sensor
+
+        sensor_name, data = select_head_rgb_sensor(robot_obs)
+        sensor = getattr(self._robot, "sensors", {}).get(sensor_name)
+        K = None
+        try:
+            # OG lazily attaches camera_params and renders on first access.
+            # Finish that work BEFORE fetching any buffers for the frame.
+            K = array(sensor.intrinsic_matrix).astype(float)
+        except Exception:
+            pass
+        if self._sim is not None:
+            # The first render after a counterfactual pose restore can still
+            # return the previous camera buffer. Drain that frame without
+            # stepping physics, then collect all modalities together.
+            self._sim.render()
+            self._sim.render()
+        obs_list, infos = self._env.get_obs()
+        data = obs_list[0].get(self._robot.name, {}).get(sensor_name)
+        if not isinstance(data, dict) or data.get("rgb") is None:
+            raise RuntimeError("visual protocol: selected RGB sensor disappeared")
         rgb = array(data["rgb"])[..., :3].astype(np.uint8).copy()
         H, W = rgb.shape[:2]
         missing = []
@@ -836,12 +889,6 @@ class OmniGibsonBackend(SimBackend):
             missing.append("same-camera instance labels")
         self._instance_labels = dict(labels)  # legacy diagnostics only
 
-        sensor = getattr(self._robot, "sensors", {}).get(sensor_name)
-        K = None
-        try:
-            K = array(sensor.intrinsic_matrix).astype(float)
-        except Exception:
-            pass
         if K is None or K.shape != (3, 3) or not np.isfinite(K).all() or K[0, 0] <= 0 or K[1, 1] <= 0:
             K = np.full((3, 3), np.nan)
             missing.append("sensor intrinsics")

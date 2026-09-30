@@ -18,6 +18,7 @@ import io
 import logging
 import multiprocessing as mp
 import os
+import sys
 from pathlib import Path
 
 logger = logging.getLogger(__name__)
@@ -51,54 +52,67 @@ def _obs_payload(obs) -> dict:
     }
 
 
+def _redirect_worker_output() -> None:
+    """Simulator prints (including native fd 1 writes) must not corrupt JSON-RPC."""
+    os.dup2(2, 1)
+    sys.stdout = sys.stderr
+
+
 def _worker_main(conn, scenario_path: str, gpu_id: int) -> None:
     """Simulator-owner process. Imports omnigibson; the MCP server never does."""
+    _redirect_worker_output()
     os.environ["CUDA_VISIBLE_DEVICES"] = str(gpu_id)
+    os.environ["RUMMAGEBENCH_MCP_GPU"] = str(gpu_id)
     os.environ.setdefault("OMNIGIBSON_HEADLESS", "True")
     os.environ.setdefault("OMNIGIBSON_NO_OMNI_LOGS", "True")
     os.environ.setdefault("TORCHINDUCTOR_COMPILE_THREADS", "1")
 
+    session = None
     try:
-        from rummagebench.adapters.python_api import create_session
-
-        session = create_session(scenario_path, mode="agent")
-        obs = session.reset()
-        conn.send({"ok": True, "reset": obs.model_dump(mode="json")})
-    except Exception as e:
-        logger.exception("MCP simulator startup failed")
-        conn.send({"ok": False, "error": "Benchmark infrastructure failed to initialize; see evaluator logs."})
-        return
-
-    while True:
         try:
-            cmd, payload = conn.recv()
-        except (EOFError, KeyboardInterrupt):
-            return
-        try:
-            if cmd == "observe":
-                # AGENT contract: state payload IS the public observation
-                conn.send({"ok": True, "observation": session.observe().model_dump(mode="json")})
-            elif cmd == "act":
-                result = session.step(payload)
-                conn.send(
-                    {
-                        "ok": True,
-                        "episode_status": result.episode_status,
-                        "planning_step": result.planning_step,
-                        "feedback": result.feedback.model_dump(),
-                        "observation": result.observation.model_dump(),
-                    }
-                )
-            elif cmd == "status":
-                conn.send({"ok": True, "status": session.status()})
-            elif cmd == "exit":
-                conn.send({"ok": True})
-                return
-            else:
-                conn.send({"ok": False, "error": f"unknown command {cmd!r}"})
+            from rummagebench.adapters.python_api import create_session
+
+            session = create_session(scenario_path, mode="agent")
+            obs = session.reset()
+            conn.send({"ok": True, "reset": obs.model_dump(mode="json")})
         except Exception as e:
-            logger.exception("MCP simulator command failed")
-            conn.send({"ok": False, "error": "Benchmark infrastructure failure; see evaluator logs."})
+            logger.exception("MCP simulator startup failed")
+            conn.send({"ok": False, "error": "Benchmark infrastructure failed to initialize; see evaluator logs."})
+            return
+
+        while True:
+            try:
+                cmd, payload = conn.recv()
+            except (EOFError, KeyboardInterrupt):
+                return
+            try:
+                if cmd == "observe":
+                    # AGENT contract: state payload IS the public observation
+                    conn.send({"ok": True, "observation": session.observe().model_dump(mode="json")})
+                elif cmd == "act":
+                    result = session.step(payload)
+                    conn.send(
+                        {
+                            "ok": True,
+                            "episode_status": result.episode_status,
+                            "planning_step": result.planning_step,
+                            "feedback": result.feedback.model_dump(),
+                            "observation": result.observation.model_dump(),
+                        }
+                    )
+                elif cmd == "status":
+                    conn.send({"ok": True, "status": session.status()})
+                elif cmd == "exit":
+                    conn.send({"ok": True})
+                    return
+                else:
+                    conn.send({"ok": False, "error": f"unknown command {cmd!r}"})
+            except Exception as e:
+                logger.exception("MCP simulator command failed")
+                conn.send({"ok": False, "error": "Benchmark infrastructure failure; see evaluator logs."})
+    finally:
+        if session is not None:
+            session._backend.close()
 
 
 def _ensure_worker(scenario_id: str, gpu_id: int | None = None) -> dict:

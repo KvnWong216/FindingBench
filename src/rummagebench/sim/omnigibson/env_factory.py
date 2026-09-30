@@ -88,6 +88,10 @@ def build_env_config(scenario: ScenarioSpec) -> dict:
     )
     # Robot initial pose comes from the scenario's init anchor; the backend
     # teleports via the same anchor mechanism used by NAV to keep one code path.
+    anchor = scenario.anchors[scenario.robot.init_anchor]
+    robot_cfg["position"] = list(anchor.position)
+    robot_cfg["orientation"] = list(anchor.orientation)
+    robot_cfg["pose_frame"] = "world"
     config["robots"] = [robot_cfg]
     return config
 

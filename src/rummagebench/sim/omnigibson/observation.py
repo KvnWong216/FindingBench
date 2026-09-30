@@ -9,27 +9,31 @@ from __future__ import annotations
 import numpy as np
 
 
+def select_head_rgb_sensor(robot_obs):
+    """Choose the head camera by identity, never dict enumeration order.
+
+    R1Pro exposes wrist Realsense cameras before its head-mounted ZED.
+    A sole RGB camera is unambiguous; multiple unknown cameras fail closed.
+    """
+    candidates = [(name, data) for name, data in robot_obs.items()
+                  if isinstance(data, dict) and data.get("rgb") is not None]
+    heads = [(name, data) for name, data in candidates
+             if set(name.split(":")) & {"head", "head_camera", "zed_link"}]
+    if len(heads) == 1:
+        return heads[0]
+    if not heads and len(candidates) == 1:
+        return candidates[0]
+    raise RuntimeError("visual protocol: missing or ambiguous head RGB sensor")
+
+
 def capture_head_rgb(env, robot_name: str) -> np.ndarray:
-    """Return the robot head camera RGB as HxWx3 uint8 numpy array."""
+    """Return the selected head camera RGB as HxWx3 uint8."""
     obs_list, _info = env.get_obs()
-    obs = obs_list[0]
-    robot_obs = obs.get(robot_name)
-    if not robot_obs:
-        raise RuntimeError(f"no observations for robot {robot_name!r}")
-    for sensor_name, sensor_obs in robot_obs.items():
-        if sensor_name == "proprio" or not isinstance(sensor_obs, dict):
-            continue
-        rgb = sensor_obs.get("rgb")
-        if rgb is None:
-            continue
-        arr = rgb
-        if hasattr(arr, "detach"):
-            arr = arr.detach().cpu().numpy()
-        arr = np.asarray(arr)
-        if arr.ndim == 3 and arr.shape[-1] == 4:
-            arr = arr[..., :3]
-        return arr.astype(np.uint8)
-    raise RuntimeError(f"no RGB sensor found for robot {robot_name!r}")
+    _, data = select_head_rgb_sensor(obs_list[0].get(robot_name, {}))
+    rgb = _to_numpy(data["rgb"])
+    if rgb.ndim == 3 and rgb.shape[-1] == 4:
+        rgb = rgb[..., :3]
+    return rgb.astype(np.uint8).copy()
 
 
 def camera_sensor_names(env, robot_name: str) -> list[str]:

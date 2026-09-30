@@ -79,3 +79,23 @@ def test_out_of_range_move_is_invalid_not_clamped(visual_session):
     assert r.feedback.code == "INVALID_ACTION"
     r = visual_session.step({"skill": "MOVE", "distance_cm": 0.0})
     assert r.feedback.code == "INVALID_ACTION"
+
+def test_rotated_base_empty_aabb_corner_is_not_collision():
+    from rummagebench.skills.move import footprint_corners, _aabb_overlaps_footprint
+    corners = footprint_corners(0, 0, np.pi / 4, .4)
+    # Above the diamond's sloping edge, inside its broad-phase AABB.
+    assert not _aabb_overlaps_footprint(([.44,.44,0],[.5,.5,.4]), corners, .03)
+
+def test_rotated_base_true_overlap_and_margin_still_collide():
+    from rummagebench.skills.move import footprint_corners, _aabb_overlaps_footprint
+    corners = footprint_corners(0, 0, np.pi / 4, .4)
+    assert _aabb_overlaps_footprint(([.2,.2,0],[.3,.3,.4]), corners, .03)
+    assert _aabb_overlaps_footprint(([.58,-.01,0],[.60,.01,.4]), corners, .03)
+    assert not _aabb_overlaps_footprint(([.61,-.01,0],[.63,.01,.4]), corners, .03)
+
+def test_reported_breakfast_table_false_positive():
+    from rummagebench.skills.move import _aabb_overlaps_footprint
+    corners = [(4.0669419634,-6.4685886459),(3.3201895698,-6.1816028227),
+               (3.0332037466,-6.9283552163),(3.7799561402,-7.2153410395)]
+    obstacle = ([2.3257446289,-7.70688199997,0],[3.04167461395,-7.17469644546,.708])
+    assert not _aabb_overlaps_footprint(obstacle, corners, .03)

@@ -1,0 +1,74 @@
+{
+  "acceptance": "PARTIAL_NOT_ACCEPTED",
+  "baseline_sha": "3dca29e57ecbf9bb019a19fb73ebced636085b02",
+  "cpu": {
+    "passed": 265,
+    "sim_deselected": 13,
+    "duration_s": 56.73,
+    "exit_code": 0
+  },
+  "checks": {
+    "compileall": "passed",
+    "diff_check": "passed",
+    "tracked_launcher_config_equals_executed_config": true
+  },
+  "renderer": {
+    "rgb_heading180": "passed diagnostic",
+    "rgb_depth_heading180": "passed diagnostic",
+    "adding_semantic": "native139 diagnostic",
+    "without_pin_coal": "reproduced",
+    "real_raw_instance_id": "multiple dynamic public actions passed; not full stability gate"
+  },
+  "calibration": {
+    "resolution": [
+      224,
+      224
+    ],
+    "samples": 600,
+    "max_error_m": 0.007246392066114493,
+    "scope": "independent synthetic camera only"
+  },
+  "motion": {
+    "SAT_regression_tests": 16,
+    "same_rejected_MOVE100_after_fix": "EXECUTED",
+    "latest_MOVE50": "blocked by obstacle; private identities/geometry omitted"
+  },
+  "interaction": {
+    "OPEN": "UNREACHABLE",
+    "candidate_count": 3,
+    "ik_reason": "NO_IK_SOLUTION",
+    "position_error_range_m": [
+      0.3306,
+      0.3999
+    ],
+    "goal_success": false
+  },
+  "mcp": {
+    "scope": "reset, nonadvancing observe, stale rejection, false REPORT_DONE only",
+    "full_goal": "not_run"
+  },
+  "stop": {
+    "owned_pids_absent": [
+      2088831,
+      2088832,
+      2088833
+    ],
+    "exit_code": 0,
+    "old_action16": "not delivered"
+  },
+  "remaining": [
+    "production raw-ID adapter integration",
+    "goal trajectory",
+    "valid full modalities 30frames x3 independent starts",
+    "held OBSERVE x10",
+    "wrong-grasp recovery PLACE budget",
+    "full Python MCP UI"
+  ],
+  "excluded_from_publication": [
+    "private grounding/event logs",
+    "instance ownership maps",
+    "geometry/primitive coordinates",
+    "raw reports and assets"
+  ],
+  "source_cleanup_after_gpu_stop": "CPU/compile/config equivalence checked; no new GPU run"
+}

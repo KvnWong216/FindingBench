@@ -117,7 +117,10 @@ class FeasibilityValidator:
         world,
     ) -> FeasibilityVerdict:
         if skill_name == "NAV":
-            # navigation executor is perfect; anchors are verified at build time
+            # Unchecked legacy anchors may corrupt the world when teleported into.
+            if not self._backend.is_anchor_validated(resolved.place, resolved.anchor):
+                return FeasibilityVerdict(feasible=False, reason="INVALID_STATE",
+                                          details={"reason": "UNVALIDATED_ANCHOR"})
             return FeasibilityVerdict(feasible=True)
 
         assert resolved.entity is not None
