@@ -110,6 +110,11 @@ class RobotSpec(BaseModel):
     # (seg_semantic is auto-enabled by the sensor). Legacy scenarios stay
     # rgb-only.
     obs_modalities: list[str] = Field(default_factory=lambda: ["rgb"])
+    # per-sensor modality scoping: heavy annotators (depth/seg) applied to
+    # every camera of a multi-camera robot crash the syntheticdata graph on
+    # some Isaac builds — restrict to the interaction camera instead.
+    include_sensor_names: Optional[list[str]] = None
+    exclude_sensor_names: Optional[list[str]] = None
     image_width: int = 224
     image_height: int = 224
     grasping_mode: Literal["sticky", "assisted", "physical"] = "sticky"

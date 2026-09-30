@@ -74,6 +74,10 @@ def build_env_config(scenario: ScenarioSpec) -> dict:
     robot_cfg["name"] = scenario.robot.name
     robot_cfg["obs_modalities"] = list(scenario.robot.obs_modalities)
     robot_cfg["grasping_mode"] = scenario.robot.grasping_mode
+    if scenario.robot.include_sensor_names is not None:
+        robot_cfg["include_sensor_names"] = list(scenario.robot.include_sensor_names)
+    if scenario.robot.exclude_sensor_names is not None:
+        robot_cfg["exclude_sensor_names"] = list(scenario.robot.exclude_sensor_names)
     robot_cfg.setdefault("sensor_config", {}).setdefault("VisionSensor", {}).setdefault(
         "sensor_kwargs", {}
     ).update(
