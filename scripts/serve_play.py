@@ -135,7 +135,7 @@ let cur = null, pendingSkill = null, busy = false, lastVerdictKey = null;
 function $g(id) { return document.getElementById(id); }
 function setBusy(b) {
   busy = b;
-  document.querySelectorAll(".sk").forEach(el => el.disabled = b);
+  document.querySelectorAll(".sk").forEach(el => el.disabled = b || (cur && cur.episode_status !== "RUNNING"));
 }
 const VCLASS = { EXECUTED: "v-executed", INVALID_ACTION: "v-invalid",
                  OUT_OF_CAPABILITY: "v-capability", UNSAFE: "v-unsafe" };
@@ -146,7 +146,7 @@ function renderSkills() {
   SKILLS.forEach(t => {
     const b = document.createElement("button");
     b.className = "sk" + (pendingSkill === t ? " active" : "");
-    b.disabled = busy;
+    b.disabled = busy || (cur && cur.episode_status !== "RUNNING");
     b.innerHTML = ICONS[t] + `<span class="cap">${t.replace("_", " ").toLowerCase()}</span>`;
     b.onclick = () => onSkill(t);
     btns.appendChild(b);
@@ -154,7 +154,7 @@ function renderSkills() {
 }
 
 function onSkill(t) {
-  if (busy) return;
+  if (busy || (cur && cur.episode_status !== "RUNNING")) return;
   if (t === "REPORT_DONE") { submit({ skill: "REPORT_DONE" }); return; }
   if (t === "MOVE") return askNumber(t, "signed distance in cm", "positive = forward, negative = backward", 40);
   if (t === "TURN") return askNumber(t, "signed angle in degrees", "positive = left (CCW), negative = right (CW)", 45);
@@ -196,6 +196,7 @@ $g("cam").addEventListener("click", (ev) => {
 });
 
 async function submit(action) {
+  if (cur && cur.episode_status !== "RUNNING") return;
   setBusy(true);
   lastVerdictKey = cur ? JSON.stringify(cur.feedback) : null;
   try {
@@ -277,7 +278,8 @@ class PlayState:
             obs = env.reset()["observation"]
             self.env = env
             self.snapshot = obs
-            self.snapshot.update({"ready": True, "pending": False})
+            self.snapshot.update({"ready": True, "pending": False,
+                                  "episode_status": "RUNNING"})
             self.ready = True
             print("== simulator ready", flush=True)
         except Exception as e:
@@ -289,6 +291,8 @@ class PlayState:
         with self.lock:
             if not self.ready:
                 return {"error": "simulator not ready"}
+            if self.snapshot.get("episode_status", "RUNNING") != "RUNNING":
+                return {"error": "episode is terminal; restart to play again"}
             if self._pending is not None:
                 return {"error": "an action is already executing"}
             self._pending = action
@@ -312,7 +316,8 @@ class PlayState:
                 try:
                     result = self.env.step(action)
                     self.snapshot = result["observation"]
-                    self.snapshot.update({"ready": True, "pending": False})
+                    self.snapshot.update({"ready": True, "pending": False,
+                                          "episode_status": result["episode_status"]})
                 except Exception as e:
                     print(f"== action error: {e}", flush=True)
                 self.seq += 1

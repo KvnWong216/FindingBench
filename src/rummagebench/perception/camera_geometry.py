@@ -1,8 +1,9 @@
 """Camera geometry: pixel conversion, unprojection, depth-convention handling.
 
-The OmniGibson/Isaac depth convention (optical-axis Z depth vs Euclidean
-camera-to-surface range) is VERIFIED at runtime by self-calibration against
-known scene geometry, never assumed (protocol §8.5).
+Active capture obtains conventions from the OmniGibson modality API:
+``depth`` is Euclidean range; ``depth_linear`` is optical-axis Z depth.
+Real-host pixel correspondence still requires independent calibration tests.
+The calibration helper below is diagnostic, not evidence those tests ran.
 """
 
 from __future__ import annotations
@@ -95,3 +96,30 @@ def calibrate_depth_convention(
     if "euclidean_range" not in med:
         return "z_depth"
     return "z_depth" if med["z_depth"] <= med["euclidean_range"] else "euclidean_range"
+
+
+def world_from_usd_camera(position, quaternion_xyzw) -> np.ndarray:
+    """World-from-optical transform from an OmniGibson sensor world pose.
+
+    OG XFormPrim returns XYZW. USD cameras look down -Z with +Y up;
+    our optical convention is +Z forward, +Y down, +X right.
+    Source: https://openusd.org/dev/api/class_usd_geom_camera.html
+    This convention conversion is not a substitute for real-host calibration.
+    """
+    p = np.asarray(position, dtype=float)
+    q = np.asarray(quaternion_xyzw, dtype=float)
+    if p.shape != (3,) or q.shape != (4,) or not np.isfinite(p).all() or not np.isfinite(q).all():
+        raise ValueError("invalid camera pose")
+    norm = np.linalg.norm(q)
+    if norm < 1e-12:
+        raise ValueError("zero camera quaternion")
+    x, y, z, w = q / norm
+    rotation = np.array([
+        [1-2*(y*y+z*z), 2*(x*y-z*w), 2*(x*z+y*w)],
+        [2*(x*y+z*w), 1-2*(x*x+z*z), 2*(y*z-x*w)],
+        [2*(x*z-y*w), 2*(y*z+x*w), 1-2*(x*x+y*y)],
+    ])
+    result = np.eye(4)
+    result[:3, :3] = rotation @ np.diag([1., -1., -1.])
+    result[:3, 3] = p
+    return result

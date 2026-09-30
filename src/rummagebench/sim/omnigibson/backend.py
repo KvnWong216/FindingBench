@@ -463,6 +463,20 @@ class OmniGibsonBackend(SimBackend):
     def load_state(self, state: Any) -> None:
         load_state(self._sim, state)
 
+    def capture_observe_state(self):
+        """Full state for counterfactual multi-view rendering (evaluator-only)."""
+        from copy import deepcopy
+
+        return {"sim": self.dump_state(), "commanded_pose": deepcopy(self._commanded_pose)}
+
+    def restore_observe_state(self, snapshot):
+        """Restore without physics steps that would mutate the saved world."""
+        from copy import deepcopy
+
+        load_state(self._sim, snapshot["sim"], settle_steps=0)
+        self._commanded_pose = deepcopy(snapshot["commanded_pose"])
+        self._collision_body_cache = None
+
     def render_snapshot(self, path: str) -> None:
         from PIL import Image
 
@@ -768,99 +782,92 @@ class OmniGibsonBackend(SimBackend):
     # ================================================== visual protocol (§7)
 
     def capture_visual_frame(self):
-        """Synchronized private bundle: rgb + depth + seg_instance + camera
-        geometry, one render. The id->label map from env.get_obs() info gives
-        instance -> OmniGibson object name == benchmark entity name (§8.3:
-        handle/door/link instances are canonicalized to the owner by the
-        simulator itself)."""
+        """Capture one camera's synchronized modalities and immutable metadata.
+
+        OG RAW_SENSOR_TYPES: depth=distance_to_camera (range),
+        depth_linear=distance_to_image_plane (Z). Source:
+        https://github.com/StanfordVL/BEHAVIOR-1K/blob/main/OmniGibson/omnigibson/sensors/vision_sensor.py
+        Runtime geometry is obtained from that same sensor. The convention is
+        API-derived, NOT an assertion that hardware/simulator calibration passed.
+        RGB-only frames remain useful for diagnostics, but are not valid AGENT
+        interaction frames: collider rays alone cannot certify RGB visibility.
+        """
         from rummagebench.perception.frame_store import VisualFramePrivate
-        from rummagebench.perception.camera_geometry import default_intrinsics
-        from rummagebench.sim.omnigibson.observation import camera_extrinsics
+        from rummagebench.perception.camera_geometry import world_from_usd_camera
 
-        obs_list, info = self._env.get_obs()
-        obs = obs_list[0]
-        robot_obs = obs.get(self._robot.name, {})
-        rgb = depth = seg = None
-        labels: dict[str, str] = {}
-        rgb_sensor_name = None
-        for _sensor, sensor_obs in robot_obs.items():
-            if not isinstance(sensor_obs, dict):
-                continue
-            if rgb is None and sensor_obs.get("rgb") is not None:
-                rgb = sensor_obs["rgb"]
-                rgb_sensor_name = _sensor
-            if depth is None and sensor_obs.get("depth") is not None:
-                depth = sensor_obs["depth"]
-            if seg is None and sensor_obs.get("seg_instance") is not None:
-                seg = sensor_obs["seg_instance"]
-                mapping = info.get("seg_instance") or {}
-                for key, value in mapping.items():
-                    if isinstance(value, dict):
-                        value = value.get("class", "")
-                    labels[str(key)] = str(value)
-        if rgb is None:
+        def array(value):
+            if hasattr(value, "detach"):
+                value = value.detach().cpu().numpy()
+            return np.asarray(value)
+
+        obs_list, infos = self._env.get_obs()
+        robot_obs = obs_list[0].get(self._robot.name, {})
+        selected = next(((name, data) for name, data in robot_obs.items()
+                         if isinstance(data, dict) and data.get("rgb") is not None), None)
+        if selected is None:
             raise RuntimeError("visual protocol: no RGB sensor in observation")
-
-        for name, arr in (("rgb", rgb), ("depth", depth), ("seg", seg)):
-            if arr is None:
-                continue
-            if hasattr(arr, "detach"):
-                arr = arr.detach().cpu().numpy()
-            if name == "rgb":
-                rgb = np.asarray(arr)
-                if rgb.ndim == 3 and rgb.shape[-1] == 4:
-                    rgb = rgb[..., :3]
-                rgb = rgb.astype(np.uint8)
-            elif name == "depth":
-                depth = np.asarray(arr, dtype=float)
-            else:
-                seg = np.asarray(arr)
-                if seg.ndim == 3 and seg.shape[-1] == 1:
-                    seg = seg[..., 0]
-
+        sensor_name, data = selected
+        rgb = array(data["rgb"])[..., :3].astype(np.uint8).copy()
         H, W = rgb.shape[:2]
-        if depth is None or depth.shape[:2] != (H, W):
+        missing = []
+        depth_key = "depth_linear" if data.get("depth_linear") is not None else "depth"
+        convention = "z_depth" if depth_key == "depth_linear" else "euclidean_range"
+        depth = array(data[depth_key]).astype(float) if data.get(depth_key) is not None else None
+        if depth is not None and depth.shape == (H, W, 1):
+            depth = depth[..., 0]
+        if depth is None or depth.shape != (H, W):
             depth = np.full((H, W), np.nan)
-        if seg is None or seg.shape[:2] != (H, W):
-            seg = np.zeros((H, W))
+            missing.append("same-camera depth")
+        seg = array(data["seg_instance"]) if data.get("seg_instance") is not None else None
+        if seg is not None and seg.shape == (H, W, 1):
+            seg = seg[..., 0]
+        if seg is None or seg.shape != (H, W):
+            seg = np.zeros((H, W), dtype=np.int64)
+            missing.append("same-camera instance segmentation")
 
-        self._instance_labels = labels
-        cam_prim = self._camera_prim(rgb_sensor_name)
-        sensors = []
+        # get_obs returns per-environment, per-robot, per-sensor info in OG.
+        env_info = infos[0] if isinstance(infos, (list, tuple)) and infos else infos
+        sensor_info = (env_info.get(self._robot.name, {}).get(sensor_name, {})
+                       if isinstance(env_info, dict) else {})
+        mapping = sensor_info.get("seg_instance", {})
+        labels = {str(key): str(value.get("class", "") if isinstance(value, dict) else value)
+                  for key, value in mapping.items()} if isinstance(mapping, dict) else {}
+        if not labels:
+            missing.append("same-camera instance labels")
+        self._instance_labels = dict(labels)  # legacy diagnostics only
+
+        sensor = getattr(self._robot, "sensors", {}).get(sensor_name)
+        K = None
         try:
-            sensors = [k for k in robot_obs.keys() if k != "proprio"]
+            K = array(sensor.intrinsic_matrix).astype(float)
         except Exception:
             pass
-        T_world_camera = None
-        cam_pose = self._camera_pose(rgb_sensor_name)
-        if cam_pose is not None:
-            from scipy.spatial.transform import Rotation as R
-
-            pos, quat = cam_pose
-            T_world_camera = np.eye(4)
-            T_world_camera[:3, 3] = pos
-            T_world_camera[:3, :3] = R.from_quat(quat[[1, 2, 3, 0]]).as_matrix()
-        if T_world_camera is None:
-            T_world_camera = self._camera_prim_extrinsics(cam_prim)
-        if T_world_camera is None:
-            T_world_camera = camera_extrinsics(self._env, self._robot.name,
-                                               sensors[0] if sensors else None)
+        if K is None or K.shape != (3, 3) or not np.isfinite(K).all() or K[0, 0] <= 0 or K[1, 1] <= 0:
+            K = np.full((3, 3), np.nan)
+            missing.append("sensor intrinsics")
+        pose = self._camera_pose(sensor_name)
+        try:
+            T = world_from_usd_camera(*pose) if pose is not None else None
+        except ValueError:
+            T = None
+        if T is None:
+            T = np.full((4, 4), np.nan)
+            missing.append("sensor world pose")
         return VisualFramePrivate(
-            frame_id="",  # assigned by the FrameStore
-            rgb=rgb,
-            depth=depth,
-            instance_segmentation=seg,
-            camera_intrinsics=self._camera_intrinsics_from_prim(cam_prim, W, H)
-            if cam_prim is not None else default_intrinsics(W, H),
-            camera_extrinsics=T_world_camera,
-            image_width=W,
-            image_height=H,
-            depth_convention="z_depth",  # §8.5 integration test verifies
-            meta={"bridge": "segmentation" if seg.any() else "raycast"},
+            frame_id="", rgb=rgb, depth=depth.copy(), instance_segmentation=seg.copy(),
+            camera_intrinsics=K.copy(), camera_extrinsics=T,
+            image_width=W, image_height=H, depth_convention=convention,
+            meta={"bridge": "segmentation" if not missing else "unsupported",
+                  "sensor_name": sensor_name, "instance_labels": dict(labels),
+                  "visual_grounding_supported": not missing,
+                  "unsupported_reason": ", ".join(missing),
+                  "depth_convention_source": "OmniGibson modality API",
+                  "calibration_verified": False},
         )
 
-    def instance_to_entity(self, instance) -> str | None:
-        labels = getattr(self, "_instance_labels", {})
+    def instance_to_entity(self, instance, frame=None) -> str | None:
+        labels = (frame.meta.get("instance_labels", {}) if frame is not None
+                  else getattr(self, "_instance_labels", {}))
         label = labels.get(str(instance.item() if hasattr(instance, "item") else instance))
         if not label or label.lower() in ("background", "unlabelled", "groundplane"):
             return None
@@ -872,20 +879,18 @@ class OmniGibsonBackend(SimBackend):
         return None
 
     def entity_visible_pixels(self, frame, entity: str) -> int:
-        """Private visible-pixel count of `entity` in a captured frame."""
+        """Count all instance IDs of an entity in THIS immutable camera frame."""
         seg = np.asarray(frame.instance_segmentation)
-        target = None
-        labels = getattr(self, "_instance_labels", {})
-        for key, label in labels.items():
-            if label == entity:
-                target = key
-                break
-        if target is None:
-            return 0
-        try:
-            return int(np.count_nonzero(seg == int(target)))
-        except (TypeError, ValueError):
-            return int(np.count_nonzero(seg == target))
+        labels = frame.meta.get("instance_labels", {})
+        targets = [key for key, label in labels.items() if label == entity]
+        total = 0
+        for target in targets:
+            try:
+                key = int(target) if seg.dtype.kind not in "USO" else target
+                total += int(np.count_nonzero(seg == key))
+            except (TypeError, ValueError):
+                continue
+        return total
 
     # -------------------------------------------- rgb-only raycast fallback
 
@@ -918,6 +923,10 @@ class OmniGibsonBackend(SimBackend):
             for sensor in sensors:
                 if hasattr(sensor, "get_position_orientation"):
                     pos, quat = sensor.get_position_orientation()
+                    if hasattr(pos, "detach"):
+                        pos = pos.detach().cpu().numpy()
+                    if hasattr(quat, "detach"):
+                        quat = quat.detach().cpu().numpy()
                     return (np.asarray(pos, dtype=float)[:3],
                             np.asarray(quat, dtype=float))
         except Exception:
@@ -938,14 +947,14 @@ class OmniGibsonBackend(SimBackend):
             if not focal or not aperture:
                 return default_intrinsics(width, height)
             fx = width * float(focal) / float(aperture)
-            fy = height * float(focal) / float(aperture)  # square pixels
+            fy = fx  # square pixels; horizontal aperture determines pixel pitch
             cx, cy = (width - 1) / 2.0, (height - 1) / 2.0
             return np.array([[fx, 0.0, cx], [0.0, fy, cy], [0.0, 0.0, 1.0]])
         except Exception:
             return default_intrinsics(width, height)
 
     def pixel_ray_hit(self, frame, x: float, y: float):
-        """RGB-only host mode (§8.7 recorded approximation level): resolve a
+        """Evaluator diagnostic ONLY (not accepted by the AGENT boundary): resolve a
         normalized image point through a PhysX raytest instead of the
         instance-segmentation annotator (which segfaults this Isaac build).
 

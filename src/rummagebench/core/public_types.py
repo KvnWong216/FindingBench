@@ -13,7 +13,7 @@ from __future__ import annotations
 from enum import Enum
 from typing import Annotated, Literal, Optional, Union
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 # ---------------------------------------------------------------- skill library
 
@@ -161,7 +161,7 @@ class PublicObservation(BaseModel):
 class PublicStepResult(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    episode_status: str  # RUNNING | SUCCESS | FAIL_MAX_STEPS | FAIL_FALSE_COMPLETION
+    episode_status: Literal["RUNNING", "SUCCESS", "FAIL_MAX_STEPS", "FAIL_FALSE_COMPLETION"]
     planning_step: int
     feedback: Feedback
     observation: PublicObservation
@@ -170,7 +170,15 @@ class PublicStepResult(BaseModel):
 class AgentProtocolConfig(BaseModel):
     """Numeric bounds of the public action space (scenario-overridable)."""
 
-    min_move_cm: float = 5.0
-    max_move_cm: float = 100.0
-    min_turn_deg: float = 5.0
-    max_turn_deg: float = 180.0
+    model_config = ConfigDict(extra="forbid", allow_inf_nan=False)
+
+    min_move_cm: float = Field(default=5.0, gt=0)
+    max_move_cm: float = Field(default=100.0, gt=0)
+    min_turn_deg: float = Field(default=5.0, gt=0)
+    max_turn_deg: float = Field(default=180.0, gt=0)
+
+    @model_validator(mode="after")
+    def _ordered_bounds(self):
+        if self.min_move_cm > self.max_move_cm or self.min_turn_deg > self.max_turn_deg:
+            raise ValueError("minimum action magnitude cannot exceed maximum")
+        return self

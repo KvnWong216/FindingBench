@@ -35,7 +35,9 @@ class ObserveConfig:
         self.max_radius_m = max_radius_m
         self.surface_margin_m = surface_margin_m
         self.min_visible_pixels = min_visible_pixels
-        self.restore_robot_pose = restore_robot_pose
+        if not restore_robot_pose:
+            raise ValueError("OBSERVE must restore the world state")
+        self.restore_robot_pose = True
 
 
 def object_aabb_xy(backend, entity: str) -> tuple[tuple[float, float], float]:
@@ -72,42 +74,57 @@ def run_observe(backend, entity: str, cfg: ObserveConfig,
     `visible_pixel_count(frame, entity)` are injected by the session so this
     module stays simulator-agnostic. Returns accepted view records
     (dicts with private diagnostics + the RGB payload for the caller)."""
-    original_pose = backend.robot_pose()
+    from copy import deepcopy
+
+    original_pose = deepcopy(backend.robot_pose())
+    capture = getattr(backend, "capture_observe_state", backend.dump_state)
+    restore = getattr(backend, "restore_observe_state", backend.load_state)
+    snapshot = deepcopy(capture())
+
+    def restore_world():
+        restore(deepcopy(snapshot))
+        # Generic/mock snapshots may omit base pose; production's restore hook
+        # restores full simulator state without stepping physics afterwards.
+        if not hasattr(backend, "restore_observe_state"):
+            backend.teleport_robot(AnchorSpec(position=list(original_pose[0]),
+                                             orientation=list(original_pose[1])))
+
     center_xy, xy_radius = object_aabb_xy(backend, entity)
     accepted: list[dict] = []
-    for (x, y, yaw) in candidate_viewpoints(center_xy, xy_radius, cfg):
-        record = {"base_pose": [x, y, yaw], "accepted": False}
-        try:
-            if not base_pose_collision_free(
-                backend, x, y, yaw, base_half_extent, collision_margin,
-                skip_entities={entity},
-            ):
-                record["reason"] = "BASE_COLLISION"
-            else:
-                backend.teleport_robot(
-                    AnchorSpec(position=[x, y, original_pose[0][2]],
-                               orientation=quat_from_yaw(yaw))
-                )
-                if settle is not None:
-                    settle(3)
-                frame = render_private_frame()
-                pixels = visible_pixel_count(frame, entity)
-                record["visible_pixels"] = pixels
-                if pixels >= cfg.min_visible_pixels:
-                    record["accepted"] = True
-                    record["rgb"] = frame.rgb
-                    accepted.append(record)
+    try:
+        for (x, y, yaw) in candidate_viewpoints(center_xy, xy_radius, cfg):
+            restore_world()  # views are independent counterfactual observations
+            record = {"base_pose": [x, y, yaw], "accepted": False}
+            try:
+                if not base_pose_collision_free(
+                    backend, x, y, yaw, base_half_extent, collision_margin,
+                ):
+                    record["reason"] = "BASE_COLLISION"
                 else:
-                    record["reason"] = "NOT_VISIBLE_ENOUGH"
-        except Exception as e:  # one bad viewpoint never kills OBSERVE
-            record["reason"] = f"RENDER_ERROR:{type(e).__name__}"
-        if log is not None:
-            log(record)
-    if cfg.restore_robot_pose:
-        backend.teleport_robot(
-            AnchorSpec(position=list(original_pose[0]),
-                       orientation=list(original_pose[1]))
-        )
-        if settle is not None:
-            settle(3)
+                    backend.teleport_robot(
+                        AnchorSpec(position=[x, y, original_pose[0][2]],
+                                   orientation=quat_from_yaw(yaw))
+                    )
+                    if settle is not None:
+                        settle(3)
+                    frame = render_private_frame()
+                    pixels = visible_pixel_count(frame, entity)
+                    record["visible_pixels"] = pixels
+                    if pixels >= cfg.min_visible_pixels:
+                        record["accepted"] = True
+                        record["rgb"] = frame.rgb.copy()
+                        accepted.append(record)
+                    else:
+                        record["reason"] = "NOT_VISIBLE_ENOUGH"
+            except Exception as e:
+                record["reason"] = f"RENDER_ERROR:{type(e).__name__}"
+                if log is not None:
+                    log(record)
+                # Missing/broken rendering is an infrastructure fault, never
+                # evidence that every viewpoint is geometrically unsafe.
+                raise RuntimeError("OBSERVE rendering failed") from e
+            if log is not None:
+                log(record)
+    finally:
+        restore_world()  # includes held-body/object/joint state, even on errors
     return accepted

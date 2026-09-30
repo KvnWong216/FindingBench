@@ -76,7 +76,8 @@ def _kin():
 
 
 def _box_body(name, lo, hi, category=""):
-    import coal
+    from rummagebench.feasibility.fcl_compat import collision_backend
+    coal = collision_backend()
 
     lo, hi = np.asarray(lo, float), np.asarray(hi, float)
     center, half = (lo + hi) / 2, (hi - lo) / 2

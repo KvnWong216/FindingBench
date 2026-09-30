@@ -55,7 +55,7 @@ def main() -> int:
     if args.count > 0:
         episode_paths = episode_paths[args.start:args.start + args.count]
 
-    session = create_session(episode_paths[0], run_dir=None, seed=args.seed)
+    session = create_session(episode_paths[0], run_dir=None, seed=args.seed, mode="oracle")
     out_dir = REPO_ROOT / args.out
 
     from rummagebench.core.types import Action

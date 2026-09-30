@@ -215,11 +215,8 @@ class FakeBackend(SimBackend):
 
 def _coal_box(hx: float, hy: float, hz: float):
     """coal Box geometry (requires the pin wheel; unit tests import it)."""
-    try:
-        import coal
-    except ImportError:
-        import pinocchio as pin
-        coal = pin.hppfcl
+    from rummagebench.feasibility.fcl_compat import collision_backend
+    coal = collision_backend()
     return coal.Box(hx, hy, hz)
 
 

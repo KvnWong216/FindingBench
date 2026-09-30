@@ -19,7 +19,9 @@ dependencies = [
 mcp = ["mcp>=1.2,<2"]
 test = ["pytest>=7.0"]
 # real kinematics + configuration-space collision (production feasibility)
-kinematics = ["pin>=4.0"]
+# pin 3/4 wheels require NumPy 2 through cmeel-boost; OmniGibson uses NumPy 1.
+# This tested wheel family provides the same URDF IK and hpp-fcl collision APIs.
+kinematics = ["pin>=2.7,<3"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

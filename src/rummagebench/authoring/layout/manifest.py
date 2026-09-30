@@ -16,12 +16,15 @@ def build_manifest(layout, validation: dict, generator_version: str = "1.0.0",
         "behavior_version": behavior_version,
         "git_commit": _git_commit(),
         "base_scene": layout.config.base_scene,
+        "transform_convention": "aabb_center_world",
+        "artifact_kind": "candidate_layout",
+        "simulator_application": "not_implemented",
         "layout_seed": layout.layout_seed,
-        "asset_categories": sorted({p.role for p in layout.placements}),
+        "asset_categories": sorted({p.category for p in layout.placements}),
         "objects": [
             {
                 "name": p.name, "category": p.category, "model_id": p.model_id,
-                "role": p.role,
+                "role": p.role, "support_name": p.support_name,
                 "position": [round(v, 6) for v in p.position],
                 "orientation_deg": p.orientation_deg,
                 "aabb_size": [round(v, 6) for v in p.aabb_size],
@@ -40,8 +43,8 @@ def build_manifest(layout, validation: dict, generator_version: str = "1.0.0",
 
 def write_layout_outputs(layout, manifest: dict, out_dir: Path) -> Path:
     """§30: layout.yaml + manifest.json + object_transforms.json under
-    build/layouts/<id>_seedNNN/. occupancy/topdown previews are rendered by
-    the sim-side pipeline when available (not required for validity)."""
+    build/layouts/<id>_seedNNN/. These are offline candidate files, not a simulator snapshot or acceptance.
+    AABB-center transforms require asset-origin calibration when applied."""
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "manifest.json").write_text(json.dumps(manifest, indent=2))
     (out_dir / "object_transforms.json").write_text(json.dumps(

@@ -16,6 +16,8 @@ from typing import Any
 
 import numpy as np
 
+from rummagebench.feasibility.fcl_compat import transform3
+
 from rummagebench.feasibility.collision import (
     AllowedCollisionMatrix,
     CollisionPair,
@@ -31,9 +33,8 @@ logger = logging.getLogger(__name__)
 
 def _coal_object_from_pose(coal, kin, pose: Pose, geometry: Any):
     """coal.CollisionObject for a geometry placed at a base-frame Pose."""
-    T = coal.Transform3s(np.asarray(pose.position, dtype=float))
     R = np.asarray(kin.quat_to_rotation_matrix(pose.orientation), dtype=float)
-    T.setRotation(R)
+    T = transform3(coal, pose.position, R)
     return coal.CollisionObject(geometry, T)
 
 

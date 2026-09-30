@@ -30,7 +30,8 @@ FIXTURES = Path(__file__).parent / "fixtures"
 
 
 def _coal():
-    import coal
+    from rummagebench.feasibility.fcl_compat import collision_backend
+    coal = collision_backend()
 
     return coal
 

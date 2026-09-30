@@ -45,6 +45,9 @@ class InteractiveSearchEnv:
 
         self._backend = OmniGibsonBackend(seed=seed)
         self._backend.setup(self._scenario)
+        from rummagebench.adapters.python_api import _ensure_kinematics_urdf
+
+        _ensure_kinematics_urdf(self._backend, self._scenario, scenario_path)
         if self.mode is SessionMode.AGENT:
             from rummagebench.core.visual_session import VisualProtocolSession
 

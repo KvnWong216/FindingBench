@@ -60,7 +60,12 @@ def compute_metrics(
             if e["execution"]["failure_reason"] in FEASIBILITY_FAILURES
         )
     )
-    safety_failures = sum(1 for e in events if not e["validation"].get("safe", True))
+    # A validator that has not run is not a policy violation.
+    safety_failures = sum(
+        1 for e in events
+        if e["execution"].get("failure_reason") == "UNSAFE_ACTION"
+        or any(v.get("safety_violation") is True for v in e.get("events", []))
+    )
     invalid_actions = sum(
         1
         for e in events

@@ -5,9 +5,9 @@ pinocchio IK Stage A, coal collision Stage B, symbolic execution) behind the
 public eight-skill protocol. The agent sees ONLY PublicObservation; every
 grounding detail is evaluator-private (§19, §20).
 
-Step accounting: every submitted action consumes exactly one planning step
-(§16); the public counter and the legacy session's counter advance in
-lockstep because every path increments exactly once.
+Step accounting: each submission in a running, valid episode consumes one
+public planning step. The public counter is authoritative; the internal
+legacy executor counter advances only for dispatched object interactions.
 """
 
 from __future__ import annotations
@@ -67,9 +67,11 @@ class VisualProtocolSession:
         base_half_extent: float = 0.30,
         observe_cfg: ObserveConfig | None = None,
     ):
+        # Session-specific policy must not mutate the caller's scenario.
+        scenario = scenario.model_copy(deep=True)
         # AGENT mode: wrong grasps recoverable, holding the target does NOT
         # auto-succeed, unsafe attempts map to UNSAFE feedback (all
-        # non-terminal). The legacy MAX_STEPS rule stays as the horizon.
+        # non-terminal). The public counter enforces the AGENT horizon.
         scenario.termination.fail_on_wrong_grasp = False
         scenario.termination.succeed_when_holding_target = False
         scenario.termination.fail_on_unsafe_action = False
@@ -79,7 +81,7 @@ class VisualProtocolSession:
         self._backend = backend
         self._scenario = scenario
         self._session = BenchmarkSession(backend, scenario)
-        self._protocol = protocol or AgentProtocolConfig()
+        self._protocol = protocol or getattr(scenario, "agent_protocol", AgentProtocolConfig())
         self._observe_cfg = observe_cfg or ObserveConfig()
         self._base_half_extent = base_half_extent
         self._store = FrameStore()
@@ -141,9 +143,19 @@ class VisualProtocolSession:
             observe_views=list(self._observe_views),
         )
 
+    def observe(self) -> PublicObservation:
+        """Read the current public snapshot without advancing or recapturing."""
+        if self._status == "ENGINE_ERROR":
+            raise RuntimeError("episode invalidated by simulator failure; reset required")
+        frame = self._store.get(self._store.current_id)
+        if frame is None:
+            raise RuntimeError("call reset() before observe()")
+        return self._observation(frame)
+
     # --------------------------------------------------------------- reset
 
     def reset(self) -> PublicObservation:
+        self._status = "ENGINE_ERROR"  # usable only after the entire reset succeeds
         self._session.reset()
         # the AGENT episode starts at the scenario spawn anchor: the visual
         # protocol has no NAV anchors, so the spawn is applied here
@@ -156,19 +168,42 @@ class VisualProtocolSession:
         self._backend.settle(5)
         self._store.reset()
         self._public_step = 0
-        self._status = _PUBLIC_RUNNING
         self._last_feedback = None
         self._observe_views = []
         self._trace.clear()
         frame = self._capture_current()
+        if frame.meta.get("visual_grounding_supported") is False:
+            raise RuntimeError(
+                "AGENT visual grounding requires synchronized renderer instance "
+                "segmentation, depth and camera geometry; RGB-only raycasts are "
+                "diagnostic-only and do not establish RGB visibility. "
+                f"Missing: {frame.meta.get('unsupported_reason', 'private modalities')}"
+            )
         self._log({"event": "reset", "frame_id": frame.frame_id})
-        return self._observation(frame)
+        observation = self._observation(frame)
+        self._status = _PUBLIC_RUNNING
+        return observation
 
     # ---------------------------------------------------------------- step
 
     def step(self, raw: dict[str, Any]) -> PublicStepResult:
+        if self._status == "ENGINE_ERROR":
+            raise RuntimeError("episode invalidated by simulator failure; reset required")
+        try:
+            return self._step_impl(raw)
+        except Exception:
+            # Covers capture/serialization/pose/log failures outside dispatch,
+            # too. The original detail is only sent to the evaluator logger.
+            logger.exception("visual protocol infrastructure failed")
+            self._status = "ENGINE_ERROR"
+            raise RuntimeError("episode invalidated by simulator failure; reset required") from None
+
+    def _step_impl(self, raw: dict[str, Any]) -> PublicStepResult:
+        if self._status == "ENGINE_ERROR":
+            raise RuntimeError("episode invalidated by simulator failure; reset required")
         if self._status != _PUBLIC_RUNNING:
             frame = self._store.get(self._store.current_id)
+            self._last_feedback = self._feedback(PublicActionFeedback.INVALID_ACTION)
             return PublicStepResult(
                 episode_status=self._status,
                 planning_step=self._public_step,
@@ -198,11 +233,16 @@ class VisualProtocolSession:
                 self._step_report_done(record)
             else:
                 frame = self._step_point(action, frame, record) or frame
-        except Exception as e:  # engine failure must never leak internals
-            logger.exception("public step failed")
-            self._last_feedback = self._feedback(PublicActionFeedback.INVALID_ACTION)
-            record["feedback"] = "INVALID_ACTION"
+        except Exception as e:
+            # Infrastructure failures are not agent mistakes. The simulator may
+            # already have changed; do not return a stale snapshot or score this
+            # as INVALID_ACTION. Invalidate this run until an explicit reset.
+            logger.exception("public step failed; run invalidated")
+            self._status = "ENGINE_ERROR"
             record["private_reason"] = f"ENGINE:{type(e).__name__}"
+            record["run_invalidated"] = True
+            self._log(record)
+            raise RuntimeError("episode invalidated by simulator failure; reset required") from None
 
         # horizon: every submitted action consumes exactly one step (§16)
         self._public_step += 1
@@ -212,8 +252,7 @@ class VisualProtocolSession:
         ):
             self._status = "FAIL_MAX_STEPS"
 
-        if frame is None:
-            frame = self._store.get(self._store.current_id)
+        frame = self._store.get(self._store.current_id)
         record["planning_step"] = self._public_step
         record["episode_status"] = self._status
         record["robot_pose_after"] = self._backend.robot_pose()[0]
@@ -308,24 +347,15 @@ class VisualProtocolSession:
         import numpy as np
 
         seg_has_data = bool(np.asarray(frame.instance_segmentation).any())
-        if not seg_has_data:
-            try:
-                entity, surface = self._backend.pixel_ray_hit(frame, x, y)
-            except Exception as e:
-                entity, surface = None, None
-                record["private_reason"] = f"RAYCAST:{type(e).__name__}"
-            if entity is None:
-                self._last_feedback = self._feedback(PublicActionFeedback.INVALID_ACTION)
-                record.setdefault("feedback", "INVALID_ACTION")
-                record.setdefault("private_reason", "NO_VISUAL_TARGET")
-                return None
-            record.update(bridge_mode="raycast",
-                          selected_surface_point_world=[round(float(v), 4) for v in surface])
-            return entity, np.asarray(surface)
+        if not seg_has_data or frame.meta.get("visual_grounding_supported") is False:
+            self._last_feedback = self._feedback(PublicActionFeedback.INVALID_ACTION)
+            record.update(feedback="INVALID_ACTION", private_reason="VISIBILITY_UNAVAILABLE")
+            return None
         try:
             entity, surface, detail = self._bridge.resolve(
                 frame, x, y,
-                self._backend.instance_to_entity,
+                lambda instance: self._backend.instance_to_entity(instance, frame)
+                if "instance_labels" in frame.meta else self._backend.instance_to_entity(instance),
             )
         except VisualGroundingError as e:
             self._last_feedback = self._feedback(PublicActionFeedback.INVALID_ACTION)
@@ -356,7 +386,8 @@ class VisualProtocolSession:
                                               self._session.world_state)
             )
         except Exception:
-            return True  # degraded entity: let the legacy validators decide
+            # Unknown adapter failures must not bypass applicability checks.
+            raise
 
     def _dispatch_entity_skill(self, skill: str, entity: str, record):
         if not self._skill_applicable(skill, entity):

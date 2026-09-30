@@ -1,5 +1,12 @@
 # RummageBench
 
+> **Validation status (2026-09-30):** the `build/` reports and `HANDOFF.md`
+> contain historical results, not acceptance evidence for the current code.
+> CPU regressions and real OmniGibson acceptance are separate gates. Offline
+> layout generation produces candidate manifests; it does not yet replace
+> furniture in the simulator or certify a playable generated scene. See
+> `EXPERIMENT_PLAN.md` for the remaining acceptance gates and experiment order.
+
 Embodiment-grounded interactive object-search benchmark built on
 **BEHAVIOR-1K v3.9.3 + OmniGibson**.
 
@@ -114,7 +121,7 @@ conda activate behavior
 
 # RummageBench itself
 pip install -e .            # from this repo
-pip install pin             # real kinematics + coal collision (feasibility)
+pip install -e '.[kinematics]' # use the NumPy-compatible declared constraint
 pip install mcp             # only needed for serve-mcp
 ```
 
@@ -194,10 +201,11 @@ action.
     extrinsics, or oracle state. Episode IDs are opaque.
 12. **SR / ST**: success rate and mean planning steps of successful episodes.
 13. **Layout generation**: `scripts/generate_layout.py` builds deterministic
-    BEHAVIOR layouts (layout_seed) separately from episode content
-    (episode_seed); manifest hash is reproducible.
-14. **Render profiles**: `configs/render/*.yaml` (visual-quality pass happens
-    only AFTER layout acceptance, §32).
+    candidate-layout manifests. Structural validation is separate from
+    simulator acceptance. Manifest-to-scene construction and real dataset
+    model verification remain required before layout generalization studies.
+14. **Render profiles**: deferred until simulator layout acceptance. No
+    completed render-profile implementation is claimed by this repository.
 15. **Reproduce**:
 
     ```bash
@@ -215,13 +223,10 @@ CUDA_VISIBLE_DEVICES=5 python scripts/serve_play.py [--scenario scenarios/knife_
 ```
 
 Boots the real simulator, then serves a browser UI on `http://0.0.0.0:8090`.
-Top-left card: the task instruction and step budget. Bottom: one square button
-per available skill type (icon + caption), with the layout density tracking
-the size of the grounded action space A_t. Clicking an object-directed skill
-(OPEN/CLOSE/GRASP) executes directly when exactly one target is grounded;
-otherwise a dialog lists the currently grounded targets to choose from
-(NAV/PLACE always ask). RESET restarts the episode. The player sees exactly
-what the benchmark exposes — the egocentric view and A_t, nothing else.
+The public interface uses the fixed eight-skill library and current RGB image.
+Object-directed actions select a normalized image point with the current
+opaque frame ID. RESET restarts the episode. Entity names and evaluator-private
+grounded candidate lists are not part of the AGENT interface.
 
 ## MCP adapter
 

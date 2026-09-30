@@ -25,6 +25,8 @@ from typing import Any
 
 import numpy as np
 
+from rummagebench.feasibility.fcl_compat import collision_backend, transform3
+
 from rummagebench.feasibility.ik_solver import (
     IKFailureReason,
     IKResult,
@@ -170,7 +172,7 @@ class PinocchioKinematics:
             raise ValueError(
                 f"end_effector_link {self.eef_link!r} not found in URDF {self.urdf_path}"
             )
-        eef_joint = model.frames[frame_id].parentJoint
+        eef_joint = _frame_parent_joint(model.frames[frame_id])
         chain: set[int] = set()
         j = eef_joint
         while j > 0:
@@ -188,7 +190,7 @@ class PinocchioKinematics:
                 f"base_link {self.base_link!r} not found in URDF {self.urdf_path}"
             )
         base_frame = self.model.frames[base_id]
-        if base_frame.parentJoint != 0:
+        if _frame_parent_joint(base_frame) != 0:
             raise ValueError(
                 f"base_link {self.base_link!r} is not the kinematic root; "
                 "the URDF root link must be the robot base (lock mobile-base "
@@ -204,7 +206,7 @@ class PinocchioKinematics:
         """§3: the EEF must be reachable by the controlled chain, otherwise
         IK could never move it — fail loudly instead of grounding blindly."""
         pin = self._pin
-        eef_joint = self.model.frames[self.frame_id].parentJoint
+        eef_joint = _frame_parent_joint(self.model.frames[self.frame_id])
         controlled_ids = set(range(1, self.model.njoints))
         if controlled_joints == "auto" or controlled_joints is None:
             return  # chain derived from / includes the EEF path by construction
@@ -247,7 +249,7 @@ class PinocchioKinematics:
         if gripper_links:
             gripper = set(gripper_links) | {self.eef_link}
         else:
-            eef_joint = self.model.frames[self.frame_id].parentJoint
+            eef_joint = _frame_parent_joint(self.model.frames[self.frame_id])
             subtree: set[int] = set()
             for jid in range(self.model.njoints):
                 j = jid
@@ -492,8 +494,7 @@ class PinocchioKinematics:
         bodies: list[tuple[str, Any]] = []
         for i, go in enumerate(self.geom_model.geometryObjects):
             M = self.geom_data.oMg[i]
-            T = coal.Transform3s(np.asarray(M.translation, dtype=float))
-            T.setRotation(np.asarray(M.rotation, dtype=float))
+            T = transform3(coal, M.translation, M.rotation)
             bodies.append((self._link_name_of(go), coal.CollisionObject(go.geometry, T)))
         return bodies
 
@@ -502,16 +503,12 @@ class PinocchioKinematics:
 
 
 def _coal():
-    """Import coal (hpp-fcl's successor shipped with the pin wheel)."""
-    try:
-        import coal
-        return coal
-    except ImportError as e:  # pragma: no cover - old pin wheels expose hppfcl
-        try:
-            import pinocchio as pin
-            return pin.hppfcl
-        except Exception:
-            raise ImportError(
-                "coal/hpp-fcl is required for configuration-space collision "
-                "checking (pip install pin provides it)"
-            ) from e
+    """Load the supported coal/hpp-fcl configuration-space collision binding."""
+    return collision_backend()
+
+
+def _frame_parent_joint(frame) -> int:
+    """Pinocchio 3 renamed Frame.parent to Frame.parentJoint."""
+    if hasattr(frame, "parentJoint"):
+        return int(frame.parentJoint)
+    return int(frame.parent)

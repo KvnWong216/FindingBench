@@ -63,9 +63,10 @@ def _worker_main(conn, scenario_path: str, gpu_id: int) -> None:
 
         session = create_session(scenario_path, mode="agent")
         obs = session.reset()
-        conn.send({"ok": True, "reset": obs})
+        conn.send({"ok": True, "reset": obs.model_dump(mode="json")})
     except Exception as e:
-        conn.send({"ok": False, "error": f"{type(e).__name__}: {e}"})
+        logger.exception("MCP simulator startup failed")
+        conn.send({"ok": False, "error": "Benchmark infrastructure failed to initialize; see evaluator logs."})
         return
 
     while True:
@@ -76,7 +77,7 @@ def _worker_main(conn, scenario_path: str, gpu_id: int) -> None:
         try:
             if cmd == "observe":
                 # AGENT contract: state payload IS the public observation
-                conn.send({"ok": True, "observation": session.state_payload()})
+                conn.send({"ok": True, "observation": session.observe().model_dump(mode="json")})
             elif cmd == "act":
                 result = session.step(payload)
                 conn.send(
@@ -96,7 +97,8 @@ def _worker_main(conn, scenario_path: str, gpu_id: int) -> None:
             else:
                 conn.send({"ok": False, "error": f"unknown command {cmd!r}"})
         except Exception as e:
-            conn.send({"ok": False, "error": f"{type(e).__name__}: {e}"})
+            logger.exception("MCP simulator command failed")
+            conn.send({"ok": False, "error": "Benchmark infrastructure failure; see evaluator logs."})
 
 
 def _ensure_worker(scenario_id: str, gpu_id: int | None = None) -> dict:
@@ -158,7 +160,7 @@ def create_server():
     @mcp.tool()
     def act(action: dict) -> dict:
         """Submit one canonical action, e.g.
-        {"skill": "NAV", "target": {"type": "place", "value": "kitchen"}}"""
+        {"skill": "MOVE", "distance_cm": 40}; point skills require the current frame_id."""
         return _call_worker("act", action)
 
     @mcp.tool()

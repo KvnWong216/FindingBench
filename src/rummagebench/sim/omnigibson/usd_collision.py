@@ -16,6 +16,8 @@ from typing import Any
 
 import numpy as np
 
+from rummagebench.feasibility.fcl_compat import collision_backend
+
 from rummagebench.sim.base import WorldCollisionObject
 
 logger = logging.getLogger(__name__)
@@ -24,12 +26,7 @@ _MAX_TRIANGLE_BUDGET = 60000
 
 
 def _coal():
-    try:
-        import coal
-        return coal
-    except ImportError:  # pragma: no cover
-        import pinocchio as pin
-        return pin.hppfcl
+    return collision_backend()
 
 
 def iter_prims(root_prim):

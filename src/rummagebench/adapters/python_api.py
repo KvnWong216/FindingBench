@@ -11,6 +11,7 @@ from pathlib import Path
 
 from rummagebench.core.errors import FeasibilityBackendError
 from rummagebench.core.scenario import load_scenario
+from rummagebench.core.public_types import SessionMode
 from rummagebench.core.session import BenchmarkSession
 from rummagebench.robots.model_loader import resolve_urdf_path
 from rummagebench.sim.omnigibson.backend import OmniGibsonBackend
@@ -63,6 +64,7 @@ def create_session(
     BenchmarkSession for scripted acceptance agents, certification and the
     oracle planner.
     """
+    mode = SessionMode(mode)  # reject typos before launching the simulator
     scenario = load_scenario(scenario_path)
     backend = OmniGibsonBackend(seed=seed)
     backend.setup(scenario)
@@ -70,10 +72,11 @@ def create_session(
     log_path = None
     if run_dir is not None:
         log_path = str(Path(run_dir) / "events.jsonl")
-    if mode == "agent":
+    if mode is SessionMode.AGENT:
         from rummagebench.core.visual_session import VisualProtocolSession
 
         session = VisualProtocolSession(backend, scenario)
-        session.set_trace(trace_path)
+        # Public trace schema is distinct from legacy evaluator events.
+        session.set_trace(trace_path if trace_path is not None else log_path)
         return session
     return BenchmarkSession(backend, scenario, log_path=log_path, trace_path=trace_path)

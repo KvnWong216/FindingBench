@@ -81,6 +81,7 @@ def main() -> int:
             REPO_ROOT / "scenarios" / "knife_search_001" / "scenario.yaml",
             run_dir=None,
             seed=0,
+            mode="oracle",
         )
         observation = session.reset()
         print(f"[probe] session ready in {time.time()-t0:.0f}s", flush=True)

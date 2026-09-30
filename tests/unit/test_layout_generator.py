@@ -89,3 +89,171 @@ def test_catalog_missing_model_fails_loudly():
         catalog.get("storage", "totally_unknown_model")
     with pytest.raises(ValueError):
         catalog.models_for("nonexistent_role")
+
+
+
+# Regression tests for the 88f099e acceptance gaps.
+import pytest
+from collections import Counter
+from rummagebench.authoring.layout.generator import GeneratedLayout, placements_overlap
+from rummagebench.authoring.layout.spec import Placement
+
+
+def _generated(seed=0, **overrides):
+    cfg = _config(**overrides)
+    catalog = _catalog()
+    return cfg, catalog, LayoutGenerator(catalog, cfg).generate(seed)
+
+
+@pytest.mark.parametrize('seed', range(10))
+def test_generated_clutter_has_support_and_requested_counts(seed):
+    cfg, catalog, layout = _generated(seed)
+    result = LayoutValidator(cfg).validate(layout, catalog)
+    assert result['structural_valid'], result
+    assert Counter(p.role for p in layout.placements) == {
+        'storage': cfg.storage_units, 'surface': cfg.work_surfaces,
+        'clutter': cfg.work_surfaces * cfg.clutter_per_surface,
+    }
+    assert not layout.rejected
+    for clutter in [p for p in layout.placements if p.role == 'clutter']:
+        support = next(p for p in layout.placements if p.name == clutter.support_name)
+        assert not placements_overlap(clutter, support, cfg.min_furniture_clearance_m)
+        assert clutter.category == catalog.get('clutter', clutter.model_id).category
+
+
+def test_missing_sim_checks_are_not_passes():
+    cfg, catalog, layout = _generated()
+    result = LayoutValidator(cfg).validate(layout, catalog)
+    assert result['structural_valid']
+    assert not result['valid'] and not result['sim_accepted']
+    for key in ('support', 'asset_available', 'scene_collision', 'search_connectivity',
+                'observe_viewpoint', 'stage_a_interaction'):
+        assert result['checks'][key]['status'] == 'not_run'
+
+
+def test_support_callback_is_executed_and_failure_blocks_acceptance():
+    cfg, catalog, layout = _generated()
+    called = []
+    def support(p):
+        called.append(p.name)
+        return False
+    result = LayoutValidator(cfg, {'support': support}).validate(layout, catalog)
+    assert len(called) == len(layout.placements)
+    assert result['checks']['support']['status'] == 'fail'
+    assert not result['valid']
+
+
+def test_callback_exception_fails_closed():
+    cfg, catalog, layout = _generated()
+    def broken(p):
+        raise RuntimeError('asset unresolved')
+    result = LayoutValidator(cfg, {'asset_available': broken}).validate(layout, catalog)
+    assert result['checks']['asset_available'] == {'status': 'fail', 'reason': 'asset unresolved'}
+    assert not result['sim_accepted']
+
+
+def test_missing_surface_or_clutter_is_invalid():
+    for role in ('surface', 'clutter'):
+        cfg, catalog, layout = _generated()
+        layout.placements.remove(next(p for p in layout.placements if p.role == role))
+        assert not LayoutValidator(cfg).validate(layout, catalog)['structural_valid']
+
+
+def test_clutter_overlap_or_missing_support_is_invalid():
+    cfg, catalog, layout = _generated()
+    clutter = [p for p in layout.placements if p.role == 'clutter']
+    clutter[1].position = list(clutter[0].position)
+    assert not LayoutValidator(cfg).validate(layout, catalog)['no_object_overlap']
+    clutter[0].support_name = 'missing'
+    assert not LayoutValidator(cfg).validate(layout, catalog)['clutter_supported']
+
+
+def test_undersized_region_rejects_without_numpy_exception():
+    cfg, catalog, layout = _generated(placement_regions=[[0, 0, .1, .1]])
+    assert layout.rejected and not layout.placements
+    assert not LayoutValidator(cfg).validate(layout, catalog)['structural_valid']
+
+
+def test_small_region_is_skipped_if_another_fits():
+    cfg, catalog, layout = _generated(placement_regions=[[0, 0, .1, .1], [-10, -10, 10, 10]])
+    assert LayoutValidator(cfg).validate(layout, catalog)['structural_valid']
+
+
+def test_clutter_exhaustion_is_recorded():
+    cfg, catalog, layout = _generated(clutter_per_surface=100, max_sampling_attempts=3)
+    assert any(r['role'] == 'clutter' for r in layout.rejected)
+    assert not LayoutValidator(cfg).validate(layout, catalog)['structural_valid']
+
+
+def test_later_surface_cannot_block_previous_cabinet_front():
+    cfg = _config(storage_units=1, work_surfaces=1, clutter_per_surface=0, robot_spawn=[10,10])
+    storage = Placement(name='s', category='bottom_cabinet', model_id='bottom_cabinet_no_top_qudfwe_0',
+                        position=[0,0,.45], aabb_size=[1,.65,.9], orientation_deg=0, role='storage')
+    blocker = Placement(name='b', category='countertop', model_id='countertop_tpuwys_0',
+                        position=[0,-.65,.45], aabb_size=[1,.35,.9], orientation_deg=0, role='surface')
+    layout = GeneratedLayout(config=cfg, layout_seed=0, placements=[storage])
+    assert not LayoutGenerator(_catalog(),cfg)._admissible(layout, blocker)
+    layout.placements.append(blocker)
+    assert not LayoutValidator(cfg).validate(layout,_catalog())['storage_access_strips_free']
+    layout.placements.reverse()
+    assert not LayoutValidator(cfg).validate(layout,_catalog())['storage_access_strips_free']
+
+
+@pytest.mark.parametrize('kwargs', [
+    {'storage_units': -1}, {'max_sampling_attempts': 0}, {'robot_spawn': [0]},
+    {'placement_regions': [[0,0,0,1]]}, {'placement_regions': [[0,0,1]]},
+    {'placement_regions': [[0,0,float('inf'),1]]},
+])
+def test_invalid_config_fails_at_schema(kwargs):
+    with pytest.raises(ValueError):
+        _config(**kwargs)
+
+
+def test_catalog_preserves_category_and_rejects_nonpositive_geometry():
+    from rummagebench.authoring.layout.asset_catalog import AssetEntry
+    catalog = _catalog()
+    assert catalog.get('surface','countertop_tpuwys_0').category == 'countertop'
+    with pytest.raises(ValueError):
+        AssetEntry(model_id='bad',aabb_size=[1,0,1])
+
+
+def test_manifest_labels_unapplied_candidate():
+    cfg,catalog,layout = _generated()
+    manifest = build_manifest(layout, LayoutValidator(cfg).validate(layout,catalog))
+    assert manifest['artifact_kind'] == 'candidate_layout'
+    assert manifest['simulator_application'] == 'not_implemented'
+    assert manifest['transform_convention'] == 'aabb_center_world'
+    assert 'storage' not in manifest['asset_categories']
+
+
+def test_acceptance_requires_loaded_layout_and_every_sim_check():
+    cfg, catalog, layout = _generated()
+    names = ('support', 'asset_available', 'scene_collision', 'search_connectivity',
+             'observe_viewpoint', 'stage_a_interaction')
+    checks = {name: lambda p: True for name in names}
+    assert not LayoutValidator(cfg, checks).validate(layout, catalog)['sim_accepted']
+    checks['layout_applied'] = lambda loaded: loaded is layout
+    assert LayoutValidator(cfg, checks).validate(layout, catalog)['sim_accepted']
+    checks['asset_available'] = lambda p: 'unresolved'
+    result = LayoutValidator(cfg, checks).validate(layout, catalog)
+    assert not result['sim_accepted']
+    assert result['checks']['asset_available']['status'] == 'fail'
+
+
+def test_cli_marks_candidate_and_can_require_real_acceptance(tmp_path):
+    import subprocess
+    args = [sys.executable, str(REPO/'scripts/generate_layout.py'),
+            '--config', str(CONFIG), '--catalog', str(CATALOG), '--out', str(tmp_path)]
+    candidate = subprocess.run(args, capture_output=True, text=True)
+    assert candidate.returncode == 0, candidate.stderr
+    import json
+    data = json.loads(candidate.stdout)
+    assert data['structural_valid'] is True
+    assert data['valid'] is False and data['sim_accepted'] is False
+    accepted = subprocess.run(args + ['--require-sim-accepted'], capture_output=True, text=True)
+    assert accepted.returncode == 1
+
+
+def test_zero_clearance_still_rejects_spawn_inside_furniture():
+    from rummagebench.authoring.layout.generator import _point_near_rect
+    assert _point_near_rect(0, 0, ((-1, -1), (1, 1)), 0)

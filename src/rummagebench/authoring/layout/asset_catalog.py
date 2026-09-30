@@ -1,21 +1,24 @@
 """Asset catalog: curated BEHAVIOR-1K model pool with exact model ids (§26).
 
 Never "first sorted model in category". Every entry is an explicit allowed
-model with its AABB size (meters). Validation fails LOUDLY on missing
-category/model and never silently substitutes.
+model with its AABB size (meters). Catalog membership fails loudly; it does not prove dataset availability.
+Entries must pass the simulator asset_available check before acceptance.
+No scene-instance name is heuristically converted into a dataset model ID.
 """
 
 from __future__ import annotations
 
 import yaml
 from pydantic import BaseModel, ConfigDict, Field
+from rummagebench.authoring.layout.spec import Positive
 
 
 class AssetEntry(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     model_id: str
-    aabb_size: list[float] = Field(..., min_length=3, max_length=3)
+    aabb_size: list[Positive] = Field(..., min_length=3, max_length=3)
+    category: str | None = None
 
 
 class AssetCategory(BaseModel):
@@ -35,7 +38,9 @@ class AssetCatalog:
                 for entry in cat.models:
                     if entry.model_id in flat:
                         raise ValueError(f"duplicate model id {entry.model_id!r}")
-                    flat[entry.model_id] = entry
+                    if entry.category is not None and entry.category != cat.category:
+                        raise ValueError("asset entry/category mismatch")
+                    flat[entry.model_id] = entry.model_copy(update={"category": cat.category})
             self._by_role[role] = flat
 
     @classmethod

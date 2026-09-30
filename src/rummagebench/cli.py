@@ -50,7 +50,7 @@ def cmd_run(args: argparse.Namespace) -> int:
     if not args.no_trace:
         trace = run_dir / "grounding_trace.jsonl"
     session = create_session(
-        _scenario_file(args.scenario), run_dir=run_dir, seed=args.seed, trace_path=trace
+        _scenario_file(args.scenario), run_dir=run_dir, seed=args.seed, trace_path=trace, mode="oracle"
     )
     agent = make_agent(args.agent, scenario)
     summary = run_episode(session, agent, run_dir, save_images=not args.no_images)
@@ -137,7 +137,7 @@ def cmd_trace_grounding(args: argparse.Namespace) -> int:
     run_dir = Path(args.run_dir) / run_id
     trace_path = run_dir / "grounding_trace.jsonl"
 
-    session = create_session(scenario_path, run_dir=run_dir, seed=args.seed, trace_path=trace_path)
+    session = create_session(scenario_path, run_dir=run_dir, seed=args.seed, trace_path=trace_path, mode="oracle")
     agent = make_agent("scripted", scenario)
     summary = run_episode(session, agent, run_dir, save_images=False)
     print(f"episode: {summary['episode_id']}  status: {summary['status']}")
@@ -168,7 +168,7 @@ def cmd_inspect_actions(args: argparse.Namespace) -> int:
 
     scenario_path = _scenario_file(args.scenario)
     scenario = load_scenario(scenario_path)
-    session = create_session(scenario_path, run_dir=None, seed=args.seed)
+    session = create_session(scenario_path, run_dir=None, seed=args.seed, mode="oracle")
     session.reset()
     if args.anchor:
         if args.anchor not in scenario.anchors:
@@ -236,7 +236,7 @@ def cmd_certify(args: argparse.Namespace) -> int:
     from rummagebench.evaluation.certification import save_certificate
 
     scenario_path = _scenario_file(args.scenario)
-    session = create_session(scenario_path, run_dir=None, seed=args.seed)
+    session = create_session(scenario_path, run_dir=None, seed=args.seed, mode="oracle")
     certificate = certify_session_scenario(session)
     path = save_certificate(certificate, args.out)
     print(json.dumps({
@@ -260,7 +260,7 @@ def cmd_certify_split(args: argparse.Namespace) -> int:
     import subprocess
 
     cmd = [
-        sys.executable, str(Path(__file__).resolve().parents[1] / "scripts" / "certify_split.py"),
+        sys.executable, str(Path(__file__).resolve().parents[2] / "scripts" / "certify_split.py"),
         "--split", args.split, "--out", args.out,
         "--robots", *args.robots,
     ]
@@ -401,7 +401,7 @@ def create_session_variant(scenario, seed: int):
     import yaml as _yaml
 
     tmp.write_text(_yaml.safe_dump(scenario.model_dump(mode="json"), sort_keys=False))
-    return create_session(tmp, run_dir=None, seed=seed)
+    return create_session(tmp, run_dir=None, seed=seed, mode="oracle")
 
 
 def main(argv: list[str] | None = None) -> int:

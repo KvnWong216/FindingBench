@@ -29,6 +29,8 @@ def main() -> int:
     parser.add_argument("--config", required=True)
     parser.add_argument("--catalog", required=True)
     parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--require-sim-accepted", action="store_true",
+                        help="Fail unless loaded-scene checks passed (not available in this offline CLI)")
     parser.add_argument("--out", default=str(REPO / "build" / "layouts"))
     args = parser.parse_args()
 
@@ -43,11 +45,15 @@ def main() -> int:
     print(json.dumps({
         "out": str(seed_dir),
         "valid": validation["valid"],
+        "structural_valid": validation["structural_valid"],
+        "sim_accepted": validation["sim_accepted"],
+        "status": "candidate_only; simulator layout application is not implemented",
         "objects": len(layout.placements),
         "rejected": len(layout.rejected),
         "manifest_hash": manifest["manifest_hash"][:16],
     }, indent=2))
-    return 0 if validation["valid"] else 1
+    passed = validation["sim_accepted"] if args.require_sim_accepted else validation["structural_valid"]
+    return 0 if passed else 1
 
 
 if __name__ == "__main__":

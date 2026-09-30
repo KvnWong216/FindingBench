@@ -74,34 +74,33 @@ class VisualBridge:
 
     # ------------------------------------------------------ surface point
 
-    def surface_point(self, frame, instance) -> np.ndarray:
-        """Median-depth unprojection over the instance pixels INSIDE the
-        patch neighborhood of the current selection (§8.4)."""
+    def surface_point(self, frame, instance, pixel: tuple[int, int]) -> np.ndarray:
+        """Return an actual valid sample near the patch's median depth.
+
+        The representative is restricted to the clicked instance and 11x11
+        neighborhood; unrelated portions of the object cannot move it.
+        """
         seg = np.asarray(frame.instance_segmentation)
         depth = np.asarray(frame.depth, dtype=float)
-        mask = seg == instance
-        vals = depth[mask]
-        vals = vals[np.isfinite(vals) & (vals > 0)]
-        if vals.size == 0:
+        if depth.shape != seg.shape or frame.depth_convention not in ("z_depth", "euclidean_range"):
+            raise VisualGroundingError("INVALID_DEPTH_GEOMETRY")
+        u, v = pixel
+        r = self.patch_size // 2
+        v0, v1 = max(0, v-r), min(seg.shape[0], v+r+1)
+        u0, u1 = max(0, u-r), min(seg.shape[1], u+r+1)
+        patch = depth[v0:v1, u0:u1]
+        mask = (seg[v0:v1, u0:u1] == instance) & np.isfinite(patch) & (patch > 0)
+        rows, cols = np.where(mask)
+        if not len(rows):
             raise VisualGroundingError("NO_VALID_DEPTH")
-        med = float(np.median(vals))
-
-        us, vs = np.where(mask)
-        us, vs = us[:: max(1, len(us) // 64)], vs[:: max(1, len(vs) // 64)]
-        pts = []
-        for u, v in zip(vs, us):  # np.where returns (rows=v, cols=u)
-            d = float(depth[v, u])
-            if not np.isfinite(d) or d <= 0:
-                continue
-            pc = (
-                unproject_z_depth(int(u), int(v), d, frame.camera_intrinsics)
-                if frame.depth_convention == "z_depth"
-                else unproject_range(int(u), int(v), d, frame.camera_intrinsics)
-            )
-            pts.append(to_world(pc, frame.camera_extrinsics))
-        if not pts:
-            raise VisualGroundingError("NO_VALID_DEPTH")
-        return np.median(np.asarray(pts), axis=0)
+        vals = patch[mask]
+        median = np.median(vals)
+        # Depth robustness first, then proximity to the selected pixel.
+        order = np.lexsort(((cols+u0-u)**2 + (rows+v0-v)**2, np.abs(vals-median)))
+        idx = order[0]
+        pu, pv, d = int(cols[idx]+u0), int(rows[idx]+v0), float(vals[idx])
+        unproject = unproject_z_depth if frame.depth_convention == "z_depth" else unproject_range
+        return to_world(unproject(pu, pv, d, frame.camera_intrinsics), frame.camera_extrinsics)
 
     # ------------------------------------------------------------- resolve
 
@@ -112,5 +111,5 @@ class VisualBridge:
         entity = canonicalize(instance)
         if entity is None:
             raise VisualGroundingError("NO_OWNING_ENTITY")
-        point = self.surface_point(frame, instance)
+        point = self.surface_point(frame, instance, (u, v))
         return entity, point, {"pixel": [int(u), int(v)], "instance": str(instance)}

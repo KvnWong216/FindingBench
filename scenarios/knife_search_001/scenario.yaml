@@ -10,9 +10,10 @@ robot:
   model: r1pro
   # §7 modalities: the segmentation/depth annotators deterministically
   # segfault the syntheticdata graph on the current Isaac Sim 5.1 host build
-  # (reproduced on idle GPUs, rgb-only always stable), so the production
-  # visual bridge on this host is the raycast fallback (backend
-  # pixel_ray_hit); hosts with a stable syntheticdata build may re-enable:
+  # (historical host report; not rerun in the CPU patch environment).
+  # RGB-only is retained for ORACLE diagnostics. Strict AGENT reset now
+  # rejects missing renderer modalities; physics-ray fallback is not an
+  # accepted visual-grounding substitute. On a verified stable host enable:
   #   obs_modalities: [rgb, depth, seg_instance]
   name: robot_0
   init_anchor: living_room

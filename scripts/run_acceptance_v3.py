@@ -71,7 +71,7 @@ def main() -> int:
     scenario_path = REPO_ROOT / args.scenario
 
     # ---------- phase A/B: production session (export + validation + runs) --
-    session = create_session(scenario_path, run_dir=None, seed=0)
+    session = create_session(scenario_path, run_dir=None, seed=0, mode="oracle")
     session.reset()
     report["robot"] = session.scenario.robot.model
     report["feasibility_backend"] = session.scenario.feasibility.backend

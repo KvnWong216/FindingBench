@@ -13,6 +13,7 @@ import yaml
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from rummagebench.core.errors import ScenarioValidationError
+from rummagebench.core.public_types import AgentProtocolConfig
 
 
 class AnchorSpec(BaseModel):
@@ -208,6 +209,7 @@ class ScenarioSpec(BaseModel):
     termination: TerminationSpec = Field(default_factory=TerminationSpec)
     feasibility: FeasibilitySpec = Field(default_factory=FeasibilitySpec)
     action_interface: ActionInterfaceSpec = Field(default_factory=ActionInterfaceSpec)
+    agent_protocol: AgentProtocolConfig = Field(default_factory=AgentProtocolConfig)
     # exact oracle semantic depth d* — computed by the oracle planner during
     # episode certification; NEVER hand-authored (None until certified)
     oracle_min_steps: Optional[int] = None
