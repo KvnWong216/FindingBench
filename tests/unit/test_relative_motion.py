@@ -1,8 +1,10 @@
 """§39 relative base motion: signed conventions, swept collision, no partial."""
 
 import numpy as np
+import pytest
 
 from rummagebench.skills.move import (
+    execute_move,
     move_target_pose,
     turn_target_pose,
     yaw_from_quat,
@@ -99,3 +101,88 @@ def test_reported_breakfast_table_false_positive():
                (3.0332037466,-6.9283552163),(3.7799561402,-7.2153410395)]
     obstacle = ([2.3257446289,-7.70688199997,0],[3.04167461395,-7.17469644546,.708])
     assert not _aabb_overlaps_footprint(obstacle, corners, .03)
+
+
+# ---------------------------------------------------------------------------
+# Static reproduction of the audited pillar rejection (raw_agent_resume_1
+# collision_audit_12.json): MOVE 50 cm along yaw~180° from [3.0102,-6.5167]
+# is blocked by the square column walls_tjfjwe_0. The pillar is visible in
+# the public frame_000007 RGB; these tests pin the gate's exact behavior.
+# ---------------------------------------------------------------------------
+
+_PILLAR_POSE = ([3.01020884513855, -6.516660690307617, 0.005284354090690613],
+                [-7.766857743263245e-05, -7.723308954155073e-06,
+                 0.9999998211860657, 0.0007758901920169592])
+_PILLAR_AABB = ([2.038912057876587, -7.061361312866211, -2.384185791015625e-07],
+                [2.2485122680664062, -6.8517608642578125, 2.3999998569488525])
+
+
+class _PillarBackend:
+    """Single-obstacle backend double pinned to the audited pillar AABB."""
+
+    def __init__(self):
+        self.teleported = None
+
+    def entity_names(self):
+        return ["walls_tjfjwe_0"]
+
+    def robot_entity_names(self):
+        return {"robot_0"}
+
+    def describe_entity(self, name):
+        return object()
+
+    def is_holding(self, name):
+        return False
+
+    def entity_aabb(self, name):
+        return _PILLAR_AABB
+
+    def teleport_robot(self, anchor):
+        self.teleported = anchor
+
+
+def _first_blocked_distance(pose, distance_m, margin):
+    from rummagebench.skills.move import base_pose_collision_free, yaw_from_quat
+    (x0, y0, _), q = pose
+    yaw = yaw_from_quat(q)
+    steps = 11  # 50 cm at sample_m=0.05
+    for i in range(1, steps + 1):
+        f = i / steps
+        if not base_pose_collision_free(_PillarBackend(), x0 + distance_m * f * np.cos(yaw),
+                                        y0 + distance_m * f * np.sin(yaw), yaw,
+                                        0.40, margin):
+            return distance_m * f
+    return None
+
+
+def test_audited_pillar_blocks_move50_at_audited_sample():
+    backend = _PillarBackend()
+    safe, final = execute_move(backend, _PILLAR_POSE, 0.5, half_extent=0.40,
+                               sample_m=0.05, margin=0.03)
+    assert safe is False and final is None
+    assert backend.teleported is None  # zero partial execution
+    blocked = _first_blocked_distance(_PILLAR_POSE, 0.5, 0.03)
+    assert blocked == pytest.approx(0.36363636363636365)  # audit_12 first_blocks[0]
+
+
+def test_audited_pillar_blocks_even_with_zero_margin():
+    # The front footprint corner penetrates the pillar AABB by ~1.3 mm, so
+    # the rejection is real geometry, not an artifact of the 3 cm margin.
+    blocked = _first_blocked_distance(_PILLAR_POSE, 0.5, 0.0)
+    assert blocked == pytest.approx(0.36363636363636365)
+
+
+def test_lateral_shift_clears_the_pillar():
+    # Shifting the base center 11 cm toward +y clears the audited column
+    # with the full 3 cm margin: a legal approach past the pillar exists.
+    (x, y, z), q = _PILLAR_POSE
+    shifted = ([x, y + 0.11, z], q)
+    backend = _PillarBackend()
+    safe, final = execute_move(backend, shifted, 0.5, half_extent=0.40,
+                               sample_m=0.05, margin=0.03)
+    assert safe is True
+    # yaw is 179.911°: cos gives ~-0.5 m in x, sin drifts ~0.8 mm in y
+    assert final[0] == pytest.approx(x - 0.5, abs=1e-5)
+    assert final[1] == pytest.approx(y + 0.11, abs=2e-3)
+    assert backend.teleported is not None

@@ -9,9 +9,11 @@ scene:
 robot:
   model: r1pro
   # Required real renderer modalities; AGENT rejects missing data.
-  # Known host issue: seg_semantic dependency can crash on heading180.
-  # Verified raw renderer-ID workaround is diagnostic-only: scripts/run_raw_agent.py.
-  # See HANDOFF_2026-09-30.md; default adapters are NOT fully accepted.
+  # seg_instance is fulfilled on the DEFAULT Python/MCP/UI path by the real
+  # renderer instance_id_segmentation_fast capture (raw_instance.py) on the
+  # same render product as RGB; OG's semantic-dependent seg chain is never
+  # built on this host. scripts/run_raw_agent.py remains the diagnostic
+  # launcher for the same verified path. See HANDOFF_2026-09-30.md.
   obs_modalities: [rgb, depth_linear, seg_instance]
   name: robot_0
   init_anchor: living_room

@@ -2,11 +2,21 @@
 
 IDs stay renderer-produced and frame-local. Only labels are canonicalized to
 the exact owning scene object; unknown/invalid paths never resolve to a target.
+
+This module is also the DEFAULT grounding bridge for the Python / MCP / UI
+adapters: scenarios requesting renderer instance segmentation install the real
+``instance_id_segmentation_fast`` annotator here (same render product as RGB),
+never a raycast substitute and never synthetic buffers.
 """
 from __future__ import annotations
 import types
 import numpy as np
 from scipy.spatial.transform import Rotation
+
+# Scenario modalities fulfilled by the raw renderer capture instead of the
+# OG obs pipeline (whose seg_instance implementation depends on seg_semantic,
+# which crashes this host's renderer graph).
+GROUNDING_MODALITIES = {"seg_instance", "seg_instance_id"}
 
 def canonical_labels(labels, object_roots):
     if not isinstance(labels, dict) or not labels:
@@ -73,3 +83,46 @@ def install_renderer_instance_capture(backend, annotator, sensor_name):
         self.validate_physics_state()
         return frame
     backend.capture_visual_frame=types.MethodType(capture,backend)
+
+
+def select_grounding_sensor(backend) -> str:
+    """The exact sensor identity capture_visual_frame will select."""
+    from rummagebench.sim.omnigibson.observation import select_head_rgb_sensor
+    obs_list, _ = backend._env.get_obs()
+    robot_obs = obs_list[0].get(backend._robot.name, {})
+    sensor_name, _ = select_head_rgb_sensor(robot_obs)
+    return sensor_name
+
+
+def enable_renderer_grounding(backend) -> str:
+    """Install the verified raw renderer instance-ID grounding on a backend.
+
+    Real annotator on the SAME render product the RGB comes from; real
+    depth_linear is added when the sensor lacks it. The strict AGENT reset
+    gate still fails closed if any modality ends up missing.
+    """
+    sensor_name = select_grounding_sensor(backend)
+    sensor = backend._robot.sensors[sensor_name]
+    if "depth_linear" not in sensor.modalities:
+        sensor.add_modality("depth_linear")
+    import omni.replicator.core as rep
+    annotator = rep.AnnotatorRegistry.get_annotator("instance_id_segmentation_fast")
+    with backend._sim.editing_usd():
+        annotator.attach([sensor.render_product])
+    install_renderer_instance_capture(backend, annotator, sensor_name)
+    return sensor_name
+
+
+def install_physics_only_settle(backend) -> None:
+    """Verified settle: no renders between physics steps, finite state after
+    every step (part of the stable raw-ID recipe from the diagnostic runs)."""
+    def physics_settle(self, steps=None):
+        scope = self._sim.render_on_step(False)
+        scope.__enter__()
+        try:
+            for _ in range(steps if steps is not None else self._settle_steps):
+                self._sim.step()
+                self.validate_physics_state()
+        finally:
+            scope.__exit__(None, None, None)
+    backend.settle = types.MethodType(physics_settle, backend)

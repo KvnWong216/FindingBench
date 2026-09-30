@@ -72,7 +72,16 @@ def build_env_config(scenario: ScenarioSpec) -> dict:
     robot_cfg = deepcopy(load_robot_config(scenario.robot.model))
     robot_cfg["model"] = scenario.robot.model
     robot_cfg["name"] = scenario.robot.name
-    robot_cfg["obs_modalities"] = list(scenario.robot.obs_modalities)
+    # Renderer instance segmentation is supplied post-setup by the raw
+    # instance_id_segmentation_fast capture (raw_instance.py) on the same
+    # render product as RGB. OG's seg_instance obs chain depends on
+    # seg_semantic, which crashes this host's renderer graph (native 139),
+    # so those modalities must never reach the OG build config.
+    from rummagebench.sim.omnigibson.raw_instance import GROUNDING_MODALITIES
+
+    robot_cfg["obs_modalities"] = [
+        m for m in scenario.robot.obs_modalities if m not in GROUNDING_MODALITIES
+    ]
     robot_cfg["grasping_mode"] = scenario.robot.grasping_mode
     if scenario.robot.include_sensor_names is not None:
         robot_cfg["include_sensor_names"] = list(scenario.robot.include_sensor_names)
