@@ -376,6 +376,10 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--scenario", default="scenarios/knife_search_001/scenario.yaml")
     parser.add_argument("--port", type=int, default=8090)
+    parser.add_argument("--host", default="127.0.0.1",
+                        help="bind address; loopback by default so acceptance "
+                             "runs never expose an open port (use an explicit, "
+                             "authorized interface only when needed)")
     parser.add_argument("--seed", type=int, default=0)
     args = parser.parse_args()
 
@@ -388,9 +392,9 @@ def main() -> int:
     page = PAGE.replace("__ICONS__", json.dumps(ICONS))
     globals()["PAGE"] = page
 
-    server = ThreadingHTTPServer(("0.0.0.0", args.port), Handler)
+    server = ThreadingHTTPServer((args.host, args.port), Handler)
     threading.Thread(target=server.serve_forever, daemon=True).start()
-    print(f"== UI: http://0.0.0.0:{args.port}  (booting the simulator…)", flush=True)
+    print(f"== UI: http://{args.host}:{args.port}  (booting the simulator…)", flush=True)
 
     try:
         state.boot()
