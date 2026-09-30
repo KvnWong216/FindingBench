@@ -26,6 +26,8 @@ def main() -> int:
     parser.add_argument("--frames", type=int, default=30)
     parser.add_argument("--warmup", type=int, default=5)
     parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--include", default=None,
+                        help="comma list of include_sensor_names substrings")
     parser.add_argument("--out", default=None)
     args = parser.parse_args()
 
@@ -36,6 +38,10 @@ def main() -> int:
 
     scenario = load_scenario(REPO / "scenarios" / "knife_search_001" / "scenario.yaml")
     scenario.robot.obs_modalities = list(mods)
+    if args.include:
+        scenario.robot.include_sensor_names = [
+            i.strip() for i in args.include.split(",") if i.strip()]
+    print(f"[probe] include_sensor_names={scenario.robot.include_sensor_names}", flush=True)
     backend = OmniGibsonBackend(seed=args.seed)
     t0 = time.time()
     backend.setup(scenario)
