@@ -50,7 +50,7 @@ PAGE = """<!DOCTYPE html>
   :root { --ink:#182028; --accent:#0f6e4e; --bad:#b3261e; --warn:#b26a00; }
   html,body { background:#f2f4f3; color:var(--ink); margin:0;
               font-family:'Segoe UI',system-ui,sans-serif; }
-  .wrap { max-width:880px; margin:0 auto; padding:10px 12px 30px; }
+  .wrap { max-width:1280px; margin:0 auto; padding:10px 12px 30px; }
   header { display:flex; align-items:baseline; gap:14px; padding:6px 2px 10px; }
   header h1 { font-size:1.15em; margin:0; color:var(--accent); }
   header .st { font-size:0.9em; color:#555; }
@@ -92,6 +92,10 @@ PAGE = """<!DOCTYPE html>
   #modal button { flex:1; padding:10px; border-radius:8px; border:1.2px solid #cdd6d1;
                   background:#fafcfb; cursor:pointer; font-size:0.9em; }
   #modal .go { background:var(--accent); color:#fff; border-color:var(--accent); }
+  #reset { margin-left:auto; padding:6px 14px; border-radius:8px; cursor:pointer;
+           border:1.2px solid #cdd6d1; background:#fff; color:var(--ink); font-size:0.85em; }
+  #reset:hover { border-color:var(--accent); }
+  #reset:disabled { opacity:.45; cursor:wait; }
   #boot { padding:40px; text-align:center; color:#567; font-size:0.95em; }
   .spin { display:inline-block; width:18px; height:18px; border:3px solid #cde;
           border-top-color:var(--accent); border-radius:50%;
@@ -104,6 +108,7 @@ PAGE = """<!DOCTYPE html>
   <header>
     <h1>FindingBench · Play</h1>
     <span class="st" id="status">booting…</span>
+    <button id="reset" disabled title="restart the episode from the initial state">↺ reset</button>
   </header>
   <div id="view">
     <div id="boot"><span class="spin"></span>launching the simulator (a few minutes)…</div>
@@ -207,10 +212,31 @@ async function submit(action) {
   } catch (e) { /* transient */ }
 }
 
+let resetBase = null;
+$g("reset").onclick = async () => {
+  if (!cur || !cur.ready || resetBase !== null) return;
+  if (!confirm("Restart the episode from the beginning?")) return;
+  resetBase = cur.resets;
+  pendingSkill = null;
+  $g("view").classList.remove("selecting");
+  $g("mode").textContent = "";
+  $g("reset").disabled = true;
+  lastVerdictKey = null;
+  setBusy(true);
+  try {
+    const j = await (await fetch("/reset", { method: "POST" })).json();
+    if (j.error) { alert(j.error); resetBase = null; setBusy(false); }
+  } catch (e) { resetBase = null; setBusy(false); }
+};
+
 function render(st) {
   cur = st;
   if (st.error) { $g("boot").innerHTML = "BOOT FAILED: " + st.error; return; }
   if (!st.ready) return;
+  if (resetBase !== null && st.resets !== resetBase) {
+    resetBase = null; lastVerdictKey = null; setBusy(false);
+  }
+  $g("reset").disabled = resetBase !== null;
   if (busy && lastVerdictKey !== null &&
       JSON.stringify(st.feedback) !== lastVerdictKey) {
     lastVerdictKey = null; setBusy(false);
@@ -257,15 +283,17 @@ class PlayState:
     """Shared state. HTTP threads ENQUEUE; the main thread (which booted the
     simulator) executes — Kit calls deadlock off their creating thread."""
 
-    def __init__(self, scenario_path: str, seed: int):
+    def __init__(self, scenario_path: str, seed: int, start_anchor: str | None = None):
         self.scenario_path = scenario_path
         self.seed = seed
+        self.start_anchor = start_anchor
         self.lock = threading.Lock()
         self.ready = False
         self.error: str | None = None
         self.env = None
         self.snapshot: dict = {"ready": False}
         self.seq = 0
+        self.resets = 0
         self._pending: dict | None = None
 
     def boot(self) -> None:
@@ -275,6 +303,16 @@ class PlayState:
             env = InteractiveSearchEnv(self.scenario_path, seed=self.seed,
                                        mode="agent",
                                        trace_path="runs/play_trace.jsonl")
+            if self.start_anchor:
+                # debug: the scene is built (placements verified) from the
+                # scenario spawn; episodes then start at another anchor
+                scenario = env._scenario
+                if self.start_anchor not in scenario.anchors:
+                    raise ValueError(f"unknown anchor {self.start_anchor!r}; "
+                                     f"choose from {sorted(scenario.anchors)}")
+                # the AGENT session resets from its own deep copy
+                for sc in (scenario, env._session._scenario):
+                    sc.robot.init_anchor = self.start_anchor
             obs = env.reset()["observation"]
             self.env = env
             self.snapshot = obs
@@ -298,12 +336,23 @@ class PlayState:
             self._pending = action
             return {"queued": True}
 
+    def request_reset(self) -> dict:
+        # allowed after a terminal status: that is when players want it most
+        with self.lock:
+            if not self.ready:
+                return {"error": "simulator not ready"}
+            if self._pending is not None:
+                return {"error": "an action is already executing"}
+            self._pending = {"__reset__": True}
+            return {"queued": True}
+
     def state_payload(self) -> dict:
         payload = dict(self.snapshot)
         payload["ready"] = self.ready
         payload["error"] = self.error
         payload["pending"] = self._pending is not None
         payload["seq"] = self.seq
+        payload["resets"] = self.resets
         return payload
 
     def run_worker(self) -> None:
@@ -312,7 +361,18 @@ class PlayState:
         last_view = time.time()
         while True:
             action, self._pending = self._pending, None
-            if action is not None:
+            if action is not None and action.get("__reset__"):
+                try:
+                    self.snapshot = self.env.reset()["observation"]
+                    self.snapshot.update({"ready": True, "pending": False,
+                                          "episode_status": "RUNNING"})
+                    print("== episode reset", flush=True)
+                except Exception as e:
+                    print(f"== reset error: {e}", flush=True)
+                self.resets += 1
+                self.seq += 1
+                last_view = time.time()
+            elif action is not None:
                 try:
                     result = self.env.step(action)
                     self.snapshot = result["observation"]
@@ -368,6 +428,8 @@ class Handler(BaseHTTPRequestHandler):
                 self._json({"error": "skill required"}, 400)
                 return
             self._json(self.state.enqueue(body))
+        elif self.path == "/reset":
+            self._json(self.state.request_reset())
         else:
             self._json({"error": "not found"}, 404)
 
@@ -381,13 +443,17 @@ def main() -> int:
                              "runs never expose an open port (use an explicit, "
                              "authorized interface only when needed)")
     parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--start-anchor", default=None,
+                        help="debug: start each episode at this scenario anchor "
+                             "instead of robot.init_anchor (scene setup still "
+                             "uses init_anchor)")
     args = parser.parse_args()
 
     scenario_path = args.scenario
     if not Path(scenario_path).exists():
         scenario_path = str(REPO / args.scenario)
 
-    state = PlayState(scenario_path, seed=args.seed)
+    state = PlayState(scenario_path, seed=args.seed, start_anchor=args.start_anchor)
     Handler.state = state
     page = PAGE.replace("__ICONS__", json.dumps(ICONS))
     globals()["PAGE"] = page

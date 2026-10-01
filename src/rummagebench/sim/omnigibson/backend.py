@@ -847,7 +847,9 @@ class OmniGibsonBackend(SimBackend):
         try:
             # OG lazily attaches camera_params and renders on first access.
             # Finish that work BEFORE fetching any buffers for the frame.
-            K = array(sensor.intrinsic_matrix).astype(float)
+            from rummagebench.sim.omnigibson.raw_instance import wait_for_intrinsics
+
+            K = array(wait_for_intrinsics(sensor, self._sim)).astype(float)
         except Exception:
             pass
         if self._sim is not None:

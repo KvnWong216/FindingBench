@@ -16,6 +16,11 @@ robot:
   # launcher for the same verified path. See HANDOFF_2026-09-30.md.
   obs_modalities: [rgb, depth_linear, seg_instance]
   name: robot_0
+  # 16:9 480p camera with a wider lens (~90 x 59 deg FOV); the OG default
+  # 17 mm lens at 16:9 leaves only ~38 deg vertically.
+  image_width: 854
+  image_height: 480
+  focal_length_mm: 10.5
   init_anchor: living_room
   # URDF-derived kinematics (production feasibility): joint limits, FK, IK
   # and URDF <collision> bodies. The URDF is exported from the OmniGibson
@@ -52,8 +57,8 @@ feasibility:
 # embodiment-aware — the agent must NAV before it can interact.
 anchors:
   living_room:
-    position: [4.85, -7.86, 0.0053]
-    orientation: [0.0, 0.0, 0.0, 1.0]
+    position: [5.35, -7.86, 0.0053]
+    orientation: [0.0, 0.0, 1.0, 0.0]   # yaw 180: face the kitchen side; x=5.35 keeps >=0.6 m from the coffee table so turning in place is clear
   kitchen:
     position: [0.75, -8.15, 0.0053]   # room-level vantage over the kitchen
     orientation: [0.0, 0.0, 1.0, 0.0]
