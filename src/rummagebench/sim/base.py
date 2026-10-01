@@ -157,6 +157,9 @@ class SimBackend(ABC):
     def settle(self, steps: int = 10) -> None:
         """Advance the simulation so poses/contacts become consistent."""
 
+    def flush_render(self, renders: int = 30) -> None:
+        """Render without stepping physics; no-op by default."""
+        
     @abstractmethod
     def dump_state(self) -> Any:
         """Capture a full simulator state snapshot."""

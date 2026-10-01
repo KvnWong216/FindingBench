@@ -156,6 +156,13 @@ class PlacementSpec(BaseModel):
     entity: str
     relation: Literal["inside", "on_top"]
     receptacle: str  # name of an existing scene furniture object
+    link: Optional[str] = None
+
+    @model_validator(mode="after")
+    def _link_only_inside(self) -> "PlacementSpec":
+        if self.link is not None and self.relation != "inside":
+            raise ValueError("placement link is only valid for relation 'inside'")
+        return self
 
 
 class InitialStateSpec(BaseModel):
