@@ -8,13 +8,13 @@ scene:
 
 robot:
   model: r1pro
-  # §7 modalities: the segmentation/depth annotators deterministically
-  # segfault the syntheticdata graph on the current Isaac Sim 5.1 host build
-  # (historical host report; not rerun in the CPU patch environment).
-  # RGB-only is retained for ORACLE diagnostics. Strict AGENT reset now
-  # rejects missing renderer modalities; physics-ray fallback is not an
-  # accepted visual-grounding substitute. On a verified stable host enable:
-  #   obs_modalities: [rgb, depth, seg_instance]
+  # Required real renderer modalities; AGENT rejects missing data.
+  # seg_instance is fulfilled on the DEFAULT Python/MCP/UI path by the real
+  # renderer instance_id_segmentation_fast capture (raw_instance.py) on the
+  # same render product as RGB; OG's semantic-dependent seg chain is never
+  # built on this host. scripts/run_raw_agent.py remains the diagnostic
+  # launcher for the same verified path. See HANDOFF_2026-09-30.md.
+  obs_modalities: [rgb, depth_linear, seg_instance]
   name: robot_0
   init_anchor: living_room
   # URDF-derived kinematics (production feasibility): joint limits, FK, IK
@@ -52,7 +52,7 @@ feasibility:
 # embodiment-aware — the agent must NAV before it can interact.
 anchors:
   living_room:
-    position: [3.65, -8.25, 0.0053]
+    position: [4.85, -7.86, 0.0053]
     orientation: [0.0, 0.0, 0.0, 1.0]
   kitchen:
     position: [0.75, -8.15, 0.0053]   # room-level vantage over the kitchen

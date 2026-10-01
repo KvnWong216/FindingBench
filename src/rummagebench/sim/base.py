@@ -116,6 +116,14 @@ class SimBackend(ABC):
     def resolve_entity(self, name: str) -> ResolvedTarget:
         """Ground an entity name to a ResolvedTarget, or raise UnresolvableTargetError."""
 
+    def robot_entity_names(self) -> set[str]:
+        """Evaluator identities of this controlled robot, excluded from world obstacles."""
+        return set()
+
+    def is_anchor_validated(self, name: str, anchor) -> bool:
+        """Named ORACLE navigation requires an explicit backend certificate."""
+        return False
+
     @abstractmethod
     def teleport_robot(self, anchor: AnchorSpec) -> None:
         """Move the robot base to the anchor pose (semantic navigation)."""

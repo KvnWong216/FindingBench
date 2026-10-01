@@ -86,6 +86,9 @@ class FakeBackend(SimBackend):
             raise UnresolvableTargetError(f"unknown entity {name!r}")
         return ResolvedTarget(kind=TargetKind.ENTITY, entity=name, info=info)
 
+    def is_anchor_validated(self, name, anchor):
+        return anchor is not None and name in self.anchors
+
     def teleport_robot(self, anchor) -> None:
         self._last_anchor_position = list(anchor.position)
 
@@ -336,6 +339,9 @@ class VisualFakeBackend(FakeBackend):
         super().__init__(*args, **kwargs)
         self.frame_entities = frame_entities or {}  # entity -> (u, v, w, h)
         self._teleports: list[tuple] = []
+
+    def is_anchor_validated(self, name, anchor):
+        return anchor is not None and name in self.anchors
 
     def teleport_robot(self, anchor) -> None:
         self._teleports.append((tuple(anchor.position), tuple(anchor.orientation)))

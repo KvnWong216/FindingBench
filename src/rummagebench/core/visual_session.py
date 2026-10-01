@@ -64,7 +64,7 @@ class VisualProtocolSession:
         backend,
         scenario,
         protocol: AgentProtocolConfig | None = None,
-        base_half_extent: float = 0.30,
+        base_half_extent: float = 0.40,
         observe_cfg: ObserveConfig | None = None,
     ):
         # Session-specific policy must not mutate the caller's scenario.

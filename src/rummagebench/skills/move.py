@@ -41,24 +41,43 @@ def _aabb_overlaps_footprint(aabb, corners, margin: float) -> bool:
     # obstacle must matter at base height (z overlap with [0, 0.5])
     if lo[2] > 0.5 or hi[2] < 0.05:
         return False
-    xs = [p[0] for p in corners]
-    ys = [p[1] for p in corners]
-    return not (
-        max(xs) + margin < lo[0] or min(xs) - margin > hi[0]
-        or max(ys) + margin < lo[1] or min(ys) - margin > hi[1]
-    )
+    # Keep the actual rotated base rectangle. Its enclosing world AABB
+    # contains empty corners and is only a broad-phase bound.
+    obstacle = [
+        (lo[0] - margin, lo[1] - margin),
+        (hi[0] + margin, lo[1] - margin),
+        (hi[0] + margin, hi[1] + margin),
+        (lo[0] - margin, hi[1] + margin),
+    ]
+    axes = [(1.0, 0.0), (0.0, 1.0)]
+    for i in (0, 1):
+        a, b = corners[i], corners[i + 1]
+        axes.append((-(b[1] - a[1]), b[0] - a[0]))
+    for ax, ay in axes:
+        base_projection = [x * ax + y * ay for x, y in corners]
+        obstacle_projection = [x * ax + y * ay for x, y in obstacle]
+        # Touching remains a collision, including the full safety margin.
+        if (max(base_projection) < min(obstacle_projection) - 1e-12
+                or max(obstacle_projection) < min(base_projection) - 1e-12):
+            return False
+    return True
 
 
 def base_pose_collision_free(backend, x: float, y: float, yaw: float,
                              half_extent: float, margin: float,
                              skip_entities: set[str] = frozenset()) -> bool:
-    """Configuration-level footprint check against fixed furniture AABBs."""
+    """Conservative footprint check against world obstacle AABBs."""
     corners = footprint_corners(x, y, yaw, half_extent)
+    controlled = getattr(backend, "robot_entity_names", lambda: set())()
     for name in backend.entity_names():
-        if name in skip_entities:
+        if name in skip_entities or name in controlled:
             continue
         info = backend.describe_entity(name)
-        if info is None or not getattr(info, "fixed_base", False):
+        if info is None:
+            continue
+        # Movable furniture still obstructs a teleporting base. Only bodies
+        # carried by this robot are excluded from the external obstacle set.
+        if getattr(backend, "is_holding", lambda _: False)(name):
             continue
         aabb = backend.entity_aabb(name)
         if aabb is None:

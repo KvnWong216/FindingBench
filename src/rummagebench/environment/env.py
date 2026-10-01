@@ -41,12 +41,19 @@ class InteractiveSearchEnv:
                  trace_path: str | Path | None = None):
         self.mode = SessionMode(mode)
         self._scenario = load_scenario(scenario_path)
+        from rummagebench.adapters.python_api import (
+            _ensure_kinematics_urdf,
+            install_renderer_grounding,
+            prepare_renderer_grounding,
+        )
         from rummagebench.sim.omnigibson.backend import OmniGibsonBackend
 
+        grounding = (prepare_renderer_grounding(self._scenario)
+                     if self.mode is SessionMode.AGENT else False)
         self._backend = OmniGibsonBackend(seed=seed)
         self._backend.setup(self._scenario)
-        from rummagebench.adapters.python_api import _ensure_kinematics_urdf
-
+        if grounding:
+            install_renderer_grounding(self._backend)
         _ensure_kinematics_urdf(self._backend, self._scenario, scenario_path)
         if self.mode is SessionMode.AGENT:
             from rummagebench.core.visual_session import VisualProtocolSession

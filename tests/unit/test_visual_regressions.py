@@ -240,3 +240,34 @@ def test_pose_failure_before_dispatch_invalidates_run(visual_session, visual_bac
         visual_session.step({"skill": "MOVE", "distance_cm": 10})
     with pytest.raises(RuntimeError, match="reset required"):
         visual_session.observe()
+
+
+def test_capture_reads_all_buffers_after_lazy_intrinsics_and_render():
+    data = data_frame()
+    backend = capture_backend(data)
+    events = []
+    class Sensor:
+        @property
+        def intrinsic_matrix(self):
+            events.append("intrinsics")
+            data["rgb"][:] = 1
+            data["depth"][:] = 1
+            return np.array([[30., 0., 15.5], [0., 30., 7.5], [0., 0., 1.]])
+        def get_position_orientation(self):
+            return [1., 2., 3.], [0., 0., 0., 1.]
+    backend._robot.sensors["head"] = Sensor()
+    original_get_obs = backend._env.get_obs
+    def get_obs():
+        events.append("get_obs")
+        return original_get_obs()
+    def render():
+        events.append("render")
+        data["rgb"][:] = 2
+        data["depth"][:] = 2
+    backend._env.get_obs = get_obs
+    backend._sim = SimpleNamespace(render=render)
+    frame = backend.capture_visual_frame()
+    assert events == ["get_obs", "intrinsics", "render", "render", "get_obs"]
+    assert (frame.rgb == 2).all()
+    assert (frame.depth == 2).all()
+    assert frame.meta["visual_grounding_supported"]

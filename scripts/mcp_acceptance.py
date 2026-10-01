@@ -1,70 +1,50 @@
-#!/usr/bin/env python3
-"""MCP acceptance test: drives the benchmark through the stdio MCP adapter
-and verifies it produces the same results as the direct Python API.
-
-    python scripts/mcp_acceptance.py
-"""
-
-import asyncio
-import json
-import sys
+"""Real stdio MCP public protocol smoke acceptance (not task completion)."""
+import argparse, asyncio, json, os, sys
 from pathlib import Path
+from mcp import ClientSession, StdioServerParameters
+from mcp.client.stdio import stdio_client
 
-REPO = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(REPO / "src"))
-
-from mcp import ClientSession, StdioServerParameters  # noqa: E402
-from mcp.client.stdio import stdio_client  # noqa: E402
-
-
-async def main() -> int:
-    params = StdioServerParameters(
-        command="/data1/ygwang/miniconda3/envs/behavior/bin/python",
-        args=["-m", "rummagebench.cli", "serve-mcp"],
-        cwd=str(REPO),
-        env={
-            "PATH": "/data1/ygwang/miniconda3/envs/behavior/bin:/usr/bin:/bin",
-            "CUDA_VISIBLE_DEVICES": "4",
-            "TORCHINDUCTOR_COMPILE_THREADS": "1",
-            "PYTHONUNBUFFERED": "1",
-            "PYTHONPATH": str(REPO / "src"),
-            "HOME": str(Path.home()),
-        },
-    )
-    async with stdio_client(params) as (read, write):
-        async with ClientSession(read, write) as session:
+async def run(args):
+    root=Path(__file__).resolve().parents[1]
+    gpu=os.environ["RUMMAGEBENCH_MCP_GPU"]
+    assert os.environ.get("CUDA_VISIBLE_DEVICES")==gpu, "GPU settings must match"
+    env=dict(os.environ, PYTHONPATH=str(root/"src"),PYTHONUNBUFFERED="1")
+    report={"ok":False,"checks":[],"kind":"AGENT public MCP smoke; not goal success"}
+    out=Path(args.out);out.parent.mkdir(parents=True,exist_ok=True)
+    async with stdio_client(StdioServerParameters(command=sys.executable,args=["-m","rummagebench.cli","serve-mcp"],cwd=str(root),env=env)) as (read,write):
+        async with ClientSession(read,write) as session:
             await session.initialize()
+            async def call(name,arguments):
+                response=await session.call_tool(name,arguments)
+                assert not response.isError, f"{name} returned MCP error"
+                value=json.loads(next(c.text for c in response.content if c.type=="text"))
+                assert value.get("ok",True), f"{name} infrastructure failure"
+                return value
+            data=await call("reset_episode",{"scenario_id":args.scenario})
+            obs=data["reset"]
+            assert set(obs)=={"instruction","frame_id","image_png_b64","planning_step","max_planning_steps","skill_library","feedback","observe_views"}
+            assert obs["image_png_b64"] and obs["planning_step"]==0
+            assert set(obs["skill_library"])=={"MOVE","TURN","OPEN","CLOSE","GRASP","PLACE","OBSERVE","REPORT_DONE"}
+            report["checks"].append("reset schema and actual RGB")
+            again=(await call("observe",{}))["observation"]
+            assert again==obs
+            report["checks"].append("observe does not advance snapshot")
+            result=await call("act",{"action":{"skill":"OPEN","point":{"frame_id":"deliberately-stale","x":.5,"y":.5}}})
+            assert result["feedback"]["code"]=="INVALID_ACTION" and result["planning_step"]==1
+            assert result["episode_status"]=="RUNNING"
+            report["checks"].append("stale frame rejected and budget charged")
+            result=await call("act",{"action":{"skill":"REPORT_DONE"}})
+            assert result["episode_status"]=="FAIL_FALSE_COMPLETION" and result["planning_step"]==2
+            status=await call("episode_status",{})
+            assert status["status"]=="FAIL_FALSE_COMPLETION"
+            report["checks"].append("false REPORT_DONE terminal status")
+            report["ok"]=True
+            out.write_text(json.dumps(report,indent=2))
+            print(json.dumps(report),flush=True)
+    return 0
 
-            reset = await session.call_tool(
-                "reset_episode", {"scenario_id": "knife_search_001"}
-            )
-            print("raw content parts:", [(c.type, str(c)[:120]) for c in reset.content])
-            reset_data = json.loads(reset.content[0].text)
-            print("instruction:", reset_data["instruction"].strip())
-            print("budget:", reset_data["max_planning_steps"])
-            assert reset_data["image_png_b64"], "no image returned"
-
-            actions = [
-                {"skill": "NAV", "target": {"type": "place", "value": "kitchen"}},
-                {"skill": "OPEN", "target": {"type": "entity", "value": "bottom_cabinet_no_top_spojpj_0"}},
-                {"skill": "OPEN", "target": {"type": "entity", "value": "bottom_cabinet_rvpunw_0"}},
-                {"skill": "OPEN", "target": {"type": "entity", "value": "bottom_cabinet_no_top_qohxjq_0"}},
-                {"skill": "GRASP", "target": {"type": "entity", "value": "target_knife"}},
-            ]
-            for a in actions:
-                result = await session.call_tool("act", {"action": a})
-                data = json.loads(result.content[0].text)
-                print(
-                    f"MCP step {data['planning_step']}: {a['skill']} -> {data['episode_status']}"
-                )
-
-            status = await session.call_tool("episode_status", {})
-            status_data = json.loads(status.content[0].text)
-            print("final status:", status_data["status"])
-            assert status_data["status"] == "SUCCESS", "MCP episode did not succeed"
-            print("MCP ACCEPTANCE OK")
-            return 0
-
-
-if __name__ == "__main__":
-    raise SystemExit(asyncio.run(main()))
+if __name__=="__main__":
+    parser=argparse.ArgumentParser()
+    parser.add_argument("--out",required=True)
+    parser.add_argument("--scenario",default="knife_search_001")
+    raise SystemExit(asyncio.run(run(parser.parse_args())))

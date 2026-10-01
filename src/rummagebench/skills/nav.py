@@ -21,6 +21,11 @@ class NavSkill:
 
     def execute(self, backend: SimBackend, resolved: ResolvedTarget, state) -> SkillResult:
         assert resolved.anchor is not None, "NAV requires a resolved anchor"
+        if not backend.is_anchor_validated(resolved.place, resolved.anchor):
+            return SkillResult(skill=self.name,
+                               target={"type": TargetKind.PLACE.value, "value": resolved.place},
+                               executed=False, postcondition_satisfied=False,
+                               details={"reason": "UNVALIDATED_ANCHOR"})
         backend.teleport_robot(resolved.anchor)
         backend.settle()
         pos, _quat = backend.robot_pose()

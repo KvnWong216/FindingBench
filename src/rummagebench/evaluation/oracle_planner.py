@@ -99,6 +99,9 @@ class OverlayBackend:
 
     # ---- overlaid semantic variables -------------------------------------
 
+    def is_anchor_validated(self, name, anchor) -> bool:
+        return self._inner.is_anchor_validated(name, anchor)
+
     def is_open(self, entity: str) -> bool:
         if self.current_state is None:
             return self._inner.is_open(entity)
