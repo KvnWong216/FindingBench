@@ -30,6 +30,7 @@ import json
 import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from urllib.parse import parse_qs, urlsplit
 
 REPO = Path(__file__).resolve().parents[1]
 
@@ -350,8 +351,14 @@ function render(st) {
   renderSkills();
 }
 
+let lastSeq = -1;
 async function refresh() {
-  try { render(await (await fetch("/state")).json()); } catch (e) { /* transient */ }
+  try {
+    const st = await (await fetch("/state?seq=" + lastSeq)).json();
+    if (st.unchanged) return; // nothing new since the last poll
+    lastSeq = st.seq;
+    render(st);
+  } catch (e) { /* transient */ }
 }
 renderSkills();
 refresh();
@@ -495,6 +502,10 @@ class PlayState:
         payload["resets"] = self.resets
         return payload
 
+    def unchanged_since(self, seq: int) -> bool:
+        """True when nothing changed for a client already showing `seq`."""
+        return self.ready and self._pending is None and self.seq == seq
+
     def run_worker(self) -> None:
         import time
 
@@ -553,7 +564,18 @@ class Handler(BaseHTTPRequestHandler):
             self.send_header("Content-Length", str(len(body)))
             self.end_headers()
             self.wfile.write(body)
-        elif self.path == "/state":
+        elif self.path == "/state" or self.path.startswith("/state?"):
+            query = parse_qs(urlsplit(self.path).query).get("seq", [])
+            if (query and query[0].lstrip("-").isdigit()
+                    and self.state.unchanged_since(int(query[0]))):
+                # nothing changed since the client's last poll: skip the
+                # ~0.5 MB base64 image re-ship (the UI polls every 2 s)
+                st = self.state
+                self._json({"seq": st.seq, "unchanged": True,
+                            "pending": False,
+                            "episode_status": st.snapshot.get(
+                                "episode_status", "RUNNING")})
+                return
             self._json(self.state.state_payload())
         else:
             self._json({"error": "not found"}, 404)

@@ -575,7 +575,11 @@ class OmniGibsonBackend(SimBackend):
         for _ in range(n):
             self._sim.step()
 
-    def flush_render(self, renders: int = 30) -> None:
+    def flush_render(self, renders: int = 6) -> None:
+        """A few no-physics renders so renderer buffers reflect a just-
+        executed state change (drawer/door moved). The capture path re-renders
+        and camera-sync-gates on its own, so a small fixed flush suffices;
+        30 was a contended-GPU sledgehammer dominating per-action latency."""
         if self._sim is not None:
             for _ in range(renders):
                 self._sim.render()
