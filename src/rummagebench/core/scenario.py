@@ -117,6 +117,9 @@ class RobotSpec(BaseModel):
     exclude_sensor_names: Optional[list[str]] = None
     image_width: int = 224
     image_height: int = 224
+    # optional camera focal length (mm); None keeps the OG default (17 mm).
+    # Shorter widens the field of view, e.g. for non-square play resolutions.
+    focal_length_mm: Optional[float] = Field(default=None, gt=0)
     grasping_mode: Literal["sticky", "assisted", "physical"] = "sticky"
     # embodiment capability parameters: coarse prefilter for the proxy
     # backend (tests only); the pinocchio backend derives feasibility from
@@ -153,6 +156,13 @@ class PlacementSpec(BaseModel):
     entity: str
     relation: Literal["inside", "on_top"]
     receptacle: str  # name of an existing scene furniture object
+    link: Optional[str] = None
+
+    @model_validator(mode="after")
+    def _link_only_inside(self) -> "PlacementSpec":
+        if self.link is not None and self.relation != "inside":
+            raise ValueError("placement link is only valid for relation 'inside'")
+        return self
 
 
 class InitialStateSpec(BaseModel):

@@ -58,3 +58,17 @@ def test_placement_entity_must_be_spawned():
     }
     with pytest.raises(Exception):
         ScenarioSpec.model_validate(raw)
+
+
+def test_knife_search_pins_knife_to_top_drawer():
+    spec = load_scenario(Path("scenarios/knife_search_001/scenario.yaml"))
+    knife = next(p for p in spec.placements if p.entity == "target_knife")
+    assert (knife.relation, knife.link) == ("inside", "link_2")
+
+
+def test_placement_link_requires_inside():
+    from rummagebench.core.scenario import PlacementSpec
+
+    assert PlacementSpec(entity="k", relation="inside", receptacle="c").link is None
+    with pytest.raises(Exception):
+        PlacementSpec(entity="k", relation="on_top", receptacle="c", link="link_0")

@@ -29,6 +29,12 @@ from rummagebench.sim.omnigibson.state_io import (
 logger = logging.getLogger(__name__)
 
 
+def _arr(value) -> list[float]:
+    if hasattr(value, "detach"):
+        value = value.detach().cpu().numpy()
+    return [float(v) for v in np.asarray(value).reshape(-1)]
+
+
 class OmniGibsonBackend(SimBackend):
     def __init__(self, seed: int = 0, settle_steps: int = 15, spawn_stopped: bool = True, validate_legacy_anchors: bool = False):
         self._seed = seed
@@ -99,38 +105,7 @@ class OmniGibsonBackend(SimBackend):
             self._sim.play()
             self._sim.step()
 
-        # 2. placements via semantic relations
-        from omnigibson.object_states import Inside, OnTop, Open
-
-        for p in scenario.placements:
-            obj = resolve_object(self._env.scene, p.entity)
-            rec = resolve_object(self._env.scene, p.receptacle)
-            ok = self._place(obj, rec, p.relation, Open)
-            verified = self._verify_relation(obj, rec, p.relation, Inside, OnTop)
-            report["placements"].append(
-                {
-                    "entity": p.entity,
-                    "relation": p.relation,
-                    "receptacle": p.receptacle,
-                    "placed": bool(ok),
-                    "verified": bool(verified),
-                }
-            )
-            if not verified:
-                raise SimBackendError(
-                    f"placement failed verification: {p.entity} {p.relation} {p.receptacle}"
-                )
-
-        # 3. forced initial states (containers closed etc.)
-        for entity, st in scenario.initial_states.items():
-            obj = resolve_object(self._env.scene, entity)
-            if st.open is not None:
-                if obj.states.get(Open) is None:
-                    raise SimBackendError(f"{entity} has no Open state")
-                obj.states[Open].set_value(st.open, fully=True)
-                report["initial_states"].append({"entity": entity, "open": st.open})
-
-        self.settle()
+        report.update(self._apply_placements(scenario, attempts=3))
 
         # AGENT uses only the initial spawn; visiting legacy ORACLE navigation
         # anchors here can collide with furniture and poison the saved world.
@@ -180,23 +155,162 @@ class OmniGibsonBackend(SimBackend):
                 pass
         return base
 
-    def _place(self, obj, rec, relation: str, Open) -> bool:
+    def _apply_placements(self, scenario: ScenarioSpec, attempts: int) -> dict[str, Any]:
+    
+        from omnigibson.object_states import Inside, OnTop, Open
+
+        scene = self._env.scene
+        last_failure = None
+        for attempt in range(attempts):
+            report: dict[str, Any] = {"placements": [], "initial_states": []}
+            if attempt:
+                logger.warning("placement attempt %d failed (%s); resampling",
+                               attempt, last_failure)
+
+            # remember open states BEFORE opening, so receptacles without a
+            # forced initial state get restored to their scene default
+            originally_open: dict[str, bool] = {}
+            for p in scenario.placements:
+                rec = resolve_object(scene, p.receptacle)
+                if (p.relation == "inside" and rec.states.get(Open) is not None
+                        and p.receptacle not in originally_open):
+                    originally_open[p.receptacle] = bool(rec.states[Open].get_value())
+                    if not originally_open[p.receptacle]:
+                        self._set_open_carrying(rec, True)
+
+            for p in scenario.placements:
+                obj = resolve_object(scene, p.entity)
+                rec = resolve_object(scene, p.receptacle)
+                ok = self._place(obj, rec, p.relation, p.link)
+                report["placements"].append({
+                    "entity": p.entity,
+                    "relation": p.relation,
+                    "receptacle": p.receptacle,
+                    "placed": bool(ok),
+                })
+            self.settle(5)  # let contents come to rest on the open drawer floors
+
+            targets = {name: was for name, was in originally_open.items()}
+            for entity, st in scenario.initial_states.items():
+                if st.open is not None:
+                    targets[entity] = st.open
+                    report["initial_states"].append({"entity": entity, "open": st.open})
+            for entity, open_value in targets.items():
+                obj = resolve_object(scene, entity)
+                if obj.states.get(Open) is None:
+                    raise SimBackendError(f"{entity} has no Open state")
+                self._set_open_carrying(obj, open_value)
+            self.settle()
+
+            failed = []
+            for p, entry in zip(scenario.placements, report["placements"]):
+                obj = resolve_object(scene, p.entity)
+                rec = resolve_object(scene, p.receptacle)
+                entry["verified"] = (self._verify_relation(obj, rec, p.relation, Inside, OnTop)
+                                     and self._in_link(obj, rec, p.link))
+                if not entry["verified"]:
+                    failed.append(f"{p.entity} {p.relation} {p.receptacle}")
+            if not failed:
+                return report
+            last_failure = failed
+        raise SimBackendError(
+            f"placement failed verification after physics settled: {last_failure}"
+        )
+
+    def _set_open_carrying(self, obj, open_value: bool) -> bool:
+        
+        from omnigibson.object_states import Open
+
+        carried = []
+        for item in self._env.scene.objects:
+            link = self._containing_moving_link(obj, item)
+            if link is not None:
+                carried.append((item, link, self._prim_pose(link).inverse()
+                                .compose(self._prim_pose(item))))
+        for i, (item, _link, _rel) in enumerate(carried):
+            # far apart from the scene and from each other for one step
+            item.set_position_orientation(position=[1000.0 + 10.0 * i, 1000.0, 1000.0],
+                                          orientation=[0, 0, 0, 1])
+        ok = bool(obj.states[Open].set_value(open_value, fully=True))
+        if carried:
+            import torch as th
+
+            self._sim.step()
+            zero = th.zeros(3)
+            for item, link, rel in carried:
+                pose = self._prim_pose(link).compose(rel)
+                item.set_position_orientation(position=pose.position.tolist(),
+                                              orientation=pose.orientation.tolist())
+                item.set_linear_velocity(zero)
+                item.set_angular_velocity(zero)
+            logger.info("%s %s carrying %s", "opened" if open_value else "closed",
+                        obj.name, [(item.name, link.name) for item, link, _ in carried])
+        return ok
+
+    def _containing_moving_link(self, container, item):
+        held = (getattr(self._robot, "_ag_obj_in_hand", None) or {}).values()
+        if (item is container or getattr(item, "fixed_base", False)
+                or item in self._env.scene.robots or item in held):
+            return None
+        try:
+            lo, hi = item.aabb
+            center = (np.asarray(_arr(lo)) + np.asarray(_arr(hi))) / 2.0
+        except Exception:
+            return None
+        best, best_vol = None, math.inf
+        for name, link in (container.links or {}).items():
+            if name == container.root_link_name or name.startswith("meta__"):
+                continue
+            llo, lhi = (np.asarray(_arr(v)) for v in link.aabb)
+            if np.all(center >= llo - 1e-3) and np.all(center <= lhi + 1e-3):
+                vol = float(np.prod(lhi - llo))
+                if vol < best_vol:
+                    best, best_vol = link, vol
+        return best
+
+    @staticmethod
+    def _prim_pose(prim):
+        from rummagebench.feasibility.ik_solver import Pose
+
+        pos, quat = prim.get_position_orientation()
+        return Pose.from_lists(_arr(pos), _arr(quat))
+
+    def _place_in_link(self, obj, rec, link: str) -> bool:
+        
+        import torch as th
+
+        volumes = [l for n, l in (rec.links or {}).items()
+                   if n.startswith(f"meta__{link}_") and "fillable" in n]
+        if not volumes:
+            raise SimBackendError(f"{rec.name}:{link} has no fillable volume; "
+                                  f"links: {sorted(rec.links or {})}")
+        center = _arr(volumes[0].get_position_orientation()[0])
+        obj.set_position_orientation(position=center, orientation=[0, 0, 0, 1])
+        obj.set_linear_velocity(th.zeros(3))
+        obj.set_angular_velocity(th.zeros(3))
+        self.settle(30)
+        return self._is_inside(obj, rec) and self._in_link(obj, rec, link)
+
+    def _in_link(self, obj, rec, link: str | None) -> bool:
+        if link is None:
+            return True
+        if link not in (rec.links or {}):
+            raise SimBackendError(f"{rec.name} has no link {link!r}; "
+                                  f"links: {sorted(rec.links or {})}")
+        return self._containing_moving_link(rec, obj) is rec.links[link]
+
+    def _place(self, obj, rec, relation: str, link: str | None = None) -> bool:
         """Place obj into/on rec via the state sampler; returns sampler success.
 
-        Closed containers can block fillable sampling, so for `inside` we
-        temporarily open an openable receptacle, sample, and let the caller's
-        initial_states restore the closed state afterwards. The sampler is
-        probabilistic, so we retry several times and fall back to direct pose
-        placement inside the receptacle's AABB.
+        `inside` receptacles must already be open (_apply_placements). The
+        sampler is probabilistic, so we retry several times and fall back to
+        direct pose placement inside the receptacle's AABB. With `link`, the
+        object is dropped into that drawer instead (_place_in_link).
         """
         from omnigibson.object_states import Inside, OnTop
 
-        was_open = None
-        if relation == "inside" and rec.states.get(Open) is not None:
-            was_open = rec.states[Open].get_value()
-            if not was_open:
-                rec.states[Open].set_value(True, fully=True)
-
+        if link is not None:
+            return self._place_in_link(obj, rec, link)
         state = Inside if relation == "inside" else OnTop
         ok = False
         if state in obj.states:
@@ -212,31 +326,43 @@ class OmniGibsonBackend(SimBackend):
 
         # deterministic fallback: park the object at the receptacle center and
         # let physics settle it into the container volume
-        if not ok and relation == "inside":
+        if not ok and relation == "inside" and link is None:
             try:
                 rec_pos = rec.get_position_orientation()[0]
                 if hasattr(rec_pos, "detach"):
                     rec_pos = rec_pos.detach().cpu().numpy()
-                aabb = rec.states.get(Inside)
                 obj.set_position_orientation(
                     position=[float(rec_pos[0]), float(rec_pos[1]), float(rec_pos[2]) + 0.05],
                     orientation=[0, 0, 0, 1],
                 )
                 self.settle(10)
-                ok = bool(obj.states[Inside].get_value(rec))
+                ok = self._is_inside(obj, rec)
             except Exception as e:
                 logger.warning("pose fallback placement failed for %s: %s", obj.name, e)
 
-        if was_open is False and rec.states.get(Open) is not None:
-            rec.states[Open].set_value(False, fully=True)
         return ok
 
     def _verify_relation(self, obj, rec, relation: str, Inside, OnTop) -> bool:
-        state = Inside if relation == "inside" else OnTop
-        if state not in obj.states:
+        if relation == "inside":
+            return self._is_inside(obj, rec)
+        if OnTop not in obj.states:
             return False
         # Inside/OnTop are binary (relative) states: get_value(other)
-        return bool(obj.states[state].get_value(rec))
+        return bool(obj.states[OnTop].get_value(rec))
+
+    @staticmethod
+    def _is_inside(obj, rec, tol: float = 0.01) -> bool:
+    
+        from omnigibson.object_states import Inside
+
+        try:
+            if Inside in obj.states and bool(obj.states[Inside].get_value(rec)):
+                return True
+            lo, hi = (np.asarray(_arr(v)) for v in obj.aabb)
+            rlo, rhi = (np.asarray(_arr(v)) for v in rec.aabb)
+        except Exception:
+            return False
+        return bool(np.all(lo >= rlo - tol) and np.all(hi <= rhi + tol))
 
     # ------------------------------------------------------------- episode IO
 
@@ -250,43 +376,11 @@ class OmniGibsonBackend(SimBackend):
         physics sampler is re-seeded per call so the same (seed, episode)
         pair reproduces the same placement.
         """
-        from omnigibson.object_states import Open
-
         seed_everything(int(scenario.id.encode().hex()[-6:], 16) % (2**31))
-        report: dict[str, Any] = {"placements": [], "initial_states": []}
-        from omnigibson.object_states import Inside, OnTop
 
         # start from the clean snapshot (releases lingering assisted grasps)
         self.reset()
-        for p in scenario.placements:
-            obj = resolve_object(self._env.scene, p.entity)
-            rec = resolve_object(self._env.scene, p.receptacle)
-            verified = False
-            for attempt in range(3):
-                ok = self._place(obj, rec, p.relation, Open)
-                verified = self._verify_relation(obj, rec, p.relation, Inside, OnTop)
-                if verified:
-                    break
-            report["placements"].append({
-                "entity": p.entity,
-                "relation": p.relation,
-                "receptacle": p.receptacle,
-                "placed": bool(ok),
-                "verified": bool(verified),
-            })
-            if not verified:
-                raise SimBackendError(
-                    f"reapply placement failed verification: {p.entity} "
-                    f"{p.relation} {p.receptacle}"
-                )
-        for entity, st in scenario.initial_states.items():
-            obj = resolve_object(self._env.scene, entity)
-            if st.open is not None:
-                if obj.states.get(Open) is None:
-                    raise SimBackendError(f"{entity} has no Open state")
-                obj.states[Open].set_value(st.open, fully=True)
-                report["initial_states"].append({"entity": entity, "open": st.open})
-        self.settle()
+        report = self._apply_placements(scenario, attempts=3)
         # re-capture the deterministic snapshot for THIS episode
         self._collision_body_cache = None
         self._initial_state = dump_state(self._sim)
@@ -369,7 +463,7 @@ class OmniGibsonBackend(SimBackend):
         obj = resolve_object(self._env.scene, entity)
         if obj.states.get(Open) is None:
             return False
-        return bool(obj.states[Open].set_value(open_value, fully=True))
+        return self._set_open_carrying(obj, open_value)
 
     def is_open(self, entity: str) -> bool:
         from omnigibson.object_states import Open
@@ -398,11 +492,7 @@ class OmniGibsonBackend(SimBackend):
             joint_type = robot._get_assisted_grasp_joint_type(obj, link_name) or "FixedJoint"
             # keep the torch tensor: _establish_grasp goes through torch-compiled
             # code paths and a numpy array breaks Dynamo tracing
-            contact_pos = obj.get_position_orientation()[0]
-            if not hasattr(contact_pos, "detach"):
-                import torch as th
-
-                contact_pos = th.as_tensor(contact_pos, dtype=th.float32)
+            contact_pos = self._bring_to_hand(obj, arm)
             robot._establish_grasp(
                 target_obj=obj,
                 target_link_name=link_name,
@@ -416,6 +506,7 @@ class OmniGibsonBackend(SimBackend):
             # retry on the other arm / the base link
             other_arms = [a for a in robot.arm_names if a != arm]
             for retry_arm in other_arms:
+                contact_pos = self._bring_to_hand(obj, retry_arm)
                 robot._establish_grasp(
                     target_obj=obj,
                     target_link_name=link_name,
@@ -429,6 +520,18 @@ class OmniGibsonBackend(SimBackend):
         except Exception as e:
             logger.warning("symbolic_grasp(%s) realization failed: %s", entity, e)
         return self.is_holding(entity)
+
+    def _bring_to_hand(self, obj, arm: str):
+       
+        import torch as th
+
+        eef = self._robot.eef_links[arm]
+        pos = eef.get_position_orientation()[0]
+        pos = th.as_tensor(_arr(pos), dtype=th.float32)
+        obj.set_position_orientation(position=pos)
+        obj.set_linear_velocity(th.zeros(3))
+        obj.set_angular_velocity(th.zeros(3))
+        return pos
 
     def _pick_arm(self, obj) -> str | None:
         robot = self._robot
@@ -471,6 +574,11 @@ class OmniGibsonBackend(SimBackend):
         n = steps if steps is not None else self._settle_steps
         for _ in range(n):
             self._sim.step()
+
+    def flush_render(self, renders: int = 30) -> None:
+        if self._sim is not None:
+            for _ in range(renders):
+                self._sim.render()
 
     def validate_physics_state(self) -> None:
         """Fail an invalid run before corrupt physics reaches rendering/scoring."""
@@ -755,7 +863,7 @@ class OmniGibsonBackend(SimBackend):
         open-container contents are visible. Oracle knowledge (evaluation,
         traces) keeps using entity_names(); this method is the agent-facing
         view only."""
-        from omnigibson.object_states import Inside, Open
+        from omnigibson.object_states import Open
 
         scene_objects = self._env.scene.objects
         containers = [
@@ -772,13 +880,9 @@ class OmniGibsonBackend(SimBackend):
                 continue
             hidden = False
             for container in closed:
-                try:
-                    inside = obj.states.get(Inside)
-                    if inside is not None and bool(inside.get_value(container)):
-                        hidden = True
-                        break
-                except Exception:
-                    continue  # corrupted state during PhysX noise: skip query
+                if self._is_inside(obj, container):
+                    hidden = True
+                    break
             if not hidden:
                 visible.append(obj.name)
         return visible
@@ -847,7 +951,9 @@ class OmniGibsonBackend(SimBackend):
         try:
             # OG lazily attaches camera_params and renders on first access.
             # Finish that work BEFORE fetching any buffers for the frame.
-            K = array(sensor.intrinsic_matrix).astype(float)
+            from rummagebench.sim.omnigibson.raw_instance import wait_for_intrinsics
+
+            K = array(wait_for_intrinsics(sensor, self._sim)).astype(float)
         except Exception:
             pass
         if self._sim is not None:

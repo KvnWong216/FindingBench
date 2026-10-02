@@ -87,14 +87,17 @@ def build_env_config(scenario: ScenarioSpec) -> dict:
         robot_cfg["include_sensor_names"] = list(scenario.robot.include_sensor_names)
     if scenario.robot.exclude_sensor_names is not None:
         robot_cfg["exclude_sensor_names"] = list(scenario.robot.exclude_sensor_names)
-    robot_cfg.setdefault("sensor_config", {}).setdefault("VisionSensor", {}).setdefault(
-        "sensor_kwargs", {}
-    ).update(
+    sensor_kwargs = robot_cfg.setdefault("sensor_config", {}).setdefault(
+        "VisionSensor", {}
+    ).setdefault("sensor_kwargs", {})
+    sensor_kwargs.update(
         {
             "image_height": scenario.robot.image_height,
             "image_width": scenario.robot.image_width,
         }
     )
+    if scenario.robot.focal_length_mm is not None:
+        sensor_kwargs["focal_length"] = scenario.robot.focal_length_mm
     # Robot initial pose comes from the scenario's init anchor; the backend
     # teleports via the same anchor mechanism used by NAV to keep one code path.
     anchor = scenario.anchors[scenario.robot.init_anchor]

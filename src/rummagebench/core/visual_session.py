@@ -405,6 +405,7 @@ class VisualProtocolSession:
         self._last_feedback = self._map_legacy_feedback(result)
         if result.executed:
             self._backend.settle(5)
+            self._backend.flush_render()
             return self._capture_current()
         return None  # world unchanged: keep the current frame
 

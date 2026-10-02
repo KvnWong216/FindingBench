@@ -60,6 +60,16 @@ def _camera_in_sync(sensor):
     return bool(np.isfinite(rendered).all() and
                 np.allclose(rendered,np.linalg.inv(world),atol=1e-4,rtol=0))
 
+def wait_for_intrinsics(sensor, sim, max_renders=30):
+    """OG assumes 4 renders activate camera_params; a contended GPU can need
+    more. Render (no physics) until the projection is non-degenerate."""
+    for _ in range(max_renders):
+        try:
+            return sensor.intrinsic_matrix
+        except AssertionError:
+            sim.render()
+    return sensor.intrinsic_matrix
+
 def install_renderer_instance_capture(backend, annotator, sensor_name):
     """Attach an already-created real annotator to this backend's capture path."""
     from rummagebench.sim.omnigibson.backend import OmniGibsonBackend
@@ -67,7 +77,7 @@ def install_renderer_instance_capture(backend, annotator, sensor_name):
     def capture(self):
         self.validate_physics_state()
         # Finish lazy camera-parameter attachment before any frame buffers.
-        _=sensor.intrinsic_matrix
+        wait_for_intrinsics(sensor,self._sim)
         for i in range(8):
             self._sim.render()
             if i>=5 and _camera_in_sync(sensor):break

@@ -16,6 +16,12 @@ entity names, target lists, feasibility state or simulator labels.
 
 OBSERVE results render as a non-interactive gallery strip; auxiliary views
 are never valid point-reference frames.
+
+--assist (human debugging only) breaks that boundary on purpose: while a point
+skill is selected, objects the skills can act on are highlighted under the
+cursor, and a click anywhere on a highlight is snapped to the most clickable
+pixel of that object (thin objects such as a knife are hard to hit otherwise).
+Never use it for evaluation.
 """
 
 import argparse
@@ -50,13 +56,15 @@ PAGE = """<!DOCTYPE html>
   :root { --ink:#182028; --accent:#0f6e4e; --bad:#b3261e; --warn:#b26a00; }
   html,body { background:#f2f4f3; color:var(--ink); margin:0;
               font-family:'Segoe UI',system-ui,sans-serif; }
-  .wrap { max-width:880px; margin:0 auto; padding:10px 12px 30px; }
+  .wrap { max-width:1280px; margin:0 auto; padding:10px 12px 30px; }
   header { display:flex; align-items:baseline; gap:14px; padding:6px 2px 10px; }
   header h1 { font-size:1.15em; margin:0; color:var(--accent); }
   header .st { font-size:0.9em; color:#555; }
   #view { position:relative; background:#000; border-radius:8px; overflow:hidden; }
   #view img { display:block; width:100%; }
   #view.selecting { cursor:crosshair; outline:3px solid var(--warn); }
+  #hl { position:absolute; left:0; top:0; width:100%; height:100%;
+        pointer-events:none; display:none; }
   #task { position:absolute; top:10px; left:10px; background:rgba(10,14,12,.82);
           color:#e8ffe9; border-radius:8px; padding:8px 12px; max-width:62%;
           font-size:0.82em; line-height:1.45; }
@@ -92,6 +100,10 @@ PAGE = """<!DOCTYPE html>
   #modal button { flex:1; padding:10px; border-radius:8px; border:1.2px solid #cdd6d1;
                   background:#fafcfb; cursor:pointer; font-size:0.9em; }
   #modal .go { background:var(--accent); color:#fff; border-color:var(--accent); }
+  #reset { margin-left:auto; padding:6px 14px; border-radius:8px; cursor:pointer;
+           border:1.2px solid #cdd6d1; background:#fff; color:var(--ink); font-size:0.85em; }
+  #reset:hover { border-color:var(--accent); }
+  #reset:disabled { opacity:.45; cursor:wait; }
   #boot { padding:40px; text-align:center; color:#567; font-size:0.95em; }
   .spin { display:inline-block; width:18px; height:18px; border:3px solid #cde;
           border-top-color:var(--accent); border-radius:50%;
@@ -104,11 +116,13 @@ PAGE = """<!DOCTYPE html>
   <header>
     <h1>FindingBench · Play</h1>
     <span class="st" id="status">booting…</span>
+    <button id="reset" disabled title="restart the episode from the initial state">↺ reset</button>
   </header>
   <div id="view">
     <div id="boot"><span class="spin"></span>launching the simulator (a few minutes)…</div>
     <img id="cam" alt="egocentric view" style="display:none"
          data-tip="click a point to target the selected skill">
+    <canvas id="hl"></canvas>
     <div id="task" style="display:none">
       <span class="t" id="instruction"></span><br>
       <span id="steps"></span><br>
@@ -131,6 +145,71 @@ const ICONS = __ICONS__;
 const POINT_SKILLS = ["OPEN", "CLOSE", "GRASP", "PLACE", "OBSERVE"];
 const SKILLS = ["MOVE", "TURN", "OPEN", "CLOSE", "GRASP", "PLACE", "OBSERVE", "REPORT_DONE"];
 let cur = null, pendingSkill = null, busy = false, lastVerdictKey = null;
+// --assist: label image of actionable objects for the current frame
+let hints = null, hintPixels = null, hintKey = null, hoverIdx = 0;
+const hintCanvas = document.createElement("canvas");
+
+function loadHints(h) {
+  const key = h ? h.frame_id + ":" + h.png_b64.length : null;
+  if (key === hintKey) return;
+  hintKey = key; hints = h; hintPixels = null; hoverIdx = 0;
+  drawHighlight();
+  if (!h) return;
+  const im = new Image();
+  im.onload = () => {
+    if (hintKey !== key) return;
+    hintCanvas.width = h.width; hintCanvas.height = h.height;
+    const ctx = hintCanvas.getContext("2d");
+    ctx.drawImage(im, 0, 0);
+    const d = ctx.getImageData(0, 0, h.width, h.height).data;
+    hintPixels = new Uint8Array(h.width * h.height);
+    for (let i = 0; i < hintPixels.length; i++) hintPixels[i] = d[4 * i];
+    drawHighlight();
+  };
+  im.src = "data:image/png;base64," + h.png_b64;
+}
+
+function labelAt(x, y) {
+  if (!hintPixels) return 0;
+  const u = Math.min(hints.width - 1, Math.floor(x * hints.width));
+  const v = Math.min(hints.height - 1, Math.floor(y * hints.height));
+  return hintPixels[v * hints.width + u];
+}
+
+// selecting: every actionable object gets a faint tint, the hovered one a
+// strong one; nothing is drawn outside point-skill mode
+function drawHighlight() {
+  const c = $g("hl");
+  if (!hints || !hintPixels || !pendingSkill) { c.style.display = "none"; return; }
+  c.width = hints.width; c.height = hints.height;
+  const ctx = c.getContext("2d");
+  const img = ctx.createImageData(hints.width, hints.height);
+  for (let i = 0; i < hintPixels.length; i++) {
+    const l = hintPixels[i];
+    if (!l) continue;
+    const hot = l === hoverIdx;
+    img.data[4 * i] = hot ? 255 : 120;
+    img.data[4 * i + 1] = hot ? 214 : 220;
+    img.data[4 * i + 2] = hot ? 0 : 255;
+    img.data[4 * i + 3] = hot ? 150 : 55;
+  }
+  ctx.putImageData(img, 0, 0);
+  c.style.display = "block";
+}
+
+function camPoint(ev) {
+  const rect = $g("cam").getBoundingClientRect();
+  return [(ev.clientX - rect.left) / rect.width, (ev.clientY - rect.top) / rect.height];
+}
+$g("cam").addEventListener("mousemove", (ev) => {
+  if (!pendingSkill || !hintPixels) return;
+  const [x, y] = camPoint(ev);
+  const idx = labelAt(x, y);
+  if (idx !== hoverIdx) { hoverIdx = idx; drawHighlight(); }
+});
+$g("cam").addEventListener("mouseleave", () => {
+  if (hoverIdx) { hoverIdx = 0; drawHighlight(); }
+});
 
 function $g(id) { return document.getElementById(id); }
 function setBusy(b) {
@@ -161,7 +240,11 @@ function onSkill(t) {
   // point skills: enter crosshair mode
   pendingSkill = (pendingSkill === t) ? null : t;
   $g("view").classList.toggle("selecting", pendingSkill !== null);
-  $g("mode").textContent = pendingSkill ? `${pendingSkill}: click a point on the image` : "";
+  $g("mode").textContent = !pendingSkill ? "" : hints
+    ? `${pendingSkill}: click a highlighted object`
+    : `${pendingSkill}: click a point on the image`;
+  hoverIdx = 0;
+  drawHighlight();
   renderSkills();
 }
 
@@ -184,11 +267,14 @@ function askNumber(skill, label, hint, def) {
 
 $g("cam").addEventListener("click", (ev) => {
   if (!pendingSkill || busy || !cur) return;
-  const rect = ev.target.getBoundingClientRect();
-  const x = (ev.clientX - rect.left) / rect.width;
-  const y = (ev.clientY - rect.top) / rect.height;
+  let [x, y] = camPoint(ev);
+  // --assist: a click on a highlight snaps to that object's clickable pixel
+  const idx = hints && hints.frame_id === cur.frame_id ? labelAt(x, y) : 0;
+  if (idx) { x = hints.targets[idx - 1].x; y = hints.targets[idx - 1].y; }
   const skill = pendingSkill;
   pendingSkill = null;
+  hoverIdx = 0;
+  drawHighlight();
   $g("view").classList.remove("selecting");
   $g("mode").textContent = "";
   renderSkills();
@@ -207,10 +293,31 @@ async function submit(action) {
   } catch (e) { /* transient */ }
 }
 
+let resetBase = null;
+$g("reset").onclick = async () => {
+  if (!cur || !cur.ready || resetBase !== null) return;
+  if (!confirm("Restart the episode from the beginning?")) return;
+  resetBase = cur.resets;
+  pendingSkill = null;
+  $g("view").classList.remove("selecting");
+  $g("mode").textContent = "";
+  $g("reset").disabled = true;
+  lastVerdictKey = null;
+  setBusy(true);
+  try {
+    const j = await (await fetch("/reset", { method: "POST" })).json();
+    if (j.error) { alert(j.error); resetBase = null; setBusy(false); }
+  } catch (e) { resetBase = null; setBusy(false); }
+};
+
 function render(st) {
   cur = st;
   if (st.error) { $g("boot").innerHTML = "BOOT FAILED: " + st.error; return; }
   if (!st.ready) return;
+  if (resetBase !== null && st.resets !== resetBase) {
+    resetBase = null; lastVerdictKey = null; setBusy(false);
+  }
+  $g("reset").disabled = resetBase !== null;
   if (busy && lastVerdictKey !== null &&
       JSON.stringify(st.feedback) !== lastVerdictKey) {
     lastVerdictKey = null; setBusy(false);
@@ -224,6 +331,7 @@ function render(st) {
   $g("cam").style.display = "block";
   $g("task").style.display = "block";
   if (st.image_png_b64) $g("cam").src = "data:image/png;base64," + st.image_png_b64;
+  loadHints(st.hints || null);
   $g("instruction").textContent = st.instruction;
   $g("steps").textContent = "step " + st.planning_step + " / " + st.max_planning_steps;
   $g("status").textContent = "episode: " + st.episode_status;
@@ -253,19 +361,69 @@ setInterval(refresh, 2000);
 </html>"""
 
 
+def click_hints(env) -> dict:
+    """--assist overlay for the current frame: a label image (0 = nothing,
+    i = i-th actionable object) plus one snap point per label. Entity names
+    are not sent. Actionable = movable objects and openable furniture."""
+    import io
+
+    import numpy as np
+    from PIL import Image
+
+    session, backend = env._session, env._backend
+    frame = session._store.get(session._store.current_id)
+    seg = np.asarray(frame.instance_segmentation)
+    robot = backend.robot_entity_names()
+    by_entity: dict[str, list] = {}
+    for inst in np.unique(seg):
+        if inst == 0:
+            continue
+        entity = (backend.instance_to_entity(inst, frame)
+                  if "instance_labels" in frame.meta else backend.instance_to_entity(inst))
+        if entity is None or entity in robot:
+            continue
+        info = backend.describe_entity(entity)
+        if info is None or (info.fixed_base and not info.openable):
+            continue
+        by_entity.setdefault(entity, []).append(inst)
+
+    H, W = seg.shape
+    labels = np.zeros((H, W), np.uint8)
+    targets = []
+    for entity, insts in list(by_entity.items())[:255]:
+        labels[np.isin(seg, insts)] = len(targets) + 1
+        # the click bridge needs one instance dominating an 11x11 patch: snap
+        # to the pixel of the largest instance with the most own pixels around
+        inst = max(insts, key=lambda i: int((seg == i).sum()))
+        mask = seg == inst
+        c = np.pad(np.pad(mask.astype(np.int32), 5).cumsum(0).cumsum(1), ((1, 0), (1, 0)))
+        win = c[11:11 + H, 11:11 + W] - c[:H, 11:11 + W] - c[11:11 + H, :W] + c[:H, :W]
+        win[~mask] = -1
+        v, u = np.unravel_index(int(np.argmax(win)), win.shape)
+        targets.append({"x": round((u + 0.5) / W, 4), "y": round((v + 0.5) / H, 4)})
+    buf = io.BytesIO()
+    Image.fromarray(labels).save(buf, format="PNG")
+    return {"frame_id": frame.frame_id, "width": W, "height": H,
+            "png_b64": base64.b64encode(buf.getvalue()).decode(), "targets": targets}
+
+
 class PlayState:
     """Shared state. HTTP threads ENQUEUE; the main thread (which booted the
     simulator) executes — Kit calls deadlock off their creating thread."""
 
-    def __init__(self, scenario_path: str, seed: int):
+    def __init__(self, scenario_path: str, seed: int, start_anchor: str | None = None,
+                 assist: bool = False):
         self.scenario_path = scenario_path
         self.seed = seed
+        self.start_anchor = start_anchor
+        self.assist = assist
         self.lock = threading.Lock()
         self.ready = False
         self.error: str | None = None
         self.env = None
         self.snapshot: dict = {"ready": False}
         self.seq = 0
+        self.resets = 0
         self._pending: dict | None = None
 
     def boot(self) -> None:
@@ -275,17 +433,37 @@ class PlayState:
             env = InteractiveSearchEnv(self.scenario_path, seed=self.seed,
                                        mode="agent",
                                        trace_path="runs/play_trace.jsonl")
+            if self.start_anchor:
+                # debug: the scene is built (placements verified) from the
+                # scenario spawn; episodes then start at another anchor
+                scenario = env._scenario
+                if self.start_anchor not in scenario.anchors:
+                    raise ValueError(f"unknown anchor {self.start_anchor!r}; "
+                                     f"choose from {sorted(scenario.anchors)}")
+                # the AGENT session resets from its own deep copy
+                for sc in (scenario, env._session._scenario):
+                    sc.robot.init_anchor = self.start_anchor
             obs = env.reset()["observation"]
             self.env = env
             self.snapshot = obs
             self.snapshot.update({"ready": True, "pending": False,
                                   "episode_status": "RUNNING"})
+            self._add_hints()
             self.ready = True
             print("== simulator ready", flush=True)
         except Exception as e:
             self.error = f"{type(e).__name__}: {e}"
             print(f"== BOOT FAILED: {self.error}", flush=True)
             raise
+
+    def _add_hints(self) -> None:
+        if not self.assist:
+            return
+        try:
+            self.snapshot["hints"] = click_hints(self.env)
+        except Exception as e:
+            self.snapshot.pop("hints", None)
+            print(f"== hint error: {e}", flush=True)
 
     def enqueue(self, action: dict) -> dict:
         with self.lock:
@@ -298,12 +476,23 @@ class PlayState:
             self._pending = action
             return {"queued": True}
 
+    def request_reset(self) -> dict:
+        # allowed after a terminal status: that is when players want it most
+        with self.lock:
+            if not self.ready:
+                return {"error": "simulator not ready"}
+            if self._pending is not None:
+                return {"error": "an action is already executing"}
+            self._pending = {"__reset__": True}
+            return {"queued": True}
+
     def state_payload(self) -> dict:
         payload = dict(self.snapshot)
         payload["ready"] = self.ready
         payload["error"] = self.error
         payload["pending"] = self._pending is not None
         payload["seq"] = self.seq
+        payload["resets"] = self.resets
         return payload
 
     def run_worker(self) -> None:
@@ -312,12 +501,25 @@ class PlayState:
         last_view = time.time()
         while True:
             action, self._pending = self._pending, None
-            if action is not None:
+            if action is not None and action.get("__reset__"):
+                try:
+                    self.snapshot = self.env.reset()["observation"]
+                    self.snapshot.update({"ready": True, "pending": False,
+                                          "episode_status": "RUNNING"})
+                    self._add_hints()
+                    print("== episode reset", flush=True)
+                except Exception as e:
+                    print(f"== reset error: {e}", flush=True)
+                self.resets += 1
+                self.seq += 1
+                last_view = time.time()
+            elif action is not None:
                 try:
                     result = self.env.step(action)
                     self.snapshot = result["observation"]
                     self.snapshot.update({"ready": True, "pending": False,
                                           "episode_status": result["episode_status"]})
+                    self._add_hints()
                 except Exception as e:
                     print(f"== action error: {e}", flush=True)
                 self.seq += 1
@@ -368,6 +570,8 @@ class Handler(BaseHTTPRequestHandler):
                 self._json({"error": "skill required"}, 400)
                 return
             self._json(self.state.enqueue(body))
+        elif self.path == "/reset":
+            self._json(self.state.request_reset())
         else:
             self._json({"error": "not found"}, 404)
 
@@ -381,13 +585,22 @@ def main() -> int:
                              "runs never expose an open port (use an explicit, "
                              "authorized interface only when needed)")
     parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--start-anchor", default=None,
+                        help="debug: start each episode at this scenario anchor "
+                             "instead of robot.init_anchor (scene setup still "
+                             "uses init_anchor)")
+    parser.add_argument("--assist", action="store_true",
+                        help="human debugging only: highlight actionable objects "
+                             "under the cursor and snap clicks onto them "
+                             "(leaks segmentation; never for evaluation)")
     args = parser.parse_args()
 
     scenario_path = args.scenario
     if not Path(scenario_path).exists():
         scenario_path = str(REPO / args.scenario)
 
-    state = PlayState(scenario_path, seed=args.seed)
+    state = PlayState(scenario_path, seed=args.seed, start_anchor=args.start_anchor,
+                      assist=args.assist)
     Handler.state = state
     page = PAGE.replace("__ICONS__", json.dumps(ICONS))
     globals()["PAGE"] = page
