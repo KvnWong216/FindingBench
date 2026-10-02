@@ -1,0 +1,26 @@
+# §14: open-top Level-1 container families. Categories verified to exist in
+# the installed dataset; eligibility requires the ACTUAL loaded collider to
+# preserve usable interior space (rev §6) — verified by the GPU stage.
+families:
+  tray:
+    dataset_category: tray
+    open_top: true
+    verified: false
+  outline_tray:
+    dataset_category: outline_tray
+    open_top: true
+    verified: false
+  recycling_bin:
+    dataset_category: recycling_bin
+    open_top: true
+    verified: false
+  compost_bin:
+    dataset_category: compost_bin
+    open_top: true
+    verified: false
+
+rules:
+  prefer_model_diversity_over_scaling: true
+  uniform_scale_jitter_allowed: false   # enabled only if GPU certification passes
+  must_fit_on_support: true
+  must_preserve_interior_after_settle: true

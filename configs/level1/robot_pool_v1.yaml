@@ -1,0 +1,21 @@
+# §5/rev§2: five REAL mobile manipulators, verified against the installed OG
+# assets. Populated by scripts/discover_level1_robots.py; per-robot GPU
+# verification (URDF export, camera identity, MOVE/TURN validity, OBSERVE
+# validity, supported holding) is a separate stage. Only gpu_verified entries
+# enter production episodes; production_ready stays false until five pass
+# (revision §2: do not fabricate robots; R1Pro remains the baseline).
+robot_count: 5
+production_ready: false
+
+robots:
+  r1pro:
+    og_robot_class: R1Pro
+    status: gpu_verified          # FindingBench baseline: full protocol loop proven
+    base_link: base_link
+    eef_link: right_eef_link
+    camera: robot_0:zed_link:Camera:0 (head)
+    nominal_camera_height_m: 1.2
+    base_footprint_m: [0.8, 0.8]
+    notes: proven with the complete OPEN/GRASP/REPORT_DONE chain on knife_search
+  # candidates filled by discovery — verified=false until the GPU stage passes:
+  # fetch / tiago / stretch / ... (never fabricated)

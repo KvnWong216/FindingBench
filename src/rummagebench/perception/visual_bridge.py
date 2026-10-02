@@ -1,14 +1,17 @@
 """Visual bridge: agent 2D point -> simulator entity + private 3D surface point.
 
-Pipeline (protocol §8):
-    point -> synchronized private frame -> robust dominant-instance selection
-    (11x11 patch, >=20 px, >=50% dominance, background/robot-self excluded)
+Pipeline (protocol §8, grounding_version=center_pixel_v2, revision §4):
+    point -> synchronized private frame -> AUTHORITATIVE center-pixel
+    instance selection (background/unknown/robot-self center is invalid)
     -> owning-object canonicalization (handle/door/link -> root entity)
-    -> median in-instance depth -> unprojection -> selected_surface_point_world
+    -> surface point from the selected object's OWN samples inside the
+    11x11 window (their true pixel coordinates and depths) -> unprojection
+    -> selected_surface_point_world
 
 Segmentation decides WHICH object; depth decides WHERE the visible surface is;
 the ObjectInterface — never the clicked point — decides where the ROBOT
-interacts (protocol §9).
+interacts (protocol §9). The neighborhood NEVER overrides the center-pixel
+choice: a thin target remains selectable against any background.
 """
 
 from __future__ import annotations
@@ -31,6 +34,11 @@ class VisualGroundingError(Exception):
         self.subreason = subreason
 
 
+# Selected-component version bound into certificates and click records
+# (revision §4). Bump on any change to the picking contract.
+GROUNDING_VERSION = "center_pixel_v2"
+
+
 class VisualBridge:
     def __init__(
         self,
@@ -45,32 +53,21 @@ class VisualBridge:
     # ------------------------------------------------------------ selection
 
     def select_instance(self, frame, x: float, y: float):
-        """Dominant non-background instance in the patch around (x, y)."""
+        """Authoritative selection: the renderer instance AT the center pixel.
+
+        Revision §4: the neighborhood no longer chooses the object — a thin
+        target surrounded by other surfaces stays selected. A background /
+        unknown / robot-self center is NO_VISUAL_TARGET (public
+        INVALID_ACTION); the click never snaps to a different object.
+        """
         seg = np.asarray(frame.instance_segmentation)
         H, W = seg.shape[:2]
         u, v = normalized_to_pixel(x, y, W, H)
-        r = self.patch_size // 2
-
-        v0, v1 = max(0, v - r), min(H, v + r + 1)
-        u0, u1 = max(0, u - r), min(W, u + r + 1)
-        patch = seg[v0:v1, u0:u1].ravel()
-
-        counts: dict[object, int] = {}
-        for s in patch:
-            key = s.item() if hasattr(s, "item") else s
-            if key in (0, "", None, "background", 0xFFFFFFFF):
-                continue  # background / invalid
-            counts[key] = counts.get(key, 0) + 1
-        if not counts:
+        center = seg[v, u]
+        key = center.item() if hasattr(center, "item") else center
+        if key in (0, "", None, "background", 0xFFFFFFFF):
             raise VisualGroundingError("NO_VISUAL_TARGET")
-
-        total = sum(counts.values())
-        inst, n = max(counts.items(), key=lambda kv: kv[1])
-        if n < self.min_valid_pixels:
-            raise VisualGroundingError("NO_VISUAL_TARGET")
-        if n / total < self.dominant_ratio:
-            raise VisualGroundingError("AMBIGUOUS_VISUAL_TARGET")
-        return inst, (u, v)
+        return key, (u, v)
 
     # ------------------------------------------------------ surface point
 

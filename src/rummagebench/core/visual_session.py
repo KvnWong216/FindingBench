@@ -38,7 +38,11 @@ from rummagebench.core.public_types import (
 )
 from rummagebench.core.types import Action, EpisodeStatus, FailureReason, TargetKind, TargetRef
 from rummagebench.perception.frame_store import FrameStore
-from rummagebench.perception.visual_bridge import VisualBridge, VisualGroundingError
+from rummagebench.perception.visual_bridge import (
+    GROUNDING_VERSION,
+    VisualBridge,
+    VisualGroundingError,
+)
 from rummagebench.skills.move import execute_move, execute_turn
 from rummagebench.skills.observe import ObserveConfig, run_observe
 from rummagebench.skills.report_done import goal_satisfied
@@ -363,6 +367,7 @@ class VisualProtocolSession:
             return None
         record.update(
             selected_entity=entity,
+            grounding_version=GROUNDING_VERSION,
             selected_surface_point_world=[round(float(v), 4) for v in surface],
             **{f"bridge_{k}": v for k, v in detail.items()},
         )

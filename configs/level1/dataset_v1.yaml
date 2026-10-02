@@ -1,0 +1,56 @@
+# FindingBench Level-1 dataset contract (spec §40). Single source of truth
+# for the dataset shape; Python code must not duplicate these distributions.
+batch_label: level1_v1
+# BEHAVIOR object dataset root on this host (inventory scan is CPU-only).
+objects_root: /data1/ygwang/codes/BEHAVIOR-1K/datasets/behavior-1k-assets/objects
+
+accepted_environment_target: 400
+candidate_budget: 800
+
+paradigms:
+  container_rummage: 140
+  tabletop_clutter: 140
+  deliberate_cover: 120
+
+robot_count: 5
+voxel_size_m: 0.02
+drop_batch_size: 3
+
+object_count_distribution:
+  7: 0.02
+  8: 0.08
+  9: 0.20
+  10: 0.40
+  11: 0.20
+  12: 0.08
+  13: 0.02
+
+rummage_inside_distribution:
+  6: 0.05
+  7: 0.20
+  8: 0.50
+  9: 0.20
+  10: 0.05
+
+rummage_outside_distribution:
+  0: 0.05
+  1: 0.20
+  2: 0.50
+  3: 0.20
+  4: 0.05
+
+split:
+  dev_environments: 50
+  test_environments: 350
+
+visibility_bands:
+  container_rummage: [0.0, 0.60]
+  tabletop_clutter: [0.05, 0.80]
+  deliberate_cover: [0.0, 0.15]
+
+pilot:
+  environments_per_paradigm: 10
+
+camera:
+  public_width: 854
+  public_height: 480

@@ -1,0 +1,22 @@
+# §15/rev§16: appearance randomization ranges. Renderer quality settings are
+# FIXED and recorded below — never randomized. Appearance must never alter
+# physics, collision, transforms or task semantics; ordinary objects are not
+# recolored against their category identity.
+randomize:
+  light_direction_yaw_deg: [-180.0, 180.0]
+  light_intensity_multiplier: [0.7, 1.3]
+  light_color_temperature_k: [3500.0, 6500.0]
+  ambient_multiplier: [0.8, 1.2]
+  wall_color_palette: [neutral_gray, warm_beige, cool_white]
+  support_texture_swap: true
+  container_texture_swap: true
+
+forbid:
+  object_retexture: true
+
+fixed_renderer:
+  backend: path_tracing_off_rt_on   # recorded, not changed
+  image_width: 854
+  image_height: 480
+  antialiasing: fxaa
+  camera_output_format: rgb_uint8
