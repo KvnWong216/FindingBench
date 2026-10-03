@@ -95,17 +95,46 @@ class CatalogEntry:
         return asdict(self)
 
 
-def scan_inventory(objects_root: Path) -> list[CatalogEntry]:
+def load_category_stats(objects_root: Path) -> dict[str, dict]:
+    """Dataset-provided per-category averages (mass kg, volume m3, density).
+    Located at <objects_root>/../metadata/avg_category_specs.json."""
+    path = Path(objects_root).parent / "metadata" / "avg_category_specs.json"
+    if not path.exists():
+        return {}
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def size_gate(category: str, stats: dict, max_mass_kg: float,
+              max_volume_m3: float) -> Optional[str]:
+    """Data-driven size gating (§7): a category is an ordinary Level-1 object
+    only when the DATASET's own averages fit a tabletop workspace. Documented
+    thresholds — never per-category hand curation."""
+    stats_entry = stats.get(category)
+    if stats_entry is None:
+        return None
+    mass = stats_entry.get("mass")
+    volume = stats_entry.get("volume")
+    if mass is not None and float(mass) > max_mass_kg:
+        return "category_mass_exceeds_limit"
+    if volume is not None and float(volume) > max_volume_m3:
+        return "category_volume_exceeds_limit"
+    return None
+
+
+def scan_inventory(objects_root: Path, max_mass_kg: float = 3.0,
+                   max_volume_m3: float = 0.01) -> list[CatalogEntry]:
     """Exact dataset scan: every (category, model) directory pair, sorted.
     Model IDs come from the installed dataset directory names — never guessed
     from scene-instance names (spec §8)."""
     objects_root = Path(objects_root)
     if not objects_root.is_dir():
         raise FileNotFoundError(f"BEHAVIOR objects root missing: {objects_root}")
+    stats = load_category_stats(objects_root)
     entries: list[CatalogEntry] = []
     for category_dir in sorted(p for p in objects_root.iterdir() if p.is_dir()):
         category = category_dir.name
-        reason = category_excluded(category)
+        reason = category_excluded(category) or size_gate(
+            category, stats, max_mass_kg, max_volume_m3)
         for model_dir in sorted(p for p in category_dir.iterdir() if p.is_dir()):
             entries.append(CatalogEntry(
                 category=category,
@@ -117,8 +146,8 @@ def scan_inventory(objects_root: Path) -> list[CatalogEntry]:
 
 
 def eligible_inventory(entries: list[CatalogEntry]) -> list[CatalogEntry]:
-    """Inventory-stage eligibility: not denylisted. Geometry verification
-    remains pending (revision §15)."""
+    """Inventory-stage eligibility: not denylisted and within the ordinary
+    size gate. Geometry verification remains pending (revision §15)."""
     return [e for e in entries if e.category_excluded_reason is None]
 
 

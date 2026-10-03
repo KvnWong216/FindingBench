@@ -44,7 +44,9 @@ class ScenePlan:
 def build_scene_plan(environment_seed: int, paradigm: str,
                      sampler: CoverageSampler, dataset_cfg: DatasetConfig,
                      support_model: str, container_model: str | None,
-                     cover_model: tuple[str, str] | None = None) -> ScenePlan:
+                     cover_model: tuple[str, str] | None = None,
+                     exclude_pairs: set[tuple[str, str]] | None = None,
+                     ) -> ScenePlan:
     """Draw object counts from the frozen distributions and assign roles.
 
     - container_rummage: N_inside (target included) + N_outside; container
@@ -64,11 +66,25 @@ def build_scene_plan(environment_seed: int, paradigm: str,
                         model=target_model, role="target")
     plan.objects.append(target)
 
+    used_pairs = {("bowl", "adciys")} if (
+        container_model == "adciys") else set()
+    if cover_model:
+        used_pairs.add(cover_model)
+    if exclude_pairs:
+        used_pairs |= set(exclude_pairs)
+
     def add_distractor(role: str) -> None:
-        category, model = sampler.sample()
-        plan.objects.append(ObjectPlan(name=f"{role}_{len(plan.objects)}",
-                                       category=category, model=model,
-                                       role=role))
+        # one instance per (category, model) within a scene: duplicate USD
+        # instantiation segfaults Kit on this host (2026-10-03 pilot finding)
+        for _ in range(40):
+            category, model = sampler.sample()
+            if (category, model) not in used_pairs:
+                used_pairs.add((category, model))
+                plan.objects.append(ObjectPlan(
+                    name=f"{role}_{len(plan.objects)}",
+                    category=category, model=model, role=role))
+                return
+        raise ValueError("sampling exhausted: no unique (category, model) left")
 
     if paradigm == "container_rummage":
         if not container_model:
@@ -77,6 +93,17 @@ def build_scene_plan(environment_seed: int, paradigm: str,
             dataset_cfg.rummage_inside_distribution, _count_rng(environment_seed))
         n_outside = dataset_cfg.sample_count(
             dataset_cfg.rummage_outside_distribution, _count_rng(environment_seed))
+        # 2026-10-03 pilot finding: the 11th DatasetObject import segfaults
+        # Kit on this host regardless of asset; cap total imports at 10 until
+        # the host limit is understood (documented in CHANGELOG)
+        # total imports = target + (n_inside-1 inside) + n_outside + container
+        while n_inside + n_outside + 2 > 10:
+            if n_inside > 6:
+                n_inside -= 1
+            elif n_outside > 0:
+                n_outside -= 1
+            else:
+                break
         # target counts as one of N_inside
         for _ in range(max(0, n_inside - 1)):
             add_distractor("inside")

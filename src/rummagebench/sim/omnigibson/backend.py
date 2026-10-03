@@ -58,6 +58,7 @@ class OmniGibsonBackend(SimBackend):
     # ------------------------------------------------------------------ setup
 
     def setup(self, scenario: ScenarioSpec) -> dict[str, Any]:
+        import sys as _s
         self._validated_anchor_poses.clear()
         seed_everything(self._seed)
         apply_runtime_env()
@@ -81,9 +82,13 @@ class OmniGibsonBackend(SimBackend):
         # Import all task objects before resuming simulation. Repeated live
         # imports invalidate PhysX views while renderer semantic graphs are active.
         # The live-import sequence reproduced graph crashes on this host.
+        print("[setup] stopping", file=_s.stderr, flush=True)
         if self._spawn_stopped:
             self._sim.stop()
+        print("[setup] stopped", file=_s.stderr, flush=True)
         for spec in scenario.objects:
+            print(f"[setup] import {spec.category}::{spec.model}",
+                  file=_s.stderr, flush=True)
             model = spec.model or pick_model_for_category(spec.category)
             obj = DatasetObject(
                 name=spec.name,
@@ -110,6 +115,7 @@ class OmniGibsonBackend(SimBackend):
         # AGENT uses only the initial spawn; visiting legacy ORACLE navigation
         # anchors here can collide with furniture and poison the saved world.
         # Keep legacy diagnostics explicit, and never label untested anchors valid.
+        print("[setup] anchors", file=_s.stderr, flush=True)
         init_anchor = scenario.anchors[scenario.robot.init_anchor]
         anchors = (scenario.anchors if self._validate_legacy_anchors
                    else {scenario.robot.init_anchor: init_anchor})
@@ -134,6 +140,7 @@ class OmniGibsonBackend(SimBackend):
         self._validate_spawn_clearance()
 
         # 5. capture deterministic snapshot
+        print("[setup] snapshot", file=_s.stderr, flush=True)
         self._initial_state = dump_state(self._sim)
         self._build_report = report
         self._validated_anchor_poses = {name: (tuple(anchor.position), tuple(anchor.orientation))
@@ -141,7 +148,10 @@ class OmniGibsonBackend(SimBackend):
         return report
 
     def _seed_pose_for(self, spec) -> list[float]:
-        """Spawn seed pose: above the receptacle if placed, else above scene center."""
+        """Spawn seed pose: above the receptacle if placed, else above scene center.
+        PILOT-DEBUG 2026-10-03: seed poses are spread per object — a stack of
+        10 coincident objects at one point segfaults the stopped-sim import
+        loop on this host (the knife scenario never stacked more than 3)."""
         placement = next(
             (p for p in self._scenario.placements if p.entity == spec.name), None
         )
@@ -153,6 +163,10 @@ class OmniGibsonBackend(SimBackend):
                 base = [pos[0], pos[1], pos[2] + 0.8]
             except Exception:
                 pass
+        idx = getattr(self, "_seed_spread_i", 0)
+        self._seed_spread_i = idx + 1
+        base[0] += 0.14 * (idx % 6) - 0.35
+        base[1] += 0.12 * (idx % 4) - 0.18
         return base
 
     def _apply_placements(self, scenario: ScenarioSpec, attempts: int) -> dict[str, Any]:

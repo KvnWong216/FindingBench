@@ -45,6 +45,8 @@ class DatasetConfig:
     rummage_outside_distribution: dict[int, float]
     visibility_bands: dict[str, tuple[float, float]]
     split: dict[str, int]
+    ordinary_object_limits: dict[str, float]
+    pilot_safe_categories: list[str]
     pilot_environments_per_paradigm: int
     camera: dict[str, Any]
 
@@ -75,6 +77,8 @@ class DatasetConfig:
             rummage_outside_distribution=cls._counts(doc["rummage_outside_distribution"]),
             visibility_bands=bands,
             split={k: int(v) for k, v in doc["split"].items()},
+            ordinary_object_limits={k: float(v) for k, v in doc["ordinary_object_limits"].items()},
+            pilot_safe_categories=list(doc.get("pilot_safe_categories", [])),
             pilot_environments_per_paradigm=int(doc["pilot"]["environments_per_paradigm"]),
             camera=dict(doc["camera"]),
         )
@@ -126,10 +130,14 @@ class PhysicsConfig:
             stable_angular_velocity_rps=float(settle["stable_angular_velocity_rps"]),
             stable_window_sim_seconds=float(settle["stable_window_sim_seconds"]),
             max_settle_sim_seconds=float(settle["max_settle_sim_seconds"]),
-            physics_hz=float(settle["physics_hz"]),
+            physics_hz=float(doc.get("physics_hz", 120.0)),
             penetration_tolerance_m=float(doc["penetration_tolerance_m"]),
             escape_radius_margin_m=float(doc["escape_radius_margin_m"]),
         )
+
+
+def load_physics_config(path: Path | None = None) -> PhysicsConfig:
+    return PhysicsConfig.load(path)
 
 
 def load_appearance_config(path: Path | None = None) -> dict[str, Any]:

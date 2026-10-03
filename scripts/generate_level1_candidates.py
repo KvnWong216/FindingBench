@@ -11,7 +11,10 @@ never overwrites accepted ones.
 from __future__ import annotations
 
 import argparse
+import sys
 from pathlib import Path
+
+import yaml
 
 from rummagebench.authoring.level1.catalog import (
     eligible_inventory,
@@ -60,6 +63,13 @@ def main() -> int:
     if not catalog_path.is_absolute():
         catalog_path = REPO / catalog_path
     entries = eligible_inventory(load(catalog_path))
+    # rev §15 staged preprocessing: the pilot samples only from categories
+    # proven to load in FindingBench GPU runs; --full-catalog lifts the gate
+    if "--full-catalog" not in sys.argv:
+        safe = set(load_dataset_config().pilot_safe_categories)
+        entries = [e for e in entries if e.category in safe]
+        print(f"pilot gate: {len(entries)} entries from "
+              f"{len(safe)} proven-safe categories")
     sampler = CoverageSampler(entries, __import__("numpy").random.default_rng(
         dataset_seed := 1))
 
@@ -84,11 +94,16 @@ def main() -> int:
             continue
         try:
             plan = build_scene_plan(seed, paradigm, sampler, dataset_cfg,
-                                    SUPPORT_MODEL, CONTAINER_INTERIOR and
-                                    "tray", COVER_MODEL)
+                                    SUPPORT_MODEL,
+                                    "adciys" if paradigm == "container_rummage"
+                                    else None, COVER_MODEL,
+                                    exclude_pairs={("bowl", "adciys")})
+
             candidate = compile_candidate(
-                plan, dataset_cfg, SUPPORT_CENTER, SUPPORT_SIZE, SUPPORT_TOP_Z,
-                CONTAINER_INTERIOR if paradigm == "container_rummage" else None,
+                plan, dataset_cfg, SUPPORT_SIZE, SUPPORT_TOP_Z,
+                container_interior_size=([0.42, 0.30, 0.20]
+                                         if paradigm == "container_rummage"
+                                         else None),
                 cover_dims=({plan.target().name: [0.10, 0.10, 0.08]}
                             | {o.name: [0.22, 0.22, 0.11]
                                for o in plan.objects if o.role == "cover"}
@@ -108,7 +123,7 @@ def main() -> int:
                                "candidate": {
                                    "paradigm": paradigm,
                                    "support_model": SUPPORT_MODEL,
-                                   "container_model": "tray" if paradigm ==
+                                   "container_model": "recycling_bin" if paradigm ==
                                    "container_rummage" else None,
                                    "surface": candidate.surface,
                                    "occupancy_spec": candidate.occupancy_spec,
@@ -116,6 +131,63 @@ def main() -> int:
                                    "objects": candidate.objects,
                                    "relations": candidate.relations,
                                }})
+            # Level-1 scenario: the candidate through the FROZEN protocol —
+            # objects on the verified support via on_top placements; the
+            # standard driver runs the witness (rev §10).
+            target_name = next(o["name"] for o in candidate.objects
+                               if o["role"] == "target")
+            target_cat = next(o["category"] for o in candidate.objects
+                              if o["role"] == "target")
+            display = target_cat.replace("_", " ")
+            instruction = {
+                "container_rummage": "Rummage the container on the table and find the {d}. Pick it up.",
+                "tabletop_clutter": "Find the {d} on the table and pick it up.",
+                "deliberate_cover": "Something on the table may be covering the {d}. Uncover it and pick it up.",
+            }[paradigm].format(d=display)
+            level1_scenario = {
+                "id": env_id,
+                "instruction": instruction,
+                "scene": {"model": "Beechwood_0_int"},
+                "robot": {"model": "r1pro",
+                          "obs_modalities": ["rgb", "depth_linear",
+                                             "seg_instance"],
+                          "name": "robot_0",
+                          "image_width": 854, "image_height": 480,
+                          "focal_length_mm": 10.5,
+                          "init_anchor": "table_side",
+                          "kinematics": {"urdf_path": "build/robots/r1pro.urdf",
+                                         "base_link": "base_link",
+                                         "end_effector_link": "right_eef_link",
+                                         "controlled_joints": "auto",
+                                         "joint_limits_source": "urdf",
+                                         "ik_seed": 0},
+                          "reach_radius": 1.0, "z_min": 0.0, "z_max": 1.6,
+                          "hand_capacity": 1},
+                "feasibility": {"backend": "pinocchio", "mode": "endpoint"},
+                "anchors": {"table_side": {"position": [1.6, -5.15, 0.0053],
+                                           "orientation": [0.0, 0.0, 0.0, 1.0]}},
+                "target": {"entity": target_name, "category": target_cat},
+                "objects": [{"name": o["name"], "category": o["category"],
+                             "model": o["model"]}
+                            for o in candidate.objects],
+                "placements": [{"entity": o["name"], "relation": "on_top",
+                                "receptacle": "breakfast_table_uhrsex_0"}
+                               for o in candidate.objects],
+                "termination": {"max_planning_steps": 16,
+                                "fail_on_wrong_grasp": True,
+                                "fail_on_unsafe_action": True,
+                                "succeed_when_holding_target": True},
+                "skills": ["NAV", "OPEN", "CLOSE", "GRASP", "PLACE"],
+                "safety": {"forbidden_categories": [],
+                           "grasping_fixed_base_unsafe": True},
+            }
+            atomic_write_json(candidate_dir / "level1_scenario.json",
+                              level1_scenario)
+            level1_dir = REPO / "scenarios" / "level1" / env_id
+            level1_dir.mkdir(parents=True, exist_ok=True)
+            (level1_dir / "scenario.yaml").write_text(
+                yaml.safe_dump(level1_scenario, sort_keys=False),
+                encoding="utf-8")
             accepted += 1
         except StructuralFailure as e:
             atomic_write_json(candidate_dir / "stage_a_rejection.json",

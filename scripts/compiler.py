@@ -25,10 +25,6 @@ from rummagebench.authoring.occupancy import (
 )
 from rummagebench.authoring.level1.rng import derive_streams
 
-# tray family segfaults Kit on this host (ASSET_LOAD_FAILED); the recycling
-# bin is the Level-1 open-top substitute for now
-CONTAINER_CATEGORY = "bowl"
-
 
 class StructuralFailure(RuntimeError):
     """Stage A rejection (see §43 codes)."""
@@ -113,14 +109,12 @@ def compile_candidate(plan: ScenePlan, dataset_cfg: DatasetConfig,
         dims = np.asarray(proxy["grid_dims"], dtype=int)
         if plan.paradigm == "container_rummage" and role in ("target", "inside"):
             proposal = pack_in_container(
-                grid, _mask_from_cells(container_local),
-                np.ones(dims.astype(int), dtype=bool), packing_rng)
+                grid, _mask_from_cells(container_local), dims, packing_rng)
             if proposal is None:
                 raise StructuralFailure("OCCUPANCY_PACK_FAILED")
             placements.append({
                 "object": obj_plan.name, "role": role, "relation": "inside",
-                "position_local": [float(v) for v in
-                                   proposal["origin_world"]],
+                "position_local_cells": [int(v) for v in proposal["origin"]],
                 "container": plan.container_model,
             })
         else:
@@ -146,8 +140,8 @@ def compile_candidate(plan: ScenePlan, dataset_cfg: DatasetConfig,
     pack(target_plan, "target")
     if plan.paradigm == "container_rummage":
         container_plan_obj = ObjectPlan(name="container_object",
-                                        category=CONTAINER_CATEGORY,
-                                        model=plan.container_model,
+                                        category="tray",
+                                        model=plan.container_model or "tray",
                                         role="container")
     else:
         container_plan_obj = None
@@ -157,8 +151,7 @@ def compile_candidate(plan: ScenePlan, dataset_cfg: DatasetConfig,
         pack(obj, obj.role)
     if container_plan_obj is not None:
         objects.append({"name": container_plan_obj.name,
-                        "category": CONTAINER_CATEGORY,
-                        "model": plan.container_model,
+                        "category": "tray", "model": plan.container_model,
                         "role": "container", "proxy": None})
     if plan.paradigm == "deliberate_cover" and relations and cover_plan:
         rel = relations[0]
@@ -202,7 +195,7 @@ def compile_candidate(plan: ScenePlan, dataset_cfg: DatasetConfig,
 
 
 def _mask_from_cells(container_local):
-    from rummagebench.authoring.occupancy.grid import ContainerMask
+    from rummagebench.authoring.level1.occupancy.grid import ContainerMask
     return ContainerMask(origin=np.zeros(3), dims=container_local["dims"],
                          voxel_size=0.02)
 

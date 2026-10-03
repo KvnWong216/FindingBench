@@ -39,6 +39,20 @@ rummage_outside_distribution:
   3: 0.20
   4: 0.05
 
+# §7: ordinary-object size gate from the DATASET's own per-category averages
+# (avg_category_specs.json). Documented thresholds, not hand curation.
+ordinary_object_limits:
+  max_mass_kg: 3.0
+  max_volume_m3: 0.01
+
+# rev §15: staged preprocessing. The PILOT samples only from categories that
+# have actually loaded in FindingBench GPU runs (proven-safe set); the
+# production catalog expands as the GPU verification stage clears more
+# categories (lazy verification as assets are requested).
+pilot_safe_categories: [bowl, teacup, tablespoon, tablefork, vegetable_peeler,
+                        apple, cutting_board, mug, plate, table_knife,
+                        tomato_sauce_jar, barbecue_sauce_bottle, basil_jar]
+
 split:
   dev_environments: 50
   test_environments: 350
