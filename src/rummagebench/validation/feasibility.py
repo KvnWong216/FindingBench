@@ -11,7 +11,11 @@ Pipeline (production, backend=pinocchio — real kinematics + collision):
            IK (URDF kinematics, joint limits, multi-seed)
            -> if no IK: continue
            -> configuration-space collision (self + world, ACM)
+           -> GRASP: approach segment, standoff -> contact, collision-free
+              at every 1 cm waypoint (the standoff is a pre-grasp pose only)
            -> if collision-free: FEASIBLE(q, interaction target)
+    -> OPEN: the fully opened entity must not intrude the robot base
+       footprint (+ MOVE's margin): COLLISION otherwise
     -> all candidates failed:
            UNREACHABLE (no IK anywhere) | COLLISION (IK ok, collision)
 
@@ -49,6 +53,26 @@ class FeasibilityValidator:
     - proxy mode: ``ik_solver`` (reach-radius) + ``collision_checker``
       (point-vs-AABB). Unit tests only.
     """
+
+    # distinct IK solutions checked per interaction candidate before it is
+    # declared in collision (existence of ONE collision-free configuration)
+    MAX_IK_SOLUTIONS = 8
+    # GRASP approach: canonical
+    # candidates stand off 6 cm from the object face, which can put the
+    # gripper on the far side of a thin barrier (a countertop over a no-top
+    # drawer). The gripper must also close the gap to the face: waypoints
+    # every APPROACH_STEP_M down to APPROACH_CONTACT_M (EEF-to-face distance
+    # at which the R1Pro fingertips reach the face), each with some
+    # collision-free IK solution (ACM unchanged: gripper may touch the target)
+    APPROACH_STEP_M = 0.01
+    APPROACH_CONTACT_M = 0.02
+    # OPEN: a drawer must not open INTO the robot base (the base would then
+    # overlap it and every later MOVE / TURN be UNSAFE). The opened
+    # entity's AABB is tested against the base footprint with the same rule
+    # and margin as MOVE / TURN (skills/move.py); VisualProtocolSession sets
+    # base_half_extent to its own value.
+    base_half_extent = 0.40
+    base_margin = 0.03
 
     def __init__(
         self,
@@ -133,8 +157,44 @@ class FeasibilityValidator:
 
         # 2+3. geometry: interaction interfaces -> IK -> collision
         if self.engine == "pinocchio":
-            return self._check_configuration_space(skill_name, resolved, world)
-        return self._check_proxy(skill_name, resolved, robot)
+            verdict = self._check_configuration_space(skill_name, resolved, world)
+        else:
+            verdict = self._check_proxy(skill_name, resolved, robot)
+        # 4. OPEN: the opened articulation must leave the robot base clear
+        if skill_name == "OPEN" and verdict.feasible:
+            intrusion = self._opened_intrudes_base(resolved.entity)
+            if intrusion is not None:
+                return FeasibilityVerdict(feasible=False, reason="COLLISION",
+                                          details={"entity": resolved.entity,
+                                                   "note": "opened links intrude the "
+                                                           "robot base footprint",
+                                                   **intrusion})
+        return verdict
+
+    def _opened_intrudes_base(self, entity: str) -> dict | None:
+        """Evidence dict when the FULLY opened entity overlaps the robot base
+        footprint (+ margin) while the closed one does not; None otherwise
+        (also when the backend cannot predict the opened geometry)."""
+        from rummagebench.skills.move import (
+            _aabb_overlaps_footprint, footprint_corners, yaw_from_quat)
+
+        opened_aabb = getattr(self._backend, "opened_entity_aabb", None)
+        if opened_aabb is None:
+            return None
+        opened = opened_aabb(entity)
+        closed = self._backend.entity_aabb(entity)
+        if opened is None:
+            return None
+        pos, quat = self._backend.robot_pose()
+        corners = footprint_corners(pos[0], pos[1], yaw_from_quat(list(quat)),
+                                    self.base_half_extent)
+        if not _aabb_overlaps_footprint(opened, corners, self.base_margin):
+            return None
+        if closed is not None and _aabb_overlaps_footprint(closed, corners, self.base_margin):
+            return None  # pre-existing contact, not caused by opening
+        return {"opened_aabb": [list(map(float, opened[0])), list(map(float, opened[1]))],
+                "base_pose": [float(pos[0]), float(pos[1])],
+                "base_half_extent": self.base_half_extent, "margin": self.base_margin}
 
     # ------------------------------------------------------- state prechecks
 
@@ -264,6 +324,28 @@ class FeasibilityValidator:
                     base_pose=base_pose,
                 )
                 collision_result = collision.check_configuration(ik.q, ctx)
+                approach = (self._approach(skill_name, target, ik.q, base_pose, ctx)
+                            if collision_result.collision_free else None)
+                # existence semantics: the first converging seed is one
+                # configuration of a redundant arm — try further distinct IK
+                # solutions before declaring the candidate in collision
+                n_solutions = 1
+                if not (approach is not None and approach["clear"]) and hasattr(
+                        kinematics, "iter_ik_solutions"):
+                    for alt in kinematics.iter_ik_solutions(
+                            base_target, seed_q=seed_q,
+                            max_solutions=self.MAX_IK_SOLUTIONS):
+                        if np.max(np.abs(np.asarray(alt.q) - np.asarray(ik.q))) < 0.05:
+                            continue
+                        n_solutions += 1
+                        alt_result = collision.check_configuration(alt.q, ctx)
+                        if alt_result.collision_free:
+                            alt_approach = self._approach(skill_name, target, alt.q,
+                                                          base_pose, ctx)
+                            if alt_approach["clear"] or approach is None:
+                                ik, collision_result, approach = alt, alt_result, alt_approach
+                            if alt_approach["clear"]:
+                                break
             except Exception as e:
                 evaluation_errors += 1
                 candidates.append(
@@ -273,7 +355,7 @@ class FeasibilityValidator:
                     }
                 )
                 continue
-            if collision_result.collision_free:
+            if collision_result.collision_free and approach is not None and approach["clear"]:
                 return FeasibilityVerdict(
                     feasible=True,
                     reason="none",
@@ -288,7 +370,9 @@ class FeasibilityValidator:
                             "orientation_error": ik.orientation_error,
                         },
                         "collision": collision_result.to_dict(),
+                        "approach": approach,
                         "candidates_evaluated": len(candidates) + 1,
+                        "ik_solutions_checked": n_solutions,
                     },
                 )
             saw_collision = True
@@ -301,6 +385,8 @@ class FeasibilityValidator:
                         "orientation_error": ik.orientation_error,
                     },
                     "collision": collision_result.to_dict(),
+                    "approach": approach,
+                    "ik_solutions_checked": n_solutions,
                 }
             )
 
@@ -322,6 +408,49 @@ class FeasibilityValidator:
         if evaluation_errors:
             details["evaluation_errors"] = evaluation_errors
         return FeasibilityVerdict(feasible=False, reason=reason, details=details)
+
+    def _approach(self, skill_name: str, target, q0, base_pose: Pose, ctx) -> dict:
+        """GRASP approach segment from the standoff configuration ``q0`` to
+        the contact distance: {'clear': bool, ...evidence}. Other skills and
+        candidates without an approach normal are not modelled (clear)."""
+        meta = target.metadata or {}
+        normal, standoff = meta.get("approach_normal"), meta.get("standoff_m")
+        if skill_name != "GRASP" or normal is None or standoff is None:
+            return {"clear": True, "modelled": False}
+        kinematics, collision = self._kinematics, self._config_collision
+        n = np.asarray(normal, dtype=float)
+        q = np.asarray(q0, dtype=float)
+        dists = np.arange(float(standoff) - self.APPROACH_STEP_M,
+                          self.APPROACH_CONTACT_M - 1e-9, -self.APPROACH_STEP_M)
+        for d in dists:
+            pose = Pose(np.asarray(target.pose.position, dtype=float) - n * (float(standoff) - d),
+                        target.pose.orientation)
+            base_target = base_pose.inverse().compose(pose)
+            found = None
+            last = None
+            ik = kinematics.solve_ik(base_target, seed_q=q)
+            tried = [ik] if ik.success else []
+            if ik.success:
+                last = collision.check_configuration(ik.q, ctx)
+                if last.collision_free:
+                    found = ik
+            if found is None and hasattr(kinematics, "iter_ik_solutions"):
+                for alt in kinematics.iter_ik_solutions(
+                        base_target, seed_q=q, max_solutions=self.MAX_IK_SOLUTIONS):
+                    if any(np.max(np.abs(np.asarray(alt.q) - np.asarray(t.q))) < 0.05
+                           for t in tried):
+                        continue
+                    tried.append(alt)
+                    last = collision.check_configuration(alt.q, ctx)
+                    if last.collision_free:
+                        found = alt
+                        break
+            if found is None:
+                return {"clear": False, "modelled": True, "blocked_at_m": round(float(d), 4),
+                        "reason": "COLLISION" if last is not None else "NO_IK",
+                        "collision": None if last is None else last.to_dict()}
+            q = np.asarray(found.q, dtype=float)
+        return {"clear": True, "modelled": True, "waypoints": int(len(dists))}
 
     def _robot_base_pose(self) -> Pose:
         pos, quat = self._backend.robot_pose()

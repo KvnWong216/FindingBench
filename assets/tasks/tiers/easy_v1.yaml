@@ -1,0 +1,61 @@
+# Easy tier contract: single room, small candidate search, one direct
+# reveal, zero rearrangement, zero lookalikes. Bounds are checked on the
+# SearchStructureCertificate.
+tier: easy
+version: 1
+
+budget:
+  max_planning_steps: 16
+  # partial-observation slack on top of the full-information lower bound
+  search_reserve_steps: 2
+
+modes:
+  in_container: 0.6
+  on_surface: 0.4
+
+search:
+  room_count: 1
+  candidate_slot_count: [2, 4]
+  containment_depth: {min: 0, max: 1}
+  rearrangement_depth: 0
+  lookalike_count: 0
+
+target_slot:
+  extra_items: [0, 2]
+  max_fill_ratio: 0.30
+
+other_containers:
+  occupied_fraction: [0.3, 0.6]
+  items: [1, 3]
+
+other_surfaces:
+  items: [0, 3]
+
+# builder-cost cap (placement + settling per spawned object)
+max_distractors: 12
+
+gates:
+  start_visibility_max: 0.0
+  modes:
+    in_container:
+      open_required: true
+      pre_reveal_graspable: false
+      revealed_visibility_min: 0.60
+      generator_visibility_margin: 0.65
+    on_surface:
+      open_required: false
+      pre_reveal_graspable: false
+      revealed_visibility_min: 0.60
+      generator_visibility_margin: 0.65
+
+instructions:
+  templates:
+    - "Find the {object}. It should be somewhere in this {room}."
+    - "I need my {object}. Please look for it in the {room} and pick it up."
+    - "Could you get the {object} for me? It is in the {room}."
+  # search scoped to a landmark region: the furniture right next to the
+  # named landmark (under / beside / above)
+  region_templates:
+    - "Find the {object}. It should be right next to the {landmark} in the {room}."
+    - "I left my {object} somewhere by the {landmark} in the {room}. Please get it."
+    - "Could you get the {object} for me? Look around the {landmark} in the {room}."

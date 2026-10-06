@@ -479,6 +479,24 @@ class OmniGibsonBackend(SimBackend):
             return False
         return self._set_open_carrying(obj, open_value)
 
+    def opened_entity_aabb(self, entity: str):
+        """World AABB of ``entity`` FULLY open (as OPEN leaves it), measured
+        counterfactually: snapshot, open, one physics step for the link poses,
+        read, restore without physics steps (OBSERVE's capture/restore).
+        None when the entity has no Open state or is already open."""
+        from omnigibson.object_states import Open
+
+        obj = resolve_object(self._env.scene, entity)
+        if obj.states.get(Open) is None or bool(obj.states[Open].get_value()):
+            return None
+        snapshot = self.capture_observe_state()
+        try:
+            obj.states[Open].set_value(True, fully=True)
+            self._sim.step()
+            return self.entity_aabb(entity)
+        finally:
+            self.restore_observe_state(snapshot)
+
     def is_open(self, entity: str) -> bool:
         from omnigibson.object_states import Open
 

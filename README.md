@@ -13,8 +13,7 @@ Embodiment-grounded interactive object-search benchmark built on
 > **NEW (2026-10-03): Level-1 data factory** — local interactive search
 > (400 environments x 5 real mobile manipulators = 2000 episodes),
 > occupancy-guided physical scene compilation, center-pixel visual picking
-> (grounding_version=center_pixel_v2). See [README_level1.md](README_level1.md)
-> and [CHANGELOG.md](CHANGELOG.md).
+> (grounding_version=center_pixel_v2). See [README_level1.md](README_level1.md).
 
 **Positioning.** Existing embodied benchmarks evaluate agents through
 end-to-end successful execution, which entangles high-level decision quality
@@ -325,6 +324,10 @@ and additional scenarios.
    visualization/optional realization only.
 
 ## Verified results
+
+> **Results below are INVALIDATED by the collision fix.** They were produced
+> while the collision export was broken (world colliders lost their scale;
+> the exported R1Pro URDF had no collision bodies).
 
 ### v3 physical grounding acceptance (HISTORICAL numbers below are v2/proxy-era)
 

@@ -85,6 +85,10 @@ class VisualProtocolSession:
         self._backend = backend
         self._scenario = scenario
         self._session = BenchmarkSession(backend, scenario)
+        # OPEN's base-intrusion check uses the same footprint as MOVE / TURN
+        feas = getattr(self._session, "_feasibility", None)
+        if feas is not None and hasattr(feas, "base_half_extent"):
+            feas.base_half_extent = base_half_extent
         self._protocol = protocol or getattr(scenario, "agent_protocol", AgentProtocolConfig())
         self._observe_cfg = observe_cfg or ObserveConfig()
         self._base_half_extent = base_half_extent

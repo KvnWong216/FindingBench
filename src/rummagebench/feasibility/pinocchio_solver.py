@@ -24,6 +24,7 @@ import math
 from typing import Any
 
 import numpy as np
+from pathlib import Path
 
 from rummagebench.feasibility.fcl_compat import collision_backend, transform3
 
@@ -105,9 +106,19 @@ class PinocchioKinematics:
         self.q_neutral = np.clip((lo_c + up_c) / 2.0, self.lower, self.upper)
 
         # collision geometry: URDF <collision> bodies on the reduced tree
+        # mesh colliders (convex hulls written by robot_export) resolve
+        # relative to the URDF directory and are made SOLID: a collider
+        # mesh stands for the convex body PhysX simulates, not a shell
         self.geom_model = pin.buildGeomFromUrdf(
-            self.model, self.urdf_path, pin.GeometryType.COLLISION
+            self.model, self.urdf_path, pin.GeometryType.COLLISION,
+            package_dirs=[str(Path(self.urdf_path).resolve().parent)],
         )
+        for go in self.geom_model.geometryObjects:
+            g = go.geometry
+            if hasattr(g, "buildConvexHull") and getattr(g, "num_vertices", 0) >= 4:
+                g.buildConvexHull(True, "Qt")
+                if g.convex is not None:
+                    go.geometry = g.convex
         self.geom_data = self.geom_model.createData()
 
         # exact kinematic reach bound of the controlled chain: for a chain of
@@ -331,6 +342,45 @@ class PinocchioKinematics:
         return self._se3_to_pose(self.data.oMf[self.frame_id])
 
     # --------------------------------------------------------------------- IK
+
+    def iter_ik_solutions(
+        self,
+        target_pose: Pose,
+        seed_q: np.ndarray | None = None,
+        max_solutions: int = 8,
+        min_separation: float = 0.05,
+    ):
+        """Distinct converged IK solutions, in the same deterministic seed
+        order as solve_ik (current state -> neutral -> seeded restarts).
+
+        Feasibility asks whether AT LEAST ONE collision-free configuration
+        exists; the first converging seed is only one configuration of the
+        (redundant) arm, so the caller checks several. Solutions closer than
+        ``min_separation`` (joint-space L-inf, rad/m) are duplicates.
+        """
+        target = self._pose_to_se3(target_pose)
+        if float(np.linalg.norm(target.translation)) > self.max_reach:
+            return
+        seeds: list[np.ndarray] = []
+        if seed_q is not None:
+            seeds.append(np.clip(np.asarray(seed_q, dtype=float), self.lower, self.upper))
+        seeds.append(self.q_neutral.copy())
+        rng = np.random.default_rng(self.seed)
+        for _ in range(self.restarts):
+            seeds.append(rng.uniform(self.lower, self.upper))
+        found: list[np.ndarray] = []
+        for idx, seed in enumerate(seeds):
+            result = self._ik_from_seed(target, seed, enforce_limits=True)
+            if not result.success:
+                continue
+            q = np.asarray(result.q, dtype=float)
+            if any(np.max(np.abs(q - f)) < min_separation for f in found):
+                continue
+            found.append(q)
+            result.details["seed_index"] = idx
+            yield result
+            if len(found) >= max_solutions:
+                return
 
     def solve_ik(
         self,

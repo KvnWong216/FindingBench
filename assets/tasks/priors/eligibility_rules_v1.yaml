@@ -1,0 +1,30 @@
+# Object eligibility rules. Positive whitelist:
+# a category enters generation only if it passes ALL of these AND has an
+# approved placement prior. Never a denylist-only filter.
+version: 1
+
+# BDDL taxonomy abilities (bddl.object_taxonomy) of the category synset
+abilities:
+  required: [rigidBody, nonSubstance]
+  # current FindingBench object interface: rigid, single-body, graspable.
+  # openable held objects (hinged jars, boxes with lids) are not modelled
+  # (README capability boundary); deformables/cloth/substances never.
+  forbidden: [openable, sceneObject, cloth, deformable, softBody, drapeable,
+              rope, liquid, substance, physicalSubstance, assembleable,
+              attachable]
+
+# per-model native bbox (metadata.json bbox_size, metres)
+size:
+  max_extent_m: 0.35      # fits drawers/cabinets, one-hand grasp
+  min_extent_m: 0.02      # thin flat items (coins, stamps) are not grounded reliably
+  min_major_extent_m: 0.06  # large enough to be clicked in a 854x480 frame
+# per-category average mass (metadata/avg_category_specs.json)
+max_mass_kg: 3.0
+
+# lookalikes (lookalike_count): two categories look alike if they are the
+# same category, share a category head noun (mixing_bowl / bowl,
+# salt_shaker / pepper_shaker), share a parent synset whose subtree has at most
+# `max_parent_group` categories (e.g. fork.n.01, spoon.n.01, cup.n.01), or
+# share a compound container head (basil__jar / tomato_sauce__jar -> jar).
+lookalike:
+  max_parent_group: 12

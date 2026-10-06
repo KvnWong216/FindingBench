@@ -1,0 +1,143 @@
+# Robot embodiment overlay probed on GPU by
+# scripts/tasks/probe_embodiment.py. Do not hand-edit.
+scene: Benevolence_2_int
+version: 1
+robot:
+  id: r1pro
+  urdf_path: build/robots/r1pro.urdf
+  urdf_hash: 302f4704da7b412b3c52086bf7773d304e3b7e0c9aa403b4c863c56f7455c9d7
+status: probed
+source: probe:v5:2026-10-05:3b3b76817913
+notes:
+- 'probed rooms: [''bathroom_1'', ''bedroom_0'']'
+- 'probe object: apple/agveuv'
+- 'probe config: {"click_min_px": 300, "footprint_half_m": 0.4, "footprint_margin_m": 0.03, "lateral_fracs":
+  [0.0, -0.3, 0.3], "reach_tries": 6, "reveal_visibility_min": 0.6, "seen_min_px": 50, "settle_steps":
+  30, "standoffs_m": [0.45, 0.6, 0.75, 0.9, 1.05, 1.2, 1.35], "start_clearance_m": 0.5, "start_spacing_m":
+  0.5, "start_yaws_deg": [0, 45, 90, 135, 180, 225, 270, 315], "starts_per_room": 4}'
+- 'breakfast_table_bmnubh_0: no OPEN-feasible, clickable anchor that stays free once open and is reachable
+  by MOVE/TURN from the room''s start poses'
+- 'countertop_tpuwys_0: no footprint-free interaction anchor'
+- 'countertop_tpuwys_1: no footprint-free interaction anchor'
+- 'finalized: 0 unconfirmed reveal poses withdrawn; probe exceptions: none; unprobed furniture: none'
+robot_config:
+  model: r1pro
+  name: robot_0
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 854
+  image_height: 480
+  focal_length_mm: 10.5
+  kinematics:
+    urdf_path: build/robots/r1pro.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  reach_radius: 1.0
+  z_min: 0.0
+  z_max: 1.6
+  hand_capacity: 1
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+start_poses:
+  bathroom_1: []
+  bedroom_0:
+  - name: bedroom_0_p0_y000
+    position:
+    - 2.425
+    - 4.925
+    - 0.0108
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots:
+    - Benevolence_2_int/breakfast_table_bmnubh_0/on_top
+    - Benevolence_2_int/countertop_tpuwys_1/on_top
+  - name: bedroom_0_p0_y045
+    position:
+    - 2.425
+    - 4.925
+    - 0.0108
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots:
+    - Benevolence_2_int/breakfast_table_bmnubh_0/on_top
+    - Benevolence_2_int/countertop_tpuwys_1/on_top
+  - name: bedroom_0_p0_y090
+    position:
+    - 2.425
+    - 4.925
+    - 0.0108
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots: []
+  - name: bedroom_0_p0_y135
+    position:
+    - 2.425
+    - 4.925
+    - 0.0108
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots: []
+  - name: bedroom_0_p0_y180
+    position:
+    - 2.425
+    - 4.925
+    - 0.0108
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots: []
+  - name: bedroom_0_p0_y225
+    position:
+    - 2.425
+    - 4.925
+    - 0.0108
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots: []
+  - name: bedroom_0_p0_y270
+    position:
+    - 2.425
+    - 4.925
+    - 0.0108
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots: []
+  - name: bedroom_0_p0_y315
+    position:
+    - 2.425
+    - 4.925
+    - 0.0108
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots:
+    - Benevolence_2_int/breakfast_table_bmnubh_0/on_top
+slots: {}

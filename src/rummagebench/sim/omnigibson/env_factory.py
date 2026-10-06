@@ -112,6 +112,14 @@ def build_env(scenario: ScenarioSpec):
     """Create the OmniGibson Environment (launches the simulator on first call)."""
     import omnigibson as og
     from omnigibson.envs import Environment
+    from omnigibson.macros import gm
+
+    # Execution is symbolic: objects must never transform on their own.
+    # OmniGibson's default transition rules (slicing / mixing / cooking
+    # recipes) fire on contact — e.g. a carving knife resting in a drawer next
+    # to a bowl — and spawn a "sludge" particle system, which on this host
+    # (no GPU dynamics) aborts the scene build.
+    gm.ENABLE_TRANSITION_RULES = False
 
     config = build_env_config(scenario)
     env = Environment(configs=config)

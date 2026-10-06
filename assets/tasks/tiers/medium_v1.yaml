@@ -1,0 +1,33 @@
+# Medium tier contract: single room, candidate search, clutter, bounded
+# rearrangement, perceptual distractors. Planning is disabled; the
+# structural contract is enforced on any certificate.
+tier: medium
+version: 1
+planner_enabled: false
+
+budget:
+  max_planning_steps: 16
+  search_reserve_steps: 2
+
+modes:
+  rummage: 1.0
+
+search:
+  room_count: 1
+  candidate_slot_count: [2, 5]
+  containment_depth: {min: 0, max: 1}
+  rearrangement_depth: [1, 4]
+  lookalike_count: [1, 4]
+
+# clutter density, NOT action depth: independent of rearrangement_depth
+target_container_total_items: [6, 10]
+
+gates:
+  start_visibility_max: 0.0
+  modes:
+    rummage:
+      open_required: true
+      # not directly graspable before the required rearrangement
+      pre_reveal_graspable: false
+      revealed_visibility_min: 0.60
+      generator_visibility_margin: 0.65

@@ -160,67 +160,87 @@ def _gf_quat_to_xyzw(q) -> list[float]:
 
 
 def collect_link_collision_boxes(root_prim) -> dict[str, list[dict]]:
-    """For every link: the world-aligned AABBs of its collider prims,
-    expressed in the LINK frame (USD), as {center, half, approximation}.
+    """For every link: one record per collider prim, in the LINK frame
+    (USD), as {center, half, rpy, points, approximation, source}: the
+    oriented bounding box plus the collider points (written as a convex-hull
+    mesh by write_urdf; the box is the fallback for degenerate hulls).
 
-    Approximation levels: 'physics_collider_box' for axis-aligned USD box
-    colliders read exactly, 'aabb_primitive' for the world-aligned bound of
-    everything else (meshes/capsules). Unbounded or degenerate bounds are
-    skipped with a warning.
+    The box bounds the collider's own geometry (mesh points / primitive
+    extent) under its full collider-to-link transform, scale included:
+    'physics_collider_box' for box colliders (exact), 'collider_obb' for
+    the oriented bound of meshes / spheres / cylinders.
+
+    UsdGeom.BBoxCache over the default/render purposes returns an EMPTY
+    range for collider prims (purpose guide), so it is not used here.
     """
-    from pxr import Gf, Usd, UsdGeom, UsdPhysics
+    from pxr import Usd, UsdGeom, UsdPhysics
 
-    cache = UsdGeom.BBoxCache(
-        Usd.TimeCode.Default(),
-        includedPurposes=[UsdGeom.Tokens.default_, UsdGeom.Tokens.render],
-    )
+    from rummagebench.sim.omnigibson.usd_collision import (
+        _build_geometry, _coal, decompose_world_transform, obb_in_parent)
 
+    def matrix(p):
+        m = UsdGeom.Xformable(p).ComputeLocalToWorldTransform(Usd.TimeCode.Default())
+        return np.array([[float(m[i][j]) for j in range(4)] for i in range(4)])
+
+    coal = _coal()
     link_boxes: dict[str, list[dict]] = {}
     for prim in iter_prims(root_prim):
         if not prim.HasAPI(UsdPhysics.RigidBodyAPI):
             continue
         link_name = prim.GetName()
-        link_xform = UsdGeom.Xformable(prim).ComputeLocalToWorldTransform(
-            Usd.TimeCode.Default()
-        )
-        world_to_link = link_xform.GetInverse()
+        world_to_link = np.linalg.inv(matrix(prim))
         boxes: list[dict] = []
-
         for sub in iter_prims(prim):
-            if sub == prim:
+            if sub == prim or not sub.HasAPI(UsdPhysics.CollisionAPI):
                 continue
-            if not sub.HasAPI(UsdPhysics.CollisionAPI):
+            # row-vector USD convention: p_link = p_local @ (M_sub @ M_link^-1)
+            stretch, rot, trans = decompose_world_transform(matrix(sub) @ world_to_link)
+            _, level, pts = _build_geometry(sub, stretch, coal)
+            if pts is None or not len(pts):
+                logger.warning("no collider geometry for %s", sub.GetPath())
                 continue
-            approx = "aabb_primitive"
-            if sub.GetTypeName() == "Cube":
-                approx = "physics_collider_box"
-            try:
-                rng = cache.ComputeWorldBound(sub).ComputeAlignedRange()
-                lo, hi = np.array(rng.min, dtype=float), np.array(rng.max, dtype=float)
-            except Exception as e:  # pragma: no cover - depends on stage
-                logger.warning("bbox failed for %s: %s", sub.GetPath(), e)
-                continue
-            half = (hi - lo) / 2.0
-            # skip unbounded/degenerate bounds (UsdGeom.BBoxCache returns
-            # +-FLT_MAX ranges for colliders it cannot bound)
+            box = obb_in_parent(pts, rot, trans)
+            box["points"] = (np.asarray(pts) @ rot.T + trans).tolist()  # link frame
+            half = np.asarray(box["half"])
             if np.any(half <= 0.0) or np.any(half > 5.0):
-                logger.warning(
-                    "skipping invalid collider bound for %s: half=%s",
-                    sub.GetPath(), half,
-                )
+                logger.warning("skipping degenerate collider %s: half=%s", sub.GetPath(), half)
                 continue
-            center_world = (lo + hi) / 2.0
-            center_link = world_to_link.Transform(
-                Gf.Vec3d(*[float(v) for v in center_world])
-            )
-            boxes.append({
-                "center": [float(c) for c in center_link],
-                "half": [float(c) for c in half],
-                "approximation": approx,
-                "source": str(sub.GetPath()),
-            })
+            box["approximation"] = ("physics_collider_box" if level == "physics_collider_box"
+                                    else "collider_convex_hull")
+            box["source"] = str(sub.GetPath())
+            boxes.append(box)
         link_boxes[link_name] = boxes
     return link_boxes
+
+
+def write_hull_obj(points, path) -> bool:
+    """Convex hull of ``points`` as a Wavefront OBJ (outward, CCW faces).
+    False for degenerate (flat / tiny) point sets — caller keeps the box."""
+    from scipy.spatial import ConvexHull, QhullError
+
+    pts = np.asarray(points, dtype=float)
+    if len(pts) < 4:
+        return False
+    try:
+        hull = ConvexHull(pts)
+    except (QhullError, ValueError):
+        return False
+    if hull.volume < 1e-9:
+        return False
+    used = sorted(set(hull.simplices.ravel().tolist()))
+    index = {v: i + 1 for i, v in enumerate(used)}
+    centroid = pts[used].mean(0)
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    lines = [f"v {pts[v][0]:.8g} {pts[v][1]:.8g} {pts[v][2]:.8g}" for v in used]
+    for tri in hull.simplices:
+        a, b, c = (int(v) for v in tri)
+        n = np.cross(pts[b] - pts[a], pts[c] - pts[a])
+        if np.dot(n, pts[a] - centroid) < 0:
+            b, c = c, b
+        lines.append(f"f {index[a]} {index[b]} {index[c]}")
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return True
 
 
 # ---------------------------------------------------------------------------
@@ -373,16 +393,27 @@ def write_urdf(art: dict, link_boxes: dict, out_path: Path, base_link: str | Non
         )
         boxes = link_boxes.get(name, [])
         approx_levels = []
-        for box in boxes:
+        for bi, box in enumerate(boxes):
+            if box.get("points") is not None and box["approximation"] != "physics_collider_box":
+                rel = f"{out_path.stem}_meshes/{name}__{bi}.obj"
+                if write_hull_obj(box["points"], out_path.parent / rel):
+                    collision = ET.SubElement(link, "collision")
+                    ET.SubElement(collision, "origin", {"xyz": "0 0 0", "rpy": "0 0 0"})
+                    ET.SubElement(collision, "geometry").append(
+                        ET.Element("mesh", {"filename": rel}))
+                    approx_levels.append("collider_convex_hull")
+                    continue
             collision = ET.SubElement(link, "collision")
             ET.SubElement(collision, "origin", {
                 "xyz": " ".join(f"{v:.8g}" for v in box["center"]),
-                "rpy": "0 0 0",
+                "rpy": " ".join(f"{v:.8g}" for v in box.get("rpy", (0.0, 0.0, 0.0))),
             })
             ET.SubElement(collision, "geometry").append(
                 ET.Element("box", {"size": " ".join(f"{2*v:.8g}" for v in box["half"])})
             )
-            approx_levels.append(box["approximation"])
+            approx_levels.append("physics_collider_box"
+                                 if box["approximation"] == "physics_collider_box"
+                                 else "collider_obb")
         manifest["links"][name] = {
             "collision_boxes": len(boxes),
             "approximation": sorted(set(approx_levels)) or ["none"],

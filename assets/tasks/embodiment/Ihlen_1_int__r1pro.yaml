@@ -1,0 +1,2371 @@
+# Robot embodiment overlay probed on GPU by
+# scripts/tasks/probe_embodiment.py. Do not hand-edit.
+scene: Ihlen_1_int
+version: 1
+robot:
+  id: r1pro
+  urdf_path: build/robots/r1pro.urdf
+  urdf_hash: 302f4704da7b412b3c52086bf7773d304e3b7e0c9aa403b4c863c56f7455c9d7
+status: probed
+source: probe:v5:2026-10-05:3b3b76817913
+notes:
+- 'probed rooms: [''bedroom_1'', ''dining_room_0'', ''kitchen_0'', ''living_room_0'']'
+- 'probe object: apple/agveuv'
+- 'probe config: {"click_min_px": 300, "footprint_half_m": 0.4, "footprint_margin_m": 0.03, "lateral_fracs":
+  [0.0, -0.3, 0.3], "reach_tries": 6, "reveal_visibility_min": 0.6, "seen_min_px": 50, "settle_steps":
+  30, "standoffs_m": [0.45, 0.6, 0.75, 0.9, 1.05, 1.2, 1.35], "start_clearance_m": 0.5, "start_spacing_m":
+  0.5, "start_yaws_deg": [0, 45, 90, 135, 180, 225, 270, 315], "starts_per_room": 4}'
+- 'bottom_cabinet_no_top_bmsclc_0: no footprint-free interaction anchor'
+- 'bottom_cabinet_no_top_qohxjq_0: no footprint-free interaction anchor'
+- 'breakfast_table_skczfi_0: no OPEN-feasible, clickable anchor that stays free once open and is reachable
+  by MOVE/TURN from the room''s start poses'
+- 'breakfast_table_skczfi_1: no OPEN-feasible, clickable anchor that stays free once open and is reachable
+  by MOVE/TURN from the room''s start poses'
+- 'breakfast_table_uhrsex_0: no footprint-free interaction anchor'
+- 'coffee_table_gcollb_0: no footprint-free interaction anchor'
+- 'countertop_tpuwys_2: no OPEN-feasible, clickable anchor that stays free once open and is reachable
+  by MOVE/TURN from the room''s start poses'
+- 'countertop_tpuwys_3: no OPEN-feasible, clickable anchor that stays free once open and is reachable
+  by MOVE/TURN from the room''s start poses'
+- 'countertop_tpuwys_4: no footprint-free interaction anchor'
+- 'countertop_tpuwys_5: no footprint-free interaction anchor'
+- 'top_cabinet_dmwxyl_0: no OPEN-feasible, clickable anchor that stays free once open and is reachable
+  by MOVE/TURN from the room''s start poses'
+- 'top_cabinet_dmwxyl_1: no OPEN-feasible, clickable anchor that stays free once open and is reachable
+  by MOVE/TURN from the room''s start poses'
+- 'top_cabinet_dmwxyl_2: no OPEN-feasible, clickable anchor that stays free once open and is reachable
+  by MOVE/TURN from the room''s start poses'
+- 'top_cabinet_eobsmt_0: no footprint-free interaction anchor'
+- 'top_cabinet_jvdbxh_0: no OPEN-feasible, clickable anchor that stays free once open and is reachable
+  by MOVE/TURN from the room''s start poses'
+- 'finalized: 0 unconfirmed reveal poses withdrawn; probe exceptions: none; unprobed furniture: none'
+robot_config:
+  model: r1pro
+  name: robot_0
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 854
+  image_height: 480
+  focal_length_mm: 10.5
+  kinematics:
+    urdf_path: build/robots/r1pro.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  reach_radius: 1.0
+  z_min: 0.0
+  z_max: 1.6
+  hand_capacity: 1
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+start_poses:
+  bedroom_1:
+  - name: bedroom_1_p0_y000
+    position:
+    - -2.925
+    - 8.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots: []
+  - name: bedroom_1_p0_y045
+    position:
+    - -2.925
+    - 8.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots:
+    - Ihlen_1_int/breakfast_table_skczfi_0/on_top
+  - name: bedroom_1_p0_y090
+    position:
+    - -2.925
+    - 8.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots:
+    - Ihlen_1_int/breakfast_table_skczfi_0/on_top
+    - Ihlen_1_int/breakfast_table_skczfi_1/on_top
+  - name: bedroom_1_p0_y135
+    position:
+    - -2.925
+    - 8.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots:
+    - Ihlen_1_int/breakfast_table_skczfi_1/on_top
+  - name: bedroom_1_p0_y180
+    position:
+    - -2.925
+    - 8.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots: []
+  - name: bedroom_1_p0_y225
+    position:
+    - -2.925
+    - 8.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots: []
+  - name: bedroom_1_p0_y270
+    position:
+    - -2.925
+    - 8.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots: []
+  - name: bedroom_1_p0_y315
+    position:
+    - -2.925
+    - 8.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots: []
+  - name: bedroom_1_p1_y000
+    position:
+    - -2.425
+    - 8.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots: []
+  - name: bedroom_1_p1_y045
+    position:
+    - -2.425
+    - 8.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots:
+    - Ihlen_1_int/breakfast_table_skczfi_0/on_top
+  - name: bedroom_1_p1_y090
+    position:
+    - -2.425
+    - 8.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots:
+    - Ihlen_1_int/breakfast_table_skczfi_0/on_top
+    - Ihlen_1_int/breakfast_table_skczfi_1/on_top
+  - name: bedroom_1_p1_y135
+    position:
+    - -2.425
+    - 8.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots:
+    - Ihlen_1_int/breakfast_table_skczfi_0/on_top
+    - Ihlen_1_int/breakfast_table_skczfi_1/on_top
+  - name: bedroom_1_p1_y180
+    position:
+    - -2.425
+    - 8.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots: []
+  - name: bedroom_1_p1_y225
+    position:
+    - -2.425
+    - 8.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots: []
+  - name: bedroom_1_p1_y270
+    position:
+    - -2.425
+    - 8.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots: []
+  - name: bedroom_1_p1_y315
+    position:
+    - -2.425
+    - 8.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots: []
+  - name: bedroom_1_p2_y000
+    position:
+    - -1.925
+    - 8.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots: []
+  - name: bedroom_1_p2_y045
+    position:
+    - -1.925
+    - 8.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots:
+    - Ihlen_1_int/breakfast_table_skczfi_0/on_top
+  - name: bedroom_1_p2_y090
+    position:
+    - -1.925
+    - 8.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots:
+    - Ihlen_1_int/breakfast_table_skczfi_0/on_top
+    - Ihlen_1_int/breakfast_table_skczfi_1/on_top
+  - name: bedroom_1_p2_y135
+    position:
+    - -1.925
+    - 8.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots:
+    - Ihlen_1_int/breakfast_table_skczfi_0/on_top
+    - Ihlen_1_int/breakfast_table_skczfi_1/on_top
+  - name: bedroom_1_p2_y180
+    position:
+    - -1.925
+    - 8.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots:
+    - Ihlen_1_int/breakfast_table_skczfi_1/on_top
+  - name: bedroom_1_p2_y225
+    position:
+    - -1.925
+    - 8.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots: []
+  - name: bedroom_1_p2_y270
+    position:
+    - -1.925
+    - 8.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots: []
+  - name: bedroom_1_p2_y315
+    position:
+    - -1.925
+    - 8.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots: []
+  dining_room_0:
+  - name: dining_room_0_p0_y000
+    position:
+    - -4.425
+    - 1.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots:
+    - Ihlen_1_int/breakfast_table_uhrsex_0/on_top
+    - Ihlen_1_int/coffee_table_gcollb_0/on_top
+    - Ihlen_1_int/countertop_tpuwys_5/on_top
+  - name: dining_room_0_p0_y045
+    position:
+    - -4.425
+    - 1.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_1
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_2
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_3
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_4
+    - Ihlen_1_int/breakfast_table_uhrsex_0/on_top
+    - Ihlen_1_int/countertop_tpuwys_5/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_0/interior
+    - Ihlen_1_int/top_cabinet_jvdbxh_0/interior
+  - name: dining_room_0_p0_y090
+    position:
+    - -4.425
+    - 1.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_1
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_2
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_3
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_4
+    - Ihlen_1_int/breakfast_table_uhrsex_0/on_top
+    - Ihlen_1_int/countertop_tpuwys_5/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_0/interior
+    - Ihlen_1_int/top_cabinet_jvdbxh_0/interior
+  - name: dining_room_0_p0_y135
+    position:
+    - -4.425
+    - 1.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots: []
+  - name: dining_room_0_p0_y180
+    position:
+    - -4.425
+    - 1.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots: []
+  - name: dining_room_0_p0_y225
+    position:
+    - -4.425
+    - 1.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots: []
+  - name: dining_room_0_p0_y270
+    position:
+    - -4.425
+    - 1.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots: []
+  - name: dining_room_0_p0_y315
+    position:
+    - -4.425
+    - 1.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots:
+    - Ihlen_1_int/breakfast_table_uhrsex_0/on_top
+    - Ihlen_1_int/coffee_table_gcollb_0/on_top
+  - name: dining_room_0_p1_y000
+    position:
+    - -4.425
+    - 2.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots:
+    - Ihlen_1_int/breakfast_table_uhrsex_0/on_top
+    - Ihlen_1_int/coffee_table_gcollb_0/on_top
+    - Ihlen_1_int/countertop_tpuwys_5/on_top
+  - name: dining_room_0_p1_y045
+    position:
+    - -4.425
+    - 2.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots:
+    - Ihlen_1_int/countertop_tpuwys_5/on_top
+  - name: dining_room_0_p1_y090
+    position:
+    - -4.425
+    - 2.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots: []
+  - name: dining_room_0_p1_y135
+    position:
+    - -4.425
+    - 2.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots: []
+  - name: dining_room_0_p1_y180
+    position:
+    - -4.425
+    - 2.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots: []
+  - name: dining_room_0_p1_y225
+    position:
+    - -4.425
+    - 2.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots: []
+  - name: dining_room_0_p1_y270
+    position:
+    - -4.425
+    - 2.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots:
+    - Ihlen_1_int/breakfast_table_uhrsex_0/on_top
+  - name: dining_room_0_p1_y315
+    position:
+    - -4.425
+    - 2.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots:
+    - Ihlen_1_int/breakfast_table_uhrsex_0/on_top
+    - Ihlen_1_int/coffee_table_gcollb_0/on_top
+  kitchen_0:
+  - name: kitchen_0_p0_y000
+    position:
+    - -3.425
+    - 5.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_1
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_2
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_3
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_4
+    - Ihlen_1_int/countertop_tpuwys_5/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_0/interior
+    - Ihlen_1_int/top_cabinet_jvdbxh_0/interior
+  - name: kitchen_0_p0_y045
+    position:
+    - -3.425
+    - 5.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_1
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_2
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_3
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_4
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_1
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_2
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_3
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_4
+    - Ihlen_1_int/countertop_tpuwys_1/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_0/interior
+    - Ihlen_1_int/top_cabinet_jvdbxh_0/interior
+  - name: kitchen_0_p0_y090
+    position:
+    - -3.425
+    - 5.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_1
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_2
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_3
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_4
+    - Ihlen_1_int/countertop_tpuwys_1/on_top
+    - Ihlen_1_int/countertop_tpuwys_4/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_0/interior
+  - name: kitchen_0_p0_y135
+    position:
+    - -3.425
+    - 5.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots:
+    - Ihlen_1_int/countertop_tpuwys_4/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_2/interior
+  - name: kitchen_0_p0_y180
+    position:
+    - -3.425
+    - 5.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_no_top_bmsclc_0/interior
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_0
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_1
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_2
+    - Ihlen_1_int/countertop_tpuwys_2/on_top
+    - Ihlen_1_int/countertop_tpuwys_3/on_top
+    - Ihlen_1_int/countertop_tpuwys_4/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_1/interior
+    - Ihlen_1_int/top_cabinet_dmwxyl_2/interior
+    - Ihlen_1_int/top_cabinet_eobsmt_0/interior
+  - name: kitchen_0_p0_y225
+    position:
+    - -3.425
+    - 5.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_no_top_bmsclc_0/interior
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_0
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_1
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_2
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Ihlen_1_int/breakfast_table_uhrsex_0/on_top
+    - Ihlen_1_int/countertop_tpuwys_2/on_top
+    - Ihlen_1_int/countertop_tpuwys_3/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_1/interior
+    - Ihlen_1_int/top_cabinet_eobsmt_0/interior
+  - name: kitchen_0_p0_y270
+    position:
+    - -3.425
+    - 5.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_0
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_1
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_2
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Ihlen_1_int/breakfast_table_uhrsex_0/on_top
+    - Ihlen_1_int/countertop_tpuwys_3/on_top
+    - Ihlen_1_int/countertop_tpuwys_5/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_1/interior
+  - name: kitchen_0_p0_y315
+    position:
+    - -3.425
+    - 5.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots:
+    - Ihlen_1_int/breakfast_table_uhrsex_0/on_top
+    - Ihlen_1_int/countertop_tpuwys_3/on_top
+    - Ihlen_1_int/countertop_tpuwys_5/on_top
+  - name: kitchen_0_p1_y000
+    position:
+    - -1.925
+    - 4.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots:
+    - Ihlen_1_int/countertop_tpuwys_5/on_top
+  - name: kitchen_0_p1_y045
+    position:
+    - -1.925
+    - 4.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_1
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_2
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_3
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_4
+    - Ihlen_1_int/top_cabinet_jvdbxh_0/interior
+  - name: kitchen_0_p1_y090
+    position:
+    - -1.925
+    - 4.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_1
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_2
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_3
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_4
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_1
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_2
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_3
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_4
+    - Ihlen_1_int/countertop_tpuwys_0/on_top
+    - Ihlen_1_int/countertop_tpuwys_1/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_0/interior
+    - Ihlen_1_int/top_cabinet_jvdbxh_0/interior
+  - name: kitchen_0_p1_y135
+    position:
+    - -1.925
+    - 4.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_no_top_bmsclc_0/interior
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_0
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_1
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_2
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_1
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_2
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_3
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_4
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_1
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_2
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_3
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_4
+    - Ihlen_1_int/countertop_tpuwys_0/on_top
+    - Ihlen_1_int/countertop_tpuwys_1/on_top
+    - Ihlen_1_int/countertop_tpuwys_2/on_top
+    - Ihlen_1_int/countertop_tpuwys_4/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_0/interior
+    - Ihlen_1_int/top_cabinet_dmwxyl_2/interior
+    - Ihlen_1_int/top_cabinet_eobsmt_0/interior
+    - Ihlen_1_int/top_cabinet_jvdbxh_0/interior
+  - name: kitchen_0_p1_y180
+    position:
+    - -1.925
+    - 4.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_no_top_bmsclc_0/interior
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_0
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_1
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_2
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_1
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_2
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_3
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_4
+    - Ihlen_1_int/breakfast_table_uhrsex_0/on_top
+    - Ihlen_1_int/countertop_tpuwys_2/on_top
+    - Ihlen_1_int/countertop_tpuwys_3/on_top
+    - Ihlen_1_int/countertop_tpuwys_4/on_top
+    - Ihlen_1_int/countertop_tpuwys_5/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_1/interior
+    - Ihlen_1_int/top_cabinet_dmwxyl_2/interior
+    - Ihlen_1_int/top_cabinet_eobsmt_0/interior
+  - name: kitchen_0_p1_y225
+    position:
+    - -1.925
+    - 4.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_no_top_bmsclc_0/interior
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_0
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_1
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_2
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Ihlen_1_int/breakfast_table_uhrsex_0/on_top
+    - Ihlen_1_int/countertop_tpuwys_2/on_top
+    - Ihlen_1_int/countertop_tpuwys_3/on_top
+    - Ihlen_1_int/countertop_tpuwys_5/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_1/interior
+    - Ihlen_1_int/top_cabinet_eobsmt_0/interior
+  - name: kitchen_0_p1_y270
+    position:
+    - -1.925
+    - 4.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots:
+    - Ihlen_1_int/breakfast_table_uhrsex_0/on_top
+    - Ihlen_1_int/countertop_tpuwys_5/on_top
+  - name: kitchen_0_p1_y315
+    position:
+    - -1.925
+    - 4.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots:
+    - Ihlen_1_int/breakfast_table_uhrsex_0/on_top
+    - Ihlen_1_int/countertop_tpuwys_5/on_top
+  - name: kitchen_0_p2_y000
+    position:
+    - -3.925
+    - 6.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_1
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_2
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_3
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_4
+    - Ihlen_1_int/countertop_tpuwys_1/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_0/interior
+  - name: kitchen_0_p2_y045
+    position:
+    - -3.925
+    - 6.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots: []
+  - name: kitchen_0_p2_y090
+    position:
+    - -3.925
+    - 6.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots: []
+  - name: kitchen_0_p2_y135
+    position:
+    - -3.925
+    - 6.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots: []
+  - name: kitchen_0_p2_y180
+    position:
+    - -3.925
+    - 6.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots:
+    - Ihlen_1_int/countertop_tpuwys_4/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_2/interior
+  - name: kitchen_0_p2_y225
+    position:
+    - -3.925
+    - 6.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_no_top_bmsclc_0/interior
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_0
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_1
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_2
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Ihlen_1_int/countertop_tpuwys_2/on_top
+    - Ihlen_1_int/countertop_tpuwys_3/on_top
+    - Ihlen_1_int/countertop_tpuwys_4/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_1/interior
+    - Ihlen_1_int/top_cabinet_dmwxyl_2/interior
+    - Ihlen_1_int/top_cabinet_eobsmt_0/interior
+  - name: kitchen_0_p2_y270
+    position:
+    - -3.925
+    - 6.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_no_top_bmsclc_0/interior
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_0
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_1
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_2
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_1
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_2
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_3
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_4
+    - Ihlen_1_int/breakfast_table_uhrsex_0/on_top
+    - Ihlen_1_int/countertop_tpuwys_1/on_top
+    - Ihlen_1_int/countertop_tpuwys_2/on_top
+    - Ihlen_1_int/countertop_tpuwys_3/on_top
+    - Ihlen_1_int/countertop_tpuwys_4/on_top
+    - Ihlen_1_int/countertop_tpuwys_5/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_1/interior
+    - Ihlen_1_int/top_cabinet_dmwxyl_2/interior
+    - Ihlen_1_int/top_cabinet_eobsmt_0/interior
+  - name: kitchen_0_p2_y315
+    position:
+    - -3.925
+    - 6.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_0
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_1
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_2
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_1
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_2
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_3
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_4
+    - Ihlen_1_int/breakfast_table_uhrsex_0/on_top
+    - Ihlen_1_int/countertop_tpuwys_1/on_top
+    - Ihlen_1_int/countertop_tpuwys_3/on_top
+    - Ihlen_1_int/countertop_tpuwys_5/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_0/interior
+    - Ihlen_1_int/top_cabinet_dmwxyl_1/interior
+  - name: kitchen_0_p3_y000
+    position:
+    - -2.925
+    - 4.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_1
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_2
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_3
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_4
+    - Ihlen_1_int/countertop_tpuwys_5/on_top
+    - Ihlen_1_int/top_cabinet_jvdbxh_0/interior
+  - name: kitchen_0_p3_y045
+    position:
+    - -2.925
+    - 4.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_1
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_2
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_3
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_4
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_1
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_2
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_3
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_4
+    - Ihlen_1_int/countertop_tpuwys_1/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_0/interior
+    - Ihlen_1_int/top_cabinet_jvdbxh_0/interior
+  - name: kitchen_0_p3_y090
+    position:
+    - -2.925
+    - 4.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_1
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_2
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_3
+    - Ihlen_1_int/bottom_cabinet_slgzfc_0/link_4
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_1
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_2
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_3
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_4
+    - Ihlen_1_int/countertop_tpuwys_0/on_top
+    - Ihlen_1_int/countertop_tpuwys_1/on_top
+    - Ihlen_1_int/countertop_tpuwys_4/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_0/interior
+    - Ihlen_1_int/top_cabinet_dmwxyl_2/interior
+    - Ihlen_1_int/top_cabinet_jvdbxh_0/interior
+  - name: kitchen_0_p3_y135
+    position:
+    - -2.925
+    - 4.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_no_top_bmsclc_0/interior
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_1
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_2
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_3
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_4
+    - Ihlen_1_int/countertop_tpuwys_0/on_top
+    - Ihlen_1_int/countertop_tpuwys_1/on_top
+    - Ihlen_1_int/countertop_tpuwys_2/on_top
+    - Ihlen_1_int/countertop_tpuwys_4/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_2/interior
+    - Ihlen_1_int/top_cabinet_eobsmt_0/interior
+  - name: kitchen_0_p3_y180
+    position:
+    - -2.925
+    - 4.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_no_top_bmsclc_0/interior
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_0
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_1
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_2
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Ihlen_1_int/countertop_tpuwys_2/on_top
+    - Ihlen_1_int/countertop_tpuwys_3/on_top
+    - Ihlen_1_int/countertop_tpuwys_4/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_1/interior
+    - Ihlen_1_int/top_cabinet_dmwxyl_2/interior
+    - Ihlen_1_int/top_cabinet_eobsmt_0/interior
+  - name: kitchen_0_p3_y225
+    position:
+    - -2.925
+    - 4.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_no_top_bmsclc_0/interior
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_0
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_1
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_0/link_2
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Ihlen_1_int/breakfast_table_uhrsex_0/on_top
+    - Ihlen_1_int/countertop_tpuwys_2/on_top
+    - Ihlen_1_int/countertop_tpuwys_3/on_top
+    - Ihlen_1_int/countertop_tpuwys_5/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_1/interior
+    - Ihlen_1_int/top_cabinet_eobsmt_0/interior
+  - name: kitchen_0_p3_y270
+    position:
+    - -2.925
+    - 4.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Ihlen_1_int/breakfast_table_uhrsex_0/on_top
+    - Ihlen_1_int/countertop_tpuwys_3/on_top
+    - Ihlen_1_int/countertop_tpuwys_5/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_1/interior
+  - name: kitchen_0_p3_y315
+    position:
+    - -2.925
+    - 4.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots:
+    - Ihlen_1_int/breakfast_table_uhrsex_0/on_top
+    - Ihlen_1_int/countertop_tpuwys_5/on_top
+  living_room_0:
+  - name: living_room_0_p0_y000
+    position:
+    - 1.575
+    - 0.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots:
+    - Ihlen_1_int/coffee_table_gcollb_0/on_top
+  - name: living_room_0_p0_y045
+    position:
+    - 1.575
+    - 0.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots:
+    - Ihlen_1_int/coffee_table_gcollb_0/on_top
+  - name: living_room_0_p0_y090
+    position:
+    - 1.575
+    - 0.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots:
+    - Ihlen_1_int/countertop_tpuwys_4/on_top
+    - Ihlen_1_int/countertop_tpuwys_5/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_2/interior
+  - name: living_room_0_p0_y135
+    position:
+    - 1.575
+    - 0.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Ihlen_1_int/breakfast_table_uhrsex_0/on_top
+    - Ihlen_1_int/countertop_tpuwys_3/on_top
+    - Ihlen_1_int/countertop_tpuwys_4/on_top
+    - Ihlen_1_int/countertop_tpuwys_5/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_1/interior
+    - Ihlen_1_int/top_cabinet_dmwxyl_2/interior
+  - name: living_room_0_p0_y180
+    position:
+    - 1.575
+    - 0.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Ihlen_1_int/breakfast_table_uhrsex_0/on_top
+    - Ihlen_1_int/countertop_tpuwys_3/on_top
+    - Ihlen_1_int/countertop_tpuwys_4/on_top
+    - Ihlen_1_int/countertop_tpuwys_5/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_1/interior
+    - Ihlen_1_int/top_cabinet_dmwxyl_2/interior
+  - name: living_room_0_p0_y225
+    position:
+    - 1.575
+    - 0.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots: []
+  - name: living_room_0_p0_y270
+    position:
+    - 1.575
+    - 0.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots: []
+  - name: living_room_0_p0_y315
+    position:
+    - 1.575
+    - 0.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots: []
+  - name: living_room_0_p1_y000
+    position:
+    - 4.075
+    - 1.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots: []
+  - name: living_room_0_p1_y045
+    position:
+    - 4.075
+    - 1.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots: []
+  - name: living_room_0_p1_y090
+    position:
+    - 4.075
+    - 1.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots: []
+  - name: living_room_0_p1_y135
+    position:
+    - 4.075
+    - 1.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots:
+    - Ihlen_1_int/breakfast_table_uhrsex_0/on_top
+    - Ihlen_1_int/coffee_table_gcollb_0/on_top
+  - name: living_room_0_p1_y180
+    position:
+    - 4.075
+    - 1.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots:
+    - Ihlen_1_int/breakfast_table_uhrsex_0/on_top
+    - Ihlen_1_int/coffee_table_gcollb_0/on_top
+  - name: living_room_0_p1_y225
+    position:
+    - 4.075
+    - 1.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots:
+    - Ihlen_1_int/coffee_table_gcollb_0/on_top
+  - name: living_room_0_p1_y270
+    position:
+    - 4.075
+    - 1.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots: []
+  - name: living_room_0_p1_y315
+    position:
+    - 4.075
+    - 1.075
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots: []
+  - name: living_room_0_p2_y000
+    position:
+    - 0.075
+    - 0.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots:
+    - Ihlen_1_int/coffee_table_gcollb_0/on_top
+  - name: living_room_0_p2_y045
+    position:
+    - 0.075
+    - 0.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots:
+    - Ihlen_1_int/coffee_table_gcollb_0/on_top
+  - name: living_room_0_p2_y090
+    position:
+    - 0.075
+    - 0.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_1
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_2
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_3
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_4
+    - Ihlen_1_int/breakfast_table_uhrsex_0/on_top
+    - Ihlen_1_int/countertop_tpuwys_3/on_top
+    - Ihlen_1_int/countertop_tpuwys_4/on_top
+    - Ihlen_1_int/countertop_tpuwys_5/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_1/interior
+    - Ihlen_1_int/top_cabinet_dmwxyl_2/interior
+    - Ihlen_1_int/top_cabinet_jvdbxh_0/interior
+  - name: living_room_0_p2_y135
+    position:
+    - 0.075
+    - 0.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_1
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_2
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_3
+    - Ihlen_1_int/bottom_cabinet_slgzfc_1/link_4
+    - Ihlen_1_int/breakfast_table_uhrsex_0/on_top
+    - Ihlen_1_int/countertop_tpuwys_3/on_top
+    - Ihlen_1_int/countertop_tpuwys_4/on_top
+    - Ihlen_1_int/countertop_tpuwys_5/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_1/interior
+    - Ihlen_1_int/top_cabinet_dmwxyl_2/interior
+    - Ihlen_1_int/top_cabinet_jvdbxh_0/interior
+  - name: living_room_0_p2_y180
+    position:
+    - 0.075
+    - 0.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Ihlen_1_int/breakfast_table_uhrsex_0/on_top
+    - Ihlen_1_int/countertop_tpuwys_3/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_1/interior
+  - name: living_room_0_p2_y225
+    position:
+    - 0.075
+    - 0.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots: []
+  - name: living_room_0_p2_y270
+    position:
+    - 0.075
+    - 0.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots: []
+  - name: living_room_0_p2_y315
+    position:
+    - 0.075
+    - 0.575
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots:
+    - Ihlen_1_int/coffee_table_gcollb_0/on_top
+  - name: living_room_0_p3_y000
+    position:
+    - 4.075
+    - -0.425
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots: []
+  - name: living_room_0_p3_y045
+    position:
+    - 4.075
+    - -0.425
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots: []
+  - name: living_room_0_p3_y090
+    position:
+    - 4.075
+    - -0.425
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots:
+    - Ihlen_1_int/coffee_table_gcollb_0/on_top
+  - name: living_room_0_p3_y135
+    position:
+    - 4.075
+    - -0.425
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Ihlen_1_int/breakfast_table_uhrsex_0/on_top
+    - Ihlen_1_int/coffee_table_gcollb_0/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_1/interior
+  - name: living_room_0_p3_y180
+    position:
+    - 4.075
+    - -0.425
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots:
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Ihlen_1_int/breakfast_table_uhrsex_0/on_top
+    - Ihlen_1_int/coffee_table_gcollb_0/on_top
+    - Ihlen_1_int/countertop_tpuwys_3/on_top
+    - Ihlen_1_int/top_cabinet_dmwxyl_1/interior
+  - name: living_room_0_p3_y225
+    position:
+    - 4.075
+    - -0.425
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots: []
+  - name: living_room_0_p3_y270
+    position:
+    - 4.075
+    - -0.425
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots: []
+  - name: living_room_0_p3_y315
+    position:
+    - 4.075
+    - -0.425
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots: []
+slots:
+  Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_0:
+    navigation_anchor:
+      position:
+      - -3.5912
+      - 4.9984
+      - 0.0053
+      orientation:
+      - 0.0
+      - 0.0
+      - -0.707105
+      - 0.707108
+    open_feasible: true
+    grasp_region_feasible: false
+    probed: true
+    note: ''
+    evidence:
+      placed: true
+      sampler_ok: true
+      relation_ok: true
+      containing_link: link_0
+      open_floor_slab:
+      - - -3.8944584097116155
+        - 3.9648147679241252
+        - 0.18196827004085198
+      - - -3.5681686842201503
+        - 4.38195855360556
+        - 0.18974492081235905
+      grasp_from: []
+      visibility_by_anchor: {}
+      floor_in_view_from: []
+      anchor_index: 7
+      open_feasible: true
+      grasp_feasible: false
+      reveal_anchor_index: null
+      reveal_anchor: null
+      open_visibility:
+        visible_px: 0
+        reference_px: 0
+        ratio: null
+        consistent: true
+        attempts: 1
+      closed_relation_ok: true
+      closed_containing_link: link_0
+      closed_graspable: false
+      closed_visibility:
+        visible_px: 0
+        reference_px: 0
+        ratio: null
+        consistent: true
+        attempts: 1
+  Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_1:
+    navigation_anchor:
+      position:
+      - -3.5912
+      - 4.9984
+      - 0.0053
+      orientation:
+      - 0.0
+      - 0.0
+      - -0.707105
+      - 0.707108
+    open_feasible: true
+    grasp_region_feasible: false
+    probed: true
+    note: ''
+    evidence:
+      placed: true
+      sampler_ok: true
+      relation_ok: true
+      containing_link: link_1
+      open_floor_slab:
+      - - -3.8860422421471226
+        - 3.9727438285970287
+        - 0.456917125172107
+      - - -3.5666464475136883
+        - 4.382732933751645
+        - 0.4852459842960213
+      grasp_from: []
+      visibility_by_anchor: {}
+      floor_in_view_from: []
+      anchor_index: 7
+      open_feasible: true
+      grasp_feasible: false
+      reveal_anchor_index: null
+      reveal_anchor: null
+      open_visibility:
+        visible_px: 0
+        reference_px: 0
+        ratio: null
+        consistent: true
+        attempts: 1
+      closed_relation_ok: true
+      closed_containing_link: link_1
+      closed_graspable: false
+      closed_visibility:
+        visible_px: 0
+        reference_px: 514
+        ratio: 0.0
+        consistent: true
+        attempts: 1
+  Ihlen_1_int/bottom_cabinet_no_top_qohxjq_1/link_2:
+    navigation_anchor:
+      position:
+      - -3.5912
+      - 4.9984
+      - 0.0053
+      orientation:
+      - 0.0
+      - 0.0
+      - -0.707105
+      - 0.707108
+    open_feasible: true
+    grasp_region_feasible: true
+    probed: true
+    note: ''
+    reveal_anchor:
+      position:
+      - -3.5912
+      - 4.9984
+      - 0.0053
+      orientation:
+      - 0.0
+      - 0.0
+      - -0.707105
+      - 0.707108
+    evidence:
+      placed: true
+      sampler_ok: true
+      relation_ok: true
+      containing_link: link_2
+      open_floor_slab:
+      - - -3.8812259974919936
+        - 3.9773945374876956
+        - 0.7615884458886668
+      - - -3.5724965320066815
+        - 4.3829546122817495
+        - 0.7853706439878306
+      grasp_from:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      - 13
+      - 14
+      - 15
+      visibility_by_anchor:
+        '0': 0.0
+        '1': 0.0
+        '2': 0.0
+        '3': 0.0
+        '4': 0.0
+        '5': 0.0
+        '6': 1.0
+        '7': 1.0
+        '8': 1.0
+        '9': 1.0
+        '10': 1.0
+        '11': 1.0
+        '12': 1.0
+        '13': 1.0
+        '14': 0.932
+        '15': 0.931
+      floor_in_view_from:
+      - 9
+      - 10
+      - 11
+      - 12
+      - 13
+      - 14
+      - 15
+      anchor_index: 7
+      open_feasible: true
+      grasp_feasible: true
+      reveal_route_steps: 0
+      reveal_anchor_index: 7
+      reveal_anchor:
+        position:
+        - -3.5912
+        - 4.9984
+        - 0.0053
+        orientation:
+        - 0.0
+        - 0.0
+        - -0.707105
+        - 0.707108
+      open_visibility:
+        visible_px: 981
+        reference_px: 981
+        ratio: 1.0
+        consistent: true
+        attempts: 1
+      closed_relation_ok: true
+      closed_containing_link: link_2
+      closed_graspable: false
+      closed_visibility:
+        visible_px: 0
+        reference_px: 568
+        ratio: 0.0
+        consistent: true
+        attempts: 1
+  Ihlen_1_int/bottom_cabinet_slgzfc_0/link_1:
+    navigation_anchor:
+      position:
+      - -1.9893
+      - 4.6889
+      - 0.0053
+      orientation:
+      - 0.0
+      - 0.0
+      - 0.707105
+      - 0.707108
+    open_feasible: true
+    grasp_region_feasible: false
+    probed: true
+    note: ''
+    evidence:
+      placed: true
+      sampler_ok: true
+      relation_ok: true
+      containing_link: link_1
+      open_floor_slab:
+      - - -2.1000667055607574
+        - 5.3159523972939935
+        - 0.054095777464079876
+      - - -1.8784947173822515
+        - 5.883132635055113
+        - 0.06144142275468043
+      grasp_from: []
+      visibility_by_anchor: {}
+      floor_in_view_from: []
+      anchor_index: 6
+      open_feasible: true
+      grasp_feasible: false
+      reveal_anchor_index: null
+      reveal_anchor: null
+      open_visibility:
+        visible_px: 0
+        reference_px: 0
+        ratio: null
+        consistent: true
+        attempts: 1
+      closed_relation_ok: true
+      closed_containing_link: link_1
+      closed_graspable: false
+      closed_visibility:
+        visible_px: 0
+        reference_px: 0
+        ratio: null
+        consistent: true
+        attempts: 1
+  Ihlen_1_int/bottom_cabinet_slgzfc_0/link_2:
+    navigation_anchor:
+      position:
+      - -1.9893
+      - 4.6889
+      - 0.0053
+      orientation:
+      - 0.0
+      - 0.0
+      - 0.707105
+      - 0.707108
+    open_feasible: true
+    grasp_region_feasible: false
+    probed: true
+    note: ''
+    evidence:
+      placed: true
+      sampler_ok: true
+      relation_ok: true
+      containing_link: link_2
+      open_floor_slab:
+      - - -2.100066824770064
+        - 5.315952924841028
+        - 0.2761972839554374
+      - - -1.8784948365915646
+        - 5.883133145698856
+        - 0.2835429536516071
+      grasp_from: []
+      visibility_by_anchor: {}
+      floor_in_view_from: []
+      anchor_index: 6
+      open_feasible: true
+      grasp_feasible: false
+      reveal_anchor_index: null
+      reveal_anchor: null
+      open_visibility:
+        visible_px: 0
+        reference_px: 0
+        ratio: null
+        consistent: true
+        attempts: 1
+      closed_relation_ok: true
+      closed_containing_link: link_2
+      closed_graspable: false
+      closed_visibility:
+        visible_px: 0
+        reference_px: 353
+        ratio: 0.0
+        consistent: true
+        attempts: 1
+  Ihlen_1_int/bottom_cabinet_slgzfc_0/link_3:
+    navigation_anchor:
+      position:
+      - -1.9893
+      - 4.6889
+      - 0.0053
+      orientation:
+      - 0.0
+      - 0.0
+      - 0.707105
+      - 0.707108
+    open_feasible: true
+    grasp_region_feasible: false
+    probed: true
+    note: ''
+    evidence:
+      placed: true
+      sampler_ok: true
+      relation_ok: true
+      containing_link: link_3
+      open_floor_slab:
+      - - -2.1000668247700296
+        - 5.315952431100579
+        - 0.4982988404409837
+      - - -1.8784948365915635
+        - 5.883132668861698
+        - 0.5056439106753619
+      grasp_from: []
+      visibility_by_anchor: {}
+      floor_in_view_from: []
+      anchor_index: 6
+      open_feasible: true
+      grasp_feasible: false
+      reveal_anchor_index: null
+      reveal_anchor: null
+      open_visibility:
+        visible_px: 0
+        reference_px: 0
+        ratio: null
+        consistent: true
+        attempts: 1
+      closed_relation_ok: true
+      closed_containing_link: link_3
+      closed_graspable: false
+      closed_visibility:
+        visible_px: 0
+        reference_px: 374
+        ratio: 0.0
+        consistent: true
+        attempts: 1
+  Ihlen_1_int/bottom_cabinet_slgzfc_0/link_4:
+    navigation_anchor:
+      position:
+      - -1.9893
+      - 4.6889
+      - 0.0053
+      orientation:
+      - 0.0
+      - 0.0
+      - 0.707105
+      - 0.707108
+    open_feasible: true
+    grasp_region_feasible: true
+    probed: true
+    note: ''
+    reveal_anchor:
+      position:
+      - -1.9893
+      - 4.6889
+      - 0.0053
+      orientation:
+      - 0.0
+      - 0.0
+      - 0.707105
+      - 0.707108
+    evidence:
+      placed: true
+      sampler_ok: true
+      relation_ok: true
+      containing_link: link_4
+      open_floor_slab:
+      - - -2.1000668247700935
+        - 5.315952038779877
+        - 0.7203998686456959
+      - - -1.8784948365915775
+        - 5.883132293444288
+        - 0.7277455383418656
+      grasp_from:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      - 13
+      - 14
+      visibility_by_anchor:
+        '0': 0.0
+        '1': 0.0
+        '2': 0.0
+        '3': 1.0
+        '4': 1.0
+        '5': 1.0
+        '6': 1.0
+        '7': 1.0
+        '8': 1.0
+        '9': 1.0
+        '10': 1.0
+        '11': 1.0
+        '12': 1.0
+        '13': 1.0
+        '14': 1.0
+      floor_in_view_from:
+      - 9
+      - 10
+      - 11
+      - 12
+      - 13
+      - 14
+      anchor_index: 6
+      open_feasible: true
+      grasp_feasible: true
+      reveal_route_steps: 0
+      reveal_anchor_index: 6
+      reveal_anchor:
+        position:
+        - -1.9893
+        - 4.6889
+        - 0.0053
+        orientation:
+        - 0.0
+        - 0.0
+        - 0.707105
+        - 0.707108
+      open_visibility:
+        visible_px: 758
+        reference_px: 758
+        ratio: 1.0
+        consistent: true
+        attempts: 1
+      closed_relation_ok: true
+      closed_containing_link: link_4
+      closed_graspable: false
+      closed_visibility:
+        visible_px: 0
+        reference_px: 396
+        ratio: 0.0
+        consistent: true
+        attempts: 1
+  Ihlen_1_int/bottom_cabinet_slgzfc_1/link_1:
+    navigation_anchor:
+      position:
+      - -3.0893
+      - 4.6689
+      - 0.0053
+      orientation:
+      - 0.0
+      - 0.0
+      - 0.707105
+      - 0.707108
+    open_feasible: true
+    grasp_region_feasible: false
+    probed: true
+    note: ''
+    evidence:
+      placed: true
+      sampler_ok: true
+      relation_ok: true
+      containing_link: link_1
+      open_floor_slab:
+      - - -3.2000666101933257
+        - 5.29595241636748
+        - 0.054095777464079876
+      - - -2.9784946220148196
+        - 5.8631326541285995
+        - 0.061441422754680425
+      grasp_from: []
+      visibility_by_anchor: {}
+      floor_in_view_from: []
+      anchor_index: 9
+      open_feasible: true
+      grasp_feasible: false
+      reveal_anchor_index: null
+      reveal_anchor: null
+      open_visibility:
+        visible_px: 0
+        reference_px: 0
+        ratio: null
+        consistent: true
+        attempts: 1
+      closed_relation_ok: true
+      closed_containing_link: link_1
+      closed_graspable: false
+      closed_visibility:
+        visible_px: 0
+        reference_px: 0
+        ratio: null
+        consistent: true
+        attempts: 1
+  Ihlen_1_int/bottom_cabinet_slgzfc_1/link_2:
+    navigation_anchor:
+      position:
+      - -3.0893
+      - 4.6689
+      - 0.0053
+      orientation:
+      - 0.0
+      - 0.0
+      - 0.707105
+      - 0.707108
+    open_feasible: true
+    grasp_region_feasible: false
+    probed: true
+    note: ''
+    evidence:
+      placed: true
+      sampler_ok: true
+      relation_ok: true
+      containing_link: link_2
+      open_floor_slab:
+      - - -3.2000666101933426
+        - 5.295952467077354
+        - 0.2761972839554374
+      - - -2.9784946220148436
+        - 5.863132687935182
+        - 0.2835429536516071
+      grasp_from: []
+      visibility_by_anchor: {}
+      floor_in_view_from: []
+      anchor_index: 9
+      open_feasible: true
+      grasp_feasible: false
+      reveal_anchor_index: null
+      reveal_anchor: null
+      open_visibility:
+        visible_px: 0
+        reference_px: 0
+        ratio: null
+        consistent: true
+        attempts: 1
+      closed_relation_ok: true
+      closed_containing_link: link_2
+      closed_graspable: false
+      closed_visibility:
+        visible_px: 0
+        reference_px: 0
+        ratio: null
+        consistent: true
+        attempts: 1
+  Ihlen_1_int/bottom_cabinet_slgzfc_1/link_3:
+    navigation_anchor:
+      position:
+      - -3.0893
+      - 4.6689
+      - 0.0053
+      orientation:
+      - 0.0
+      - 0.0
+      - 0.707105
+      - 0.707108
+    open_feasible: true
+    grasp_region_feasible: false
+    probed: true
+    note: ''
+    evidence:
+      placed: true
+      sampler_ok: true
+      relation_ok: true
+      containing_link: link_3
+      open_floor_slab:
+      - - -3.200066610193308
+        - 5.295952927011222
+        - 0.4982988404409837
+      - - -2.9784946220148423
+        - 5.863133164772342
+        - 0.5056439106753619
+      grasp_from: []
+      visibility_by_anchor: {}
+      floor_in_view_from: []
+      anchor_index: 9
+      open_feasible: true
+      grasp_feasible: false
+      reveal_anchor_index: null
+      reveal_anchor: null
+      open_visibility:
+        visible_px: 0
+        reference_px: 0
+        ratio: null
+        consistent: true
+        attempts: 1
+      closed_relation_ok: true
+      closed_containing_link: link_3
+      closed_graspable: false
+      closed_visibility:
+        visible_px: 0
+        reference_px: 374
+        ratio: 0.0
+        consistent: true
+        attempts: 1
+  Ihlen_1_int/bottom_cabinet_slgzfc_1/link_4:
+    navigation_anchor:
+      position:
+      - -3.0893
+      - 4.6689
+      - 0.0053
+      orientation:
+      - 0.0
+      - 0.0
+      - 0.707105
+      - 0.707108
+    open_feasible: true
+    grasp_region_feasible: true
+    probed: true
+    note: ''
+    reveal_anchor:
+      position:
+      - -3.0893
+      - 4.6689
+      - 0.0053
+      orientation:
+      - 0.0
+      - 0.0
+      - 0.707105
+      - 0.707108
+    evidence:
+      placed: true
+      sampler_ok: true
+      relation_ok: true
+      containing_link: link_4
+      open_floor_slab:
+      - - -3.2000666101933724
+        - 5.295952534690523
+        - 0.7203998686456959
+      - - -2.978494622014856
+        - 5.8631327893549345
+        - 0.7277455383418656
+      grasp_from:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      - 13
+      visibility_by_anchor:
+        '0': 0.0
+        '1': 0.0
+        '2': 0.0
+        '3': 0.0
+        '4': 0.0
+        '5': 0.0
+        '6': 0.0
+        '7': 0.0
+        '8': 0.0
+        '9': 1.0
+        '10': 1.0
+        '11': 1.0
+        '12': 1.0
+        '13': 0.984
+      floor_in_view_from:
+      - 13
+      anchor_index: 9
+      open_feasible: true
+      grasp_feasible: true
+      reveal_route_steps: 0
+      reveal_anchor_index: 9
+      reveal_anchor:
+        position:
+        - -3.0893
+        - 4.6689
+        - 0.0053
+        orientation:
+        - 0.0
+        - 0.0
+        - 0.707105
+        - 0.707108
+      open_visibility:
+        visible_px: 585
+        reference_px: 585
+        ratio: 1.0
+        consistent: true
+        attempts: 1
+      closed_relation_ok: true
+      closed_containing_link: link_4
+      closed_graspable: false
+      closed_visibility:
+        visible_px: 0
+        reference_px: 381
+        ratio: 0.0
+        consistent: true
+        attempts: 1
+  Ihlen_1_int/countertop_tpuwys_0/on_top:
+    navigation_anchor:
+      position:
+      - -3.0095
+      - 5.0512
+      - 0.0053
+      orientation:
+      - 0.0
+      - 0.0
+      - 0.707105
+      - 0.707108
+    open_feasible: null
+    grasp_region_feasible: false
+    probed: true
+    note: 'probe placement failed: None'
+    evidence:
+      placed: false
+      sampler_ok: false
+      relation_ok: false
+      containing_link: null
+      anchor_index: 0
+      open_feasible: null
+      grasp_feasible: false
+      reveal_anchor_index: null
+      reveal_anchor: null
+  Ihlen_1_int/countertop_tpuwys_1/on_top:
+    navigation_anchor:
+      position:
+      - -3.0095
+      - 5.0512
+      - 0.0053
+      orientation:
+      - 0.0
+      - 0.0
+      - 0.707105
+      - 0.707108
+    open_feasible: null
+    grasp_region_feasible: false
+    probed: true
+    note: 'probe placement failed: None'
+    evidence:
+      placed: false
+      sampler_ok: false
+      relation_ok: false
+      containing_link: null
+      anchor_index: 0
+      open_feasible: null
+      grasp_feasible: false
+      reveal_anchor_index: null
+      reveal_anchor: null

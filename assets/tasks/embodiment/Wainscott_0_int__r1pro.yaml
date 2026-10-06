@@ -1,0 +1,3674 @@
+# Robot embodiment overlay probed on GPU by
+# scripts/tasks/probe_embodiment.py. Do not hand-edit.
+scene: Wainscott_0_int
+version: 1
+robot:
+  id: r1pro
+  urdf_path: build/robots/r1pro.urdf
+  urdf_hash: 302f4704da7b412b3c52086bf7773d304e3b7e0c9aa403b4c863c56f7455c9d7
+status: probed
+source: probe:v5:2026-10-05:3b3b76817913
+notes:
+- 'probed rooms: [''bedroom_0'', ''dining_room_0'', ''kitchen_0'', ''living_room_0'', ''living_room_1'',
+  ''living_room_2'']'
+- 'probe object: apple/agveuv'
+- 'probe config: {"click_min_px": 300, "footprint_half_m": 0.4, "footprint_margin_m": 0.03, "lateral_fracs":
+  [0.0, -0.3, 0.3], "reach_tries": 6, "reveal_visibility_min": 0.6, "seen_min_px": 50, "settle_steps":
+  30, "standoffs_m": [0.45, 0.6, 0.75, 0.9, 1.05, 1.2, 1.35], "start_clearance_m": 0.5, "start_spacing_m":
+  0.5, "start_yaws_deg": [0, 45, 90, 135, 180, 225, 270, 315], "starts_per_room": 4}'
+- 'bottom_cabinet_jhymlr_0: no OPEN-feasible, clickable anchor that stays free once open and is reachable
+  by MOVE/TURN from the room''s start poses'
+- 'bottom_cabinet_lwjdmj_0: no footprint-free interaction anchor'
+- 'bottom_cabinet_lwjdmj_1: no OPEN-feasible, clickable anchor that stays free once open and is reachable
+  by MOVE/TURN from the room''s start poses'
+- 'bottom_cabinet_no_top_bmsclc_0: no footprint-free interaction anchor'
+- 'bottom_cabinet_no_top_pluwfl_0: no OPEN-feasible, clickable anchor that stays free once open and is
+  reachable by MOVE/TURN from the room''s start poses'
+- 'bottom_cabinet_no_top_pluwfl_2: no OPEN-feasible, clickable anchor that stays free once open and is
+  reachable by MOVE/TURN from the room''s start poses'
+- 'bottom_cabinet_no_top_qohxjq_0: no footprint-free interaction anchor'
+- 'bottom_cabinet_no_top_qohxjq_1: no OPEN-feasible, clickable anchor that stays free once open and is
+  reachable by MOVE/TURN from the room''s start poses'
+- 'bottom_cabinet_no_top_qohxjq_2: no OPEN-feasible, clickable anchor that stays free once open and is
+  reachable by MOVE/TURN from the room''s start poses'
+- 'breakfast_table_skczfi_0: no OPEN-feasible, clickable anchor that stays free once open and is reachable
+  by MOVE/TURN from the room''s start poses'
+- 'breakfast_table_skczfi_1: no footprint-free interaction anchor'
+- 'breakfast_table_skczfi_3: no OPEN-feasible, clickable anchor that stays free once open and is reachable
+  by MOVE/TURN from the room''s start poses'
+- 'breakfast_table_zypvuv_0: no footprint-free interaction anchor'
+- 'coffee_table_dnsjnv_1: no footprint-free interaction anchor'
+- 'coffee_table_gpkbiw_0: no OPEN-feasible, clickable anchor that stays free once open and is reachable
+  by MOVE/TURN from the room''s start poses'
+- 'coffee_table_gpkbiw_1: no footprint-free interaction anchor'
+- 'coffee_table_qlmqyy_0: no footprint-free interaction anchor'
+- 'coffee_table_qlmqyy_1: no OPEN-feasible, clickable anchor that stays free once open and is reachable
+  by MOVE/TURN from the room''s start poses'
+- 'console_table_emeeke_3: no footprint-free interaction anchor'
+- 'countertop_tpuwys_0: no OPEN-feasible, clickable anchor that stays free once open and is reachable
+  by MOVE/TURN from the room''s start poses'
+- 'countertop_tpuwys_4: no footprint-free interaction anchor'
+- 'countertop_tpuwys_5: no OPEN-feasible, clickable anchor that stays free once open and is reachable
+  by MOVE/TURN from the room''s start poses'
+- 'countertop_tpuwys_6: no OPEN-feasible, clickable anchor that stays free once open and is reachable
+  by MOVE/TURN from the room''s start poses'
+- 'countertop_tpuwys_7: no OPEN-feasible, clickable anchor that stays free once open and is reachable
+  by MOVE/TURN from the room''s start poses'
+- 'top_cabinet_eobsmt_0: no footprint-free interaction anchor'
+- 'top_cabinet_fqhdne_0: no OPEN-feasible, clickable anchor that stays free once open and is reachable
+  by MOVE/TURN from the room''s start poses'
+- 'top_cabinet_fqhdne_1: no OPEN-feasible, clickable anchor that stays free once open and is reachable
+  by MOVE/TURN from the room''s start poses'
+- 'top_cabinet_fqhdne_2: no OPEN-feasible, clickable anchor that stays free once open and is reachable
+  by MOVE/TURN from the room''s start poses'
+- 'top_cabinet_jvdbxh_0: no OPEN-feasible, clickable anchor that stays free once open and is reachable
+  by MOVE/TURN from the room''s start poses'
+- 'top_cabinet_lsyzkh_0: no OPEN-feasible, clickable anchor that stays free once open and is reachable
+  by MOVE/TURN from the room''s start poses'
+- 'top_cabinet_lsyzkh_1: no OPEN-feasible, clickable anchor that stays free once open and is reachable
+  by MOVE/TURN from the room''s start poses'
+- 'top_cabinet_lsyzkh_2: no OPEN-feasible, clickable anchor that stays free once open and is reachable
+  by MOVE/TURN from the room''s start poses'
+- 'finalized: 0 unconfirmed reveal poses withdrawn; probe exceptions: none; unprobed furniture: none'
+robot_config:
+  model: r1pro
+  name: robot_0
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 854
+  image_height: 480
+  focal_length_mm: 10.5
+  kinematics:
+    urdf_path: build/robots/r1pro.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  reach_radius: 1.0
+  z_min: 0.0
+  z_max: 1.6
+  hand_capacity: 1
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+start_poses:
+  bedroom_0:
+  - name: bedroom_0_p0_y000
+    position:
+    - -1.225
+    - -4.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots: []
+  - name: bedroom_0_p0_y045
+    position:
+    - -1.225
+    - -4.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_0
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_1
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_2
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_3
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_4
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_5
+  - name: bedroom_0_p0_y090
+    position:
+    - -1.225
+    - -4.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_0
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_1
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_2
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_3
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_4
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_5
+    - Wainscott_0_int/breakfast_table_skczfi_1/on_top
+    - Wainscott_0_int/breakfast_table_skczfi_2/on_top
+    - Wainscott_0_int/console_table_emeeke_1/on_top
+  - name: bedroom_0_p0_y135
+    position:
+    - -1.225
+    - -4.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_dajebq_0/interior
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_0
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_1
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_2
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_3
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_4
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_5
+    - Wainscott_0_int/breakfast_table_skczfi_1/on_top
+    - Wainscott_0_int/breakfast_table_skczfi_2/on_top
+    - Wainscott_0_int/console_table_emeeke_1/on_top
+  - name: bedroom_0_p0_y180
+    position:
+    - -1.225
+    - -4.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_dajebq_0/interior
+    - Wainscott_0_int/breakfast_table_skczfi_0/on_top
+    - Wainscott_0_int/breakfast_table_skczfi_1/on_top
+    - Wainscott_0_int/breakfast_table_skczfi_2/on_top
+  - name: bedroom_0_p0_y225
+    position:
+    - -1.225
+    - -4.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_dajebq_0/interior
+    - Wainscott_0_int/breakfast_table_skczfi_0/on_top
+    - Wainscott_0_int/console_table_emeeke_0/on_top
+  - name: bedroom_0_p0_y270
+    position:
+    - -1.225
+    - -4.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots:
+    - Wainscott_0_int/console_table_emeeke_0/on_top
+  - name: bedroom_0_p0_y315
+    position:
+    - -1.225
+    - -4.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots:
+    - Wainscott_0_int/console_table_emeeke_0/on_top
+  - name: bedroom_0_p1_y000
+    position:
+    - -1.725
+    - -5.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots: []
+  - name: bedroom_0_p1_y045
+    position:
+    - -1.725
+    - -5.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_0
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_1
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_2
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_3
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_4
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_5
+  - name: bedroom_0_p1_y090
+    position:
+    - -1.725
+    - -5.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_dajebq_0/interior
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_0
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_1
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_2
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_3
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_4
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_5
+    - Wainscott_0_int/breakfast_table_skczfi_2/on_top
+    - Wainscott_0_int/console_table_emeeke_1/on_top
+  - name: bedroom_0_p1_y135
+    position:
+    - -1.725
+    - -5.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_dajebq_0/interior
+    - Wainscott_0_int/breakfast_table_skczfi_0/on_top
+    - Wainscott_0_int/breakfast_table_skczfi_2/on_top
+    - Wainscott_0_int/console_table_emeeke_1/on_top
+  - name: bedroom_0_p1_y180
+    position:
+    - -1.725
+    - -5.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_dajebq_0/interior
+    - Wainscott_0_int/breakfast_table_skczfi_0/on_top
+  - name: bedroom_0_p1_y225
+    position:
+    - -1.725
+    - -5.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots:
+    - Wainscott_0_int/breakfast_table_skczfi_0/on_top
+    - Wainscott_0_int/console_table_emeeke_0/on_top
+  - name: bedroom_0_p1_y270
+    position:
+    - -1.725
+    - -5.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots:
+    - Wainscott_0_int/console_table_emeeke_0/on_top
+  - name: bedroom_0_p1_y315
+    position:
+    - -1.725
+    - -5.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots:
+    - Wainscott_0_int/console_table_emeeke_0/on_top
+  - name: bedroom_0_p2_y000
+    position:
+    - -0.725
+    - -4.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots: []
+  - name: bedroom_0_p2_y045
+    position:
+    - -0.725
+    - -4.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots: []
+  - name: bedroom_0_p2_y090
+    position:
+    - -0.725
+    - -4.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots:
+    - Wainscott_0_int/breakfast_table_skczfi_1/on_top
+    - Wainscott_0_int/breakfast_table_skczfi_2/on_top
+  - name: bedroom_0_p2_y135
+    position:
+    - -0.725
+    - -4.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_dajebq_0/interior
+    - Wainscott_0_int/breakfast_table_skczfi_1/on_top
+    - Wainscott_0_int/breakfast_table_skczfi_2/on_top
+    - Wainscott_0_int/coffee_table_dnsjnv_0/on_top
+  - name: bedroom_0_p2_y180
+    position:
+    - -0.725
+    - -4.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_dajebq_0/interior
+    - Wainscott_0_int/breakfast_table_skczfi_0/on_top
+    - Wainscott_0_int/breakfast_table_skczfi_1/on_top
+    - Wainscott_0_int/breakfast_table_skczfi_2/on_top
+    - Wainscott_0_int/coffee_table_dnsjnv_0/on_top
+  - name: bedroom_0_p2_y225
+    position:
+    - -0.725
+    - -4.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_dajebq_0/interior
+    - Wainscott_0_int/breakfast_table_skczfi_0/on_top
+    - Wainscott_0_int/console_table_emeeke_0/on_top
+  - name: bedroom_0_p2_y270
+    position:
+    - -0.725
+    - -4.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots:
+    - Wainscott_0_int/console_table_emeeke_0/on_top
+  - name: bedroom_0_p2_y315
+    position:
+    - -0.725
+    - -4.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots: []
+  - name: bedroom_0_p3_y000
+    position:
+    - -1.725
+    - -4.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_0
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_1
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_2
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_3
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_4
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_5
+  - name: bedroom_0_p3_y045
+    position:
+    - -1.725
+    - -4.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_0
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_1
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_2
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_3
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_4
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_5
+    - Wainscott_0_int/console_table_emeeke_1/on_top
+  - name: bedroom_0_p3_y090
+    position:
+    - -1.725
+    - -4.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_0
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_1
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_2
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_3
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_4
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_5
+    - Wainscott_0_int/breakfast_table_skczfi_1/on_top
+    - Wainscott_0_int/breakfast_table_skczfi_2/on_top
+    - Wainscott_0_int/console_table_emeeke_1/on_top
+  - name: bedroom_0_p3_y135
+    position:
+    - -1.725
+    - -4.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_dajebq_0/interior
+    - Wainscott_0_int/breakfast_table_skczfi_1/on_top
+    - Wainscott_0_int/breakfast_table_skczfi_2/on_top
+    - Wainscott_0_int/console_table_emeeke_1/on_top
+  - name: bedroom_0_p3_y180
+    position:
+    - -1.725
+    - -4.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_dajebq_0/interior
+    - Wainscott_0_int/breakfast_table_skczfi_0/on_top
+  - name: bedroom_0_p3_y225
+    position:
+    - -1.725
+    - -4.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_dajebq_0/interior
+    - Wainscott_0_int/breakfast_table_skczfi_0/on_top
+    - Wainscott_0_int/console_table_emeeke_0/on_top
+  - name: bedroom_0_p3_y270
+    position:
+    - -1.725
+    - -4.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots:
+    - Wainscott_0_int/console_table_emeeke_0/on_top
+  - name: bedroom_0_p3_y315
+    position:
+    - -1.725
+    - -4.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots:
+    - Wainscott_0_int/console_table_emeeke_0/on_top
+  dining_room_0:
+  - name: dining_room_0_p0_y000
+    position:
+    - 2.275
+    - 6.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_0/interior
+    - Wainscott_0_int/breakfast_table_zypvuv_0/on_top
+  - name: dining_room_0_p0_y045
+    position:
+    - 2.275
+    - 6.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Wainscott_0_int/breakfast_table_zypvuv_0/on_top
+    - Wainscott_0_int/countertop_tpuwys_0/on_top
+    - Wainscott_0_int/countertop_tpuwys_6/on_top
+  - name: dining_room_0_p0_y090
+    position:
+    - 2.275
+    - 6.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Wainscott_0_int/countertop_tpuwys_0/on_top
+    - Wainscott_0_int/countertop_tpuwys_6/on_top
+  - name: dining_room_0_p0_y135
+    position:
+    - 2.275
+    - 6.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+    - Wainscott_0_int/breakfast_table_skczfi_3/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_0/on_top
+    - Wainscott_0_int/console_table_emeeke_2/on_top
+  - name: dining_room_0_p0_y180
+    position:
+    - 2.275
+    - 6.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+    - Wainscott_0_int/breakfast_table_skczfi_3/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_0/on_top
+    - Wainscott_0_int/console_table_emeeke_2/on_top
+  - name: dining_room_0_p0_y225
+    position:
+    - 2.275
+    - 6.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots:
+    - Wainscott_0_int/coffee_table_gpkbiw_0/on_top
+    - Wainscott_0_int/console_table_emeeke_2/on_top
+  - name: dining_room_0_p0_y270
+    position:
+    - 2.275
+    - 6.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_0/interior
+  - name: dining_room_0_p0_y315
+    position:
+    - 2.275
+    - 6.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_0/interior
+    - Wainscott_0_int/breakfast_table_zypvuv_0/on_top
+  kitchen_0:
+  - name: kitchen_0_p0_y000
+    position:
+    - 3.275
+    - 9.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_1
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_2
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_3
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_4
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_0/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_0/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_2/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_2/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_2
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_2
+    - Wainscott_0_int/countertop_tpuwys_1/on_top
+    - Wainscott_0_int/countertop_tpuwys_2/on_top
+    - Wainscott_0_int/countertop_tpuwys_3/on_top
+    - Wainscott_0_int/countertop_tpuwys_5/on_top
+    - Wainscott_0_int/countertop_tpuwys_6/on_top
+    - Wainscott_0_int/countertop_tpuwys_7/on_top
+    - Wainscott_0_int/top_cabinet_eobsmt_0/interior
+    - Wainscott_0_int/top_cabinet_fqhdne_0/interior
+    - Wainscott_0_int/top_cabinet_fqhdne_1/interior
+    - Wainscott_0_int/top_cabinet_fqhdne_2/interior
+    - Wainscott_0_int/top_cabinet_jvdbxh_0/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_0/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_1/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_2/interior
+  - name: kitchen_0_p0_y045
+    position:
+    - 3.275
+    - 9.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_0/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_0/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_2/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_2/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_2
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_2
+    - Wainscott_0_int/countertop_tpuwys_0/on_top
+    - Wainscott_0_int/countertop_tpuwys_1/on_top
+    - Wainscott_0_int/countertop_tpuwys_2/on_top
+    - Wainscott_0_int/countertop_tpuwys_3/on_top
+    - Wainscott_0_int/countertop_tpuwys_5/on_top
+    - Wainscott_0_int/countertop_tpuwys_6/on_top
+    - Wainscott_0_int/countertop_tpuwys_7/on_top
+    - Wainscott_0_int/top_cabinet_fqhdne_0/interior
+    - Wainscott_0_int/top_cabinet_fqhdne_1/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_0/interior
+  - name: kitchen_0_p0_y090
+    position:
+    - 3.275
+    - 9.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Wainscott_0_int/coffee_table_dnsjnv_1/on_top
+    - Wainscott_0_int/countertop_tpuwys_0/on_top
+    - Wainscott_0_int/countertop_tpuwys_1/on_top
+    - Wainscott_0_int/countertop_tpuwys_6/on_top
+    - Wainscott_0_int/countertop_tpuwys_7/on_top
+    - Wainscott_0_int/top_cabinet_fqhdne_0/interior
+  - name: kitchen_0_p0_y135
+    position:
+    - 3.275
+    - 9.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+    - Wainscott_0_int/coffee_table_dnsjnv_1/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_1/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_0/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_1/on_top
+    - Wainscott_0_int/console_table_emeeke_3/on_top
+  - name: kitchen_0_p0_y180
+    position:
+    - 3.275
+    - 9.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+    - Wainscott_0_int/coffee_table_dnsjnv_1/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_1/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_0/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_1/on_top
+    - Wainscott_0_int/console_table_emeeke_3/on_top
+  - name: kitchen_0_p0_y225
+    position:
+    - 3.275
+    - 9.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots: []
+  - name: kitchen_0_p0_y270
+    position:
+    - 3.275
+    - 9.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_0/interior
+    - Wainscott_0_int/top_cabinet_jvdbxh_0/interior
+  - name: kitchen_0_p0_y315
+    position:
+    - 3.275
+    - 9.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_1
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_2
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_3
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_4
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_0/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_bmsclc_0/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_0/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_0/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_2
+    - Wainscott_0_int/breakfast_table_zypvuv_0/on_top
+    - Wainscott_0_int/countertop_tpuwys_3/on_top
+    - Wainscott_0_int/countertop_tpuwys_5/on_top
+    - Wainscott_0_int/top_cabinet_eobsmt_0/interior
+    - Wainscott_0_int/top_cabinet_fqhdne_2/interior
+    - Wainscott_0_int/top_cabinet_jvdbxh_0/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_0/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_1/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_2/interior
+  - name: kitchen_0_p1_y000
+    position:
+    - 3.275
+    - 11.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_1
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_2
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_3
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_4
+    - Wainscott_0_int/bottom_cabinet_no_top_bmsclc_0/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_0/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_0/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_2/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_2/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_2
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_2
+    - Wainscott_0_int/countertop_tpuwys_0/on_top
+    - Wainscott_0_int/countertop_tpuwys_1/on_top
+    - Wainscott_0_int/countertop_tpuwys_2/on_top
+    - Wainscott_0_int/countertop_tpuwys_3/on_top
+    - Wainscott_0_int/countertop_tpuwys_4/on_top
+    - Wainscott_0_int/countertop_tpuwys_5/on_top
+    - Wainscott_0_int/countertop_tpuwys_6/on_top
+    - Wainscott_0_int/countertop_tpuwys_7/on_top
+    - Wainscott_0_int/top_cabinet_eobsmt_0/interior
+    - Wainscott_0_int/top_cabinet_fqhdne_0/interior
+    - Wainscott_0_int/top_cabinet_fqhdne_1/interior
+    - Wainscott_0_int/top_cabinet_fqhdne_2/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_0/interior
+  - name: kitchen_0_p1_y045
+    position:
+    - 3.275
+    - 11.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_2
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Wainscott_0_int/countertop_tpuwys_0/on_top
+    - Wainscott_0_int/countertop_tpuwys_1/on_top
+    - Wainscott_0_int/countertop_tpuwys_2/on_top
+    - Wainscott_0_int/top_cabinet_fqhdne_0/interior
+    - Wainscott_0_int/top_cabinet_fqhdne_1/interior
+  - name: kitchen_0_p1_y090
+    position:
+    - 3.275
+    - 11.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Wainscott_0_int/countertop_tpuwys_0/on_top
+  - name: kitchen_0_p1_y135
+    position:
+    - 3.275
+    - 11.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+    - Wainscott_0_int/coffee_table_gpkbiw_1/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_0/on_top
+  - name: kitchen_0_p1_y180
+    position:
+    - 3.275
+    - 11.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+    - Wainscott_0_int/breakfast_table_skczfi_3/on_top
+    - Wainscott_0_int/coffee_table_dnsjnv_1/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_0/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_1/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_0/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_1/on_top
+    - Wainscott_0_int/console_table_emeeke_3/on_top
+  - name: kitchen_0_p1_y225
+    position:
+    - 3.275
+    - 11.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+    - Wainscott_0_int/coffee_table_dnsjnv_1/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_0/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_1/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_1/on_top
+    - Wainscott_0_int/console_table_emeeke_3/on_top
+    - Wainscott_0_int/top_cabinet_jvdbxh_0/interior
+  - name: kitchen_0_p1_y270
+    position:
+    - 3.275
+    - 11.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_1
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_2
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_3
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_4
+    - Wainscott_0_int/bottom_cabinet_no_top_bmsclc_0/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_0/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_0/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_2/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_2/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_2
+    - Wainscott_0_int/coffee_table_dnsjnv_1/on_top
+    - Wainscott_0_int/countertop_tpuwys_3/on_top
+    - Wainscott_0_int/countertop_tpuwys_4/on_top
+    - Wainscott_0_int/countertop_tpuwys_5/on_top
+    - Wainscott_0_int/countertop_tpuwys_6/on_top
+    - Wainscott_0_int/countertop_tpuwys_7/on_top
+    - Wainscott_0_int/top_cabinet_eobsmt_0/interior
+    - Wainscott_0_int/top_cabinet_fqhdne_2/interior
+    - Wainscott_0_int/top_cabinet_jvdbxh_0/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_1/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_2/interior
+  - name: kitchen_0_p1_y315
+    position:
+    - 3.275
+    - 11.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_1
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_2
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_3
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_4
+    - Wainscott_0_int/bottom_cabinet_no_top_bmsclc_0/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_0/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_0/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_2/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_2/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_2
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_2
+    - Wainscott_0_int/countertop_tpuwys_0/on_top
+    - Wainscott_0_int/countertop_tpuwys_1/on_top
+    - Wainscott_0_int/countertop_tpuwys_2/on_top
+    - Wainscott_0_int/countertop_tpuwys_3/on_top
+    - Wainscott_0_int/countertop_tpuwys_4/on_top
+    - Wainscott_0_int/countertop_tpuwys_5/on_top
+    - Wainscott_0_int/countertop_tpuwys_6/on_top
+    - Wainscott_0_int/countertop_tpuwys_7/on_top
+    - Wainscott_0_int/top_cabinet_eobsmt_0/interior
+    - Wainscott_0_int/top_cabinet_fqhdne_1/interior
+    - Wainscott_0_int/top_cabinet_fqhdne_2/interior
+    - Wainscott_0_int/top_cabinet_jvdbxh_0/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_0/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_1/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_2/interior
+  living_room_0:
+  - name: living_room_0_p0_y000
+    position:
+    - -0.225
+    - 9.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_1
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_2
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_3
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_4
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_0/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_0/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_2/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_2/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_2
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_2
+    - Wainscott_0_int/coffee_table_dnsjnv_1/on_top
+    - Wainscott_0_int/countertop_tpuwys_0/on_top
+    - Wainscott_0_int/countertop_tpuwys_1/on_top
+    - Wainscott_0_int/countertop_tpuwys_2/on_top
+    - Wainscott_0_int/countertop_tpuwys_3/on_top
+    - Wainscott_0_int/countertop_tpuwys_5/on_top
+    - Wainscott_0_int/countertop_tpuwys_6/on_top
+    - Wainscott_0_int/countertop_tpuwys_7/on_top
+    - Wainscott_0_int/top_cabinet_fqhdne_0/interior
+    - Wainscott_0_int/top_cabinet_fqhdne_1/interior
+    - Wainscott_0_int/top_cabinet_fqhdne_2/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_0/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_1/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_2/interior
+  - name: living_room_0_p0_y045
+    position:
+    - -0.225
+    - 9.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_2/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_2/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_2
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_2
+    - Wainscott_0_int/coffee_table_dnsjnv_1/on_top
+    - Wainscott_0_int/countertop_tpuwys_0/on_top
+    - Wainscott_0_int/countertop_tpuwys_1/on_top
+    - Wainscott_0_int/countertop_tpuwys_2/on_top
+    - Wainscott_0_int/countertop_tpuwys_5/on_top
+    - Wainscott_0_int/countertop_tpuwys_6/on_top
+    - Wainscott_0_int/countertop_tpuwys_7/on_top
+    - Wainscott_0_int/top_cabinet_fqhdne_0/interior
+    - Wainscott_0_int/top_cabinet_fqhdne_1/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_0/interior
+  - name: living_room_0_p0_y090
+    position:
+    - -0.225
+    - 9.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots:
+    - Wainscott_0_int/coffee_table_gpkbiw_1/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_0/on_top
+  - name: living_room_0_p0_y135
+    position:
+    - -0.225
+    - 9.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+    - Wainscott_0_int/coffee_table_gpkbiw_1/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_0/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_1/on_top
+    - Wainscott_0_int/console_table_emeeke_3/on_top
+  - name: living_room_0_p0_y180
+    position:
+    - -0.225
+    - 9.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+    - Wainscott_0_int/breakfast_table_skczfi_3/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_0/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_1/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_0/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_1/on_top
+    - Wainscott_0_int/console_table_emeeke_3/on_top
+  - name: living_room_0_p0_y225
+    position:
+    - -0.225
+    - 9.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots:
+    - Wainscott_0_int/breakfast_table_skczfi_3/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_0/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_1/on_top
+  - name: living_room_0_p0_y270
+    position:
+    - -0.225
+    - 9.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots:
+    - Wainscott_0_int/breakfast_table_skczfi_3/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_0/on_top
+  - name: living_room_0_p0_y315
+    position:
+    - -0.225
+    - 9.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_1
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_2
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_3
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_4
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_0/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_0/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_2
+    - Wainscott_0_int/countertop_tpuwys_3/on_top
+    - Wainscott_0_int/countertop_tpuwys_5/on_top
+    - Wainscott_0_int/countertop_tpuwys_6/on_top
+    - Wainscott_0_int/top_cabinet_fqhdne_2/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_0/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_1/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_2/interior
+  - name: living_room_0_p1_y000
+    position:
+    - -3.725
+    - 11.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_1
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_2
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_3
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_4
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_0/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_0/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_0/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_2/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_2/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Wainscott_0_int/coffee_table_dnsjnv_1/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_1/on_top
+    - Wainscott_0_int/console_table_emeeke_3/on_top
+    - Wainscott_0_int/countertop_tpuwys_0/on_top
+    - Wainscott_0_int/countertop_tpuwys_1/on_top
+    - Wainscott_0_int/countertop_tpuwys_2/on_top
+    - Wainscott_0_int/countertop_tpuwys_3/on_top
+    - Wainscott_0_int/countertop_tpuwys_5/on_top
+    - Wainscott_0_int/countertop_tpuwys_6/on_top
+    - Wainscott_0_int/countertop_tpuwys_7/on_top
+    - Wainscott_0_int/top_cabinet_fqhdne_0/interior
+    - Wainscott_0_int/top_cabinet_fqhdne_1/interior
+    - Wainscott_0_int/top_cabinet_fqhdne_2/interior
+    - Wainscott_0_int/top_cabinet_jvdbxh_0/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_0/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_1/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_2/interior
+  - name: living_room_0_p1_y045
+    position:
+    - -3.725
+    - 11.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_2
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Wainscott_0_int/coffee_table_gpkbiw_1/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_0/on_top
+    - Wainscott_0_int/countertop_tpuwys_0/on_top
+    - Wainscott_0_int/countertop_tpuwys_1/on_top
+    - Wainscott_0_int/top_cabinet_fqhdne_0/interior
+    - Wainscott_0_int/top_cabinet_fqhdne_1/interior
+  - name: living_room_0_p1_y090
+    position:
+    - -3.725
+    - 11.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+    - Wainscott_0_int/coffee_table_qlmqyy_0/on_top
+  - name: living_room_0_p1_y135
+    position:
+    - -3.725
+    - 11.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+    - Wainscott_0_int/coffee_table_qlmqyy_0/on_top
+  - name: living_room_0_p1_y180
+    position:
+    - -3.725
+    - 11.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+  - name: living_room_0_p1_y225
+    position:
+    - -3.725
+    - 11.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+    - Wainscott_0_int/coffee_table_qlmqyy_1/on_top
+  - name: living_room_0_p1_y270
+    position:
+    - -3.725
+    - 11.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+    - Wainscott_0_int/breakfast_table_skczfi_3/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_0/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_1/on_top
+    - Wainscott_0_int/console_table_emeeke_2/on_top
+  - name: living_room_0_p1_y315
+    position:
+    - -3.725
+    - 11.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_1
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_2
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_3
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_4
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_0/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_0/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_0/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_2/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_2/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_2
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Wainscott_0_int/breakfast_table_skczfi_3/on_top
+    - Wainscott_0_int/coffee_table_dnsjnv_1/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_0/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_1/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_1/on_top
+    - Wainscott_0_int/console_table_emeeke_2/on_top
+    - Wainscott_0_int/console_table_emeeke_3/on_top
+    - Wainscott_0_int/countertop_tpuwys_0/on_top
+    - Wainscott_0_int/countertop_tpuwys_1/on_top
+    - Wainscott_0_int/countertop_tpuwys_2/on_top
+    - Wainscott_0_int/countertop_tpuwys_3/on_top
+    - Wainscott_0_int/countertop_tpuwys_5/on_top
+    - Wainscott_0_int/countertop_tpuwys_6/on_top
+    - Wainscott_0_int/countertop_tpuwys_7/on_top
+    - Wainscott_0_int/top_cabinet_fqhdne_1/interior
+    - Wainscott_0_int/top_cabinet_fqhdne_2/interior
+    - Wainscott_0_int/top_cabinet_jvdbxh_0/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_0/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_1/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_2/interior
+  - name: living_room_0_p2_y000
+    position:
+    - 0.275
+    - 12.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_1
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_2
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_3
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_4
+    - Wainscott_0_int/bottom_cabinet_no_top_bmsclc_0/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_0/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_0/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_2/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_2/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_2
+    - Wainscott_0_int/coffee_table_dnsjnv_1/on_top
+    - Wainscott_0_int/countertop_tpuwys_0/on_top
+    - Wainscott_0_int/countertop_tpuwys_1/on_top
+    - Wainscott_0_int/countertop_tpuwys_2/on_top
+    - Wainscott_0_int/countertop_tpuwys_3/on_top
+    - Wainscott_0_int/countertop_tpuwys_5/on_top
+    - Wainscott_0_int/countertop_tpuwys_6/on_top
+    - Wainscott_0_int/countertop_tpuwys_7/on_top
+    - Wainscott_0_int/top_cabinet_eobsmt_0/interior
+    - Wainscott_0_int/top_cabinet_fqhdne_0/interior
+    - Wainscott_0_int/top_cabinet_fqhdne_1/interior
+    - Wainscott_0_int/top_cabinet_fqhdne_2/interior
+    - Wainscott_0_int/top_cabinet_jvdbxh_0/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_0/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_1/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_2/interior
+  - name: living_room_0_p2_y045
+    position:
+    - 0.275
+    - 12.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Wainscott_0_int/countertop_tpuwys_0/on_top
+    - Wainscott_0_int/top_cabinet_fqhdne_0/interior
+  - name: living_room_0_p2_y090
+    position:
+    - 0.275
+    - 12.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots: []
+  - name: living_room_0_p2_y135
+    position:
+    - 0.275
+    - 12.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+    - Wainscott_0_int/coffee_table_qlmqyy_0/on_top
+  - name: living_room_0_p2_y180
+    position:
+    - 0.275
+    - 12.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+    - Wainscott_0_int/coffee_table_gpkbiw_1/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_0/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_1/on_top
+    - Wainscott_0_int/console_table_emeeke_3/on_top
+  - name: living_room_0_p2_y225
+    position:
+    - 0.275
+    - 12.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+    - Wainscott_0_int/breakfast_table_skczfi_3/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_0/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_1/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_1/on_top
+    - Wainscott_0_int/console_table_emeeke_3/on_top
+  - name: living_room_0_p2_y270
+    position:
+    - 0.275
+    - 12.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_0/interior
+    - Wainscott_0_int/breakfast_table_skczfi_3/on_top
+    - Wainscott_0_int/breakfast_table_zypvuv_0/on_top
+    - Wainscott_0_int/coffee_table_dnsjnv_1/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_0/on_top
+    - Wainscott_0_int/console_table_emeeke_3/on_top
+    - Wainscott_0_int/top_cabinet_jvdbxh_0/interior
+  - name: living_room_0_p2_y315
+    position:
+    - 0.275
+    - 12.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_1
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_2
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_3
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_4
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_0/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_bmsclc_0/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_0/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_0/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_2/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_2/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_2
+    - Wainscott_0_int/breakfast_table_zypvuv_0/on_top
+    - Wainscott_0_int/coffee_table_dnsjnv_1/on_top
+    - Wainscott_0_int/countertop_tpuwys_0/on_top
+    - Wainscott_0_int/countertop_tpuwys_1/on_top
+    - Wainscott_0_int/countertop_tpuwys_2/on_top
+    - Wainscott_0_int/countertop_tpuwys_3/on_top
+    - Wainscott_0_int/countertop_tpuwys_5/on_top
+    - Wainscott_0_int/countertop_tpuwys_6/on_top
+    - Wainscott_0_int/countertop_tpuwys_7/on_top
+    - Wainscott_0_int/top_cabinet_eobsmt_0/interior
+    - Wainscott_0_int/top_cabinet_fqhdne_0/interior
+    - Wainscott_0_int/top_cabinet_fqhdne_1/interior
+    - Wainscott_0_int/top_cabinet_fqhdne_2/interior
+    - Wainscott_0_int/top_cabinet_jvdbxh_0/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_0/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_1/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_2/interior
+  - name: living_room_0_p3_y000
+    position:
+    - 0.275
+    - 9.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_1
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_2
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_3
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_4
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_0/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_0/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_2/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_2/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_2
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_2
+    - Wainscott_0_int/coffee_table_dnsjnv_1/on_top
+    - Wainscott_0_int/countertop_tpuwys_0/on_top
+    - Wainscott_0_int/countertop_tpuwys_1/on_top
+    - Wainscott_0_int/countertop_tpuwys_2/on_top
+    - Wainscott_0_int/countertop_tpuwys_3/on_top
+    - Wainscott_0_int/countertop_tpuwys_5/on_top
+    - Wainscott_0_int/countertop_tpuwys_6/on_top
+    - Wainscott_0_int/countertop_tpuwys_7/on_top
+    - Wainscott_0_int/top_cabinet_fqhdne_0/interior
+    - Wainscott_0_int/top_cabinet_fqhdne_1/interior
+    - Wainscott_0_int/top_cabinet_fqhdne_2/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_0/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_1/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_2/interior
+  - name: living_room_0_p3_y045
+    position:
+    - 0.275
+    - 9.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_2/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_2/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_2
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_1/link_2
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_2
+    - Wainscott_0_int/coffee_table_dnsjnv_1/on_top
+    - Wainscott_0_int/countertop_tpuwys_0/on_top
+    - Wainscott_0_int/countertop_tpuwys_1/on_top
+    - Wainscott_0_int/countertop_tpuwys_2/on_top
+    - Wainscott_0_int/countertop_tpuwys_5/on_top
+    - Wainscott_0_int/countertop_tpuwys_6/on_top
+    - Wainscott_0_int/countertop_tpuwys_7/on_top
+    - Wainscott_0_int/top_cabinet_fqhdne_0/interior
+    - Wainscott_0_int/top_cabinet_fqhdne_1/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_0/interior
+  - name: living_room_0_p3_y090
+    position:
+    - 0.275
+    - 9.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots:
+    - Wainscott_0_int/coffee_table_dnsjnv_1/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_1/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_0/on_top
+  - name: living_room_0_p3_y135
+    position:
+    - 0.275
+    - 9.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+    - Wainscott_0_int/coffee_table_gpkbiw_1/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_0/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_1/on_top
+    - Wainscott_0_int/console_table_emeeke_3/on_top
+  - name: living_room_0_p3_y180
+    position:
+    - 0.275
+    - 9.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+    - Wainscott_0_int/breakfast_table_skczfi_3/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_0/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_1/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_0/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_1/on_top
+    - Wainscott_0_int/console_table_emeeke_3/on_top
+  - name: living_room_0_p3_y225
+    position:
+    - 0.275
+    - 9.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots:
+    - Wainscott_0_int/breakfast_table_skczfi_3/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_0/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_1/on_top
+    - Wainscott_0_int/console_table_emeeke_2/on_top
+    - Wainscott_0_int/console_table_emeeke_3/on_top
+  - name: living_room_0_p3_y270
+    position:
+    - 0.275
+    - 9.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots:
+    - Wainscott_0_int/coffee_table_gpkbiw_0/on_top
+  - name: living_room_0_p3_y315
+    position:
+    - 0.275
+    - 9.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_1
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_2
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_3
+    - Wainscott_0_int/bottom_cabinet_bamfsz_0/link_4
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_0/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_0/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_2/link_2
+    - Wainscott_0_int/countertop_tpuwys_3/on_top
+    - Wainscott_0_int/countertop_tpuwys_5/on_top
+    - Wainscott_0_int/countertop_tpuwys_6/on_top
+    - Wainscott_0_int/top_cabinet_fqhdne_2/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_0/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_1/interior
+    - Wainscott_0_int/top_cabinet_lsyzkh_2/interior
+  living_room_1:
+  - name: living_room_1_p0_y000
+    position:
+    - -0.225
+    - 5.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots:
+    - Wainscott_0_int/breakfast_table_zypvuv_0/on_top
+  - name: living_room_1_p0_y045
+    position:
+    - -0.225
+    - 5.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots:
+    - Wainscott_0_int/breakfast_table_zypvuv_0/on_top
+    - Wainscott_0_int/coffee_table_dnsjnv_1/on_top
+    - Wainscott_0_int/console_table_emeeke_2/on_top
+  - name: living_room_1_p0_y090
+    position:
+    - -0.225
+    - 5.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+    - Wainscott_0_int/breakfast_table_skczfi_3/on_top
+    - Wainscott_0_int/coffee_table_dnsjnv_1/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_0/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_1/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_0/on_top
+    - Wainscott_0_int/console_table_emeeke_2/on_top
+    - Wainscott_0_int/console_table_emeeke_3/on_top
+  - name: living_room_1_p0_y135
+    position:
+    - -0.225
+    - 5.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+    - Wainscott_0_int/breakfast_table_skczfi_3/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_0/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_1/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_0/on_top
+    - Wainscott_0_int/console_table_emeeke_2/on_top
+    - Wainscott_0_int/console_table_emeeke_3/on_top
+  - name: living_room_1_p0_y180
+    position:
+    - -0.225
+    - 5.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots:
+    - Wainscott_0_int/coffee_table_gpkbiw_0/on_top
+  - name: living_room_1_p0_y225
+    position:
+    - -0.225
+    - 5.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots: []
+  - name: living_room_1_p0_y270
+    position:
+    - -0.225
+    - 5.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots: []
+  - name: living_room_1_p0_y315
+    position:
+    - -0.225
+    - 5.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots: []
+  - name: living_room_1_p1_y000
+    position:
+    - -3.725
+    - 7.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_0/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_2/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_pluwfl_2/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_2
+    - Wainscott_0_int/breakfast_table_skczfi_3/on_top
+    - Wainscott_0_int/breakfast_table_zypvuv_0/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_0/on_top
+    - Wainscott_0_int/console_table_emeeke_2/on_top
+    - Wainscott_0_int/console_table_emeeke_3/on_top
+    - Wainscott_0_int/countertop_tpuwys_6/on_top
+    - Wainscott_0_int/top_cabinet_fqhdne_0/interior
+    - Wainscott_0_int/top_cabinet_fqhdne_1/interior
+  - name: living_room_1_p1_y045
+    position:
+    - -3.725
+    - 7.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_0
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_1
+    - Wainscott_0_int/bottom_cabinet_no_top_qohxjq_0/link_2
+    - Wainscott_0_int/breakfast_table_skczfi_3/on_top
+    - Wainscott_0_int/coffee_table_dnsjnv_1/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_1/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_0/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_1/on_top
+    - Wainscott_0_int/console_table_emeeke_3/on_top
+    - Wainscott_0_int/countertop_tpuwys_1/on_top
+    - Wainscott_0_int/top_cabinet_fqhdne_0/interior
+    - Wainscott_0_int/top_cabinet_fqhdne_1/interior
+  - name: living_room_1_p1_y090
+    position:
+    - -3.725
+    - 7.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+    - Wainscott_0_int/breakfast_table_skczfi_3/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_1/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_0/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_1/on_top
+    - Wainscott_0_int/console_table_emeeke_3/on_top
+  - name: living_room_1_p1_y135
+    position:
+    - -3.725
+    - 7.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+    - Wainscott_0_int/coffee_table_qlmqyy_0/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_1/on_top
+  - name: living_room_1_p1_y180
+    position:
+    - -3.725
+    - 7.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots: []
+  - name: living_room_1_p1_y225
+    position:
+    - -3.725
+    - 7.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots: []
+  - name: living_room_1_p1_y270
+    position:
+    - -3.725
+    - 7.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots:
+    - Wainscott_0_int/coffee_table_gpkbiw_0/on_top
+  - name: living_room_1_p1_y315
+    position:
+    - -3.725
+    - 7.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_0/interior
+    - Wainscott_0_int/breakfast_table_zypvuv_0/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_0/on_top
+    - Wainscott_0_int/console_table_emeeke_2/on_top
+  - name: living_room_1_p2_y000
+    position:
+    - 0.275
+    - 7.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_0/interior
+  - name: living_room_1_p2_y045
+    position:
+    - 0.275
+    - 7.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots:
+    - Wainscott_0_int/coffee_table_dnsjnv_1/on_top
+  - name: living_room_1_p2_y090
+    position:
+    - 0.275
+    - 7.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+    - Wainscott_0_int/coffee_table_dnsjnv_1/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_1/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_0/on_top
+    - Wainscott_0_int/console_table_emeeke_3/on_top
+  - name: living_room_1_p2_y135
+    position:
+    - 0.275
+    - 7.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+    - Wainscott_0_int/breakfast_table_skczfi_3/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_1/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_0/on_top
+  - name: living_room_1_p2_y180
+    position:
+    - 0.275
+    - 7.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+    - Wainscott_0_int/breakfast_table_skczfi_3/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_0/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_1/on_top
+    - Wainscott_0_int/console_table_emeeke_2/on_top
+  - name: living_room_1_p2_y225
+    position:
+    - 0.275
+    - 7.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots:
+    - Wainscott_0_int/coffee_table_gpkbiw_0/on_top
+    - Wainscott_0_int/console_table_emeeke_2/on_top
+  - name: living_room_1_p2_y270
+    position:
+    - 0.275
+    - 7.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots:
+    - Wainscott_0_int/console_table_emeeke_2/on_top
+  - name: living_room_1_p2_y315
+    position:
+    - 0.275
+    - 7.775
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_0/interior
+  - name: living_room_1_p3_y000
+    position:
+    - 0.275
+    - 6.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_0/interior
+    - Wainscott_0_int/breakfast_table_zypvuv_0/on_top
+  - name: living_room_1_p3_y045
+    position:
+    - 0.275
+    - 6.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots:
+    - Wainscott_0_int/breakfast_table_zypvuv_0/on_top
+    - Wainscott_0_int/coffee_table_dnsjnv_1/on_top
+  - name: living_room_1_p3_y090
+    position:
+    - 0.275
+    - 6.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+    - Wainscott_0_int/breakfast_table_skczfi_3/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_1/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_0/on_top
+    - Wainscott_0_int/console_table_emeeke_3/on_top
+  - name: living_room_1_p3_y135
+    position:
+    - 0.275
+    - 6.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+    - Wainscott_0_int/breakfast_table_skczfi_3/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_0/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_1/on_top
+    - Wainscott_0_int/coffee_table_qlmqyy_0/on_top
+    - Wainscott_0_int/console_table_emeeke_2/on_top
+    - Wainscott_0_int/console_table_emeeke_3/on_top
+  - name: living_room_1_p3_y180
+    position:
+    - 0.275
+    - 6.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_1/interior
+    - Wainscott_0_int/breakfast_table_skczfi_3/on_top
+    - Wainscott_0_int/coffee_table_gpkbiw_0/on_top
+    - Wainscott_0_int/console_table_emeeke_2/on_top
+  - name: living_room_1_p3_y225
+    position:
+    - 0.275
+    - 6.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots:
+    - Wainscott_0_int/coffee_table_gpkbiw_0/on_top
+  - name: living_room_1_p3_y270
+    position:
+    - 0.275
+    - 6.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots: []
+  - name: living_room_1_p3_y315
+    position:
+    - 0.275
+    - 6.275
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_lwjdmj_0/interior
+    - Wainscott_0_int/breakfast_table_zypvuv_0/on_top
+  living_room_2:
+  - name: living_room_2_p0_y000
+    position:
+    - -2.225
+    - -1.725
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_0
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_1
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_2
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_3
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_4
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_5
+  - name: living_room_2_p0_y045
+    position:
+    - -2.225
+    - -1.725
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_0
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_1
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_2
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_3
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_4
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_5
+    - Wainscott_0_int/console_table_emeeke_1/on_top
+  - name: living_room_2_p0_y090
+    position:
+    - -2.225
+    - -1.725
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots:
+    - Wainscott_0_int/breakfast_table_skczfi_1/on_top
+    - Wainscott_0_int/console_table_emeeke_1/on_top
+  - name: living_room_2_p0_y135
+    position:
+    - -2.225
+    - -1.725
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots:
+    - Wainscott_0_int/breakfast_table_skczfi_1/on_top
+    - Wainscott_0_int/console_table_emeeke_1/on_top
+  - name: living_room_2_p0_y180
+    position:
+    - -2.225
+    - -1.725
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots:
+    - Wainscott_0_int/breakfast_table_skczfi_1/on_top
+    - Wainscott_0_int/breakfast_table_skczfi_2/on_top
+    - Wainscott_0_int/coffee_table_dnsjnv_0/on_top
+  - name: living_room_2_p0_y225
+    position:
+    - -2.225
+    - -1.725
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_dajebq_0/interior
+    - Wainscott_0_int/coffee_table_dnsjnv_0/on_top
+    - Wainscott_0_int/console_table_emeeke_0/on_top
+  - name: living_room_2_p0_y270
+    position:
+    - -2.225
+    - -1.725
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_dajebq_0/interior
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_0
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_1
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_2
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_3
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_4
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_5
+    - Wainscott_0_int/console_table_emeeke_0/on_top
+  - name: living_room_2_p0_y315
+    position:
+    - -2.225
+    - -1.725
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_0
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_1
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_2
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_3
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_4
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_5
+    - Wainscott_0_int/console_table_emeeke_0/on_top
+  - name: living_room_2_p1_y000
+    position:
+    - -1.725
+    - -0.725
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots: []
+  - name: living_room_2_p1_y045
+    position:
+    - -1.725
+    - -0.725
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots: []
+  - name: living_room_2_p1_y090
+    position:
+    - -1.725
+    - -0.725
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots: []
+  - name: living_room_2_p1_y135
+    position:
+    - -1.725
+    - -0.725
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots:
+    - Wainscott_0_int/breakfast_table_skczfi_1/on_top
+    - Wainscott_0_int/console_table_emeeke_1/on_top
+  - name: living_room_2_p1_y180
+    position:
+    - -1.725
+    - -0.725
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots:
+    - Wainscott_0_int/breakfast_table_skczfi_1/on_top
+    - Wainscott_0_int/breakfast_table_skczfi_2/on_top
+    - Wainscott_0_int/coffee_table_dnsjnv_0/on_top
+    - Wainscott_0_int/console_table_emeeke_1/on_top
+  - name: living_room_2_p1_y225
+    position:
+    - -1.725
+    - -0.725
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_dajebq_0/interior
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_0
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_1
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_2
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_3
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_4
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_5
+    - Wainscott_0_int/breakfast_table_skczfi_1/on_top
+    - Wainscott_0_int/breakfast_table_skczfi_2/on_top
+    - Wainscott_0_int/coffee_table_dnsjnv_0/on_top
+    - Wainscott_0_int/console_table_emeeke_0/on_top
+  - name: living_room_2_p1_y270
+    position:
+    - -1.725
+    - -0.725
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_dajebq_0/interior
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_0
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_1
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_2
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_3
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_4
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_5
+    - Wainscott_0_int/coffee_table_dnsjnv_0/on_top
+    - Wainscott_0_int/console_table_emeeke_0/on_top
+  - name: living_room_2_p1_y315
+    position:
+    - -1.725
+    - -0.725
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_0
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_1
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_2
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_3
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_4
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_5
+    - Wainscott_0_int/console_table_emeeke_0/on_top
+  - name: living_room_2_p2_y000
+    position:
+    - -2.725
+    - -2.725
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_0
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_1
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_2
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_3
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_4
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_5
+  - name: living_room_2_p2_y045
+    position:
+    - -2.725
+    - -2.725
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_0
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_1
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_2
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_3
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_4
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_5
+    - Wainscott_0_int/console_table_emeeke_1/on_top
+  - name: living_room_2_p2_y090
+    position:
+    - -2.725
+    - -2.725
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_0
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_1
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_2
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_3
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_4
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_5
+    - Wainscott_0_int/breakfast_table_skczfi_1/on_top
+    - Wainscott_0_int/breakfast_table_skczfi_2/on_top
+    - Wainscott_0_int/console_table_emeeke_1/on_top
+  - name: living_room_2_p2_y135
+    position:
+    - -2.725
+    - -2.725
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots:
+    - Wainscott_0_int/breakfast_table_skczfi_1/on_top
+    - Wainscott_0_int/breakfast_table_skczfi_2/on_top
+    - Wainscott_0_int/coffee_table_dnsjnv_0/on_top
+    - Wainscott_0_int/console_table_emeeke_1/on_top
+  - name: living_room_2_p2_y180
+    position:
+    - -2.725
+    - -2.725
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots:
+    - Wainscott_0_int/coffee_table_dnsjnv_0/on_top
+  - name: living_room_2_p2_y225
+    position:
+    - -2.725
+    - -2.725
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots: []
+  - name: living_room_2_p2_y270
+    position:
+    - -2.725
+    - -2.725
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots:
+    - Wainscott_0_int/console_table_emeeke_0/on_top
+  - name: living_room_2_p2_y315
+    position:
+    - -2.725
+    - -2.725
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_0
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_1
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_2
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_3
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_4
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_5
+    - Wainscott_0_int/console_table_emeeke_0/on_top
+  - name: living_room_2_p3_y000
+    position:
+    - -2.225
+    - -1.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_0
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_1
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_2
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_3
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_4
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_5
+  - name: living_room_2_p3_y045
+    position:
+    - -2.225
+    - -1.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - 0.92388
+    visible_slots: []
+  - name: living_room_2_p3_y090
+    position:
+    - -2.225
+    - -1.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    visible_slots:
+    - Wainscott_0_int/console_table_emeeke_1/on_top
+  - name: living_room_2_p3_y135
+    position:
+    - -2.225
+    - -1.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    visible_slots:
+    - Wainscott_0_int/breakfast_table_skczfi_1/on_top
+    - Wainscott_0_int/console_table_emeeke_1/on_top
+  - name: living_room_2_p3_y180
+    position:
+    - -2.225
+    - -1.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    visible_slots:
+    - Wainscott_0_int/breakfast_table_skczfi_1/on_top
+    - Wainscott_0_int/breakfast_table_skczfi_2/on_top
+    - Wainscott_0_int/coffee_table_dnsjnv_0/on_top
+  - name: living_room_2_p3_y225
+    position:
+    - -2.225
+    - -1.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_dajebq_0/interior
+    - Wainscott_0_int/breakfast_table_skczfi_2/on_top
+    - Wainscott_0_int/coffee_table_dnsjnv_0/on_top
+    - Wainscott_0_int/console_table_emeeke_0/on_top
+  - name: living_room_2_p3_y270
+    position:
+    - -2.225
+    - -1.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_dajebq_0/interior
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_0
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_1
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_2
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_3
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_4
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_5
+    - Wainscott_0_int/coffee_table_dnsjnv_0/on_top
+    - Wainscott_0_int/console_table_emeeke_0/on_top
+  - name: living_room_2_p3_y315
+    position:
+    - -2.225
+    - -1.225
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.382683
+    - -0.92388
+    visible_slots:
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_0
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_1
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_2
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_3
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_4
+    - Wainscott_0_int/bottom_cabinet_jhymlr_0/link_5
+    - Wainscott_0_int/console_table_emeeke_0/on_top
+slots:
+  Wainscott_0_int/bottom_cabinet_bamfsz_0/link_1:
+    navigation_anchor:
+      position:
+      - 6.1494
+      - 9.98
+      - 0.0055
+      orientation:
+      - 0.0
+      - 0.0
+      - -0.707105
+      - 0.707108
+    open_feasible: true
+    grasp_region_feasible: false
+    probed: true
+    note: ''
+    evidence:
+      placed: true
+      sampler_ok: true
+      relation_ok: true
+      containing_link: link_1
+      open_floor_slab: null
+      grasp_from: []
+      visibility_by_anchor: {}
+      floor_in_view_from: []
+      anchor_index: 5
+      open_feasible: true
+      grasp_feasible: false
+      reveal_anchor_index: null
+      reveal_anchor: null
+      open_visibility:
+        visible_px: 0
+        reference_px: 0
+        ratio: null
+        consistent: true
+        attempts: 1
+      closed_relation_ok: true
+      closed_containing_link: link_1
+      closed_graspable: false
+      closed_visibility:
+        visible_px: 0
+        reference_px: 57
+        ratio: 0.0
+        consistent: true
+        attempts: 1
+  Wainscott_0_int/bottom_cabinet_bamfsz_0/link_2:
+    navigation_anchor:
+      position:
+      - 6.1494
+      - 9.98
+      - 0.0055
+      orientation:
+      - 0.0
+      - 0.0
+      - -0.707105
+      - 0.707108
+    open_feasible: true
+    grasp_region_feasible: false
+    probed: true
+    note: ''
+    evidence:
+      placed: true
+      sampler_ok: true
+      relation_ok: true
+      containing_link: link_2
+      open_floor_slab:
+      - - 6.056164263783611
+        - 8.72643212644166
+        - 0.6592441008925454
+      - - 6.492097006427854
+        - 9.232038115516307
+        - 0.6794186682693276
+      grasp_from: []
+      visibility_by_anchor: {}
+      floor_in_view_from: []
+      anchor_index: 5
+      open_feasible: true
+      grasp_feasible: false
+      reveal_anchor_index: null
+      reveal_anchor: null
+      open_visibility:
+        visible_px: 0
+        reference_px: 713
+        ratio: 0.0
+        consistent: true
+        attempts: 1
+      closed_relation_ok: true
+      closed_containing_link: link_2
+      closed_graspable: false
+      closed_visibility:
+        visible_px: 0
+        reference_px: 399
+        ratio: 0.0
+        consistent: true
+        attempts: 1
+  Wainscott_0_int/bottom_cabinet_bamfsz_0/link_3:
+    navigation_anchor:
+      position:
+      - 6.1494
+      - 9.98
+      - 0.0055
+      orientation:
+      - 0.0
+      - 0.0
+      - -0.707105
+      - 0.707108
+    open_feasible: true
+    grasp_region_feasible: false
+    probed: true
+    note: ''
+    evidence:
+      placed: true
+      sampler_ok: true
+      relation_ok: true
+      containing_link: link_3
+      open_floor_slab:
+      - - 5.794550484477358
+        - 8.724190164539554
+        - 0.9055455296209277
+      - - 6.503611317251887
+        - 9.306487670105552
+        - 0.9270889853457988
+      grasp_from: []
+      visibility_by_anchor: {}
+      floor_in_view_from: []
+      anchor_index: 5
+      open_feasible: true
+      grasp_feasible: false
+      reveal_anchor_index: null
+      reveal_anchor: null
+      open_visibility:
+        visible_px: 0
+        reference_px: 734
+        ratio: 0.0
+        consistent: true
+        attempts: 1
+      closed_relation_ok: true
+      closed_containing_link: link_3
+      closed_graspable: false
+      closed_visibility:
+        visible_px: 0
+        reference_px: 412
+        ratio: 0.0
+        consistent: true
+        attempts: 1
+  Wainscott_0_int/bottom_cabinet_bamfsz_0/link_4:
+    navigation_anchor:
+      position:
+      - 6.1494
+      - 9.98
+      - 0.0055
+      orientation:
+      - 0.0
+      - 0.0
+      - -0.707105
+      - 0.707108
+    open_feasible: true
+    grasp_region_feasible: true
+    probed: true
+    note: ''
+    reveal_anchor:
+      position:
+      - 6.1494
+      - 9.98
+      - 0.0055
+      orientation:
+      - 0.0
+      - 0.0
+      - -0.707105
+      - 0.707108
+    evidence:
+      placed: true
+      sampler_ok: true
+      relation_ok: true
+      containing_link: link_4
+      open_floor_slab:
+      - - 5.797788679969948
+        - 8.724227163427928
+        - 1.0535959073087515
+      - - 6.14936336490367
+        - 9.232016726275432
+        - 1.0751097791445814
+      grasp_from:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      visibility_by_anchor:
+        '0': 1.0
+        '1': 1.0
+        '2': 1.0
+        '3': 1.0
+        '4': 1.0
+        '5': 1.0
+      floor_in_view_from:
+      - 2
+      - 3
+      - 4
+      - 5
+      anchor_index: 5
+      open_feasible: true
+      grasp_feasible: true
+      reveal_route_steps: 0
+      reveal_anchor_index: 5
+      reveal_anchor:
+        position:
+        - 6.1494
+        - 9.98
+        - 0.0055
+        orientation:
+        - 0.0
+        - 0.0
+        - -0.707105
+        - 0.707108
+      open_visibility:
+        visible_px: 799
+        reference_px: 799
+        ratio: 1.0
+        consistent: true
+        attempts: 1
+      closed_relation_ok: true
+      closed_containing_link: link_4
+      closed_graspable: false
+      closed_visibility:
+        visible_px: 0
+        reference_px: 453
+        ratio: 0.0
+        consistent: true
+        attempts: 1
+  Wainscott_0_int/bottom_cabinet_dajebq_0/interior:
+    navigation_anchor:
+      position:
+      - -1.568
+      - -4.6907
+      - 0.0055
+      orientation:
+      - 0.0
+      - 0.0
+      - -1.0
+      - 0.0
+    open_feasible: true
+    grasp_region_feasible: true
+    probed: true
+    note: ''
+    reveal_anchor:
+      position:
+      - -1.268
+      - -4.6907
+      - 0.0055
+      orientation:
+      - 0.0
+      - 0.0
+      - -1.0
+      - 0.0
+    evidence:
+      placed: true
+      sampler_ok: true
+      relation_ok: true
+      containing_link: null
+      grasp_from:
+      - 9
+      - 16
+      visibility_by_anchor:
+        '9': 1.0
+        '16': 1.0
+      anchor_index: 10
+      open_feasible: true
+      grasp_feasible: true
+      reveal_route_steps: 1
+      reveal_anchor_index: 16
+      reveal_anchor:
+        position:
+        - -1.268
+        - -4.6907
+        - 0.0055
+        orientation:
+        - 0.0
+        - 0.0
+        - -1.0
+        - 0.0
+      open_visibility:
+        visible_px: 288
+        reference_px: 288
+        ratio: 1.0
+        consistent: true
+        attempts: 1
+      closed_relation_ok: true
+      closed_containing_link: null
+      closed_graspable: false
+      closed_visibility:
+        visible_px: 0
+        reference_px: 288
+        ratio: 0.0
+        consistent: true
+        attempts: 1
+  Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/interior:
+    navigation_anchor:
+      position:
+      - 5.7895
+      - 11.5716
+      - 0.0055
+      orientation:
+      - 0.0
+      - 0.0
+      - -4.0e-06
+      - 1.0
+    open_feasible: true
+    grasp_region_feasible: false
+    probed: true
+    note: 'probe placement failed: link_1'
+    evidence:
+      placed: false
+      sampler_ok: true
+      relation_ok: true
+      containing_link: link_1
+      anchor_index: 5
+      open_feasible: true
+      grasp_feasible: false
+      reveal_anchor_index: null
+      reveal_anchor: null
+  Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/link_1:
+    navigation_anchor:
+      position:
+      - 5.7895
+      - 11.5716
+      - 0.0055
+      orientation:
+      - 0.0
+      - 0.0
+      - -4.0e-06
+      - 1.0
+    open_feasible: true
+    grasp_region_feasible: true
+    probed: true
+    note: ''
+    reveal_anchor:
+      position:
+      - 5.7895
+      - 11.5716
+      - 0.0055
+      orientation:
+      - 0.0
+      - 0.0
+      - -4.0e-06
+      - 1.0
+    evidence:
+      placed: true
+      sampler_ok: true
+      relation_ok: true
+      containing_link: link_1
+      open_floor_slab:
+      - - 6.557223044597675
+        - 11.73120181910233
+        - 0.7703184559369162
+      - - 6.95934047491777
+        - 12.019691218473522
+        - 0.7751535523715495
+      grasp_from:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      visibility_by_anchor:
+        '0': 0.0
+        '1': 0.0
+        '2': 1.0
+        '3': 1.0
+        '4': 1.0
+        '5': 1.0
+        '6': 1.0
+        '7': 0.952
+      floor_in_view_from:
+      - 4
+      - 5
+      - 6
+      - 7
+      anchor_index: 5
+      open_feasible: true
+      grasp_feasible: true
+      reveal_route_steps: 0
+      reveal_anchor_index: 5
+      reveal_anchor:
+        position:
+        - 5.7895
+        - 11.5716
+        - 0.0055
+        orientation:
+        - 0.0
+        - 0.0
+        - -4.0e-06
+        - 1.0
+      open_visibility:
+        visible_px: 1059
+        reference_px: 1059
+        ratio: 1.0
+        consistent: true
+        attempts: 1
+      closed_relation_ok: true
+      closed_containing_link: link_1
+      closed_graspable: false
+      closed_visibility:
+        visible_px: 0
+        reference_px: 616
+        ratio: 0.0
+        consistent: true
+        attempts: 1
+  Wainscott_0_int/breakfast_table_skczfi_2/on_top:
+    navigation_anchor:
+      position:
+      - -2.1564
+      - -1.7501
+      - 0.0055
+      orientation:
+      - 0.0
+      - 0.0
+      - 0.999997
+      - 0.00255
+    open_feasible: null
+    grasp_region_feasible: true
+    probed: true
+    note: ''
+    evidence:
+      placed: true
+      sampler_ok: true
+      relation_ok: true
+      containing_link: null
+      grasp_from:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 11
+      - 13
+      visibility_by_anchor:
+        '0': 0.0
+        '1': 0.0
+        '2': 0.0
+        '3': 0.0
+        '4': 0.0
+        '5': 0.0
+        '6': 1.0
+        '7': 1.0
+        '8': 1.0
+        '9': 1.0
+        '11': 1.0
+        '13': 1.0
+      anchor_index: 6
+      open_feasible: null
+      grasp_feasible: true
+      reveal_route_steps: 0
+      reveal_anchor_index: null
+      reveal_anchor: null
+      open_visibility: &id001
+        visible_px: 0
+        reference_px: 0
+        ratio: null
+        consistent: true
+        attempts: 1
+      reveal_rejected:
+        anchor_index: 6
+        pass3_visibility: *id001
+  Wainscott_0_int/coffee_table_dnsjnv_0/on_top:
+    navigation_anchor:
+      position:
+      - -2.7951
+      - -2.6621
+      - 0.0055
+      orientation:
+      - 0.0
+      - 0.0
+      - 0.999997
+      - 0.00255
+    open_feasible: null
+    grasp_region_feasible: true
+    probed: true
+    note: ''
+    reveal_anchor:
+      position:
+      - -2.7951
+      - -2.6621
+      - 0.0055
+      orientation:
+      - 0.0
+      - 0.0
+      - 0.999997
+      - 0.00255
+    evidence:
+      placed: true
+      sampler_ok: true
+      relation_ok: true
+      containing_link: null
+      grasp_from:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 6
+      - 9
+      - 10
+      - 12
+      - 14
+      - 15
+      - 16
+      visibility_by_anchor:
+        '0': 0.0
+        '1': 0.0
+        '2': 0.0
+        '3': 0.0
+        '4': 0.0
+        '6': 1.0
+        '9': 1.0
+        '10': 1.0
+        '12': 1.0
+        '14': 1.0
+        '15': 1.0
+        '16': 1.0
+      anchor_index: 10
+      open_feasible: null
+      grasp_feasible: true
+      reveal_route_steps: 0
+      reveal_anchor_index: 10
+      reveal_anchor:
+        position:
+        - -2.7951
+        - -2.6621
+        - 0.0055
+        orientation:
+        - 0.0
+        - 0.0
+        - 0.999997
+        - 0.00255
+      open_visibility:
+        visible_px: 554
+        reference_px: 554
+        ratio: 1.0
+        consistent: true
+        attempts: 1
+  Wainscott_0_int/console_table_emeeke_0/on_top:
+    navigation_anchor:
+      position:
+      - -1.3929
+      - -5.2196
+      - 0.0055
+      orientation:
+      - 0.0
+      - 0.0
+      - -0.709083
+      - 0.705125
+    open_feasible: null
+    grasp_region_feasible: true
+    probed: true
+    note: ''
+    reveal_anchor:
+      position:
+      - -1.3929
+      - -5.2196
+      - 0.0055
+      orientation:
+      - 0.0
+      - 0.0
+      - -0.709083
+      - 0.705125
+    evidence:
+      placed: true
+      sampler_ok: true
+      relation_ok: true
+      containing_link: null
+      grasp_from:
+      - 0
+      - 1
+      - 3
+      - 4
+      - 5
+      visibility_by_anchor:
+        '0': 1.0
+        '1': 1.0
+        '3': 1.0
+        '4': 1.0
+        '5': 1.0
+      anchor_index: 0
+      open_feasible: null
+      grasp_feasible: true
+      reveal_route_steps: 0
+      reveal_anchor_index: 0
+      reveal_anchor:
+        position:
+        - -1.3929
+        - -5.2196
+        - 0.0055
+        orientation:
+        - 0.0
+        - 0.0
+        - -0.709083
+        - 0.705125
+      open_visibility:
+        visible_px: 385
+        reference_px: 385
+        ratio: 1.0
+        consistent: true
+        attempts: 1
+  Wainscott_0_int/console_table_emeeke_1/on_top:
+    navigation_anchor:
+      position:
+      - -2.461
+      - -0.8888
+      - 0.0055
+      orientation:
+      - 0.0
+      - 0.0
+      - 0.707105
+      - 0.707108
+    open_feasible: null
+    grasp_region_feasible: true
+    probed: true
+    note: ''
+    reveal_anchor:
+      position:
+      - -2.461
+      - -0.8888
+      - 0.0055
+      orientation:
+      - 0.0
+      - 0.0
+      - 0.707105
+      - 0.707108
+    evidence:
+      placed: true
+      sampler_ok: true
+      relation_ok: true
+      containing_link: null
+      grasp_from:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      visibility_by_anchor:
+        '0': 1.0
+        '1': 1.0
+        '2': 1.0
+        '3': 1.0
+        '4': 1.0
+        '5': 1.0
+        '6': 1.0
+        '7': 1.0
+        '8': 1.0
+        '9': 1.0
+      anchor_index: 2
+      open_feasible: null
+      grasp_feasible: true
+      reveal_route_steps: 0
+      reveal_anchor_index: 2
+      reveal_anchor:
+        position:
+        - -2.461
+        - -0.8888
+        - 0.0055
+        orientation:
+        - 0.0
+        - 0.0
+        - 0.707105
+        - 0.707108
+      open_visibility:
+        visible_px: 556
+        reference_px: 556
+        ratio: 1.0
+        consistent: true
+        attempts: 1
+  Wainscott_0_int/console_table_emeeke_2/on_top:
+    navigation_anchor:
+      position:
+      - 0.2035
+      - 6.3377
+      - 0.0055
+      orientation:
+      - 0.0
+      - 0.0
+      - -0.999978
+      - 0.00665
+    open_feasible: null
+    grasp_region_feasible: true
+    probed: true
+    note: ''
+    evidence:
+      placed: true
+      sampler_ok: true
+      relation_ok: true
+      containing_link: null
+      grasp_from:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      - 13
+      - 14
+      visibility_by_anchor:
+        '0': 0.0
+        '1': 0.0
+        '2': 0.0
+        '3': 1.0
+        '4': 1.0
+        '5': 1.0
+        '6': 1.0
+        '7': 1.0
+        '8': 1.0
+        '9': 1.0
+        '10': 1.0
+        '11': 1.0
+        '12': 1.0
+        '13': 1.0
+        '14': 1.0
+      anchor_index: 3
+      open_feasible: null
+      grasp_feasible: true
+      reveal_route_steps: 0
+      reveal_anchor_index: null
+      reveal_anchor: null
+      open_visibility: &id002
+        visible_px: 0
+        reference_px: 0
+        ratio: null
+        consistent: true
+        attempts: 1
+      reveal_rejected:
+        anchor_index: 3
+        pass3_visibility: *id002
+  Wainscott_0_int/countertop_tpuwys_1/on_top:
+    navigation_anchor:
+      position:
+      - 6.1034
+      - 11.502
+      - 0.0055
+      orientation:
+      - 0.0
+      - 0.0
+      - 0.707105
+      - 0.707108
+    open_feasible: null
+    grasp_region_feasible: true
+    probed: true
+    note: ''
+    reveal_anchor:
+      position:
+      - 6.1034
+      - 11.652
+      - 0.0055
+      orientation:
+      - 0.0
+      - 0.0
+      - 0.707105
+      - 0.707108
+    evidence:
+      placed: true
+      sampler_ok: true
+      relation_ok: true
+      containing_link: null
+      grasp_from:
+      - 0
+      visibility_by_anchor:
+        '0': 1.0
+      anchor_index: 1
+      open_feasible: null
+      grasp_feasible: true
+      reveal_route_steps: 1
+      reveal_anchor_index: 0
+      reveal_anchor:
+        position:
+        - 6.1034
+        - 11.652
+        - 0.0055
+        orientation:
+        - 0.0
+        - 0.0
+        - 0.707105
+        - 0.707108
+      open_visibility:
+        visible_px: 956
+        reference_px: 956
+        ratio: 1.0
+        consistent: true
+        attempts: 1
+  Wainscott_0_int/countertop_tpuwys_2/on_top:
+    navigation_anchor:
+      position:
+      - 6.3616
+      - 11.58
+      - 0.0055
+      orientation:
+      - 0.0
+      - 0.0
+      - -4.0e-06
+      - 1.0
+    open_feasible: null
+    grasp_region_feasible: true
+    probed: true
+    note: ''
+    reveal_anchor:
+      position:
+      - 6.3616
+      - 11.58
+      - 0.0055
+      orientation:
+      - 0.0
+      - 0.0
+      - -4.0e-06
+      - 1.0
+    evidence:
+      placed: true
+      sampler_ok: true
+      relation_ok: true
+      containing_link: null
+      grasp_from:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      visibility_by_anchor:
+        '0': 1.0
+        '1': 1.0
+        '2': 1.0
+        '3': 1.0
+        '4': 1.0
+        '5': 1.0
+      anchor_index: 0
+      open_feasible: null
+      grasp_feasible: true
+      reveal_route_steps: 0
+      reveal_anchor_index: 0
+      reveal_anchor:
+        position:
+        - 6.3616
+        - 11.58
+        - 0.0055
+        orientation:
+        - 0.0
+        - 0.0
+        - -4.0e-06
+        - 1.0
+      open_visibility:
+        visible_px: 922
+        reference_px: 922
+        ratio: 1.0
+        consistent: true
+        attempts: 1
+  Wainscott_0_int/countertop_tpuwys_3/on_top:
+    navigation_anchor:
+      position:
+      - 6.2344
+      - 9.705
+      - 0.0055
+      orientation:
+      - 0.0
+      - 0.0
+      - 0.001246
+      - 0.999999
+    open_feasible: null
+    grasp_region_feasible: true
+    probed: true
+    note: ''
+    reveal_anchor:
+      position:
+      - 6.2344
+      - 9.705
+      - 0.0055
+      orientation:
+      - 0.0
+      - 0.0
+      - 0.001246
+      - 0.999999
+    evidence:
+      placed: true
+      sampler_ok: true
+      relation_ok: true
+      containing_link: null
+      grasp_from:
+      - 0
+      visibility_by_anchor:
+        '0': 1.0
+      anchor_index: 0
+      open_feasible: null
+      grasp_feasible: true
+      reveal_route_steps: 0
+      reveal_anchor_index: 0
+      reveal_anchor:
+        position:
+        - 6.2344
+        - 9.705
+        - 0.0055
+        orientation:
+        - 0.0
+        - 0.0
+        - 0.001246
+        - 0.999999
+      open_visibility:
+        visible_px: 944
+        reference_px: 944
+        ratio: 1.0
+        consistent: true
+        attempts: 1
