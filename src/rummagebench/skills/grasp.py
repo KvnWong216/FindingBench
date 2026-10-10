@@ -3,12 +3,15 @@
 Validated GRASP execution is an instant symbolic transition:
 
     feasibility passed -> robot base does NOT move
+                       -> standardized realization establishes the attach
                        -> benchmark state becomes held_object = target
 
-The backend's ``symbolic_grasp`` is a realization/visualization step only
-(assisted-grasp joint) and must never relocate the robot: implicit NAV inside
-GRASP is forbidden. The realization result is logged but the benchmark state
-is the semantic truth (state/benchmark_state.py).
+The backend's ``symbolic_grasp`` is a realization step (assisted-grasp
+joint) and must never relocate the robot: implicit NAV inside GRASP is
+forbidden. Commit discipline (skills/realization.py): when the realization
+does not establish the held postcondition, the backend is rolled back and an
+infrastructure fault is raised — the benchmark state is never committed on a
+failed realization, and the step is never reported as EXECUTED.
 
 Rule 4: this skill does NOT decide benchmark success or wrong-target
 failure — BenchmarkSession does, from the skill result + benchmark state.
@@ -16,13 +19,10 @@ failure — BenchmarkSession does, from the skill result + benchmark state.
 
 from __future__ import annotations
 
-import logging
-
 from rummagebench.core.types import SkillResult, TargetKind
 from rummagebench.feasibility.ik_solver import Pose
 from rummagebench.sim.base import ResolvedTarget, SimBackend
-
-logger = logging.getLogger(__name__)
+from rummagebench.skills.realization import commit_realization
 
 
 class GraspSkill:
@@ -33,9 +33,16 @@ class GraspSkill:
         assert resolved.entity is not None
         entity = resolved.entity
 
-        # realization only: attach the assisted-grasp joint for visualization.
-        # MUST NOT move the robot base (no implicit NAV, ever).
-        realized = backend.symbolic_grasp(entity)
+        # standardized realization: attach the assisted-grasp joint.
+        # MUST NOT move the robot base (no implicit NAV, ever). Raises
+        # FeasibilityBackendError (with backend rollback) when the attach
+        # postcondition cannot be established.
+        commit_realization(
+            backend,
+            realize=lambda: backend.symbolic_grasp(entity),
+            verify=lambda: backend.is_holding(entity),
+            what=f"GRASP({entity})",
+        )
 
         # capture the grasp offset (held object relative to the EEF) so the
         # held body can be included in later configuration-space collision
@@ -47,13 +54,9 @@ class GraspSkill:
         if eef_pose is not None and obj_pose is not None:
             held_offset = eef_pose.inverse().compose(obj_pose)
 
-        # benchmark-owned state transition (semantic truth)
+        # benchmark-owned state transition (semantic truth, committed AFTER
+        # the realization landed)
         state.grasp(entity, held_offset)
-        if not realized:
-            logger.warning(
-                "GRASP realization for %s failed (assisted-grasp joint); "
-                "benchmark state is still authoritative", entity
-            )
 
         return SkillResult(
             skill=self.name,
@@ -65,13 +68,13 @@ class GraspSkill:
                     "event": "grasp_executed",
                     "entity": entity,
                     "held_state": entity,
-                    "realized": bool(realized),
+                    "realized": True,
                     "base_moved": False,
                 }
             ],
             details={
                 "held": entity,
-                "realized": bool(realized),
+                "realized": True,
                 "held_offset": held_offset is not None,
             },
         )

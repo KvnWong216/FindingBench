@@ -23,8 +23,8 @@ def test_repository_relative_scenario_paths(monkeypatch):
 
 
 def test_legacy_factory_call_sites_explicitly_select_oracle():
-    for relative in ("src/rummagebench/cli.py", "scripts/certify_split.py",
-                     "scripts/probe_memory.py", "scripts/run_acceptance_v3.py"):
+    for relative in ("scripts/certify_split.py", "scripts/probe_memory.py",
+                     "scripts/run_acceptance_v3.py"):
         tree = ast.parse((ROOT / relative).read_text())
         calls = [n for n in ast.walk(tree) if isinstance(n, ast.Call)
                  and isinstance(n.func, ast.Name) and n.func.id == "create_session"]
@@ -32,6 +32,17 @@ def test_legacy_factory_call_sites_explicitly_select_oracle():
         for call in calls:
             mode = next((k.value for k in call.keywords if k.arg == "mode"), None)
             assert isinstance(mode, ast.Constant) and mode.value == "oracle", relative
+    # cli.py: every call site must select a mode EXPLICITLY (the factory
+    # default is the agent protocol); the oracle runner keeps oracle and the
+    # R03 visual batch entry selects agent
+    tree = ast.parse((ROOT / "src/rummagebench/cli.py").read_text())
+    calls = [n for n in ast.walk(tree) if isinstance(n, ast.Call)
+             and isinstance(n.func, ast.Name) and n.func.id == "create_session"]
+    assert calls
+    for call in calls:
+        mode = next((k.value for k in call.keywords if k.arg == "mode"), None)
+        assert isinstance(mode, ast.Constant) and mode.value in ("oracle", "agent"), \
+            "src/rummagebench/cli.py"
 
 
 def test_unknown_factory_mode_fails_before_simulator_launch(monkeypatch):
@@ -124,7 +135,10 @@ def test_public_factory_run_dir_writes_trace(monkeypatch, visual_backend, tmp_pa
     session.reset()
     session.step({"skill": "REPORT_DONE"})
     records = [json.loads(line) for line in (tmp_path / "events.jsonl").read_text().splitlines()]
-    assert records[0]["event"] == "reset"
+    # R03: the public trace uses the versioned evaluation event schema
+    assert records[0]["event_type"] == "run_metadata"
+    assert records[1]["event_type"] == "reset"
+    assert records[1]["session_mode"] == "agent"
     assert records[-1]["episode_status"] == "FAIL_FALSE_COMPLETION"
     assert records[-1]["planning_step"] == 1
 

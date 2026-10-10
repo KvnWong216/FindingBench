@@ -19,6 +19,15 @@ Pipeline (production, backend=pinocchio — real kinematics + collision):
     -> all candidates failed:
            UNREACHABLE (no IK anywhere) | COLLISION (IK ok, collision)
 
+Remediation R02: a normal "no solution found" stays a structured model-facing
+rejection, but numerical/data errors and solver/collision-backend crashes are
+INFRASTRUCTURE faults raised as ``FeasibilityBackendError`` — they must never
+be laundered into an UNREACHABLE/COLLISION verdict (which would enter the
+PVR model-violation numerator). An unreachability verdict additionally
+requires every candidate to have completed a valid evaluation: when candidates
+raised evaluation exceptions and no candidate produced positive evidence, the
+check raises instead of claiming a proof of no solution.
+
 The benchmark-facing reason stays UNREACHABLE/COLLISION/INVALID_STATE; the
 fine-grained IK reasons (NO_IK_SOLUTION / JOINT_LIMIT / NUMERICAL_FAILURE)
 and per-candidate evidence are preserved in the verdict details and the
@@ -35,6 +44,7 @@ import logging
 
 import numpy as np
 
+from rummagebench.core.errors import FeasibilityBackendError
 from rummagebench.core.types import FeasibilityVerdict
 from rummagebench.feasibility.collision import CollisionChecker, InteractionCollisionContext
 from rummagebench.feasibility.ik_solver import IKSolver, Pose
@@ -240,8 +250,6 @@ class FeasibilityValidator:
         try:
             targets = obj.interaction_targets(skill_name, world)
         except RuntimeError as e:
-            from rummagebench.core.errors import FeasibilityBackendError
-
             raise FeasibilityBackendError(str(e)) from e
         if not targets:
             return FeasibilityVerdict(
@@ -256,8 +264,6 @@ class FeasibilityValidator:
         try:
             collision.refresh_world(self._backend)
         except Exception as e:
-            from rummagebench.core.errors import FeasibilityBackendError
-
             raise FeasibilityBackendError(
                 f"world collision geometry unavailable from backend: {e}"
             ) from e
@@ -267,14 +273,12 @@ class FeasibilityValidator:
             np.all(np.isfinite(base_pose.position))
             and np.all(np.isfinite(base_pose.orientation))
         ):
-            # PhysX corruption poisoned the base pose: no finite interaction
-            # configuration can be derived from it (structured failure, never
-            # NaN into pinocchio/coal — those segfault on NaN inputs)
-            return FeasibilityVerdict(
-                feasible=False,
-                reason="UNREACHABLE",
-                details={"engine": "pinocchio", "mode": self._mode,
-                         "entity": entity, "note": "non-finite base pose"},
+            # PhysX corruption poisoned the base pose: this is a data error,
+            # not a reachability measurement (remediation R02). NaN inputs
+            # would segfault pinocchio/coal, and an UNREACHABLE verdict here
+            # would fabricate a proof of no solution.
+            raise FeasibilityBackendError(
+                "configuration-space check aborted: non-finite robot base pose"
             )
         seed_q = self._current_seed_q()
         held_entity = getattr(world, "held_object", None)
@@ -291,6 +295,9 @@ class FeasibilityValidator:
                 np.all(np.isfinite(base_target.position))
                 and np.all(np.isfinite(base_target.orientation))
             ):
+                # backend-supplied target data is corrupted: an evaluation
+                # that never ran, not a rejection (R02)
+                evaluation_errors += 1
                 candidates.append({
                     "target": target.to_dict(),
                     "evaluation_error": "non-finite interaction target",
@@ -392,6 +399,16 @@ class FeasibilityValidator:
 
         # structured failure attribution (§11): collision evidence wins over
         # unreachability; fine-grained IK reasons stay in the details
+        if evaluation_errors and not saw_ik and not saw_collision:
+            # every candidate with a completed evaluation failed cleanly AND
+            # the rest never completed: the exceptions prove nothing about
+            # reachability (R02) — fail as infrastructure instead of
+            # laundering them into an UNREACHABLE proof
+            raise FeasibilityBackendError(
+                "configuration-space check could not complete a valid "
+                f"evaluation for any candidate ({evaluation_errors} evaluation "
+                "error(s)); unreachability was NOT established"
+            )
         if saw_collision:
             reason = "COLLISION"
         elif not saw_ik:
@@ -406,7 +423,15 @@ class FeasibilityValidator:
             "candidates_evaluated": len(candidates),
         }
         if evaluation_errors:
+            # positive evidence exists (measured collision or successful IK on
+            # other candidates), but the rejection is not a complete proof
             details["evaluation_errors"] = evaluation_errors
+            details["incomplete_evaluation"] = True
+            details["note"] = (
+                "some candidates raised evaluation errors; this verdict rests "
+                "on the measured candidates only and is not a proof of "
+                "infeasibility"
+            )
         return FeasibilityVerdict(feasible=False, reason=reason, details=details)
 
     def _approach(self, skill_name: str, target, q0, base_pose: Pose, ctx) -> dict:

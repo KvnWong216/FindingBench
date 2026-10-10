@@ -209,6 +209,57 @@ class AgentSpec(BaseModel):
     unsafe_sequence: list[dict[str, Any]] = Field(default_factory=list)
 
 
+class GoalPredicateSpec(BaseModel):
+    """One data-driven terminal-state predicate (remediation R04).
+
+    First-batch kinds: holding / on_top / inside / open / closed. No free-form
+    Python expressions — every predicate is compiled and checked by
+    evaluation/goal_checker.py, shared by REPORT_DONE and metrics.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    kind: Literal["holding", "on_top", "inside", "open", "closed"]
+    entity: str
+    # receptacle for on_top/inside
+    receptacle: Optional[str] = None
+
+    @model_validator(mode="after")
+    def _receptacle_required(self) -> "GoalPredicateSpec":
+        if self.kind in ("on_top", "inside") and not self.receptacle:
+            raise ValueError(f"goal kind {self.kind!r} requires 'receptacle'")
+        if self.kind in ("holding", "open", "closed") and self.receptacle is not None:
+            raise ValueError(f"goal kind {self.kind!r} takes no 'receptacle'")
+        return self
+
+
+class TemporalConstraintSpec(BaseModel):
+    """One data-driven temporal condition over committed skill events (R04).
+
+    required_event: the episode must contain at least one committed event of
+    that name (optionally on a given entity).
+    before: the first (event, entity) must occur strictly before the first
+    (before_event, before_entity). Missing events never satisfy a
+    constraint — absence is not truth.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    kind: Literal["required_event", "before"]
+    event: str
+    entity: Optional[str] = None
+    before_event: Optional[str] = None
+    before_entity: Optional[str] = None
+
+    @model_validator(mode="after")
+    def _before_fields(self) -> "TemporalConstraintSpec":
+        if self.kind == "before" and (not self.before_event or not self.event):
+            raise ValueError("temporal 'before' requires 'event' and 'before_event'")
+        if self.kind == "required_event" and self.before_event is not None:
+            raise ValueError("temporal 'required_event' takes no 'before_event'")
+        return self
+
+
 class ScenarioSpec(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -236,6 +287,10 @@ class ScenarioSpec(BaseModel):
     agent: AgentSpec = Field(default_factory=AgentSpec)
     # expose the dynamically grounded action space to the agent observation
     expose_available_skills: bool = True
+    # R04 shared goal/temporal contract; empty means the legacy default
+    # goal holding(scenario.target.entity)
+    goal: list[GoalPredicateSpec] = Field(default_factory=list)
+    temporal: list[TemporalConstraintSpec] = Field(default_factory=list)
 
     @model_validator(mode="after")
     def _cross_check(self) -> "ScenarioSpec":
@@ -251,6 +306,13 @@ class ScenarioSpec(BaseModel):
         for p in self.placements:
             if p.entity not in spawned:
                 raise ValueError(f"placement entity {p.entity!r} is not a spawned object")
+        for g in self.goal:
+            if g.entity not in spawned:
+                raise ValueError(f"goal entity {g.entity!r} is not a spawned object")
+            if g.receptacle is not None and g.receptacle not in spawned:
+                raise ValueError(
+                    f"goal receptacle {g.receptacle!r} is not a spawned object"
+                )
         return self
 
     def entity_by_name(self, name: str) -> ObjectSpec | None:

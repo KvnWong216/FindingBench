@@ -9,6 +9,13 @@ audited. Episodes the oracle proves UNSOLVABLE_FOR_EMBODIMENT are excluded
 from the standard solvable split and may be retained in a separate
 embodiment_stress split — they must never contaminate task-success
 evaluation.
+
+Remediation R11: the NAV-based BFS depth is stored as ``oracle_depth`` /
+``oracle_symbolic_depth`` under an explicit ``action_space_id``; the
+public MOVE/TURN/point/REPORT_DONE protocol has its own ``public_witness_steps``
+(filled by the public witness when certified) and ``public_optimal_steps``
+(null until actually proven — the NAV depth must never be presented as
+public-protocol optimality).
 """
 
 from __future__ import annotations
@@ -27,6 +34,8 @@ from rummagebench.evaluation.oracle_planner import (
 )
 
 CERTIFICATION_VERSION = "cert-v1"
+# the symbolic NAV-based BFS action space (legacy oracle certification)
+ORACLE_SYMBOLIC_ACTION_SPACE_ID = "oracle_nav_symbolic_v1"
 
 
 @dataclass
@@ -48,6 +57,12 @@ class EpisodeCertificate:
     # production BenchmarkSession reaches the task goal
     plan_replay_status: str | None = None  # SUCCESS | <failure status> | None
     plan_replay_steps: int | None = None
+    # remediation R11: oracle depth and public-protocol step counts are
+    # separate quantities over different action spaces; never conflate them
+    action_space_id: str = ORACLE_SYMBOLIC_ACTION_SPACE_ID
+    oracle_symbolic_depth: int | None = None  # mirrors oracle_depth
+    public_witness_steps: int | None = None  # public protocol witness (certified)
+    public_optimal_steps: int | None = None  # null unless actually proven
     extra: dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -114,6 +129,13 @@ def certify_episode(
         expanded_states=result.expanded_states,
         visited_states=result.visited_states,
         reason=result.reason,
+        action_space_id=ORACLE_SYMBOLIC_ACTION_SPACE_ID,
+        oracle_symbolic_depth=result.depth,
+        # public-protocol step counts are separate certificates (R11): the
+        # NAV BFS depth is not a public-protocol witness, let alone an
+        # optimal-step proof — both stay null until actually certified
+        public_witness_steps=None,
+        public_optimal_steps=None,
         extra={
             "oracle_min_steps_applied": (
                 result.depth if result.solvable else None

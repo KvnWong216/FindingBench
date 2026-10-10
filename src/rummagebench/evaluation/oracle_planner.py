@@ -482,6 +482,13 @@ def solve_full_information(
     succeed_when_holding_target is set. GRASP of a non-target with
     fail_on_wrong_grasp terminates the episode as FAIL_WRONG_TARGET and is
     therefore pruned from the search (it cannot lead to SUCCESS).
+
+    No-plan outcomes are distinguished (remediation R11):
+    SEARCH_LIMIT_REACHED (the max_depth bound cut off unexplored states —
+    NOT evidence of unsolvability) vs EXHAUSTED_ABSTRACT_GRAPH (the finite
+    abstract graph was fully explored within the depth bound: the actual
+    embodiment-unsolvability proof). A depth-limited run must never claim
+    unsolvability.
     """
     if scenario.robot.kinematics and model._robot is None:
         raise ValueError("oracle model has no bound robot embodiment")
@@ -504,10 +511,14 @@ def solve_full_information(
     queue.append((start, []))
     visited = {start}
     visited_count, expanded_count = 1, 0
+    # remediation R11: depth truncation is a SEARCH RESOURCE limit, never
+    # evidence that the embodiment cannot solve the task
+    depth_truncated = False
 
     while queue:
         state, path = queue.popleft()
         if len(path) >= max_depth:
+            depth_truncated = True
             continue
         expanded_count += 1
         for skill, target in transition.candidates(state):
@@ -537,10 +548,18 @@ def solve_full_information(
                 )
             queue.append((next_state, new_path))
 
+    # remediation R11: distinguish the three no-plan outcomes. A depth
+    # truncation means the search ran out of resources (SEARCH_LIMIT_REACHED);
+    # only a full exploration of the finite abstract graph within the depth
+    # bound may claim UNSOLVABLE_FOR_EMBODIMENT.
+    if depth_truncated:
+        reason = "SEARCH_LIMIT_REACHED"
+    else:
+        reason = "EXHAUSTED_ABSTRACT_GRAPH"
     return OraclePlanResult(
         solvable=False, depth=None, actions=[],
         visited_states=visited_count, expanded_states=expanded_count,
-        reason="UNSOLVABLE_FOR_EMBODIMENT",
+        reason=reason,
     )
 
 

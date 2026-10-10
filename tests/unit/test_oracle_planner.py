@@ -170,7 +170,9 @@ def test_oracle_embodiment_dependency(tmp_path):
     assert long_result.solvable
     short_result = solve("short_arm.urdf")
     assert not short_result.solvable
-    assert short_result.reason == "UNSOLVABLE_FOR_EMBODIMENT"
+    # remediation R11: the bounded abstract graph was FULLY explored (tiny
+    # state space, no depth truncation) — the genuine unsolvability proof
+    assert short_result.reason == "EXHAUSTED_ABSTRACT_GRAPH"
 
 
 # ---------------------------------------------------------------------------
@@ -239,7 +241,7 @@ def test_unsolvable_episode_rejected_from_normal_split(tmp_path):
         certification_version="cert-v1",
         scenario_hash="deadbeef0000",
         robot_urdf_hash=None,
-        reason="UNSOLVABLE_FOR_EMBODIMENT",
+        reason="EXHAUSTED_ABSTRACT_GRAPH",
     )
     solvable = EpisodeCertificate(
         episode_id="knife_search_s000",

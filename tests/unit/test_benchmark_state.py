@@ -60,9 +60,15 @@ def test_holding_state_lifecycle(fake_backend):
     assert session.world_state.held_object == "distractor_spoon"
 
 
-def test_success_is_evaluated_against_benchmark_state(fake_backend):
-    """Even when the assisted-grasp realization fails, the benchmark state
-    (and only it) decides task success."""
+def test_realization_failure_is_infrastructure_fault(fake_backend):
+    """Remediation R01: a GRASP whose standardized realization fails is an
+    infrastructure fault — the semantic state is NOT committed, the step is
+    never reported as EXECUTED, and the backend is rolled back. (The old
+    'realization failure still allows semantic success' contract is gone.)"""
+    import pytest
+
+    from rummagebench.core.errors import FeasibilityBackendError
+
     scenario = load_scenario(FIXTURE)
     scenario.termination.succeed_when_holding_target = True
     backend = _BreakingGraspBackend.from_fake(fake_backend)
@@ -70,10 +76,10 @@ def test_success_is_evaluated_against_benchmark_state(fake_backend):
     session.reset()
     _act(session, "NAV", "kitchen")
     _act(session, "OPEN", "cabinet_B")
-    r = _act(session, "GRASP", "target_knife")
-    assert r.executed
-    assert session.world_state.held_object == "target_knife"
-    assert session.status().value == "SUCCESS"
+    with pytest.raises(FeasibilityBackendError, match="GRASP"):
+        _act(session, "GRASP", "target_knife")
+    assert session.world_state.held_object is None
+    assert session.status().value == "RUNNING"
 
 
 class _BreakingGraspBackend(FakeBackend):
