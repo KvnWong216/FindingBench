@@ -51,17 +51,22 @@ def commit_realization(
     ``realize`` is the single transition attempt the validation stage
     selected; any backend-internal retries (other arm, alternative placement
     point) stay inside the backend — the skill never re-plans after failure.
-    On a False return, a failing postcondition check or an exception, the
-    backend is rolled back to the pre-call snapshot and the realization is
-    reported as an infrastructure fault.
+
+    BOTH ``realize`` and ``verify`` run inside the unified rollback scope
+    (round-2 hardening): a verify that raises after a successful realize
+    leaves the backend exactly as half-committed as a failed realize, so the
+    pre-call snapshot is restored and the original exception re-raised. On a
+    False return from either side, the snapshot is restored and the
+    realization is reported as an infrastructure fault.
     """
     snap = snapshot(backend)
     try:
         realized = bool(realize())
+        verified = bool(verify()) if verify is not None else realized
     except Exception:
         rollback(backend, snap)
         raise
-    if not realized or (verify is not None and not verify()):
+    if not (realized and verified):
         rollback(backend, snap)
         raise FeasibilityBackendError(
             f"{what}: realization did not establish its postcondition and was "

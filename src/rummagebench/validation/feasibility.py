@@ -363,6 +363,11 @@ class FeasibilityValidator:
                 )
                 continue
             if collision_result.collision_free and approach is not None and approach["clear"]:
+                # existence semantics: ONE fully-measured collision-free
+                # configuration (IK + collision + approach all completed) is
+                # a complete feasibility witness. Later candidates — errored
+                # or not — can never invalidate it (R02 round-2: success is
+                # allowed on a complete witness).
                 return FeasibilityVerdict(
                     feasible=True,
                     reason="none",
@@ -397,17 +402,16 @@ class FeasibilityValidator:
                 }
             )
 
-        # structured failure attribution (§11): collision evidence wins over
-        # unreachability; fine-grained IK reasons stay in the details
-        if evaluation_errors and not saw_ik and not saw_collision:
-            # every candidate with a completed evaluation failed cleanly AND
-            # the rest never completed: the exceptions prove nothing about
-            # reachability (R02) — fail as infrastructure instead of
-            # laundering them into an UNREACHABLE proof
+        # R02 round-2: a REJECTION verdict may only rest on candidates that
+        # ALL completed a valid evaluation. The feasible-witness path above
+        # already returned; here any incomplete candidate means the evidence
+        # is incomplete — an infrastructure fault, never laundered into
+        # UNREACHABLE/COLLISION as an action failure.
+        if evaluation_errors:
             raise FeasibilityBackendError(
-                "configuration-space check could not complete a valid "
-                f"evaluation for any candidate ({evaluation_errors} evaluation "
-                "error(s)); unreachability was NOT established"
+                f"{evaluation_errors} interaction candidate(s) did not complete "
+                "a valid evaluation (solver/collision backend errors); no "
+                "rejection verdict can be returned from incomplete evidence"
             )
         if saw_collision:
             reason = "COLLISION"
@@ -422,16 +426,6 @@ class FeasibilityValidator:
             "candidates": candidates,
             "candidates_evaluated": len(candidates),
         }
-        if evaluation_errors:
-            # positive evidence exists (measured collision or successful IK on
-            # other candidates), but the rejection is not a complete proof
-            details["evaluation_errors"] = evaluation_errors
-            details["incomplete_evaluation"] = True
-            details["note"] = (
-                "some candidates raised evaluation errors; this verdict rests "
-                "on the measured candidates only and is not a proof of "
-                "infeasibility"
-            )
         return FeasibilityVerdict(feasible=False, reason=reason, details=details)
 
     def _approach(self, skill_name: str, target, q0, base_pose: Pose, ctx) -> dict:

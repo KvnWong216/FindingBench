@@ -38,6 +38,47 @@ class _CollidingCollision(_PassiveCollision):
                                world_collision=True)
 
 
+class _ThrowingCollision(_PassiveCollision):
+    """Every configuration check explodes: a collision-backend crash, not a
+    measurement."""
+
+    def check_configuration(self, q, ctx):
+        raise RuntimeError("coal distance query exploded")
+
+
+class _AlwaysOkIK:
+    nq = 2
+    controlled_joint_names = ["a", "b"]
+
+    def q_seed_neutral(self):
+        return np.zeros(2)
+
+    def solve_ik(self, target, seed_q=None):
+        return IKResult(success=True, q=np.zeros(2), position_error=0.0,
+                        orientation_error=0.0)
+
+
+class _ErrorThenOkIK:
+    """Call 1 crashes, call 2 succeeds: a complete witness found after an
+    incomplete candidate must still allow success (existence semantics)."""
+
+    nq = 2
+    controlled_joint_names = ["a", "b"]
+
+    def __init__(self):
+        self.calls = 0
+
+    def q_seed_neutral(self):
+        return np.zeros(2)
+
+    def solve_ik(self, target, seed_q=None):
+        self.calls += 1
+        if self.calls == 1:
+            raise RuntimeError("IK backend exploded")
+        return IKResult(success=True, q=np.zeros(2), position_error=0.0,
+                        orientation_error=0.0)
+
+
 class _ThrowingIK:
     """Every candidate IK raises: a solver/backend crash, not a measurement."""
 
@@ -167,9 +208,43 @@ def test_clean_ik_nonconvergence_is_a_normal_rejection():
     assert all("evaluation_error" not in c for c in verdict.details["candidates"])
 
 
-def test_mixed_collision_and_errors_is_not_a_proof(monkeypatch):
-    """One measured collision + one crashed candidate: the rejection stands
-    but must be flagged as resting on incomplete evaluation."""
+def test_ik_success_with_all_collision_checks_throwing_is_infra_fault():
+    """IK completes on every candidate but every collision check explodes:
+    nothing was measured — infrastructure fault, never UNREACHABLE."""
+    v = _validator(_AlwaysOkIK(), collision=_ThrowingCollision())
+    with pytest.raises(FeasibilityBackendError, match="valid evaluation"):
+        _check_grasp(v)
+
+
+def test_all_candidates_complete_and_infeasible_keeps_the_verdict():
+    """Every candidate completes a valid evaluation and all are in collision:
+    a normal, fully-measured COLLISION rejection — no fault, no flag."""
+    v = _validator(_AlwaysOkIK(), collision=_CollidingCollision())
+    verdict = _check_grasp(v)
+    assert not verdict.feasible
+    assert verdict.reason == "COLLISION"
+    assert "evaluation_errors" not in verdict.details
+    assert "incomplete_evaluation" not in verdict.details
+
+
+def test_complete_witness_allows_success_despite_earlier_candidate_error(monkeypatch):
+    """Candidate 1 crashes, candidate 2 measures fully feasible: existence
+    semantics — the complete witness decides, success is allowed."""
+    import rummagebench.validation.feasibility as feas_mod
+
+    monkeypatch.setattr(
+        feas_mod, "build_object_interface",
+        lambda info, backend: _TwoCandidateInterface(info, backend),
+    )
+    v = _validator(_ErrorThenOkIK(), collision=_PassiveCollision())
+    verdict = _check_grasp(v)
+    assert verdict.feasible
+
+
+def test_mixed_collision_and_error_candidate_is_infra_fault(monkeypatch):
+    """One measured collision + one crashed candidate: the evidence is
+    incomplete, so no rejection verdict may be returned — raise instead of
+    COLLISION (round-2 rule)."""
     import rummagebench.validation.feasibility as feas_mod
 
     monkeypatch.setattr(
@@ -177,11 +252,8 @@ def test_mixed_collision_and_errors_is_not_a_proof(monkeypatch):
         lambda info, backend: _TwoCandidateInterface(info, backend),
     )
     v = _validator(_MixedIK(first="ok"), collision=_CollidingCollision())
-    verdict = _check_grasp(v)
-    assert not verdict.feasible
-    assert verdict.reason == "COLLISION"
-    assert verdict.details.get("incomplete_evaluation") is True
-    assert verdict.details.get("evaluation_errors") == 1
+    with pytest.raises(FeasibilityBackendError, match="valid evaluation"):
+        _check_grasp(v)
 
 
 def test_mixed_clean_failure_and_errors_cannot_claim_unreachable(monkeypatch):

@@ -43,7 +43,8 @@ def _clone_world(backend_cls, fake: FakeBackend):
         link_poses=fake.link_poses,
         link_aabbs=fake.link_aabbs_map,
     )
-    backend._last_anchor_position = getattr(fake, "_last_anchor_position", None)
+    backend._last_anchor_position = list(
+        getattr(fake, "_last_anchor_position", None) or [0.0, 0.0, 0.0])
     return backend
 
 
@@ -157,3 +158,141 @@ def test_visual_session_maps_commit_fault_to_engine_error(visual_session,
     with pytest.raises(RuntimeError, match="invalidated"):
         visual_session.step({"skill": "GRASP", "point": point})
     assert visual_session.status() == "ENGINE_ERROR"
+
+
+# ---------------------------------------------------------------------------
+# Round-2 hardening: unified realize/verify rollback scope
+# ---------------------------------------------------------------------------
+
+
+class _VerifyExplodesBackend(FakeBackend):
+    """symbolic_grasp mutates the world and reports success, but the
+    postcondition query itself explodes: the world is half-committed and
+    unverifiable. The rollback scope must still restore it."""
+
+    def symbolic_grasp(self, entity: str) -> bool:
+        self.holding_entity = entity  # realize "succeeds" and mutates
+        return True
+
+    def is_holding(self, entity: str) -> bool:
+        raise RuntimeError("state query exploded")
+
+
+def test_verify_exception_after_successful_realize_rolls_back(fake_backend):
+    """A verify that raises AFTER a successful realize is inside the unified
+    rollback scope: the backend is restored, the semantic state is NOT
+    committed, and the original exception propagates."""
+    backend = _clone_world(_VerifyExplodesBackend, fake_backend)
+    session = _session(backend)
+    session.reset()
+    _act(session, "NAV", "kitchen")
+    _act(session, "OPEN", "cabinet_B")
+    with pytest.raises(RuntimeError, match="state query exploded"):
+        _act(session, "GRASP", "target_knife")
+    # the successful realize was rolled back: no half-committed attach
+    assert backend.holding_entity is None
+    # and the benchmark never committed the semantic transition
+    assert session.world_state.held_object is None
+    assert session.status().value == "RUNNING"
+
+
+def test_visual_verify_exception_invalidates_run(visual_session, visual_backend,
+                                                 monkeypatch):
+    """Same fault through the visual protocol: the run is invalidated AND
+    the backend is restored (the mutation must not survive the step)."""
+    from rummagebench.core.scenario import AnchorSpec
+
+    def lying_grasp(self, entity):
+        self.holding_entity = entity
+        return True
+
+    def exploding_holding(self, entity):
+        raise RuntimeError("state query exploded")
+
+    monkeypatch.setattr(type(visual_backend), "symbolic_grasp", lying_grasp)
+    monkeypatch.setattr(type(visual_backend), "is_holding", exploding_holding)
+    visual_backend.teleport_robot(
+        AnchorSpec(position=[3.0, 1.0, 0.0], orientation=[0.0, 0.0, 0.0, 1.0]))
+    visual_backend.set_open("cabinet_B", True)
+    point = {"frame_id": visual_session.observe().frame_id, "x": 0.79, "y": 0.5}
+    with pytest.raises(RuntimeError, match="invalidated"):
+        visual_session.step({"skill": "GRASP", "point": point})
+    assert visual_session.status() == "ENGINE_ERROR"
+    assert visual_backend.holding_entity is None  # restored, not half-committed
+
+
+# ---------------------------------------------------------------------------
+# Round-2 hardening: PLACE verifies release AND placement result
+# ---------------------------------------------------------------------------
+
+
+class _LyingPlaceBackend(FakeBackend):
+    """symbolic_place reports success and releases the joint, but leaves the
+    object somewhere other than the validated placement point."""
+
+    def symbolic_place(self, entity: str, receptacle: str, at=None) -> bool:
+        self.place_point = at
+        self.holding_entity = None  # joint released...
+        return True                 # ...and success claimed without moving it
+
+
+class _FaithfulPlaceBackend(FakeBackend):
+    """Places the object ON the validated point (xy centred) and releases."""
+
+    def symbolic_place(self, entity: str, receptacle: str, at=None) -> bool:
+        self.place_point = at
+        self.poses[entity] = [at[0], at[1], float(at[2]) + 0.02]
+        self.holding_entity = None
+        return True
+
+
+def _held_state(backend=None):
+    """Semantic held state, mirrored on the backend (a real PLACE runs with
+    the backend actually holding the object)."""
+    from rummagebench.state.benchmark_state import BenchmarkWorldState
+
+    state = BenchmarkWorldState()
+    state.grasp("target_knife", None)
+    if backend is not None:
+        backend.holding_entity = "target_knife"
+    return state
+
+
+def _place_target(backend):
+    from rummagebench.sim.base import ResolvedTarget
+
+    return ResolvedTarget(kind=TargetKind.ENTITY, entity="cabinet_B",
+                          info=backend.describe_entity("cabinet_B"),
+                          place_point=[3.0, 1.0, 0.9])
+
+
+def test_place_true_but_wrong_position_rolls_back(fake_backend):
+    """The injected fault from the review: the backend returns True and has
+    already released the joint, but the object sits at the WRONG position.
+    The placement-aware postcondition must catch it: rollback (joint
+    re-attached) and an infrastructure fault — never state.release()."""
+    from rummagebench.skills.place import PlaceSkill
+
+    backend = _clone_world(_LyingPlaceBackend, fake_backend)
+    state = _held_state(backend)
+    with pytest.raises(FeasibilityBackendError, match="PLACE"):
+        PlaceSkill().execute(backend, _place_target(backend), state)
+    # rolled back: the released joint is re-attached, the semantic state is
+    # NOT released, and nothing was reported as EXECUTED
+    assert backend.holding_entity == "target_knife"
+    assert backend.is_holding("target_knife")
+    assert state.held_object == "target_knife"
+
+
+def test_place_verified_at_validated_point_commits(fake_backend):
+    """Positive control: the object actually lands on the validated point —
+    the release commits and the postcondition holds."""
+    from rummagebench.skills.place import PlaceSkill
+
+    backend = _clone_world(_FaithfulPlaceBackend, fake_backend)
+    state = _held_state(backend)
+    result = PlaceSkill().execute(backend, _place_target(backend), state)
+    assert result.executed
+    assert result.postcondition_satisfied
+    assert state.held_object is None
+    assert not backend.is_holding("target_knife")
