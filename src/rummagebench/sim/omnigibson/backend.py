@@ -215,8 +215,22 @@ class OmniGibsonBackend(SimBackend):
                     raise SimBackendError(f"{entity} has no Open state")
                 self._set_open_carrying(obj, open_value)
             self.settle()
+            # placement opens receptacles temporarily; a swinging door or the
+            # settling contents can push a NEIGHBOUR's door / drawer open
+            # (easy pilot, 6 of 23 episodes): re-assert once, then verify
+            # below — an episode whose declared open states do not hold is
+            # resampled, never built (TASK_TIERS_PLAN A.8.3)
+            wrong = [e for e, v in targets.items()
+                     if bool(resolve_object(scene, e).states[Open].get_value()) != v]
+            if wrong:
+                for entity in wrong:
+                    self._set_open_carrying(resolve_object(scene, entity), targets[entity])
+                self.settle()
 
             failed = []
+            for entity, open_value in targets.items():
+                if bool(resolve_object(scene, entity).states[Open].get_value()) != open_value:
+                    failed.append(f"{entity} open={not open_value} (declared {open_value})")
             for p, entry in zip(scenario.placements, report["placements"]):
                 obj = resolve_object(scene, p.entity)
                 rec = resolve_object(scene, p.receptacle)
@@ -325,6 +339,8 @@ class OmniGibsonBackend(SimBackend):
 
         if link is not None:
             return self._place_in_link(obj, rec, link)
+        if relation == "on_top" and self._is_task_object(rec):
+            return self._stack_on(obj, rec)
         state = Inside if relation == "inside" else OnTop
         ok = False
         if state in obj.states:
@@ -356,9 +372,74 @@ class OmniGibsonBackend(SimBackend):
 
         return ok
 
+    def _is_task_object(self, obj) -> bool:
+        """A scenario-spawned object (not scene furniture: BEHAVIOR tables
+        are often not fixed-base)."""
+        return any(spec.name == obj.name for spec in self._scenario.objects)
+
+    def _stack_on(self, obj, rec) -> bool:
+        """Pose-level stack of ``obj`` on a MOVABLE object ``rec`` (medium
+        covers): centred on rec's footprint, rec's orientation, resting just
+        on its top, then settled. OnTop sampling picks a random point on a
+        small support and the cover slides off while settling (medium pilot
+        2, A.10: 9/9 stacks failed)."""
+        import torch as th
+
+        from scipy.spatial.transform import Rotation
+
+        rlo, rhi = (np.asarray(_arr(v)) for v in rec.aabb)
+        _, quat = rec.get_position_orientation()
+        above = [float((rlo[0] + rhi[0]) / 2), float((rlo[1] + rhi[1]) / 2),
+                 float(rhi[2]) + 1.0]
+        # rec's orientation, or turned 90 deg about z when that aligns the
+        # long axes better (the planner compares sorted footprints): keep the
+        # yaw with the larger minimum overhang
+        best = None
+        for turn in (0.0, 90.0):
+            q = (Rotation.from_euler("z", turn, degrees=True)
+                 * Rotation.from_quat(_arr(quat))).as_quat().tolist()
+            obj.set_position_orientation(position=above, orientation=q)
+            olo, ohi = (np.asarray(_arr(v)) for v in obj.aabb)
+            overhang = min((ohi[0] - olo[0]) - (rhi[0] - rlo[0]),
+                           (ohi[1] - olo[1]) - (rhi[1] - rlo[1]))
+            if best is None or overhang > best[0] + 1e-4:
+                best = (overhang, q)
+        quat = best[1]
+        obj.set_position_orientation(position=above, orientation=quat)
+        olo, _ = (np.asarray(_arr(v)) for v in obj.aabb)
+        pos = np.asarray(_arr(obj.get_position_orientation()[0]))
+        lift = float(pos[2] - olo[2])  # object origin above its own bottom
+        obj.set_position_orientation(position=[float(pos[0]), float(pos[1]),
+                                               float(rhi[2]) + lift + 0.003],
+                                     orientation=quat)
+        obj.set_linear_velocity(th.zeros(3))
+        obj.set_angular_velocity(th.zeros(3))
+        self.settle(20)
+        ok = self._is_stacked_on(obj, rec)
+        if not ok:
+            logger.warning("stack %s on %s failed: obj aabb %s, rec aabb %s", obj.name,
+                           rec.name, [_arr(v) for v in obj.aabb], [_arr(v) for v in rec.aabb])
+        return ok
+
+    @staticmethod
+    def _is_stacked_on(obj, rec, tol: float = 0.01) -> bool:
+        """obj covers rec: rec's footprint centre lies under obj's footprint,
+        obj reaches above rec's top and rests on / near it (a wide cover on a
+        small item may tilt down to the support on one side)."""
+        try:
+            lo, hi = (np.asarray(_arr(v)) for v in obj.aabb)
+            rlo, rhi = (np.asarray(_arr(v)) for v in rec.aabb)
+        except Exception:
+            return False
+        c = (rlo + rhi) / 2.0
+        return bool(hi[2] >= rhi[2] - tol and lo[2] <= rhi[2] + 0.05
+                    and lo[0] <= c[0] <= hi[0] and lo[1] <= c[1] <= hi[1])
+
     def _verify_relation(self, obj, rec, relation: str, Inside, OnTop) -> bool:
         if relation == "inside":
             return self._is_inside(obj, rec)
+        if self._is_task_object(rec):
+            return self._is_stacked_on(obj, rec)
         if OnTop not in obj.states:
             return False
         # Inside/OnTop are binary (relative) states: get_value(other)
@@ -442,6 +523,32 @@ class OmniGibsonBackend(SimBackend):
     def is_anchor_validated(self, name: str, anchor) -> bool:
         return (anchor is not None and self._validated_anchor_poses.get(name)
                 == (tuple(anchor.position), tuple(anchor.orientation)))
+
+    def park_entities(self, names: list[str]) -> list[tuple[Any, Any]]:
+        """Counterfactual (oracle realization only): move objects far out of
+        the scene without stepping physics; returns the handles to restore
+        with unpark_entities()."""
+        import torch as th
+
+        parked = []
+        for i, name in enumerate(names):
+            obj = resolve_object(self._env.scene, name)
+            parked.append((obj, obj.get_position_orientation()))
+            obj.set_position_orientation(position=[1000.0 + 10.0 * i, 1000.0, 1000.0],
+                                         orientation=[0, 0, 0, 1])
+            obj.set_linear_velocity(th.zeros(3))
+            obj.set_angular_velocity(th.zeros(3))
+        self._collision_body_cache = None
+        return parked
+
+    def unpark_entities(self, parked: list[tuple[Any, Any]]) -> None:
+        import torch as th
+
+        for obj, (pos, quat) in parked:
+            obj.set_position_orientation(position=pos, orientation=quat)
+            obj.set_linear_velocity(th.zeros(3))
+            obj.set_angular_velocity(th.zeros(3))
+        self._collision_body_cache = None
 
     def teleport_robot(self, anchor: AnchorSpec) -> None:
         # Never hide a corrupt articulation behind a commanded pose.
@@ -703,14 +810,21 @@ class OmniGibsonBackend(SimBackend):
         ag = getattr(self._robot, "_ag_obj_in_hand", {})
         return sum(1 for v in ag.values() if v is not None)
 
-    def symbolic_place(self, entity: str, receptacle: str) -> bool:
-        """Release the benchmark-held ``entity`` onto/into ``receptacle``.
+    def symbolic_place(self, entity: str, receptacle: str,
+                       at: list[float] | None = None) -> bool:
+        """Release the benchmark-held ``entity`` onto ``receptacle``.
 
         The held object is passed explicitly by the benchmark core (never
         re-derived from an internal grasp dict); this is realization only.
+        ``at`` is the support-surface point the feasibility check validated
+        (the object is set down centred on it); without it the object goes on
+        the first reachable surface point whose footprint is free.
         """
+        from rummagebench.feasibility.interaction_target import (
+            receptacle_place_targets,
+        )
+
         obj = resolve_object(self._env.scene, entity)
-        rec = resolve_object(self._env.scene, receptacle)
         self._collision_body_cache = None  # the placed object moves
         # release whichever assisted-grasp joint holds this exact object
         ag = getattr(self._robot, "_ag_obj_in_hand", {})
@@ -721,19 +835,53 @@ class OmniGibsonBackend(SimBackend):
                 except Exception as e:
                     logger.warning("release on place failed for %s: %s", entity, e)
                 break
-        pos, _ = rec.get_position_orientation()
-        if hasattr(pos, "detach"):
-            pos = pos.detach().cpu().numpy()
+        points = [list(at)] if at is not None else []
         try:
-            obj.set_position_orientation(
-                position=[float(pos[0]), float(pos[1]), float(pos[2]) + 0.15],
-                orientation=[0, 0, 0, 1],
-            )
+            points += [t.metadata["surface_point"]
+                       for t in receptacle_place_targets(receptacle, self)
+                       if "surface_point" in t.metadata]
         except Exception as e:
-            logger.warning("place pose write failed for %s: %s", entity, e)
-            return False
-        self.settle(10)
-        return True
+            logger.warning("place surface points unavailable for %s: %s", receptacle, e)
+        oa = self.entity_aabb(entity)
+        half = ([(oa[1][i] - oa[0][i]) / 2.0 for i in range(3)] if oa
+                else [0.1, 0.1, 0.05])
+        others = []
+        for name in self.entity_names():
+            info = self.describe_entity(name)
+            if name in (entity, receptacle) or info is None or info.fixed_base:
+                continue
+            if name in self.robot_entity_names():
+                continue
+            box = self.entity_aabb(name)
+            if box is not None:
+                others.append(box)
+
+        def free(x, y, z):
+            return not any(
+                b[0][0] < x + half[0] and b[1][0] > x - half[0]
+                and b[0][1] < y + half[1] and b[1][1] > y - half[1]
+                and b[1][2] > z - 0.02 and b[0][2] < z + 2 * half[2] + 0.05
+                for b in others)
+
+        for i, (x, y, z) in enumerate(points):
+            if i > 0 and not free(x, y, z):
+                continue
+            try:
+                obj.set_position_orientation(
+                    position=[float(x), float(y), float(z) + half[2] + 0.01],
+                    orientation=[0, 0, 0, 1],
+                )
+                import torch as th
+
+                obj.set_linear_velocity(th.zeros(3))
+                obj.set_angular_velocity(th.zeros(3))
+            except Exception as e:
+                logger.warning("place pose write failed for %s: %s", entity, e)
+                return False
+            self.settle(10)
+            return True
+        logger.warning("no free support point on %s for %s", receptacle, entity)
+        return False
 
     def describe_entity(self, name: str) -> EntityInfo | None:
         if name not in self._entity_infos:
@@ -810,17 +958,34 @@ class OmniGibsonBackend(SimBackend):
         return out
 
     def receptacle_region(self, entity: str):
-        """Support region: top surface; inside volume for open containers."""
+        """Support region. Fixed furniture: the top of its body (root link,
+        so an opened drawer / door never extends the surface); other
+        receptacles: top surface, inside volume when open."""
         from rummagebench.feasibility.interaction_target import InteractionRegion
+        from rummagebench.sim.omnigibson.usd_collision import compute_link_aabb
 
+        obj = resolve_object(self._env.scene, entity)
+        aabb = None
+        if getattr(obj, "fixed_base", False):
+            root = getattr(obj, "root_link", None)
+            if root is not None and len(obj.links or {}) > 1:
+                try:
+                    box = compute_link_aabb(root)
+                    if box is not None:
+                        aabb = ([float(v) for v in box[0]], [float(v) for v in box[1]])
+                except Exception as e:
+                    logger.warning("root link AABB unavailable for %s: %s", entity, e)
+            if aabb is None:
+                aabb = self.entity_aabb(entity)
+            if aabb is None:
+                return None
+            return InteractionRegion(lo=list(aabb[0]), hi=list(aabb[1]), kind="top_surface")
         aabb = self.entity_aabb(entity)
         if aabb is None:
             return None
         lo, hi = aabb
         if self.is_open(entity):
             return InteractionRegion(lo=lo, hi=hi, kind="inside_volume")
-        top = list(lo)
-        top[2] = hi[2]
         return InteractionRegion(lo=lo, hi=[hi[0], hi[1], hi[2]], kind="top_surface")
 
     def link_pose(self, entity: str, link: str):

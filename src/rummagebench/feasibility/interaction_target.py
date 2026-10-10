@@ -65,6 +65,9 @@ class InteractionTarget:
             out["position"] = [round(float(v), 4) for v in self.pose.position]
         if self.region is not None:
             out["region_kind"] = self.region.kind
+        if "surface_point" in self.metadata:
+            out["surface_point"] = [round(float(v), 4)
+                                    for v in self.metadata["surface_point"]]
         return out
 
 
@@ -234,8 +237,48 @@ def rigid_interaction_candidates(entity: str, backend: Any) -> list[InteractionT
 # --------------------------------------------------------------------------
 
 
+# top-surface PLACE sampling: grid points on the support surface within the
+# arm's reach of the robot base, nearest the comfortable reach radius first.
+# A whole-surface center / edge midpoint is metres away on a long countertop.
+PLACE_GRID_STEP_M = 0.08
+PLACE_EDGE_INSET_M = 0.06
+PLACE_MAX_REACH_M = 1.0
+PLACE_PREFERRED_REACH_M = 0.65
+PLACE_MAX_CANDIDATES = 8
+
+
+def _robot_xy(backend: Any):
+    try:
+        pos, _ = backend.robot_pose()
+    except Exception:
+        return None
+    if pos is None or not np.all(np.isfinite(np.asarray(pos, dtype=float)[:2])):
+        return None
+    return float(pos[0]), float(pos[1])
+
+
+def _near_top_surface_points(lo, hi, robot_xy) -> list[np.ndarray]:
+    xs = np.arange(lo[0] + PLACE_EDGE_INSET_M, hi[0] - PLACE_EDGE_INSET_M + 1e-9,
+                   PLACE_GRID_STEP_M)
+    ys = np.arange(lo[1] + PLACE_EDGE_INSET_M, hi[1] - PLACE_EDGE_INSET_M + 1e-9,
+                   PLACE_GRID_STEP_M)
+    scored = []
+    for x in xs:
+        for y in ys:
+            d = float(np.hypot(x - robot_xy[0], y - robot_xy[1]))
+            if d <= PLACE_MAX_REACH_M:
+                scored.append((abs(d - PLACE_PREFERRED_REACH_M), float(x), float(y)))
+    scored.sort()
+    return [np.array([x, y, float(hi[2])]) for _, x, y in scored[:PLACE_MAX_CANDIDATES]]
+
+
 def receptacle_place_targets(entity: str, backend: Any) -> list[InteractionTarget]:
-    """PLACE targets from the receptacle support region, never the root pose."""
+    """PLACE targets from the receptacle support region, never the root pose.
+
+    Top surfaces: grid points within reach of the robot base (tool pointing
+    down). Without a robot pose (or for an inside volume): the region center
+    + four in-plane edge midpoints.
+    """
     region = backend.receptacle_region(entity)
     if region is None:
         aabb = backend.entity_aabb(entity)
@@ -257,26 +300,33 @@ def receptacle_place_targets(entity: str, backend: Any) -> list[InteractionTarge
         approach = np.array([0.0, 0.0, 1.0])
     orientation = look_at_quaternion(approach)
 
-    # region center + four in-plane edge midpoints (deterministic samples)
-    half = (hi - lo) / 2.0
-    offsets = [np.zeros(3)]
-    for axis in (0, 1):
-        for sign in (1.0, -1.0):
-            off = np.zeros(3)
-            off[axis] = sign * half[axis] * 0.5
-            offsets.append(off)
+    robot_xy = _robot_xy(backend) if region.kind == "top_surface" else None
+    if robot_xy is not None:
+        points = _near_top_surface_points(lo, hi, robot_xy)
+        source = "receptacle_top_surface_near"
+    else:
+        # region center + four in-plane edge midpoints (deterministic samples)
+        half = (hi - lo) / 2.0
+        points = [center.copy()]
+        for axis in (0, 1):
+            for sign in (1.0, -1.0):
+                off = np.zeros(3)
+                off[axis] = sign * half[axis] * 0.5
+                points.append(center + off)
+        source = f"receptacle_{region.kind}"
 
     targets: list[InteractionTarget] = []
-    for off in offsets:
-        pose_pos = center + off - approach * STANDOFF_M
+    for point in points:
+        pose_pos = point - approach * STANDOFF_M
         targets.append(
             InteractionTarget(
                 pose=Pose(pose_pos, orientation),
-                source=f"receptacle_{region.kind}",
+                source=source,
                 region=region,
                 metadata={
                     "approach_normal": [float(v) for v in approach],
                     "standoff_m": STANDOFF_M,
+                    "surface_point": [float(v) for v in point],
                 },
             )
         )

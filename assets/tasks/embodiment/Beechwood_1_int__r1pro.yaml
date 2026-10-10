@@ -7,7 +7,7 @@ robot:
   urdf_path: build/robots/r1pro.urdf
   urdf_hash: 302f4704da7b412b3c52086bf7773d304e3b7e0c9aa403b4c863c56f7455c9d7
 status: probed
-source: probe:v5:2026-10-05:3b3b76817913
+source: probe:v5:2026-10-05:1359cc2f73be
 notes:
 - 'probed rooms: [''bathroom_0'', ''bathroom_1'', ''bedroom_0'', ''childs_room_0'', ''childs_room_1'',
   ''closet_0'', ''playroom_0'', ''television_room_0'']'
@@ -23,8 +23,6 @@ notes:
 - 'bottom_cabinet_kubcdk_2: no OPEN-feasible, clickable anchor that stays free once open and is reachable
   by MOVE/TURN from the room''s start poses'
 - 'bottom_cabinet_no_top_pluwfl_0: no OPEN-feasible, clickable anchor that stays free once open and is
-  reachable by MOVE/TURN from the room''s start poses'
-- 'bottom_cabinet_no_top_pluwfl_1: no OPEN-feasible, clickable anchor that stays free once open and is
   reachable by MOVE/TURN from the room''s start poses'
 - 'breakfast_table_skczfi_1: no footprint-free interaction anchor'
 - 'breakfast_table_uhrsex_0: no OPEN-feasible, clickable anchor that stays free once open and is reachable
@@ -2360,10 +2358,129 @@ start_poses:
     - Beechwood_1_int/bottom_cabinet_rvpunw_1/dof_rootd_aa001_t
     - Beechwood_1_int/bottom_cabinet_rvpunw_1/dof_rootd_aa002_t
 slots:
+  Beechwood_1_int/bottom_cabinet_no_top_pluwfl_1/interior:
+    navigation_anchor:
+      position:
+      - -6.3492
+      - -2.9482
+      - 0.0073
+      orientation:
+      - 0.0
+      - 0.0
+      - -1.0
+      - 0.0
+    open_feasible: true
+    grasp_region_feasible: false
+    probed: true
+    note: 'probe placement failed: link_1'
+    evidence:
+      placed: false
+      sampler_ok: true
+      relation_ok: true
+      containing_link: link_1
+      anchor_index: 8
+      open_feasible: true
+      grasp_feasible: false
+      reveal_anchor_index: null
+      reveal_anchor: null
+  Beechwood_1_int/bottom_cabinet_no_top_pluwfl_1/link_1:
+    navigation_anchor:
+      position:
+      - -6.3492
+      - -2.9482
+      - 0.0073
+      orientation:
+      - 0.0
+      - 0.0
+      - -1.0
+      - 0.0
+    open_feasible: true
+    grasp_region_feasible: true
+    probed: true
+    note: ''
+    reveal_anchor:
+      position:
+      - -6.3492
+      - -2.9482
+      - 0.0073
+      orientation:
+      - 0.0
+      - 0.0
+      - -1.0
+      - 0.0
+    evidence:
+      placed: true
+      sampler_ok: true
+      relation_ok: true
+      containing_link: link_1
+      open_floor_slab:
+      - - -7.806974963398136
+        - -3.3739118899463527
+        - 0.4727343705003386
+      - - -7.415497853572933
+        - -3.0998282313792753
+        - 0.4756889158294764
+      grasp_from:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      visibility_by_anchor:
+        '0': 0.0
+        '1': 0.0
+        '2': 0.0
+        '3': 0.0
+        '4': 1.0
+        '5': 1.0
+        '6': 1.0
+        '7': 1.0
+        '8': 1.0
+        '9': 1.0
+      floor_in_view_from:
+      - 6
+      - 7
+      - 8
+      - 9
+      anchor_index: 8
+      open_feasible: true
+      grasp_feasible: true
+      reveal_route_steps: 0
+      reveal_anchor_index: 8
+      reveal_anchor:
+        position:
+        - -6.3492
+        - -2.9482
+        - 0.0073
+        orientation:
+        - 0.0
+        - 0.0
+        - -1.0
+        - 0.0
+      open_visibility:
+        visible_px: 402
+        reference_px: 402
+        ratio: 1.0
+        consistent: true
+        attempts: 1
+      closed_relation_ok: true
+      closed_containing_link: link_1
+      closed_graspable: false
+      closed_visibility:
+        visible_px: 0
+        reference_px: 273
+        ratio: 0.0
+        consistent: true
+        attempts: 1
   Beechwood_1_int/bottom_cabinet_rvpunw_0/dof_rootd_aa001_t:
     navigation_anchor:
       position:
-      - 2.9689
+      - 3.1189
       - -5.7307
       - 0.0073
       orientation:
@@ -2384,30 +2501,30 @@ slots:
       grasp_from: []
       visibility_by_anchor: {}
       floor_in_view_from: []
-      anchor_index: 9
+      anchor_index: 6
       open_feasible: true
       grasp_feasible: false
       reveal_anchor_index: null
       reveal_anchor: null
       open_visibility:
-        visible_px: 274
-        reference_px: 444
-        ratio: 0.6171171171171171
+        visible_px: 0
+        reference_px: 0
+        ratio: null
         consistent: true
         attempts: 1
       closed_relation_ok: true
       closed_containing_link: dof_rootd_aa001_t
       closed_graspable: false
       closed_visibility:
-        visible_px: 58
-        reference_px: 370
-        ratio: 0.15675675675675677
+        visible_px: 65
+        reference_px: 454
+        ratio: 0.14317180616740088
         consistent: true
         attempts: 1
   Beechwood_1_int/bottom_cabinet_rvpunw_0/dof_rootd_aa002_t:
     navigation_anchor:
       position:
-      - 2.9689
+      - 3.1189
       - -5.7307
       - 0.0073
       orientation:
@@ -2428,7 +2545,7 @@ slots:
       grasp_from: []
       visibility_by_anchor: {}
       floor_in_view_from: []
-      anchor_index: 9
+      anchor_index: 6
       open_feasible: true
       grasp_feasible: false
       reveal_anchor_index: null
@@ -2444,14 +2561,14 @@ slots:
       closed_graspable: false
       closed_visibility:
         visible_px: 0
-        reference_px: 25
-        ratio: 0.0
+        reference_px: 0
+        ratio: null
         consistent: true
         attempts: 1
   Beechwood_1_int/bottom_cabinet_rvpunw_1/dof_rootd_aa001_t:
     navigation_anchor:
       position:
-      - 2.9689
+      - 3.1189
       - -3.1507
       - 0.0073
       orientation:
@@ -2472,30 +2589,30 @@ slots:
       grasp_from: []
       visibility_by_anchor: {}
       floor_in_view_from: []
-      anchor_index: 9
+      anchor_index: 6
       open_feasible: true
       grasp_feasible: false
       reveal_anchor_index: null
       reveal_anchor: null
       open_visibility:
-        visible_px: 272
-        reference_px: 441
-        ratio: 0.6167800453514739
+        visible_px: 0
+        reference_px: 0
+        ratio: null
         consistent: true
         attempts: 1
       closed_relation_ok: true
       closed_containing_link: dof_rootd_aa001_t
       closed_graspable: false
       closed_visibility:
-        visible_px: 58
-        reference_px: 368
-        ratio: 0.15760869565217392
+        visible_px: 64
+        reference_px: 451
+        ratio: 0.1419068736141907
         consistent: true
         attempts: 1
   Beechwood_1_int/bottom_cabinet_rvpunw_1/dof_rootd_aa002_t:
     navigation_anchor:
       position:
-      - 2.9689
+      - 3.1189
       - -3.1507
       - 0.0073
       orientation:
@@ -2516,7 +2633,7 @@ slots:
       grasp_from: []
       visibility_by_anchor: {}
       floor_in_view_from: []
-      anchor_index: 9
+      anchor_index: 6
       open_feasible: true
       grasp_feasible: false
       reveal_anchor_index: null
@@ -2532,8 +2649,8 @@ slots:
       closed_graspable: false
       closed_visibility:
         visible_px: 0
-        reference_px: 25
-        ratio: 0.0
+        reference_px: 0
+        ratio: null
         consistent: true
         attempts: 1
   Beechwood_1_int/breakfast_table_skczfi_0/on_top:

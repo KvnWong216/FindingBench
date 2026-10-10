@@ -342,3 +342,26 @@ def test_oracle_admissibility_matches_production(fake_backend):
         assert oracle_set == production_set, (
             f"state {state}: oracle={sorted(oracle_set)} production={sorted(production_set)}"
         )
+
+
+def test_displaced_objects_key_the_oracle_realization():
+    """Rearrangement (medium): after GRASP/PLACE of a non-target the oracle
+    must realize a world without that object at its old place; states that
+    never move a non-target (every easy search) keep an empty displaced set."""
+    from types import SimpleNamespace
+
+    from rummagebench.evaluation.oracle_planner import OracleWorldState, OverlayBackend
+
+    placements = [SimpleNamespace(entity="target", relation="inside", receptacle="cab"),
+                  SimpleNamespace(entity="cover", relation="inside", receptacle="cab")]
+    ov = OverlayBackend(object(), SimpleNamespace(anchors={}, placements=placements))
+    rel0 = frozenset({("target", "inside", "cab"), ("cover", "inside", "cab")})
+    s0 = OracleWorldState("start", frozenset({"cab"}), None, rel0)
+    assert ov.displaced(s0) == frozenset()
+    held = OracleWorldState("cab", frozenset({"cab"}), "cover",
+                            frozenset({("target", "inside", "cab")}))
+    placed = OracleWorldState("cab", frozenset({"cab"}), None,
+                              frozenset({("target", "inside", "cab"),
+                                         ("cover", "placed", "table")}))
+    assert ov.displaced(held) == ov.displaced(placed) == frozenset({"cover"})
+    assert ov.realization_key(placed) != ov.realization_key(s0)

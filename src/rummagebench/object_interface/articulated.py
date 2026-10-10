@@ -9,6 +9,7 @@ from __future__ import annotations
 from rummagebench.core.types import WorldState
 from rummagebench.feasibility.interaction_target import (
     articulated_interaction_targets,
+    receptacle_place_targets,
 )
 from rummagebench.object_interface.base import ObjectInterface, SkillCandidate
 from rummagebench.robots.robot import RobotEmbodiment
@@ -40,4 +41,6 @@ class ArticulatedObject(ObjectInterface):
     def interaction_targets(self, skill_name: str, world: WorldState):
         if skill_name in ("OPEN", "CLOSE"):
             return articulated_interaction_targets(self.id, self.backend)
+        if skill_name == "PLACE" and self.is_receptacle:
+            return receptacle_place_targets(self.id, self.backend)
         return super().interaction_targets(skill_name, world)

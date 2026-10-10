@@ -11,13 +11,15 @@ from pathlib import Path
 
 from _common import ASSETS, host_config, load_yaml
 
-from rummagebench.authoring.tasks.priors import apply_review, mine_priors
+from rummagebench.authoring.tasks.priors import apply_manual, apply_review, mine_priors
 
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--rules", default=str(ASSETS / "slot_rules_v1.yaml"))
     ap.add_argument("--review", default=str(ASSETS / "priors" / "review_v1.yaml"))
+    ap.add_argument("--manual", default=str(ASSETS / "priors" / "manual_v1.yaml"),
+                    help="hand-written commonsense priors (plan E); merged after the review")
     ap.add_argument("--host-config")
     ap.add_argument("--show", type=str, default="",
                     help="comma list of room types to print evidence for")
@@ -52,6 +54,9 @@ def main(argv=None) -> int:
                       f" {e.slot_class:17s} {e.room_type}")
     out = host["build_root"] / "priors" / "placement_v1.yaml"
     reviewed = apply_review(mined, load_yaml(Path(args.review)))
+    manual_path = Path(args.manual)
+    if manual_path.exists():
+        reviewed = apply_manual(reviewed, load_yaml(manual_path), ObjectTaxonomy())
     reviewed.save(out, "# Reviewed placement priors (BDDL evidence + review table).\n")
     n = len(reviewed.approved_entries())
     print(f"reviewed -> {out}: {n} approved entries, "

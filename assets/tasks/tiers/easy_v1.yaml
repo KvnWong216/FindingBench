@@ -20,13 +20,17 @@ search:
   rearrangement_depth: 0
   lookalike_count: 0
 
+# per-link item counts (Stage 5, A.8.4): a drawer link with 1 object failed
+# placement verification in 4% of builds, with 2-3 objects in 23-25%
+# (objects stack and leave the link). Easy tests locating the slot, not
+# rummaging; clutter inside containers belongs to medium.
 target_slot:
-  extra_items: [0, 2]
+  extra_items: [0, 1]
   max_fill_ratio: 0.30
 
 other_containers:
   occupied_fraction: [0.3, 0.6]
-  items: [1, 3]
+  items: [1, 1]
 
 other_surfaces:
   items: [0, 3]

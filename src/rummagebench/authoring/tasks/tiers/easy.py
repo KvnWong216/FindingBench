@@ -17,6 +17,20 @@ from rummagebench.authoring.tasks.planner import (
 from rummagebench.authoring.tasks.search_certificate import minimum_required_interactions
 from rummagebench.authoring.tasks.slots import Slot
 
+# Stage 5 + top-up (A.9): every on_surface start found GRASP-feasible on GPU
+# (TARGET_PREMATURELY_GRASPABLE, 15 episodes) stood <= 0.97 m from the target
+# furniture's footprint; certified ones started up to that close too, so the
+# CPU filter keeps a margin over the measured reach
+ON_SURFACE_START_CLEARANCE_M = 1.0
+
+
+def rect_distance(xy, box) -> float:
+    """Horizontal distance from a point to an AABB's xy rectangle (0 inside)."""
+    lo, hi = box[0], box[1]
+    dx = max(lo[0] - xy[0], 0.0, xy[0] - hi[0])
+    dy = max(lo[1] - xy[1], 0.0, xy[1] - hi[1])
+    return (dx * dx + dy * dy) ** 0.5
+
 
 def propose(ctx: PlannerContext, seed: int, index: int, retry: int) -> TaskPlan:
     spec = ctx.tier
@@ -27,7 +41,8 @@ def propose(ctx: PlannerContext, seed: int, index: int, retry: int) -> TaskPlan:
     rooms = [(scene, room) for scene in sorted(ctx.scenes)
              if ctx.overlay(scene) is not None
              for room in sorted(ctx.overlay(scene).start_poses)
-             if ctx.overlay(scene).start_poses[room]]
+             if ctx.overlay(scene).start_poses[room]
+             and ctx.scenes[scene].rooms.get(room) not in ctx.exclude_room_types]
     if not rooms:
         raise PlanReject(gates.INVALID_SLOT, "no room with a robot start pose "
                                              "(probe the embodiment overlay first)")
@@ -89,6 +104,17 @@ def propose(ctx: PlannerContext, seed: int, index: int, retry: int) -> TaskPlan:
     if not hidden:
         raise PlanReject(gates.START_VISIBLE,
                          f"every start pose in {room} sees {tslot.slot_id}")
+    # an on_surface target must not be within arm's reach of the start (the
+    # reveal is a viewpoint change, not a GRASP from where the robot stands)
+    if mode == "on_surface":
+        box = ss.footprint_obstacles.get(tslot.parent_entity)
+        if box is not None:
+            hidden = [p for p in hidden
+                      if rect_distance(p.pose.xy, box) >= ON_SURFACE_START_CLEARANCE_M]
+            if not hidden:
+                raise PlanReject(gates.TARGET_PREMATURELY_GRASPABLE,
+                                 f"every start pose in {room} is within "
+                                 f"{ON_SURFACE_START_CLEARANCE_M} m of {tslot.parent_entity}")
     # the witness drives from the start to the target furniture's interaction
     # pose by MOVE/TURN only: keep the starts that have a route there (the
     # probe only proved reachability from SOME start position of the room)

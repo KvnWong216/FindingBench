@@ -152,7 +152,8 @@ class FakeBackend(SimBackend):
     def held_count(self) -> int:
         return 1 if self.holding_entity is not None else 0
 
-    def symbolic_place(self, entity: str, receptacle: str) -> bool:
+    def symbolic_place(self, entity: str, receptacle: str, at=None) -> bool:
+        self.place_point = at
         if self.holding_entity != entity:
             return False
         self.holding_entity = None

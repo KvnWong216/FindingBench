@@ -95,3 +95,30 @@ def test_aabb_prefilter_is_exact(checker):
         world_pairs = lambda r: sorted((p.robot_link, p.other) for p in r.pairs if p.kind == "world")
         assert a.collision_free == b.collision_free
         assert world_pairs(a) == world_pairs(b)
+
+
+def test_wrist_pitch_is_not_blocked_by_collider_artefacts(checker):
+    # A.8 F9: arm_link5 / arm_link7 colliders meet at the wrist-pitch housing
+    # (<= 14 mm over the joint limits); a pitched wrist must stay feasible
+    checker._world = []
+    names = list(checker._kin.controlled_joint_names)
+    q = checker._kin.q_seed_neutral()
+    q[names.index("right_arm_joint6")] = -0.8
+    assert checker.check_configuration(q, _ctx()).collision_free
+
+
+def test_gripper_into_torso_is_still_a_self_collision(checker):
+    # deep self-contacts stay checked: sample until the gripper hits the torso
+    checker._world = []
+    k = checker._kin
+    names = list(k.controlled_joint_names)
+    arm = [i for i, n in enumerate(names) if n.startswith("right_arm")]
+    rng = np.random.default_rng(0)
+    hits = 0
+    for _ in range(400):
+        q = k.q_seed_neutral()
+        q[arm] = rng.uniform(k.lower[arm], k.upper[arm])
+        r = checker.check_configuration(q, _ctx())
+        hits += any("gripper" in p.robot_link + p.other and "torso" in p.robot_link + p.other
+                    for p in r.pairs)
+    assert hits > 0

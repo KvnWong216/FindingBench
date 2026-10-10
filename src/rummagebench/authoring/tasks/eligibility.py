@@ -59,6 +59,14 @@ class ObjectEligibility:
     source: dict[str, Any]
     categories: dict[str, EligibleCategory]
     rejected: dict[str, str]  # category -> reason
+    # tier-level perceptual lookalike groups (TierSpec.lookalike_groups),
+    # on top of the taxonomy keys; not part of the eligibility file
+    extra_groups: tuple[frozenset[str], ...] = ()
+
+    def with_lookalike_groups(self, groups) -> "ObjectEligibility":
+        import dataclasses
+
+        return dataclasses.replace(self, extra_groups=tuple(frozenset(g) for g in groups))
 
     def is_eligible(self, category: str, model: Optional[str] = None) -> bool:
         c = self.categories.get(category)
@@ -68,6 +76,8 @@ class ObjectEligibility:
 
     def lookalike(self, a: str, b: str) -> bool:
         if a == b:
+            return True
+        if any(a in g and b in g for g in self.extra_groups):
             return True
         ka = set(self.categories[a].lookalike_keys)
         return bool(ka & set(self.categories[b].lookalike_keys))

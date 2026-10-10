@@ -1,0 +1,263 @@
+# released by scripts/tasks/promote_tasks.py (easy_v1, dev)
+id: fb_6e4d2c593f350536
+instruction: Find the spatula. It should be somewhere in this kitchen.
+scene:
+  model: Wainscott_0_int
+robot:
+  model: r1pro
+  name: robot_0
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 854
+  image_height: 480
+  focal_length_mm: 10.5
+  kinematics:
+    urdf_path: assets/robots/r1pro/r1pro.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  reach_radius: 1.0
+  z_min: 0.0
+  z_max: 1.6
+  hand_capacity: 1
+  init_anchor: start
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+anchors:
+  start:
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - -0.707107
+    position:
+    - 3.275
+    - 11.775
+    - 0.0055
+  bottom_cabinet_bamfsz_0:
+    position:
+    - 6.1494
+    - 9.98
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - -0.707105
+    - 0.707108
+  bottom_cabinet_no_top_pluwfl_0:
+    position:
+    - 5.7995
+    - 9.5316
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - -4.0e-06
+    - 1.0
+  bottom_cabinet_no_top_pluwfl_1:
+    position:
+    - 5.9395
+    - 11.5716
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - -4.0e-06
+    - 1.0
+  countertop_tpuwys_1:
+    position:
+    - 6.1034
+    - 11.502
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707105
+    - 0.707108
+  countertop_tpuwys_2:
+    position:
+    - 6.3616
+    - 11.58
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - -4.0e-06
+    - 1.0
+  countertop_tpuwys_3:
+    position:
+    - 6.2344
+    - 9.705
+    - 0.0055
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.001246
+    - 0.999999
+target:
+  entity: target_spatula
+  category: spatula
+objects:
+- name: target_spatula
+  category: spatula
+  model: vnymjm
+- name: obj_00_bowl
+  category: bowl
+  model: aspeds
+- name: obj_01_plate
+  category: plate
+  model: spppps
+- name: obj_02_bowl
+  category: bowl
+  model: sqqahm
+- name: obj_03_bowl
+  category: bowl
+  model: wryghu
+- name: obj_04_bowl
+  category: bowl
+  model: dalyim
+- name: obj_05_plate
+  category: plate
+  model: odmjdd
+- name: obj_06_plate
+  category: plate
+  model: fhdyrj
+- name: obj_07_vinegar_bottle
+  category: vinegar_bottle
+  model: hbsbwt
+- name: obj_08_baking_powder_jar
+  category: baking_powder_jar
+  model: lgopij
+- name: obj_09_apple
+  category: apple
+  model: qrqzvs
+- name: obj_10_plate
+  category: plate
+  model: lkomhp
+placements:
+- entity: target_spatula
+  relation: inside
+  receptacle: bottom_cabinet_bamfsz_0
+  link: link_4
+- entity: obj_00_bowl
+  relation: inside
+  receptacle: bottom_cabinet_bamfsz_0
+  link: link_4
+- entity: obj_01_plate
+  relation: inside
+  receptacle: bottom_cabinet_bamfsz_0
+  link: link_2
+- entity: obj_02_bowl
+  relation: inside
+  receptacle: bottom_cabinet_bamfsz_0
+  link: link_2
+- entity: obj_03_bowl
+  relation: inside
+  receptacle: bottom_cabinet_no_top_pluwfl_1
+  link: link_1
+- entity: obj_04_bowl
+  relation: inside
+  receptacle: bottom_cabinet_no_top_pluwfl_1
+  link: link_1
+- entity: obj_05_plate
+  relation: on_top
+  receptacle: countertop_tpuwys_2
+- entity: obj_06_plate
+  relation: on_top
+  receptacle: countertop_tpuwys_2
+- entity: obj_07_vinegar_bottle
+  relation: on_top
+  receptacle: countertop_tpuwys_2
+- entity: obj_08_baking_powder_jar
+  relation: on_top
+  receptacle: countertop_tpuwys_3
+- entity: obj_09_apple
+  relation: on_top
+  receptacle: countertop_tpuwys_3
+- entity: obj_10_plate
+  relation: on_top
+  receptacle: countertop_tpuwys_3
+initial_states:
+  bottom_cabinet_bamfsz_0:
+    open: false
+  bottom_cabinet_no_top_bmsclc_0:
+    open: false
+  bottom_cabinet_no_top_pluwfl_0:
+    open: false
+  bottom_cabinet_no_top_pluwfl_1:
+    open: false
+  bottom_cabinet_no_top_pluwfl_2:
+    open: false
+  bottom_cabinet_no_top_qohxjq_0:
+    open: false
+  bottom_cabinet_no_top_qohxjq_1:
+    open: false
+  bottom_cabinet_no_top_qohxjq_2:
+    open: false
+  top_cabinet_eobsmt_0:
+    open: false
+  top_cabinet_fqhdne_0:
+    open: false
+  top_cabinet_fqhdne_1:
+    open: false
+  top_cabinet_fqhdne_2:
+    open: false
+  top_cabinet_jvdbxh_0:
+    open: false
+  top_cabinet_lsyzkh_0:
+    open: false
+  top_cabinet_lsyzkh_1:
+    open: false
+  top_cabinet_lsyzkh_2:
+    open: false
+termination:
+  max_planning_steps: 16
+  fail_on_wrong_grasp: true
+  fail_on_unsafe_action: true
+  succeed_when_holding_target: true
+skills:
+- NAV
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+safety:
+  forbidden_categories: []
+  grasping_fixed_base_unsafe: true
+agent:
+  scripted_success:
+  - &id001
+    skill: NAV
+    target:
+      type: place
+      value: bottom_cabinet_bamfsz_0
+  - &id002
+    skill: OPEN
+    target:
+      type: entity
+      value: bottom_cabinet_bamfsz_0
+  - skill: GRASP
+    target:
+      type: entity
+      value: target_spatula
+  scripted_wrong_object:
+  - *id001
+  - *id002
+  - skill: GRASP
+    target:
+      type: entity
+      value: obj_00_bowl
+  unsafe_sequence:
+  - skill: NAV
+    target:
+      type: place
+      value: bottom_cabinet_bamfsz_0
+  - skill: GRASP
+    target:
+      type: entity
+      value: bottom_cabinet_bamfsz_0

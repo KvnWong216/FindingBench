@@ -291,3 +291,53 @@ def apply_review(mined: PlacementPriors, review: dict[str, Any]) -> PlacementPri
                         "status": review.get("status")}
     return PlacementPriors(version=mined.version, source=source, entries=out,
                            slot_classes=dict(mined.slot_classes))
+
+
+_MANUAL_RELATION = {"cabinet_storage": "inside"}  # every other class: on_top
+
+
+def apply_manual(priors: PlacementPriors, manual: dict[str, Any],
+                 taxonomy: Any) -> PlacementPriors:
+    """Merge hand-written commonsense priors (TASK_TIERS_PLAN A.3 plan E).
+
+    BDDL activities are cooking / cleaning heavy, so rooms such as bedrooms,
+    bathrooms and offices have almost no mined evidence. manual = {reviewer,
+    status, groups: [{name, room_types, slot_classes, categories, weight?}]};
+    every (category x slot_class x room_type) of a group is approved with
+    provenance ``source: manual`` and compatibility ``manual``; evidence counts
+    stay 0 (BDDL evidence is never invented). A key that already has mined
+    evidence keeps it and is approved on top.
+    """
+    review = {"reviewer": manual.get("reviewer"), "status": manual.get("status"),
+              "source": "manual"}
+    covers: dict[str, list[str]] = defaultdict(list)
+    for slot_type, cls in priors.slot_classes.items():
+        covers[cls].append(slot_type)
+    entries = {e.key: PriorEntry(**asdict(e)) for e in priors.entries}
+    for g in manual.get("groups", []):
+        for cat in g["categories"]:
+            syn = priors.synset_of(cat) or taxonomy.get_synset_from_category(cat)
+            if not syn:
+                raise ValueError(f"manual group {g['name']!r}: no synset for {cat!r}")
+            for cls in g["slot_classes"]:
+                for room in g["room_types"]:
+                    key = (syn, cls, room)
+                    e = entries.get(key)
+                    if e is None:
+                        e = entries[key] = PriorEntry(
+                            object_synset=syn, slot_class=cls, room_type=room,
+                            relation=_MANUAL_RELATION.get(cls, "on_top"),
+                            evidence_count=0, activity_count=0,
+                            covers_slot_types=sorted(covers.get(cls) or [cls]),
+                            compatibility="manual")
+                    if cat not in e.object_categories:
+                        e.object_categories = sorted([*e.object_categories, cat])
+                    if not e.approved:
+                        e.approved = True
+                        e.generation_weight = float(g.get("weight", 1.0))
+                        e.review = {**review, "note": f"manual group {g['name']}"}
+    source = dict(priors.source)
+    source["manual"] = review
+    return PlacementPriors(version=priors.version, source=source,
+                           entries=sorted(entries.values(), key=lambda e: e.key),
+                           slot_classes=dict(priors.slot_classes))

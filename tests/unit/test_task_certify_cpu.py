@@ -31,3 +31,41 @@ def test_click_point_lands_inside_the_entity_interior():
 def test_out_of_view_counts_as_invisible():
     assert _vis_value({"ratio": None, "visible_px": 0, "reference_px": 0}) == 0.0
     assert _vis_value({"ratio": 0.7, "visible_px": 7, "reference_px": 10}) == 0.7
+
+
+def test_target_ring_faces_the_target():
+    import math
+
+    from rummagebench.authoring.tasks.certify import target_ring
+
+    ring = target_ring((2.0, -1.0), distances=(1.0,), bearings_deg=(0, 90, 180))
+    assert len(ring) == 3
+    for x, y, yaw in ring:
+        assert math.isclose(math.hypot(2.0 - x, -1.0 - y), 1.0, abs_tol=1e-9)
+        # heading points from the base to the target
+        assert math.isclose(math.atan2(-1.0 - y, 2.0 - x), yaw, abs_tol=1e-9)
+
+
+def test_view_prediction_matches_head_camera_geometry():
+    """R1Pro head camera (A.5 F2): 1.62 m high, ~20 deg down, vertical FOV
+    58.7 deg -> a counter-height object is below the view when the base is
+    close and inside it from ~1.1 m."""
+    import math
+
+    from rummagebench.authoring.tasks.certify import predicts_in_view
+
+    W, H = 640, 480
+    fy = (H / 2) / math.tan(math.radians(58.7 / 2))
+    K = np.array([[fy, 0, (W - 1) / 2], [0, fy, (H - 1) / 2], [0, 0, 1]])
+    p = math.radians(20)
+    # optical frame (+Z forward, +Y down) in the base frame, pitched down
+    R = np.array([[0, -math.sin(p), math.cos(p)],
+                  [-1, 0, 0],
+                  [0, -math.cos(p), -math.sin(p)]])
+    T = np.eye(4)
+    T[:3, :3] = R
+    T[:3, 3] = [0.0, 0.0, 1.62]
+    box = ([-0.04, -0.04, 0.90], [0.04, 0.04, 0.98])  # mug on a counter at x=0
+    assert not predicts_in_view(K, T, (-0.6, 0.0, 0.0), 0.0, box, W, H)
+    assert predicts_in_view(K, T, (-1.3, 0.0, 0.0), 0.0, box, W, H)
+    assert not predicts_in_view(K, T, (-1.3, 0.0, math.pi), 0.0, box, W, H)  # facing away

@@ -31,7 +31,7 @@ class PlaceSkill:
 
         # realization: release the held entity's grasp joint and move the
         # object to the receptacle (explicit entity — no re-derivation)
-        realized = backend.symbolic_place(held, receptacle)
+        realized = backend.symbolic_place(held, receptacle, at=resolved.place_point)
 
         # benchmark-owned state transition
         state.release()

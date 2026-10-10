@@ -46,13 +46,70 @@ from rummagebench.authoring.tasks.slots import SceneSlots
 
 logger = logging.getLogger(__name__)
 
-CERTIFIER_VERSION = 2
+# v2: viewpoint search for the real target, route slack
+# v3 (2026-10-06): the viewpoint search also walks up to the REAL target
+#     (ring of poses facing its measured position, pre-filtered by projecting
+#     its AABB through the head camera) — an agent approaches what it sees;
+#     v2 only tried the furniture's front poses, so a target at the far end of
+#     a long counter or the back of a drawer was "unreachable" (A.9: 61/135
+#     rejections)
+# v4 (2026-10-09, medium only; easy path unchanged): before any cover is
+#     moved the target must be PHYSICALLY ungraspable from every tried pose
+#     (visibility not required); the oracle plan's moved-object count is
+#     recorded (oracle_rearrangement_depth) and gated (A.12)
+CERTIFIER_VERSION = 4
 BASE_HALF_EXTENT = 0.40
 BASE_MARGIN = 0.03
 # planning slack beyond the session's margin: the physics settle after every
 # MOVE / TURN drifts the base by a few cm
 ROUTE_SLACK = 0.02
-MAX_VIEW_TRIES = 8
+MAX_VIEW_TRIES = 16
+# ring around the target: base-centre distances and bearings
+VIEW_RING_DISTANCES_M = tuple(round(0.5 + 0.1 * i, 2) for i in range(11))  # 0.5-1.5
+VIEW_RING_BEARINGS_DEG = tuple(range(0, 360, 15))
+VIEW_PREFERRED_DISTANCE_M = 1.0  # tie-break among equally cheap poses
+# base-centre-to-target distances where GRASP is plausible (fb_701c96: the
+# oracle grasped a counter-top notebook from 1.01 m; the furniture-front
+# poses at 1.3 m all saw it but none could grasp it)
+VIEW_REACH_BAND_M = (0.55, 1.25)
+MAX_VIEW_ROUTE_PLANS = 80
+
+
+def planar_T(x: float, y: float, z: float, yaw: float) -> np.ndarray:
+    T = np.eye(4)
+    c, s = math.cos(yaw), math.sin(yaw)
+    T[:2, :2] = [[c, -s], [s, c]]
+    T[:3, 3] = [x, y, z]
+    return T
+
+
+def box_corners(aabb) -> np.ndarray:
+    lo, hi = (np.asarray(v, float) for v in aabb)
+    return np.array([[(lo, hi)[i][0], (lo, hi)[j][1], (lo, hi)[k][2]]
+                     for i in (0, 1) for j in (0, 1) for k in (0, 1)])
+
+
+def predicts_in_view(K, T_base_cam, pose, z: float, aabb, width: int, height: int,
+                     margin_px: float = 4.0) -> bool:
+    """Every corner of the target AABB projects inside the image from base
+    pose (x, y, yaw) — a cheap geometric pre-filter (no occlusion: the
+    rendered visibility stays the measurement)."""
+    from rummagebench.authoring.tasks.probe import points_in_view
+
+    T = planar_T(pose[0], pose[1], z, pose[2]) @ np.asarray(T_base_cam, float)
+    return points_in_view(K, T, width, height, box_corners(aabb), margin_px)
+
+
+def target_ring(target_xy, distances=VIEW_RING_DISTANCES_M,
+                bearings_deg=VIEW_RING_BEARINGS_DEG) -> list[tuple[float, float, float]]:
+    """Base poses at each distance / bearing from the target, facing it."""
+    out = []
+    for d in distances:
+        for b in bearings_deg:
+            a = math.radians(b)
+            out.append((target_xy[0] - d * math.cos(a), target_xy[1] - d * math.sin(a),
+                        math.atan2(math.sin(a), math.cos(a))))
+    return out
 
 
 def click_point(frame, backend, entity: str, patch: int = 11) -> Optional[tuple[float, float]]:
@@ -115,6 +172,8 @@ class TaskCertifier:
 
         out = EpisodeCertification()
         ev = out.evidence
+        self._view_pose = None  # witness viewpoint, offered to the oracle as an anchor
+        self._target_slot_id = plan.target.slot_id
         ev.reachable_candidate_slot_count = self._reachable_candidates(cert.candidate_slots)
         scenario = load_scenario(scenario_path)
         prepare_renderer_grounding(scenario)
@@ -139,7 +198,10 @@ class TaskCertifier:
             out.details["build_seconds"] = round(time.time() - t0, 1)
 
             self._witness(backend, scenario, plan, out)
-            if ev.settle_ok is not False:
+            # medium: a target graspable under its cover is rejected whatever
+            # the oracle says; skip the (long) oracle search
+            premature = plan.mode in ("buried", "covered") and ev.pre_reveal_graspable
+            if ev.settle_ok is not False and not premature:
                 self._oracle(backend, scenario, out)
         except Exception as e:
             logger.exception("certification of %s failed", plan.task_id)
@@ -157,7 +219,7 @@ class TaskCertifier:
         n = 0
         for sid in candidate_slots:
             inter = self.overlay.slots.get(sid)
-            if inter is not None and inter.usable(by_id[sid].requires_open, False):
+            if inter is not None and inter.usable(by_id[sid].requires_open):
                 n += 1
         return n
 
@@ -239,6 +301,9 @@ class TaskCertifier:
             ev.pre_reveal_graspable = self._feasible(inner, "GRASP", target)
             if not self._click(vs, backend, "OPEN", slot.parent_entity, step, out):
                 return
+        if plan.mode in ("buried", "covered") and not self._uncover(vs, backend, inner, scenario, plan,
+                                                       slot, target, step, out):
+            return
 
         # find a viewpoint for the REAL target (the agent may step back, turn,
         # sidestep): cheapest MOVE/TURN-reachable pose that sees + grasps it
@@ -249,6 +314,7 @@ class TaskCertifier:
         elif view != "here":
             if not self._drive_pose(vs, backend, plan, view, "view", step, out):
                 return
+            self._view_pose = view
         revealed = measure_visibility(backend, target).to_dict()
         out.details["revealed_visibility"] = revealed
         ev.revealed_visibility = _vis_value(revealed)
@@ -259,18 +325,121 @@ class TaskCertifier:
         ev.post_reveal_graspable = feasible_now and grasped
         if not grasped:
             return
-        ev.rearrangement_depth = 0  # reached without moving any other object
+        # objects moved before the target became graspable (0: easy)
+        ev.rearrangement_depth = int(out.details.get("rearrangement_removed", 0))
         if step({"skill": "REPORT_DONE"}) == "EXECUTED" and vs.status() == "SUCCESS":
             ev.certified_execution_steps = len(out.witness_trace)
         else:
             out.details["witness_failure"] = f"REPORT_DONE -> {vs.status()}"
 
+    # ------------------------------------------------- medium: rearrangement
+
+    def _uncover(self, vs, backend, inner, scenario, plan: TaskPlan, slot, target: str,
+                 step, out: EpisodeCertification) -> bool:
+        """Medium buried / covered (tiers/medium.py): after the reveal (OPEN,
+        or reaching the furniture), the target must
+        NOT be graspable from any reachable viewpoint (§11); the witness then
+        removes the covers top-down like an agent — view + GRASP the cover,
+        PLACE it on a reachable surface — until the target is graspable. The
+        number moved is the measured rearrangement depth."""
+        covers = [o.entity for o in plan.distractors if o.role == "cover"][::-1]
+        pre = self._find_view_pose(backend, inner, scenario, plan, slot, target, out,
+                                   need_visible=False)
+        out.details["covered_view_search"] = out.details.pop("view_search", None)
+        if pre is not None:
+            out.evidence.pre_reveal_graspable = True
+            out.details["witness_failure"] = "target graspable before any cover is moved"
+            return False
+        removed = 0
+        for c in covers:
+            v = self._find_view_pose(backend, inner, scenario, plan, slot, c, out)
+            out.details[f"cover_{removed}_view_search"] = out.details.pop("view_search", None)
+            if v is None:
+                out.details["witness_failure"] = f"cover {c}: no pose sees and can grasp it"
+                return False
+            if v != "here" and not self._drive_pose(vs, backend, plan, v, f"cover_{removed}",
+                                                    step, out):
+                return False
+            if not self._click(vs, backend, "GRASP", c, step, out):
+                return False
+            if not self._place_held(vs, backend, inner, scenario, plan, step, out, removed):
+                return False
+            removed += 1
+            if removed < len(covers):  # enough already? (counterfactual, no steps)
+                done = self._find_view_pose(backend, inner, scenario, plan, slot, target, out)
+                out.details.pop("view_search", None)
+                if done is not None:
+                    break
+        out.details["rearrangement_removed"] = removed
+        return True
+
+    def _place_held(self, vs, backend, inner, scenario, plan: TaskPlan, step,
+                    out: EpisodeCertification, k: int) -> bool:
+        """Cheapest (pose, receptacle) where PLACE of the held object is
+        feasible and the receptacle is clickable: the current pose or any
+        furniture anchor of the room; evaluated counterfactually, then driven
+        to and clicked."""
+        from copy import deepcopy
+
+        from rummagebench.core.scenario import AnchorSpec
+        from rummagebench.skills.move import quat_from_yaw, yaw_from_quat
+        from rummagebench.sim.omnigibson.visibility import visible_entities_in_view
+
+        room_furn = sorted(f.entity for f in self.ss.furniture if f.room == plan.room)
+        pos, quat = backend.robot_pose()
+        here = (float(pos[0]), float(pos[1]), yaw_from_quat(quat))
+        poses = [(0, "here", here)]
+        lim = self._limits_from(scenario)
+        for name in room_furn:
+            a = scenario.anchors.get(name)
+            if a is None:
+                continue
+            g = (a.position[0], a.position[1], yaw_from_quat(list(a.orientation)))
+            route, _, _ = self._plan(backend, plan, here, g, lim)
+            if route is not None:
+                poses.append((route.steps, name, g))
+        poses.sort(key=lambda p: p[0])
+        snapshot = deepcopy(backend.capture_observe_state())
+        tried, found = [], None
+        try:
+            for steps, key, (x, y, yaw) in poses:
+                if key != "here":
+                    backend.teleport_robot(AnchorSpec(position=[x, y, pos[2]],
+                                                      orientation=quat_from_yaw(yaw)))
+                    backend.settle(5)
+                seen = visible_entities_in_view(backend, 300)
+                for r in room_furn:
+                    if r not in seen:
+                        continue
+                    ok = self._feasible(inner, "PLACE", r)
+                    tried.append({"pose": key, "steps": steps, "receptacle": r, "place": ok})
+                    if ok:
+                        found = (steps, key, (x, y, yaw), r)
+                        break
+                backend.restore_observe_state(deepcopy(snapshot))
+                if found:
+                    break
+        finally:
+            backend.restore_observe_state(deepcopy(snapshot))
+        out.details[f"place_search_{k}"] = tried
+        if found is None:
+            out.details["witness_failure"] = "no reachable pose can PLACE the held cover"
+            return False
+        _, key, goal, r = found
+        if key != "here" and not self._drive_pose(vs, backend, plan, goal, f"place_{k}",
+                                                  step, out):
+            return False
+        return self._click(vs, backend, "PLACE", r, step, out)
+
     def _find_view_pose(self, backend, inner, scenario, plan: TaskPlan, slot, target: str,
-                        out: EpisodeCertification):
+                        out: EpisodeCertification, need_visible: bool = True):
         """Cheapest MOVE/TURN-reachable pose (current pose, the probe's reveal
         pose, or any interaction-anchor candidate of the furniture) from which
         the REAL target is visible (>= reveal_min) and GRASP is feasible.
-        'here' = the current pose; None = no such pose. Poses are evaluated
+        'here' = the current pose; None = no such pose. need_visible=False
+        asks only for PHYSICAL graspability (medium's covered target: an
+        invisible target the full-information oracle can still side-grasp
+        under its cover is not buried, A.12). Poses are evaluated
         counterfactually with OBSERVE's capture/restore (no physics steps,
         no agent steps); only the chosen route is then executed."""
         from copy import deepcopy
@@ -295,12 +464,56 @@ class TaskCertifier:
         cands += [(here[0] - d * math.cos(here[2]), here[1] - d * math.sin(here[2]), here[2])
                   for d in np.arange(0.05, 1.0001, 0.05)]
         lim = self._limits_from(scenario)
+        # walk up to the real target: a ring of poses facing it, kept when
+        # the footprint is free and the target's AABB projects into the view
+        taabb = backend.entity_aabb(target)
+        sees = None
+        if taabb is not None:
+            tc = [(taabb[0][i] + taabb[1][i]) / 2.0 for i in range(3)]
+            fr = backend.capture_visual_frame()
+            T_base_cam = np.linalg.inv(planar_T(here[0], here[1], float(pos[2]), here[2])) \
+                @ np.asarray(fr.camera_extrinsics, float)
+
+            def sees(c):
+                return predicts_in_view(fr.camera_intrinsics, T_base_cam, c, float(pos[2]),
+                                        taabb, fr.image_width, fr.image_height)
+            ring = target_ring(tc[:2])
+            chk = FootprintChecker.from_backend(backend, BASE_HALF_EXTENT,
+                                                BASE_MARGIN + ROUTE_SLACK)
+            free = chk.free_many(*(np.array(v) for v in zip(*ring)))
+            ring = [c for c, ok in zip(ring, free) if ok and sees(c)]
+            ring.sort(key=lambda c: abs(math.hypot(c[0] - tc[0], c[1] - tc[1])
+                                        - VIEW_PREFERRED_DISTANCE_M))
+            cands += ring[:MAX_VIEW_ROUTE_PLANS]
+            out.details["view_target_aabb"] = [list(map(float, taabb[0])),
+                                               list(map(float, taabb[1]))]
         ranked = [(0, "here", here)]
         for c in cands:
             route, _, _ = self._plan(backend, plan, here, tuple(c), lim)
             if route is not None:
                 ranked.append((route.steps, tuple(float(v) for v in c), tuple(c)))
-        ranked.sort(key=lambda r: r[0])
+
+        def plausible(c):  # target predicted in view AND within arm's reach band
+            if taabb is None:
+                return True
+            d = math.hypot(c[0] - tc[0], c[1] - tc[1])
+            return VIEW_REACH_BAND_M[0] <= d <= VIEW_REACH_BAND_M[1] and sees(c)
+
+        def rank(r):  # "here" first, then plausible poses, cheapest, nearest 1 m
+            steps, key, c = r
+            dist = 0.0 if taabb is None else abs(
+                math.hypot(c[0] - tc[0], c[1] - tc[1]) - VIEW_PREFERRED_DISTANCE_M)
+            return (key != "here", not plausible(c), steps, round(dist, 2))
+        ranked.sort(key=rank)
+        seen_keys, uniq = set(), []
+        for r in ranked:  # one try per distinct pose
+            k = tuple(round(v, 3) for v in r[2])
+            if k not in seen_keys:
+                seen_keys.add(k)
+                uniq.append(r)
+        ranked = uniq
+        if sees is not None:  # out-of-view poses cannot pass; keep "here" (measured)
+            ranked = [r for r in ranked if r[1] == "here" or sees(r[2])] or ranked[:1]
         if len(ranked) == 1:  # replayable on CPU, like route_debug
             chk = FootprintChecker.from_backend(backend, BASE_HALF_EXTENT, BASE_MARGIN)
             out.details["view_debug"] = {
@@ -319,7 +532,8 @@ class TaskCertifier:
                                                       orientation=quat_from_yaw(yaw)))
                     backend.settle(5)  # as after a real MOVE / TURN
                 vis = _vis_value(measure_visibility(backend, target).to_dict())
-                grasp = vis >= self.reveal_min and self._feasible(inner, "GRASP", target)
+                grasp = ((not need_visible or vis >= self.reveal_min)
+                         and self._feasible(inner, "GRASP", target))
                 tried.append({"pose": [round(x, 3), round(y, 3), round(yaw, 3)],
                               "route_steps": steps, "visibility": round(vis, 3),
                               "grasp": grasp})
@@ -405,12 +619,56 @@ class TaskCertifier:
 
     # ------------------------------------------------------------- oracle
 
+    def _register_view_anchor(self, backend, scenario, out: EpisodeCertification) -> None:
+        """The full-information oracle navigates over the scenario's
+        evaluator-private anchors only (§23). When the witness had to walk to
+        a viewpoint that no anchor covers (e.g. the far end of a long
+        counter), that pose becomes the anchor ``<furniture>__view`` —
+        validated exactly like the builder validates anchors (teleport into
+        the reset world, settle, stay within 0.5 m) — so d* is computed with
+        the same reachable viewpoint. The worker writes it into the candidate
+        scenario, so replaying the certified file reproduces the certificate."""
+        from rummagebench.authoring.tasks.compile import VIEW_ANCHOR_SUFFIX
+        from rummagebench.core.scenario import AnchorSpec
+        from rummagebench.skills.move import quat_from_yaw, yaw_from_quat
+
+        if self._view_pose is None:
+            return
+        x, y, yaw = (float(v) for v in self._view_pose)
+        for a in scenario.anchors.values():  # already an anchor (e.g. the reveal pose)
+            if (abs(a.position[0] - x) < 1e-3 and abs(a.position[1] - y) < 1e-3
+                    and abs(math.remainder(yaw_from_quat(list(a.orientation)) - yaw,
+                                           2 * math.pi)) < 1e-3):
+                return
+        z = float(scenario.anchors[scenario.robot.init_anchor].position[2])
+        anchor = AnchorSpec(position=[round(x, 4), round(y, 4), round(z, 4)],
+                            orientation=[round(v, 6) for v in quat_from_yaw(yaw)])
+        slot = self.ss.by_id()[self._target_slot_id]
+        name = f"{slot.parent_entity}{VIEW_ANCHOR_SUFFIX}"
+        backend.reset()
+        backend.teleport_robot(anchor)
+        backend.settle(5)
+        backend.validate_physics_state()
+        pos, _ = backend.robot_pose()
+        dist = float(np.linalg.norm(np.asarray(pos) - np.asarray(anchor.position)))
+        backend.reset()
+        rec = {"name": name, "position": anchor.position,
+               "orientation": anchor.orientation, "validation_distance": round(dist, 4)}
+        out.details["view_anchor"] = rec
+        if dist > 0.5:
+            rec["rejected"] = True
+            return
+        scenario.anchors[name] = anchor
+        backend._validated_anchor_poses[name] = (tuple(anchor.position),
+                                                 tuple(anchor.orientation))
+
     def _oracle(self, backend, scenario, out: EpisodeCertification) -> None:
         from rummagebench.core.session import BenchmarkSession
         from rummagebench.core.types import Action
         from rummagebench.evaluation.certification import certify_episode
 
         ev = out.evidence
+        self._register_view_anchor(backend, scenario, out)
         session = BenchmarkSession(backend, scenario)
         session.reset()
         t0 = time.time()
@@ -426,6 +684,11 @@ class TaskCertifier:
                 c.reason = "PLAN_REPLAY_FAILED"
         ev.oracle_solvable = bool(c.solvable)
         ev.oracle_depth = c.oracle_depth
+        if c.solvable and c.oracle_plan:
+            ev.oracle_rearrangement_depth = sum(
+                1 for a in c.oracle_plan
+                if a.get("skill") == "GRASP"
+                and (a.get("target") or {}).get("value") != scenario.target.entity)
         ev.replay_success = c.plan_replay_status == "SUCCESS"
         out.oracle_certificate = c.to_dict()
         out.details["oracle_seconds"] = round(time.time() - t0, 1)

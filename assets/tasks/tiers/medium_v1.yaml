@@ -1,16 +1,29 @@
-# Medium tier contract: single room, candidate search, clutter, bounded
-# rearrangement, perceptual distractors. Planning is disabled; the
-# structural contract is enforced on any certificate.
+# Medium v1 (TASK_TIERS_PLAN §9-§11, §29): single room, candidate search,
+# bounded rearrangement, perceptual distractors.
+#
+# Pilot design (appendix A.10, GPU experiments runs/medium_probe/): mode
+# "buried" — a flat target in a causal-reveal drawer with 1-2 flat covers
+# dropped onto it. §10's 6-10 item container population is NOT physically
+# available here: a BEHAVIOR drawer link holding 5 random items fails
+# placement (pushes the neighbour drawer open) and random clutter never
+# hides a small target; the population is therefore target + covers.
+#
+# Covers are stacked pose-level on the target by the builder (centred,
+# target's orientation, then settled and verified, A.12); PLACE onto support
+# furniture is grounded on reachable top-surface points (Core fix, A.12).
 tier: medium
 version: 1
-planner_enabled: false
+planner_enabled: true
 
 budget:
   max_planning_steps: 16
   search_reserve_steps: 2
 
+# buried: stack in a causal-reveal drawer / cabinet (OPEN, containment 1)
+# covered: stack on a counter / table / desk (containment 0), A.12
 modes:
-  rummage: 1.0
+  buried: 0.5
+  covered: 0.5
 
 search:
   room_count: 1
@@ -19,15 +32,59 @@ search:
   rearrangement_depth: [1, 4]
   lookalike_count: [1, 4]
 
-# clutter density, NOT action depth: independent of rearrangement_depth
-target_container_total_items: [6, 10]
+# curated perceptual lookalikes (on top of the eligibility taxonomy, which
+# keeps spoon / fork / knife apart): without them small targets have no
+# lookalike and medium (lookalike >= 1) only offers plates and boards (A.12)
+lookalike_groups:
+  - [tablespoon, tablefork, carving_knife, spatula, tongs]
+  - [sunglasses, eyeglasses]
+  - [notebook, folder]
+  - [mouse, calculator]
+  - [bar_soap, scrub_brush]
+
+# clutter density, NOT action depth (§10): target + covers in the target link
+target_container_total_items: [2, 3]
+covers: [1, 2]
+
+target_slot:
+  extra_items: [0, 0]
+  max_fill_ratio: 0.60
+
+other_containers:
+  occupied_fraction: [0.3, 0.6]
+  items: [1, 1]
+
+other_surfaces:
+  items: [0, 3]
+
+max_distractors: 12
+
+# rearrangement needs non-target GRASPs: recoverable, as in the visual agent
+# protocol (README Final Agent Protocol rule 8)
+fail_on_wrong_grasp: false
 
 gates:
   start_visibility_max: 0.0
   modes:
-    rummage:
+    buried:
       open_required: true
       # not directly graspable before the required rearrangement
       pre_reveal_graspable: false
       revealed_visibility_min: 0.60
       generator_visibility_margin: 0.65
+    covered:
+      open_required: false
+      pre_reveal_graspable: false
+      revealed_visibility_min: 0.60
+      generator_visibility_margin: 0.65
+
+instructions:
+  templates:
+    - "Find the {object}. It should be somewhere in this {room}."
+    - "I need my {object}. Please look for it in the {room} and pick it up."
+    - "Could you get the {object} for me? It is in the {room}."
+  # search scoped to a landmark region (when the whole room is too wide)
+  region_templates:
+    - "Find the {object}. It should be right next to the {landmark} in the {room}."
+    - "I left my {object} somewhere by the {landmark} in the {room}. Please get it."
+    - "Could you get the {object} for me? Look around the {landmark} in the {room}."

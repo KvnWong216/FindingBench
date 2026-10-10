@@ -7,7 +7,7 @@ robot:
   urdf_path: build/robots/r1pro.urdf
   urdf_hash: 302f4704da7b412b3c52086bf7773d304e3b7e0c9aa403b4c863c56f7455c9d7
 status: probed
-source: probe:v5:2026-10-05:3b3b76817913
+source: probe:v5:2026-10-05:1359cc2f73be
 notes:
 - 'probed rooms: [''living_room_0'', ''playroom_0'', ''utility_room_0'']'
 - 'probe object: apple/agveuv'
@@ -1242,8 +1242,8 @@ slots:
   Merom_0_int/bottom_cabinet_dajebq_0/interior:
     navigation_anchor:
       position:
-      - -1.3742
-      - 4.9746
+      - -1.3744
+      - 4.7519
       - 0.0053
       orientation:
       - 0.0
@@ -1262,43 +1262,31 @@ slots:
       grasp_from:
       - 0
       - 1
+      - 2
       - 3
-      - 4
-      - 8
-      - 11
-      - 12
-      - 17
       visibility_by_anchor:
         '0': 1.0
         '1': 0.0
+        '2': 0.031
         '3': 1.0
-        '4': 1.0
-        '8': 1.0
-        '11': 1.0
-        '12': 1.0
-        '17': 1.0
-      anchor_index: 8
+      anchor_index: 6
       open_feasible: true
       grasp_feasible: true
-      reveal_route_steps: 0
       reveal_anchor_index: null
       reveal_anchor: null
-      open_visibility: &id001
-        visible_px: 0
-        reference_px: 0
-        ratio: null
+      open_visibility:
+        visible_px: 662
+        reference_px: 814
+        ratio: 0.8132678132678133
         consistent: true
         attempts: 1
-      reveal_rejected:
-        anchor_index: 8
-        pass3_visibility: *id001
       closed_relation_ok: true
       closed_containing_link: null
       closed_graspable: false
       closed_visibility:
-        visible_px: 0
-        reference_px: 0
-        ratio: null
+        visible_px: 24
+        reference_px: 811
+        ratio: 0.029593094944512947
         consistent: true
         attempts: 1
   Merom_0_int/bottom_cabinet_no_top_vdedzt_0/interior:
@@ -1330,8 +1318,8 @@ slots:
       reveal_anchor: null
       open_visibility:
         visible_px: 0
-        reference_px: 0
-        ratio: null
+        reference_px: 479
+        ratio: 0.0
         consistent: true
         attempts: 1
       closed_relation_ok: true
@@ -1339,8 +1327,8 @@ slots:
       closed_graspable: false
       closed_visibility:
         visible_px: 0
-        reference_px: 0
-        ratio: null
+        reference_px: 479
+        ratio: 0.0
         consistent: true
         attempts: 1
   Merom_0_int/breakfast_table_skczfi_0/on_top:
@@ -1358,6 +1346,16 @@ slots:
     grasp_region_feasible: true
     probed: true
     note: ''
+    reveal_anchor:
+      position:
+      - -1.4237
+      - -0.1289
+      - 0.0053
+      orientation:
+      - 0.0
+      - 0.0
+      - 0.999998
+      - 0.00205
     evidence:
       placed: true
       sampler_ok: true
@@ -1365,23 +1363,43 @@ slots:
       containing_link: null
       grasp_from:
       - 0
+      - 1
+      - 3
+      - 4
+      - 5
+      - 6
       visibility_by_anchor:
         '0': 1.0
+        '1': 1.0
+        '3': 1.0
+        '4': 1.0
+        '5': 1.0
+        '6': 1.0
       anchor_index: 1
       open_feasible: null
       grasp_feasible: true
-      reveal_anchor_index: null
-      reveal_anchor: null
+      reveal_route_steps: 0
+      reveal_anchor_index: 1
+      reveal_anchor:
+        position:
+        - -1.4237
+        - -0.1289
+        - 0.0053
+        orientation:
+        - 0.0
+        - 0.0
+        - 0.999998
+        - 0.00205
       open_visibility:
-        visible_px: 2085
-        reference_px: 2085
+        visible_px: 777
+        reference_px: 777
         ratio: 1.0
         consistent: true
         attempts: 1
   Merom_0_int/countertop_tpuwys_0/on_top:
     navigation_anchor:
       position:
-      - -1.1951
+      - -2.0057
       - 7.4913
       - 0.0053
       orientation:
@@ -1393,68 +1411,40 @@ slots:
     grasp_region_feasible: true
     probed: true
     note: ''
-    reveal_anchor:
-      position:
-      - -1.1951
-      - 7.4913
-      - 0.0053
-      orientation:
-      - 0.0
-      - 0.0
-      - 0.707105
-      - 0.707108
     evidence:
       placed: true
       sampler_ok: true
       relation_ok: true
       containing_link: null
       grasp_from:
-      - 0
-      - 2
-      - 3
-      - 5
-      - 6
-      - 8
-      - 9
+      - 1
+      - 4
+      - 7
       - 10
-      - 11
-      - 12
-      - 15
-      - 18
+      - 13
+      - 16
       visibility_by_anchor:
-        '0': 0.0
-        '2': 0.0
-        '3': 1.0
-        '5': 1.0
-        '6': 1.0
-        '8': 1.0
-        '9': 1.0
+        '1': 0.0
+        '4': 1.0
+        '7': 1.0
         '10': 1.0
-        '11': 1.0
-        '12': 1.0
-        '15': 1.0
-        '18': 1.0
-      anchor_index: 3
+        '13': 1.0
+        '16': 1.0
+      anchor_index: 4
       open_feasible: null
       grasp_feasible: true
       reveal_route_steps: 0
-      reveal_anchor_index: 3
-      reveal_anchor:
-        position:
-        - -1.1951
-        - 7.4913
-        - 0.0053
-        orientation:
-        - 0.0
-        - 0.0
-        - 0.707105
-        - 0.707108
-      open_visibility:
-        visible_px: 1094
-        reference_px: 1094
-        ratio: 1.0
+      reveal_anchor_index: null
+      reveal_anchor: null
+      open_visibility: &id001
+        visible_px: 0
+        reference_px: 0
+        ratio: null
         consistent: true
         attempts: 1
+      reveal_rejected:
+        anchor_index: 4
+        pass3_visibility: *id001
   Merom_0_int/countertop_tpuwys_1/on_top:
     navigation_anchor:
       position:
@@ -1495,16 +1485,18 @@ slots:
       - 9
       - 10
       - 12
+      - 13
       visibility_by_anchor:
-        '0': 0.999
+        '0': 1.0
         '1': 1.0
-        '3': 0.997
+        '3': 0.999
         '4': 1.0
-        '6': 0.995
+        '6': 1.0
         '7': 0.998
-        '9': 0.998
-        '10': 0.99
-        '12': 1.0
+        '9': 1.0
+        '10': 0.996
+        '12': 0.993
+        '13': 0.993
       anchor_index: 0
       open_feasible: null
       grasp_feasible: true
@@ -1521,9 +1513,9 @@ slots:
         - 0.707105
         - 0.707108
       open_visibility:
-        visible_px: 1142
-        reference_px: 1145
-        ratio: 0.9973799126637555
+        visible_px: 1114
+        reference_px: 1117
+        ratio: 0.9973142345568488
         consistent: true
         attempts: 1
   Merom_0_int/countertop_tpuwys_2/on_top:

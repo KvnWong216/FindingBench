@@ -19,6 +19,8 @@ gates every interaction; execution itself stays symbolic/instant.
 
 from __future__ import annotations
 
+import dataclasses
+
 import logging
 from typing import Any
 
@@ -387,6 +389,11 @@ class BenchmarkSession:
             )
 
         # 5. execute skill (instant symbolic transition; no hidden navigation)
+        if action.skill == "PLACE":
+            point = ((feasibility.details or {}).get("interaction_target") or {}).get(
+                "surface_point")
+            if point is not None:
+                resolved = dataclasses.replace(resolved, place_point=list(point))
         skill = self._registry.get(action.skill)
         assert skill is not None  # semantic validation guarantees this
         skill_result = skill.execute(self._backend, resolved, self._world_state)

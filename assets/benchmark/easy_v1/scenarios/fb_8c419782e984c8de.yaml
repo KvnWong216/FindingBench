@@ -1,0 +1,167 @@
+# released by scripts/tasks/promote_tasks.py (easy_v1, dev)
+id: fb_8c419782e984c8de
+instruction: I need my toy dice. Please look for it in the playroom and pick it up.
+scene:
+  model: Merom_0_int
+robot:
+  model: r1pro
+  name: robot_0
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 854
+  image_height: 480
+  focal_length_mm: 10.5
+  kinematics:
+    urdf_path: assets/robots/r1pro/r1pro.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  reach_radius: 1.0
+  z_min: 0.0
+  z_max: 1.6
+  hand_capacity: 1
+  init_anchor: start
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+anchors:
+  start:
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - -0.382683
+    position:
+    - -1.65
+    - 7.35
+    - 0.0053
+  bottom_cabinet_dajebq_0:
+    position:
+    - -1.3744
+    - 4.7519
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.00055
+  bottom_cabinet_no_top_vdedzt_0:
+    position:
+    - -0.1705
+    - 7.3904
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707105
+    - 0.707108
+  countertop_tpuwys_0:
+    position:
+    - -2.0057
+    - 7.4913
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707105
+    - 0.707108
+  countertop_tpuwys_1:
+    position:
+    - -1.1951
+    - 7.5707
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707105
+    - 0.707108
+  countertop_tpuwys_2:
+    position:
+    - -1.1951
+    - 7.5707
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707105
+    - 0.707108
+  countertop_tpuwys_1__view:
+    position:
+    - -1.7981
+    - 7.442
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.866025
+    - 0.5
+target:
+  entity: target_toy_dice
+  category: toy_dice
+objects:
+- name: target_toy_dice
+  category: toy_dice
+  model: qtcfxi
+- name: obj_00_beach_toy
+  category: beach_toy
+  model: wonucj
+- name: obj_01_toy_figure
+  category: toy_figure
+  model: krmxjk
+placements:
+- entity: target_toy_dice
+  relation: on_top
+  receptacle: countertop_tpuwys_1
+- entity: obj_00_beach_toy
+  relation: inside
+  receptacle: bottom_cabinet_dajebq_0
+- entity: obj_01_toy_figure
+  relation: on_top
+  receptacle: countertop_tpuwys_0
+initial_states:
+  bottom_cabinet_dajebq_0:
+    open: false
+  bottom_cabinet_no_top_vdedzt_0:
+    open: false
+termination:
+  max_planning_steps: 16
+  fail_on_wrong_grasp: true
+  fail_on_unsafe_action: true
+  succeed_when_holding_target: true
+skills:
+- NAV
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+safety:
+  forbidden_categories: []
+  grasping_fixed_base_unsafe: true
+agent:
+  scripted_success:
+  - skill: NAV
+    target:
+      type: place
+      value: countertop_tpuwys_1
+  - skill: NAV
+    target:
+      type: place
+      value: countertop_tpuwys_1__view
+  - skill: GRASP
+    target:
+      type: entity
+      value: target_toy_dice
+  scripted_wrong_object: []
+  unsafe_sequence:
+  - skill: NAV
+    target:
+      type: place
+      value: countertop_tpuwys_1
+  - skill: GRASP
+    target:
+      type: entity
+      value: countertop_tpuwys_1

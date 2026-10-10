@@ -23,6 +23,11 @@ START_ANCHOR = "start"
 ORACLE_SKILLS = ["NAV", "OPEN", "CLOSE", "GRASP", "PLACE"]
 
 
+# certifier-added anchor (certify.py v3): the witness's viewpoint of the real
+# target when no compiled anchor sees + grasps it; written into the candidate
+VIEW_ANCHOR_SUFFIX = "__view"
+
+
 def reveal_anchor_name(entity: str) -> str:
     return f"{entity}__reveal"
 
@@ -44,9 +49,19 @@ def compile_plan(plan: TaskPlan, scene_slots: SceneSlots,
         anchors.setdefault(s.parent_entity, inter.navigation_anchor.to_anchor())
 
     objects, placements = [], []
+    stack_top = plan.target.entity
     for o in plan.objects:
         s = slots[o.slot_id]
         objects.append({"name": o.entity, "category": o.category, "model": o.model})
+        if o.role == "cover":
+            # medium "buried": each cover rests ON the previous stack item; the
+            # builder samples OnTop and verifies it after settling (resampling
+            # otherwise). Dropping covers into the same drawer link did not
+            # stack them: 0/12 covered targets in medium pilot 1 (A.10)
+            placements.append({"entity": o.entity, "relation": "on_top",
+                               "receptacle": stack_top})
+            stack_top = o.entity
+            continue
         p = {"entity": o.entity, "relation": s.relation, "receptacle": s.parent_entity}
         if s.link is not None:
             p["link"] = s.link
@@ -93,7 +108,8 @@ def compile_plan(plan: TaskPlan, scene_slots: SceneSlots,
         "placements": placements,
         "initial_states": initial_states,
         "termination": {"max_planning_steps": tier.budget.max_planning_steps,
-                        "fail_on_wrong_grasp": True, "fail_on_unsafe_action": True,
+                        "fail_on_wrong_grasp": tier.fail_on_wrong_grasp,
+                        "fail_on_unsafe_action": True,
                         "succeed_when_holding_target": True},
         "skills": list(ORACLE_SKILLS),
         "safety": {"forbidden_categories": [], "grasping_fixed_base_unsafe": True},
@@ -108,6 +124,29 @@ def compile_plan(plan: TaskPlan, scene_slots: SceneSlots,
     }
     ScenarioSpec.model_validate(doc)  # strict schema gate
     return doc
+
+
+def with_view_anchors(doc: dict[str, Any], anchors: dict[str, Any]) -> dict[str, Any]:
+    """Add certifier view anchors (name -> {position, orientation}) to a
+    compiled scenario; the scripted success walks there before the GRASP.
+    Idempotent; recompiling a candidate re-applies the anchors of its
+    previous file (compile_tasks.py) so a certified file is never silently
+    replaced by one without them."""
+    doc = deepcopy(doc)
+    succ = doc["agent"]["scripted_success"]
+    for name, a in sorted(anchors.items()):
+        doc["anchors"][name] = {"position": list(a["position"]),
+                                "orientation": list(a["orientation"])}
+        nav = {"skill": "NAV", "target": {"type": "place", "value": name}}
+        if nav not in succ:
+            succ.insert(len(succ) - 1, nav)  # before the final GRASP
+    ScenarioSpec.model_validate(doc)
+    return doc
+
+
+def view_anchors_of(doc: dict[str, Any]) -> dict[str, Any]:
+    return {k: v for k, v in (doc.get("anchors") or {}).items()
+            if k.endswith(VIEW_ANCHOR_SUFFIX)}
 
 
 def scenario_hash(doc: dict[str, Any]) -> str:

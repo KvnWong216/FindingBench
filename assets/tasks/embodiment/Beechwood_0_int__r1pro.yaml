@@ -7,7 +7,7 @@ robot:
   urdf_path: build/robots/r1pro.urdf
   urdf_hash: 302f4704da7b412b3c52086bf7773d304e3b7e0c9aa403b4c863c56f7455c9d7
 status: probed
-source: probe:v5:2026-10-05:3b3b76817913
+source: probe:v5:2026-10-05:1359cc2f73be
 notes:
 - 'probed rooms: [''dining_room_0'', ''kitchen_0'', ''living_room_0'', ''living_room_1'', ''private_office_0'',
   ''utility_room_0'']'
@@ -37,8 +37,6 @@ notes:
   by MOVE/TURN from the room''s start poses'
 - 'desk_rzyfxk_0: no OPEN-feasible, clickable anchor that stays free once open and is reachable by MOVE/TURN
   from the room''s start poses'
-- 'top_cabinet_dmwxyl_0: no OPEN-feasible, clickable anchor that stays free once open and is reachable
-  by MOVE/TURN from the room''s start poses'
 - 'top_cabinet_dmwxyl_2: no OPEN-feasible, clickable anchor that stays free once open and is reachable
   by MOVE/TURN from the room''s start poses'
 - 'top_cabinet_dmwxyl_3: no footprint-free interaction anchor'
@@ -2353,8 +2351,8 @@ slots:
         '5': 0.0
         '6': 0.0
         '7': 0.0
-        '8': 0.987
-        '9': 0.857
+        '8': 0.985
+        '9': 0.85
       floor_in_view_from:
       - 9
       anchor_index: 8
@@ -2373,9 +2371,9 @@ slots:
         - -0.707105
         - 0.707108
       open_visibility:
-        visible_px: 605
-        reference_px: 613
-        ratio: 0.9869494290375204
+        visible_px: 599
+        reference_px: 608
+        ratio: 0.9851973684210527
         consistent: true
         attempts: 1
       closed_relation_ok: true
@@ -2383,7 +2381,7 @@ slots:
       closed_graspable: false
       closed_visibility:
         visible_px: 0
-        reference_px: 355
+        reference_px: 356
         ratio: 0.0
         consistent: true
         attempts: 1
@@ -2424,7 +2422,7 @@ slots:
       - -0.001646
       - 0.999999
     open_feasible: true
-    grasp_region_feasible: false
+    grasp_region_feasible: true
     probed: true
     note: ''
     evidence:
@@ -2433,24 +2431,30 @@ slots:
       relation_ok: true
       containing_link: link_2
       open_floor_slab:
-      - - 5.669706765800452
-        - -6.272529657450341
-        - 0.6800608381830606
-      - - 6.104944535690653
-        - -5.21214732523823
-        - 0.6891736867614721
-      grasp_from: []
-      visibility_by_anchor: {}
+      - - 5.691387120872474
+        - -6.272601183024071
+        - 0.6800613150202188
+      - - 6.126624890762675
+        - -5.2122188508119605
+        - 0.6891741635986303
+      grasp_from:
+      - 4
+      - 5
+      - 6
+      visibility_by_anchor:
+        '4': 0.0
+        '5': 0.0
+        '6': 0.0
       floor_in_view_from: []
       anchor_index: 4
       open_feasible: true
-      grasp_feasible: false
+      grasp_feasible: true
       reveal_anchor_index: null
       reveal_anchor: null
       open_visibility:
-        visible_px: 640
-        reference_px: 658
-        ratio: 0.9726443768996961
+        visible_px: 0
+        reference_px: 0
+        ratio: null
         consistent: true
         attempts: 1
       closed_relation_ok: true
@@ -2458,8 +2462,8 @@ slots:
       closed_graspable: false
       closed_visibility:
         visible_px: 0
-        reference_px: 473
-        ratio: 0.0
+        reference_px: 0
+        ratio: null
         consistent: true
         attempts: 1
   Beechwood_0_int/bottom_cabinet_no_top_pluwfl_0/interior:
@@ -2502,16 +2506,6 @@ slots:
     grasp_region_feasible: true
     probed: true
     note: ''
-    reveal_anchor:
-      position:
-      - 0.1633
-      - -6.5563
-      - 0.0053
-      orientation:
-      - 0.0
-      - 0.0
-      - 0.707105
-      - 0.707108
     evidence:
       placed: true
       sampler_ok: true
@@ -2538,57 +2532,48 @@ slots:
       - 10
       - 11
       visibility_by_anchor:
-        '0': 0.0
+        '0': 1.0
         '1': 1.0
         '2': 0.0
-        '3': 1.0
-        '4': 1.0
-        '5': 1.0
-        '6': 1.0
-        '7': 1.0
+        '3': 0.0
+        '4': 0.0
+        '5': 0.0
+        '6': 0.0
+        '7': 0.0
         '8': 1.0
         '9': 1.0
         '10': 1.0
         '11': 1.0
       floor_in_view_from:
-      - 6
-      - 7
-      - 9
       - 10
       anchor_index: 8
       open_feasible: true
       grasp_feasible: true
       reveal_route_steps: 0
-      reveal_anchor_index: 8
-      reveal_anchor:
-        position:
-        - 0.1633
-        - -6.5563
-        - 0.0053
-        orientation:
-        - 0.0
-        - 0.0
-        - 0.707105
-        - 0.707108
-      open_visibility:
-        visible_px: 2288
-        reference_px: 2288
-        ratio: 1.0
+      reveal_anchor_index: null
+      reveal_anchor: null
+      open_visibility: &id001
+        visible_px: 0
+        reference_px: 0
+        ratio: null
         consistent: true
         attempts: 1
+      reveal_rejected:
+        anchor_index: 8
+        pass3_visibility: *id001
       closed_relation_ok: true
       closed_containing_link: link_1
       closed_graspable: false
       closed_visibility:
         visible_px: 0
-        reference_px: 1494
+        reference_px: 664
         ratio: 0.0
         consistent: true
         attempts: 1
   Beechwood_0_int/bottom_cabinet_no_top_qohxjq_0/link_0:
     navigation_anchor:
       position:
-      - 0.4684
+      - 0.6182
       - -6.5401
       - 0.0053
       orientation:
@@ -2615,7 +2600,7 @@ slots:
       grasp_from: []
       visibility_by_anchor: {}
       floor_in_view_from: []
-      anchor_index: 7
+      anchor_index: 6
       open_feasible: true
       grasp_feasible: false
       reveal_anchor_index: null
@@ -2638,7 +2623,7 @@ slots:
   Beechwood_0_int/bottom_cabinet_no_top_qohxjq_0/link_1:
     navigation_anchor:
       position:
-      - 0.4684
+      - 0.6182
       - -6.5401
       - 0.0053
       orientation:
@@ -2665,7 +2650,7 @@ slots:
       grasp_from: []
       visibility_by_anchor: {}
       floor_in_view_from: []
-      anchor_index: 7
+      anchor_index: 6
       open_feasible: true
       grasp_feasible: false
       reveal_anchor_index: null
@@ -2681,14 +2666,14 @@ slots:
       closed_graspable: false
       closed_visibility:
         visible_px: 0
-        reference_px: 485
+        reference_px: 490
         ratio: 0.0
         consistent: true
         attempts: 1
   Beechwood_0_int/bottom_cabinet_no_top_qohxjq_0/link_2:
     navigation_anchor:
       position:
-      - 0.4684
+      - 0.6182
       - -6.5401
       - 0.0053
       orientation:
@@ -2702,7 +2687,7 @@ slots:
     note: ''
     reveal_anchor:
       position:
-      - 0.4684
+      - 0.6182
       - -6.5401
       - 0.0053
       orientation:
@@ -2764,14 +2749,14 @@ slots:
       - 13
       - 14
       - 15
-      anchor_index: 7
+      anchor_index: 6
       open_feasible: true
       grasp_feasible: true
       reveal_route_steps: 0
-      reveal_anchor_index: 7
+      reveal_anchor_index: 6
       reveal_anchor:
         position:
-        - 0.4684
+        - 0.6182
         - -6.5401
         - 0.0053
         orientation:
@@ -2780,8 +2765,8 @@ slots:
         - 0.707105
         - 0.707108
       open_visibility:
-        visible_px: 916
-        reference_px: 916
+        visible_px: 908
+        reference_px: 908
         ratio: 1.0
         consistent: true
         attempts: 1
@@ -2790,7 +2775,7 @@ slots:
       closed_graspable: false
       closed_visibility:
         visible_px: 0
-        reference_px: 537
+        reference_px: 534
         ratio: 0.0
         consistent: true
         attempts: 1
@@ -2798,7 +2783,7 @@ slots:
     navigation_anchor:
       position:
       - 4.4747
-      - -0.9914
+      - -0.8414
       - 0.0053
       orientation:
       - 0.0
@@ -2824,7 +2809,7 @@ slots:
       grasp_from: []
       visibility_by_anchor: {}
       floor_in_view_from: []
-      anchor_index: 8
+      anchor_index: 6
       open_feasible: true
       grasp_feasible: false
       reveal_anchor_index: null
@@ -2840,15 +2825,15 @@ slots:
       closed_graspable: false
       closed_visibility:
         visible_px: 0
-        reference_px: 294
-        ratio: 0.0
+        reference_px: 0
+        ratio: null
         consistent: true
         attempts: 1
   Beechwood_0_int/bottom_cabinet_slgzfc_0/link_2:
     navigation_anchor:
       position:
       - 4.4747
-      - -0.9914
+      - -0.8414
       - 0.0053
       orientation:
       - 0.0
@@ -2874,7 +2859,7 @@ slots:
       grasp_from: []
       visibility_by_anchor: {}
       floor_in_view_from: []
-      anchor_index: 8
+      anchor_index: 6
       open_feasible: true
       grasp_feasible: false
       reveal_anchor_index: null
@@ -2890,7 +2875,7 @@ slots:
       closed_graspable: false
       closed_visibility:
         visible_px: 0
-        reference_px: 305
+        reference_px: 373
         ratio: 0.0
         consistent: true
         attempts: 1
@@ -2898,7 +2883,7 @@ slots:
     navigation_anchor:
       position:
       - 4.4747
-      - -0.9914
+      - -0.8414
       - 0.0053
       orientation:
       - 0.0
@@ -2924,15 +2909,15 @@ slots:
       grasp_from: []
       visibility_by_anchor: {}
       floor_in_view_from: []
-      anchor_index: 8
+      anchor_index: 6
       open_feasible: true
       grasp_feasible: false
       reveal_anchor_index: null
       reveal_anchor: null
       open_visibility:
         visible_px: 0
-        reference_px: 574
-        ratio: 0.0
+        reference_px: 0
+        ratio: null
         consistent: true
         attempts: 1
       closed_relation_ok: true
@@ -2940,7 +2925,7 @@ slots:
       closed_graspable: false
       closed_visibility:
         visible_px: 0
-        reference_px: 321
+        reference_px: 394
         ratio: 0.0
         consistent: true
         attempts: 1
@@ -2948,7 +2933,7 @@ slots:
     navigation_anchor:
       position:
       - 4.4747
-      - -0.9914
+      - -0.8414
       - 0.0053
       orientation:
       - 0.0
@@ -2962,7 +2947,7 @@ slots:
     reveal_anchor:
       position:
       - 4.4747
-      - -0.9914
+      - -0.8414
       - 0.0053
       orientation:
       - 0.0
@@ -3003,22 +2988,22 @@ slots:
         '6': 1.0
         '7': 1.0
         '8': 1.0
-        '9': 0.868
-        '10': 0.872
+        '9': 0.87
+        '10': 0.873
       floor_in_view_from:
       - 7
       - 8
       - 9
       - 10
-      anchor_index: 8
+      anchor_index: 6
       open_feasible: true
       grasp_feasible: true
       reveal_route_steps: 0
-      reveal_anchor_index: 8
+      reveal_anchor_index: 6
       reveal_anchor:
         position:
         - 4.4747
-        - -0.9914
+        - -0.8414
         - 0.0053
         orientation:
         - 0.0
@@ -3026,8 +3011,8 @@ slots:
         - 0.707105
         - 0.707108
       open_visibility:
-        visible_px: 616
-        reference_px: 616
+        visible_px: 818
+        reference_px: 818
         ratio: 1.0
         consistent: true
         attempts: 1
@@ -3036,7 +3021,7 @@ slots:
       closed_graspable: false
       closed_visibility:
         visible_px: 0
-        reference_px: 344
+        reference_px: 423
         ratio: 0.0
         consistent: true
         attempts: 1
@@ -3171,7 +3156,7 @@ slots:
       reveal_route_steps: 0
       reveal_anchor_index: null
       reveal_anchor: null
-      open_visibility: &id001
+      open_visibility: &id002
         visible_px: 0
         reference_px: 0
         ratio: null
@@ -3179,7 +3164,7 @@ slots:
         attempts: 1
       reveal_rejected:
         anchor_index: 0
-        pass3_visibility: *id001
+        pass3_visibility: *id002
   Beechwood_0_int/breakfast_table_uhrsex_0/on_top:
     navigation_anchor:
       position:
@@ -3192,24 +3177,48 @@ slots:
       - -0.707105
       - 0.707108
     open_feasible: null
-    grasp_region_feasible: false
+    grasp_region_feasible: true
     probed: true
     note: ''
+    reveal_anchor:
+      position:
+      - 1.4401
+      - -7.8821
+      - 0.0053
+      orientation:
+      - 0.0
+      - 0.0
+      - -0.707105
+      - 0.707108
     evidence:
       placed: true
       sampler_ok: true
       relation_ok: true
       containing_link: null
-      grasp_from: []
-      visibility_by_anchor: {}
+      grasp_from:
+      - 0
+      - 1
+      visibility_by_anchor:
+        '0': 1.0
+        '1': 1.0
       anchor_index: 0
       open_feasible: null
-      grasp_feasible: false
-      reveal_anchor_index: null
-      reveal_anchor: null
+      grasp_feasible: true
+      reveal_route_steps: 0
+      reveal_anchor_index: 0
+      reveal_anchor:
+        position:
+        - 1.4401
+        - -7.8821
+        - 0.0053
+        orientation:
+        - 0.0
+        - 0.0
+        - -0.707105
+        - 0.707108
       open_visibility:
-        visible_px: 289
-        reference_px: 289
+        visible_px: 290
+        reference_px: 290
         ratio: 1.0
         consistent: true
         attempts: 1
@@ -3244,6 +3253,7 @@ slots:
       - 7
       - 8
       - 9
+      - 10
       - 11
       visibility_by_anchor:
         '0': 1.0
@@ -3256,6 +3266,7 @@ slots:
         '7': 1.0
         '8': 1.0
         '9': 1.0
+        '10': 1.0
         '11': 1.0
       anchor_index: 0
       open_feasible: null
@@ -3263,7 +3274,7 @@ slots:
       reveal_route_steps: 0
       reveal_anchor_index: null
       reveal_anchor: null
-      open_visibility: &id002
+      open_visibility: &id003
         visible_px: 0
         reference_px: 0
         ratio: null
@@ -3271,7 +3282,7 @@ slots:
         attempts: 1
       reveal_rejected:
         anchor_index: 0
-        pass3_visibility: *id002
+        pass3_visibility: *id003
   Beechwood_0_int/countertop_tpuwys_0/on_top:
     navigation_anchor:
       position:
@@ -3470,7 +3481,7 @@ slots:
       reveal_route_steps: 0
       reveal_anchor_index: null
       reveal_anchor: null
-      open_visibility: &id003
+      open_visibility: &id004
         visible_px: 0
         reference_px: 0
         ratio: null
@@ -3478,7 +3489,7 @@ slots:
         attempts: 1
       reveal_rejected:
         anchor_index: 2
-        pass3_visibility: *id003
+        pass3_visibility: *id004
   Beechwood_0_int/desk_rzyfxk_1/on_top:
     navigation_anchor:
       position:
@@ -3515,6 +3526,7 @@ slots:
       - 2
       - 3
       - 4
+      - 5
       - 6
       visibility_by_anchor:
         '0': 1.0
@@ -3522,6 +3534,7 @@ slots:
         '2': 1.0
         '3': 1.0
         '4': 1.0
+        '5': 1.0
         '6': 1.0
       anchor_index: 0
       open_feasible: null
@@ -3539,9 +3552,51 @@ slots:
         - -4.0e-06
         - 1.0
       open_visibility:
-        visible_px: 657
-        reference_px: 657
+        visible_px: 656
+        reference_px: 656
         ratio: 1.0
+        consistent: true
+        attempts: 1
+  Beechwood_0_int/top_cabinet_dmwxyl_0/interior:
+    navigation_anchor:
+      position:
+      - -0.1625
+      - -6.1365
+      - 0.0053
+      orientation:
+      - 0.0
+      - 0.0
+      - 0.707105
+      - 0.707108
+    open_feasible: true
+    grasp_region_feasible: false
+    probed: true
+    note: ''
+    evidence:
+      placed: true
+      sampler_ok: true
+      relation_ok: true
+      containing_link: null
+      grasp_from: []
+      visibility_by_anchor: {}
+      anchor_index: 0
+      open_feasible: true
+      grasp_feasible: false
+      reveal_anchor_index: null
+      reveal_anchor: null
+      open_visibility:
+        visible_px: 0
+        reference_px: 0
+        ratio: null
+        consistent: true
+        attempts: 1
+      closed_relation_ok: true
+      closed_containing_link: null
+      closed_graspable: false
+      closed_visibility:
+        visible_px: 0
+        reference_px: 0
+        ratio: null
         consistent: true
         attempts: 1
   Beechwood_0_int/top_cabinet_dmwxyl_1/interior:
@@ -3556,7 +3611,7 @@ slots:
       - 0.707105
       - 0.707108
     open_feasible: true
-    grasp_region_feasible: true
+    grasp_region_feasible: false
     probed: true
     note: ''
     evidence:
@@ -3564,19 +3619,17 @@ slots:
       sampler_ok: true
       relation_ok: true
       containing_link: null
-      grasp_from:
-      - 2
-      visibility_by_anchor:
-        '2': 0.0
+      grasp_from: []
+      visibility_by_anchor: {}
       anchor_index: 0
       open_feasible: true
-      grasp_feasible: true
+      grasp_feasible: false
       reveal_anchor_index: null
       reveal_anchor: null
       open_visibility:
-        visible_px: 537
-        reference_px: 1104
-        ratio: 0.48641304347826086
+        visible_px: 1770
+        reference_px: 1770
+        ratio: 1.0
         consistent: true
         attempts: 1
       closed_relation_ok: true
@@ -3584,7 +3637,7 @@ slots:
       closed_graspable: false
       closed_visibility:
         visible_px: 0
-        reference_px: 1104
+        reference_px: 1772
         ratio: 0.0
         consistent: true
         attempts: 1

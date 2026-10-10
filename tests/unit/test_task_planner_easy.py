@@ -302,7 +302,7 @@ def test_cpu_gates_catch_tampered_plans(ctx, outcomes):
 
 def test_disabled_tiers_refuse_to_plan(ctx):
     c = build_ctx()
-    c.tier = load_tier("medium_v1")
+    c.tier = load_tier("medium_v1").model_copy(update={"planner_enabled": False})
     with pytest.raises(RuntimeError):
         plan_episode(c, seed=0, index=0)
 
@@ -497,3 +497,62 @@ def test_unreachable_room_is_rejected_with_reason():
     out = plan_episode(ctx, seed=6, index=0)
     assert out.plan is None
     assert all(gates.START_UNREACHABLE in a["codes"] for a in out.attempts)
+
+
+def test_tall_narrow_items_do_not_fit_on_surfaces():
+    # A.8.4: height / shorter footprint side > 2.5 topples off surfaces
+    from rummagebench.authoring.tasks.planner import fits
+
+    top = _slot("counter", None, "kitchen_0", "countertop", 2.0)
+    drawer = _slot("cab_a", "link_0", "kitchen_0", "drawer", 0.0)
+    spray_bottle = (0.10, 0.08, 0.26)    # 3.25
+    mug = (0.12, 0.09, 0.07)
+    assert not fits(spray_bottle, top) and fits(mug, top)
+    assert fits((0.10, 0.08, 0.14), drawer)  # inside: only the height limit
+
+
+def test_easy_keeps_containers_sparse():
+    spec = load_tier("easy_v1")
+    assert spec.target_slot.extra_items.max <= 1
+    assert spec.other_containers.items.max <= 1
+
+
+def test_excluded_room_types_are_never_drawn():
+    import dataclasses
+
+    ctx = build_ctx()
+    assert plan_episode(ctx, 0, 0, 8).plan is not None
+    no_kitchen = dataclasses.replace(ctx, exclude_room_types=frozenset({"kitchen"}))
+    # the synthetic scene has kitchens only
+    assert plan_episode(no_kitchen, 0, 0, 8).plan is None
+
+
+def test_on_surface_starts_keep_out_of_reach_of_the_target_furniture():
+    """A.9: on_surface starts <= 0.97 m from the target furniture were
+    GRASP-feasible on GPU (TARGET_PREMATURELY_GRASPABLE)."""
+    ctx = build_ctx(wide_room=False)
+    ss, ov = ctx.scenes[SCENE], ctx.overlays[SCENE]
+    ss.footprint_obstacles = {"counter_a": [[1.4, -0.3, 0.0], [2.6, 0.3, 0.9]]}
+    far = StartPose("k0_far", Pose2((1.0, -2.5, 0.0), YAW90), [])
+    ov.start_poses["kitchen_0"] = ov.start_poses["kitchen_0"] + [far]  # k0_start: 0.81 m
+    plans = [o.plan for o in (plan_episode(ctx, seed=12, index=i) for i in range(40)) if o.plan]
+    surf = [p for p in plans if p.mode == "on_surface"]
+    cont = [p for p in plans if p.mode == "in_container"]
+    assert surf and all(p.start_pose == "k0_far" for p in surf)
+    assert any(p.start_pose == "k0_start" for p in cont)  # containers unaffected
+
+
+def test_certifier_view_anchor_is_added_once_before_the_grasp(ctx, outcomes):
+    from rummagebench.authoring.tasks.compile import (
+        compile_plan, view_anchors_of, with_view_anchors)
+
+    plan = next(o.plan for o in outcomes if o.plan)
+    doc = compile_plan(plan, ctx.scenes[SCENE], ctx.overlays[SCENE], ctx.tier)
+    va = {"cab_a__view": {"position": [0.1, -1.5, 0.0], "orientation": list(YAW90)}}
+    once = with_view_anchors(doc, va)
+    twice = with_view_anchors(once, view_anchors_of(once))
+    assert once == twice and view_anchors_of(doc) == {}
+    succ = once["agent"]["scripted_success"]
+    assert succ[-2] == {"skill": "NAV", "target": {"type": "place", "value": "cab_a__view"}}
+    assert succ[-1]["skill"] == "GRASP"
+    ScenarioSpec.model_validate(once)

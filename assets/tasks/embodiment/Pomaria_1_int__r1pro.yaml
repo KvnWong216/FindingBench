@@ -7,7 +7,7 @@ robot:
   urdf_path: build/robots/r1pro.urdf
   urdf_hash: 302f4704da7b412b3c52086bf7773d304e3b7e0c9aa403b4c863c56f7455c9d7
 status: probed
-source: probe:v5:2026-10-05:3b3b76817913
+source: probe:v5:2026-10-05:1359cc2f73be
 notes:
 - 'probed rooms: [''corridor_0'', ''kitchen_0'', ''living_room_0'', ''pantry_room_0'', ''utility_room_0'']'
 - 'probe object: apple/agveuv'
@@ -1660,17 +1660,19 @@ slots:
       visibility_by_anchor:
         '0': 0.0
         '1': 0.0
-        '2': 0.0
-        '3': 0.0
+        '2': 1.0
+        '3': 1.0
         '4': 1.0
         '5': 1.0
-        '6': 0.91
-        '7': 0.913
-        '8': 0.753
-        '9': 0.761
-        '10': 0.551
-        '11': 0.557
+        '6': 1.0
+        '7': 1.0
+        '8': 0.899
+        '9': 0.92
+        '10': 0.73
+        '11': 0.73
       floor_in_view_from:
+      - 4
+      - 5
       - 6
       - 7
       - 8
@@ -1693,8 +1695,8 @@ slots:
         - 0.000746
         - 1.0
       open_visibility:
-        visible_px: 928
-        reference_px: 928
+        visible_px: 1259
+        reference_px: 1259
         ratio: 1.0
         consistent: true
         attempts: 1
@@ -1703,7 +1705,7 @@ slots:
       closed_graspable: false
       closed_visibility:
         visible_px: 0
-        reference_px: 583
+        reference_px: 685
         ratio: 0.0
         consistent: true
         attempts: 1
@@ -1777,9 +1779,9 @@ slots:
       reveal_anchor_index: null
       reveal_anchor: null
       open_visibility:
-        visible_px: 281
-        reference_px: 728
-        ratio: 0.385989010989011
+        visible_px: 0
+        reference_px: 0
+        ratio: null
         consistent: true
         attempts: 1
       closed_relation_ok: true
@@ -1787,15 +1789,15 @@ slots:
       closed_graspable: false
       closed_visibility:
         visible_px: 0
-        reference_px: 728
-        ratio: 0.0
+        reference_px: 0
+        ratio: null
         consistent: true
         attempts: 1
   Pomaria_1_int/breakfast_table_uhrsex_0/on_top:
     navigation_anchor:
       position:
-      - -0.16
-      - -0.8109
+      - -0.4119
+      - -0.811
       - 0.0053
       orientation:
       - 0.0
@@ -1808,8 +1810,8 @@ slots:
     note: ''
     reveal_anchor:
       position:
-      - -0.16
-      - -0.8109
+      - -0.4119
+      - -0.811
       - 0.0053
       orientation:
       - 0.0
@@ -1822,18 +1824,22 @@ slots:
       relation_ok: true
       containing_link: null
       grasp_from:
-      - 1
+      - 0
+      - 2
+      - 5
       visibility_by_anchor:
-        '1': 1.0
-      anchor_index: 1
+        '0': 1.0
+        '2': 1.0
+        '5': 1.0
+      anchor_index: 0
       open_feasible: null
       grasp_feasible: true
       reveal_route_steps: 0
-      reveal_anchor_index: 1
+      reveal_anchor_index: 0
       reveal_anchor:
         position:
-        - -0.16
-        - -0.8109
+        - -0.4119
+        - -0.811
         - 0.0053
         orientation:
         - 0.0
@@ -1841,8 +1847,8 @@ slots:
         - -0.707105
         - 0.707108
       open_visibility:
-        visible_px: 374
-        reference_px: 374
+        visible_px: 336
+        reference_px: 336
         ratio: 1.0
         consistent: true
         attempts: 1
@@ -1861,6 +1867,16 @@ slots:
     grasp_region_feasible: true
     probed: true
     note: ''
+    reveal_anchor:
+      position:
+      - -8.0405
+      - -1.5312
+      - 0.0053
+      orientation:
+      - 0.0
+      - 0.0
+      - -0.707105
+      - 0.707108
     evidence:
       placed: true
       sampler_ok: true
@@ -1883,25 +1899,35 @@ slots:
         '3': 0.0
         '4': 0.0
         '5': 0.0
-        '6': 0.0
-        '7': 0.0
-        '8': 0.0
+        '6': 1.0
+        '7': 1.0
+        '8': 1.0
       anchor_index: 1
       open_feasible: null
       grasp_feasible: true
-      reveal_anchor_index: null
-      reveal_anchor: null
+      reveal_route_steps: 1
+      reveal_anchor_index: 7
+      reveal_anchor:
+        position:
+        - -8.0405
+        - -1.5312
+        - 0.0053
+        orientation:
+        - 0.0
+        - 0.0
+        - -0.707105
+        - 0.707108
       open_visibility:
-        visible_px: 0
-        reference_px: 0
-        ratio: null
+        visible_px: 23
+        reference_px: 23
+        ratio: 1.0
         consistent: true
         attempts: 1
   Pomaria_1_int/coffee_table_gpkbiw_0/on_top:
     navigation_anchor:
       position:
-      - -8.4944
-      - 0.0687
+      - -8.7944
+      - 0.0711
       - 0.0053
       orientation:
       - 0.0
@@ -1914,8 +1940,8 @@ slots:
     note: ''
     reveal_anchor:
       position:
-      - -8.4944
-      - 0.0687
+      - -8.7944
+      - 0.0711
       - 0.0053
       orientation:
       - 0.0
@@ -1929,6 +1955,7 @@ slots:
       containing_link: null
       grasp_from:
       - 0
+      - 1
       - 2
       - 3
       - 4
@@ -1938,6 +1965,7 @@ slots:
       - 8
       visibility_by_anchor:
         '0': 1.0
+        '1': 1.0
         '2': 1.0
         '3': 1.0
         '4': 1.0
@@ -1945,15 +1973,15 @@ slots:
         '6': 1.0
         '7': 1.0
         '8': 1.0
-      anchor_index: 5
+      anchor_index: 1
       open_feasible: null
       grasp_feasible: true
       reveal_route_steps: 0
-      reveal_anchor_index: 5
+      reveal_anchor_index: 1
       reveal_anchor:
         position:
-        - -8.4944
-        - 0.0687
+        - -8.7944
+        - 0.0711
         - 0.0053
         orientation:
         - 0.0
@@ -1961,8 +1989,8 @@ slots:
         - 0.999992
         - 0.004
       open_visibility:
-        visible_px: 615
-        reference_px: 615
+        visible_px: 96
+        reference_px: 96
         ratio: 1.0
         consistent: true
         attempts: 1
@@ -1978,24 +2006,66 @@ slots:
       - 0.707105
       - 0.707108
     open_feasible: null
-    grasp_region_feasible: false
+    grasp_region_feasible: true
     probed: true
     note: ''
+    reveal_anchor:
+      position:
+      - -0.572
+      - -0.0289
+      - 0.0053
+      orientation:
+      - 0.0
+      - 0.0
+      - 0.707105
+      - 0.707108
     evidence:
       placed: true
       sampler_ok: true
       relation_ok: true
       containing_link: null
-      grasp_from: []
-      visibility_by_anchor: {}
+      grasp_from:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      visibility_by_anchor:
+        '0': 1.0
+        '1': 1.0
+        '2': 1.0
+        '3': 1.0
+        '4': 1.0
+        '5': 1.0
+        '6': 1.0
+        '7': 1.0
+        '8': 1.0
+        '9': 1.0
+        '10': 1.0
       anchor_index: 1
       open_feasible: null
-      grasp_feasible: false
-      reveal_anchor_index: null
-      reveal_anchor: null
+      grasp_feasible: true
+      reveal_route_steps: 0
+      reveal_anchor_index: 1
+      reveal_anchor:
+        position:
+        - -0.572
+        - -0.0289
+        - 0.0053
+        orientation:
+        - 0.0
+        - 0.0
+        - 0.707105
+        - 0.707108
       open_visibility:
-        visible_px: 1344
-        reference_px: 1344
+        visible_px: 1063
+        reference_px: 1063
         ratio: 1.0
         consistent: true
         attempts: 1

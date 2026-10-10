@@ -169,6 +169,16 @@ def simulator_violations(cert: SearchStructureCertificate, spec: TierSpec,
                              f"{ev.reachable_candidate_slot_count}", "gpu"))
 
     need(ev.oracle_solvable, PHYSICAL_UNSOLVABLE, "oracle solvability")
+    min_rearr = spec.search.rearrangement_depth.min
+    if min_rearr and ev.oracle_solvable:
+        if ev.oracle_rearrangement_depth is None:
+            out.append(Rejection(TARGET_PREMATURELY_GRASPABLE,
+                                 "oracle rearrangement depth not measured", "gpu"))
+        elif ev.oracle_rearrangement_depth < min_rearr:
+            out.append(Rejection(TARGET_PREMATURELY_GRASPABLE,
+                                 f"full-information oracle moves "
+                                 f"{ev.oracle_rearrangement_depth} < {min_rearr} objects "
+                                 f"(target graspable under its cover)", "gpu"))
     need(ev.replay_success, PHYSICAL_UNSOLVABLE, "certified plan replay")
     if ev.certified_execution_steps is None:
         out.append(Rejection(HORIZON_LOWER_BOUND,

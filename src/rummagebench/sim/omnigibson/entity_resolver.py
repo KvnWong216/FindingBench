@@ -18,11 +18,22 @@ def resolve_object(scene, name: str):
     return obj
 
 
+# Fixed furniture whose top is a support surface (PLACE onto it). BEHAVIOR
+# abilities only mark fillable / `inside` containers as receptacles, which
+# leaves countertops, tables, desks and base cabinets without any PLACE
+# interface; they are support surfaces by category.
+SUPPORT_SURFACE_CATEGORIES = frozenset({
+    "countertop", "bottom_cabinet", "breakfast_table", "coffee_table",
+    "console_table", "pedestal_table", "desk", "shelf",
+})
+
+
 def build_entity_info(obj) -> EntityInfo:
     abilities = obj.abilities or {}
     openable = "openable" in abilities
     fixed_base = bool(getattr(obj, "fixed_base", False))
-    is_receptacle = "fillable" in abilities or "inside" in abilities
+    is_receptacle = ("fillable" in abilities or "inside" in abilities
+                     or (fixed_base and obj.category in SUPPORT_SURFACE_CATEGORIES))
     return EntityInfo(
         name=obj.name,
         category=obj.category,

@@ -91,8 +91,12 @@ class OverlayBackend:
         self._inner = inner
         self._scenario = scenario
         self.current_state: OracleWorldState | None = None
-        # per-open-set snapshots, realized on the real backend by the model
-        self.snapshots: dict[frozenset[str], dict[str, Any]] = {}
+        # per-realization snapshots (open set, displaced objects), realized
+        # on the real backend by the model
+        self.snapshots: dict[tuple[frozenset[str], frozenset[str]], dict[str, Any]] = {}
+        self._initial_relations = frozenset(
+            (p.entity, p.relation, p.receptacle)
+            for p in getattr(scenario, "placements", None) or [])
         self._anchor_cache = {
             name: anchor for name, anchor in scenario.anchors.items()
         }
@@ -129,16 +133,37 @@ class OverlayBackend:
 
     # ---- open-state-dependent data (from the active snapshot) ------------
 
+    def displaced(self, state: OracleWorldState) -> frozenset[str]:
+        """Objects no longer where the scenario put them: held, or PLACEd
+        elsewhere. Empty for every state an easy-tier search reaches (only
+        the target is ever grasped, and that is the goal)."""
+        moved = {r[0] for r in state.object_relations if r not in self._initial_relations}
+        moved |= {r[0] for r in self._initial_relations if r not in state.object_relations}
+        if state.held_object is not None:
+            moved.add(state.held_object)
+        return frozenset(moved)
+
+    def realization_key(self, state: OracleWorldState):
+        return (state.open_entities, self.displaced(state))
+
     def _snapshot(self) -> dict[str, Any] | None:
         if self.current_state is None:
             return None
-        return self.snapshots.get(self.current_state.open_entities)
+        return self.snapshots.get(self.realization_key(self.current_state))
 
     def entity_aabb(self, name: str):
         snap = self._snapshot()
         if snap is not None and name in snap["entity_aabbs"]:
             return snap["entity_aabbs"][name]
         return self._inner.entity_aabb(name)
+
+    def opened_entity_aabb(self, entity: str):
+        """Fully-opened AABB for the OPEN base-intrusion check (A.8 F8).
+        Delegated to the live counterfactual: without it the feasibility
+        engine silently skips the check and the oracle certifies OPENs the
+        session rejects (pilot 3, fb_ae154bf9a4ac5128)."""
+        fn = getattr(self._inner, "opened_entity_aabb", None)
+        return fn(entity) if fn is not None else None
 
     def collision_geometries(self):
         snap = self._snapshot()
@@ -211,8 +236,10 @@ class OracleFeasibilityModel:
 
     Documented approximation: PLACE feasibility is evaluated with the held
     body's grasp offset unknown at plan time (held_offset=None, held body
-    excluded from collision) — PLACE edges can never appear on a shortest
-    path to the hold-the-target goal of this task family.
+    excluded from collision). In easy tasks PLACE edges never lie on a
+    shortest path to the hold-the-target goal; in rearrangement tiers
+    (medium) they do — putting a cover down — and the protocol witness
+    executes that PLACE for real, with the held body checked.
     """
 
     def __init__(self, backend: Any, scenario: ScenarioSpec, feasibility):
@@ -226,7 +253,7 @@ class OracleFeasibilityModel:
         self._production_feasibility = feasibility
         self._robot = None  # set by caller (RobotEmbodiment)
         self._cache: dict[tuple, bool] = {}
-        self._realizing: frozenset[str] | None = None
+        self._realizing = None
 
     @property
     def overlay(self) -> OverlayBackend:
@@ -235,12 +262,21 @@ class OracleFeasibilityModel:
     def bind_robot(self, robot) -> None:
         self._robot = robot
 
-    def _realize(self, opens: frozenset[str]) -> None:
-        """Realize a door configuration on the real backend and snapshot all
-        open-state-dependent quantities."""
-        if opens in self._overlay.snapshots or self._realizing is not None:
+    def _realize(self, key) -> None:
+        """Realize a door configuration (+ displaced objects) on the real
+        backend and snapshot all state-dependent quantities.
+
+        Displaced objects (held, or PLACEd elsewhere — only reachable when
+        grasping non-targets is not terminal, i.e. rearrangement tiers) are
+        moved out of the world for the snapshot: they no longer obstruct
+        their old place. Documented approximation: a PLACEd object does not
+        obstruct its new place either (optimistic for d*; the protocol
+        witness executes the real PLACE)."""
+        opens, displaced = key
+        if key in self._overlay.snapshots or self._realizing is not None:
             return
-        self._realizing = opens
+        self._realizing = key
+        parked: list[tuple[Any, Any]] = []
         try:
             from rummagebench.sim.omnigibson.backend import OmniGibsonBackend
 
@@ -253,6 +289,8 @@ class OracleFeasibilityModel:
                 for e, prev in previous.items():
                     self._inner.set_open(e, e in opens)
                 self._inner.settle(15)
+            if is_real and displaced:
+                parked = self._inner.park_entities(sorted(displaced))
             snap: dict[str, Any] = {
                 "collision_geometries": self._inner.collision_geometries(),
                 "entity_aabbs": {
@@ -279,24 +317,30 @@ class OracleFeasibilityModel:
                     snap["receptacle_regions"][e] = self._inner.receptacle_region(e)
                 except Exception as exc:  # pragma: no cover
                     logger.warning("snapshot region %s failed: %s", e, exc)
-            self._overlay.snapshots[opens] = snap
+            self._overlay.snapshots[key] = snap
             # restore the pre-realization door state so the live session is
             # untouched (the next realization toggles again as needed)
+            if is_real and parked:
+                self._inner.unpark_entities(parked)
+                parked = []
             if is_real and changed:
                 for e, prev in previous.items():
                     self._inner.set_open(e, prev)
                 self._inner.settle(5)
         finally:
+            if parked:
+                self._inner.unpark_entities(parked)
             self._realizing = None
 
     def is_feasible(self, state: OracleWorldState, skill: str, target: str) -> bool:
+        rkey = self._overlay.realization_key(state)
         key = (state.robot_anchor, tuple(sorted(state.open_entities)),
-               state.held_object, skill, target)
+               state.held_object, tuple(sorted(rkey[1])), skill, target)
         cached = self._cache.get(key)
         if cached is not None:
             return cached
         if skill != "NAV":
-            self._realize(state.open_entities)
+            self._realize(rkey)
         self._overlay.current_state = state
         if skill == "NAV":
             self._cache[key] = target in self._scenario.anchors

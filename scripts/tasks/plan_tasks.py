@@ -9,6 +9,7 @@ Failed episodes go to rejections.jsonl with every attempt's codes.
 from __future__ import annotations
 
 import argparse
+import dataclasses
 import json
 from collections import Counter
 
@@ -26,12 +27,17 @@ def main(argv=None) -> int:
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--count", type=int, default=20)
     ap.add_argument("--max-attempts", type=int, default=8)
+    ap.add_argument("--exclude-room-types", nargs="*", default=[],
+                    help="never draw these room types (e.g. a non-kitchen top-up batch)")
     ap.add_argument("--host-config")
     args = ap.parse_args(argv)
 
     host = host_config(args.host_config)
     ctx = load_context(args.tier, args.scenes, args.robot, ASSETS, host["build_root"],
                        behavior_assets_root=host["behavior_assets_root"])
+    if args.exclude_room_types:
+        ctx = dataclasses.replace(ctx, exclude_room_types=frozenset(args.exclude_room_types))
+        ctx.provenance_base["exclude_room_types"] = sorted(args.exclude_room_types)
     out = host["build_root"] / args.tier
     (out / "plans").mkdir(parents=True, exist_ok=True)
     (out / "search_certificates").mkdir(parents=True, exist_ok=True)

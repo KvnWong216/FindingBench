@@ -7,7 +7,7 @@ robot:
   urdf_path: build/robots/r1pro.urdf
   urdf_hash: 302f4704da7b412b3c52086bf7773d304e3b7e0c9aa403b4c863c56f7455c9d7
 status: probed
-source: probe:v5:2026-10-05:3b3b76817913
+source: probe:v5:2026-10-05:1359cc2f73be
 notes:
 - 'probed rooms: [''bedroom_0'', ''dining_room_0'', ''kitchen_0'', ''living_room_0'', ''living_room_1'',
   ''living_room_2'']'
@@ -22,8 +22,6 @@ notes:
 - 'bottom_cabinet_lwjdmj_1: no OPEN-feasible, clickable anchor that stays free once open and is reachable
   by MOVE/TURN from the room''s start poses'
 - 'bottom_cabinet_no_top_bmsclc_0: no footprint-free interaction anchor'
-- 'bottom_cabinet_no_top_pluwfl_0: no OPEN-feasible, clickable anchor that stays free once open and is
-  reachable by MOVE/TURN from the room''s start poses'
 - 'bottom_cabinet_no_top_pluwfl_2: no OPEN-feasible, clickable anchor that stays free once open and is
   reachable by MOVE/TURN from the room''s start poses'
 - 'bottom_cabinet_no_top_qohxjq_0: no footprint-free interaction anchor'
@@ -2826,7 +2824,7 @@ slots:
       reveal_anchor: null
       open_visibility:
         visible_px: 0
-        reference_px: 713
+        reference_px: 711
         ratio: 0.0
         consistent: true
         attempts: 1
@@ -2835,7 +2833,7 @@ slots:
       closed_graspable: false
       closed_visibility:
         visible_px: 0
-        reference_px: 399
+        reference_px: 397
         ratio: 0.0
         consistent: true
         attempts: 1
@@ -2876,7 +2874,7 @@ slots:
       reveal_anchor: null
       open_visibility:
         visible_px: 0
-        reference_px: 734
+        reference_px: 733
         ratio: 0.0
         consistent: true
         attempts: 1
@@ -2885,7 +2883,7 @@ slots:
       closed_graspable: false
       closed_visibility:
         visible_px: 0
-        reference_px: 412
+        reference_px: 417
         ratio: 0.0
         consistent: true
         attempts: 1
@@ -2933,6 +2931,7 @@ slots:
       - 3
       - 4
       - 5
+      - 6
       visibility_by_anchor:
         '0': 1.0
         '1': 1.0
@@ -2940,11 +2939,13 @@ slots:
         '3': 1.0
         '4': 1.0
         '5': 1.0
+        '6': 1.0
       floor_in_view_from:
       - 2
       - 3
       - 4
       - 5
+      - 6
       anchor_index: 5
       open_feasible: true
       grasp_feasible: true
@@ -2961,8 +2962,8 @@ slots:
         - -0.707105
         - 0.707108
       open_visibility:
-        visible_px: 799
-        reference_px: 799
+        visible_px: 663
+        reference_px: 663
         ratio: 1.0
         consistent: true
         attempts: 1
@@ -2971,7 +2972,7 @@ slots:
       closed_graspable: false
       closed_visibility:
         visible_px: 0
-        reference_px: 453
+        reference_px: 391
         ratio: 0.0
         consistent: true
         attempts: 1
@@ -2979,7 +2980,7 @@ slots:
     navigation_anchor:
       position:
       - -1.568
-      - -4.6907
+      - -4.387
       - 0.0055
       orientation:
       - 0.0
@@ -2990,62 +2991,56 @@ slots:
     grasp_region_feasible: true
     probed: true
     note: ''
-    reveal_anchor:
-      position:
-      - -1.268
-      - -4.6907
-      - 0.0055
-      orientation:
-      - 0.0
-      - 0.0
-      - -1.0
-      - 0.0
     evidence:
       placed: true
       sampler_ok: true
       relation_ok: true
       containing_link: null
       grasp_from:
+      - 3
+      - 4
+      - 6
       - 9
+      - 11
+      - 15
       - 16
       visibility_by_anchor:
+        '3': 0.0
+        '4': 0.0
+        '6': 1.0
         '9': 1.0
+        '11': 1.0
+        '15': 1.0
         '16': 1.0
-      anchor_index: 10
+      anchor_index: 9
       open_feasible: true
       grasp_feasible: true
-      reveal_route_steps: 1
-      reveal_anchor_index: 16
-      reveal_anchor:
-        position:
-        - -1.268
-        - -4.6907
-        - 0.0055
-        orientation:
-        - 0.0
-        - 0.0
-        - -1.0
-        - 0.0
-      open_visibility:
-        visible_px: 288
-        reference_px: 288
-        ratio: 1.0
+      reveal_route_steps: 0
+      reveal_anchor_index: null
+      reveal_anchor: null
+      open_visibility: &id001
+        visible_px: 230
+        reference_px: 583
+        ratio: 0.39451114922813035
         consistent: true
         attempts: 1
+      reveal_rejected:
+        anchor_index: 9
+        pass3_visibility: *id001
       closed_relation_ok: true
       closed_containing_link: null
       closed_graspable: false
       closed_visibility:
         visible_px: 0
-        reference_px: 288
+        reference_px: 584
         ratio: 0.0
         consistent: true
         attempts: 1
-  Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/interior:
+  Wainscott_0_int/bottom_cabinet_no_top_pluwfl_0/interior:
     navigation_anchor:
       position:
-      - 5.7895
-      - 11.5716
+      - 5.7995
+      - 9.5316
       - 0.0055
       orientation:
       - 0.0
@@ -3066,10 +3061,121 @@ slots:
       grasp_feasible: false
       reveal_anchor_index: null
       reveal_anchor: null
+  Wainscott_0_int/bottom_cabinet_no_top_pluwfl_0/link_1:
+    navigation_anchor:
+      position:
+      - 5.7995
+      - 9.5316
+      - 0.0055
+      orientation:
+      - 0.0
+      - 0.0
+      - -4.0e-06
+      - 1.0
+    open_feasible: true
+    grasp_region_feasible: true
+    probed: true
+    note: ''
+    reveal_anchor:
+      position:
+      - 5.7995
+      - 9.5316
+      - 0.0055
+      orientation:
+      - 0.0
+      - 0.0
+      - -4.0e-06
+      - 1.0
+    evidence:
+      placed: true
+      sampler_ok: true
+      relation_ok: true
+      containing_link: link_1
+      open_floor_slab:
+      - - 6.567222796642353
+        - 9.691201857249302
+        - 0.770318455936916
+      - - 6.969340226962448
+        - 9.979691256620494
+        - 0.7751535523715491
+      grasp_from:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      visibility_by_anchor:
+        '0': 0.0
+        '1': 0.0
+        '2': 0.0
+        '3': 0.0
+        '4': 1.0
+        '5': 1.0
+        '6': 1.0
+        '7': 1.0
+      floor_in_view_from: []
+      anchor_index: 5
+      open_feasible: true
+      grasp_feasible: true
+      reveal_route_steps: 0
+      reveal_anchor_index: 5
+      reveal_anchor:
+        position:
+        - 5.7995
+        - 9.5316
+        - 0.0055
+        orientation:
+        - 0.0
+        - 0.0
+        - -4.0e-06
+        - 1.0
+      open_visibility:
+        visible_px: 1027
+        reference_px: 1027
+        ratio: 1.0
+        consistent: true
+        attempts: 1
+      closed_relation_ok: true
+      closed_containing_link: link_1
+      closed_graspable: false
+      closed_visibility:
+        visible_px: 0
+        reference_px: 3042
+        ratio: 0.0
+        consistent: true
+        attempts: 1
+  Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/interior:
+    navigation_anchor:
+      position:
+      - 5.9395
+      - 11.5716
+      - 0.0055
+      orientation:
+      - 0.0
+      - 0.0
+      - -4.0e-06
+      - 1.0
+    open_feasible: true
+    grasp_region_feasible: false
+    probed: true
+    note: 'probe placement failed: link_1'
+    evidence:
+      placed: false
+      sampler_ok: true
+      relation_ok: true
+      containing_link: link_1
+      anchor_index: 4
+      open_feasible: true
+      grasp_feasible: false
+      reveal_anchor_index: null
+      reveal_anchor: null
   Wainscott_0_int/bottom_cabinet_no_top_pluwfl_1/link_1:
     navigation_anchor:
       position:
-      - 5.7895
+      - 5.9395
       - 11.5716
       - 0.0055
       orientation:
@@ -3083,7 +3189,7 @@ slots:
     note: ''
     reveal_anchor:
       position:
-      - 5.7895
+      - 5.9395
       - 11.5716
       - 0.0055
       orientation:
@@ -3115,25 +3221,25 @@ slots:
       visibility_by_anchor:
         '0': 0.0
         '1': 0.0
-        '2': 1.0
+        '2': 0.0
         '3': 1.0
         '4': 1.0
         '5': 1.0
-        '6': 1.0
-        '7': 0.952
+        '6': 0.974
+        '7': 0.849
       floor_in_view_from:
       - 4
       - 5
       - 6
       - 7
-      anchor_index: 5
+      anchor_index: 4
       open_feasible: true
       grasp_feasible: true
       reveal_route_steps: 0
-      reveal_anchor_index: 5
+      reveal_anchor_index: 4
       reveal_anchor:
         position:
-        - 5.7895
+        - 5.9395
         - 11.5716
         - 0.0055
         orientation:
@@ -3142,8 +3248,8 @@ slots:
         - -4.0e-06
         - 1.0
       open_visibility:
-        visible_px: 1059
-        reference_px: 1059
+        visible_px: 1379
+        reference_px: 1379
         ratio: 1.0
         consistent: true
         attempts: 1
@@ -3152,7 +3258,7 @@ slots:
       closed_graspable: false
       closed_visibility:
         visible_px: 0
-        reference_px: 616
+        reference_px: 758
         ratio: 0.0
         consistent: true
         attempts: 1
@@ -3161,6 +3267,89 @@ slots:
       position:
       - -2.1564
       - -1.7501
+      - 0.0055
+      orientation:
+      - 0.0
+      - 0.0
+      - 0.999997
+      - 0.00255
+    open_feasible: null
+    grasp_region_feasible: true
+    probed: true
+    note: ''
+    reveal_anchor:
+      position:
+      - -2.1564
+      - -1.7501
+      - 0.0055
+      orientation:
+      - 0.0
+      - 0.0
+      - 0.999997
+      - 0.00255
+    evidence:
+      placed: true
+      sampler_ok: true
+      relation_ok: true
+      containing_link: null
+      grasp_from:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      - 13
+      - 14
+      visibility_by_anchor:
+        '0': 0.0
+        '1': 0.0
+        '2': 0.0
+        '3': 0.0
+        '4': 0.0
+        '5': 0.0
+        '6': 1.0
+        '7': 1.0
+        '8': 1.0
+        '9': 1.0
+        '10': 1.0
+        '11': 1.0
+        '12': 1.0
+        '13': 1.0
+        '14': 1.0
+      anchor_index: 6
+      open_feasible: null
+      grasp_feasible: true
+      reveal_route_steps: 0
+      reveal_anchor_index: 6
+      reveal_anchor:
+        position:
+        - -2.1564
+        - -1.7501
+        - 0.0055
+        orientation:
+        - 0.0
+        - 0.0
+        - 0.999997
+        - 0.00255
+      open_visibility:
+        visible_px: 1
+        reference_px: 1
+        ratio: 1.0
+        consistent: true
+        attempts: 1
+  Wainscott_0_int/coffee_table_dnsjnv_0/on_top:
+    navigation_anchor:
+      position:
+      - -3.0959
+      - -2.8101
       - 0.0055
       orientation:
       - 0.0
@@ -3187,113 +3376,46 @@ slots:
       - 7
       - 8
       - 9
-      - 11
-      - 13
-      visibility_by_anchor:
-        '0': 0.0
-        '1': 0.0
-        '2': 0.0
-        '3': 0.0
-        '4': 0.0
-        '5': 0.0
-        '6': 1.0
-        '7': 1.0
-        '8': 1.0
-        '9': 1.0
-        '11': 1.0
-        '13': 1.0
-      anchor_index: 6
-      open_feasible: null
-      grasp_feasible: true
-      reveal_route_steps: 0
-      reveal_anchor_index: null
-      reveal_anchor: null
-      open_visibility: &id001
-        visible_px: 0
-        reference_px: 0
-        ratio: null
-        consistent: true
-        attempts: 1
-      reveal_rejected:
-        anchor_index: 6
-        pass3_visibility: *id001
-  Wainscott_0_int/coffee_table_dnsjnv_0/on_top:
-    navigation_anchor:
-      position:
-      - -2.7951
-      - -2.6621
-      - 0.0055
-      orientation:
-      - 0.0
-      - 0.0
-      - 0.999997
-      - 0.00255
-    open_feasible: null
-    grasp_region_feasible: true
-    probed: true
-    note: ''
-    reveal_anchor:
-      position:
-      - -2.7951
-      - -2.6621
-      - 0.0055
-      orientation:
-      - 0.0
-      - 0.0
-      - 0.999997
-      - 0.00255
-    evidence:
-      placed: true
-      sampler_ok: true
-      relation_ok: true
-      containing_link: null
-      grasp_from:
-      - 0
-      - 1
-      - 2
-      - 3
-      - 4
-      - 6
-      - 9
       - 10
+      - 11
       - 12
+      - 13
       - 14
       - 15
       - 16
       visibility_by_anchor:
         '0': 0.0
         '1': 0.0
-        '2': 0.0
-        '3': 0.0
-        '4': 0.0
+        '2': 1.0
+        '3': 1.0
+        '4': 1.0
+        '5': 1.0
         '6': 1.0
+        '7': 1.0
+        '8': 1.0
         '9': 1.0
         '10': 1.0
+        '11': 1.0
         '12': 1.0
+        '13': 1.0
         '14': 1.0
         '15': 1.0
         '16': 1.0
-      anchor_index: 10
+      anchor_index: 2
       open_feasible: null
       grasp_feasible: true
       reveal_route_steps: 0
-      reveal_anchor_index: 10
-      reveal_anchor:
-        position:
-        - -2.7951
-        - -2.6621
-        - 0.0055
-        orientation:
-        - 0.0
-        - 0.0
-        - 0.999997
-        - 0.00255
-      open_visibility:
-        visible_px: 554
-        reference_px: 554
-        ratio: 1.0
+      reveal_anchor_index: null
+      reveal_anchor: null
+      open_visibility: &id002
+        visible_px: 0
+        reference_px: 0
+        ratio: null
         consistent: true
         attempts: 1
+      reveal_rejected:
+        anchor_index: 2
+        pass3_visibility: *id002
   Wainscott_0_int/console_table_emeeke_0/on_top:
     navigation_anchor:
       position:
@@ -3327,12 +3449,14 @@ slots:
       grasp_from:
       - 0
       - 1
+      - 2
       - 3
       - 4
       - 5
       visibility_by_anchor:
         '0': 1.0
         '1': 1.0
+        '2': 1.0
         '3': 1.0
         '4': 1.0
         '5': 1.0
@@ -3488,7 +3612,7 @@ slots:
       reveal_route_steps: 0
       reveal_anchor_index: null
       reveal_anchor: null
-      open_visibility: &id002
+      open_visibility: &id003
         visible_px: 0
         reference_px: 0
         ratio: null
@@ -3496,7 +3620,7 @@ slots:
         attempts: 1
       reveal_rejected:
         anchor_index: 3
-        pass3_visibility: *id002
+        pass3_visibility: *id003
   Wainscott_0_int/countertop_tpuwys_1/on_top:
     navigation_anchor:
       position:
@@ -3649,8 +3773,10 @@ slots:
       containing_link: null
       grasp_from:
       - 0
+      - 3
       visibility_by_anchor:
         '0': 1.0
+        '3': 1.0
       anchor_index: 0
       open_feasible: null
       grasp_feasible: true

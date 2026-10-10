@@ -203,3 +203,22 @@ def test_open_that_swings_into_the_base_is_a_collision():
 def test_open_with_room_to_spare_stays_feasible():
     _, verdict = _open_check(open_front_x=0.50)
     assert verdict.feasible
+
+
+def test_oracle_overlay_applies_the_open_base_intrusion_check():
+    # the oracle validates through OverlayBackend; the check must not be
+    # skipped there (pilot 3: oracle OPEN from the spawn, replay COLLISION)
+    from types import SimpleNamespace
+
+    from rummagebench.core.types import FeasibilityVerdict
+    from rummagebench.evaluation.oracle_planner import OverlayBackend
+
+    overlay = OverlayBackend(OpeningBackend(open_front_x=0.38), SimpleNamespace(anchors={}))
+    v = FeasibilityValidator(overlay, kinematics=PositionKinematics(),
+                             config_collision=SlabWorld(slab=False))
+    v._check_configuration_space = lambda *a, **k: FeasibilityVerdict(feasible=True)
+    resolved = ResolvedTarget(kind=TargetKind.ENTITY, entity="cab",
+                              info=overlay.describe_entity("cab"))
+    robot = RobotEmbodiment(name="r", reach_radius=2.0, z_min=0.0, z_max=2.0, hand_capacity=1)
+    verdict = v.check("OPEN", resolved, robot, BenchmarkWorldState())
+    assert not verdict.feasible and verdict.reason == "COLLISION"

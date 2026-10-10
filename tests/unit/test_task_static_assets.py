@@ -9,7 +9,7 @@ import yaml
 from rummagebench.authoring.tasks.eligibility import (
     ObjectEligibility, build_eligibility, lookalike_keys)
 from rummagebench.authoring.tasks.priors import (
-    PlacementPriors, apply_review, mine_priors, parse_init_facts)
+    PlacementPriors, apply_manual, apply_review, mine_priors, parse_init_facts)
 from rummagebench.authoring.tasks.slots import (
     SceneSlots, classify_link, room_type_of)
 
@@ -206,8 +206,10 @@ def test_generated_priors_only_approved_generate():
     assert set(el.categories) <= pri.approved_categories()
     for e in pri.entries:
         if e.approved:
-            assert e.evidence_count >= 1 and e.generation_weight > 0
+            assert e.generation_weight > 0
             assert e.review and e.review["reviewer"]
+            # BDDL approvals are evidence-backed; manual ones say so
+            assert e.evidence_count >= 1 or e.review.get("source") == "manual"
 
 
 @needs_generated
@@ -312,3 +314,31 @@ def test_measured_drawer_geometry_replaces_metadata_aabb():
     apply_measured_geometry(ss2, {a.slot_id: {**measured[a.slot_id], "clearance_m": None}},
                             margin=0.015)
     assert ss2.slots[0].geometry.usable_extent[2] == round(0.87 - 0.7578 - 0.015, 4)
+
+
+def test_manual_priors_open_rooms_without_bddl_evidence():
+    # plan E: BDDL has no bedroom evidence; a manual group approves it with
+    # provenance, without inventing evidence or touching mined entries
+    mined = mine_priors([("x", BDDL)], FakeTaxonomy(), RULES, {})
+    rev = apply_review(mined, {"reviewer": "t", "status": "s", "approve": []})
+    manual = {"reviewer": "m", "status": "s", "groups": [
+        {"name": "bedroom", "room_types": ["bedroom"],
+         "slot_classes": ["cabinet_storage", "table"], "categories": ["bowl"]},
+        {"name": "kitchen", "room_types": ["kitchen"],
+         "slot_classes": ["cabinet_storage"], "categories": ["bowl"]}]}
+    out = apply_manual(rev, manual, FakeTaxonomy())
+    for slot_type in ("drawer", "cabinet_interior", "table"):
+        assert out.is_approved("bowl", slot_type, "bedroom")
+    e = out.get("bowl", "drawer", "bedroom")
+    assert (e.evidence_count, e.relation, e.compatibility) == (0, "inside", "manual")
+    assert e.covers_slot_types == ["cabinet_interior", "drawer"]
+    assert e.review["source"] == "manual"
+    assert out.get("bowl", "table", "bedroom").relation == "on_top"
+    # an existing mined key keeps its evidence and is approved on top
+    k = out.get("bowl", "drawer", "kitchen")
+    assert k.approved and k.evidence_count == 1
+    assert not out.is_approved("bowl", "drawer", "bathroom")
+    with pytest.raises(ValueError):
+        apply_manual(rev, {"groups": [{"name": "x", "room_types": ["bedroom"],
+                                       "slot_classes": ["table"],
+                                       "categories": ["unknown_thing"]}]}, FakeTaxonomy())

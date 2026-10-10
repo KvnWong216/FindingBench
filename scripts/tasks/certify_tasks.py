@@ -41,7 +41,12 @@ from rummagebench.authoring.tasks.tiers.base import load_tier_spec
 # NOTE_ON_SLUDGE_SEGFAULT, PhysX teleport corruption, CUDA/Warp errors):
 # recorded as INVALID_RUN and retried, never as a task rejection
 INFRA_ERROR_MARKERS = ("sludge system", "CUDA", "Warp", "Physics state is invalid",
-                       "Robot physics pose", "nonfinite", "Segmentation")
+                       "Robot physics pose", "nonfinite", "Segmentation",
+                       "No space left on device")
+# Kit / OmniGibson write ~340 MB of USD scratch per process into TMPDIR and
+# never clean it (workers leave via os._exit): 2000 runs filled the root
+# filesystem (2026-10-06). Workers use a per-task dir on the data disk.
+WORKER_TMP_ROOT = REPO / "runs" / "tmp_workers"
 
 
 def is_infra_error(error: str | None) -> bool:
@@ -49,6 +54,29 @@ def is_infra_error(error: str | None) -> bool:
 
 
 def worker(args, out: Path) -> int:
+    import shutil
+    import tempfile
+
+    tmp = WORKER_TMP_ROOT / args.worker
+    shutil.rmtree(tmp, ignore_errors=True)
+    tmp.mkdir(parents=True, exist_ok=True)
+    os.environ["TMPDIR"] = os.environ["TMP"] = os.environ["TEMP"] = str(tmp)
+    tempfile.tempdir = str(tmp)
+    try:
+        return _worker(args, out)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _exit_clean(args) -> None:
+    import shutil
+
+    sys.stdout.flush()
+    shutil.rmtree(WORKER_TMP_ROOT / args.worker, ignore_errors=True)
+    os._exit(0)
+
+
+def _worker(args, out: Path) -> int:
     from rummagebench.authoring.tasks.certify import CERTIFIER_VERSION, TaskCertifier
     from rummagebench.authoring.tasks.room_map import RoomMap
 
@@ -91,7 +119,19 @@ def worker(args, out: Path) -> int:
             "invalid_run_attempts": attempts + [res.error[:300]]}, indent=1, sort_keys=True))
         log(f"{tid}: INVALID_RUN (infrastructure): {res.error[:200]}")
         sys.stdout.flush()
-        os._exit(0)
+        _exit_clean(args)
+    va = res.details.get("view_anchor")
+    if va and not va.get("rejected"):
+        # the oracle certified WITH the witness's viewpoint anchor: the
+        # candidate file must carry it so a replay reproduces the certificate
+        import yaml
+
+        from rummagebench.authoring.tasks.compile import with_view_anchors
+        text = scen_path.read_text(encoding="utf-8")
+        header = "".join(l for l in text.splitlines(True) if l.startswith("#"))
+        doc = with_view_anchors(yaml.safe_load(text), {va["name"]: va})
+        scen_path.write_text(header + yaml.safe_dump(doc, sort_keys=False, width=100),
+                             encoding="utf-8")
     cert.attach_evidence(res.evidence)
     rejections = gates.certify(cert, spec)
     if res.error:
@@ -119,7 +159,7 @@ def worker(args, out: Path) -> int:
         f"{res.evidence.closed_visibility}/{res.evidence.revealed_visibility} "
         f"[{res.details.get('seconds')}s]")
     sys.stdout.flush()
-    os._exit(0)  # Kit teardown may segfault after the record is written
+    _exit_clean(args)  # Kit teardown may segfault after the record is written
 
 
 def dispatch(args, out: Path) -> int:
@@ -137,8 +177,15 @@ def dispatch(args, out: Path) -> int:
     logs = out / "certify_logs"
     logs.mkdir(parents=True, exist_ok=True)
     free = list(args.gpus) * args.per_gpu
+    no_record: dict[str, int] = {}  # timeouts / crashes leave no record
     running: list[tuple[subprocess.Popen, str, str, float]] = []
     env = dict(os.environ, PYTHONPATH=str(REPO / "src"))
+    if args.threads:
+        # OpenMP / BLAS pools default to one thread per core (~130 per worker)
+        # and busy-wait; the worker's IK / collision math is single-threaded
+        for var in ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS",
+                    "NUMEXPR_NUM_THREADS"):
+            env[var] = str(args.threads)
     while todo or running:
         while todo and free:
             tid, gpu = todo.pop(0), free.pop(0)
@@ -162,8 +209,12 @@ def dispatch(args, out: Path) -> int:
             status = json.loads(done.read_text())["status"] if done.exists() else "NO_RECORD"
             print(f"{dt.datetime.now().isoformat(timespec='seconds')} {tid} gpu{gpu} "
                   f"exit={p.returncode} {status}", flush=True)
-            if status in ("invalid_run", "NO_RECORD") and needs_run(tid):
-                todo.append(tid)  # bounded by --max-retries
+            if status == "NO_RECORD":
+                no_record[tid] = no_record.get(tid, 0) + 1
+                if no_record[tid] <= args.max_retries:
+                    todo.append(tid)  # bounded by --max-retries
+            elif status == "invalid_run" and needs_run(tid):
+                todo.append(tid)  # bounded by --max-retries (record attempts)
     # rebuild the GPU rejection log from the certificate records
     with (out / "gpu_rejections.jsonl").open("w") as rej:
         for path in sorted((out / "certificates").glob("fb_*.json")):
@@ -184,6 +235,8 @@ def main(argv=None) -> int:
     ap.add_argument("--gpus", nargs="*", default=["0"])
     ap.add_argument("--per-gpu", type=int, default=1, help="concurrent workers per GPU")
     ap.add_argument("--timeout", type=float, default=5400.0)
+    ap.add_argument("--threads", type=int, default=4,
+                    help="OpenMP/BLAS threads per worker (0: library default)")
     ap.add_argument("--force", action="store_true", help="re-certify existing records")
     ap.add_argument("--max-retries", type=int, default=2,
                     help="re-runs of an INVALID_RUN (infrastructure) episode")

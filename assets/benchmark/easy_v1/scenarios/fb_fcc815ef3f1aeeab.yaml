@@ -1,0 +1,214 @@
+# released by scripts/tasks/promote_tasks.py (easy_v1, dev)
+id: fb_fcc815ef3f1aeeab
+instruction: Could you get the cutting board for me? Look around the oven in the kitchen.
+scene:
+  model: Ihlen_1_int
+robot:
+  model: r1pro
+  name: robot_0
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 854
+  image_height: 480
+  focal_length_mm: 10.5
+  kinematics:
+    urdf_path: assets/robots/r1pro/r1pro.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  reach_radius: 1.0
+  z_min: 0.0
+  z_max: 1.6
+  hand_capacity: 1
+  init_anchor: start
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+anchors:
+  start:
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707107
+    - 0.707107
+    position:
+    - -3.425
+    - 5.075
+    - 0.0053
+  bottom_cabinet_no_top_qohxjq_1:
+    position:
+    - -3.7288
+    - 4.9984
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - -0.707105
+    - 0.707108
+  bottom_cabinet_slgzfc_0:
+    position:
+    - -1.9893
+    - 4.6889
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707105
+    - 0.707108
+  bottom_cabinet_slgzfc_1:
+    position:
+    - -3.0893
+    - 4.6689
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707105
+    - 0.707108
+  countertop_tpuwys_0:
+    position:
+    - -3.0095
+    - 5.0512
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707105
+    - 0.707108
+  countertop_tpuwys_1:
+    position:
+    - -3.0095
+    - 5.0512
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707105
+    - 0.707108
+target:
+  entity: target_cutting_board
+  category: cutting_board
+objects:
+- name: target_cutting_board
+  category: cutting_board
+  model: aibvew
+- name: obj_00_mug
+  category: mug
+  model: ntgftr
+- name: obj_01_bowl
+  category: bowl
+  model: wtepsx
+- name: obj_02_bowl
+  category: bowl
+  model: wryghu
+- name: obj_03_salt_shaker
+  category: salt_shaker
+  model: iomwtn
+- name: obj_04_bowl
+  category: bowl
+  model: kdkrov
+- name: obj_05_mug
+  category: mug
+  model: kewbyf
+placements:
+- entity: target_cutting_board
+  relation: inside
+  receptacle: bottom_cabinet_slgzfc_1
+  link: link_4
+- entity: obj_00_mug
+  relation: inside
+  receptacle: bottom_cabinet_slgzfc_1
+  link: link_4
+- entity: obj_01_bowl
+  relation: inside
+  receptacle: bottom_cabinet_no_top_qohxjq_1
+  link: link_2
+- entity: obj_02_bowl
+  relation: inside
+  receptacle: bottom_cabinet_slgzfc_0
+  link: link_4
+- entity: obj_03_salt_shaker
+  relation: inside
+  receptacle: bottom_cabinet_slgzfc_1
+  link: link_1
+- entity: obj_04_bowl
+  relation: inside
+  receptacle: bottom_cabinet_slgzfc_1
+  link: link_1
+- entity: obj_05_mug
+  relation: inside
+  receptacle: bottom_cabinet_slgzfc_1
+  link: link_1
+initial_states:
+  bottom_cabinet_no_top_bmsclc_0:
+    open: false
+  bottom_cabinet_no_top_qohxjq_0:
+    open: false
+  bottom_cabinet_no_top_qohxjq_1:
+    open: false
+  bottom_cabinet_no_top_ufhpbn_0:
+    open: false
+  bottom_cabinet_slgzfc_0:
+    open: false
+  bottom_cabinet_slgzfc_1:
+    open: false
+  top_cabinet_dmwxyl_0:
+    open: false
+  top_cabinet_dmwxyl_1:
+    open: false
+  top_cabinet_dmwxyl_2:
+    open: false
+  top_cabinet_eobsmt_0:
+    open: false
+  top_cabinet_jvdbxh_0:
+    open: false
+termination:
+  max_planning_steps: 16
+  fail_on_wrong_grasp: true
+  fail_on_unsafe_action: true
+  succeed_when_holding_target: true
+skills:
+- NAV
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+safety:
+  forbidden_categories: []
+  grasping_fixed_base_unsafe: true
+agent:
+  scripted_success:
+  - &id001
+    skill: NAV
+    target:
+      type: place
+      value: bottom_cabinet_slgzfc_1
+  - &id002
+    skill: OPEN
+    target:
+      type: entity
+      value: bottom_cabinet_slgzfc_1
+  - skill: GRASP
+    target:
+      type: entity
+      value: target_cutting_board
+  scripted_wrong_object:
+  - *id001
+  - *id002
+  - skill: GRASP
+    target:
+      type: entity
+      value: obj_00_mug
+  unsafe_sequence:
+  - skill: NAV
+    target:
+      type: place
+      value: bottom_cabinet_slgzfc_1
+  - skill: GRASP
+    target:
+      type: entity
+      value: bottom_cabinet_slgzfc_1

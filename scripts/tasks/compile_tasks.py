@@ -11,7 +11,8 @@ import json
 import yaml
 from _common import ASSETS, host_config
 
-from rummagebench.authoring.tasks.compile import compile_plan, scenario_hash
+from rummagebench.authoring.tasks.compile import (
+    compile_plan, scenario_hash, view_anchors_of, with_view_anchors)
 from rummagebench.authoring.tasks.plan import TaskPlan
 from rummagebench.authoring.tasks.planner import load_context
 
@@ -31,10 +32,17 @@ def main(argv=None) -> int:
     cand.mkdir(parents=True, exist_ok=True)
     n = 0
     for path in sorted((out / "plans").glob("*.json")):
+        if path.name.endswith(".meta.json"):
+            continue  # sidecar written below on an earlier compile, not a plan
         plan = TaskPlan.load(path)
         if plan.scene not in ctx.scenes:
             continue
         doc = compile_plan(plan, ctx.scenes[plan.scene], ctx.overlays[plan.scene], ctx.tier)
+        prev = cand / f"{plan.task_id}.yaml"
+        if prev.exists():  # keep the certifier's view anchors (certify.py v3)
+            views = view_anchors_of(yaml.safe_load(prev.read_text(encoding="utf-8")) or {})
+            if views:
+                doc = with_view_anchors(doc, views)
         h = scenario_hash(doc)
         (cand / f"{plan.task_id}.yaml").write_text(
             "# Compiled task candidate (build artefact, not a release asset).\n"

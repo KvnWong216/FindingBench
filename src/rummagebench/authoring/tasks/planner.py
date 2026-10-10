@@ -46,6 +46,8 @@ class PlannerContext:
     cache: dict = field(default_factory=dict, init=False, repr=False, compare=False)
     # scene -> RoomMap (route waypoints, as the certifier uses); optional
     room_maps: dict[str, Any] = field(default_factory=dict)
+    # batch steering (e.g. a non-kitchen top-up batch): room types never drawn
+    exclude_room_types: frozenset[str] = frozenset()
 
     @property
     def max_move_m(self) -> float:
@@ -94,12 +96,20 @@ def randint_bound(rng: np.random.Generator, lo: float, hi: float) -> int:
 # geometry: CPU approximation from slot AABBs
 # ---------------------------------------------------------------------------
 
+MAX_UPRIGHT_ASPECT_ON_TOP = 2.5
+
+
 def fits(bbox: Sequence[float], slot: Slot) -> bool:
     """Object fits slot with a free yaw: horizontal dims sorted against the
     slot opening, height against the usable height (inside only)."""
     ox, oy = sorted(bbox[:2], reverse=True)
     sx, sy = sorted(slot.geometry.opening_size, reverse=True)
     if ox > sx or oy > sy:
+        return False
+    # tall, narrow items topple off surfaces: Stage 5 on_top placements with
+    # height / shorter footprint side > 2.5 failed verification 47% of the
+    # time (spray / detergent bottles), <= 2.5 under 1% (A.8.4)
+    if slot.relation == "on_top" and bbox[2] > MAX_UPRIGHT_ASPECT_ON_TOP * oy:
         return False
     if slot.relation == "inside" and bbox[2] > slot.geometry.usable_extent[2]:
         return False
@@ -397,8 +407,12 @@ def load_context(tier_name: str, scenes: Sequence[str], robot_id: str,
             if scene_slots[scene].footprint_obstacles and (root / "scenes" / scene).exists():
                 room_maps[scene] = RoomMap.load(root / "scenes" / scene,
                                                 root / "metadata" / "room_categories.txt")
-    return PlannerContext(tier=load_tier_spec(tier_path), scenes=scene_slots,
+    tier = load_tier_spec(tier_path)
+    eligibility = ObjectEligibility.load(elig_path)
+    if tier.lookalike_groups:
+        eligibility = eligibility.with_lookalike_groups(tier.lookalike_groups)
+    return PlannerContext(tier=tier, scenes=scene_slots,
                           priors=PlacementPriors.load(priors_path),
-                          eligibility=ObjectEligibility.load(elig_path),
+                          eligibility=eligibility,
                           overlays=overlays, provenance_base=base,
                           room_maps=room_maps)

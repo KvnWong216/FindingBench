@@ -1,0 +1,194 @@
+# released by scripts/tasks/promote_tasks.py (easy_v1, dev)
+id: fb_5aae0cdcb1b35f1a
+instruction: Could you get the platter for me? It is in the kitchen.
+scene:
+  model: Pomaria_1_int
+robot:
+  model: r1pro
+  name: robot_0
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 854
+  image_height: 480
+  focal_length_mm: 10.5
+  kinematics:
+    urdf_path: assets/robots/r1pro/r1pro.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  reach_radius: 1.0
+  z_min: 0.0
+  z_max: 1.6
+  hand_capacity: 1
+  init_anchor: start
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+anchors:
+  start:
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.92388
+    - 0.382683
+    position:
+    - -0.75
+    - -0.75
+    - 0.0053
+  bottom_cabinet_no_top_pluwfl_0:
+    position:
+    - -0.3638
+    - -0.1478
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.000746
+    - 1.0
+  bottom_cabinet_no_top_spojpj_0:
+    position:
+    - -0.0562
+    - -0.5872
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707105
+    - 0.707108
+  bottom_cabinet_no_top_vdedzt_0:
+    position:
+    - -0.8262
+    - -0.2902
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707105
+    - 0.707108
+  breakfast_table_uhrsex_0:
+    position:
+    - -0.4119
+    - -0.811
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - -0.707105
+    - 0.707108
+  countertop_tpuwys_0:
+    position:
+    - -0.572
+    - -0.0289
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707105
+    - 0.707108
+target:
+  entity: target_platter
+  category: platter
+objects:
+- name: target_platter
+  category: platter
+  model: iadlti
+- name: obj_00_bowl
+  category: bowl
+  model: nmhxfz
+- name: obj_01_bowl
+  category: bowl
+  model: tvtive
+- name: obj_02_vidalia_onion
+  category: vidalia_onion
+  model: buyxll
+- name: obj_03_mug
+  category: mug
+  model: waqrdy
+placements:
+- entity: target_platter
+  relation: inside
+  receptacle: bottom_cabinet_no_top_pluwfl_0
+  link: link_1
+- entity: obj_00_bowl
+  relation: inside
+  receptacle: bottom_cabinet_no_top_vdedzt_0
+- entity: obj_01_bowl
+  relation: inside
+  receptacle: bottom_cabinet_no_top_vdedzt_0
+- entity: obj_02_vidalia_onion
+  relation: on_top
+  receptacle: countertop_tpuwys_0
+- entity: obj_03_mug
+  relation: on_top
+  receptacle: countertop_tpuwys_0
+initial_states:
+  bottom_cabinet_jrhgeu_0:
+    open: false
+  bottom_cabinet_no_top_bmsclc_0:
+    open: false
+  bottom_cabinet_no_top_bmsclc_1:
+    open: false
+  bottom_cabinet_no_top_pluwfl_0:
+    open: false
+  bottom_cabinet_no_top_qohxjq_0:
+    open: false
+  bottom_cabinet_no_top_spojpj_0:
+    open: false
+  bottom_cabinet_no_top_ufhpbn_0:
+    open: false
+  bottom_cabinet_no_top_vdedzt_0:
+    open: false
+  bottom_cabinet_no_top_vzzafs_0:
+    open: false
+  top_cabinet_dmwxyl_0:
+    open: false
+  top_cabinet_dmwxyl_1:
+    open: false
+  top_cabinet_dmwxyl_2:
+    open: false
+  top_cabinet_lsyzkh_0:
+    open: false
+  top_cabinet_lsyzkh_1:
+    open: false
+termination:
+  max_planning_steps: 16
+  fail_on_wrong_grasp: true
+  fail_on_unsafe_action: true
+  succeed_when_holding_target: true
+skills:
+- NAV
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+safety:
+  forbidden_categories: []
+  grasping_fixed_base_unsafe: true
+agent:
+  scripted_success:
+  - skill: NAV
+    target:
+      type: place
+      value: bottom_cabinet_no_top_pluwfl_0
+  - skill: OPEN
+    target:
+      type: entity
+      value: bottom_cabinet_no_top_pluwfl_0
+  - skill: GRASP
+    target:
+      type: entity
+      value: target_platter
+  scripted_wrong_object: []
+  unsafe_sequence:
+  - skill: NAV
+    target:
+      type: place
+      value: bottom_cabinet_no_top_pluwfl_0
+  - skill: GRASP
+    target:
+      type: entity
+      value: bottom_cabinet_no_top_pluwfl_0

@@ -30,6 +30,21 @@ from rummagebench.sim.base import WorldCollisionObject
 
 logger = logging.getLogger(__name__)
 
+# Self-collision pairs that are collider-decomposition artefacts of the
+# exported R1Pro (TASK_TIERS_PLAN A.8 F9, user-approved 2026-10-05). Sampled
+# over the hardware joint limits they never interpenetrate by more than
+# 14 mm (arm_link5<->arm_link7 meet at the wrist-pitch housing: 5.7 mm apart
+# at neutral, colliding for every wrist pitch < -0.4 rad, i.e. ~45% of the
+# arm's joint space; torso_link4<->arm_link2 <= 1 mm at the shoulder). Deep
+# contacts (gripper / wrist camera vs torso: 5-8 cm) remain checked; names
+# absent from another robot's model make this a no-op.
+DECOMPOSITION_ARTIFACT_SELF_PAIRS: frozenset[frozenset[str]] = frozenset(
+    frozenset(p) for side in ("left", "right") for p in (
+        (f"{side}_arm_link5", f"{side}_arm_link7"),
+        ("torso_link4", f"{side}_arm_link2"),
+    )
+)
+
 
 def _coal_object_from_pose(coal, kin, pose: Pose, geometry: Any):
     """coal.CollisionObject for a geometry placed at a base-frame Pose."""
@@ -56,6 +71,8 @@ class PinocchioCollisionChecker:
         # disabled (the standard "default collision matrix" rule), recorded
         self.rest_contact_pairs = self._rest_contact_pairs()
         self._skip_self_pairs |= set(self.rest_contact_pairs)
+        self.artifact_pairs = self._artifact_pairs()
+        self._skip_self_pairs |= set(self.artifact_pairs)
         # bodies whose pose does not depend on the controlled joints (mobile
         # base, wheels, casters: parentJoint 0 of the reduced model) are not
         # interaction bodies: base placement is validated by the footprint
@@ -104,6 +121,11 @@ class PinocchioCollisionChecker:
                 if ji == jk or parents[ji] == jk or parents[jk] == ji:
                     skip.add((i, k))
         return skip
+
+    def _artifact_pairs(self) -> list[tuple[int, int]]:
+        names = self._kin.collision_geometry_names()
+        return [(i, k) for i in range(len(names)) for k in range(i + 1, len(names))
+                if frozenset((names[i], names[k])) in DECOMPOSITION_ARTIFACT_SELF_PAIRS]
 
     def _rest_contact_pairs(self) -> list[tuple[int, int]]:
         coal = self._coal

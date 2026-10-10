@@ -149,6 +149,16 @@ class TierSpec(BaseModel):
     target_slot: SlotFillSpec = Field(default_factory=SlotFillSpec)
     # medium: total container population independent of rearrangement depth
     target_container_total_items: Optional[Bound] = None
+    # medium: flat cover objects stacked on the target (count)
+    covers: Optional[Bound] = None
+    # curated perceptual lookalike groups for this tier, on top of the
+    # eligibility taxonomy keys (categories a camera confuses at a glance:
+    # spoon / fork / knife). Tier-scoped so easy's inputs never change
+    lookalike_groups: list[list[str]] = Field(default_factory=list)
+    # scenario termination: a non-target GRASP ends the episode. Rearrangement
+    # tiers need it False (the visual agent protocol already makes wrong
+    # grasps recoverable; this lets the full-information oracle move covers)
+    fail_on_wrong_grasp: bool = True
     other_containers: OtherContainersSpec = Field(default_factory=OtherContainersSpec)
     other_surfaces: OtherSurfacesSpec = Field(default_factory=OtherSurfacesSpec)
     # builder-cost cap on non-target objects per episode (placement + settle

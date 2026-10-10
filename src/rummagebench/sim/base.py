@@ -94,6 +94,9 @@ class ResolvedTarget:
     entity: str | None = None  # entity name for ENTITY targets
     info: EntityInfo | None = None
     anchor: Any = None  # AnchorSpec for PLACE targets (kept Any to avoid an import cycle)
+    # PLACE: the support-surface point the feasibility check validated
+    # (realization sets the object down there); None in proxy mode
+    place_point: list[float] | None = None
 
 
 class SimBackend(ABC):
@@ -196,9 +199,11 @@ class SimBackend(ABC):
         """Number of objects currently grasped by the robot."""
 
     @abstractmethod
-    def symbolic_place(self, entity: str, receptacle: str) -> bool:
+    def symbolic_place(self, entity: str, receptacle: str,
+                       at: list[float] | None = None) -> bool:
         """Release ``entity`` (the benchmark-held object) onto/into the
-        receptacle (instant transition). The held object is passed explicitly
+        receptacle (instant transition), at the validated support point
+        ``at`` when given. The held object is passed explicitly
         by the benchmark core; the backend never re-derives it from an
         internal grasp dict."""
 

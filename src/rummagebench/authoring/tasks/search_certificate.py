@@ -43,6 +43,11 @@ class SimulatorEvidence:
     rearrangement_depth: Optional[int] = None
     oracle_solvable: Optional[bool] = None
     oracle_depth: Optional[int] = None
+    # non-target objects the full-information oracle plan moves (GRASPs of a
+    # non-target): medium requires the ORACLE to uncover too, not only the
+    # RGB witness — an invisible target the oracle can side-grasp under its
+    # cover makes d* understate the task (A.12)
+    oracle_rearrangement_depth: Optional[int] = None
     replay_success: Optional[bool] = None
     # planning steps of the certified feasible execution
     certified_execution_steps: Optional[int] = None

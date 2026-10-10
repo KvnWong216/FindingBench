@@ -46,15 +46,15 @@ def test_tier_assets_load_and_keep_16_steps(tiers):
         assert spec.budget.max_planning_steps == 16  # frozen horizon
         assert spec.gates.start_visibility_max == 0.0
     assert tiers["easy"].planner_enabled
-    assert not tiers["medium"].planner_enabled
+    assert tiers["medium"].planner_enabled  # A.12: Core PLACE + cover stacking
 
 
 @pytest.mark.parametrize("fields,expected", [
     (dict(), ["easy"]),
     (dict(mode="on_surface", containment_depth=0, open_depth=0,
           target_slot_type="countertop"), ["easy"]),
-    (dict(mode="rummage", rearrangement_depth=2, lookalike_count=1), ["medium"]),
-    (dict(mode="rummage", rearrangement_depth=4, lookalike_count=4,
+    (dict(mode="buried", rearrangement_depth=2, lookalike_count=1), ["medium"]),
+    (dict(mode="buried", rearrangement_depth=4, lookalike_count=4,
           candidate_slot_count=5), ["medium"]),
     # easy structure violated by a lookalike, but not medium either (no rearr.)
     (dict(lookalike_count=1), []),
@@ -157,12 +157,38 @@ def test_no_evidence_never_certifies(tiers):
 
 
 def test_medium_premature_grasp(tiers):
-    cert = _cert(tier_proposed="medium", mode="rummage", rearrangement_depth=2,
+    cert = _cert(tier_proposed="medium", mode="buried", rearrangement_depth=2,
                  lookalike_count=1)
     cert.attach_evidence(_good_evidence(pre_reveal_graspable=True,
                                         rearrangement_depth=2))
     codes = {r.code for r in gates.certify(cert, tiers["medium"])}
     assert codes == {gates.TARGET_PREMATURELY_GRASPABLE}
+
+
+def _medium(oracle_moved):
+    cert = _cert(tier_proposed="medium", mode="buried", rearrangement_depth=1,
+                 lookalike_count=1)
+    cert.attach_evidence(_good_evidence(rearrangement_depth=1, oracle_depth=5,
+                                        oracle_rearrangement_depth=oracle_moved))
+    return cert
+
+
+def test_medium_certifies_when_the_oracle_uncovers_too(tiers):
+    assert gates.certify(_medium(1), tiers["medium"]) == []
+
+
+def test_medium_oracle_side_grasp_under_cover_is_rejected(tiers):
+    # the RGB witness had to uncover (target invisible), but the full-
+    # information oracle grasped the target without moving anything (A.12)
+    for moved in (0, None):
+        codes = {r.code for r in gates.certify(_medium(moved), tiers["medium"])}
+        assert codes == {gates.TARGET_PREMATURELY_GRASPABLE}
+
+
+def test_easy_ignores_oracle_rearrangement(tiers):
+    cert = _cert()
+    cert.attach_evidence(_good_evidence())  # oracle_rearrangement_depth unmeasured
+    assert gates.certify(cert, tiers["easy"]) == []
 
 
 def test_certificate_roundtrip():
@@ -191,3 +217,13 @@ def test_generator_margin_cannot_be_looser():
 def test_rejection_code_whitelist():
     with pytest.raises(ValueError):
         gates.Rejection("MADE_UP", "x")
+
+
+def test_medium_cover_rules():
+    from rummagebench.authoring.tasks.tiers.medium import covers_target, is_flat
+
+    notebook, folder, bowl = (0.15, 0.12, 0.03), (0.32, 0.29, 0.03), (0.15, 0.15, 0.06)
+    assert is_flat(notebook) and is_flat(folder) and not is_flat(bowl)
+    assert covers_target(folder, notebook)                  # >= 0.08 m overhang per side
+    assert not covers_target((0.29, 0.20, 0.03), notebook)  # 1.9x area, 0.04 m side gap
+    assert not covers_target(notebook, folder)
