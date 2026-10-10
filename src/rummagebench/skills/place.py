@@ -8,16 +8,28 @@ backend's internal grasp dict:
     state.held_object = None
 
 Commit discipline (skills/realization.py) with a placement-aware
-postcondition (round-2 hardening): the semantic release commits only after
-the ACTUAL backend state confirms BOTH that the object is released AND that
-it rests at the placement the feasibility stage validated —
-``resolved.place_point`` (xy within settle-drift tolerance; z is
-support-managed by the backend) or, when no validated point exists, the
-explicit target relation (object footprint within the receptacle's plan
-footprint, not below its floor). A backend that returns True but leaves the
-object anywhere else is rolled back and reported as an infrastructure fault;
-``state.release()`` and ``postcondition_satisfied=True`` never happen before
-verification completes.
+postcondition (round-3): the semantic release commits only after the ACTUAL
+backend state confirms the object is RELEASED and sits in the placement
+relation the validated point implies.
+
+Coordinate semantics (verified against sim/omnigibson/backend.py
+``symbolic_place``): ``resolved.place_point`` is the SUPPORT-SURFACE point
+(``interaction_target.py`` pins top-surface candidates to the region's top
+face); the backend sets the object ORIGIN at ``support_z + half_height +
+0.01``, so the object's post-move AABB BOTTOM lands ~1 cm above the support
+plane. All vertical comparisons therefore use the post-move
+``entity_aabb`` bottom against ``place_point[2]`` — never
+``entity_pose6d.position[2]`` (the object origin), whose Z is not
+commensurate with the support point.
+
+With a validated point: XY centred on it (settle-drift bound) AND the
+vertical/resting check of the receptacle's relation — on_top: bottom
+resting on the support plane within a bidirectional band (same XY with an
+arbitrary Z never commits); inside: full AABB containment. Without a
+validated point: the relation is established from the receptacle's own
+support region (explicit on_top/inside bounds); when the relation cannot
+be established the step is rolled back and reported as an infrastructure
+fault.
 """
 
 from __future__ import annotations
@@ -31,7 +43,10 @@ from rummagebench.skills.realization import commit_realization
 # resting drift around the validated support point (backend places the
 # object centred on it; physics settle may move it slightly)
 _PLACE_POINT_XY_TOL = 0.05  # m
-# AABB slack for the target-relation fallback (no validated point)
+# bidirectional resting band around the support plane (the backend leaves
+# ~1 cm clearance between the object bottom and the support point)
+_PLACE_Z_TOL = 0.05  # m
+# AABB slack for the inside relation
 _RELATION_SLACK = 0.02  # m
 
 
@@ -47,28 +62,69 @@ class PlaceSkill:
         assert held is not None, "PLACE executed without benchmark-held object"
 
         def placement_established() -> bool:
-            """Actual-backend postcondition: RELEASED and AT the validated
-            placement (or within the receptacle's target footprint when no
-            validated point exists)."""
+            """Actual-backend postcondition: RELEASED and in the placement
+            relation the validated point implies (see module docstring for
+            the support-point coordinate semantics)."""
             if backend.is_holding(held):
                 return False
-            point = getattr(resolved, "place_point", None)
-            if point is not None:
-                pose = backend.entity_pose6d(held)
-                if pose is None:
-                    return False
-                dx = float(pose.position[0]) - float(point[0])
-                dy = float(pose.position[1]) - float(point[1])
-                return math.hypot(dx, dy) <= _PLACE_POINT_XY_TOL
             obj = backend.entity_aabb(held)
+            if obj is None:
+                return False
+            alo, ahi = obj
+            region = None
+            get_region = getattr(backend, "receptacle_region", None)
+            if callable(get_region):
+                region = get_region(receptacle)
+            kind = getattr(region, "kind", None)
+            point = getattr(resolved, "place_point", None)
+
+            if point is not None:
+                # XY: object centred on the validated support point
+                cx = (float(alo[0]) + float(ahi[0])) / 2.0
+                cy = (float(alo[1]) + float(ahi[1])) / 2.0
+                if math.hypot(cx - float(point[0]), cy - float(point[1])) \
+                        > _PLACE_POINT_XY_TOL:
+                    return False
+                if kind == "inside_volume":
+                    box = backend.entity_aabb(receptacle)
+                    return box is not None and _contained(obj, box)
+                # on_top relation (top_surface; also when the backend cannot
+                # name a region but the feasibility stage validated a point):
+                # the bottom RESTS on the support plane — same XY with an
+                # arbitrary Z never commits
+                return abs(float(alo[2]) - float(point[2])) <= _PLACE_Z_TOL + 1e-9
+
+            # no validated point: establish the relation from the receptacle's
+            # own support region, with explicit bounds per relation
             box = backend.entity_aabb(receptacle)
-            if obj is None or box is None:
-                return False  # placement unverifiable: fail loudly, not silently
+            if kind not in ("top_surface", "inside_volume") or box is None:
+                return False  # relation not establishable: infrastructure fault
+            if kind == "inside_volume":
+                return _contained(obj, box)
+            blo, bhi = box
+            xy_overlap = (
+                float(alo[0]) < float(bhi[0]) and float(ahi[0]) > float(blo[0])
+                and float(alo[1]) < float(bhi[1]) and float(ahi[1]) > float(blo[1])
+            )
+            # on_top bounds: over the footprint AND bottom resting on the top
+            # plane (not sunk into it, not floating above it)
+            return bool(
+                xy_overlap
+                and abs(float(alo[2]) - float(bhi[2])) <= _PLACE_Z_TOL + 1e-9
+            )
+
+        def _contained(obj, box):
+            """Inside relation: object AABB within the receptacle AABB
+            (slack-tolerant on every axis — explicit upper AND lower
+            bounds)."""
             (alo, ahi), (blo, bhi) = obj, box
             return bool(
-                alo[0] < bhi[0] and ahi[0] > blo[0]
-                and alo[1] < bhi[1] and ahi[1] > blo[1]
-                and alo[2] >= blo[2] - _RELATION_SLACK
+                float(alo[0]) >= float(blo[0]) - _RELATION_SLACK
+                and float(ahi[0]) <= float(bhi[0]) + _RELATION_SLACK
+                and float(alo[1]) >= float(blo[1]) - _RELATION_SLACK
+                and float(ahi[1]) <= float(bhi[1]) + _RELATION_SLACK
+                and float(alo[2]) >= float(blo[2]) - _RELATION_SLACK
+                and float(ahi[2]) <= float(bhi[2]) + _RELATION_SLACK
             )
 
         # standardized realization: release the held entity's grasp joint and
