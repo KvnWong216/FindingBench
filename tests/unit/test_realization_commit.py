@@ -222,26 +222,42 @@ def test_visual_verify_exception_invalidates_run(visual_session, visual_backend,
 
 
 # ---------------------------------------------------------------------------
-# Round-2 hardening: PLACE verifies release AND placement result
+# Round-3: PLACE verifies release AND the placement relation (vertical bounds)
 # ---------------------------------------------------------------------------
+#
+# Coordinate semantics (verified against the real backend): place_point is
+# the SUPPORT-SURFACE point; the real symbolic_place sets the object ORIGIN
+# to support_z + half_height + 1 cm, so the post-move AABB BOTTOM lands
+# ~1 cm above the support plane. The knife fixture has its origin at the
+# AABB centre (half_z = 0.03), so a faithful final origin for support
+# point [x, y, zs] is [x, y, zs + 0.04] with the AABB bottom at zs + 0.01.
+
+_CABINET_TOP_Z = 0.9     # cabinet_B AABB top plane
+_HALF_Z = 0.03           # knife fixture AABB half height
+_FAITHFUL_DZ = 0.01      # real-backend clearance between bottom and support
 
 
-class _LyingPlaceBackend(FakeBackend):
-    """symbolic_place reports success and releases the joint, but leaves the
-    object somewhere other than the validated placement point."""
+class _ScriptedPlaceBackend(FakeBackend):
+    """symbolic_place releases the joint and reports True, leaving the
+    object at a test-scripted final ORIGIN (None = never moves it). The
+    AABB travels with the object, mirroring the real backend's post-place
+    state so relation checks read post-move reality."""
+
+    final_origin = None
 
     def symbolic_place(self, entity: str, receptacle: str, at=None) -> bool:
         self.place_point = at
-        self.holding_entity = None  # joint released...
-        return True                 # ...and success claimed without moving it
-
-
-class _FaithfulPlaceBackend(FakeBackend):
-    """Places the object ON the validated point (xy centred) and releases."""
-
-    def symbolic_place(self, entity: str, receptacle: str, at=None) -> bool:
-        self.place_point = at
-        self.poses[entity] = [at[0], at[1], float(at[2]) + 0.02]
+        if self.holding_entity != entity:
+            return False
+        if self.final_origin is not None and entity in self.aabbs:
+            lo, hi = self.aabbs[entity]
+            old = self.poses.get(entity, [(lo[0] + hi[0]) / 2,
+                                          (lo[1] + hi[1]) / 2,
+                                          (lo[2] + hi[2]) / 2])
+            d = [self.final_origin[i] - old[i] for i in range(3)]
+            self.aabbs[entity] = ([lo[0] + d[0], lo[1] + d[1], lo[2] + d[2]],
+                                  [hi[0] + d[0], hi[1] + d[1], hi[2] + d[2]])
+            self.poses[entity] = list(self.final_origin)
         self.holding_entity = None
         return True
 
@@ -258,41 +274,129 @@ def _held_state(backend=None):
     return state
 
 
-def _place_target(backend):
+def _place_backend(fake, final_origin):
+    backend = _clone_world(_ScriptedPlaceBackend, fake)
+    backend.final_origin = final_origin
+    return backend
+
+
+def _place_target(backend, receptacle="cabinet_B", point=None):
     from rummagebench.sim.base import ResolvedTarget
 
-    return ResolvedTarget(kind=TargetKind.ENTITY, entity="cabinet_B",
-                          info=backend.describe_entity("cabinet_B"),
-                          place_point=[3.0, 1.0, 0.9])
+    return ResolvedTarget(kind=TargetKind.ENTITY, entity=receptacle,
+                          info=backend.describe_entity(receptacle),
+                          place_point=point)
 
 
-def test_place_true_but_wrong_position_rolls_back(fake_backend):
-    """The injected fault from the review: the backend returns True and has
-    already released the joint, but the object sits at the WRONG position.
-    The placement-aware postcondition must catch it: rollback (joint
-    re-attached) and an infrastructure fault — never state.release()."""
-    from rummagebench.skills.place import PlaceSkill
-
-    backend = _clone_world(_LyingPlaceBackend, fake_backend)
-    state = _held_state(backend)
-    with pytest.raises(FeasibilityBackendError, match="PLACE"):
-        PlaceSkill().execute(backend, _place_target(backend), state)
-    # rolled back: the released joint is re-attached, the semantic state is
-    # NOT released, and nothing was reported as EXECUTED
+def _assert_rolled_back(backend, state):
+    """Every negative PLACE case: infra fault, backend rollback, semantic
+    held state untouched, no successful result."""
     assert backend.holding_entity == "target_knife"
     assert backend.is_holding("target_knife")
     assert state.held_object == "target_knife"
 
 
-def test_place_verified_at_validated_point_commits(fake_backend):
-    """Positive control: the object actually lands on the validated point —
-    the release commits and the postcondition holds."""
+def test_place_xy_ok_but_floating_rolls_back(fake_backend):
+    """XY centred on the validated point but the object floats 30 cm above
+    the support plane: the vertical check must reject, roll back, and never
+    report postcondition_satisfied=True."""
     from rummagebench.skills.place import PlaceSkill
 
-    backend = _clone_world(_FaithfulPlaceBackend, fake_backend)
+    support = [3.0, 1.0, _CABINET_TOP_Z]
+    floating_origin = [3.0, 1.0, _CABINET_TOP_Z + 0.30 + _HALF_Z]
+    backend = _place_backend(fake_backend, floating_origin)
     state = _held_state(backend)
-    result = PlaceSkill().execute(backend, _place_target(backend), state)
+    with pytest.raises(FeasibilityBackendError, match="PLACE"):
+        PlaceSkill().execute(backend, _place_target(backend, point=support),
+                             state)
+    _assert_rolled_back(backend, state)
+
+
+def test_place_xy_ok_but_sunk_rolls_back(fake_backend):
+    """XY centred but the object sits 30 cm BELOW the legal placement zone
+    (sunk into the furniture): rejected, rolled back, not released."""
+    from rummagebench.skills.place import PlaceSkill
+
+    support = [3.0, 1.0, _CABINET_TOP_Z]
+    sunk_origin = [3.0, 1.0, _CABINET_TOP_Z - 0.30 + _HALF_Z]
+    backend = _place_backend(fake_backend, sunk_origin)
+    state = _held_state(backend)
+    with pytest.raises(FeasibilityBackendError, match="PLACE"):
+        PlaceSkill().execute(backend, _place_target(backend, point=support),
+                             state)
+    _assert_rolled_back(backend, state)
+
+
+def test_place_released_but_relation_not_established_rolls_back(fake_backend):
+    """No validated point, receptacle OPEN (inside relation): the object is
+    released but left floating ABOVE the receptacle volume — the relation
+    does not hold. Rollback + infra fault, semantic state unchanged."""
+    from rummagebench.skills.place import PlaceSkill
+
+    backend = _place_backend(fake_backend, [3.0, 1.0, 1.20])
+    backend.set_open("cabinet_B", True)  # inside_volume relation
+    state = _held_state(backend)
+    with pytest.raises(FeasibilityBackendError, match="PLACE"):
+        PlaceSkill().execute(backend, _place_target(backend, point=None),
+                             state)
+    _assert_rolled_back(backend, state)
+
+
+def test_place_faithful_at_validated_point_commits(fake_backend):
+    """Positive control (with place_point): the object rests on the support
+    plane ~1 cm clearance, xy centred — release commits."""
+    from rummagebench.skills.place import PlaceSkill
+
+    support = [3.0, 1.0, _CABINET_TOP_Z]
+    faithful_origin = [3.0, 1.0, _CABINET_TOP_Z + _FAITHFUL_DZ + _HALF_Z]
+    backend = _place_backend(fake_backend, faithful_origin)
+    state = _held_state(backend)
+    result = PlaceSkill().execute(
+        backend, _place_target(backend, point=support), state)
     assert result.executed
     assert result.postcondition_satisfied
     assert state.held_object is None
     assert not backend.is_holding("target_knife")
+
+
+def test_place_no_point_inside_relation_commits(fake_backend):
+    """Positive control (no place_point): open receptacle, object contained
+    in the inside_volume relation — release commits."""
+    from rummagebench.skills.place import PlaceSkill
+
+    backend = _place_backend(fake_backend, [3.0, 1.0, 0.45])
+    backend.set_open("cabinet_B", True)
+    state = _held_state(backend)
+    result = PlaceSkill().execute(
+        backend, _place_target(backend, point=None), state)
+    assert result.executed
+    assert result.postcondition_satisfied
+    assert state.held_object is None
+
+
+def test_place_no_point_floating_above_top_rolls_back(fake_backend):
+    """No validated point, receptacle CLOSED (on_top relation): the object
+    floats 30 cm above the top plane — the old footprint+lower-bound
+    fallback accepted this; the explicit on_top bounds reject it."""
+    from rummagebench.skills.place import PlaceSkill
+
+    backend = _place_backend(fake_backend, [3.0, 1.0, _CABINET_TOP_Z + 0.30])
+    state = _held_state(backend)
+    with pytest.raises(FeasibilityBackendError, match="PLACE"):
+        PlaceSkill().execute(backend, _place_target(backend, point=None),
+                             state)
+    _assert_rolled_back(backend, state)
+
+
+def test_place_no_point_relation_unavailable_rolls_back(fake_backend):
+    """A backend that cannot name a support region: the relation cannot be
+    established — rollback and infra fault, never a silent fallback."""
+    from rummagebench.skills.place import PlaceSkill
+
+    backend = _place_backend(fake_backend, [3.0, 1.0, 0.45])
+    backend.receptacle_region = lambda entity: None  # no region available
+    state = _held_state(backend)
+    with pytest.raises(FeasibilityBackendError, match="PLACE"):
+        PlaceSkill().execute(backend, _place_target(backend, point=None),
+                             state)
+    _assert_rolled_back(backend, state)

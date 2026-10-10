@@ -169,11 +169,20 @@ class FakeBackend(SimBackend):
         self.place_point = at
         if self.holding_entity != entity:
             return False
-        if at is not None:
-            # faithful realization: the object lands centred on the validated
-            # support point (xy), as the real backend does — the placement-
-            # aware PLACE postcondition verifies against this pose
-            self.poses[entity] = [float(at[0]), float(at[1]), float(at[2])]
+        if at is not None and entity in self.aabbs:
+            # faithful to the real backend's symbolic_place: the object
+            # ORIGIN goes to support_z + half_height + 1 cm (the AABB bottom
+            # lands ~1 cm above the support point) and the AABB travels with
+            # the object, so placement postcondition checks read real state
+            lo, hi = self.aabbs[entity]
+            half_z = (hi[2] - lo[2]) / 2.0
+            old = self.poses.get(
+                entity, [(lo[0] + hi[0]) / 2, (lo[1] + hi[1]) / 2, (lo[2] + hi[2]) / 2])
+            origin = [float(at[0]), float(at[1]), float(at[2]) + half_z + 0.01]
+            d = [origin[i] - old[i] for i in range(3)]
+            self.aabbs[entity] = ([lo[0] + d[0], lo[1] + d[1], lo[2] + d[2]],
+                                  [hi[0] + d[0], hi[1] + d[1], hi[2] + d[2]])
+            self.poses[entity] = origin
         self.holding_entity = None
         return True
 
