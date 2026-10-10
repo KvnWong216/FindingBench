@@ -104,6 +104,59 @@ def test_goal_predicates_inside_and_on_top():
                       _backend(on_top=True)).satisfied
 
 
+def test_on_top_support_matrix():
+    """Round-2 hardening: on_top requires an explicit support judgement —
+    resting on the support plane within a bidirectional tolerance. Floating
+    above the tabletop or penetrating into it is never success, and a
+    still-held object rests nowhere."""
+    from rummagebench.evaluation.goal_checker import _ON_TOP_Z_TOL
+
+    TOP = 0.7  # countertop support plane in the fixture below
+    scenario = _scenario()
+    scenario.goal = [GoalPredicateSpec(kind="on_top", entity="target_knife",
+                                       receptacle="countertop")]
+
+    def satisfied(knife_bottom_z: float, held: bool = False) -> bool:
+        backend = FakeBackend(
+            entities={
+                "target_knife": _entity("target_knife"),
+                "countertop": _entity("countertop"),
+                "cabinet_B": _entity("cabinet_B", openable=True),
+            },
+            anchors={"kitchen"},
+            poses={
+                "target_knife": [3.53, 0.53, knife_bottom_z + 0.03],
+                "countertop": [3.0, 1.0, 0.6],
+                "cabinet_B": [3.0, 1.0, 0.45],
+            },
+            aabbs={
+                "target_knife": ([3.5, 0.5, knife_bottom_z],
+                                 [3.56, 0.56, knife_bottom_z + 0.06]),
+                "countertop": ([2.4, 0.4, 0.5], [3.6, 1.6, 0.7]),
+                "cabinet_B": ([2.7, 0.7, 0.0], [3.3, 1.3, 0.9]),
+            },
+        )
+        state = BenchmarkWorldState()
+        if held:
+            state.grasp("target_knife", None)
+        return check_goal(state, scenario, backend).satisfied
+
+    # normal placement: bottom exactly on the support plane
+    assert satisfied(TOP)
+    # tolerance boundary (inclusive band): +/- TOL is still resting contact
+    assert satisfied(TOP + _ON_TOP_Z_TOL)
+    assert satisfied(TOP - _ON_TOP_Z_TOL)
+    # clearly floating above the tabletop: NOT supported
+    assert not satisfied(TOP + 0.30)
+    # sunk into the tabletop: NOT supported
+    assert not satisfied(TOP - 0.30)
+    # just outside the tolerance band on either side
+    assert not satisfied(TOP + _ON_TOP_Z_TOL + 1e-3)
+    assert not satisfied(TOP - _ON_TOP_Z_TOL - 1e-3)
+    # a still-held object cannot rest, even at exact contact height
+    assert not satisfied(TOP, held=True)
+
+
 def test_temporal_missing_event_never_satisfies():
     scenario = _scenario()
     scenario.temporal = [

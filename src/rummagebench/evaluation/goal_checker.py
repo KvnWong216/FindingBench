@@ -9,7 +9,10 @@ plus the backend's open-state/geometry queries:
     holding:  world_state.held_object == entity
     open:     backend.is_open(entity)
     closed:   not backend.is_open(entity)
-    on_top:   the entity AABB rests on the receptacle AABB (z band + overlap)
+    on_top:   the entity rests ON the receptacle's support plane — xy overlap,
+              bottom within a bidirectional tolerance band of the support top
+              (floating above or penetrating the surface is not support), and
+              the entity released (a held object rests nowhere)
     inside:   the entity AABB is contained in the receptacle AABB
 
 Temporal conditions are evaluated over COMMITTED skill events only (the
@@ -58,7 +61,7 @@ def check_goal(world_state, scenario, backend) -> GoalCheckResult:
             met = not backend.is_open(entity)
             results.append({"kind": g.kind, "entity": entity, "satisfied": met})
         elif g.kind in ("on_top", "inside"):
-            met = _check_placement(backend, entity, g.receptacle, g.kind)
+            met = _check_placement(backend, world_state, entity, g.receptacle, g.kind)
             results.append({
                 "kind": g.kind, "entity": entity, "receptacle": g.receptacle,
                 "satisfied": met,
@@ -69,18 +72,26 @@ def check_goal(world_state, scenario, backend) -> GoalCheckResult:
     return GoalCheckResult(satisfied=ok, predicates=results)
 
 
-def _check_placement(backend, entity: str, receptacle: str, kind: str) -> bool:
+def _check_placement(backend, world_state, entity: str, receptacle: str,
+                     kind: str) -> bool:
     aabb = backend.entity_aabb(entity)
     box = backend.entity_aabb(receptacle)
     if aabb is None or box is None:
         return False
     (alo, ahi), (blo, bhi) = aabb, box
     if kind == "on_top":
+        # Explicit support judgement (round-2 hardening): xy overlap AND the
+        # object's bottom RESTING on the support plane within a bidirectional
+        # tolerance band. Merely being above the surface (floating) or sunk
+        # into it (penetrating) is not support, and a still-held object
+        # cannot rest anywhere.
         xy_overlap = (
             alo[0] < bhi[0] - _CONTAIN_SLACK and ahi[0] > blo[0] + _CONTAIN_SLACK
             and alo[1] < bhi[1] - _CONTAIN_SLACK and ahi[1] > blo[1] + _CONTAIN_SLACK
         )
-        return bool(xy_overlap and alo[2] >= bhi[2] - _ON_TOP_Z_TOL)
+        resting = abs(alo[2] - bhi[2]) <= _ON_TOP_Z_TOL + 1e-9
+        released = getattr(world_state, "held_object", None) != entity
+        return bool(xy_overlap and resting and released)
     # inside: entity AABB within the receptacle AABB (slack-tolerant)
     return bool(
         alo[0] >= blo[0] - _CONTAIN_SLACK and ahi[0] <= bhi[0] + _CONTAIN_SLACK

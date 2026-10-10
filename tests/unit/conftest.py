@@ -169,6 +169,11 @@ class FakeBackend(SimBackend):
         self.place_point = at
         if self.holding_entity != entity:
             return False
+        if at is not None:
+            # faithful realization: the object lands centred on the validated
+            # support point (xy), as the real backend does — the placement-
+            # aware PLACE postcondition verifies against this pose
+            self.poses[entity] = [float(at[0]), float(at[1]), float(at[2])]
         self.holding_entity = None
         return True
 
