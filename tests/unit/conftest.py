@@ -128,6 +128,19 @@ class FakeBackend(SimBackend):
         self.opens = set(state["opens"])
         self.holding_entity = state["holding"]
 
+    # realization commit discipline (skills/realization.py): the counterfactual
+    # snapshot the skills roll back to. Same contract as the real backend:
+    # world state, holding relation AND the commanded robot pose.
+    def capture_observe_state(self) -> Any:
+        pos, quat = self.robot_pose()
+        return {**self.dump_state(), "pose": (list(pos), list(quat))}
+
+    def restore_observe_state(self, snapshot: Any) -> None:
+        self.load_state(snapshot)
+        pose = snapshot.get("pose")
+        if pose is not None:
+            self._last_anchor_position = list(pose[0])
+
     def render_snapshot(self, path: str) -> None:
         pass
 

@@ -91,6 +91,59 @@ def cmd_run(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_evaluate_visual(args: argparse.Namespace) -> int:
+    """AGENT-protocol batch entry (R03): runs the public visual protocol via
+    ``.step(raw)`` and computes metrics from the versioned event log. The
+    oracle ``run`` entry stays explicitly auxiliary."""
+    from rummagebench.adapters.python_api import create_session
+    from rummagebench.core.events import load_events
+    from rummagebench.core.scenario import load_scenario
+    from rummagebench.evaluation.episode_log import (
+        ScriptedPixelAgent,
+        run_visual_episode,
+    )
+    from rummagebench.evaluation.metrics import compute_metrics
+
+    scenario_file = _scenario_file(args.scenario)
+    scenario = load_scenario(scenario_file)
+
+    run_id = f"{time.strftime('%Y%m%d_%H%M%S')}_{scenario.id}_visual"
+    run_dir = Path(args.run_dir) / run_id
+
+    session = create_session(
+        scenario_file, run_dir=run_dir, seed=args.seed, trace_path=run_dir / "events.jsonl",
+        mode="agent",
+    )
+    script = list(scenario.agent.scripted_success)
+    agent = ScriptedPixelAgent(script, session)
+    summary = run_visual_episode(
+        session, agent, run_dir, save_images=not args.no_images,
+        model_version=args.model_version,
+    )
+    summary["metrics"] = compute_metrics(
+        load_events(run_dir / "events.jsonl"), scenario.oracle_min_steps,
+        scenario,
+    )
+
+    print("=" * 60)
+    print(f"episode: {summary['episode_id']}  agent: {summary['agent']}")
+    print(f"instruction: {summary['instruction']}")
+    print(f"session_mode: {summary['session_mode']}  run_valid: {summary['run_valid']}")
+    for event in load_events(run_dir / "events.jsonl"):
+        if event.get("event_type") != "action":
+            continue
+        raw = event.get("raw_action") or {}
+        print(
+            f"  step {event['planning_step']:>2}: {raw.get('skill')} "
+            f"-> {event.get('feedback')}"
+        )
+    print(f"status: {summary['status']}")
+    print(f"steps used: {summary['planning_steps_used']}/{summary['max_planning_steps']}")
+    print(f"trajectory: {run_dir / 'events.jsonl'}")
+    print("=" * 60)
+    return 0
+
+
 def cmd_build(args: argparse.Namespace) -> int:
     from rummagebench.authoring.builder import build_scenario
 
@@ -431,6 +484,20 @@ def main(argv: list[str] | None = None) -> int:
     eval_p.add_argument("--no-images", action="store_true")
     eval_p.add_argument("--no-trace", action="store_true")
     eval_p.set_defaults(func=cmd_run)
+
+    ev_p = sub.add_parser(
+        "evaluate-visual",
+        help="run the public visual protocol (agent mode) and score from the "
+             "versioned event log",
+    )
+    ev_p.add_argument("--scenario", required=True,
+                      help="path to a scenario YAML (or scenario id under scenarios/)")
+    ev_p.add_argument("--run-dir", default="runs")
+    ev_p.add_argument("--seed", type=int, default=0)
+    ev_p.add_argument("--no-images", action="store_true")
+    ev_p.add_argument("--model-version", default=None,
+                      help="optional model identity recorded in run metadata")
+    ev_p.set_defaults(func=cmd_evaluate_visual)
 
     build_p = sub.add_parser("build", help="compile a scenario into a reproducible initial state")
     build_p.add_argument("--scenario", required=True)

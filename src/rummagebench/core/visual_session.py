@@ -36,6 +36,17 @@ from rummagebench.core.public_types import (
     ReportDoneAction,
     TurnAction,
 )
+from rummagebench.core.events import (
+    AGENT_ACTION_PROTOCOL,
+    AGENT_FEEDBACK_PROTOCOL,
+    EVALUATION_EVENTS_SCHEMA_VERSION,
+    EVENT_TYPE_ACTION,
+    EVENT_TYPE_INFRASTRUCTURE_ERROR,
+    EVENT_TYPE_RESET,
+    EVENT_TYPE_TERMINAL,
+    SESSION_MODE_AGENT,
+    run_metadata_event,
+)
 from rummagebench.core.types import Action, EpisodeStatus, FailureReason, TargetKind, TargetRef
 from rummagebench.perception.frame_store import FrameStore
 from rummagebench.perception.visual_bridge import (
@@ -100,6 +111,12 @@ class VisualProtocolSession:
         self._observe_views: list[ObserveView] = []
         self._trace: list[dict[str, Any]] = []
         self._trace_path: Path | None = None
+        # optional model identity recorded in the run metadata event (set by
+        # the batch harness before reset; null when the harness omits it)
+        self.model_version: str | None = None
+        # committed skill events of THIS episode (R04 temporal predicates:
+        # only committed skill results may generate events)
+        self._skill_events: list[dict[str, Any]] = []
         from pydantic import TypeAdapter
 
         self._action_adapter = TypeAdapter(PublicAction)
@@ -127,6 +144,59 @@ class VisualProtocolSession:
         if self._trace_path:
             with self._trace_path.open("a") as f:
                 f.write(json.dumps(record, ensure_ascii=False, default=str) + "\n")
+
+    def _protocol_labels(self) -> dict[str, str]:
+        return {
+            "schema_version": EVALUATION_EVENTS_SCHEMA_VERSION,
+            "session_mode": SESSION_MODE_AGENT,
+            "action_protocol": AGENT_ACTION_PROTOCOL,
+            "feedback_protocol": AGENT_FEEDBACK_PROTOCOL,
+        }
+
+    def _state_fingerprint(self) -> dict[str, Any]:
+        """Evaluator-private pre/post state fingerprint (R03): robot base
+        pose, benchmark holding state and the open-entity set."""
+        ws = self._session.world_state
+        opens = []
+        try:
+            opens = sorted(
+                e for e in self._backend.entity_names() if self._backend.is_open(e)
+            )
+        except Exception:
+            opens = None  # fingerprint best-effort; never breaks a step
+        return {
+            "robot_pose": [float(v) for v in self._backend.robot_pose()[0]],
+            "held_object": ws.held_object,
+            "open_entities": opens,
+        }
+
+    def entity_pixel(self, entity: str) -> tuple[float, float] | None:
+        """Evaluator-private convenience for scripted DRIVERS ONLY: centre
+        pixel of ``entity`` in the current frame, normalized. Never part of
+        the public observation and never sent to a model."""
+        frame = self._store.get(self._store.current_id)
+        if frame is None:
+            return None
+        seg = np.asarray(frame.instance_segmentation)
+        for instance in np.unique(seg):
+            inst = int(instance)
+            if inst == 0:
+                continue
+            label = (
+                self._backend.instance_to_entity(inst, frame)
+                if "instance_labels" in frame.meta
+                else self._backend.instance_to_entity(inst)
+            )
+            if label != entity:
+                continue
+            ys, xs = np.nonzero(seg == instance)
+            if xs.size == 0:
+                continue
+            return (
+                float(xs.mean()) / max(frame.image_width - 1, 1),
+                float(ys.mean()) / max(frame.image_height - 1, 1),
+            )
+        return None
 
     def _capture_current(self):
         frame = self._backend.capture_visual_frame()
@@ -178,6 +248,7 @@ class VisualProtocolSession:
         self._public_step = 0
         self._last_feedback = None
         self._observe_views = []
+        self._skill_events = []
         self._trace.clear()
         frame = self._capture_current()
         if frame.meta.get("visual_grounding_supported") is False:
@@ -187,7 +258,24 @@ class VisualProtocolSession:
                 "diagnostic-only and do not establish RGB visibility. "
                 f"Missing: {frame.meta.get('unsupported_reason', 'private modalities')}"
             )
-        self._log({"event": "reset", "frame_id": frame.frame_id})
+        # R03: run metadata first, then the versioned reset event. Model
+        # identity/config hash are null unless the harness supplies them.
+        self._log(run_metadata_event(
+            self._session.episode_id, self._scenario,
+            session_mode=SESSION_MODE_AGENT,
+            action_protocol=AGENT_ACTION_PROTOCOL,
+            feedback_protocol=AGENT_FEEDBACK_PROTOCOL,
+            model_version=getattr(self, "model_version", None),
+            config_hash=None,
+            seed=None,
+        ))
+        self._log({
+            "event_type": EVENT_TYPE_RESET,
+            **self._protocol_labels(),
+            "episode_id": self._session.episode_id,
+            "frame_id": frame.frame_id,
+            "state_fingerprint": self._state_fingerprint(),
+        })
         observation = self._observation(frame)
         self._status = _PUBLIC_RUNNING
         return observation
@@ -219,14 +307,27 @@ class VisualProtocolSession:
                 observation=self._observation(frame),
             )
 
-        record: dict[str, Any] = {"raw_action": raw, "robot_pose_before": self._backend.robot_pose()[0]}
+        record: dict[str, Any] = {
+            "event_type": EVENT_TYPE_ACTION,
+            **self._protocol_labels(),
+            "episode_id": self._session.episode_id,
+            "raw_action": raw,
+            "robot_pose_before": self._backend.robot_pose()[0],
+            "state_fingerprint_before": self._state_fingerprint(),
+        }
         try:
             action = self._action_adapter.validate_python(raw)
         except ValidationError:
             action = None
+        # R03: parsed result of the raw output (None when the public schema
+        # rejected it), so evaluation never has to re-parse raw output
+        record["parsed_action"] = (
+            action.model_dump(mode="json") if action is not None else None
+        )
 
         self._observe_views = []
         frame = self._store.get(self._store.current_id)
+        record["current_frame_id"] = frame.frame_id if frame is not None else None
 
         try:
             if action is None:
@@ -247,8 +348,10 @@ class VisualProtocolSession:
             # as INVALID_ACTION. Invalidate this run until an explicit reset.
             logger.exception("public step failed; run invalidated")
             self._status = "ENGINE_ERROR"
+            record["event_type"] = EVENT_TYPE_INFRASTRUCTURE_ERROR
             record["private_reason"] = f"ENGINE:{type(e).__name__}"
             record["run_invalidated"] = True
+            record["state_fingerprint_after"] = self._state_fingerprint()
             self._log(record)
             raise RuntimeError("episode invalidated by simulator failure; reset required") from None
 
@@ -261,10 +364,36 @@ class VisualProtocolSession:
             self._status = "FAIL_MAX_STEPS"
 
         frame = self._store.get(self._store.current_id)
+        # R03 execution fields: whether the step took effect and whether its
+        # postcondition landed (entity skills report the legacy verdict;
+        # other skills default to the public EXECUTED verdict)
+        record["executed"] = record.get("feedback") == "EXECUTED"
+        record["postcondition_satisfied"] = record.get(
+            "postcondition_satisfied", record["executed"]
+        )
+        record["binding"] = {
+            "frame_id": record.get("input_frame_id") or record.get("current_frame_id"),
+            "point": record.get("point"),
+            "selected_entity": record.get("selected_entity"),
+            "grounding_version": record.get("grounding_version"),
+        }
+        record["skill_events"] = list(record.get("skill_events", []))
         record["planning_step"] = self._public_step
         record["episode_status"] = self._status
         record["robot_pose_after"] = self._backend.robot_pose()[0]
+        record["state_fingerprint_after"] = self._state_fingerprint()
+        record["frame_id_after"] = frame.frame_id if frame is not None else None
         self._log(record)
+        if self._status != _PUBLIC_RUNNING:
+            # R03: terminal transitions are explicit events, never action rows
+            self._log({
+                "event_type": EVENT_TYPE_TERMINAL,
+                **self._protocol_labels(),
+                "episode_id": self._session.episode_id,
+                "episode_status": self._status,
+                "planning_step": self._public_step,
+                "trigger_action": raw,
+            })
 
         return PublicStepResult(
             episode_status=self._status,
@@ -320,7 +449,10 @@ class VisualProtocolSession:
         record["feedback"] = "EXECUTED"
 
     def _step_report_done(self, record) -> None:
-        if goal_satisfied(self._session.world_state, self._scenario):
+        if goal_satisfied(
+            self._session.world_state, self._scenario,
+            backend=self._backend, events=self._skill_events,
+        ):
             self._status = "SUCCESS"
             self._last_feedback = self._feedback(PublicActionFeedback.EXECUTED)
             record["feedback"] = "EXECUTED"
@@ -410,6 +542,23 @@ class VisualProtocolSession:
         result = self._session.act(legacy_action)
         record["legacy_failure_reason"] = result.failure_reason.value
         record["legacy_executed"] = result.executed
+        postcondition_ok = bool(
+            (result.observation.previous_action_result or {}).get(
+                "postcondition_satisfied")
+        )
+        record["postcondition_satisfied"] = postcondition_ok
+        # committed skill events feed the temporal predicates (R04); only
+        # committed executions may generate events
+        if result.executed:
+            record["skill_events"] = list(result.events)
+            self._skill_events.extend(result.events)
+        if result.executed and not postcondition_ok:
+            # commit discipline (skills/realization.py) makes this
+            # unreachable; if it ever happens the world may be half-committed
+            # and the step must NOT surface as a model-facing verdict
+            raise RuntimeError(
+                f"{skill} reported EXECUTED with an unsatisfied postcondition"
+            )
         record["feedback"] = (self._map_legacy_feedback(result)).code.value
         self._last_feedback = self._map_legacy_feedback(result)
         if result.executed:

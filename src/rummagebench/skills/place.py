@@ -7,15 +7,19 @@ backend's internal grasp dict:
     backend.symbolic_place(held, receptacle)   # explicit entity, no re-lookup
     state.held_object = None
 
-Execution is an instant symbolic transition; feasibility (hand not empty,
-receptacle region reachable, IK, collision) is checked by the benchmark core
-before this skill runs.
+Commit discipline (skills/realization.py): the semantic release is committed
+only after the standardized realization established the released postcondition;
+a failed realization rolls the backend back and raises an infrastructure
+fault instead of reporting EXECUTED. The validated placement point is the one
+the feasibility stage selected (``resolved.place_point``) — no alternative
+candidates are sought after a failed execution.
 """
 
 from __future__ import annotations
 
 from rummagebench.core.types import SkillResult, TargetKind
 from rummagebench.sim.base import ResolvedTarget, SimBackend
+from rummagebench.skills.realization import commit_realization
 
 
 class PlaceSkill:
@@ -29,11 +33,20 @@ class PlaceSkill:
         held = state.held_object
         assert held is not None, "PLACE executed without benchmark-held object"
 
-        # realization: release the held entity's grasp joint and move the
-        # object to the receptacle (explicit entity — no re-derivation)
-        realized = backend.symbolic_place(held, receptacle, at=resolved.place_point)
+        # standardized realization: release the held entity's grasp joint and
+        # move the object to the validated point (explicit entity — no
+        # re-derivation). Raises FeasibilityBackendError (with backend
+        # rollback) when the released postcondition cannot be established.
+        commit_realization(
+            backend,
+            realize=lambda: backend.symbolic_place(
+                held, receptacle, at=resolved.place_point),
+            verify=lambda: not backend.is_holding(held),
+            what=f"PLACE({held} -> {receptacle})",
+        )
 
-        # benchmark-owned state transition
+        # benchmark-owned state transition (semantic truth, committed AFTER
+        # the realization landed)
         state.release()
 
         return SkillResult(
@@ -46,8 +59,8 @@ class PlaceSkill:
                     "event": "place_executed",
                     "entity": held,
                     "receptacle": receptacle,
-                    "realized": bool(realized),
+                    "realized": True,
                 }
             ],
-            details={"held": held, "receptacle": receptacle, "realized": bool(realized)},
+            details={"held": held, "receptacle": receptacle, "realized": True},
         )
