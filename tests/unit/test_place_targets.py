@@ -15,7 +15,7 @@ import numpy as np
 from rummagebench.core.types import TargetKind
 from rummagebench.feasibility.interaction_target import (
     PLACE_MAX_CANDIDATES,
-    PLACE_MAX_REACH_M,
+    PLACE_PREFERRED_REACH_M,
     STANDOFF_M,
     receptacle_place_targets,
 )
@@ -35,28 +35,87 @@ def test_support_furniture_is_receptacle():
     assert build_entity_info(_obj("countertop", True)).is_receptacle
     assert build_entity_info(_obj("bottom_cabinet", True, {"openable": {}})).is_receptacle
     assert build_entity_info(_obj("desk", True)).is_receptacle
-    # movable tables and small objects are not support surfaces by category
-    assert not build_entity_info(_obj("coffee_table", False)).is_receptacle
+    # round-5: support-surface categories are support surfaces regardless of
+    # the (unreliable) fixed_base metadata; such furniture is never graspable
+    movable_table = build_entity_info(_obj("coffee_table", False))
+    assert movable_table.is_receptacle and not movable_table.graspable
+    # small objects are not support surfaces by category
     assert not build_entity_info(_obj("mug", False)).is_receptacle
     assert build_entity_info(_obj("bowl", False, {"fillable": {}})).is_receptacle
+
+
+def test_support_surface_room_furniture_is_receptacle_not_graspable():
+    """Round-5 GPU smoke finding: console_table is fixed_base=False in the
+    BEHAVIOR metadata but IS a support surface by category — receptacle,
+    NOT graspable, dispatched to the Receptacle adapter with the PLACE
+    interface."""
+    from rummagebench.object_interface.base import build_object_interface
+    from rummagebench.object_interface.receptacle import Receptacle
+
+    info = build_entity_info(_obj("console_table", False))
+    assert info.is_receptacle
+    assert not info.graspable
+    assert isinstance(build_object_interface(info, None), Receptacle)
+
+
+def test_graspable_receptacle_container_keeps_rigid_adapter():
+    """Graspable fillable containers (bowls) keep the RigidObject GRASP
+    interface; the Receptacle dispatch is for non-graspable surfaces."""
+    from rummagebench.object_interface.base import build_object_interface
+    from rummagebench.object_interface.rigid import RigidObject
+
+    info = build_entity_info(_obj("bowl", False, {"fillable": {}}))
+    assert info.is_receptacle and info.graspable
+    assert isinstance(build_object_interface(info, None), RigidObject)
 
 
 def test_top_surface_targets_near_robot(fake_backend):
     fake_backend._last_anchor_position = [2.0, 1.0, 0.0]
     targets = receptacle_place_targets("countertop", fake_backend)
     assert 0 < len(targets) <= PLACE_MAX_CANDIDATES
+    preferences = []
     for t in targets:
         sp = t.metadata["surface_point"]
-        assert np.hypot(sp[0] - 2.0, sp[1] - 1.0) <= PLACE_MAX_REACH_M + 1e-9
+        # inside the surface (edge inset respected); NO metric-circle cap
+        assert 2.4 + 0.06 - 1e-9 <= sp[0] <= 3.6 - 0.06 + 1e-9
+        assert 0.4 + 0.06 - 1e-9 <= sp[1] <= 1.6 - 0.06 + 1e-9
         assert sp[2] == 0.7  # countertop top
         assert abs(t.pose.position[2] - (0.7 + STANDOFF_M)) < 1e-9
         assert t.source == "receptacle_top_surface_near"
         assert t.to_dict()["surface_point"] == [round(v, 4) for v in sp]
+        preferences.append(abs(np.hypot(sp[0] - 2.0, sp[1] - 1.0)
+                               - PLACE_PREFERRED_REACH_M))
+    # ordered by preferred arm reach: a preference, not an exclusion
+    assert preferences == sorted(preferences)
 
 
-def test_top_surface_targets_out_of_reach_is_empty(fake_backend):
+def test_far_surface_still_yields_candidates(fake_backend):
+    """Round-5 regression (GPU smoke finding): a surface entirely beyond the
+    old 1 m sampling circle still yields candidates. Reachability is
+    decided by the production IK/collision check on each candidate, not by
+    the sampler."""
     fake_backend._last_anchor_position = [10.0, 10.0, 0.0]
-    assert receptacle_place_targets("countertop", fake_backend) == []
+    targets = receptacle_place_targets("countertop", fake_backend)
+    assert 0 < len(targets) <= PLACE_MAX_CANDIDATES
+    distances = [np.hypot(t.metadata["surface_point"][0] - 10.0,
+                          t.metadata["surface_point"][1] - 10.0)
+                 for t in targets]
+    assert distances == sorted(distances)  # nearest-to-preferred first
+    for t in targets:
+        assert t.metadata["surface_point"][2] == 0.7
+
+
+def test_surface_just_beyond_one_metre_yields_candidates(fake_backend):
+    """The console-table smoke finding: the robot stands ~1.1 m from the
+    table and GRASPs from there are certified, but the old 1 m circle
+    returned zero PLACE candidates. The whole-surface grid does not."""
+    fake_backend._last_anchor_position = [4.8, 1.0, 0.0]
+    targets = receptacle_place_targets("countertop", fake_backend)
+    assert len(targets) > 0
+    for t in targets:
+        sp = t.metadata["surface_point"]
+        assert np.hypot(sp[0] - 4.8, sp[1] - 1.0) > 1.0  # beyond the old cap
+        assert sp[2] == 0.7
 
 
 def test_articulated_receptacle_offers_place(fake_backend):

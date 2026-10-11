@@ -128,6 +128,20 @@ def run_episode(scenario_path: str, out_path: str) -> dict:
             trial = {"receptacle": rec}
             try:
                 resolved = backend.resolve_entity(rec)
+                info = resolved.info
+                trial["info"] = {
+                    "fixed_base": bool(getattr(info, "fixed_base", None)),
+                    "openable": bool(getattr(info, "openable", None)),
+                    "is_receptacle": bool(getattr(info, "is_receptacle", None)),
+                    "category": getattr(info, "category", None),
+                } if info is not None else None
+                from rummagebench.object_interface.base import build_object_interface
+
+                obj = build_object_interface(info, backend)
+                trial["adapter"] = type(obj).__name__
+                interface_targets = obj.interaction_targets(
+                    "PLACE", session.world_state)
+                trial["interface_targets"] = len(interface_targets or [])
                 verdict = session._feasibility.check(
                     "PLACE", resolved, session.robot, session.world_state)
                 trial["feasible"] = bool(verdict.feasible)

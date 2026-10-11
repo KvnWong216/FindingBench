@@ -237,12 +237,16 @@ def rigid_interaction_candidates(entity: str, backend: Any) -> list[InteractionT
 # --------------------------------------------------------------------------
 
 
-# top-surface PLACE sampling: grid points on the support surface within the
-# arm's reach of the robot base, nearest the comfortable reach radius first.
-# A whole-surface center / edge midpoint is metres away on a long countertop.
+# top-surface PLACE sampling (round-5): a grid over the WHOLE support
+# surface, ordered by |d - PLACE_PREFERRED_REACH_M| — a preference, not an
+# exclusion. There is NO metric-circle pre-filter: every returned candidate
+# goes through the production feasibility check (real IK + configuration-
+# space collision + approach), which is the actual embodiment/collision
+# verdict. A fixed 1 m sampling circle rejected points the arm can reach
+# (certified GRASPs beyond 1 m) and yielded zero candidates on surfaces the
+# robot was interacting with.
 PLACE_GRID_STEP_M = 0.08
 PLACE_EDGE_INSET_M = 0.06
-PLACE_MAX_REACH_M = 1.0
 PLACE_PREFERRED_REACH_M = 0.65
 PLACE_MAX_CANDIDATES = 8
 
@@ -258,6 +262,9 @@ def _robot_xy(backend: Any):
 
 
 def _near_top_surface_points(lo, hi, robot_xy) -> list[np.ndarray]:
+    """Grid the WHOLE support surface, order by |d - PLACE_PREFERRED_REACH_M|
+    (comfortable reach first), cap the returned candidate count. No distance
+    exclusion: reachability is decided downstream by real IK + collision."""
     xs = np.arange(lo[0] + PLACE_EDGE_INSET_M, hi[0] - PLACE_EDGE_INSET_M + 1e-9,
                    PLACE_GRID_STEP_M)
     ys = np.arange(lo[1] + PLACE_EDGE_INSET_M, hi[1] - PLACE_EDGE_INSET_M + 1e-9,
@@ -266,8 +273,7 @@ def _near_top_surface_points(lo, hi, robot_xy) -> list[np.ndarray]:
     for x in xs:
         for y in ys:
             d = float(np.hypot(x - robot_xy[0], y - robot_xy[1]))
-            if d <= PLACE_MAX_REACH_M:
-                scored.append((abs(d - PLACE_PREFERRED_REACH_M), float(x), float(y)))
+            scored.append((abs(d - PLACE_PREFERRED_REACH_M), float(x), float(y)))
     scored.sort()
     return [np.array([x, y, float(hi[2])]) for _, x, y in scored[:PLACE_MAX_CANDIDATES]]
 
@@ -275,9 +281,11 @@ def _near_top_surface_points(lo, hi, robot_xy) -> list[np.ndarray]:
 def receptacle_place_targets(entity: str, backend: Any) -> list[InteractionTarget]:
     """PLACE targets from the receptacle support region, never the root pose.
 
-    Top surfaces: grid points within reach of the robot base (tool pointing
-    down). Without a robot pose (or for an inside volume): the region center
-    + four in-plane edge midpoints.
+    Top surfaces: a grid over the whole surface, ordered by preferred arm
+    reach (tool pointing down) — reachability itself is decided by the
+    production IK/collision check on each candidate, not by a sampling
+    radius. Without a robot pose (or for an inside volume): the region
+    center + four in-plane edge midpoints.
     """
     region = backend.receptacle_region(entity)
     if region is None:
