@@ -248,7 +248,11 @@ def rigid_interaction_candidates(entity: str, backend: Any) -> list[InteractionT
 PLACE_GRID_STEP_M = 0.08
 PLACE_EDGE_INSET_M = 0.06
 PLACE_PREFERRED_REACH_M = 0.65
-PLACE_MAX_CANDIDATES = 8
+# round-6: batch size for the feasibility validator, NOT a total-candidate
+# cap — the FULL ordered grid is handed to the validator, which walks it
+# batch by batch until a complete feasible witness is found or the discrete
+# candidate set is exhausted.
+PLACE_BATCH_SIZE = 8
 
 
 def _robot_xy(backend: Any):
@@ -263,8 +267,9 @@ def _robot_xy(backend: Any):
 
 def _near_top_surface_points(lo, hi, robot_xy) -> list[np.ndarray]:
     """Grid the WHOLE support surface, order by |d - PLACE_PREFERRED_REACH_M|
-    (comfortable reach first), cap the returned candidate count. No distance
-    exclusion: reachability is decided downstream by real IK + collision."""
+    (comfortable reach first). Round-6: the FULL ordered set is returned —
+    distance orders the check sequence and never excludes a candidate; the
+    feasibility validator walks it in batches of PLACE_BATCH_SIZE."""
     xs = np.arange(lo[0] + PLACE_EDGE_INSET_M, hi[0] - PLACE_EDGE_INSET_M + 1e-9,
                    PLACE_GRID_STEP_M)
     ys = np.arange(lo[1] + PLACE_EDGE_INSET_M, hi[1] - PLACE_EDGE_INSET_M + 1e-9,
@@ -275,7 +280,7 @@ def _near_top_surface_points(lo, hi, robot_xy) -> list[np.ndarray]:
             d = float(np.hypot(x - robot_xy[0], y - robot_xy[1]))
             scored.append((abs(d - PLACE_PREFERRED_REACH_M), float(x), float(y)))
     scored.sort()
-    return [np.array([x, y, float(hi[2])]) for _, x, y in scored[:PLACE_MAX_CANDIDATES]]
+    return [np.array([x, y, float(hi[2])]) for _, x, y in scored]
 
 
 def receptacle_place_targets(entity: str, backend: Any) -> list[InteractionTarget]:

@@ -46,7 +46,65 @@ def _placement_of(scenario, entity):
     return None
 
 
-def run_episode(scenario_path: str, out_path: str) -> dict:
+def _git_head() -> str | None:
+    """Commit SHA of the code under test (repo root = script/..)."""
+    import subprocess
+
+    try:
+        root = Path(__file__).resolve().parents[1]
+        return subprocess.run(["git", "rev-parse", "HEAD"], cwd=root,
+                              capture_output=True, text=True, timeout=10
+                              ).stdout.strip() or None
+    except Exception:
+        return None
+
+
+def classify_acceptance(trial: dict) -> str:
+    """Acceptance class of one executed PLACE trial (round-6).
+
+    production_pass     feasible witness from the production feasibility
+                        check (point_source == 'feasibility'), the required
+                        safety check (approach) modelled incl. held
+                        geometry and clear, and the production PlaceSkill
+                        committed.
+    postcondition_only  the PlaceSkill postcondition machinery committed,
+                        but the trial does NOT meet the production bar
+                        (e.g. feasibility rejected and an explicit
+                        --allow-fallback diagnostic point was used, or the
+                        approach check was not fully modelled). Never
+                        counted as a production pass.
+    rejected            nothing committed.
+    """
+    verdict_committed = bool((trial.get("verdict") or {}).get("committed"))
+    if not verdict_committed:
+        return "rejected"
+    approach = trial.get("approach") or {}
+    production_ready = (
+        trial.get("feasible") is True
+        and trial.get("point_source") == "feasibility"
+        and approach.get("modelled") is True
+        and approach.get("clear") is True
+        and approach.get("held_geometry") is True
+    )
+    return "production_pass" if production_ready else "postcondition_only"
+
+
+def select_place_trial(trials: list[dict], allow_fallback: bool) -> dict | None:
+    """Pick the trial to execute. Round-6: fallback (unvalidated region
+    points after a feasibility rejection) is ONLY eligible when explicitly
+    enabled, and such trials are marked postcondition-only."""
+    for trial in trials:
+        if trial.get("feasible") and trial.get("point_source") == "feasibility":
+            return trial
+    if allow_fallback:
+        for trial in trials:
+            if trial.get("point_source") == "fallback_targets[0]":
+                return trial
+    return None
+
+
+def run_episode(scenario_path: str, out_path: str,
+                allow_fallback: bool = False) -> dict:
     scenario = load_scenario(scenario_path)
     target = scenario.target.entity
     placement = _placement_of(scenario, target)
@@ -57,6 +115,15 @@ def run_episode(scenario_path: str, out_path: str) -> dict:
         "receptacle": placement.receptacle if placement else None,
         "relation": placement.relation if placement else None,
         "tolerances": {"xy": _PLACE_POINT_XY_TOL, "z": _PLACE_Z_TOL},
+        # structured provenance (round-6): code under test + backend config
+        "commit_sha": _git_head(),
+        "backend_config": {
+            "class": type(OmniGibsonBackend).__name__,
+            "seed": 0,
+            "validate_legacy_anchors": True,
+            "settle_steps_default": 15,
+        },
+        "allow_fallback": allow_fallback,
     }
     if placement is None:
         record["error"] = "no placement for target"
@@ -146,15 +213,22 @@ def run_episode(scenario_path: str, out_path: str) -> dict:
                     "PLACE", resolved, session.robot, session.world_state)
                 trial["feasible"] = bool(verdict.feasible)
                 trial["reason"] = verdict.reason
-                trial["candidates_evaluated"] = (verdict.details or {}).get(
+                # round-6 evidence: candidate-search statistics and the
+                # approach-model state of the winning candidate
+                details = verdict.details or {}
+                trial["search"] = details.get("search")
+                trial["approach"] = details.get("approach")
+                trial["candidates_evaluated"] = details.get(
                     "candidates_evaluated")
-                trial["evaluation_errors"] = (verdict.details or {}).get(
-                    "evaluation_errors")
+                trial["evaluation_errors"] = details.get("evaluation_errors")
                 if verdict.feasible:
-                    point = (verdict.details or {}).get(
+                    point = details.get(
                         "interaction_target", {}).get("surface_point")
                     trial["point_source"] = "feasibility"
-                else:
+                elif allow_fallback:
+                    # diagnostics only (explicit --allow-fallback): an
+                    # unvalidated region point exercises the postcondition
+                    # machinery, but can NEVER count as a production pass
                     targets = receptacle_place_targets(rec, backend)
                     trial["region_targets"] = len(targets)
                     if targets:
@@ -164,7 +238,11 @@ def run_episode(scenario_path: str, out_path: str) -> dict:
                 trial["error"] = f"{type(e).__name__}: {e}"
             record["receptacle_trials"].append(trial)
             print("[smoke] receptacle trial:", trial, flush=True)
-            if point is not None:
+            # round-6: the eligibility rule (feasible witness required;
+            # fallback only with --allow-fallback) lives in
+            # select_place_trial and is unit-tested
+            if select_place_trial(record["receptacle_trials"],
+                                  allow_fallback) is not None:
                 chosen = rec
                 break
         if point is None:
@@ -178,10 +256,23 @@ def run_episode(scenario_path: str, out_path: str) -> dict:
             if t["receptacle"] == receptacle)
 
         # realization under measurement: snapshot -> symbolic_place (settle
-        # happens inside) -> measure BEFORE any rollback can destroy it
+        # happens inside) -> measure BEFORE any rollback can destroy it.
+        # The pre-settle (commanded) object pose is the production formula:
+        # origin = support point + half height + 1 cm (symbolic_place).
+        held_aabb_pre = backend.entity_aabb(held)
+        half_z = ((float(held_aabb_pre[1][2]) - float(held_aabb_pre[0][2])) / 2.0
+                  if held_aabb_pre is not None else None)
         snap = backend.capture_observe_state()
         realized = backend.symbolic_place(held, receptacle, at=point)
         record["symbolic_place_returned"] = bool(realized)
+        if half_z is not None:
+            record["commanded_origin"] = [
+                round(float(point[0]), 4), round(float(point[1]), 4),
+                round(float(point[2]) + half_z + 0.01, 4)]
+        record["held_aabb_pre_settle"] = (
+            [[round(float(v), 4) for v in held_aabb_pre[0]],
+             [round(float(v), 4) for v in held_aabb_pre[1]]]
+            if held_aabb_pre is not None else None)
 
         pose = backend.entity_pose6d(held)
         aabb = backend.entity_aabb(held)
@@ -241,10 +332,18 @@ def run_episode(scenario_path: str, out_path: str) -> dict:
             )
             record["verdict"] = {
                 "committed": bool(result.executed and result.postcondition_satisfied),
+                "relation": result.details.get("relation"),
             }
         except FeasibilityBackendError as e:
             record["verdict"] = {"committed": False, "fault": str(e)}
         record["held_after_verdict"] = state.held_object
+        # round-6 acceptance classification of the CHOSEN trial
+        chosen_trial = next(t for t in record["receptacle_trials"]
+                            if t["receptacle"] == receptacle)
+        chosen_trial["committed"] = bool(
+            (record["verdict"] or {}).get("committed"))
+        record["acceptance"] = classify_acceptance(chosen_trial)
+        record["production_pass"] = record["acceptance"] == "production_pass"
         return record
     except Exception as e:  # noqa: BLE001 - smoke must record, not die
         record["error"] = f"{type(e).__name__}: {e}"
@@ -269,12 +368,19 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--scenario", required=True)
     parser.add_argument("--out", required=True)
+    parser.add_argument(
+        "--allow-fallback", action="store_true",
+        help="DIAGNOSTIC ONLY: after a feasibility rejection, execute with "
+             "an unvalidated region point. Such trials are classified "
+             "postcondition_only and never count as production passes.")
     args = parser.parse_args()
 
-    record = run_episode(args.scenario, args.out)
+    record = run_episode(args.scenario, args.out,
+                         allow_fallback=args.allow_fallback)
     print("[smoke] result:", json.dumps(
         {k: record.get(k) for k in
-         ("episode", "verdict", "drift", "error")}, default=str), flush=True)
+         ("episode", "acceptance", "production_pass", "verdict", "drift",
+          "error")}, default=str), flush=True)
     return 0
 
 

@@ -528,3 +528,100 @@ def test_place_floating_at_outer_bbox_top_rolls_back(fake_backend):
         PlaceSkill().execute(backend, _place_target(backend, point=None),
                              state)
     _assert_rolled_back(backend, state)
+
+
+def test_place_and_goal_share_the_relation_verdict(fake_backend):
+    """Round-6 unification: the SAME object/receptacle geometry gets the
+    SAME relation verdict from the PLACE postcondition and the goal
+    predicate — wall-zone geometry rejects both, interior geometry commits
+    and satisfies both."""
+    from rummagebench.core.types import TargetKind as TK
+    from rummagebench.core.scenario import GoalPredicateSpec
+    from rummagebench.evaluation.goal_checker import check_goal
+    from rummagebench.sim.base import ResolvedTarget
+    from rummagebench.skills.place import PlaceSkill
+    from rummagebench.state.benchmark_state import BenchmarkWorldState
+
+    class _Inset(_ScriptedPlaceBackend):
+        def receptacle_region(self, entity):
+            from rummagebench.feasibility.interaction_target import (
+                InteractionRegion)
+
+            if entity == "cabinet_B":
+                return InteractionRegion(lo=[2.8, 0.8, 0.05],
+                                         hi=[3.2, 1.2, 0.85],
+                                         kind="inside_volume")
+            return super().receptacle_region(entity)
+
+    def world_backend(inset_origin):
+        backend = _clone_world(_Inset, fake_backend)
+        backend.final_origin = inset_origin
+        return backend
+
+    def goal_backend(inset_origin):
+        backend = world_backend(inset_origin)
+        backend.holding_entity = None
+        return backend
+
+    scenario = load_scenario(FIXTURE)
+    scenario.goal = [GoalPredicateSpec(kind="inside", entity="target_knife",
+                                       receptacle="cabinet_B")]
+
+    # wall-zone origin (inside the outer AABB, outside the interior volume):
+    # PLACE rolls back, the goal predicate is unmet — one verdict, two callers
+    backend = world_backend([2.74, 1.0, 0.45])
+    state = _held_state(backend)
+    with pytest.raises(FeasibilityBackendError, match="PLACE"):
+        PlaceSkill().execute(
+            backend,
+            ResolvedTarget(kind=TK.ENTITY, entity="cabinet_B",
+                           info=backend.describe_entity("cabinet_B")),
+            state)
+    goal_result = check_goal(BenchmarkWorldState(), scenario,
+                             goal_backend([2.74, 1.0, 0.45]))
+    assert not goal_result.satisfied
+    assert goal_result.predicates[0]["reason"] == "outside_volume"
+
+    # interior origin: PLACE commits, the goal predicate is satisfied
+    backend = world_backend([3.0, 1.0, 0.45])
+    state = _held_state(backend)
+    result = PlaceSkill().execute(
+        backend,
+        ResolvedTarget(kind=TK.ENTITY, entity="cabinet_B",
+                       info=backend.describe_entity("cabinet_B")),
+        state)
+    assert result.postcondition_satisfied
+    assert result.details["relation"]["satisfied"] is True
+    goal_result = check_goal(BenchmarkWorldState(), scenario,
+                             goal_backend([3.0, 1.0, 0.45]))
+    assert goal_result.satisfied
+    assert goal_result.predicates[0]["satisfied"] == \
+        result.details["relation"]["satisfied"]
+
+
+def test_place_region_fault_distinct_from_relation_miss(fake_backend):
+    """A region fault and a normal relation miss are DIFFERENT failures:
+    the fault message names the fault (region_missing); the relation miss
+    reports the unmet postcondition."""
+    from rummagebench.skills.place import PlaceSkill
+
+    backend = _place_backend(fake_backend, [3.0, 1.0, 0.45])
+    backend.receptacle_region = lambda entity: None
+    state = _held_state(backend)
+    with pytest.raises(FeasibilityBackendError,
+                       match="region_missing") as fault_info:
+        PlaceSkill().execute(
+            backend,
+            _place_target(backend, point=None), state)
+    assert "cannot be evaluated" in str(fault_info.value)
+    _assert_rolled_back(backend, state)
+
+    # relation miss (region present): the object is released but left sunk
+    # far below the cabinet's top plane -> outside_volume/not_on_plane
+    backend = _place_backend(fake_backend, [2.74, 1.0, 0.45])
+    state = _held_state(backend)
+    with pytest.raises(FeasibilityBackendError,
+                       match="did not establish its postcondition"):
+        PlaceSkill().execute(
+            backend, _place_target(backend, point=None), state)
+    _assert_rolled_back(backend, state)

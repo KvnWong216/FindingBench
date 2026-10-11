@@ -46,6 +46,7 @@ import numpy as np
 
 from rummagebench.core.errors import FeasibilityBackendError
 from rummagebench.core.types import FeasibilityVerdict
+from rummagebench.feasibility.interaction_target import PLACE_BATCH_SIZE
 from rummagebench.feasibility.collision import CollisionChecker, InteractionCollisionContext
 from rummagebench.feasibility.ik_solver import IKSolver, Pose
 from rummagebench.object_interface.base import build_object_interface
@@ -287,120 +288,154 @@ class FeasibilityValidator:
         saw_collision = False
         candidates: list[dict] = []
 
+        # round-6 search bookkeeping: the FULL ordered candidate set is
+        # walked in batches of PLACE_BATCH_SIZE; every candidate completes a
+        # valid evaluation or the verdict becomes an infrastructure fault
+        # (R02). No budget is imposed: "search_complete" is therefore always
+        # true on a returned verdict, and "the discrete candidate set has no
+        # solution" is NEVER worded as a continuous-space infeasibility
+        # proof.
+        candidates_total = len(targets)
+        candidates_checked = 0
+        success_index = None
+        stop_reason = "candidate_set_exhausted"
+
         evaluation_errors = 0
-        for target in targets:
-            assert target.pose is not None
-            base_target = base_pose.inverse().compose(target.pose)
-            if not (
-                np.all(np.isfinite(base_target.position))
-                and np.all(np.isfinite(base_target.orientation))
-            ):
-                # backend-supplied target data is corrupted: an evaluation
-                # that never ran, not a rejection (R02)
-                evaluation_errors += 1
-                candidates.append({
-                    "target": target.to_dict(),
-                    "evaluation_error": "non-finite interaction target",
-                })
-                continue
-            # per-candidate isolation: one corrupted object (PhysX execution
-            # noise) degrades only itself, never the episode
-            try:
-                ik = kinematics.solve_ik(base_target, seed_q=seed_q)
-                if not ik.success:
+        # round-6: walk the FULL ordered candidate set in batches of
+        # PLACE_BATCH_SIZE. A batch with no feasible member is followed by
+        # the next batch; the batch size is never a total-candidate cap and
+        # there is no search budget: a returned verdict always means the
+        # complete discrete candidate set was checked (or an infrastructure
+        # fault was raised).
+        for batch_start in range(0, candidates_total, PLACE_BATCH_SIZE):
+            batch = targets[batch_start:batch_start + PLACE_BATCH_SIZE]
+            for batch_offset, target in enumerate(batch):
+                candidate_index = batch_start + batch_offset
+                assert target.pose is not None
+                base_target = base_pose.inverse().compose(target.pose)
+                if not (
+                    np.all(np.isfinite(base_target.position))
+                    and np.all(np.isfinite(base_target.orientation))
+                ):
+                    # backend-supplied target data is corrupted: an evaluation
+                    # that never ran, not a rejection (R02)
+                    evaluation_errors += 1
+                    candidates.append({
+                        "target": target.to_dict(),
+                        "evaluation_error": "non-finite interaction target",
+                    })
+                    continue
+                # per-candidate isolation: one corrupted object (PhysX execution
+                # noise) degrades only itself, never the episode
+                try:
+                    ik = kinematics.solve_ik(base_target, seed_q=seed_q)
+                    if not ik.success:
+                        candidates_checked += 1  # a clean, completed evaluation
+                        candidates.append(
+                            {
+                                "target": target.to_dict(),
+                                "ik": {
+                                    "success": False,
+                                    "reason": ik.reason,
+                                    "position_error": ik.position_error,
+                                    "orientation_error": ik.orientation_error,
+                                },
+                            }
+                        )
+                        continue
+                    saw_ik = True
+
+                    ctx = InteractionCollisionContext(
+                        skill=skill_name,
+                        target_entity=entity,
+                        interaction_link=target.link,
+                        held_entity=held_entity,
+                        held_offset=getattr(world, "held_offset", None),
+                        base_pose=base_pose,
+                    )
+                    collision_result = collision.check_configuration(ik.q, ctx)
+                    approach = (self._approach(skill_name, target, ik.q, base_pose,
+                                               ctx, world)
+                                if collision_result.collision_free else None)
+                    # existence semantics: the first converging seed is one
+                    # configuration of a redundant arm — try further distinct IK
+                    # solutions before declaring the candidate in collision
+                    n_solutions = 1
+                    if not (approach is not None and approach["clear"]) and hasattr(
+                            kinematics, "iter_ik_solutions"):
+                        for alt in kinematics.iter_ik_solutions(
+                                base_target, seed_q=seed_q,
+                                max_solutions=self.MAX_IK_SOLUTIONS):
+                            if np.max(np.abs(np.asarray(alt.q) - np.asarray(ik.q))) < 0.05:
+                                continue
+                            n_solutions += 1
+                            alt_result = collision.check_configuration(alt.q, ctx)
+                            if alt_result.collision_free:
+                                alt_approach = self._approach(skill_name, target,
+                                                              alt.q, base_pose,
+                                                              ctx, world)
+                                if alt_approach["clear"] or approach is None:
+                                    ik, collision_result, approach = alt, alt_result, alt_approach
+                                if alt_approach["clear"]:
+                                    break
+                except Exception as e:
+                    evaluation_errors += 1
                     candidates.append(
                         {
                             "target": target.to_dict(),
-                            "ik": {
-                                "success": False,
-                                "reason": ik.reason,
-                                "position_error": ik.position_error,
-                                "orientation_error": ik.orientation_error,
-                            },
+                            "evaluation_error": str(e),
                         }
                     )
                     continue
-                saw_ik = True
-
-                ctx = InteractionCollisionContext(
-                    skill=skill_name,
-                    target_entity=entity,
-                    interaction_link=target.link,
-                    held_entity=held_entity,
-                    held_offset=getattr(world, "held_offset", None),
-                    base_pose=base_pose,
-                )
-                collision_result = collision.check_configuration(ik.q, ctx)
-                approach = (self._approach(skill_name, target, ik.q, base_pose, ctx)
-                            if collision_result.collision_free else None)
-                # existence semantics: the first converging seed is one
-                # configuration of a redundant arm — try further distinct IK
-                # solutions before declaring the candidate in collision
-                n_solutions = 1
-                if not (approach is not None and approach["clear"]) and hasattr(
-                        kinematics, "iter_ik_solutions"):
-                    for alt in kinematics.iter_ik_solutions(
-                            base_target, seed_q=seed_q,
-                            max_solutions=self.MAX_IK_SOLUTIONS):
-                        if np.max(np.abs(np.asarray(alt.q) - np.asarray(ik.q))) < 0.05:
-                            continue
-                        n_solutions += 1
-                        alt_result = collision.check_configuration(alt.q, ctx)
-                        if alt_result.collision_free:
-                            alt_approach = self._approach(skill_name, target, alt.q,
-                                                          base_pose, ctx)
-                            if alt_approach["clear"] or approach is None:
-                                ik, collision_result, approach = alt, alt_result, alt_approach
-                            if alt_approach["clear"]:
-                                break
-            except Exception as e:
-                evaluation_errors += 1
+                candidates_checked += 1
+                if collision_result.collision_free and approach is not None and approach["clear"]:
+                    # existence semantics: ONE fully-measured collision-free
+                    # configuration (IK + collision + approach all completed) is
+                    # a complete feasibility witness. Later candidates — errored
+                    # or not — can never invalidate it (R02 round-2: success is
+                    # allowed on a complete witness).
+                    stop_reason = "witness_found"
+                    success_index = candidate_index
+                    return FeasibilityVerdict(
+                        feasible=True,
+                        reason="none",
+                        details={
+                            "engine": "pinocchio",
+                            "mode": self._mode,
+                            "q": [float(v) for v in ik.q],
+                            "joints": list(kinematics.controlled_joint_names),
+                            "interaction_target": target.to_dict(),
+                            "ik": {
+                                "position_error": ik.position_error,
+                                "orientation_error": ik.orientation_error,
+                            },
+                            "collision": collision_result.to_dict(),
+                            "approach": approach,
+                            "candidates_evaluated": len(candidates) + 1,
+                            "ik_solutions_checked": n_solutions,
+                            "search": {
+                                "candidates_total": candidates_total,
+                                "candidates_checked": candidates_checked,
+                                "search_complete": True,
+                                "stop_reason": stop_reason,
+                                "success_candidate_index": success_index,
+                            },
+                        },
+                    )
+                saw_collision = True
                 candidates.append(
                     {
                         "target": target.to_dict(),
-                        "evaluation_error": str(e),
-                    }
-                )
-                continue
-            if collision_result.collision_free and approach is not None and approach["clear"]:
-                # existence semantics: ONE fully-measured collision-free
-                # configuration (IK + collision + approach all completed) is
-                # a complete feasibility witness. Later candidates — errored
-                # or not — can never invalidate it (R02 round-2: success is
-                # allowed on a complete witness).
-                return FeasibilityVerdict(
-                    feasible=True,
-                    reason="none",
-                    details={
-                        "engine": "pinocchio",
-                        "mode": self._mode,
-                        "q": [float(v) for v in ik.q],
-                        "joints": list(kinematics.controlled_joint_names),
-                        "interaction_target": target.to_dict(),
                         "ik": {
+                            "success": True,
                             "position_error": ik.position_error,
                             "orientation_error": ik.orientation_error,
                         },
                         "collision": collision_result.to_dict(),
                         "approach": approach,
-                        "candidates_evaluated": len(candidates) + 1,
                         "ik_solutions_checked": n_solutions,
-                    },
+                    }
                 )
-            saw_collision = True
-            candidates.append(
-                {
-                    "target": target.to_dict(),
-                    "ik": {
-                        "success": True,
-                        "position_error": ik.position_error,
-                        "orientation_error": ik.orientation_error,
-                    },
-                    "collision": collision_result.to_dict(),
-                    "approach": approach,
-                    "ik_solutions_checked": n_solutions,
-                }
-            )
 
         # R02 round-2: a REJECTION verdict may only rest on candidates that
         # ALL completed a valid evaluation. The feasible-witness path above
@@ -408,10 +443,15 @@ class FeasibilityValidator:
         # is incomplete — an infrastructure fault, never laundered into
         # UNREACHABLE/COLLISION as an action failure.
         if evaluation_errors:
+            first_error = next(
+                (c.get("evaluation_error") for c in candidates
+                 if c.get("evaluation_error")), "unknown")
             raise FeasibilityBackendError(
-                f"{evaluation_errors} interaction candidate(s) did not complete "
-                "a valid evaluation (solver/collision backend errors); no "
-                "rejection verdict can be returned from incomplete evidence"
+                f"{evaluation_errors} of {candidates_total} interaction "
+                f"candidate(s) did not complete a valid evaluation "
+                f"({candidates_checked} checked; solver/collision backend "
+                f"errors; first: {first_error}); no rejection verdict can "
+                "be returned from incomplete evidence"
             )
         if saw_collision:
             reason = "COLLISION"
@@ -425,17 +465,45 @@ class FeasibilityValidator:
             "entity": entity,
             "candidates": candidates,
             "candidates_evaluated": len(candidates),
+            "search": {
+                "candidates_total": candidates_total,
+                "candidates_checked": candidates_checked,
+                "search_complete": True,
+                "stop_reason": stop_reason,
+                "success_candidate_index": success_index,
+                # wording guard: the DISCRETE candidate set has no feasible
+                # member — this is not a continuous-space infeasibility proof
+                "note": "full discrete candidate set checked; no feasible member",
+            },
         }
         return FeasibilityVerdict(feasible=False, reason=reason, details=details)
 
-    def _approach(self, skill_name: str, target, q0, base_pose: Pose, ctx) -> dict:
-        """GRASP approach segment from the standoff configuration ``q0`` to
-        the contact distance: {'clear': bool, ...evidence}. Other skills and
-        candidates without an approach normal are not modelled (clear)."""
+    def _approach(self, skill_name: str, target, q0, base_pose: Pose, ctx,
+                  world=None) -> dict:
+        """Approach-segment checks per skill.
+
+        GRASP: standoff-to-contact descent along the grasp normal (existing).
+        PLACE (round-6): the validated virtual carry-descent — EEF from the
+        standoff pose to the release pose with the held body in the
+        collision context (see _place_approach). Other skills / candidates
+        without approach metadata are NOT modelled: {'modelled': False} with
+        an explicit note — an unmodelled check is recorded, never evidence
+        of safety."""
         meta = target.metadata or {}
         normal, standoff = meta.get("approach_normal"), meta.get("standoff_m")
-        if skill_name != "GRASP" or normal is None or standoff is None:
-            return {"clear": True, "modelled": False}
+        if skill_name == "GRASP":
+            if normal is None or standoff is None:
+                return {"clear": True, "modelled": False}
+            return self._grasp_approach(target, meta, q0, base_pose, ctx,
+                                        normal, standoff)
+        if skill_name == "PLACE":
+            return self._place_approach(target, meta, q0, base_pose, ctx,
+                                        world)
+        return {"clear": True, "modelled": False,
+                "note": f"approach not modelled for {skill_name}"}
+
+    def _grasp_approach(self, target, meta, q0, base_pose, ctx,
+                        normal, standoff) -> dict:
         kinematics, collision = self._kinematics, self._config_collision
         n = np.asarray(normal, dtype=float)
         q = np.asarray(q0, dtype=float)
@@ -470,6 +538,95 @@ class FeasibilityValidator:
                         "collision": None if last is None else last.to_dict()}
             q = np.asarray(found.q, dtype=float)
         return {"clear": True, "modelled": True, "waypoints": int(len(dists))}
+
+    # PLACE approach segment (round-6)
+    PLACE_APPROACH_STEP_M = 0.01  # linear waypoint resolution (m)
+    # matches sim/omnigibson/backend.symbolic_place: the object ORIGIN is
+    # set to support_z + half_height + 1 cm before release
+    PLACE_RELEASE_CLEARANCE_M = 0.01
+
+    def _place_approach(self, target, meta, q0, base_pose: Pose, ctx,
+                        world) -> dict:
+        """PLACE approach segment: the VIRTUAL carry-descent that the
+        symbolic execution stands for.
+
+        Production chain (verified): the interaction target's EEF pose sits
+        ``STANDOFF_M`` above/below the validated ``surface_point`` along the
+        region approach normal; ``symbolic_place`` teleports the held
+        object's ORIGIN to ``[px, py, pz + half_z + 0.01]`` and releases.
+        The checked path is therefore the straight-line EEF segment from the
+        validated standoff pose to the release pose
+        ``obj_release . compose(held_offset.inverse())`` — with the held
+        body carried in the collision context via its real grasp offset.
+        Every waypoint requires a real IK solution and a collision-free
+        configuration of the SAME production checker used for the endpoint.
+        Waypoints are discrete (resolution below): this evidences the
+        sampled descent only, never a continuous sweep or the whole-arm
+        motion. If the grasp offset is unavailable, the descent is checked
+        to the object-origin pose with an identity offset and
+        ``held_geometry: False`` is recorded (an unmodelled aspect, not a
+        safety pass).
+        """
+        surface_point = meta.get("surface_point")
+        if surface_point is None:
+            return {"clear": False, "modelled": True,
+                    "reason": "no_surface_point"}
+        held_entity = getattr(ctx, "held_entity", None)
+        held_offset = getattr(ctx, "held_offset", None)
+        half_z = None
+        if held_entity is not None:
+            held_aabb = self._backend.entity_aabb(held_entity)
+            if held_aabb is not None:
+                half_z = (float(held_aabb[1][2]) - float(held_aabb[0][2])) / 2.0
+        px, py, pz = (float(v) for v in surface_point)
+        release_clearance = (half_z + self.PLACE_RELEASE_CLEARANCE_M
+                             if half_z is not None else 0.0)
+        release_common = {
+            "waypoint_resolution_m": self.PLACE_APPROACH_STEP_M,
+            "held_geometry": held_offset is not None and half_z is not None,
+        }
+        if held_offset is not None:
+            obj_release = Pose(np.array([px, py, pz + release_clearance]),
+                               np.array([0.0, 0.0, 0.0, 1.0]))
+            eef_release = obj_release.compose(held_offset.inverse())
+        else:
+            # identity-offset fallback, explicitly recorded (held_geometry
+            # False above)
+            eef_release = Pose(np.array([px, py, pz + release_clearance]),
+                               np.asarray(target.pose.orientation,
+                                          dtype=float))
+        start = np.asarray(target.pose.position, dtype=float)
+        end = np.asarray(eef_release.position, dtype=float)
+        segment = end - start
+        length = float(np.linalg.norm(segment))
+        n_steps = max(1, int(np.ceil(length / self.PLACE_APPROACH_STEP_M)))
+        kinematics, collision = self._kinematics, self._config_collision
+        q = np.asarray(q0, dtype=float)
+        for i in range(1, n_steps + 1):
+            t = i / n_steps
+            waypoint = Pose(start + segment * t,
+                            np.asarray(target.pose.orientation, dtype=float))
+            base_target = base_pose.inverse().compose(waypoint)
+            ik = kinematics.solve_ik(base_target, seed_q=q)
+            if not ik.success or ik.q is None:
+                return {"clear": False, "modelled": True, "reason": "NO_IK",
+                        "blocked_at_m": round(length * t, 4),
+                        "segment_m": round(length, 4),
+                        "waypoints": n_steps, **release_common}
+            last = collision.check_configuration(ik.q, ctx)
+            if not last.collision_free:
+                return {"clear": False, "modelled": True, "reason": "COLLISION",
+                        "blocked_at_m": round(length * t, 4),
+                        "segment_m": round(length, 4),
+                        "waypoints": n_steps,
+                        "collision": last.to_dict(), **release_common}
+            q = np.asarray(ik.q, dtype=float)
+        return {"clear": True, "modelled": True, "segment_m": round(length, 4),
+                "waypoints": n_steps,
+                "path": ("straight-line virtual EEF descent to the release "
+                         "pose; symbolic execution teleports the object "
+                         "(no continuous-sweep claim)"),
+                **release_common}
 
     def _robot_base_pose(self) -> Pose:
         pos, quat = self._backend.robot_pose()

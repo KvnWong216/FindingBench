@@ -45,8 +45,11 @@ infrastructure fault.
 from __future__ import annotations
 
 import math
+from typing import Any
 
+from rummagebench.core.errors import FeasibilityBackendError
 from rummagebench.core.types import SkillResult, TargetKind
+from rummagebench.evaluation.goal_checker import check_placement_relation
 from rummagebench.sim.base import ResolvedTarget, SimBackend
 from rummagebench.skills.realization import commit_realization
 
@@ -71,84 +74,65 @@ class PlaceSkill:
         held = state.held_object
         assert held is not None, "PLACE executed without benchmark-held object"
 
+        relation: dict[str, Any] = {}
+
         def placement_established() -> bool:
             """Actual-backend postcondition: RELEASED and in the placement
-            relation the receptacle's own support region defines (see module
-            docstring for coordinate semantics)."""
-            if backend.is_holding(held):
+            relation the receptacle's own support region defines.
+
+            Round-6: the relation verdict comes from the SHARED
+            evaluation/goal_checker.check_placement_relation (single
+            implementation, region-authoritative, fault-aware). This closure
+            keeps only the PLACE-specific extras: validated-point
+            consistency and settle-drift bounds. A region fault raises
+            FeasibilityBackendError (distinguishable from a normal relation
+            miss, which just fails verification); commit_realization rolls
+            the backend back in both cases.
+            """
+            rel = check_placement_relation(
+                backend, held, receptacle,
+                # PLACE verifies the BACKEND release; the semantic release is
+                # what happens after verification — consulting it here would
+                # be circular
+                backend_held=bool(backend.is_holding(held)))
+            relation.update(rel.to_dict())
+            if rel.fault is not None:
+                # region data / backend fault — never dressed up as a normal
+                # relation miss
+                raise FeasibilityBackendError(
+                    f"PLACE({held} -> {receptacle}): placement relation "
+                    f"cannot be evaluated: {rel.fault}"
+                )
+            if not rel.satisfied:
                 return False
-            obj = backend.entity_aabb(held)
-            if obj is None:
-                return False
-            alo, ahi = obj
-            region = None
-            get_region = getattr(backend, "receptacle_region", None)
-            if callable(get_region):
-                region = get_region(receptacle)
-            kind = getattr(region, "kind", None)
-            # round-4: BOTH paths require a known place relation from the
-            # receptacle's own region — missing/unknown/non-place kinds
-            # (None, 'link_surface', ...) never commit, even with a
-            # validated point. Region bounds are world-frame AABBs, the same
-            # frame as entity_aabb; the entity's outer box is never used as
-            # a proxy for the region's valid volume.
-            if kind not in ("top_surface", "inside_volume"):
-                return False
-            try:
-                rlo = [float(v) for v in region.lo]
-                rhi = [float(v) for v in region.hi]
-            except (TypeError, ValueError):
-                return False
+            if rel.kind != "top_surface" and rel.kind != "inside_volume":
+                return False  # defensive: shared check already rejects
 
             point = getattr(resolved, "place_point", None)
-            if point is not None:
-                # point consistency: the validated support point must lie in
-                # the region it claims to come from
+            if point is not None and rel.region_lo is not None:
+                # PLACE-specific: the validated support point must lie in the
+                # region it claims to come from (consistency)
                 p = [float(v) for v in point]
                 if not all(
-                    rlo[i] - _RELATION_SLACK <= p[i] <= rhi[i] + _RELATION_SLACK
+                    rel.region_lo[i] - _RELATION_SLACK
+                    <= p[i] <= rel.region_hi[i] + _RELATION_SLACK
                     for i in range(3)
                 ):
+                    relation["point_consistent"] = False
                     return False
-                # XY: object centred on the validated support point
-                cx = (float(alo[0]) + float(ahi[0])) / 2.0
-                cy = (float(alo[1]) + float(ahi[1])) / 2.0
-                if math.hypot(cx - p[0], cy - p[1]) > _PLACE_POINT_XY_TOL:
+                # PLACE-specific: settle-drift bound around the validated
+                # point (object xy centre)
+                obj = backend.entity_aabb(held)
+                if obj is None:
                     return False
-                if kind == "inside_volume":
-                    return _contained(obj, (rlo, rhi))
-                # top_surface: bottom rests on the REGION's support plane —
-                # same XY with an arbitrary Z never commits
-                return abs(float(alo[2]) - rhi[2]) <= _PLACE_Z_TOL + 1e-9
-
-            # no validated point: verify the region's relation directly,
-            # with bounds taken from the region (not the outer entity AABB)
-            if kind == "inside_volume":
-                return _contained(obj, (rlo, rhi))
-            xy_overlap = (
-                float(alo[0]) < rhi[0] and float(ahi[0]) > rlo[0]
-                and float(alo[1]) < rhi[1] and float(ahi[1]) > rlo[1]
-            )
-            # on_top bounds: over the region footprint AND bottom resting on
-            # the region's support plane (not sunk into it, not floating)
-            return bool(
-                xy_overlap
-                and abs(float(alo[2]) - rhi[2]) <= _PLACE_Z_TOL + 1e-9
-            )
-
-        def _contained(obj, box):
-            """Inside relation: object AABB within the REGION's valid volume
-            (slack-tolerant on every axis — explicit upper AND lower
-            bounds)."""
-            (alo, ahi), (blo, bhi) = obj, box
-            return bool(
-                float(alo[0]) >= float(blo[0]) - _RELATION_SLACK
-                and float(ahi[0]) <= float(bhi[0]) + _RELATION_SLACK
-                and float(alo[1]) >= float(blo[1]) - _RELATION_SLACK
-                and float(ahi[1]) <= float(bhi[1]) + _RELATION_SLACK
-                and float(alo[2]) >= float(blo[2]) - _RELATION_SLACK
-                and float(ahi[2]) <= float(bhi[2]) + _RELATION_SLACK
-            )
+                cx = (float(obj[0][0]) + float(obj[1][0])) / 2.0
+                cy = (float(obj[0][1]) + float(obj[1][1])) / 2.0
+                drift = math.hypot(cx - p[0], cy - p[1])
+                relation["xy_drift_m"] = round(drift, 4)
+                if drift > _PLACE_POINT_XY_TOL:
+                    return False
+            relation["point_consistent"] = True
+            return True
 
         # standardized realization: release the held entity's grasp joint and
         # move the object to the validated point (explicit entity — no
@@ -180,5 +164,6 @@ class PlaceSkill:
                     "realized": True,
                 }
             ],
-            details={"held": held, "receptacle": receptacle, "realized": True},
+            details={"held": held, "receptacle": receptacle, "realized": True,
+                     "relation": dict(relation)},
         )

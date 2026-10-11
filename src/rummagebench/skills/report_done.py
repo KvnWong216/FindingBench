@@ -17,6 +17,8 @@ rule, so existing published episodes and oracle certification are unchanged.
 
 from __future__ import annotations
 
+from rummagebench.core.errors import FeasibilityBackendError
+
 
 def goal_satisfied(world_state, scenario, backend=None, events=None) -> bool:
     goal = list(getattr(scenario, "goal", None) or [])
@@ -34,8 +36,18 @@ def goal_satisfied(world_state, scenario, backend=None, events=None) -> bool:
             "data-driven goal/temporal spec requires backend access for "
             "evaluation"
         )
-    if goal and not check_goal(world_state, scenario, backend).satisfied:
-        return False
+    if goal:
+        check = check_goal(world_state, scenario, backend)
+        if check.fault is not None:
+            # round-6: a placement-region/backend fault must NOT surface as a
+            # plain false completion (model error) — invalidate the run
+            # instead
+            raise FeasibilityBackendError(
+                f"goal evaluation cannot establish a placement relation: "
+                f"{check.fault}"
+            )
+        if not check.satisfied:
+            return False
     if temporal:
         return check_temporal(list(events or []), scenario).satisfied
     return True

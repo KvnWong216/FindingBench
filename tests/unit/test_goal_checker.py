@@ -91,10 +91,21 @@ def test_goal_predicates_holding_open_closed():
 
 
 def test_goal_predicates_inside_and_on_top():
+    """Round-6: the inside predicate is verified against the receptacle's
+    REGION. A CLOSED cabinet's region is its top surface — the inside
+    relation is then kind_mismatch (unmet, not a fault); OPENING the cabinet
+    makes the interior volume the region and the predicate verifiable."""
     scenario = _scenario()
     scenario.goal = [GoalPredicateSpec(kind="inside", entity="target_knife",
                                        receptacle="cabinet_B")]
-    assert check_goal(BenchmarkWorldState(), scenario, _backend()).satisfied
+    closed = _backend()
+    result = check_goal(BenchmarkWorldState(), scenario, closed)
+    assert not result.satisfied
+    assert result.predicates[0]["reason"] == "kind_mismatch"
+
+    opened = _backend()
+    opened.set_open("cabinet_B", True)  # region becomes the interior volume
+    assert check_goal(BenchmarkWorldState(), scenario, opened).satisfied
     assert not check_goal(BenchmarkWorldState(), scenario,
                           _backend(on_top=True)).satisfied
 
@@ -269,3 +280,163 @@ def test_report_done_temporal_order_decides(visual_session, visual_backend):
 
     assert run(open_first=False).episode_status == "SUCCESS"
     assert run(open_first=True).episode_status == "FAIL_FALSE_COMPLETION"
+
+
+# ---------------------------------------------------------------------------
+# Round-6: shared placement relation (region-authoritative, fault-aware)
+# ---------------------------------------------------------------------------
+
+
+class _InsetInteriorBackend(FakeBackend):
+    """cabinet region reports the INTERIOR volume (walls excluded), strictly
+    smaller than the entity's outer AABB."""
+
+    def receptacle_region(self, entity):
+        from rummagebench.feasibility.interaction_target import InteractionRegion
+
+        if entity == "cabinet_B":
+            return InteractionRegion(lo=[2.8, 0.8, 0.05], hi=[3.2, 1.2, 0.85],
+                                     kind="inside_volume")
+        return super().receptacle_region(entity)
+
+
+class _RootLinkPlaneBackend(FakeBackend):
+    """Fixed-furniture case: the region is the ROOT-LINK body top (plane
+    z=0.6), LOWER than the whole-entity AABB top (z=0.9)."""
+
+    def receptacle_region(self, entity):
+        from rummagebench.feasibility.interaction_target import InteractionRegion
+
+        if entity == "cabinet_B":
+            return InteractionRegion(lo=[2.7, 0.7, 0.0], hi=[3.3, 1.3, 0.6],
+                                     kind="top_surface")
+        return super().receptacle_region(entity)
+
+
+def _knife_state(held=False):
+    state = BenchmarkWorldState()
+    if held:
+        state.grasp("target_knife", None)
+    return state
+
+
+def test_goal_inside_outer_bbox_but_outside_interior_is_unmet():
+    """The object sits inside the receptacle's OUTER AABB but in the wall
+    zone outside the region's interior volume: the shared region-based
+    check rejects it (the pre-round-6 entity-AABB containment accepted it)."""
+    scenario = _scenario()
+    scenario.goal = [GoalPredicateSpec(kind="inside", entity="target_knife",
+                                       receptacle="cabinet_B")]
+    backend = _InsetInteriorBackend(
+        entities={
+            "target_knife": _entity("target_knife"),
+            "cabinet_B": _entity("cabinet_B", openable=True),
+        },
+        anchors={"kitchen"},
+        poses={"target_knife": [2.74, 1.0, 0.45], "cabinet_B": [3.0, 1.0, 0.45]},
+        aabbs={
+            "target_knife": ([2.71, 0.97, 0.42], [2.77, 1.03, 0.48]),
+            "cabinet_B": ([2.7, 0.7, 0.0], [3.3, 1.3, 0.9]),
+        },
+    )
+    result = check_goal(_knife_state(), scenario, backend)
+    assert not result.satisfied
+    assert result.predicates[0]["reason"] == "outside_volume"
+    assert result.fault is None  # normal relation miss, not a fault
+
+
+def test_goal_on_top_region_plane_differs_from_entity_top():
+    """The region's support plane (root-link top, z=0.6) differs from the
+    whole-entity AABB top (z=0.9): resting on the REGION plane satisfies
+    on_top; floating at the outer-box top does not."""
+    scenario = _scenario()
+    scenario.goal = [GoalPredicateSpec(kind="on_top", entity="target_knife",
+                                       receptacle="cabinet_B")]
+
+    def backend_with_knife_bottom(z_lo):
+        return _RootLinkPlaneBackend(
+            entities={
+                "target_knife": _entity("target_knife"),
+                "cabinet_B": _entity("cabinet_B", openable=True),
+            },
+            anchors={"kitchen"},
+            poses={"target_knife": [3.0, 1.0, z_lo + 0.03],
+                   "cabinet_B": [3.0, 1.0, 0.45]},
+            aabbs={
+                "target_knife": ([2.97, 0.97, z_lo], [3.03, 1.03, z_lo + 0.06]),
+                "cabinet_B": ([2.7, 0.7, 0.0], [3.3, 1.3, 0.9]),
+            },
+        )
+
+    assert check_goal(_knife_state(), scenario,
+                      backend_with_knife_bottom(0.6 + 0.01)).satisfied
+    assert not check_goal(_knife_state(), scenario,
+                          backend_with_knife_bottom(0.9 + 0.01)).satisfied
+
+
+def test_goal_held_object_is_still_held_unmet():
+    """A still-held object satisfies neither relation: BOTH the semantic
+    state and the backend holding state count as held."""
+    scenario = _scenario()
+    scenario.goal = [GoalPredicateSpec(kind="on_top", entity="target_knife",
+                                       receptacle="cabinet_B")]
+    backend = _RootLinkPlaneBackend(
+        entities={"target_knife": _entity("target_knife"),
+                  "cabinet_B": _entity("cabinet_B", openable=True)},
+        anchors={"kitchen"},
+        poses={"target_knife": [3.0, 1.0, 0.61], "cabinet_B": [3.0, 1.0, 0.45]},
+        aabbs={"target_knife": ([2.97, 0.97, 0.6], [3.03, 1.03, 0.66]),
+               "cabinet_B": ([2.7, 0.7, 0.0], [3.3, 1.3, 0.9])},
+    )
+    backend.holding_entity = "target_knife"  # backend signal
+    result = check_goal(_knife_state(held=True), scenario, backend)
+    assert not result.satisfied
+    assert result.predicates[0]["reason"] == "still_held"
+
+
+def test_goal_region_missing_is_fault_not_false_completion():
+    """A missing region is an evaluation FAULT: check_goal flags it and
+    goal_satisfied raises (run-invalid) instead of reporting a plain false
+    completion."""
+    import pytest
+
+    from rummagebench.core.errors import FeasibilityBackendError
+
+    scenario = _scenario()
+    scenario.goal = [GoalPredicateSpec(kind="on_top", entity="target_knife",
+                                       receptacle="cabinet_B")]
+    backend = _RootLinkPlaneBackend(
+        entities={"target_knife": _entity("target_knife"),
+                  "cabinet_B": _entity("cabinet_B", openable=True)},
+        anchors={"kitchen"},
+        poses={"target_knife": [3.0, 1.0, 0.61], "cabinet_B": [3.0, 1.0, 0.45]},
+        aabbs={"target_knife": ([2.97, 0.97, 0.6], [3.03, 1.03, 0.66]),
+               "cabinet_B": ([2.7, 0.7, 0.0], [3.3, 1.3, 0.9])},
+    )
+    backend.receptacle_region = lambda entity: None
+    result = check_goal(_knife_state(), scenario, backend)
+    assert result.fault == "region_missing"
+    assert not result.satisfied
+    with pytest.raises(FeasibilityBackendError, match="region_missing"):
+        goal_satisfied(_knife_state(), scenario, backend=backend)
+
+
+def test_goal_region_kind_mismatch_is_unmet_not_fault():
+    """An inside goal against a region that currently is a top surface:
+    relation unmet (kind_mismatch) — a normal model-facing outcome, not an
+    infrastructure fault."""
+    scenario = _scenario()
+    scenario.goal = [GoalPredicateSpec(kind="inside", entity="target_knife",
+                                       receptacle="cabinet_B")]
+    backend = _RootLinkPlaneBackend(
+        entities={"target_knife": _entity("target_knife"),
+                  "cabinet_B": _entity("cabinet_B", openable=True)},
+        anchors={"kitchen"},
+        poses={"target_knife": [3.0, 1.0, 0.61], "cabinet_B": [3.0, 1.0, 0.45]},
+        aabbs={"target_knife": ([2.97, 0.97, 0.6], [3.03, 1.03, 0.66]),
+               "cabinet_B": ([2.7, 0.7, 0.0], [3.3, 1.3, 0.9])},
+    )
+    result = check_goal(_knife_state(), scenario, backend)
+    assert not result.satisfied
+    assert result.predicates[0]["reason"] == "kind_mismatch"
+    assert result.fault is None

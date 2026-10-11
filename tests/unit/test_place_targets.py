@@ -14,7 +14,7 @@ import numpy as np
 
 from rummagebench.core.types import TargetKind
 from rummagebench.feasibility.interaction_target import (
-    PLACE_MAX_CANDIDATES,
+    PLACE_BATCH_SIZE,
     PLACE_PREFERRED_REACH_M,
     STANDOFF_M,
     receptacle_place_targets,
@@ -72,7 +72,7 @@ def test_graspable_receptacle_container_keeps_rigid_adapter():
 def test_top_surface_targets_near_robot(fake_backend):
     fake_backend._last_anchor_position = [2.0, 1.0, 0.0]
     targets = receptacle_place_targets("countertop", fake_backend)
-    assert 0 < len(targets) <= PLACE_MAX_CANDIDATES
+    assert len(targets) > 0  # full ordered grid, no cap
     preferences = []
     for t in targets:
         sp = t.metadata["surface_point"]
@@ -89,6 +89,18 @@ def test_top_surface_targets_near_robot(fake_backend):
     assert preferences == sorted(preferences)
 
 
+def test_full_grid_is_not_capped(fake_backend):
+    """Round-6: receptacle_place_targets returns the FULL ordered grid (no
+    8-point cap); the batch size lives in the feasibility validator."""
+    fake_backend._last_anchor_position = [2.0, 1.0, 0.0]
+    targets = receptacle_place_targets("countertop", fake_backend)
+    assert len(targets) > PLACE_BATCH_SIZE  # (1.48/0.08+1)^2 grid points
+    preferences = [abs(np.hypot(t.metadata["surface_point"][0] - 2.0,
+                                t.metadata["surface_point"][1] - 1.0)
+                       - PLACE_PREFERRED_REACH_M) for t in targets]
+    assert preferences == sorted(preferences)  # global preference order
+
+
 def test_far_surface_still_yields_candidates(fake_backend):
     """Round-5 regression (GPU smoke finding): a surface entirely beyond the
     old 1 m sampling circle still yields candidates. Reachability is
@@ -96,7 +108,7 @@ def test_far_surface_still_yields_candidates(fake_backend):
     the sampler."""
     fake_backend._last_anchor_position = [10.0, 10.0, 0.0]
     targets = receptacle_place_targets("countertop", fake_backend)
-    assert 0 < len(targets) <= PLACE_MAX_CANDIDATES
+    assert len(targets) > 0  # full ordered grid, no cap
     distances = [np.hypot(t.metadata["surface_point"][0] - 10.0,
                           t.metadata["surface_point"][1] - 10.0)
                  for t in targets]
