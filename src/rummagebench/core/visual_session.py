@@ -34,7 +34,9 @@ from rummagebench.core.public_types import (
     PublicObservation,
     PublicStepResult,
     ReportDoneAction,
+    REPORT_COMPLETE_ALIAS,
     TurnAction,
+    fine_reason_for,
 )
 from rummagebench.core.events import (
     AGENT_ACTION_PROTOCOL,
@@ -315,6 +317,11 @@ class VisualProtocolSession:
             "robot_pose_before": self._backend.robot_pose()[0],
             "state_fingerprint_before": self._state_fingerprint(),
         }
+        # R05: the optional public report alias is normalized at the parse
+        # boundary; the raw action is preserved verbatim in the trace
+        if isinstance(raw, dict) and raw.get("skill") == REPORT_COMPLETE_ALIAS:
+            raw = {**raw, "skill": "REPORT_DONE"}
+            record["alias_normalized"] = f"{REPORT_COMPLETE_ALIAS}->REPORT_DONE"
         try:
             action = self._action_adapter.validate_python(raw)
         except ValidationError:
@@ -370,6 +377,14 @@ class VisualProtocolSession:
         record["executed"] = record.get("feedback") == "EXECUTED"
         record["postcondition_satisfied"] = record.get(
             "postcondition_satisfied", record["executed"]
+        )
+        # R05: canonical fine code for this branch (evaluator-private; the
+        # public boundary stays the four feedback classes)
+        record["fine_reason"] = fine_reason_for(
+            record.get("private_reason"),
+            record.get("feedback"),
+            self._status,
+            skill=(record.get("parsed_action") or {}).get("skill"),
         )
         record["binding"] = {
             "frame_id": record.get("input_frame_id") or record.get("current_frame_id"),
@@ -564,7 +579,20 @@ class VisualProtocolSession:
         if result.executed:
             self._backend.settle(5)
             self._backend.flush_render()
-            return self._capture_current()
+            frame = self._capture_current()
+            # R09: delivered-frame observation evidence for the search-state
+            # tracker — visible entities (pixel counts) in THIS post-action
+            # frame. Evaluator-private; unavailable evidence stays null and
+            # the tracker keeps the unknown state.
+            try:
+                record["observed_evidence"] = {
+                    name: self._backend.entity_visible_pixels(frame, name)
+                    for name in self._backend.entity_names()
+                    if self._backend.entity_visible_pixels(frame, name) > 0
+                }
+            except Exception:
+                record["observed_evidence"] = None
+            return frame
         return None  # world unchanged: keep the current frame
 
     def _map_legacy_feedback(self, result) -> Feedback:

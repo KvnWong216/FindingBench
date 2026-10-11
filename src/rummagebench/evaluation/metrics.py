@@ -197,11 +197,12 @@ def compute_metrics(
         )
         excess_search_cost = n_steps - oracle_min_steps
 
-    # §5: mechanical RER over the explicit search-location states
-    # (oracle-mode events only: search_state reads legacy action/validation
-    # fields that visual events do not carry)
+    # §5: mechanical RER over the explicit search-location states. R09: the
+    # tracker is evidence-driven — visual events carry observed_evidence
+    # (post-action delivered frames), oracle events carry none, so oracle
+    # locations honestly stay PARTIALLY_OBSERVED and never feed RER.
     tracker = None
-    if scenario is not None and session_mode == SESSION_MODE_ORACLE:
+    if scenario is not None:
         from rummagebench.evaluation.search_state import track_search_states
 
         tracker = track_search_states(

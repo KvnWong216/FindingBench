@@ -36,20 +36,27 @@ def _ev(step, skill, value, executed=True):
 
 
 def test_exhausted_reopen_is_revisit_error():
-    """OPEN A -> observe empty (target elsewhere) -> CLOSE -> OPEN A again
-    => the second OPEN is an exhausted-location revisit error."""
+    """OPEN A -> covered observation (target elsewhere) -> CLOSE ->
+    OPEN A again => the second OPEN is an exhausted-location revisit error.
+    (R09: the exhaustion comes from the observation record, not the OPEN.)"""
     scenario = _scenario()
     tracker = SearchStateTracker.from_scenario(scenario)
-    # ground truth: knife is in cabinet_B, so cabinet_A opens empty
-    events = [
-        _ev(1, "NAV", "kitchen"),
-        _ev(2, "OPEN", "cabinet_A"),
-        _ev(3, "CLOSE", "cabinet_A"),
-        _ev(4, "OPEN", "cabinet_A"),  # revisit of an exhausted location
-    ]
-    revisit_dicts = [tracker.process_event(e) for e in events]
-    revisit_dicts = [r for r in revisit_dicts if r is not None]
+    # evidence must PRECEDE the revisit: the tracker is sequential
+    tracker.process_event(_ev(1, "NAV", "kitchen"))
+    tracker.process_event(_ev(2, "OPEN", "cabinet_A"))
+    tracker.record_observation("cabinet_A", step=2, covered=True,
+                               frame_id="frame_0002", event_id="action@2")
     assert tracker.state_of("cabinet_A") == SearchLocationState.EXHAUSTED_EMPTY
+    obs = tracker.observations["cabinet_A"]
+    assert obs.frame_id == "frame_0002" and obs.event_id == "action@2"
+    assert obs.source == "delivered_frame"
+    revisit_dicts = [
+        tracker.process_event(e) for e in (
+            _ev(3, "CLOSE", "cabinet_A"),
+            _ev(4, "OPEN", "cabinet_A"),  # revisit of an exhausted location
+        )
+    ]
+    revisit_dicts = [r for r in revisit_dicts if r is not None]
     assert len(tracker.exhausted_location_revisits) == 1
     assert revisit_dicts[0]["location"] == "cabinet_A"
     assert revisit_dicts[0]["first_exhausted_step"] == 2
@@ -57,21 +64,69 @@ def test_exhausted_reopen_is_revisit_error():
     assert tracker.revisit_error_rate() == round(1 / 2, 3)  # 2 search interactions
 
 
-def test_open_target_container_is_found_not_exhausted():
+def test_covered_observation_on_target_container_is_found():
+    """OPEN cabinet_B (knife IS there) + covered delivered frame =>
+    TARGET_FOUND; re-OPENing it is not an exhausted revisit."""
     scenario = _scenario()
     tracker = SearchStateTracker.from_scenario(scenario)
-    events = [
-        _ev(1, "NAV", "kitchen"),
-        _ev(2, "OPEN", "cabinet_B"),  # knife IS in cabinet_B
-    ]
-    for e in events:
-        tracker.process_event(e)
+    tracker.process_event(_ev(2, "OPEN", "cabinet_B"))
+    tracker.record_observation("cabinet_B", step=3, covered=True,
+                               frame_id="frame_0003")
     assert tracker.state_of("cabinet_B") == SearchLocationState.TARGET_FOUND
+    assert tracker.target_found_location == "cabinet_B"
     assert tracker.exhausted_location_revisits == []
-    # re-OPENing the TARGET location is not an exhausted revisit (it holds
-    # the target — the tracker state is TARGET_FOUND)
-    tracker.process_event(_ev(3, "CLOSE", "cabinet_B"))
-    tracker.process_event(_ev(4, "OPEN", "cabinet_B"))
+    tracker.process_event(_ev(4, "CLOSE", "cabinet_B"))
+    tracker.process_event(_ev(5, "OPEN", "cabinet_B"))
+    assert tracker.exhausted_location_revisits == []
+
+
+def test_open_without_evidence_stays_partially_observed():
+    """R09 repro from the review: an executed OPEN with NO frame/visibility
+    evidence must NOT exhaust a location nor mark the target found — the
+    state stays the unknown PARTIALLY_OBSERVED."""
+    scenario = _scenario()
+    tracker = SearchStateTracker.from_scenario(scenario)
+    tracker.process_event(_ev(1, "OPEN", "cabinet_A"))  # knife elsewhere
+    assert tracker.state_of("cabinet_A") == SearchLocationState.PARTIALLY_OBSERVED
+    tracker.process_event(_ev(2, "OPEN", "cabinet_B"))  # knife IS here
+    assert tracker.state_of("cabinet_B") == SearchLocationState.PARTIALLY_OBSERVED
+    assert tracker.exhausted_location_revisits == []
+    assert tracker.target_found_location is None
+
+
+def test_non_covered_observation_never_upgrades():
+    """An observation record with covered=False (interior not in the
+    delivered frame) is audited but never upgrades the state."""
+    scenario = _scenario()
+    tracker = SearchStateTracker.from_scenario(scenario)
+    tracker.process_event(_ev(1, "OPEN", "cabinet_A"))
+    tracker.record_observation("cabinet_A", step=2, covered=False,
+                               frame_id="frame_0002")
+    assert tracker.state_of("cabinet_A") == SearchLocationState.PARTIALLY_OBSERVED
+    assert tracker.observations["cabinet_A"].covered is False
+
+
+def test_relation_change_invalidates_exhaustion():
+    """R09: objects move (executed GRASP) -> earlier exhaustion conclusions
+    revert to PARTIALLY_OBSERVED and a later OPEN of that location is NOT a
+    revisit error."""
+    scenario = _scenario()
+    tracker = SearchStateTracker.from_scenario(scenario)
+    # establish the (empty) relation baseline first, as the batch runner does
+    tracker.process_event(_ev(0, "NAV", "kitchen"),
+                          current_relations=frozenset())
+    tracker.process_event(_ev(1, "OPEN", "cabinet_A"))
+    tracker.record_observation("cabinet_A", step=2, covered=True)
+    assert tracker.state_of("cabinet_A") == SearchLocationState.EXHAUSTED_EMPTY
+    # the knife is moved: relations change, exhaustion is stale
+    tracker.process_event(_ev(3, "GRASP", "distractor_spoon"),
+                          current_relations=frozenset({("GRASP",
+                                                       "distractor_spoon")}))
+    assert tracker.state_of("cabinet_A") == SearchLocationState.PARTIALLY_OBSERVED
+    assert tracker.invalidated_observations
+    assert (tracker.invalidated_observations[0]["location"] == "cabinet_A")
+    # re-opening is a fresh search, not a revisit error
+    assert tracker.process_event(_ev(4, "OPEN", "cabinet_A")) is None
     assert tracker.exhausted_location_revisits == []
 
 
@@ -103,19 +158,67 @@ def test_failed_open_does_not_update_search_state():
 
 
 def test_rer_via_track_search_states():
+    """RER over an oracle-style stream: cabinet_A's first OPEN carries a
+    covered-observation record (observed_evidence), the second does not."""
     scenario = _scenario()
+
+    def ev_with_evidence(step, skill, value, evidence, frame_id):
+        ev = _ev(step, skill, value)
+        ev["observed_evidence"] = evidence
+        ev["frame_id_after"] = frame_id
+        return ev
+
     events = [
         _ev(1, "NAV", "kitchen"),
-        _ev(2, "OPEN", "cabinet_A"),
+        ev_with_evidence(2, "OPEN", "cabinet_A",
+                         {"cabinet_A": 120}, "frame_0002"),
         _ev(3, "CLOSE", "cabinet_A"),
         _ev(4, "OPEN", "cabinet_A"),
-        _ev(5, "OPEN", "cabinet_B"),
+        ev_with_evidence(5, "OPEN", "cabinet_B",
+                         {"cabinet_B": 200}, "frame_0005"),
     ]
     tracker = track_search_states(events, scenario)
-    # 3 search interactions (2xA cabinet_A, 1x cabinet_B), 1 revisit
+    # 3 search interactions (2xA cabinet_A, 1x cabinet_B), 1 revisit;
+    # cabinet_A exhausted via the delivered-frame evidence, cabinet_B found
     assert tracker.search_interactions == 3
+    assert tracker.state_of("cabinet_A") == SearchLocationState.EXHAUSTED_EMPTY
+    assert tracker.state_of("cabinet_B") == SearchLocationState.TARGET_FOUND
+    assert tracker.observations["cabinet_A"].frame_id == "frame_0002"
     assert len(tracker.exhausted_location_revisits) == 1
     assert tracker.revisit_error_rate() == round(1 / 3, 3)
+
+
+def test_track_search_states_visual_event_shape():
+    """R09: visual-mode rows (parsed_action/binding/executed) drive the
+    tracker too — selected_entity is the bound target, observed_evidence the
+    delivered-frame visibility."""
+    scenario = _scenario()
+    events = [
+        {"event_type": "action", "schema_version": "eval-events/1",
+         "parsed_action": {"skill": "OPEN",
+                           "point": {"frame_id": "f0", "x": 0.1, "y": 0.5}},
+         "raw_action": {"skill": "OPEN",
+                        "point": {"frame_id": "f0", "x": 0.1, "y": 0.5}},
+         "selected_entity": "cabinet_A", "executed": True,
+         "postcondition_satisfied": True, "feedback": "EXECUTED",
+         "observed_evidence": {"cabinet_A": 64}, "frame_id_after": "f1",
+         "planning_step": 1, "episode_status": "RUNNING"},
+        {"event_type": "action", "schema_version": "eval-events/1",
+         "parsed_action": {"skill": "OPEN",
+                           "point": {"frame_id": "f1", "x": 0.1, "y": 0.5}},
+         "raw_action": {"skill": "OPEN",
+                        "point": {"frame_id": "f1", "x": 0.1, "y": 0.5}},
+         "selected_entity": "cabinet_A", "executed": True,
+         "postcondition_satisfied": True, "feedback": "EXECUTED",
+         "observed_evidence": {"cabinet_A": 64}, "frame_id_after": "f2",
+         "planning_step": 2, "episode_status": "RUNNING"},
+    ]
+    tracker = track_search_states(events, scenario)
+    assert tracker.search_interactions == 2
+    assert tracker.state_of("cabinet_A") == SearchLocationState.EXHAUSTED_EMPTY
+    assert tracker.observations["cabinet_A"].frame_id == "f1"
+    assert len(tracker.exhausted_location_revisits) == 1
+    assert tracker.revisit_error_rate() == 0.5
 
 
 # ---------------------------------------------------------------------------
@@ -149,6 +252,21 @@ def test_history_pair_rational_search_sets_differ():
     assert "cabinet_A" not in pair.exhausted_locations_B
     assert f"OPEN(cabinet_A)" not in pair.valid_next_action_set_A
     assert f"OPEN(cabinet_A)" in pair.valid_next_action_set_B
+
+
+def test_history_pair_observation_is_sourced():
+    """R09: arm A's exhaustion is backed by an explicit observation record
+    with event/frame source, labelled as an offline synthetic replay."""
+    scenario = _scenario()
+    pair = build_inspection_pair("hcf_cabinet_A", scenario, "cabinet_A", "kitchen")
+    ref = pair.current_observation_reference
+    assert ref["evidence_basis"] == "synthetic_replay"
+    rec = ref["observation_record_A"]
+    assert rec["location"] == "cabinet_A" and rec["covered"] is True
+    assert rec["source"] == "synthetic_replay"
+    assert rec["event_id"] == "hcf_cabinet_A:history_A:OPEN@2"
+    assert rec["frame_id"].startswith("synthetic:hcf_cabinet_A")
+    assert ref["observation_record_B"] is None
 
 
 def test_history_pair_target_found_does_not_exhaust():

@@ -28,6 +28,81 @@ PUBLIC_SKILLS = [
     "REPORT_DONE",
 ]
 
+# ------------------------------------------------------------------- versions
+
+# Remediation R05: the public surface is versioned. PROTOCOL_VERSION covers
+# the action schema and observation shape; FEEDBACK_VERSION covers the
+# feedback mapping. The four-class boundary below is replayable as
+# four-class-v1; the fine-grained codes stay evaluator-private.
+PROTOCOL_VERSION = "agent-visual-v1"
+FEEDBACK_VERSION = "four-class-v1"
+
+# R05: optional public alias for the report skill, normalized at the parse
+# boundary to REPORT_DONE (no second report executor exists).
+REPORT_COMPLETE_ALIAS = "REPORT_COMPLETE"
+
+# R05: fixed fine-grained feedback codes (evaluator-private, fixed
+# priority per failure branch). The public boundary stays the four classes;
+# these names land in the evaluator-private event log as `fine_reason` and
+# never leak hidden answers, positions or action recommendations.
+FINE_FEEDBACK_CODES = frozenset({
+    "INVALID_PARAMETER",
+    "NO_VISUAL_TARGET",
+    "ACTION_NOT_APPLICABLE",
+    "OUT_OF_CAPABILITY",
+    "ACTION_UNSAFE",
+    "MOVE_BLOCKED",
+    "STALE_FRAME",
+    "OBSERVE_NOT_FEASIBLE",
+    "TASK_COMPLETED",
+    "FALSE_COMPLETION",
+    "MAX_STEPS",
+})
+
+# private_reason -> canonical fine code (unique per branch; checked against
+# FINE_FEEDBACK_CODES)
+FINE_REASON_MAP = {
+    "SCHEMA": "INVALID_PARAMETER",
+    "MOVE_PARAMETER_RANGE": "INVALID_PARAMETER",
+    "TURN_PARAMETER_RANGE": "INVALID_PARAMETER",
+    "STALE_FRAME": "STALE_FRAME",
+    "VISIBILITY_UNAVAILABLE": "NO_VISUAL_TARGET",
+    "NO_VISUAL_TARGET": "NO_VISUAL_TARGET",
+    "INVALID_DEPTH_GEOMETRY": "NO_VISUAL_TARGET",
+    "NO_VALID_DEPTH": "NO_VISUAL_TARGET",
+    "NO_OWNING_ENTITY": "NO_VISUAL_TARGET",
+    "SKILL_NOT_APPLICABLE_TO_ENTITY": "ACTION_NOT_APPLICABLE",
+    "MOVE_BLOCKED": "MOVE_BLOCKED",
+    "TURN_BLOCKED": "MOVE_BLOCKED",
+    "NO_VALID_OBSERVE_VIEWPOINT": "OBSERVE_NOT_FEASIBLE",
+    "GOAL_UNSATISFIED": "FALSE_COMPLETION",
+}
+
+
+def fine_reason_for(private_reason: str | None, feedback_code: str | None,
+                    episode_status: str | None,
+                    skill: str | None = None) -> str | None:
+    """Canonical fine code for one step, fixed priority (R05):
+
+    1. mapped private reason of the failing branch;
+    2. terminal statuses (budget exhaustion, false completion);
+    3. the successful report;
+    4. feedback-class-derived codes (capability/unsafety).
+    """
+    if private_reason and private_reason in FINE_REASON_MAP:
+        return FINE_REASON_MAP[private_reason]
+    if episode_status == "FAIL_MAX_STEPS":
+        return "MAX_STEPS"
+    if episode_status == "FAIL_FALSE_COMPLETION":
+        return "FALSE_COMPLETION"
+    if skill == "REPORT_DONE" and feedback_code == "EXECUTED":
+        return "TASK_COMPLETED"
+    if feedback_code == "OUT_OF_CAPABILITY":
+        return "OUT_OF_CAPABILITY"
+    if feedback_code == "UNSAFE":
+        return "ACTION_UNSAFE"
+    return None
+
 
 class SessionMode(str, Enum):
     AGENT = "agent"
@@ -168,7 +243,8 @@ class PublicStepResult(BaseModel):
 
 
 class AgentProtocolConfig(BaseModel):
-    """Numeric bounds of the public action space (scenario-overridable)."""
+    """Numeric bounds of the public action space (scenario-overridable),
+    plus the protocol/feedback versions this scenario runs under (R05)."""
 
     model_config = ConfigDict(extra="forbid", allow_inf_nan=False)
 
@@ -176,6 +252,8 @@ class AgentProtocolConfig(BaseModel):
     max_move_cm: float = Field(default=100.0, gt=0)
     min_turn_deg: float = Field(default=5.0, gt=0)
     max_turn_deg: float = Field(default=180.0, gt=0)
+    protocol_version: str = PROTOCOL_VERSION
+    feedback_version: str = FEEDBACK_VERSION
 
     @model_validator(mode="after")
     def _ordered_bounds(self):

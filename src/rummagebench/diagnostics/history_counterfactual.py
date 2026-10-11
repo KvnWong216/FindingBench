@@ -88,13 +88,17 @@ def build_inspection_pair(
     """Build the minimal A/B pair for one (container, anchor) combination.
 
     History A: NAV anchor -> OPEN container (observe: target absent by
-    ground truth) -> CLOSE container (state restored). The tracker marks the
-    container EXHAUSTED_EMPTY.
+    ground truth) -> CLOSE container (state restored). History B: NAV anchor
+    only. The container stays UNSEEN in B.
 
-    History B: NAV anchor only. The container stays UNSEEN.
-
-    Present-time observable state is identical: same anchor, container
-    closed in both, closed containers hide their contents in both.
+    Remediation R09: an executed OPEN alone no longer exhausts a location.
+    Arm A's exhaustion is backed by an explicit OBSERVATION RECORD carrying
+    its event/frame source — the pair generator is OFFLINE, so the record is
+    labelled ``source="synthetic_replay"``: the v0 observation contract
+    ("OPEN reveals the interior") applied to the replayed action trace,
+    instead of a silent ground-truth flip. Nothing here leaks the ground
+    truth into any model-facing surface; the tracker uses it scorer-side
+    only once the (declared) coverage condition holds.
     """
     target = scenario.target.entity
 
@@ -115,6 +119,14 @@ def build_inspection_pair(
             "action": action,
             "execution": {"executed": True},
         })
+    # sourced observation evidence for the OPEN step (event_id/frame_id
+    # point at the synthetic replay steps; basis explicitly labelled)
+    tracker_a.record_observation(
+        container, step=inspection_step + 1, covered=True,
+        frame_id=f"synthetic:{pair_id}:open@{inspection_step + 1}",
+        event_id=f"{pair_id}:history_A:OPEN@{inspection_step + 1}",
+        source="synthetic_replay",
+    )
     exhausted_a = sorted(
         loc for loc, st in tracker_a.states.items()
         if st == SearchLocationState.EXHAUSTED_EMPTY
@@ -146,6 +158,7 @@ def build_inspection_pair(
     rel = tracker_a.object_relations.get(target)
     target_absent_from_container = not (rel is not None and rel[1] == container)
 
+    observation_a = tracker_a.observations.get(container)
     return HistoryCounterfactualPair(
         pair_id=pair_id,
         scene=scenario.scene.model,
@@ -165,6 +178,11 @@ def build_inspection_pair(
             "target_placement": f"{rel[0]}:{rel[1]}" if rel else "unknown",
             "target_absent_from_container": target_absent_from_container,
             "inspection_step": inspection_step,
+            # R09: the exhaustion of arm A is evidence-backed and sourced
+            "evidence_basis": "synthetic_replay",
+            "observation_record_A": (
+                observation_a.to_dict() if observation_a else None),
+            "observation_record_B": None,  # B never observed the container
         },
     )
 
