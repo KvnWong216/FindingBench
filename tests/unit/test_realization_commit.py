@@ -245,6 +245,13 @@ class _ScriptedPlaceBackend(FakeBackend):
 
     final_origin = None
 
+    @classmethod
+    def from_world(cls, fake, final_origin=None):
+        """A scripted-place backend of this class over the fixture world."""
+        backend = _clone_world(cls, fake)
+        backend.final_origin = final_origin
+        return backend
+
     def symbolic_place(self, entity: str, receptacle: str, at=None) -> bool:
         self.place_point = at
         if self.holding_entity != entity:
@@ -395,6 +402,127 @@ def test_place_no_point_relation_unavailable_rolls_back(fake_backend):
 
     backend = _place_backend(fake_backend, [3.0, 1.0, 0.45])
     backend.receptacle_region = lambda entity: None  # no region available
+    state = _held_state(backend)
+    with pytest.raises(FeasibilityBackendError, match="PLACE"):
+        PlaceSkill().execute(backend, _place_target(backend, point=None),
+                             state)
+    _assert_rolled_back(backend, state)
+
+
+# ---------------------------------------------------------------------------
+# Round-4: the receptacle REGION (not the outer entity AABB) is the single
+# source of truth for the relation bounds, on BOTH paths
+# ---------------------------------------------------------------------------
+
+
+class _InsetInteriorBackend(_ScriptedPlaceBackend):
+    """cabinet_B's region reports the INTERIOR volume (walls excluded),
+    strictly smaller than the entity's outer AABB."""
+
+    def receptacle_region(self, entity):
+        from rummagebench.feasibility.interaction_target import InteractionRegion
+
+        if entity == "cabinet_B":
+            return InteractionRegion(lo=[2.8, 0.8, 0.05], hi=[3.2, 1.2, 0.85],
+                                     kind="inside_volume")
+        return super().receptacle_region(entity)
+
+
+class _RootLinkRegionBackend(_ScriptedPlaceBackend):
+    """Fixed-furniture case: the region is the ROOT-LINK body top
+    (support plane z=0.6), LOWER than the whole-entity AABB top (z=0.9,
+    e.g. a tall door)."""
+
+    def receptacle_region(self, entity):
+        from rummagebench.feasibility.interaction_target import InteractionRegion
+
+        if entity == "cabinet_B":
+            return InteractionRegion(lo=[2.7, 0.7, 0.0], hi=[3.3, 1.3, 0.6],
+                                     kind="top_surface")
+        return super().receptacle_region(entity)
+
+
+def test_place_in_outer_bbox_but_outside_interior_rolls_back(fake_backend):
+    """The object sits within the receptacle's OUTER AABB but outside the
+    region's interior valid volume (in the wall zone): the containment must
+    read the REGION, not the outer bounding box."""
+    from rummagebench.skills.place import PlaceSkill
+
+    backend = _InsetInteriorBackend.from_world(fake_backend,
+                                                    [2.74, 1.0, 0.45])
+    state = _held_state(backend)
+    with pytest.raises(FeasibilityBackendError, match="PLACE"):
+        PlaceSkill().execute(backend, _place_target(backend, point=None),
+                             state)
+    _assert_rolled_back(backend, state)
+
+
+def test_place_with_point_but_region_missing_rolls_back(fake_backend):
+    """A validated point does NOT license an unknown relation: with the
+    region missing, the step must roll back even though the object rests
+    exactly on the point's plane."""
+    from rummagebench.skills.place import PlaceSkill
+
+    backend = _place_backend(
+        fake_backend, [3.0, 1.0, _CABINET_TOP_Z + _FAITHFUL_DZ + _HALF_Z])
+    backend.receptacle_region = lambda entity: None
+    state = _held_state(backend)
+    with pytest.raises(FeasibilityBackendError, match="PLACE"):
+        PlaceSkill().execute(
+            backend,
+            _place_target(backend, point=[3.0, 1.0, _CABINET_TOP_Z]), state)
+    _assert_rolled_back(backend, state)
+
+
+def test_place_with_point_but_region_kind_unknown_rolls_back(fake_backend):
+    """A region with an unknown/non-place kind (here 'cavity') never
+    commits, with or without a validated point."""
+    from rummagebench.feasibility.interaction_target import InteractionRegion
+    from rummagebench.skills.place import PlaceSkill
+
+    backend = _place_backend(
+        fake_backend, [3.0, 1.0, _CABINET_TOP_Z + _FAITHFUL_DZ + _HALF_Z])
+
+    def unknown_region(entity):
+        return InteractionRegion(lo=[2.7, 0.7, 0.0], hi=[3.3, 1.3, 0.9],
+                                 kind="cavity")
+
+    backend.receptacle_region = unknown_region
+    state = _held_state(backend)
+    with pytest.raises(FeasibilityBackendError, match="PLACE"):
+        PlaceSkill().execute(
+            backend,
+            _place_target(backend, point=[3.0, 1.0, _CABINET_TOP_Z]), state)
+    _assert_rolled_back(backend, state)
+
+
+def test_place_root_link_plane_positive_control(fake_backend):
+    """Positive control: the object rests on the ROOT-LINK support plane
+    (z=0.6), which is BELOW the whole-entity AABB top (z=0.9). Judged by
+    the region's plane, the placement commits (the outer-AABB rule would
+    have falsely rejected it)."""
+    from rummagebench.skills.place import PlaceSkill
+
+    backend = _RootLinkRegionBackend.from_world(
+        fake_backend, [3.0, 1.0, 0.6 + _FAITHFUL_DZ + _HALF_Z])
+    state = _held_state(backend)
+    result = PlaceSkill().execute(backend, _place_target(backend, point=None),
+                                  state)
+    assert result.executed
+    assert result.postcondition_satisfied
+    assert state.held_object is None
+    assert not backend.is_holding("target_knife")
+
+
+def test_place_floating_at_outer_bbox_top_rolls_back(fake_backend):
+    """Negative control: the object floats at the OUTER AABB top plane
+    (z=0.9), 30 cm above the region's true support plane (z=0.6). The
+    outer-box rule accepted this; the region plane rejects it."""
+    from rummagebench.skills.place import PlaceSkill
+
+    backend = _RootLinkRegionBackend.from_world(
+        fake_backend,
+        [3.0, 1.0, _CABINET_TOP_Z + _FAITHFUL_DZ + _HALF_Z])
     state = _held_state(backend)
     with pytest.raises(FeasibilityBackendError, match="PLACE"):
         PlaceSkill().execute(backend, _place_target(backend, point=None),
