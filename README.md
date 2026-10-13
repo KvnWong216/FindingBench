@@ -1,5 +1,8 @@
 # RummageBench
 
+> Household acceptance (2026-10-13): the two cloud household commits are absent from this checkout. Native occupancy capture/restore has a CPU-tested entry, while full frozen backgrounds, family search-cost measurement and per-robot physical acceptance remain pending. See [the audit and commands](docs/household_pipeline_acceptance.md). Existing episode certificates do not certify family search difficulty.
+
+
 > **Validation status (2026-09-30):** the `build/` reports and `HANDOFF.md`
 > contain historical results, not acceptance evidence for the current code.
 > CPU regressions and real OmniGibson acceptance are separate gates. Offline

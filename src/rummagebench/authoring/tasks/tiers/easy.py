@@ -91,7 +91,7 @@ def propose(ctx: PlannerContext, seed: int, index: int, retry: int) -> TaskPlan:
     target = PlacedObject(entity=f"target_{cat}", category=cat, model=model,
                           slot_id=tslot.slot_id, role="target")
 
-    distractors = _distractors(ctx, seed, index, retry, scene, room, tslot, target)
+    distractors = _distractors(ctx, seed, index, retry, scene, room, target)
 
     # start visibility: an in_container target is hidden by the closed
     # container (verified on GPU), so seeing the cabinet from the start is
@@ -204,7 +204,7 @@ def _target_options(ctx: PlannerContext, scene: str, room: str, mode: str
 
 
 def _distractors(ctx: PlannerContext, seed: int, index: int, retry: int, scene: str,
-                 room: str, tslot: Slot, target: PlacedObject) -> list[PlacedObject]:
+                 room: str, target: PlacedObject) -> list[PlacedObject]:
     spec = ctx.tier
     ss = ctx.scenes[scene]
     el = ctx.eligibility
@@ -212,6 +212,11 @@ def _distractors(ctx: PlannerContext, seed: int, index: int, retry: int, scene: 
     tbox = el.categories[target.category].model(target.model).bbox
     out: list[PlacedObject] = []
     rng = stream(seed, index, "distractors", retry)
+    # Reserve target space at EVERY semantically compatible candidate, so
+    # moving the target never changes background draws, IDs or role labels.
+    # This is a CPU proposal only; common physical coordinates still require
+    # one frozen background and post-insertion comparison on GPU.
+    reserved = {s.slot_id for s in candidate_slots(ctx, scene, [room], target.category, tbox)}
 
     def pick_for(slot: Slot, used: list) -> PlacedObject | None:
         """One approved, fitting, non-lookalike object for slot, or None."""
@@ -227,9 +232,10 @@ def _distractors(ctx: PlannerContext, seed: int, index: int, retry: int, scene: 
         if not pool:
             return None
         cat, m = choice(rng, pool)
-        cap = (spec.target_slot.max_fill_ratio if slot.slot_id == tslot.slot_id else
-               spec.other_containers.max_fill_ratio if slot.is_container else
+        cap = (spec.other_containers.max_fill_ratio if slot.is_container else
                spec.other_surfaces.max_area_ratio)
+        if slot.slot_id in reserved:
+            cap = min(cap, spec.target_slot.max_fill_ratio)
         if occupancy(used + [m.bbox], slot) > cap:
             return None
         used.append(m.bbox)
@@ -237,6 +243,8 @@ def _distractors(ctx: PlannerContext, seed: int, index: int, retry: int, scene: 
                             slot_id=slot.slot_id, role="")
 
     def place(slot: Slot, k: int, role: str, used: list) -> None:
+        if slot.slot_id in reserved:
+            k = min(k, int(spec.target_slot.extra_items.max))
         for _ in range(k):
             if spec.max_distractors is not None and len(out) >= spec.max_distractors:
                 return
@@ -247,14 +255,11 @@ def _distractors(ctx: PlannerContext, seed: int, index: int, retry: int, scene: 
             o.role = role
             out.append(o)
 
-    b = spec.target_slot.extra_items
-    place(tslot, randint_bound(rng, b.min, b.max), "target_slot", [tbox])
-
     ov = ctx.overlay(scene)
     # only slots the probe could physically fill (a failed distractor
     # placement aborts the whole episode build)
-    room_slots = [s for s in ss.slots_in_room(room)
-                  if s.slot_id != tslot.slot_id and slot_placeable(ctx, ov, s)]
+    room_slots = sorted((s for s in ss.slots_in_room(room) if slot_placeable(ctx, ov, s)),
+                        key=lambda s: s.slot_id)
     containers = [s for s in room_slots if s.is_container]
     surfaces = [s for s in room_slots if not s.is_container]
     oc = spec.other_containers
@@ -264,10 +269,11 @@ def _distractors(ctx: PlannerContext, seed: int, index: int, retry: int, scene: 
         chosen = sorted(rng.choice(len(containers), size=n_occ, replace=False).tolist())
         for i in chosen:
             place(containers[i], randint_bound(rng, oc.items.min, oc.items.max),
-                  "other_container", [])
+                  "other_container", [tbox] if containers[i].slot_id in reserved else [])
     si = spec.other_surfaces.items
     for s in surfaces:
-        place(s, randint_bound(rng, si.min, si.max), "other_surface", [])
+        place(s, randint_bound(rng, si.min, si.max), "other_surface",
+              [tbox] if s.slot_id in reserved else [])
     return out
 
 

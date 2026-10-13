@@ -60,31 +60,25 @@ def build_scene_plan(environment_seed: int, paradigm: str,
     plan = ScenePlan(environment_seed=environment_seed, paradigm=paradigm,
                      support_model=support_model, container_model=container_model,
                      visibility_band=dataset_cfg.visibility_bands[paradigm])
-    rng = sampler  # only for .sample() ordering; counts use their own stream
-    target_category, target_model = sampler.sample()
-    target = ObjectPlan(name="target_object", category=target_category,
-                        model=target_model, role="target")
-    plan.objects.append(target)
-
     used_pairs = {("bowl", "adciys")} if (
         container_model == "adciys") else set()
     if cover_model:
         used_pairs.add(cover_model)
     if exclude_pairs:
         used_pairs |= set(exclude_pairs)
+    target_category, target_model = sampler.sample(exclude_pairs=used_pairs, target=True)
+    target = ObjectPlan(name="target_object", category=target_category,
+                        model=target_model, role="target")
+    plan.objects.append(target)
+    used_pairs.add((target_category, target_model))
 
     def add_distractor(role: str) -> None:
         # one instance per (category, model) within a scene: duplicate USD
         # instantiation segfaults Kit on this host (2026-10-03 pilot finding)
-        for _ in range(40):
-            category, model = sampler.sample()
-            if (category, model) not in used_pairs:
-                used_pairs.add((category, model))
-                plan.objects.append(ObjectPlan(
-                    name=f"{role}_{len(plan.objects)}",
-                    category=category, model=model, role=role))
-                return
-        raise ValueError("sampling exhausted: no unique (category, model) left")
+        category, model = sampler.sample(exclude_pairs=used_pairs)
+        used_pairs.add((category, model))
+        plan.objects.append(ObjectPlan(name=f"{role}_{len(plan.objects)}",
+                                       category=category, model=model, role=role))
 
     if paradigm == "container_rummage":
         if not container_model:

@@ -10,12 +10,12 @@ production_ready: false
 robots:
   r1pro:
     og_robot_class: R1Pro
-    status: gpu_verified          # FindingBench baseline: full protocol loop proven
+    status: candidate             # Historical baseline is not family-level evidence
     base_link: base_link
     eef_link: right_eef_link
     camera: robot_0:zed_link:Camera:0 (head)
     nominal_camera_height_m: 1.2
     base_footprint_m: [0.8, 0.8]
-    notes: proven with the complete OPEN/GRASP/REPORT_DONE chain on knife_search
+    notes: historical OPEN/GRASP/REPORT_DONE on knife_search; current asset-bound capability evidence pending
   # candidates filled by discovery — verified=false until the GPU stage passes:
   # fetch / tiago / stretch / ... (never fabricated)

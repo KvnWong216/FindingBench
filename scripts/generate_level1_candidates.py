@@ -11,10 +11,8 @@ never overwrites accepted ones.
 from __future__ import annotations
 
 import argparse
-import sys
+import json
 from pathlib import Path
-
-import yaml
 
 from rummagebench.authoring.level1.catalog import (
     eligible_inventory,
@@ -25,11 +23,12 @@ from rummagebench.authoring.level1.compiler import (
     compile_candidate,
 )
 from rummagebench.authoring.level1.config import load_dataset_config
-from rummagebench.authoring.level1.coverage_sampler import CoverageSampler
+from rummagebench.authoring.level1.coverage_sampler import CoverageSampler, SamplingExhausted
 from rummagebench.authoring.level1.grammar import build_scene_plan
 from rummagebench.authoring.level1.snapshot import (
     atomic_write_json,
     canonical_hash,
+    write_environment_snapshot,
 )
 
 REPO = Path(__file__).resolve().parents[1]
@@ -52,9 +51,24 @@ def main() -> int:
     parser.add_argument("--catalog",
                         default="build/level1/catalog/ordinary_objects.json")
     parser.add_argument("--resume", action="store_true")
+    parser.add_argument("--full-catalog", action="store_true",
+                        help="CPU candidates from the full eligible catalog; still require GPU acceptance")
     parser.add_argument("--out", default="build/level1/candidates")
     args = parser.parse_args()
 
+    out_root = Path(args.out)
+    if not out_root.is_absolute():
+        out_root = REPO / out_root
+    out_root.parent.mkdir(parents=True, exist_ok=True)
+    lock = out_root.parent / f".{out_root.name}.generation.lock"
+    with lock.open("x"):
+        try:
+            return generate(args)
+        finally:
+            lock.unlink()
+
+
+def generate(args) -> int:
     dataset_cfg = load_dataset_config()
     out_root = Path(args.out)
     if not out_root.is_absolute():
@@ -65,7 +79,7 @@ def main() -> int:
     entries = eligible_inventory(load(catalog_path))
     # rev §15 staged preprocessing: the pilot samples only from categories
     # proven to load in FindingBench GPU runs; --full-catalog lifts the gate
-    if "--full-catalog" not in sys.argv:
+    if not args.full_catalog:
         safe = set(load_dataset_config().pilot_safe_categories)
         entries = [e for e in entries if e.category in safe]
         print(f"pilot gate: {len(entries)} entries from "
@@ -74,24 +88,44 @@ def main() -> int:
         dataset_seed := 1))
 
     progress_path = out_root / "progress.json"
+    from dataclasses import asdict
+    from rummagebench.authoring.tasks.plan import sha256_path
+    cfg_identity = asdict(dataset_cfg)
+    cfg_identity["objects_root"] = str(cfg_identity["objects_root"])
+    inputs_hash = canonical_hash({
+        "catalog_sha256": sha256_path(catalog_path), "config": cfg_identity,
+        "start_seed": args.start_seed, "full_catalog": args.full_catalog,
+        "sources": {str(p.relative_to(REPO)): sha256_path(p) for p in
+                    [Path(__file__).resolve()] + sorted((REPO / "src/rummagebench/authoring").rglob("*.py"))},
+    })
+    if args.candidates < 0:
+        raise SystemExit("--candidates must be nonnegative")
+    previous_attempted = 0
+    if progress_path.exists():
+        if not args.resume:
+            raise SystemExit("output already exists; use --resume with identical inputs")
+        progress = json.loads(progress_path.read_text())
+        if progress.get("inputs_hash") != inputs_hash:
+            raise SystemExit("resume input conflict (catalog/config/seed/source changed)")
+        previous_attempted = progress["attempted"]
+        if args.candidates < previous_attempted:
+            raise SystemExit("resume cannot shrink the attempted prefix")
+    elif out_root.exists() and any(out_root.iterdir()):
+        raise SystemExit("nonempty output without bound progress; choose a fresh directory")
     attempted = accepted = rejected = 0
-    if args.resume and progress_path.exists():
-        import json
-        doc = json.loads(progress_path.read_text())
-        attempted = doc["attempted"]
-        accepted = doc["accepted"]
-        rejected = doc["rejected"]
+    # Replaying the CPU prefix restores the RNG AND coverage counters,
+    # including failed grammar draws, without rewriting frozen candidates.
+    # This avoids pretending a fresh sampler is a valid resumed sampler.
+    if not progress_path.exists():
+        atomic_write_json(progress_path, {"inputs_hash": inputs_hash, "attempted": 0})
 
     paradigm_cycle = ["container_rummage", "tabletop_clutter",
                       "deliberate_cover"]
-    for offset in range(attempted, args.candidates):
+    for offset in range(args.candidates):
         seed = args.start_seed + offset
-        candidate_id = seed
         paradigm = paradigm_cycle[offset % 3]
         env_id = f"level1_{paradigm}_{seed:06d}"
         candidate_dir = out_root / env_id
-        if args.resume and (candidate_dir / "occupancy_spec.json").exists():
-            continue
         try:
             plan = build_scene_plan(seed, paradigm, sampler, dataset_cfg,
                                     SUPPORT_MODEL,
@@ -115,22 +149,20 @@ def main() -> int:
                          "counts": plan.counts},
                 "placements": candidate.placements,
             })
-            atomic_write_json(candidate_dir / "occupancy_spec.json",
-                              {"environment_id": env_id,
+            occupancy_payload = {"environment_id": env_id,
                                "environment_seed": seed,
                                "manifest_hash": manifest_hash,
                                "stage": "A",
                                "candidate": {
                                    "paradigm": paradigm,
                                    "support_model": SUPPORT_MODEL,
-                                   "container_model": "recycling_bin" if paradigm ==
-                                   "container_rummage" else None,
+                                   "container_model": candidate.container_model,
                                    "surface": candidate.surface,
                                    "occupancy_spec": candidate.occupancy_spec,
                                    "placements": candidate.placements,
                                    "objects": candidate.objects,
                                    "relations": candidate.relations,
-                               }})
+                               }, "status": "pending_simulation", "inputs_hash": inputs_hash}
             # Level-1 scenario: the candidate through the FROZEN protocol —
             # objects on the verified support via on_top placements; the
             # standard driver runs the witness (rev §10).
@@ -181,26 +213,25 @@ def main() -> int:
                 "safety": {"forbidden_categories": [],
                            "grasping_fixed_base_unsafe": True},
             }
-            atomic_write_json(candidate_dir / "level1_scenario.json",
-                              level1_scenario)
-            level1_dir = REPO / "scenarios" / "level1" / env_id
-            level1_dir.mkdir(parents=True, exist_ok=True)
-            (level1_dir / "scenario.yaml").write_text(
-                yaml.safe_dump(level1_scenario, sort_keys=False),
-                encoding="utf-8")
+            write_environment_snapshot(candidate_dir, {
+                "occupancy_spec.json": occupancy_payload,
+                "level1_scenario.json": level1_scenario,
+            })
+            # Candidate JSON remains in build/. No automatic writes of
+            # unverified or synthetic catalog entries to repository scenarios.
             accepted += 1
-        except StructuralFailure as e:
-            atomic_write_json(candidate_dir / "stage_a_rejection.json",
-                              {"environment_id": env_id, "code": str(e)})
+        except (StructuralFailure, SamplingExhausted) as e:
+            write_environment_snapshot(candidate_dir, {"stage_a_rejection.json": {
+                "environment_id": env_id, "code": str(e), "inputs_hash": inputs_hash}})
             rejected += 1
         attempted += 1
-        if offset % 25 == 0:
+        if attempted >= previous_attempted and offset % 25 == 0:
             atomic_write_json(progress_path,
-                              {"attempted": attempted, "accepted": accepted,
+                              {"inputs_hash": inputs_hash, "attempted": attempted, "accepted": accepted,
                                "rejected": rejected})
             print(f"progress: {attempted} attempted, {accepted} stage-A ok",
                   flush=True)
-    atomic_write_json(progress_path, {"attempted": attempted,
+    atomic_write_json(progress_path, {"inputs_hash": inputs_hash, "attempted": attempted,
                                       "accepted": accepted,
                                       "rejected": rejected})
     print(f"stage-A generation done: {attempted} attempted, {accepted} ok, "

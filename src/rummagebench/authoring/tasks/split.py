@@ -81,12 +81,19 @@ def make_split(records: Iterable[EpisodeRecord], test_scenes: list[str],
 
 
 def leakage_violations(split: Split, records: Iterable[EpisodeRecord]) -> list[str]:
+    records = list(records)
     by_id = {r.task_id: r for r in records}
     out = []
     if set(split.dev) & set(split.test):
         out.append("episode in both dev and test")
-    dev = [by_id[t] for t in split.dev]
-    test = [by_id[t] for t in split.test]
+    unknown = (set(split.dev) | set(split.test)) - set(by_id)
+    if unknown:
+        out.append(f"split contains unknown task ids: {sorted(unknown)}")
+    for name, ids in (("dev", split.dev), ("test", split.test)):
+        if len(ids) != len(set(ids)):
+            out.append(f"duplicate ids in {name}")
+    dev = [by_id[t] for t in split.dev if t in by_id]
+    test = [by_id[t] for t in split.test if t in by_id]
     if split.policy == "held_out_scene":
         leaked = {r.scene for r in dev} & {r.scene for r in test}
         if leaked:
@@ -95,7 +102,7 @@ def leakage_violations(split: Split, records: Iterable[EpisodeRecord]) -> list[s
         leaked = {r.search_family for r in dev} & {r.search_family for r in test}
         if leaked:
             out.append(f"test families appear in dev: {sorted(leaked)}")
-    if len({r.task_id for r in records}) != len(by_id):
+    if len(records) != len(by_id):
         out.append("duplicate task ids")
     return out
 

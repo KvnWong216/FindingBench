@@ -556,3 +556,22 @@ def test_certifier_view_anchor_is_added_once_before_the_grasp(ctx, outcomes):
     assert succ[-2] == {"skill": "NAV", "target": {"type": "place", "value": "cab_a__view"}}
     assert succ[-1]["skill"] == "GRASP"
     ScenarioSpec.model_validate(once)
+
+
+def test_background_proposals_do_not_depend_on_actual_target_slot():
+    """Synthetic CPU proposal regression; physical pose equality needs GPU freeze."""
+    from dataclasses import asdict, replace
+    from rummagebench.authoring.tasks.plan import PlacedObject
+    from rummagebench.authoring.tasks.tiers.easy import _distractors
+    ctx = build_ctx(wide_room=False)
+    candidates = [s for s in ctx.scenes[SCENE].slots if s.is_container]
+    target = PlacedObject('target_bowl', 'bowl', 'bowl_m0', candidates[0].slot_id, 'target')
+    for index in range(20):
+        reference = None
+        for candidate in candidates:
+            moved = replace(target, slot_id=candidate.slot_id)
+            background = [asdict(o) for o in _distractors(ctx, 7, index, 0, SCENE, 'kitchen_0', moved)]
+            if reference is None:
+                reference = background
+            assert background == reference
+            assert all(o['role'] != 'target_slot' for o in background)

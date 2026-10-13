@@ -14,6 +14,10 @@ from typing import Iterable
 from rummagebench.authoring.level1.catalog import CatalogEntry
 
 
+class SamplingExhausted(ValueError):
+    """The requested number of distinct approved pairs cannot be sampled."""
+
+
 class CoverageSampler:
     def __init__(self, entries: Iterable[CatalogEntry], object_rng):
         self._rng = object_rng
@@ -37,22 +41,28 @@ class CoverageSampler:
         # small seeded component on top of the deterministic weight
         return float(self._rng.random()) * 1e-3
 
-    def sample_category(self) -> str:
+    def sample_category(self, categories=None) -> str:
         weights = {c: 1.0 / math.sqrt(1.0 + self._category_usage[c]) + self._jitter()
-                   for c in self._by_category}
+                   for c in (self._by_category if categories is None else categories)}
         return _weighted_choice(weights, self._rng)
 
-    def sample_model(self, category: str) -> str:
+    def sample_model(self, category: str, models=None) -> str:
         weights = {m: 1.0 / math.sqrt(1.0 + self._model_usage[(category, m)])
                    + self._jitter()
-                   for m in self._by_category[category]}
+                   for m in (self._by_category[category] if models is None else models)}
         return _weighted_choice(weights, self._rng)
 
-    def sample(self) -> tuple[str, str]:
-        """Sample (category, model) and record a distractor usage."""
-        category = self.sample_category()
-        model = self.sample_model(category)
-        self.record_distractor(category, model)
+    def sample(self, exclude_pairs=None, *, target=False) -> tuple[str, str]:
+        """Hierarchical draw over available pairs; rejected repeats consume no usage."""
+        excluded = exclude_pairs or set()
+        available = {c: sorted(set(m for m in models if (c, m) not in excluded))
+                     for c, models in self._by_category.items()}
+        available = {c: models for c, models in available.items() if models}
+        if not available:
+            raise SamplingExhausted("no unique (category, model) left")
+        category = self.sample_category(sorted(available))
+        model = self.sample_model(category, available[category])
+        (self.record_target if target else self.record_distractor)(category, model)
         return category, model
 
     def record_target(self, category: str, model: str) -> None:

@@ -57,7 +57,10 @@ class OmniGibsonBackend(SimBackend):
 
     # ------------------------------------------------------------------ setup
 
-    def setup(self, scenario: ScenarioSpec) -> dict[str, Any]:
+    def setup(self, scenario: ScenarioSpec, *, native_scene_capture=None,
+              native_scene_only: bool = False) -> dict[str, Any]:
+        if native_scene_only and native_scene_capture is None:
+            raise ValueError("native-only setup requires an occupancy capture")
         import sys as _s
         self._validated_anchor_poses.clear()
         seed_everything(self._seed)
@@ -75,6 +78,17 @@ class OmniGibsonBackend(SimBackend):
         self._scenario = scenario
 
         report: dict[str, Any] = {"scene": scenario.scene.model, "spawned": [], "placements": [], "initial_states": [], "anchors": []}
+
+        # Evaluator-only authoring hook on the very same loaded scene used
+        # below. Capture BEFORE importing task objects or changing doors.
+        # The hook must only read state; it never enters agent observations.
+        if native_scene_capture is not None:
+            report["native_occupancy"] = native_scene_capture(self)
+        if native_scene_only:
+            self._initial_state = dump_state(self._sim)
+            report["stage"] = "native_loaded"
+            self._build_report = report
+            return report
 
         # 1. spawn scenario objects
         from rummagebench.sim.omnigibson.dataset import pick_model_for_category

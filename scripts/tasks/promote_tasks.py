@@ -19,7 +19,13 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+from pathlib import Path
 import shutil
+import tempfile
+
+from rummagebench.authoring.tasks.gates import structural_violations, simulator_violations
+from rummagebench.authoring.tasks.search_certificate import SearchStructureCertificate
+from rummagebench.authoring.tasks.tiers import load_tier
 
 from _common import REPO, host_config
 
@@ -37,11 +43,51 @@ def promote_robot(robot_id: str, urdf_hash: str):
         raise SystemExit(f"{urdf} does not match the certified urdf_hash {urdf_hash}")
     dst = REPO / "assets" / "robots" / robot_id
     if dst.exists():
-        shutil.rmtree(dst)
-    shutil.copytree(meshes, dst / meshes.name)  # URDF references meshes relatively
-    shutil.copy2(urdf, dst / urdf.name)
-    shutil.copy2(manifest, dst / manifest.name)
+        expected = {urdf.name: urdf, manifest.name: manifest}
+        expected.update({f"{meshes.name}/{p.relative_to(meshes).as_posix()}": p
+                         for p in meshes.rglob("*") if p.is_file()})
+        actual = {p.relative_to(dst).as_posix() for p in dst.rglob("*") if p.is_file()}
+        if actual != set(expected) or any(not (dst / name).is_file() or sha256(dst / name) != sha256(p)
+                                         for name, p in expected.items()):
+            raise SystemExit(f"conflicting released robot at {dst}; cannot overwrite frozen assets")
+    else:
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        stage = Path(tempfile.mkdtemp(dir=dst.parent, prefix=f".{robot_id}."))
+        try:
+            shutil.copytree(meshes, stage / meshes.name)
+            shutil.copy2(urdf, stage / urdf.name)
+            shutil.copy2(manifest, stage / manifest.name)
+            stage.rename(dst)
+        finally:
+            if stage.exists():
+                shutil.rmtree(stage)
     return urdf.relative_to(REPO).as_posix(), (dst / urdf.name).relative_to(REPO).as_posix()
+
+
+def preflight_episodes(src, ids, records, tier):
+    """Check every episode before touching any released asset.
+
+    This legacy promoter certifies single-episode feasibility/visibility.
+    A household family must go through a family verifier; this path cannot
+    silently inherit an episode's status as family/search-cost acceptance.
+    """
+    spec = load_tier(tier)
+    for i in sorted(ids):
+        rec = records[i]
+        if rec.get("status") != "certified":
+            raise SystemExit(f"{i}: status {rec.get('status')}")
+        cert = SearchStructureCertificate.from_dict(rec["search_certificate"])
+        violations = structural_violations(cert, spec) + simulator_violations(cert, spec)
+        if cert.status != "certified" or violations:
+            raise SystemExit(f"{i}: certificate does not pass current gates")
+        cand = src / "candidates" / f"{i}.yaml"
+        if sha256(cand) != rec["provenance"]["certifier"]["scenario_sha256"]:
+            raise SystemExit(f"{i}: candidate changed since certification")
+        plan = json.loads((src / "plans" / f"{i}.json").read_text())
+        prov = plan.get("provenance") or {}
+        if ("household" in tier or any(k in plan or k in prov or k in rec
+                                      for k in ("family_id", "family", "background_id", "family_binding"))):
+            raise SystemExit(f"{i}: household family cannot be promoted with a single-episode certificate")
 
 
 def main(argv=None) -> int:
@@ -57,10 +103,17 @@ def main(argv=None) -> int:
     ids = {i: name for name in ("dev", "test") for i in split[name]}
 
     records = {i: json.loads((src / "certificates" / f"{i}.json").read_text()) for i in ids}
+    preflight_episodes(src, ids, records, args.tier)
     robots = {(r["provenance"]["robot"]["id"], r["provenance"]["robot"]["urdf_hash"])
               for r in records.values()}
     if len(robots) != 1:
         raise SystemExit(f"episodes certified against several robots: {robots}")
+    robot_id, _ = next(iter(robots))
+    expected_urdf = ROBOT_SRC[robot_id][0]
+    for i in ids:
+        text = (src / "candidates" / f"{i}.yaml").read_text()
+        if text.count(f"urdf_path: {expected_urdf}") != 1:
+            raise SystemExit(f"{i}: expected one urdf_path {expected_urdf}")
     old_urdf, new_urdf = promote_robot(*robots.pop())
 
     out = REPO / "assets" / "benchmark" / args.tier
@@ -107,6 +160,8 @@ def main(argv=None) -> int:
     (out / "split.json").write_text(json.dumps(split, indent=1, sort_keys=True))
     (out / "manifest.json").write_text(json.dumps({
         "tier": args.tier, "robot_urdf": new_urdf,
+        "certification_scope": "single_episode_execution_and_visibility",
+        "family_certified": False, "search_difficulty_status": "unmeasured",
         "max_planning_steps": 16, "episodes": episodes}, indent=1))
     print(f"{len(episodes)} episodes (dev {len(split['dev'])} / test {len(split['test'])}) "
           f"-> {out.relative_to(REPO)}; robot -> {new_urdf}")

@@ -10,6 +10,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import shutil
 import tempfile
 from pathlib import Path
 from typing import Any
@@ -41,25 +42,48 @@ def atomic_write_json(path: Path, payload: Any) -> None:
 
 
 def write_environment_snapshot(env_dir: Path, artifacts: dict[str, Any]) -> None:
-    """§31: write the immutable environment directory atomically.
+    """Publish a whole immutable bundle; identical reruns are idempotent.
 
-    Existing accepted snapshots are never overwritten unless `force` was
-    requested by the operator (handled by the caller).
+    Reject conflicting/partial existing bundles before any mutation. The
+    sibling lock serializes writers, and rename publishes a complete bundle.
+    Force is deliberately not available in this low-level freeze operation.
     """
+    import base64
+
     env_dir = Path(env_dir)
-    env_dir.mkdir(parents=True, exist_ok=True)
+    encoded = {}
     for name, payload in artifacts.items():
+        rel = Path(name)
+        if rel.is_absolute() or ".." in rel.parts or not rel.parts:
+            raise ValueError(f"invalid snapshot artifact path: {name}")
         if name.endswith(".png"):
-            import base64
-            target = env_dir / name
-            target.parent.mkdir(parents=True, exist_ok=True)
-            fd, tmp = tempfile.mkstemp(dir=str(target.parent), suffix=".tmp")
-            with os.fdopen(fd, "wb") as f:
-                f.write(base64.b64decode(payload) if isinstance(payload, str)
-                        else payload)
-            os.replace(tmp, target)
+            encoded[name] = base64.b64decode(payload, validate=True) if isinstance(payload, str) else bytes(payload)
         else:
-            atomic_write_json(env_dir / name, payload)
+            encoded[name] = canonical_json(payload).encode("utf-8")
+    if not encoded:
+        raise ValueError("empty snapshot bundle")
+    env_dir.parent.mkdir(parents=True, exist_ok=True)
+    lock = env_dir.parent / f".{env_dir.name}.freeze.lock"
+    # An interrupted writer can leave a lock, requiring explicit inspection;
+    # it cannot cause a later writer to overwrite accepted state.
+    with lock.open("x"):
+        stage = None
+        try:
+            if env_dir.exists():
+                if any(not (env_dir / n).is_file() or (env_dir / n).read_bytes() != data
+                       for n, data in encoded.items()):
+                    raise FileExistsError(f"conflicting or incomplete frozen snapshot: {env_dir}")
+                return
+            stage = Path(tempfile.mkdtemp(dir=env_dir.parent, prefix=f".{env_dir.name}."))
+            for name, data in encoded.items():
+                target = stage / name
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(data)
+            stage.rename(env_dir)
+        finally:
+            if stage is not None and stage.exists():
+                shutil.rmtree(stage)
+            lock.unlink()
 
 
 def environment_manifest(environment_id: str, plan_dict: dict,

@@ -88,7 +88,7 @@ def sampler():
     def make(seed: int = 7):
         entries = [CatalogEntry(category=f"cat_{i}", model_id=f"m{i}a",
                                 asset_path=f"/x/cat_{i}/m{i}a")
-                   for i in range(5)]
+                   for i in range(20)]
         entries += [CatalogEntry(category="cat_0", model_id="m0b",
                                  asset_path="/x/cat_0/m0b")]
         rng = derive_streams(seed)["object"]
@@ -204,6 +204,7 @@ def test_scene_plan_counts_and_roles(dataset_cfg, sampler):
     assert roles.count("inside") == plan.counts["n_inside"] - 1
     assert roles.count("outside") == plan.counts["n_outside"]
     assert plan.target().role == "target"
+    assert len({(o.category, o.model) for o in plan.objects}) == len(plan.objects)
 
 
 def test_deliberate_cover_requires_cover_model(dataset_cfg, sampler):
@@ -335,14 +336,14 @@ def test_candidate_generation_resume(tmp_path):
     script = REPO / "scripts" / "generate_level1_candidates.py"
     catalog = tmp_path / "catalog.json"
     entries = [{"category": f"cat_{i}", "model_id": f"m{i}", "asset_path": "x",
-                "category_excluded_reason": None} for i in range(4)]
+                "category_excluded_reason": None} for i in range(24)]
     catalog.write_text(json.dumps({"entries": entries}))
     out = tmp_path / "candidates"
     import os
     env = dict(os.environ)
     env["PYTHONPATH"] = str(REPO / "src")
     base = [sys.executable, str(script), "--out", str(out), "--resume",
-            "--catalog", str(catalog)]
+            "--catalog", str(catalog), "--full-catalog"]
     first = subprocess.run(base + ["--candidates", "3"], env=env,
                            capture_output=True, text=True)
     assert first.returncode == 0, first.stderr
@@ -356,3 +357,38 @@ def test_candidate_generation_resume(tmp_path):
                             capture_output=True, text=True)
     assert second.returncode == 0, second.stderr
     assert len(accepted_specs()) == len(done)  # --resume never redoes work
+
+
+def test_resume_extension_matches_uninterrupted_and_rejects_input_conflicts(tmp_path):
+    """Synthetic CPU candidates remain in tmp_path; none enter repository scenarios."""
+    import os
+    script = REPO / "scripts/generate_level1_candidates.py"
+    catalog = tmp_path / "catalog.json"
+    entries = [{"category": f"cat_{i}", "model_id": f"fixture_m{i}", "asset_path": "synthetic_unit_test",
+                "category_excluded_reason": None} for i in range(24)]
+    catalog.write_text(json.dumps({"entries": entries}))
+    env = dict(os.environ, PYTHONPATH=str(REPO / "src"))
+    base = [sys.executable, str(script), "--catalog", str(catalog), "--full-catalog", "--resume"]
+    partial, fresh = tmp_path / "partial", tmp_path / "fresh"
+    for out, count in ((partial, 2), (partial, 6), (fresh, 6)):
+        result = subprocess.run(base + ["--out", str(out), "--candidates", str(count)],
+                                env=env, capture_output=True, text=True)
+        assert result.returncode == 0, result.stderr
+    artifacts = lambda root: {str(p.relative_to(root)): p.read_bytes() for p in root.rglob('*.json')}
+    assert artifacts(partial) == artifacts(fresh)
+    before = artifacts(partial)
+    catalog.write_text(json.dumps({"entries": entries[:-1]}))
+    result = subprocess.run(base + ["--out", str(partial), "--candidates", '6'],
+                            env=env, capture_output=True, text=True)
+    assert result.returncode != 0 and "input conflict" in result.stderr
+    assert artifacts(partial) == before
+
+
+def test_scene_plan_never_samples_reserved_or_duplicate_target_pairs(dataset_cfg, sampler):
+    s = sampler()
+    reserved = {('cat_0', 'm0a'), ('cat_1', 'm1a')}
+    plan = build_scene_plan(101, 'container_rummage', s, dataset_cfg, 'fixture_support', 'fixture_container',
+                            exclude_pairs=reserved)
+    pairs = [(o.category, o.model) for o in plan.objects]
+    assert not set(pairs) & reserved and len(pairs) == len(set(pairs))
+    assert s.stats()['unique_target_models'] == 1

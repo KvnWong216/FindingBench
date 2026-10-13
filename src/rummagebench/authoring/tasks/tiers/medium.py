@@ -179,7 +179,7 @@ def propose(ctx: PlannerContext, seed: int, index: int, retry: int) -> TaskPlan:
                          f"no cover stack fits {tslot.slot_id} over {cat}")
 
     from rummagebench.authoring.tasks.tiers.easy import _distractors
-    background = [o for o in _distractors(ctx, seed, index, retry, scene, room, tslot, target)
+    background = [o for o in _distractors(ctx, seed, index, retry, scene, room, target)
                   if o.slot_id != tslot.slot_id]  # the target slot holds only the stack
 
     # lookalikes: covers may already be; else one in another room slot

@@ -14,7 +14,7 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Optional
 
-GENERATOR_VERSION = "tasks-factory-1"
+GENERATOR_VERSION = "tasks-factory-2"
 
 
 @dataclass
@@ -115,7 +115,7 @@ def git_state(repo: Path) -> dict[str, Any]:
     try:
         commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=repo, check=True,
                                 capture_output=True, text=True).stdout.strip()
-        dirty = bool(subprocess.run(["git", "status", "--porcelain", "--", "src", "assets"],
+        dirty = bool(subprocess.run(["git", "status", "--porcelain", "--", "src", "assets", "configs", "scripts"],
                                     cwd=repo, check=True, capture_output=True,
                                     text=True).stdout.strip())
         return {"git_commit": commit, "git_dirty": dirty}
