@@ -213,4 +213,3 @@ def family_members(spec: HouseholdTaskSpec) -> list[HouseholdTaskSpec]:
             "inputs": spec.input_hashes}))[:20]
         result.append(HouseholdTaskSpec.model_validate(doc))
     return result
-
