@@ -256,14 +256,11 @@ def test_approach_carries_the_held_geometry():
     assert approach["held_geometry"] is True
     assert 0.0 < approach["blocked_at_m"] < approach["segment_m"]
 
-    # same collision double, grasp offset NOT recorded: identity-offset
-    # fallback descent passes, and the unmodelled aspect is recorded
+    # Without the grasp offset no production carry check can be made.
     empty_world = BenchmarkWorldState()
-    empty_world.grasp("cup", None)  # held entity, NO grasp offset
-    verdict = _check(backend, _CountingIK(fail_first=0), collision,
-                     empty_world)
-    assert verdict.feasible
-    assert verdict.details["approach"]["held_geometry"] is False  # recorded
+    empty_world.grasp("cup", None)
+    with pytest.raises(FeasibilityBackendError, match="PLACE.*offset"):
+        _check(backend, _CountingIK(), collision, empty_world)
 
 
 def test_approach_check_exception_is_infrastructure_fault():
@@ -290,3 +287,81 @@ def test_approach_unmodelled_is_recorded_not_claimed():
     record = validator._approach("OPEN", _T(), np.zeros(1), None, None, None)
     assert record["modelled"] is False
     assert "not modelled" in record["note"]
+
+
+@pytest.mark.parametrize('rotated_base', [False, True])
+def test_place_release_pose_matches_execution_with_rotated_grasp(rotated_base):
+    from rummagebench.feasibility.ik_solver import Pose
+
+    class RecordingIK(_CountingIK):
+        def __init__(self):
+            super().__init__()
+            self.targets = []
+
+        def solve_ik(self, target, seed_q=None):
+            self.targets.append(target)
+            return super().solve_ik(target, seed_q)
+
+    backend = _search_backend()
+    base = Pose.from_lists([0.2, -0.1, 0.0], [0, 0, np.sin(.3), np.cos(.3)]) if rotated_base else Pose.identity()
+    backend.robot_pose = lambda: base.to_lists()
+    world = _held_world()
+    world.held_offset = Pose.from_lists([.04, -.03, .10], [np.sin(.4), 0, 0, np.cos(.4)])
+    ik = RecordingIK()
+    verdict = _check(backend, ik, _ScriptedCollision(), world)
+    assert verdict.feasible
+    point = verdict.details['interaction_target']['surface_point']
+    expected = Pose.from_lists([point[0], point[1], point[2] + .05 + .01])
+    actual = base.compose(ik.targets[-1]).compose(world.held_offset)
+    np.testing.assert_allclose(actual.position, expected.position, atol=1e-9)
+    assert abs(np.dot(actual.orientation, expected.orientation)) == pytest.approx(1.0)
+    # Rotation must be sampled as well as translation; final-only rotation
+    # would miss collisions encountered while reorienting the carried object.
+    angles = [2 * np.arccos(np.clip(abs(np.dot(a.orientation, b.orientation)), 0, 1))
+              for a, b in zip(ik.targets, ik.targets[1:])]
+    assert max(angles) <= np.deg2rad(5) + 1e-8
+    assert any(angle > 1e-4 for angle in angles)
+
+
+@pytest.mark.parametrize('missing', ['offset', 'aabb'])
+def test_missing_place_carry_data_faults_before_ik(missing):
+    backend = _search_backend()
+    world = _held_world()
+    if missing == 'offset':
+        world.held_offset = None
+    else:
+        original = backend.entity_aabb
+        backend.entity_aabb = lambda entity: None if entity == 'cup' else original(entity)
+    ik = _CountingIK()
+    with pytest.raises(FeasibilityBackendError, match='PLACE.*(offset|AABB)'):
+        _check(backend, ik, _ScriptedCollision(), world)
+    assert ik.calls == 0
+
+
+def test_place_pure_rotation_checks_intermediate_collisions():
+    from rummagebench.feasibility.ik_solver import Pose
+
+    class RotationIK(_CountingIK):
+        def solve_ik(self, target, seed_q=None):
+            return IKResult(success=True, q=target.orientation.copy(),
+                            position_error=0.0, orientation_error=0.0)
+
+    class RotationCollision(_ScriptedCollision):
+        def check_configuration(self, q, ctx):
+            # Both endpoint orientations are clear; only the intermediate
+            # rotation of the carried body intersects the obstacle.
+            angle = 2 * np.arccos(np.clip(abs(q[3]), 0, 1))
+            blocked = np.deg2rad(60) < angle < np.deg2rad(120)
+            return CollisionResult(collision_free=not blocked,
+                                   self_collision=False, world_collision=blocked)
+
+    world = _held_world()
+    world.held_offset = Pose.identity()
+    # cup half-height + release clearance == STANDOFF_M: no translation,
+    # but the downward EEF must rotate to the identity release orientation.
+    verdict = _check(_search_backend(), RotationIK(), RotationCollision(), world)
+    assert not verdict.feasible
+    approach = verdict.details['candidates'][0]['approach']
+    assert approach['segment_m'] == pytest.approx(0.0)
+    assert approach['reason'] == 'COLLISION'
+    assert approach['waypoints'] >= 36

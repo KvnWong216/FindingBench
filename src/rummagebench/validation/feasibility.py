@@ -244,6 +244,12 @@ class FeasibilityValidator:
         kinematics = self._kinematics
         collision = self._config_collision
 
+        if skill_name == "PLACE":
+            # Missing carry data invalidates the evaluation even if every
+            # candidate would otherwise fail IK before the approach stage.
+            self._place_carry_data(getattr(world, "held_object", None),
+                                   getattr(world, "held_offset", None))
+
         # interaction interface candidates (handle links / canonical rigid
         # candidates / receptacle regions) — never the entity root pose
         info = resolved.info
@@ -541,6 +547,24 @@ class FeasibilityValidator:
 
     # PLACE approach segment (round-6)
     PLACE_APPROACH_STEP_M = 0.01  # linear waypoint resolution (m)
+    PLACE_APPROACH_ANGLE_STEP_RAD = np.deg2rad(5.0)
+
+    def _place_carry_data(self, held_entity, held_offset):
+        """Require finite carry transforms and geometry before production IK."""
+        if held_entity is None or held_offset is None:
+            raise FeasibilityBackendError("PLACE requires held entity and held offset")
+        if not (np.all(np.isfinite(held_offset.position))
+                and np.all(np.isfinite(held_offset.orientation))):
+            raise FeasibilityBackendError("PLACE held offset is non-finite")
+        box = self._backend.entity_aabb(held_entity)
+        if box is None:
+            raise FeasibilityBackendError("PLACE held-object AABB is unavailable")
+        bounds = np.asarray(box, dtype=float)
+        if (bounds.shape != (2, 3) or not np.all(np.isfinite(bounds))
+                or np.any(bounds[1] <= bounds[0])):
+            raise FeasibilityBackendError("PLACE held-object AABB is invalid")
+        return held_offset, float((bounds[1, 2] - bounds[0, 2]) / 2.0)
+
     # matches sim/omnigibson/backend.symbolic_place: the object ORIGIN is
     # set to support_z + half_height + 1 cm before release
     PLACE_RELEASE_CLEARANCE_M = 0.01
@@ -562,50 +586,50 @@ class FeasibilityValidator:
         configuration of the SAME production checker used for the endpoint.
         Waypoints are discrete (resolution below): this evidences the
         sampled descent only, never a continuous sweep or the whole-arm
-        motion. If the grasp offset is unavailable, the descent is checked
-        to the object-origin pose with an identity offset and
-        ``held_geometry: False`` is recorded (an unmodelled aspect, not a
-        safety pass).
+        motion. Position is interpolated linearly and orientation follows
+        the shortest quaternion arc, with both linear and angular sampling
+        limits. Missing carry data is an infrastructure fault, never an
+        identity-offset substitute for the production check.
         """
         surface_point = meta.get("surface_point")
         if surface_point is None:
             return {"clear": False, "modelled": True,
                     "reason": "no_surface_point"}
         held_entity = getattr(ctx, "held_entity", None)
-        held_offset = getattr(ctx, "held_offset", None)
-        half_z = None
-        if held_entity is not None:
-            held_aabb = self._backend.entity_aabb(held_entity)
-            if held_aabb is not None:
-                half_z = (float(held_aabb[1][2]) - float(held_aabb[0][2])) / 2.0
+        held_offset, half_z = self._place_carry_data(
+            held_entity, getattr(ctx, "held_offset", None))
         px, py, pz = (float(v) for v in surface_point)
-        release_clearance = (half_z + self.PLACE_RELEASE_CLEARANCE_M
-                             if half_z is not None else 0.0)
         release_common = {
             "waypoint_resolution_m": self.PLACE_APPROACH_STEP_M,
-            "held_geometry": held_offset is not None and half_z is not None,
+            "angular_resolution_rad": float(self.PLACE_APPROACH_ANGLE_STEP_RAD),
+            "held_geometry": True,
         }
-        if held_offset is not None:
-            obj_release = Pose(np.array([px, py, pz + release_clearance]),
-                               np.array([0.0, 0.0, 0.0, 1.0]))
-            eef_release = obj_release.compose(held_offset.inverse())
-        else:
-            # identity-offset fallback, explicitly recorded (held_geometry
-            # False above)
-            eef_release = Pose(np.array([px, py, pz + release_clearance]),
-                               np.asarray(target.pose.orientation,
-                                          dtype=float))
+        obj_release = Pose(np.array([px, py, pz + half_z + self.PLACE_RELEASE_CLEARANCE_M]),
+                           np.array([0.0, 0.0, 0.0, 1.0]))
+        eef_release = obj_release.compose(held_offset.inverse())
         start = np.asarray(target.pose.position, dtype=float)
         end = np.asarray(eef_release.position, dtype=float)
         segment = end - start
         length = float(np.linalg.norm(segment))
-        n_steps = max(1, int(np.ceil(length / self.PLACE_APPROACH_STEP_M)))
+        start_quat = np.asarray(target.pose.orientation, dtype=float)
+        end_quat = np.asarray(eef_release.orientation, dtype=float)
+        dot = float(np.dot(start_quat, end_quat))
+        if dot < 0.0:  # q and -q encode the same rotation; take the short arc
+            end_quat = -end_quat
+            dot = -dot
+        theta = float(np.arccos(np.clip(dot, 0.0, 1.0)))
+        n_steps = max(1, int(np.ceil(length / self.PLACE_APPROACH_STEP_M)),
+                      int(np.ceil(2.0 * theta / self.PLACE_APPROACH_ANGLE_STEP_RAD)))
         kinematics, collision = self._kinematics, self._config_collision
         q = np.asarray(q0, dtype=float)
         for i in range(1, n_steps + 1):
             t = i / n_steps
-            waypoint = Pose(start + segment * t,
-                            np.asarray(target.pose.orientation, dtype=float))
+            if theta < 1e-8:
+                orientation = (1.0 - t) * start_quat + t * end_quat
+            else:
+                orientation = (np.sin((1.0 - t) * theta) * start_quat
+                               + np.sin(t * theta) * end_quat) / np.sin(theta)
+            waypoint = Pose(start + segment * t, orientation)
             base_target = base_pose.inverse().compose(waypoint)
             ik = kinematics.solve_ik(base_target, seed_q=q)
             if not ik.success or ik.q is None:
@@ -623,7 +647,7 @@ class FeasibilityValidator:
             q = np.asarray(ik.q, dtype=float)
         return {"clear": True, "modelled": True, "segment_m": round(length, 4),
                 "waypoints": n_steps,
-                "path": ("straight-line virtual EEF descent to the release "
+                "path": ("linear-position, shortest-arc-orientation virtual EEF path to the release "
                          "pose; symbolic execution teleports the object "
                          "(no continuous-sweep claim)"),
                 **release_common}
