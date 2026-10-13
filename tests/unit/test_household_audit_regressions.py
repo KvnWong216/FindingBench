@@ -93,11 +93,11 @@ def test_static_robot_inventory_uses_yaml_and_usda_without_og_import(tmp_path):
 def test_cpu_pipeline_reports_missing_sources_and_zero_generated_families():
     result = subprocess.run([sys.executable, str(REPO / 'scripts/tasks/household_pipeline.py'), 'cpu'],
                             cwd=REPO, capture_output=True, text=True)
-    # On this checkout the cloud baseline is missing; the command must fail
-    # closed instead of manufacturing candidates from a replacement schema.
+    # Missing historical cloud sources remain visible. The explicitly
+    # requested Infinigen route can proceed, with physical acceptance pending.
     doc = json.loads(result.stdout)
     if doc['missing_baseline_files']:
-        assert result.returncode == 2 and doc['status'] == 'blocked'
+        assert result.returncode == 0 and doc['status'] == 'pending_simulation'
     assert doc['counts']['generated_family_candidates_this_run'] == 0
     assert doc['counts']['simulation_validated_families_this_run'] == 0
 
@@ -118,7 +118,7 @@ def test_legacy_promoter_rejects_household_family_before_release_mutation(tmp_pa
                          replay_success=True, certified_execution_steps=8))
     assert gates.certify(cert, ctx.tier) == []
     src = tmp_path / 'build'; (src / 'plans').mkdir(parents=True); (src / 'candidates').mkdir()
-    candidate = src / 'candidates/id.yaml'; candidate.write_text('synthetic unit test candidate only')
+    candidate = src / 'candidates/id.yaml'; candidate.write_text('scene:\n  model: synthetic_unit_test_only\n')
     plan = outcome.plan.to_dict(); plan['provenance']['family_id'] = 'synthetic_family'
     (src / 'plans/id.json').write_text(json.dumps(plan))
     records = {'id': {'status': 'certified', 'search_certificate': cert.to_dict(),

@@ -1,6 +1,6 @@
 # RummageBench
 
-> Household acceptance (2026-10-13): the two cloud household commits are absent from this checkout. Native occupancy capture/restore has a CPU-tested entry, while full frozen backgrounds, family search-cost measurement and per-robot physical acceptance remain pending. See [the audit and commands](docs/household_pipeline_acceptance.md). Existing episode certificates do not certify family search difficulty.
+> Household generation (2026-10-13): pinned Infinigen Indoors CPU proposals, export inspection and OG assembly are connected to the existing task/compiler contracts. The current pilot has 4 candidates, **0 geometry scenes / 0 exported scenes / 0 evaluation-ready episodes**; the real CPU attempt failed on missing bpy. All physical checks remain pending. See [commands, evidence and unfinished work](docs/infinigen_household_pipeline.md) and [the earlier baseline audit](docs/household_pipeline_acceptance.md).
 
 
 > **Validation status (2026-09-30):** the `build/` reports and `HANDOFF.md`

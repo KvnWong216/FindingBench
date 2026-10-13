@@ -105,7 +105,8 @@ def capture_native_occupancy(backend, slots: SceneSlots, *, source_scene_path: P
 
     source_scene_path = Path(source_scene_path).resolve()
     source_hash = sha256_path(source_scene_path)
-    if source_hash != slots.source.get("scene_json_sha256"):
+    source_key = "source_manifest_sha256" if backend._scenario.scene.source == "infinigen" else "scene_json_sha256"
+    if source_hash != slots.source.get(source_key):
         raise ValueError("scene source differs from SceneSlots")
     if backend._scenario.scene.model != slots.scene:
         raise ValueError("loaded scene differs from SceneSlots")
@@ -117,14 +118,25 @@ def capture_native_occupancy(backend, slots: SceneSlots, *, source_scene_path: P
                 "load_room_types", "load_room_instances", "load_task_relevant_only"):
         if cfg.get(key):
             raise ValueError(f"native occupancy requires a complete scene: {key}")
-    loaded_path = Path(backend._env.scene.scene_file).resolve()
+    if backend._scenario.scene.source == "infinigen":
+        from rummagebench.sim.omnigibson.infinigen_adapter import load_assembly_manifest
+        from rummagebench.sim.omnigibson.env_factory import repo_root
+        loaded_path = Path(backend._scenario.scene.assembly_manifest)
+        if not loaded_path.is_absolute():
+            loaded_path = repo_root() / loaded_path
+        loaded_path = loaded_path.resolve()
+        manifest = load_assembly_manifest(loaded_path)
+    else:
+        loaded_path = Path(backend._env.scene.scene_file).resolve()
     if loaded_path != source_scene_path:
         raise ValueError("actual loaded scene file differs from supplied source")
     scene = backend._env.scene
     native = {o.name: o for o in scene.objects if o not in scene.robots}
     source = json.loads(source_scene_path.read_text())
-    expected = {name for name, info in source["objects_info"]["init_info"].items()
-                if info.get("class_name") != "Robot"}
+    expected = ({item["name"] for item in manifest["objects"]}
+                if backend._scenario.scene.source == "infinigen" else
+                {name for name, info in source["objects_info"]["init_info"].items()
+                 if info.get("class_name") != "Robot"})
     if set(native) != expected:
         raise ValueError(f"native entity inventory mismatch: missing={sorted(expected-set(native))}, "
                          f"extra={sorted(set(native)-expected)}")
@@ -214,6 +226,8 @@ def capture_native_occupancy(backend, slots: SceneSlots, *, source_scene_path: P
 
 def verify_source(doc: dict, backend, slots: SceneSlots) -> None:
     """A reused inventory must refer to this restored state and these slots."""
+    if backend._scenario.scene.model != slots.scene or doc.get("scene") != slots.scene:
+        raise ValueError("native scene identity mismatch")
     payload = {k: v for k, v in doc.items() if k != "inventory_sha256"}
     if sha256_bytes(canonical_json(payload)) != doc.get("inventory_sha256"):
         raise ValueError("native inventory hash mismatch")
@@ -221,7 +235,8 @@ def verify_source(doc: dict, backend, slots: SceneSlots) -> None:
         raise ValueError("native source state mismatch")
     if sha256_bytes(canonical_json(slots.to_dict())) != doc["scene_slots_sha256"]:
         raise ValueError("native SceneSlots mismatch")
-    if sha256_path(backend._env.scene.scene_file) != doc["source_scene_sha256"]:
+    source_path = backend._env.scene.scene_file if backend._scenario.scene.source == "behavior" else slots.source["assembly_manifest"]
+    if sha256_path(source_path) != doc["source_scene_sha256"]:
         raise ValueError("native scene source mismatch")
     from rummagebench.sim.omnigibson.env_factory import build_env_config
 

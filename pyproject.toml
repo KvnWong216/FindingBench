@@ -18,6 +18,8 @@ dependencies = [
 [project.optional-dependencies]
 mcp = ["mcp>=1.2,<2"]
 test = ["pytest>=7.0"]
+# Standalone OpenUSD parser only; does not install or launch Isaac Sim.
+indoor-cpu = ["usd-core>=24.8,<27"]
 # real kinematics + configuration-space collision (production feasibility)
 # pin 3/4 wheels require NumPy 2 through cmeel-boost; OmniGibson uses NumPy 1.
 # This tested wheel family provides the same URDF IK and hpp-fcl collision APIs.

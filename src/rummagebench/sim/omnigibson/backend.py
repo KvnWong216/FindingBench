@@ -58,7 +58,8 @@ class OmniGibsonBackend(SimBackend):
     # ------------------------------------------------------------------ setup
 
     def setup(self, scenario: ScenarioSpec, *, native_scene_capture=None,
-              native_scene_only: bool = False) -> dict[str, Any]:
+              native_scene_only: bool = False, task_seed_pose=None,
+              pre_placement_capture=None) -> dict[str, Any]:
         if native_scene_only and native_scene_capture is None:
             raise ValueError("native-only setup requires an occupancy capture")
         import sys as _s
@@ -112,7 +113,9 @@ class OmniGibsonBackend(SimBackend):
             )
             # add first (loads the prim), then park it above its receptacle
             self._env.scene.add_object(obj)
-            seed_pos = self._seed_pose_for(spec)
+            seed_pos = self._seed_pose_for(spec) if task_seed_pose is None else task_seed_pose(self, spec)
+            if np.asarray(seed_pos).shape != (3,) or not np.isfinite(seed_pos).all():
+                raise ValueError("invalid evaluator task seed pose")
             obj.set_position_orientation(
                 position=seed_pos,
                 orientation=[0, 0, 0, 1],
@@ -124,6 +127,10 @@ class OmniGibsonBackend(SimBackend):
             self._sim.play()
             self._sim.step()
 
+        if pre_placement_capture is not None:
+            # The complete object topology now exists. An authoring caller
+            # can freeze background + parked target before target sampling.
+            report["frozen_background"] = pre_placement_capture(self)
         report.update(self._apply_placements(scenario, attempts=3))
 
         # AGENT uses only the initial spawn; visiting legacy ORACLE navigation

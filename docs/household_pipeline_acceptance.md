@@ -1,4 +1,8 @@
-# Household pipeline acceptance — 2026-10-13
+# Household baseline audit — 2026-10-13
+
+Historical baseline findings below remain useful. The user subsequently selected
+the Infinigen route; unavailable cloud patches are no longer a blocker for that
+new implementation. See [the current pipeline and evidence](infinigen_household_pipeline.md).
 
 This checkout was clean on `main` at `1fda80d`; `git pull --ff-only` reported
 already up to date. Neither `0304c04` nor `200f9e6` exists in the fetched Git
@@ -8,8 +12,9 @@ be fetched. The cloud implementation has **not** been accepted.
 
 ## Missing baseline source
 
-The following files must be supplied as patches, a source directory, or a
-fetchable branch before continuing family integration. Existing versions of
+At this original audit, the following cloud files were missing. Their original
+implementation cannot be accepted without source. New files sharing some names
+in the Infinigen route do not prove that those cloud commits were recovered. Existing versions of
 other listed easy/task/Level-1 modules are present, but any cloud changes to
 those modules also need the original diff.
 

@@ -1,0 +1,24 @@
+version: 1
+implemented_family: kitchen_cabinet_search
+room_type: kitchen
+target_categories: [bowl, teacup, tablefork, tablespoon]
+candidate_count: [2, 4]
+target_prior: uniform
+initial_visibility_max: 0.0
+required_skills: [MOVE, TURN, OBSERVE, OPEN, GRASP, REPORT_DONE]
+max_planning_steps: 16
+background_policy: preserve_upstream_household_semantics_all_surfaces
+placement_priors: build/tasks/priors/placement_v1.yaml
+eligibility: build/tasks/priors/eligibility_v1.yaml
+robot_config: configs/tasks/robots/r1pro.yaml
+appearance_config: configs/level1/appearance_v1.yaml
+upstream:
+  repository: https://github.com/princeton-vl/infinigen
+  commit: b11700ebac77695d8f53538705cfdc0cd890c54d
+  reference: indoors-stable
+  license: BSD-3-Clause
+difficulty_intervals:
+  # Provisional thresholds in declared abstract steps; require calibration.
+  spatial: {low: [0.0, 8.0], high: [8.0, null]}
+  operations: {low: [0.0, 6.0], high: [6.0, null]}
+  calibration_status: pending

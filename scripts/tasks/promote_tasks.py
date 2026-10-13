@@ -23,6 +23,8 @@ from pathlib import Path
 import shutil
 import tempfile
 
+import yaml
+
 from rummagebench.authoring.tasks.gates import structural_violations, simulator_violations
 from rummagebench.authoring.tasks.search_certificate import SearchStructureCertificate
 from rummagebench.authoring.tasks.tiers import load_tier
@@ -76,6 +78,11 @@ def preflight_episodes(src, ids, records, tier):
         rec = records[i]
         if rec.get("status") != "certified":
             raise SystemExit(f"{i}: status {rec.get('status')}")
+        candidate = yaml.safe_load((src / "candidates" / f"{i}.yaml").read_text())
+        if not isinstance(candidate, dict) or not isinstance(candidate.get("scene"), dict):
+            raise SystemExit(f"{i}: invalid candidate scenario mapping")
+        if candidate["scene"].get("source") == "infinigen":
+            raise SystemExit(f"{i}: Infinigen family requires physical family verification; legacy promoter is disabled")
         cert = SearchStructureCertificate.from_dict(rec["search_certificate"])
         violations = structural_violations(cert, spec) + simulator_violations(cert, spec)
         if cert.status != "certified" or violations:

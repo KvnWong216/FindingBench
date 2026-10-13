@@ -67,7 +67,15 @@ def load_robot_config(model: str) -> dict:
 def build_env_config(scenario: ScenarioSpec) -> dict:
     """Merge the simulator template, the robot config, and the scenario."""
     config = deepcopy(load_env_config())
-    config["scene"]["scene_model"] = scenario.scene.model
+    if scenario.scene.source == "infinigen":
+        from rummagebench.sim.omnigibson.infinigen_adapter import assembly_env_config
+
+        manifest_path = Path(scenario.scene.assembly_manifest)
+        if not manifest_path.is_absolute():
+            manifest_path = repo_root() / manifest_path
+        config.update(assembly_env_config(manifest_path))
+    else:
+        config["scene"]["scene_model"] = scenario.scene.model
 
     robot_cfg = deepcopy(load_robot_config(scenario.robot.model))
     robot_cfg["model"] = scenario.robot.model
@@ -123,4 +131,8 @@ def build_env(scenario: ScenarioSpec):
 
     config = build_env_config(scenario)
     env = Environment(configs=config)
+    if scenario.scene.source == "infinigen":
+        from rummagebench.sim.omnigibson.infinigen_adapter import install_runtime_lighting
+
+        install_runtime_lighting(env, scenario.scene.assembly_manifest)
     return env, og

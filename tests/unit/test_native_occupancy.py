@@ -143,7 +143,7 @@ def fake_loaded_scene(monkeypatch, tmp_path):
     backend = backend_module.OmniGibsonBackend()
     backend._env = SimpleNamespace(scene=scene); backend._sim = sim
     backend.entity_aabb = lambda name: next(o.box for o in objects if o.name == name)
-    scenario = SimpleNamespace(scene=SimpleNamespace(model='S'), objects=[SimpleNamespace(name='target')])
+    scenario = SimpleNamespace(scene=SimpleNamespace(model='S', source='behavior'), objects=[SimpleNamespace(name='target')])
     backend._scenario = scenario
     slots = SceneSlots('S', 1, {'scene_json_sha256': sha256_path(source)}, {'kitchen_0': 'kitchen'}, [slot()])
     return backend, scenario, slots, source, scene, state
@@ -206,4 +206,12 @@ def test_native_asset_and_restored_geometry_changes_fail_closed(fake_loaded_scen
     asset = Path(scene.objects[0]._usd_path)
     asset.write_text('changed synthetic unit test geometry')
     with pytest.raises(ValueError, match='asset source'):
+        verify_source(doc, backend, slots)
+
+
+def test_native_restore_rejects_changed_scene_identity(fake_loaded_scene):
+    backend, scenario, slots, source, _, _ = fake_loaded_scene
+    doc, _ = capture_native_occupancy(backend, slots, source_scene_path=source)
+    scenario.scene.model = 'different_scene'
+    with pytest.raises(ValueError, match='scene identity mismatch'):
         verify_source(doc, backend, slots)

@@ -1,7 +1,7 @@
 """One household pipeline entry: CPU audit, or explicit GPU native capture.
 
-Missing family sources are blockers. This command never fabricates family
-members, applies appearance requests on CPU, or promotes oracle certificates.
+Pinned Infinigen proposals and geometry use CPU stages. Native capture and
+restore are explicitly GPU-only stages. No stage promotes oracle certificates.
 """
 from __future__ import annotations
 
@@ -48,6 +48,10 @@ def write_report(path: Path | None, report: dict) -> None:
 def cpu_audit(host: dict, robot_assets: Path) -> dict:
     missing = [p for p in MISSING_BASELINE if not (REPO / p).is_file()]
     robots = discover_installed_robots(robot_assets)
+    for name, profile in robots.items():
+        profile["integration_status"] = ("configured" if name == "r1pro" and
+            (REPO / "configs/tasks/robots/r1pro.yaml").is_file() and profile["status"] == "candidate" else
+            "integration_pending" if profile["status"] == "candidate" else "unavailable")
     # Count only state bundles actually emitted by this pipeline, never
     # configurations, seeds, historical certificates or .pt files alone.
     measured_native = 0
@@ -62,15 +66,15 @@ def cpu_audit(host: dict, robot_assets: Path) -> dict:
                                    and sha256_path(snapshot) == doc.get("snapshot_sha256"))
         except (OSError, ValueError):
             continue
-    return {"stage": "cpu_audit", "status": "blocked" if missing else "pending_simulation",
+    return {"stage": "cpu_audit", "status": "pending_simulation",
             "missing_baseline_files": missing,
-            "failure_reasons": {"MISSING_BASELINE_SOURCE": len(missing)} if missing else {},
+            "failure_reasons": {}, "baseline_note": "historical cloud sources absent; current Infinigen implementation is independent",
             "counts": {"native_state_bundles": measured_native,
                        "generated_family_candidates_this_run": 0,
                        "simulation_validated_families_this_run": 0},
             "robots": robots, "camera_protocol": "current_code_head_rgb; wrist_only_not_certified",
             "stages": {"native_occupancy": "pending_gpu" if not measured_native else "measured",
-                       "frozen_background": "pending", "family_binding": "blocked" if missing else "pending",
+                       "frozen_background": "pending", "family_binding": "pending",
                        "appearance_application_and_images": "pending_gpu",
                        "robot_scene_skills": "pending_gpu", "search_cost_measurement": "pending_gpu"}}
 
@@ -158,6 +162,183 @@ def verify_native_restore(args) -> dict:
         backend.close()
 
 
+def load_household_spec(path: Path, policy: Path):
+    from rummagebench.authoring.tasks.household import HouseholdTaskSpec, validate_spec_assets
+    spec = HouseholdTaskSpec.model_validate_json(path.read_text())
+    validate_spec_assets(spec, REPO, policy)
+    return spec
+
+
+def plan_infinigen(args) -> dict:
+    from rummagebench.authoring.tasks.household import sample_spec, family_members, grouped_split, validate_spec_assets
+    from rummagebench.authoring.tasks.infinigen import generation_command, export_command
+    if not 1 <= args.count <= 8:
+        raise ValueError("pilot count must be 1..8; first verify one actual scene")
+    args.out.mkdir(parents=True, exist_ok=True)
+    all_specs, requests = [], []
+    for index in range(args.count):
+        base = sample_spec(args.policy, REPO, args.seed, index)
+        validate_spec_assets(base, REPO, args.policy)
+        members = family_members(base)
+        for spec in members:
+            path = args.out / (spec.task_id + ".json")
+            if path.exists():
+                if path.read_bytes() != spec.canonical_bytes():
+                    raise ValueError(f"SPEC_OUTPUT_CONFLICT:{path}")
+            else:
+                with path.open("xb") as f:
+                    f.write(spec.canonical_bytes())
+        all_specs.extend(members)
+        requests.append({"family_id": base.family_id, "specs": [s.task_id + ".json" for s in members],
+                         "base_layout_id": base.base_layout_id,
+                         "generation": generation_command(base, args.python, args.upstream_root,
+                                                          args.out / base.base_layout_id / "geometry"),
+                         "export": export_command(args.python, args.upstream_root,
+                                                  args.out / base.base_layout_id / "geometry",
+                                                  args.out / base.base_layout_id / "export")})
+    report = {"version": 1, "stage": "plan_infinigen", "status": "candidate",
+              "seed": args.seed, "counts": {"task_specs": len(all_specs), "families": args.count,
+              "geometry_scenes": 0, "exported_scene_files": 0, "evaluation_ready_episodes": 0},
+              "split": grouped_split(all_specs, split_seed=args.split_seed),
+              "split_scope": "layout_grouped_dev_test; not a claim of asset or family generalization",
+              "requests": requests, "failure_reasons": {}, "gpu_started": False,
+              "appearance_status": "requested_pending_application_and_images",
+              "robots": {"r1pro": "configured_pending_scene_skill_validation"},
+              "camera_protocol": "current_head_rgb; no wrist-only certification",
+              "difficulty_status": "requested_only; actual geometry and search not measured"}
+    write_report(args.out / "batch.json", report)
+    return report
+
+
+def cpu_generate(args) -> dict:
+    from rummagebench.authoring.tasks.infinigen import run_cpu_generation
+    spec = load_household_spec(args.spec, args.policy)
+    return run_cpu_generation(spec, args.upstream_root, args.python, args.out,
+                              timeout_s=args.timeout, retries=args.retries)
+
+
+def prepare_infinigen(args) -> dict:
+    from rummagebench.sim.omnigibson.infinigen_adapter import prepare_assembly, scene_slots_from_assembly
+    spec = load_household_spec(args.spec, args.policy)
+    try:
+        doc = prepare_assembly(spec, args.scene, args.solve_state, json.loads(args.bindings.read_text()),
+                               args.assets_root, args.out)
+    except Exception as exc:
+        # Keep partial preparation evidence; absence of assembly.json is the
+        # commit marker distinguishing a failed bundle from a candidate.
+        if not (args.out / "assembly.json").exists():
+            args.out.mkdir(parents=True, exist_ok=True)
+            atomic_write_json(args.out / "failure.json", {"status": "assembly_failed", "family": spec.family,
+                "requested_difficulty": spec.requested_difficulty, "reason": f"{type(exc).__name__}: {exc}",
+                "evaluation_ready_episodes": 0})
+        raise
+    slots = scene_slots_from_assembly(args.out / "assembly.json")
+    slots.save(args.out / "scene_slots.json")
+    return {"stage": "prepare_infinigen", "status": doc["status"],
+            "assembly": str(args.out / "assembly.json"), "slots": str(args.out / "scene_slots.json"),
+            "counts": {"objects": len(doc["objects"]), "required_candidates": len(doc["candidate_bindings"]),
+                       "evaluation_ready_episodes": 0}, "pending_checks": doc["pending_checks"]}
+
+
+def bind_infinigen(args) -> dict:
+    from rummagebench.authoring.tasks.household import family_members
+    from rummagebench.authoring.tasks.household_binding import bind_family
+    spec = load_household_spec(args.spec, args.policy)
+    return bind_family(family_members(spec), args.assembly, args.overlay, args.out)
+
+
+
+def gpu_infinigen_preflight(args) -> dict:
+    """GPU ONLY, never invoked by CPU commands. Partial checks cannot release data."""
+    import yaml
+    import numpy as np
+    from rummagebench.core.scenario import ScenarioSpec
+    from rummagebench.authoring.tasks.native_occupancy import capture_native_occupancy, verify_source
+    from rummagebench.sim.omnigibson.backend import OmniGibsonBackend
+    from rummagebench.sim.omnigibson.infinigen_adapter import load_assembly_manifest, scene_slots_from_assembly, runtime_articulation_checks
+    from rummagebench.sim.omnigibson.state_io import save_snapshot
+
+    spec = load_household_spec(args.spec, args.policy)
+    manifest = load_assembly_manifest(args.assembly)
+    if spec.base_layout_id != manifest["scene_id"] or spec.family_id != manifest["family_id"]:
+        raise ValueError("ASSEMBLY_SPEC_MISMATCH")
+    slots = scene_slots_from_assembly(args.assembly)
+    robot_doc = yaml.safe_load((REPO / spec.robot_config_ref).read_text())
+    start = json.loads(args.start.read_text())
+    scenario = ScenarioSpec.model_validate({"id": "preflight_" + spec.base_layout_id,
+        "instruction": "evaluator-only assembly preflight", "scene": {"model": spec.base_layout_id,
+            "source": "infinigen", "assembly_manifest": str(args.assembly.resolve())},
+        "robot": {**robot_doc["robot"], "init_anchor": "start"}, "feasibility": robot_doc["feasibility"],
+        "anchors": {"start": start}, "target": {"entity": spec.target.internal_entity, "category": spec.target.category},
+        "objects": [], "placements": [], "skills": ["NAV", "OPEN", "CLOSE", "GRASP", "PLACE"]})
+    args.out.mkdir(parents=True, exist_ok=False)
+    backend = OmniGibsonBackend(seed=spec.seed)
+    evidence = {"stage": "infinigen_gpu_preflight", "status": "pending_simulation_acceptance",
+                "assembly_manifest_sha256": sha256_path(args.assembly), "evaluation_ready_episodes": 0,
+                "pending_checks": list(manifest["pending_checks"]), "failures": []}
+    try:
+        # Callback intentionally captures no task entities; this is the native
+        # occupancy bundle. It is NOT yet a topology-compatible family snapshot.
+        def capture(b):
+            for item in manifest["candidate_bindings"]:
+                if not b.set_open(item["name"], False):
+                    raise ValueError(f"INITIAL_CLOSE_FAILED:{item['name']}")
+            b.settle(30); b.validate_physics_state(); b._validate_spawn_clearance()
+            evidence["failures"] += runtime_articulation_checks(b, manifest)
+            doc, state = capture_native_occupancy(b, slots, source_scene_path=args.assembly)
+            for _ in range(2):
+                b.restore_observe_state({"sim": state, "commanded_pose": None})
+                verify_source(doc, b, slots)
+            snapshot = args.out / "native_state.pt"
+            save_snapshot(snapshot, state, {"source_state_sha256": doc["source_state_sha256"]})
+            doc["snapshot_sha256"] = sha256_path(snapshot)
+            doc.pop("inventory_sha256")
+            doc["inventory_sha256"] = sha256_bytes(canonical_json(doc))
+            atomic_write_json(args.out / "inventory.json", doc)
+            evidence["native_occupancy_counts"] = doc["counts"]
+            evidence["native_restore_repeats"] = 2
+            return {"inventory_sha256": doc["inventory_sha256"]}
+        backend.setup(scenario, native_scene_capture=capture, native_scene_only=True)
+        image = backend.get_observation()
+        if image.ndim != 3 or image.shape[2] != 3 or image.dtype != np.uint8:
+            raise ValueError("CAMERA_RGB_CONTRACT_FAILED")
+        backend.render_snapshot(str(args.out / "initial_rgb.png"))
+        camera = backend._camera_prim()
+        evidence["camera"] = {"prim": str(camera.GetPath()), "shape": list(image.shape),
+                              "protocol": "head_rgb_current_code; wrist_only_unverified"}
+        evidence["appearance"] = getattr(backend._env, "_findingbench_appearance_evidence", {"status": "unavailable"})
+        evidence["completed_checks"] = ["native_inventory", "native_restore_twice", "camera_rgb_shape",
+                                        "loaded_articulation_query", "spawn_clearance"]
+        # All checks requiring inserted targets, images, skills or reference
+        # search remain pending even if this limited preflight passes.
+        if evidence["failures"]:
+            evidence["status"] = "rejected_preflight"
+        atomic_write_json(args.out / "preflight.json", evidence)
+        return evidence
+    except Exception as exc:
+        evidence.update(status="failed_preflight", error=f"{type(exc).__name__}: {exc}")
+        atomic_write_json(args.out / "preflight.json", evidence)
+        raise
+    finally:
+        backend.close()
+
+
+def gpu_freeze_infinigen(args) -> dict:
+    from rummagebench.core.scenario import load_scenario
+    from rummagebench.sim.omnigibson.backend import OmniGibsonBackend
+    from rummagebench.sim.omnigibson.infinigen_adapter import freeze_family_background
+    family = json.loads((args.family_root / "family.json").read_text())
+    if family.get("status") != "pending_simulation":
+        raise ValueError("FAMILY_NOT_PENDING_ASSEMBLY_CHECK")
+    scenarios = [load_scenario(args.family_root / "candidates" / f"{tid}.yaml") for tid in family["task_ids"]]
+    if sha256_path(args.assembly) != family["assembly_manifest_sha256"]:
+        raise ValueError("FAMILY_ASSEMBLY_CHANGED")
+    backend = OmniGibsonBackend(seed=0)
+    try:
+        return freeze_family_background(backend, scenarios, args.assembly, args.out)
+    finally:
+        backend.close()
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     sub = ap.add_subparsers(dest="stage", required=True)
@@ -177,7 +358,76 @@ def main(argv=None) -> int:
     restore.add_argument("--bundle", type=Path, required=True)
     restore.add_argument("--require-slots", nargs="*", default=[])
     restore.add_argument("--seed", type=int, default=0)
+    default_policy = REPO / "assets/tasks/household_families_v1.yaml"
+    plan = sub.add_parser("plan-infinigen", help="CPU: one or a few complete proposal families")
+    plan.add_argument("--policy", type=Path, default=default_policy)
+    plan.add_argument("--seed", type=int, default=0)
+    plan.add_argument("--split-seed", type=int, default=0)
+    plan.add_argument("--count", type=int, default=1)
+    plan.add_argument("--out", type=Path, required=True)
+    plan.add_argument("--upstream-root", type=Path, required=True)
+    plan.add_argument("--python", required=True)
+    run = sub.add_parser("run-infinigen-cpu", help="CPU device sandbox: actual pinned upstream geometry")
+    run.add_argument("--spec", type=Path, required=True)
+    run.add_argument("--policy", type=Path, default=default_policy)
+    run.add_argument("--upstream-root", type=Path, required=True)
+    run.add_argument("--python", required=True)
+    run.add_argument("--out", type=Path, required=True)
+    run.add_argument("--timeout", type=float, default=300.)
+    run.add_argument("--retries", type=int, default=0)
+    inspect = sub.add_parser("inspect-infinigen", help="CPU standalone OpenUSD: real export inspection")
+    inspect.add_argument("--scene", type=Path, required=True)
+    inspect.add_argument("--solve-state", type=Path, required=True)
+    inspect.add_argument("--report", type=Path)
+    prepare = sub.add_parser("prepare-infinigen", help="CPU: real asset replacements and retained background")
+    prepare.add_argument("--spec", type=Path, required=True)
+    prepare.add_argument("--policy", type=Path, default=default_policy)
+    prepare.add_argument("--scene", type=Path, required=True)
+    prepare.add_argument("--solve-state", type=Path, required=True)
+    prepare.add_argument("--bindings", type=Path, required=True)
+    prepare.add_argument("--assets-root", type=Path, required=True)
+    prepare.add_argument("--out", type=Path, required=True)
+    bind = sub.add_parser("bind-infinigen", help="CPU: compile full family using a separately GPU-probed overlay")
+    bind.add_argument("--spec", type=Path, required=True)
+    bind.add_argument("--policy", type=Path, default=default_policy)
+    bind.add_argument("--assembly", type=Path, required=True)
+    bind.add_argument("--overlay", type=Path, required=True)
+    bind.add_argument("--out", type=Path, required=True)
+    preflight = sub.add_parser("gpu-preflight-infinigen", help="GPU ONLY: native, articulation, RGB and restore preflight; no release")
+    preflight.add_argument("--spec", type=Path, required=True)
+    preflight.add_argument("--policy", type=Path, default=default_policy)
+    preflight.add_argument("--assembly", type=Path, required=True)
+    preflight.add_argument("--start", type=Path, required=True, help="explicit initial pose JSON; collision checked at runtime")
+    preflight.add_argument("--out", type=Path, required=True)
+    freeze = sub.add_parser("gpu-freeze-infinigen", help="GPU ONLY: freeze background once and compare all target insertions")
+    freeze.add_argument("--family-root", type=Path, required=True)
+    freeze.add_argument("--assembly", type=Path, required=True)
+    freeze.add_argument("--out", type=Path, required=True)
     args = ap.parse_args(argv)
+    if args.stage == "gpu-freeze-infinigen":
+        write_report(None, gpu_freeze_infinigen(args))
+        return 0
+    if args.stage == "gpu-preflight-infinigen":
+        write_report(None, gpu_infinigen_preflight(args))
+        return 0
+    if args.stage == "plan-infinigen":
+        plan_infinigen(args)
+        return 0
+    if args.stage == "run-infinigen-cpu":
+        report = cpu_generate(args)
+        write_report(None, report)
+        return 0 if report["status"] == "geometry_generated" else 2
+    if args.stage == "inspect-infinigen":
+        from rummagebench.authoring.tasks.infinigen import inspect_export
+        write_report(args.report, inspect_export(args.scene, args.solve_state))
+        return 0
+    if args.stage == "prepare-infinigen":
+        write_report(None, prepare_infinigen(args))
+        return 0
+    if args.stage == "bind-infinigen":
+        write_report(None, bind_infinigen(args))
+        return 0
+
     if args.stage == "cpu":
         host = host_config(args.host_config)
         root = args.robot_assets or host["behavior_assets_root"].parent / "omnigibson-robot-assets"
@@ -190,4 +440,10 @@ def main(argv=None) -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    try:
+        result = main()
+    except (ValueError, RuntimeError, OSError) as exc:
+        print(json.dumps({"status": "failed", "reason": f"{type(exc).__name__}: {exc}",
+                          "evaluation_ready_episodes": 0}, ensure_ascii=False))
+        result = 2
+    raise SystemExit(result)

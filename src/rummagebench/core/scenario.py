@@ -29,6 +29,14 @@ class SceneSpec(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     model: str
+    source: Literal["behavior", "infinigen"] = "behavior"
+    assembly_manifest: Optional[str] = None
+
+    @model_validator(mode="after")
+    def source_binding(self):
+        if (self.source == "infinigen") != (self.assembly_manifest is not None):
+            raise ValueError("infinigen scenes require an assembly manifest; behavior scenes do not use one")
+        return self
 
 
 class KinematicsSpec(BaseModel):
