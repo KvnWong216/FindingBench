@@ -445,3 +445,13 @@ def visual_session(visual_backend):
     session.set_trace(None)
     session.reset()
     return session
+
+
+@pytest.fixture
+def require_collision_backend():
+    """Optional real FCL dependency, including oracle geometry snapshots."""
+    from rummagebench.feasibility.fcl_compat import collision_backend
+    try:
+        return collision_backend()
+    except ImportError as exc:
+        pytest.skip(str(exc))

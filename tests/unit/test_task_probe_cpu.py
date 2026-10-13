@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import math
+import os
 from pathlib import Path
 
 import pytest
@@ -13,8 +14,8 @@ from rummagebench.authoring.tasks.probe import (
 from rummagebench.authoring.tasks.slots import Furniture, SceneSlots
 
 REPO = Path(__file__).resolve().parents[2]
-GENERATED = REPO / "build" / "tasks"
-BEHAVIOR = Path("/data1/ygwang/codes/BEHAVIOR-1K/datasets/behavior-1k-assets")
+GENERATED = Path(os.environ["FINDINGBENCH_TASK_BUILD"]) if os.environ.get("FINDINGBENCH_TASK_BUILD") else None
+BEHAVIOR = Path(os.environ["FINDINGBENCH_BEHAVIOR_ASSETS"]) if os.environ.get("FINDINGBENCH_BEHAVIOR_ASSETS") else None
 
 
 def _furn(yaw: float, pos=(1.0, 2.0, 0.4), size=(0.6, 1.0, 0.8)) -> Furniture:
@@ -35,7 +36,8 @@ def test_anchor_candidates_stand_in_front_and_face_the_furniture():
         assert math.cos(to_f - ayaw) == pytest.approx(1.0)
 
 
-@pytest.mark.skipif(not (GENERATED / "scenes").exists(), reason="scene slots not built")
+@pytest.mark.local_assets
+@pytest.mark.skipif(GENERATED is None, reason="set FINDINGBENCH_TASK_BUILD for local scene-slot checks")
 def test_anchor_candidates_reproduce_gpu_picked_anchor():
     """knife_search_001 anchor of bottom_cabinet_no_top_qohxjq_0 (picked on
     the simulator) lies on the probe's standoff ray with the same heading."""
@@ -88,8 +90,9 @@ def test_overlay_evidence_round_trip(tmp_path):
     assert back.slots["S/a/top"].usable(requires_open=False)
 
 
-@pytest.mark.skipif(not BEHAVIOR.exists() or not (GENERATED / "scenes").exists(),
-                    reason="BEHAVIOR assets / scene slots not on this host")
+@pytest.mark.local_assets
+@pytest.mark.skipif(BEHAVIOR is None or GENERATED is None,
+                    reason="set FINDINGBENCH_BEHAVIOR_ASSETS and FINDINGBENCH_TASK_BUILD for local asset checks")
 def test_room_map_matches_scene_json_rooms():
     from rummagebench.authoring.tasks.room_map import RoomMap
 

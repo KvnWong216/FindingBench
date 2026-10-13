@@ -50,6 +50,8 @@ def _plan(fake_backend, scenario=None):
 # ---------------------------------------------------------------------------
 
 
+@pytest.mark.kinematics
+@pytest.mark.usefixtures("require_collision_backend")
 def test_oracle_exact_depth_and_plan_executes(fake_backend):
     """mini.yaml: knife inside cabinet_B (closed, anchored away).
 
@@ -70,6 +72,8 @@ def test_oracle_exact_depth_and_plan_executes(fake_backend):
     assert session.status().value == "SUCCESS"
 
 
+@pytest.mark.kinematics
+@pytest.mark.usefixtures("require_collision_backend")
 def test_oracle_no_shorter_solution_by_construction(fake_backend):
     """BFS exhausts depth 2 without finding the goal: enumerate all depth-2
     admissible action sequences and check none holds the knife."""
@@ -111,6 +115,8 @@ def test_oracle_no_shorter_solution_by_construction(fake_backend):
 # ---------------------------------------------------------------------------
 
 
+@pytest.mark.kinematics
+@pytest.mark.usefixtures("require_collision_backend")
 def test_oracle_embodiment_dependency(tmp_path):
     """Same semantic state, two URDF morphologies: the restricted arm cannot
     reach the cabinet interface -> UNSOLVABLE_FOR_EMBODIMENT, while the full
@@ -180,6 +186,8 @@ def test_oracle_embodiment_dependency(tmp_path):
 # ---------------------------------------------------------------------------
 
 
+@pytest.mark.kinematics
+@pytest.mark.usefixtures("require_collision_backend")
 def test_certify_solvable_episode(fake_backend, tmp_path):
     session = _session(fake_backend)
     certificate = certify_episode(session.scenario, session)
@@ -196,6 +204,8 @@ def test_certify_solvable_episode(fake_backend, tmp_path):
     assert loaded.oracle_depth == certificate.oracle_depth
 
 
+@pytest.mark.kinematics
+@pytest.mark.usefixtures("require_collision_backend")
 def test_certified_plan_replays_to_success(fake_backend, tmp_path):
     """Certification replay gate: the oracle plan executed through the
     production session reaches SUCCESS; the certificate records it."""
@@ -273,6 +283,8 @@ def test_unsolvable_episode_rejected_from_normal_split(tmp_path):
 # ---------------------------------------------------------------------------
 
 
+@pytest.mark.kinematics
+@pytest.mark.usefixtures("require_collision_backend")
 def test_oracle_admissibility_matches_production(fake_backend):
     """§8: for every BFS-reachable state, the oracle's admissible action set
     equals the production SkillGrounder admissible set evaluated at the same

@@ -103,6 +103,7 @@ def load_kinematics_backend(
                 "(urdf_path, base_link, end_effector_link). Add the block to "
                 "the scenario YAML or switch tests to backend: proxy."
             )
+        urdf = resolve_urdf_path(kin.urdf_path, scenario_dir)
         try:
             import pinocchio  # noqa: F401
         except ImportError as e:
@@ -111,7 +112,6 @@ def load_kinematics_backend(
                 "(pip install pin). Refusing to fall back to the reach-radius "
                 "proxy."
             ) from e
-        urdf = resolve_urdf_path(kin.urdf_path, scenario_dir)
         from rummagebench.feasibility.pinocchio_solver import PinocchioKinematics
 
         return PinocchioKinematics(

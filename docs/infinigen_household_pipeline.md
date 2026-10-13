@@ -78,68 +78,222 @@ Only R1Pro has this repository's task/kinematics configuration; the others are
 There is no wrist-only or paper-camera equivalence claim. Common solvable and
 per-body subsets must be measured separately; no shared acceptance label.
 
-## CPU reproduction and actual evidence
+## CPU reproduction and actual evidence (rectification round)
 
-Run from `/data1/ygwang/codes/FindingBench`. The isolated environment is
-`/data1/ygwang/codes/_external/findingbench-cpu`; it inherits the existing Python
-3.11 CPU packages and installs only standalone `usd-core==26.8` / `gin-config==0.5.0`
-locally. Standalone USD parsing does not start Isaac/Kit. The optional project
-extra is `indoor-cpu`. Complete Infinigen dependencies are still missing:
-installation of its 519.4 MB bpy wheel timed out; do not assume installation
-succeeded. The current external checkout is sparse source/configs and needs the
-remaining upstream resources/dependencies before geometry generation can finish.
+The scope is one kitchen cabinet-search family and the existing R1Pro/head RGB
+protocol. Public skills, recoverable wrong grasps and REPORT_DONE semantics are
+unchanged. No GPU, Isaac/Kit, rendering or training has run in this round.
+
+Fixes and regression evidence:
+
+- `household.SplitAssignment` persists seed, fraction, strategy, layout and source
+  blueprint group. Difficulty/candidate variants of the same upstream scene seed
+  share a split. `household_binding.bind_family` writes a bijection between spec
+  `task_...` IDs and compiled `fb_...` IDs, keyed compiled splits, and rejects
+  duplicate/missing/extra mappings. Tests use non-default seed 17.
+- `infinigen.usd_dependency_ledger` walks transitive layers/references/payloads,
+  asset attributes and time samples. Canonical file paths, hashes and reference
+  edges are verified before loading. Packages, remote resolvers and unresolved
+  sequences are rejected. Assembly v2 is required; regenerate v1 bundles.
+  `copy_effective_materials` makes inherited/collection bindings explicit and
+  anchors texture paths. Five new regression cases failed before the fix;
+  unchanged fixtures now load, modified/deleted textures/layers reject.
+- Generation consumes pinned upstream `Problem`/DSL floor-and-wall Storage and
+  KitchenCabinet count constraints plus separation. Every actual kitchen Storage
+  object is counted in the postfilter; extras reject rather than get removed.
+  Counter/drawer alternatives are listed and require runtime classification.
+  Geometry receipts call the production DP and interval bins and retain the full
+  requested candidate mapping. No hidden target location enters generation.
+- Under uniform priors, OPEN+OBSERVE costs 2 per inspected location and
+  GRASP+REPORT_DONE costs 2 at completion: n=2/3/4 gives expected operations
+  5/6/7. Low [0,6) uses n=2; high [6,infinity) uses n=3/4. Unreachable request
+  profiles fail before sampling. Spatial units are 0.5 m Euclidean proxy units;
+  the public MOVE cap remains 1 m. These are furniture-center proxies, not
+  interaction poses, navigable paths, TURN counts or final search difficulty.
+- The pinned `infinigen.terrain.__init__` is empty despite the upstream import.
+  The thin bridge exposes its real `terrain.core.Terrain` class. It retains the
+  upstream intermediate-stage warnings and checks ALL kitchen constraints after
+  all solving stages: lights/islands must not be required before their stage.
+  Final violations still reject the entire scene. No constraint is deleted.
+- `infinigen_probe.prepare_probe` replaces BEHAVIOR PNG maps/scene_json floor
+  lookup with actual exported kitchen floor triangles, geometry pose proposals
+  and an explicitly pending request. Live `SceneProber` supplies footprint/route,
+  IK, placement, closed hiding and open reveal measurements. The whole candidate
+  set is required. Receipt hashes bind assembly, URDF, robot/camera config,
+  skills/probe implementations and local target resources. Binding rejects an
+  overlay without the matching receipt. No CPU command emits a probed overlay.
+
+Two independent environments now exist. Ordinary tests use a fresh venv without
+system site packages, installed with `pip install -e '.[test,indoor-cpu]'`.
+SciPy is a declared dependency. Local asset checks require explicit
+`FINDINGBENCH_BEHAVIOR_ASSETS`, `FINDINGBENCH_TASK_BUILD` and
+`FINDINGBENCH_R1PRO_URDF`; optional collision tests report missing Pinocchio/FCL.
+The previous implicit absolute-path test uses a temporary synthetic fixture.
+All synthetic USD/robot/probe fixtures count as zero generated data.
 
 ```bash
 export PYTHONPATH=src
-CPU_PYTHON=/data1/ygwang/codes/_external/findingbench-cpu/bin/python
+TEST_PYTHON=/data1/ygwang/codes/_external/findingbench-rectification-tests/bin/python
+CPU_PYTHON=/data1/ygwang/codes/_external/infinigen-cpu-b11700e/bin/python
 IG_ROOT=/data1/ygwang/codes/_external/infinigen-indoors-b11700e
+$TEST_PYTHON -m pytest tests/unit -q
 
-# Existing CPU asset/semantic inventory, run successfully on this machine:
-$CPU_PYTHON scripts/tasks/mine_priors.py
-$CPU_PYTHON scripts/tasks/build_eligibility.py
-
-$CPU_PYTHON scripts/tasks/household_pipeline.py plan-infinigen \
-  --seed 216 --count 1 --out build/household/infinigen/pilot216_current/specs \
+$TEST_PYTHON scripts/tasks/household_pipeline.py plan-infinigen \
+  --seed 216 --split-seed 17 --difficulty-profile low_low --count 1 \
+  --out build/household/infinigen/reproduce216/specs \
   --upstream-root "$IG_ROOT" --python "$CPU_PYTHON"
-
-$CPU_PYTHON scripts/tasks/household_pipeline.py run-infinigen-cpu \
-  --spec build/household/infinigen/pilot216_current/specs/task_99314009ab96085785e4.json \
+# Select either task_*.json listed in batch.json (both share one background).
+$TEST_PYTHON scripts/tasks/household_pipeline.py run-infinigen-cpu \
+  --spec build/household/infinigen/reproduce216/specs/<task_id>.json \
   --upstream-root "$IG_ROOT" --python "$CPU_PYTHON" \
-  --out build/household/infinigen/pilot216_current/cpu_run --timeout 120 --retries 0
-
-$CPU_PYTHON -m pytest tests/unit -q
-$CPU_PYTHON scripts/tasks/household_pipeline.py cpu
+  --out build/household/infinigen/reproduce216/run --timeout 900 --retries 0 \
+  --solver-profile fast
 ```
 
-The real upstream invocation exited **1**, `ModuleNotFoundError: No module named
-'bpy'`, classified `UPSTREAM_DEPENDENCY_MISSING`; the unified runner returned 2.
-Evidence is in `build/household/infinigen/pilot216_current/cpu_run/{input.json,
-generation.json,attempt_0/attempt.json,attempt_0/stderr.log,attempt_0/stdout.log}`.
-`input.json` includes interpreter/package versions and executable hash.
-Identical reruns reuse the failure receipt; installing dependencies changes the
-runtime fingerprint and requires a new output directory, retaining old evidence.
-Earlier debug receipts remain under `pilot216/`; they are not accepted data.
+`default` uses the normal upstream solve budget; `fast` explicitly selects the
+pinned `fast_solve.gin` preset. Both use the same strict final constraints and
+cost filter. The fast CPU budget also limits invalid proposal retries to one. Reduced sampling can increase rejection and never grants acceptance. The kernel sandbox
+requires Linux bubblewrap, read-only source, private /dev without NVIDIA/DRM,
+no network, private /tmp and two CPU threads. PYTHONHASHSEED=0 fixes upstream
+hash iteration. Seeds are encoded in hexadecimal, matching upstream parse_seed.
+A successful receipt emits export input from its actual attempt_N/geometry.
+Rejected or interrupted runs retain errors and cannot supply an accepted export.
+Source snapshots/input hashes and artifacts protect resume/conflict checking.
 
-Current pilot: **4 specs, 1 complete proposal family, 1 base-layout request,
-0 real geometry scenes, 0 exported scene files, 0 simulation-validated families,
-0 evaluation-ready episodes**. Across development, three spec samplings wrote 12
-JSON specs for the same family (8 obsolete debugging specs, 4 current); this does
-not represent independent layouts. Five real upstream calls failed at the bpy import,
-including four earlier debug/provenance calls. No GPU, Isaac Sim/Kit, rendering or training
-was started. No real export exists to inspect; successful OpenUSD assembly and
-light checks used explicitly synthetic unit fixtures and count as **zero** data.
+The isolated upstream environment uses Python 3.11.16, bpy 4.2.0, NumPy 1.26.4,
+SciPy 1.10.1, scikit-image 0.19.3, shapely 2.0.5 and standalone usd-core 26.8.
+All imported successfully inside the CPU device sandbox; pip check passes.
+The official bpy wheel SHA256 is
+`a8217c2bd7b3424d1f51ce0698c0bf65439de352f7f6ed7b9942e2a9e5eb121b`.
+Scikit-image was built on CPU with Cython 0.29.37 and pythran 0.12.2.
+Reproduce the isolated dependency installation (Python 3.11):
 
-CPU tests cover schema/semantic rejection, deterministic independent streams,
-background target independence, split grouping, exact hand/exhaustive search
-costs, bin boundaries, real USD APIs, missing maps/joints/textures, complete
-family compilation, perturbation rejection, bounded failures/timeouts,
-checkpoint recovery, hash conflicts, GPU-free module imports and promotion guards.
-Executed command: `PYTHONPATH=src /data1/ygwang/codes/_external/findingbench-cpu/bin/python -m pytest tests/unit -q` — **603 passed, 14 skipped in 75.45 s**. The full suite ran before the final identity/search-set guards; the latest focused regressions include those additions (**84 passed in 1.05 s** across Infinigen/native occupancy/baseline audit tests). Skips are not physical validation. The original cloud household test command cannot be reproduced because its source files remain absent.
+```bash
+python3.11 -m venv "$CPU_ENV_PATH"
+PIP_CONFIG_FILE=/dev/null PIP_EXTRA_INDEX_URL='' "$CPU_ENV_PATH/bin/python" -m pip install \
+  --index-url https://pypi.org/simple numpy==1.26.4 scipy==1.10.1 \
+  Cython==0.29.37 pythran==0.12.2 setuptools==69.5.1 wheel
+NPY_NUM_BUILD_JOBS=2 OMP_NUM_THREADS=2 PIP_CONFIG_FILE=/dev/null PIP_EXTRA_INDEX_URL='' \
+  "$CPU_ENV_PATH/bin/python" -m pip install --index-url https://pypi.org/simple \
+  --no-build-isolation -r configs/authoring/infinigen_cpu_b11700e.txt
+"$CPU_ENV_PATH/bin/python" -m pip install -e .
+"$CPU_ENV_PATH/bin/python" -m pip check
+```
+
+Use the [official Extra Mesh Objects 0.3.12 archive](https://extensions.blender.org/download/sha256:c0708c26e4d7a5fd9f3dd6dadc86288f2270c338ba1c984ba0f37e6098f7756d/add-on-extra-mesh-objects-v0.3.12.zip),
+SHA256 `c0708c26e4d7a5fd9f3dd6dadc86288f2270c338ba1c984ba0f37e6098f7756d`.
+Its roughly 120 KB download is a GPL-2.0-or-later Blender extension, not a new
+benchmark asset library. Verify the checksum and unpack it under
+`$CPU_ENV_PATH/blender_extensions/blender_org/extra_mesh_objects`.
+The runner fingerprints every extension file and enables the existing local
+extension before importing factories, with online installation disabled by the
+kernel sandbox. Its real rock operator was registered successfully in CPU-only
+Blender. Do not substitute a fake factory or remove the natural shelf trinket.
+
+No terrain/CUDA compilation was run. The source remains at
+b11700ebac77695d8f53538705cfdc0cd890c54d with pinned OcMesher and GPL submodules;
+sparse checkout now includes required Python/Gin/JSON/NumPy/text/script resources.
+These are small source resources, not a new asset-library download.
+
+Latest ordinary CPU run: **585 passed, 38 skipped in 16.32 s**; the additional skip is the explicitly configured real-SDK test.
+The CPU environment with optional kinematics completed **627 passed, 14 skipped
+in 100.19 s**. Neither is physical
+acceptance. The explicit real-SDK contract test also passed (**1 passed, 2.98 s**):
+
+```bash
+FINDINGBENCH_INFINIGEN_ROOT="$IG_ROOT" \
+FINDINGBENCH_INFINIGEN_CPU_PYTHON="$CPU_PYTHON" \
+  "$TEST_PYTHON" -m pytest tests/unit/test_infinigen_upstream_cpu.py -q
+```
+
+The same test is an explicit skip in an ordinary environment without these paths.
+It checks actual pinned initializer bounds for n=2/4 and constraint relevance in
+all four primary greedy stages, inside the private-device sandbox. A bare global
+Storage count is irrelevant to those stages; the implemented kitchen-related
+count participates. `clamp_min(0)` preserves the exact nonnegative count while
+avoiding an overlapping initializer Bound. Extra/indirect locations remain
+subject to the complete metadata postfilter.
+
+## Actual generation record — 2026-10-14
+
+The final diagnostic command was the CPU runner above with `--seed 217` planned
+spec `task_2b44dce1a4d44afdc2c0.json`, scene seed recorded in `input.json`,
+`--solver-profile fast --timeout 900 --retries 0`, output:
+`build/household/infinigen/rectification217/run_kitchen_count`.
+It finished the real upstream main in **307.74 s**; the runner took **311.861 s**.
+Actual files are `attempt_0/geometry/{scene.blend,solve_state.json,findingbench_geometry.json}`.
+The roughly **181 MiB** Blender scene has two actual Storage candidates; the
+full mapping is `storage_0 -> 15823_KitchenCabinetFactory`,
+`storage_1 -> 708944_SingleCabinetFactory`.
+The production postfilter called the DP and interval bins on these real AABBs:
+expected movement proxy **6.5**, operations **5.0**, bins **low/low**. Assumptions
+and target-blind negative-result order are stored in `attempt_0/measurement.json`.
+This is a declared discrete-model proxy, not an actual robot route or final grade.
+
+The scene is **rejected**: final cabinet-factory count, lighting, island placement
+and rug constraints are not satisfied. The countertop is also recorded as a
+possible additional search location pending cavity classification. No failed
+position or background object was dropped, and no validation was disabled.
+The current fast solve preset has not produced an accepted background. More
+solver quality work is needed before scaling; do not infer a production success
+rate from development runs using different bridge/configuration versions.
+
+Across this rectification work there are **4 planned spec files, 2 source seeds
+and planned base-layout IDs, 5 actual geometry outputs, 0 accepted backgrounds,
+0 exported benchmark scenes, 0 compiled real episodes, 0 simulation-verified
+or evaluation-ready episodes**. The five raw outputs include repeated-seed
+implementation variants and are not five independent structures. They are local
+provenance/debug artifacts, not runnable benchmark data. No training ran.
+There were **11 completed development invocations** (5 completed geometry,
+6 earlier failures) and **1 user-interrupted invocation**. Seed 216 completed
+1/6 geometries; seed 217 completed 4/5; accepted families were 0 for both. These
+cross-version diagnostics are not generator performance estimates. Every run
+used a finite timeout and zero automatic retries.
+
+Earlier failures/logs are retained under `rectification216/{run_v1,run_v2,run_v3,
+run_fast,run_fast_bounded,run_addon}` and `rectification217/run`.
+They show initial greedy-bound coverage error, premature stage rejection,
+timeouts, the missing real Blender extension, and a user interruption.
+The missing-extension run's old taxonomy incorrectly matched an earlier
+"unsatisfied" warning; the current classifier uses the final exception.
+Raw solver tags are `Semantics(kitchen)` etc, not `Semantics.Kitchen`.
+The real output exposed and fixed this parser mismatch. Canonical tags are now
+normalised while raw strings are preserved, without importing Blender or eval().
+Real Blender/Tf identifier checks also fixed leading digits and slashes in source
+names; all ambiguous sanitisation collisions are rejected.
+
+The first two geometry outputs were wrongly marked invalid by the old parser.
+Their original receipts remain unchanged. Current independent CPU inspections
+verify the files and reject their complete candidate sets (4 and 3 instead of 2):
+
+```bash
+$TEST_PYTHON scripts/tasks/household_pipeline.py inspect-infinigen-geometry \
+  --spec build/household/infinigen/rectification216/specs/task_f228ad3548b99f7a2d26.json \
+  --receipt build/household/infinigen/rectification216/run_addon_resumed/generation.json \
+  --report build/household/infinigen/rectification216/geometry_inspection.json
+```
+
+Exit 2 means rejected. Successful upstream execution and real geometry count do
+not grant candidate acceptance. Changed artifacts reject inspection. The final
+rejected scene emits no accepted export command; a later authorized GPU diagnostic
+may inspect it, but cannot release it. Replan legacy specs lacking the source
+layout split group before binding. Asset-held-out generalisation and a global
+physical-source split audit remain outside the currently accepted scope.
+
+
+The final CPU acceptance contract is intentionally strict: the two-location
+proxy calculation ran on a real scene, but there is still no accepted candidate.
+The full-family physical publisher and Infinigen adaptation of the public-skill
+certification worker remain unimplemented. Collision representation for combined
+architecture AABBs and decrypted BEHAVIOR dependency graphs need runtime work.
+GPU probing, appearance images, native freeze/reset and actual search costs are
+implemented only in part or as explicit later entries; none has been executed.
+Training and scaling are not part of this CPU round.
 
 ## Deferred commands and acceptance boundaries
 
 **Do not execute these GPU stages during this CPU-only round.** After real
-geometry succeeds, the pinned export command is recorded in `specs/batch.json`.
+geometry succeeds, the pinned export command is emitted only by a successful `run/generation.json` receipt; its input is the actual successful `attempt_N/geometry` folder.
 It uses `python -m infinigen.tools.export --input_folder ... --output_folder ...
 -f usdc -r 512 --omniverse`; run it only in a later GPU-authorized session.
 
@@ -176,10 +330,48 @@ It measures actual entity inventory/three-way occupancy, closed native state,
 real joint limits/handle presence, spawn clearance, RGB shape and two native
 restores; it saves evidence and an image before process shutdown. These checks
 remain **unexecuted**. This preflight does not produce a probed embodiment overlay.
-A real scene-specific OPEN/GRASP/visibility/navigation probe is still needed;
-the legacy `probe_embodiment.py` relies on BEHAVIOR room maps and cannot simply
-be pointed at an Infinigen layout. Porting that room-map/probe path is unfinished.
-Once that probe supplies a complete overlay with the assembly-hash note:
+The Infinigen input adapter is implemented and CPU-tested. Legacy dependencies
+were the three BEHAVIOR layout PNGs, room-category naming, scene_json floor lookup
+and the z=0 spawn assumption. The new entry uses real exported floor triangles,
+geometry start proposals and the same SceneProber/production runtime checks.
+No real probe has run. The configured `build/robots/r1pro.urdf` is currently absent
+on this host; export it in the later GPU session before preparing the request:
+
+```bash
+# Later GPU session ONLY, existing articulation exporter:
+PYTHONPATH=src /data1/ygwang/miniconda3/envs/behavior/bin/python \
+  scripts/export_robot_kinematics.py --robot r1pro --scene Beechwood_0_int \
+  --out build/robots/r1pro.urdf
+
+# CPU preparation after a real export, assembly and URDF exist:
+$TEST_PYTHON scripts/tasks/household_pipeline.py prepare-infinigen-probe \
+  --spec "$SPEC_JSON" --assembly "$ASSEMBLY_OUT/assembly.json" \
+  --assets-root /data1/ygwang/codes/BEHAVIOR-1K/datasets/behavior-1k-assets \
+  --out "$PROBE_INPUT_OUT"
+
+# Later GPU session ONLY:
+PYTHONPATH=src /data1/ygwang/miniconda3/envs/behavior/bin/python \
+  scripts/tasks/household_pipeline.py gpu-probe-infinigen \
+  --request "$PROBE_INPUT_OUT/request.json" --out "$PROBE_OUT"
+```
+
+The request remains pending and supplies no overlay. All candidates must have
+OPEN/GRASP feasibility, successful real placement, closed invisibility and
+ungraspability, sufficient open visibility and a valid configured head camera.
+Any failed candidate rejects the whole family; only a complete live prefilter
+writes `overlay.yaml` and its hash-bound `evidence.json`. These prefilter
+measurements do not certify actual public skill execution or search difficulty.
+`TaskCertifier` can reuse this GeometryRoomMap and overlay, but the legacy
+`certify_tasks.py` CLI still loads BEHAVIOR maps; its Infinigen worker and a
+complete family publication verifier remain unimplemented. Do not route pending
+Infinigen candidates through that CLI or the legacy promoter.
+Combined architecture mesh AABBs may conservatively block every route; the
+runtime must reject that case until its actual collision representation is
+adapted, never bypass the footprint gate. Encrypted BEHAVIOR resource graphs
+remain pending until decrypted runtime dependency inspection. The entry is
+implemented but unexecuted, with these physical/interface risks still pending.
+
+Once that probe supplies a complete overlay and matching receipt:
 
 ```bash
 $CPU_PYTHON scripts/tasks/household_pipeline.py bind-infinigen \

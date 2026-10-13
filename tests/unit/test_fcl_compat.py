@@ -57,9 +57,13 @@ def test_hppfcl_fallback_is_explicit(monkeypatch):
     assert fcl_compat.collision_backend() is expected
 
 
+@pytest.mark.kinematics
 def test_installed_collision_transform_round_trip():
     pytest.importorskip("pinocchio")
-    backend = fcl_compat.collision_backend()
+    try:
+        backend = fcl_compat.collision_backend()
+    except ImportError as exc:
+        pytest.skip(str(exc))
     rotation = np.array([[0., -1., 0.], [1., 0., 0.], [0., 0., 1.]])
     transform = fcl_compat.transform3(backend, [1., 2., 3.], rotation)
     np.testing.assert_allclose(transform.getTranslation(), [1., 2., 3.])

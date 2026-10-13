@@ -195,7 +195,8 @@ class SceneProber:
 
     def __init__(self, backend, session, scene_slots: SceneSlots, room_map: RoomMap,
                  probe_entity: str, cfg: ProbeConfig,
-                 log: Callable[[str], None] = print, views_dir=None):
+                 log: Callable[[str], None] = print, views_dir=None,
+                 expected_base_z: float = 0.0053):
         self.backend = backend
         self.session = session
         self.ss = scene_slots
@@ -204,7 +205,7 @@ class SceneProber:
         self.cfg = cfg
         self.log = log
         self.z = backend.robot_pose()[0][2]
-        if abs(self.z - 0.0053) > 0.05:  # robot not standing on a floor at z=0
+        if abs(self.z - expected_base_z) > 0.05:
             raise RuntimeError(f"probe base height {self.z:.3f} m: the robot is not "
                                "standing on the floor (fell off the scene?)")
         self._chk = None  # FootprintChecker of the reset (all closed) world

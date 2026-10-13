@@ -7,17 +7,25 @@ contacts disabled), (2) ignore the mobile base resting on the floor, and
 """
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 import numpy as np
 import pytest
 
-URDF = Path(__file__).resolve().parents[2] / "build" / "robots" / "r1pro.urdf"
-pytestmark = pytest.mark.skipif(not URDF.exists(), reason="exported r1pro URDF not present")
+URDF = Path(os.environ["FINDINGBENCH_R1PRO_URDF"]) if os.environ.get("FINDINGBENCH_R1PRO_URDF") else None
+pytestmark = [pytest.mark.kinematics, pytest.mark.local_assets,
+              pytest.mark.skipif(URDF is None, reason="set FINDINGBENCH_R1PRO_URDF for exported robot checks")]
 
 
 @pytest.fixture(scope="module")
 def checker():
+    pytest.importorskip("pinocchio")
+    from rummagebench.feasibility.fcl_compat import collision_backend
+    try:
+        collision_backend()
+    except ImportError as exc:
+        pytest.skip(str(exc))
     from rummagebench.feasibility.hpp_fcl_checker import PinocchioCollisionChecker
     from rummagebench.feasibility.pinocchio_solver import PinocchioKinematics
 

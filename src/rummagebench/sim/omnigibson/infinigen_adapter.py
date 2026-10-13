@@ -14,7 +14,8 @@ import numpy as np
 
 from rummagebench.authoring.level1.snapshot import atomic_write_json
 from rummagebench.authoring.tasks.household import HouseholdTaskSpec
-from rummagebench.authoring.tasks.infinigen import inspect_export, read_solve_state
+from rummagebench.authoring.tasks.infinigen import (inspect_export, read_solve_state, usd_dependency_ledger,
+                                                    verify_usd_dependency_ledger)
 from rummagebench.authoring.tasks.plan import canonical_json, sha256_bytes, sha256_path
 
 
@@ -31,14 +32,18 @@ def load_assembly_manifest(path: Path) -> dict:
     payload = {k: v for k, v in doc.items() if k != "manifest_sha256"}
     if sha256_bytes(canonical_json(payload)) != doc.get("manifest_sha256"):
         raise ValueError("ASSEMBLY_MANIFEST_HASH_MISMATCH")
-    if doc.get("version") != 1 or doc.get("status") != "pending_simulation":
+    if doc.get("version") != 2 or doc.get("status") != "pending_simulation":
         raise ValueError("ASSEMBLY_SCHEMA_OR_STATUS_INVALID")
+    if not doc.get("usd_dependency_ledgers"):
+        raise ValueError("ASSEMBLY_DEPENDENCY_LEDGER_REQUIRED")
     for ref, digest in doc["bundle_artifacts"].items():
         if sha256_path(_checked_reference(path.parent, ref)) != digest:
             raise ValueError(f"ASSEMBLY_ARTIFACT_HASH_MISMATCH:{ref}")
     for ref, digest in doc["external_asset_sources"].items():
         if not Path(ref).is_file() or not digest or sha256_path(ref) != digest:
             raise ValueError(f"INTERACTIVE_ASSET_SOURCE_CHANGED:{ref}")
+    for ledger in doc["usd_dependency_ledgers"]:
+        verify_usd_dependency_ledger(ledger)
     return doc
 
 
@@ -119,6 +124,8 @@ def prepare_assembly(spec: HouseholdTaskSpec, scene: Path, solve: Path, bindings
     stage = Usd.Stage.Open(str(scene.resolve()))
     box_cache = UsdGeom.BBoxCache(Usd.TimeCode.Default(), [UsdGeom.Tokens.default_, UsdGeom.Tokens.render])
     replacement, external = {}, {}
+    ledgers = [inspection["dependency_ledger"]]
+    opaque_assets = []
     for loc in spec.locations:
         b = by_location[loc.location_id]
         if b["source_id"] not in inspection["source_to_usd"]:
@@ -146,6 +153,16 @@ def prepare_assembly(spec: HouseholdTaskSpec, scene: Path, solve: Path, bindings
             raise ValueError("REAL_INTERACTIVE_ASSET_OR_OPENABLE_METADATA_MISSING")
         external[str(meta_path.resolve())] = sha256_path(meta_path)
         external[str(usd.resolve())] = sha256_path(usd)
+        if usd.name.endswith(".encrypted.usd"):
+            # Enumerate every local model resource conservatively. The opaque
+            # reference graph remains explicitly pending until OG decrypts it.
+            for resource in sorted(usd.parent.parent.rglob('*')):
+                if resource.is_file():
+                    external[str(resource.resolve())] = sha256_path(resource)
+            opaque_assets.append({"usd": str(usd.resolve()), "resource_root": str(usd.parent.parent.resolve()),
+                                  "status": "pending_runtime_decrypted_dependency_graph"})
+        else:
+            ledgers.append(usd_dependency_ledger(usd))
         prim_path = inspection["source_to_usd"][b["source_id"]]
         prim = stage.GetPrimAtPath(prim_path)
         bbox = box_cache.ComputeWorldBound(prim).ComputeAlignedRange()
@@ -214,11 +231,7 @@ def prepare_assembly(spec: HouseholdTaskSpec, scene: Path, solve: Path, bindings
         UsdGeom.Xformable(geom).ClearXformOpOrder()
         UsdPhysics.CollisionAPI.Apply(geom)
         UsdPhysics.MeshCollisionAPI.Apply(geom).CreateApproximationAttr("convexHull" if movable else "none")
-        # Keep material scopes at their original paths. Flatten resolves
-        # external texture assets; missing dependencies are inspection failures.
-        for child in stage.GetDefaultPrim().GetChildren():
-            if child.GetTypeName() in ("Scope", "Material"):
-                Sdf.CopySpec(source_layer, child.GetPath(), dst.GetRootLayer(), child.GetPath())
+        copy_effective_materials(stage, prim, dst, geom, source_layer)
         dst.GetRootLayer().Save()
         rel = str(asset_path.relative_to(output)); artifacts[rel] = sha256_path(asset_path)
         source_id = next((k for k, p in inspection["source_to_usd"].items()
@@ -245,14 +258,21 @@ def prepare_assembly(spec: HouseholdTaskSpec, scene: Path, solve: Path, bindings
             light_prim = lights_stage.GetPrimAtPath(dest)
             xf = UsdGeom.Xformable(light_prim); xf.ClearXformOpOrder()
             xf.AddTransformOp().Set(xforms.GetLocalToWorldTransform(prim))
+            normalize_asset_attributes(prim, light_prim)
             lighting.append(str(dest))
     lights_stage.GetRootLayer().Save(); artifacts["lighting.usda"] = sha256_path(lights_path)
-    manifest = {"version": 1, "status": "pending_simulation", "scene_id": spec.base_layout_id,
+    for ref in artifacts:
+        ledgers.append(usd_dependency_ledger(output / ref))
+    for ledger in ledgers:
+        verify_usd_dependency_ledger(ledger)
+    manifest = {"version": 2, "status": "pending_simulation", "scene_id": spec.base_layout_id,
                 "source": {"upstream_commit": spec.upstream_commit, "scene_usd": str(scene.resolve()),
                            "scene_sha256": inspection["scene_sha256"], "solve_state": str(solve.resolve()),
                            "solve_sha256": inspection["solve_state_sha256"], "license": "BSD-3-Clause", "interactive_asset_license": "BEHAVIOR assets; local only, never redistributed"},
                 "objects": objects, "lighting_usd": "lighting.usda", "lighting_prims": lighting,
                 "bundle_artifacts": artifacts, "external_asset_sources": external,
+                "usd_dependency_ledgers": ledgers, "opaque_external_assets": opaque_assets,
+                "dependency_integrity": "supported_local_graphs_hashed; opaque_graphs_pending" if opaque_assets else "complete_supported_local_graphs",
                 "candidate_bindings": [replacement[p] for p in sorted(replacement)],
                 "source_to_usd": inspection["source_to_usd"], "appearance_request": spec.appearance,
                 "target_asset": spec.target.model_dump(), "family_id": spec.family_id,
@@ -260,7 +280,8 @@ def prepare_assembly(spec: HouseholdTaskSpec, scene: Path, solve: Path, bindings
                 "target_category_confounds": confounds, "semantic_labels": "factory_evidence_pending_visual_check",
                 "pending_checks": ["real_joints_limits_handles", "native_occupancy", "background_stability",
                                    "replacement_support", "door_sweep", "temporary_place_space", "visibility_and_observe",
-                                   "robot_skills", "target_insertion_background_match", "reset", "search_cost", "appearance_images"]}
+                                   "robot_skills", "target_insertion_background_match", "reset", "search_cost", "appearance_images",
+                                   "all_additional_counter_drawer_search_locations_classified"]}
     manifest["manifest_sha256"] = sha256_bytes(canonical_json(manifest))
     atomic_write_json(output / "assembly.json", manifest)
     return manifest
@@ -475,3 +496,67 @@ def freeze_family_background(backend, scenarios: list, manifest_path: Path, outp
         report.update(status="rejected_family_preflight", reason=f"{type(exc).__name__}: {exc}")
         atomic_write_json(output / "family_preflight.json", report)
         raise
+
+
+def normalize_asset_attributes(source_prim, destination_prim) -> None:
+    """Anchor external resources before moving their USD properties to new files."""
+    from pxr import Sdf, Usd
+
+    for attr in source_prim.GetAttributes():
+        if attr.GetTypeName() not in (Sdf.ValueTypeNames.Asset, Sdf.ValueTypeNames.AssetArray):
+            continue
+        times = [Usd.TimeCode.Default(), *attr.GetTimeSamples()]
+        for time in times:
+            value = attr.Get(time)
+            if value is None:
+                continue
+            array = attr.GetTypeName() == Sdf.ValueTypeNames.AssetArray
+            result = []
+            for asset in (list(value) if array else [value]):
+                if not asset.path:
+                    result.append(asset); continue
+                if not asset.resolvedPath or not Path(asset.resolvedPath).is_file():
+                    raise ValueError(f"USD_DEPENDENCY_CANNOT_ANCHOR:{attr.GetPath()}")
+                result.append(Sdf.AssetPath(str(Path(asset.resolvedPath).resolve())))
+            destination_prim.GetAttribute(attr.GetName()).Set(result if array else result[0], time)
+
+
+def copy_effective_materials(source_stage, source_mesh, destination_stage, destination_mesh, flattened) -> None:
+    """Preserve inherited/collection bindings by binding effective materials explicitly.
+
+    Shader networks must be contained by their material. External shader
+    connections are rejected rather than left pointing at missing prims.
+    """
+    from pxr import Sdf, Usd, UsdGeom, UsdShade
+
+    copied = {}
+    for source in Usd.PrimRange(source_mesh):
+        if source != source_mesh and not source.IsA(UsdGeom.Subset):
+            continue
+        dest_path = source.GetPath().ReplacePrefix(source_mesh.GetPath(), destination_mesh.GetPath())
+        dest = destination_stage.GetPrimAtPath(dest_path)
+        for rel in list(dest.GetRelationships()):
+            if rel.GetName().startswith('material:binding'):
+                dest.RemoveProperty(rel.GetName())
+        for purpose in ('', 'preview', 'full'):
+            material, _ = UsdShade.MaterialBindingAPI(source).ComputeBoundMaterial(materialPurpose=purpose)
+            if not material:
+                continue
+            source_path = material.GetPath()
+            if str(source_path) not in copied:
+                UsdGeom.Scope.Define(destination_stage, '/World/Looks')
+                path = Sdf.Path('/World/Looks/material_' + sha256_bytes(str(source_path).encode())[:16])
+                Sdf.CopySpec(flattened, source_path, destination_stage.GetRootLayer(), path)
+                for prim in Usd.PrimRange(destination_stage.GetPrimAtPath(path)):
+                    original_path = prim.GetPath().ReplacePrefix(path, source_path)
+                    original = source_stage.GetPrimAtPath(original_path)
+                    normalize_asset_attributes(original, prim)
+                    for attr in prim.GetAttributes():
+                        connections = attr.GetConnections()
+                        if any(not target.HasPrefix(source_path) and not target.HasPrefix(path) for target in connections):
+                            raise ValueError('USD_EXTERNAL_SHADER_NETWORK_UNSUPPORTED')
+                        if connections:
+                            attr.SetConnections([target.ReplacePrefix(source_path, path) for target in connections])
+                copied[str(source_path)] = path
+            bound = UsdShade.Material(destination_stage.GetPrimAtPath(copied[str(source_path)]))
+            UsdShade.MaterialBindingAPI.Apply(dest).Bind(bound, materialPurpose=purpose)

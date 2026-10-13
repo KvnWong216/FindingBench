@@ -11,7 +11,7 @@ from pathlib import Path
 from rummagebench.authoring.level1.snapshot import write_environment_snapshot
 from rummagebench.authoring.tasks.compile import compile_plan
 from rummagebench.authoring.tasks.embodiment_slots import SlotEmbodimentOverlay
-from rummagebench.authoring.tasks.household import HouseholdTaskSpec, grouped_split
+from rummagebench.authoring.tasks.household import HouseholdTaskSpec, source_layout_group_id
 from rummagebench.authoring.tasks.plan import PlacedObject, TaskPlan, canonical_json, sha256_bytes, sha256_path
 from rummagebench.authoring.tasks.tiers import load_tier
 from rummagebench.sim.omnigibson.infinigen_adapter import load_assembly_manifest, scene_slots_from_assembly
@@ -26,12 +26,23 @@ def bind_family(members: list[HouseholdTaskSpec], assembly: Path, overlay_path: 
     slots = scene_slots_from_assembly(assembly)
     overlay = SlotEmbodimentOverlay.load(overlay_path)
     first = members[0]
+    if first.split_assignment is None or any(s.split_assignment != first.split_assignment for s in members):
+        raise ValueError("PLANNED_SPLIT_REQUIRED_FOR_COMPLETE_FAMILY")
+    if first.split_assignment.source_layout_group != source_layout_group_id(first.upstream_commit,first.scene_seed):
+        raise ValueError("PLANNED_SOURCE_LAYOUT_SPLIT_GROUP_REQUIRED; replan legacy candidate specs")
+    specification_ids = [s.task_id for s in members]
+    if len(set(specification_ids)) != len(specification_ids):
+        raise ValueError("DUPLICATE_SPECIFICATION_ID")
     locations = {s.location_id for s in first.locations}
     if len(members) != len(locations) or {s.target_location for s in members} != locations:
         raise ValueError("INCOMPLETE_TARGET_POSITION_FAMILY")
     if any(s.family_id != first.family_id or s.base_layout_id != first.base_layout_id
            or s.target != first.target or s.locations != first.locations
-           or s.appearance != first.appearance or s.robot_config_ref != first.robot_config_ref for s in members):
+           or s.appearance != first.appearance or s.robot_config_ref != first.robot_config_ref
+           or s.scene_seed != first.scene_seed or s.upstream_commit != first.upstream_commit
+           or s.generation_constraints != first.generation_constraints or s.input_hashes != first.input_hashes
+           or s.required_skills != first.required_skills or s.max_planning_steps != first.max_planning_steps
+           or s.instruction != first.instruction or s.requested_difficulty != first.requested_difficulty for s in members):
         raise ValueError("FAMILY_BACKGROUND_OR_VARIABLES_DIFFER")
     if doc["scene_id"] != first.base_layout_id or doc["family_id"] != first.family_id:
         raise ValueError("ASSEMBLY_FAMILY_MISMATCH")
@@ -39,6 +50,10 @@ def bind_family(members: list[HouseholdTaskSpec], assembly: Path, overlay_path: 
             or f"assembly_manifest_sha256:{sha256_path(assembly)}" not in overlay.notes
             or not overlay.urdf_hash or sha256_path(overlay.urdf_path) != overlay.urdf_hash):
         raise ValueError("EMBODIMENT_OVERLAY_NOT_PROBED_FOR_THIS_ASSEMBLY")
+    from rummagebench.authoring.tasks.infinigen_probe import verify_overlay_evidence
+    probe_request = verify_overlay_evidence(overlay)
+    if probe_request["fingerprint"]["assembly_sha256"] != sha256_path(assembly):
+        raise ValueError("PROBE_ASSEMBLY_MISMATCH")
     by_location = {b["location_id"]: next(s for s in slots.slots if s.parent_entity == b["name"])
                    for b in doc["candidate_bindings"]}
     if set(by_location) != locations:
@@ -53,7 +68,7 @@ def bind_family(members: list[HouseholdTaskSpec], assembly: Path, overlay_path: 
     start = starts[0]  # independent of actual target location
     tier = load_tier("easy_v1")
     tier = tier.model_copy(update={"budget": tier.budget.model_copy(update={"max_planning_steps": first.max_planning_steps})})
-    artifacts, ids = {}, []
+    artifacts, ids, mapping = {}, [], {}
     for spec in members:
         target_slot = by_location[spec.target_location]
         plan = TaskPlan("easy", 1, "in_container", spec.seed, spec.index, slots.scene, "kitchen_0", "kitchen",
@@ -68,15 +83,43 @@ def bind_family(members: list[HouseholdTaskSpec], assembly: Path, overlay_path: 
                         "robot": {"id": spec.robot_id, "urdf_hash": overlay.urdf_hash},
                         "search_difficulty": "unmeasured"})
         scenario = compile_plan(plan, slots, overlay, tier)
+        if plan.task_id in ids:
+            raise ValueError("DUPLICATE_COMPILED_EPISODE_ID")
         ids.append(plan.task_id)
+        mapping[spec.task_id] = plan.task_id
         artifacts[f"plans/{plan.task_id}.json"] = plan.to_dict()
         # JSON is valid YAML and load_scenario accepts the existing .yaml paths.
         artifacts[f"candidates/{plan.task_id}.yaml"] = scenario
-    report = {"version": 1, "status": "pending_simulation", "family_id": first.family_id,
+    report = {"version": 2, "status": "pending_simulation", "family_id": first.family_id,
               "task_ids": ids, "counts": {"compiled_candidates": len(ids), "evaluation_ready_episodes": 0},
-              "assembly_manifest_sha256": sha256_path(assembly), "split": grouped_split(members),
+              "assembly_manifest_sha256": sha256_path(assembly),
+              "specification_ids": specification_ids, "specification_to_episode_id": mapping,
+              "episode_to_specification_id": {v: k for k, v in mapping.items()},
+              "specification_split": {s.task_id: s.split_assignment.label for s in members},
+              "split": {mapping[s.task_id]: s.split_assignment.label for s in members},
+              "split_assignment": first.split_assignment.model_dump(mode="json"),
               "required_checks": doc["pending_checks"],
               "publication": "blocked; legacy single-episode certificates cannot release this family"}
+    validate_family_index(report)
     artifacts["family.json"] = report
     write_environment_snapshot(output, artifacts)
     return report
+
+
+def validate_family_index(doc: dict) -> None:
+    """Reject duplicate, missing, extra or non-bijective IDs before GPU loading."""
+    required = {"specification_ids","task_ids","specification_to_episode_id","episode_to_specification_id",
+                "split","specification_split","split_assignment"}
+    if not required <= set(doc):
+        raise ValueError("COMPILED_FAMILY_ID_OR_SPLIT_MAPPING_MISSING")
+    specifications, episodes = doc["specification_ids"], doc["task_ids"]
+    mapping, reverse = doc["specification_to_episode_id"], doc["episode_to_specification_id"]
+    if (len(specifications) != len(set(specifications)) or len(episodes) != len(set(episodes))
+            or set(mapping) != set(specifications) or set(mapping.values()) != set(episodes)
+            or len(set(mapping.values())) != len(mapping) or reverse != {v: k for k, v in mapping.items()}
+            or set(doc["split"]) != set(episodes) or set(doc["specification_split"]) != set(specifications)
+            or any(doc["split"][e] != doc["specification_split"][s] for s, e in mapping.items())
+            or set(doc["split"].values()) != {doc["split_assignment"]["label"]}):
+        raise ValueError("COMPILED_FAMILY_ID_OR_SPLIT_MAPPING_INVALID")
+    from rummagebench.authoring.tasks.household import SplitAssignment
+    SplitAssignment.model_validate(doc["split_assignment"])

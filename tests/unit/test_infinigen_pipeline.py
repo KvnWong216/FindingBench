@@ -18,7 +18,7 @@ from pydantic import ValidationError
 
 from rummagebench.authoring.tasks.household import (
     HouseholdTaskSpec, SearchLocation, TargetAsset, UPSTREAM_COMMIT,
-    sample_spec, validate_spec_assets, family_members, grouped_split)
+    sample_spec, validate_spec_assets, family_members, grouped_split, SplitAssignment, layout_split_label, generation_requirements, source_layout_group_id)
 from rummagebench.authoring.tasks.difficulty import exact_search_cost, interval_label, euclidean_proxies
 from rummagebench.authoring.tasks import infinigen as ig
 from rummagebench.authoring.tasks.plan import canonical_json, sha256_bytes, sha256_path
@@ -35,7 +35,11 @@ def make_spec():
         appearance={"light_intensity_multiplier": 1.2, "light_color_temperature_k": 4500., "ambient_multiplier": .9,
                     "light_direction_yaw_deg": 20., "wall_color": "warm_beige", "support_texture_swap": True},
         robot_config_ref="configs/tasks/robots/r1pro.yaml", required_skills=["MOVE", "TURN", "OBSERVE", "OPEN", "GRASP", "REPORT_DONE"],
-        max_planning_steps=16, initial_visibility_max=0, requested_difficulty={"spatial": "low", "operations": "high"},
+        max_planning_steps=16, initial_visibility_max=0,
+        split_assignment=SplitAssignment(split_seed=17, test_fraction=.2, base_layout_id='fixture_layout',
+                                         source_layout_group=source_layout_group_id(UPSTREAM_COMMIT,45),
+                                         label=layout_split_label(source_layout_group_id(UPSTREAM_COMMIT,45),17,.2)), requested_difficulty={"spatial": "low", "operations": "low"},
+        generation_constraints=generation_requirements(yaml.safe_load((REPO/'assets/tasks/household_families_v1.yaml').read_text()),'low_low',2),
         input_hashes={"unit_fixture_only": "a"*64})
 
 
@@ -112,14 +116,15 @@ def test_complete_family_background_independence_and_grouped_split():
     assert ig.generation_request(members[0]) == ig.generation_request(members[1])
     members[1].appearance['light_intensity_multiplier']=5.
     members[1].robot_config_ref='another_config'
-    assert len(set(grouped_split(members).values())) == 1
+    assert len(set(grouped_split(members,split_seed=17).values())) == 1
     assert ig.generation_command(members[0], '/cpu/python', REPO, REPO/'build/geometry') == ig.generation_command(
         members[1], '/cpu/python', REPO, REPO/'build/geometry')
 
 
 def test_real_upstream_command_and_deferred_gpu_export():
     cmd=ig.generation_command(make_spec(),'/cpu/python',REPO,REPO/'build/geometry')
-    assert cmd['argv'][1:3]==['-m','infinigen_examples.generate_indoors']
+    assert cmd['argv'][1:4]==['-m','rummagebench.authoring.tasks.infinigen','run-upstream']
+    assert cmd['upstream_api']=='infinigen_examples.generate_indoors.main'
     assert 'configure_cycles_devices.use_gpu=False' in cmd['argv']
     assert "restrict_solving.restrict_parent_rooms=['Kitchen']" in cmd['argv']
     assert cmd['environment']['CUDA_VISIBLE_DEVICES']==''
@@ -222,6 +227,7 @@ def test_module_imports_do_not_load_simulator_or_blender():
     code="""import sys
 import rummagebench.authoring.tasks.infinigen
 import rummagebench.authoring.tasks.household_binding
+import rummagebench.authoring.tasks.infinigen_probe
 import rummagebench.sim.omnigibson.infinigen_adapter
 assert not any(k.split('.')[0] in {'omnigibson','isaacsim','omni','bpy','pxr'} for k in sys.modules)
 """
@@ -253,7 +259,10 @@ def usd_bundle(tmp_path):
     (model/'misc/metadata.json').write_text(json.dumps({'link_tags':{'door':['openable']},'bbox_size':[1,1,1]}))
     # A synthetic file intentionally does NOT supply joints. Preparation is
     # pending; runtime_articulation_checks must still reject this asset.
-    (model/'usd/unit_model.usd').write_text('# synthetic unit asset, no real articulation')
+    unit_asset = Usd.Stage.CreateNew(str(model/'usd/unit_model.usd'))
+    asset_root = UsdGeom.Xform.Define(unit_asset,'/World').GetPrim();unit_asset.SetDefaultPrim(asset_root)
+    UsdGeom.Xform.Define(unit_asset,'/World/base_link')
+    unit_asset.GetRootLayer().Save()
     bindings=[{'location_id':f'storage_{i}','source_id':f'cab{i}','category':'bottom_cabinet','model':'unit_model'} for i in range(2)]
     return scene,solve,assets,bindings
 
@@ -343,18 +352,26 @@ def test_full_family_compiles_via_existing_schema_with_current_protocol(usd_bund
     scene,solve,assets,bindings=usd_bundle;out=tmp_path/'prepared'
     prepare_assembly(make_spec(),scene,solve,bindings,assets,out)
     slots=scene_slots_from_assembly(out/'assembly.json')
-    urdf=tmp_path/'unit_robot.urdf';urdf.write_text('synthetic unit-test-only URDF evidence')
+    urdf=tmp_path/'unit_robot.urdf';urdf.write_text('<robot name="synthetic_unit_only"><link name="base_link"/><link name="right_eef_link"/></robot>')
     pose=Pose2((1.,-2.,.0053),(0.,0.,0.,1.))
-    evidence={'closed_visibility':{'visible_px':0},'closed_graspable':False}
+    evidence={'closed_visibility':{'visible_px':0},'closed_graspable':False,'open_visibility':{'ratio':.8}}
     overlay=SlotEmbodimentOverlay(slots.scene,'r1pro',str(urdf),sha256_path(urdf),'probed','synthetic_unit_only',
         yaml.safe_load((REPO/'configs/tasks/robots/r1pro.yaml').read_text())['robot'],{},
         {'kitchen_0':[StartPose('common_start',pose)]},
         {s.slot_id:SlotInteraction(pose,True,True,True,evidence=evidence) for s in slots.slots},
         notes=[f'assembly_manifest_sha256:{sha256_path(out/"assembly.json")}'])
+    attach_synthetic_probe_receipt(overlay,out/'assembly.json',assets,tmp_path)
     op=tmp_path/'unit_overlay.yaml';overlay.save(op)
     compiled=tmp_path/'compiled';members=family_members(make_spec())
     report=bind_family(members,out/'assembly.json',op,compiled)
     assert report['counts']=={'compiled_candidates':2,'evaluation_ready_episodes':0}
+    assert set(report['task_ids']) == set(report['split'])
+    assert set(report['specification_to_episode_id']) == {s.task_id for s in members}
+    assert report['split_assignment']['split_seed'] == 17
+    for member in members:
+        episode = report['specification_to_episode_id'][member.task_id]
+        assert report['split'][episode] == member.split_assignment.label
+        assert report['episode_to_specification_id'][episode] == member.task_id
     scenarios=[load_scenario(compiled/'candidates'/f'{tid}.yaml') for tid in report['task_ids']]
     assert all(s.scene.source=='infinigen' for s in scenarios)
     assert all(not s.termination.fail_on_wrong_grasp and not s.termination.succeed_when_holding_target for s in scenarios)
@@ -374,7 +391,7 @@ def test_missing_texture_dependency_is_a_failure_not_material_acceptance(usd_bun
     shader=UsdShade.Shader.Define(stage,'/World/Looks/Texture')
     shader.CreateInput('file',Sdf.ValueTypeNames.Asset).Set(Sdf.AssetPath('missing_unit_texture.png'))
     stage.GetRootLayer().Save()
-    with pytest.raises(ValueError,match='USD_TEXTURE_OR_ASSET_DEPENDENCY_MISSING'):ig.inspect_export(scene,solve)
+    with pytest.raises(ValueError,match='USD_DEPENDENCY_UNRESOLVED'):ig.inspect_export(scene,solve)
 
 
 def test_runtime_joint_labels_without_real_limits_cannot_pass():
@@ -465,3 +482,316 @@ def test_extra_kitchen_storage_cannot_be_silently_excluded_from_search_set(usd_b
     with pytest.raises(ValueError,match='UNBOUND_KITCHEN_STORAGE_SEARCH_SET_UNRESOLVED'):
         prepare_assembly(make_spec(),scene,solve,bindings,assets,tmp_path/'rejected')
     assert not (tmp_path/'rejected/assembly.json').exists()
+
+
+@pytest.mark.parametrize("corruption", ["duplicate_episode", "missing_split", "extra_mapping", "wrong_split"])
+def test_compiled_family_index_rejects_incomplete_or_inconsistent_ids(corruption):
+    from rummagebench.authoring.tasks.household_binding import validate_family_index
+    assignment = make_spec().split_assignment.model_dump(mode="json")
+    label=assignment["label"]
+    doc={"specification_ids":["task_a","task_b"],"task_ids":["fb_a","fb_b"],
+         "specification_to_episode_id":{"task_a":"fb_a","task_b":"fb_b"},
+         "episode_to_specification_id":{"fb_a":"task_a","fb_b":"task_b"},
+         "split":{"fb_a":label,"fb_b":label},"specification_split":{"task_a":label,"task_b":label},
+         "split_assignment":assignment}
+    validate_family_index(doc)
+    if corruption=="duplicate_episode":doc["task_ids"]=["fb_a","fb_a"]
+    if corruption=="missing_split":del doc["split"]["fb_b"]
+    if corruption=="extra_mapping":doc["specification_to_episode_id"]["task_extra"]="fb_extra"
+    if corruption=="wrong_split":doc["split"]["fb_b"]="test" if label=="dev" else "dev"
+    with pytest.raises(ValueError,match="ID_OR_SPLIT_MAPPING_INVALID"):validate_family_index(doc)
+
+
+@pytest.fixture
+def textured_usd_bundle(usd_bundle,tmp_path):
+    """Synthetic CPU-only scene, inherited material, external layer and PNG."""
+    from pxr import Usd,UsdGeom,UsdShade,Sdf
+    from PIL import Image
+    scene,solve,assets,bindings=usd_bundle
+    texture=tmp_path/'synthetic_texture.png';Image.new('RGB',(2,2),(100,150,200)).save(texture)
+    layer_path=tmp_path/'synthetic_materials.usda'
+    layer_stage=Usd.Stage.CreateNew(str(layer_path))
+    material=UsdShade.Material.Define(layer_stage,'/World/Looks/InheritedMaterial')
+    preview=UsdShade.Shader.Define(layer_stage,'/World/Looks/InheritedMaterial/Preview')
+    preview.CreateIdAttr('UsdPreviewSurface')
+    tex=UsdShade.Shader.Define(layer_stage,'/World/Looks/InheritedMaterial/Texture')
+    tex.CreateIdAttr('UsdUVTexture');tex.CreateInput('file',Sdf.ValueTypeNames.Asset).Set(Sdf.AssetPath(texture.name))
+    tex.CreateOutput('rgb',Sdf.ValueTypeNames.Float3)
+    preview.CreateInput('diffuseColor',Sdf.ValueTypeNames.Color3f).ConnectToSource(tex.ConnectableAPI(),'rgb')
+    preview.CreateOutput('surface',Sdf.ValueTypeNames.Token)
+    material.CreateSurfaceOutput().ConnectToSource(preview.ConnectableAPI(),'surface')
+    layer_stage.GetRootLayer().Save()
+    stage=Usd.Stage.Open(str(scene));stage.GetRootLayer().subLayerPaths.append(layer_path.name)
+    material=UsdShade.Material(stage.GetPrimAtPath('/World/Looks/InheritedMaterial'))
+    UsdShade.MaterialBindingAPI.Apply(stage.GetDefaultPrim()).Bind(material)
+    stage.GetRootLayer().Save()
+    return scene,solve,assets,bindings,texture,layer_path
+
+
+@pytest.mark.parametrize('change',['modify_texture','delete_texture','modify_layer','delete_layer'])
+def test_assembly_loading_protects_external_dependency_contents(textured_usd_bundle,tmp_path,change):
+    from rummagebench.sim.omnigibson.infinigen_adapter import prepare_assembly,load_assembly_manifest
+    scene,solve,assets,bindings,texture,layer=textured_usd_bundle;out=tmp_path/'prepared'
+    prepare_assembly(make_spec(),scene,solve,bindings,assets,out)
+    load_assembly_manifest(out/'assembly.json')
+    if change=='modify_texture':texture.write_bytes(b'changed synthetic texture')
+    if change=='delete_texture':texture.unlink()
+    if change=='modify_layer':layer.write_text(layer.read_text()+'\n# changed synthetic layer\n')
+    if change=='delete_layer':layer.unlink()
+    with pytest.raises(ValueError,match='DEPENDENCY'):
+        load_assembly_manifest(out/'assembly.json')
+
+
+def test_split_object_retains_effective_inherited_material_and_texture(textured_usd_bundle,tmp_path):
+    from pxr import Usd,UsdShade
+    from rummagebench.sim.omnigibson.infinigen_adapter import prepare_assembly,load_assembly_manifest
+    scene,solve,assets,bindings,texture,layer=textured_usd_bundle;out=tmp_path/'prepared'
+    doc=prepare_assembly(make_spec(),scene,solve,bindings,assets,out)
+    bg=next(o for o in doc['objects'] if o['source_id']=='table')
+    stage=Usd.Stage.Open(str(out/bg['og_config']['usd_path']))
+    material,_=UsdShade.MaterialBindingAPI(stage.GetPrimAtPath('/World/base_link/geometry/mesh')).ComputeBoundMaterial()
+    assert material
+    asset=stage.GetPrimAtPath(str(material.GetPath())+'/Texture').GetAttribute('inputs:file').Get()
+    assert Path(asset.resolvedPath).resolve()==texture.resolve()
+    assert load_assembly_manifest(out/'assembly.json')==doc
+
+
+def geometry_fixture_for_measurement(tmp_path):
+    """Synthetic geometry ONLY for unit tests of production postfilter calls."""
+    solve=tmp_path/'solve.json'
+    solve.write_text(json.dumps({'objs':{
+        'kitchen':{'obj':'kitchen','tags':['Semantics.Kitchen']},
+        'a':{'obj':'a','tags':['Semantics.Storage','Semantics.Furniture'],'relations':[{'target_name':'kitchen','relation':{'relation_type':'StableAgainst'}}]},
+        'b':{'obj':'b','tags':['Semantics.Storage','Semantics.Furniture'],'relations':[{'target_name':'kitchen','relation':{'relation_type':'StableAgainst'}}]},
+    }}))
+    geometry=tmp_path/'findingbench_geometry.json'
+    geometry.write_text(json.dumps({'version':1,'solve_state_sha256':sha256_path(solve),
+                                   'upstream_constraints':{'passed':True,'synthetic_unit_test_only':True},'objects':{
+        'kitchen':{'aabb':[[0,0,0],[5,5,3]],'center':[2.5,2.5,1.5]},
+        'a':{'aabb':[[0,0,0],[1,1,1]],'center':[.5,.5,.5]},
+        'b':{'aabb':[[1.5,0,0],[2.5,1,1]],'center':[2.,.5,.5]},
+    }}))
+    return solve,geometry
+
+
+def test_production_measurement_cost_bins_and_rejection_are_consumed(tmp_path,monkeypatch):
+    from rummagebench.authoring.tasks import difficulty
+    solve,geometry=geometry_fixture_for_measurement(tmp_path)
+    spec=make_spec()
+    calls=[];costs=difficulty.exact_search_cost;bins=difficulty.interval_label
+    def cost(*args,**kwargs):calls.append('cost');return costs(*args,**kwargs)
+    def binning(*args,**kwargs):calls.append('bin');return bins(*args,**kwargs)
+    monkeypatch.setattr(difficulty,'exact_search_cost',cost);monkeypatch.setattr(difficulty,'interval_label',binning)
+    result=ig.measure_generated_geometry(spec,solve,geometry)
+    assert calls==['cost','bin','bin']
+    assert result['proxy_filter_passed'] and result['proxy_difficulty']=={'spatial':'low','operations':'low'}
+    assert result['costs']['expected_operations']==5 and result['evaluation_ready_episodes']==0
+    spec.requested_difficulty['spatial']='high'
+    failed=ig.measure_generated_geometry(spec,solve,geometry)
+    assert not failed['proxy_filter_passed'] and 'SPATIAL_PROXY_OUTSIDE_REQUEST' in failed['rejections']
+    state=json.loads(solve.read_text());state['objs']['extra']=deepcopy(state['objs']['b']);state['objs']['extra']['obj']='extra';solve.write_text(json.dumps(state))
+    data=json.loads(geometry.read_text());data['solve_state_sha256']=sha256_path(solve);geometry.write_text(json.dumps(data))
+    rejected=ig.measure_generated_geometry(make_spec(),solve,geometry)
+    assert 'CANDIDATE_COUNT_MISMATCH' in rejected['rejections'] and not rejected['proxy_filter_passed']
+
+
+def test_difficulty_requests_change_real_bridge_inputs_and_supported_candidate_counts(policy):
+    from rummagebench.authoring.tasks.household import profile_candidate_counts
+    repo,path=policy;low=sample_spec(path,repo,216,0,difficulty_profile='low_low')
+    high=sample_spec(path,repo,216,0,difficulty_profile='high_low')
+    more=sample_spec(path,repo,216,0,difficulty_profile='low_high')
+    assert ig.generation_request(low)['generation_constraints'] != ig.generation_request(high)['generation_constraints']
+    assert len(low.locations)==2 and len(more.locations) in (3,4)
+    assert low.target==high.target and low.target_location==high.target_location
+    assert len(low.locations)==ig.generation_request(low)['generation_constraints']['candidate_count']
+    cfg=yaml.safe_load(path.read_text());cfg['difficulty_intervals']['operations']['high']=[8,None]
+    with pytest.raises(ValueError,match='UNREACHABLE'):profile_candidate_counts(cfg,'low_high')
+    command=ig.generation_command(low,'/cpu/python',repo,repo/'geometry')
+    assert int(command['argv'][command['argv'].index('--seed')+1],16)==low.scene_seed
+
+
+def test_runner_success_receipt_uses_actual_geometry_and_export_input(tmp_path,monkeypatch):
+    import shutil
+    monkeypatch.setattr(ig,'runtime_audit',lambda p:{'unit_fixture_only':True})
+    monkeypatch.setattr(ig,'source_audit',lambda p:{'commit':UPSTREAM_COMMIT})
+    source,geometry=geometry_fixture_for_measurement(tmp_path)
+    def fake_upstream(argv,**kw):
+        out=Path(argv[argv.index('--output_folder')+1]);shutil.copy2(source,out/'solve_state.json')
+        shutil.copy2(geometry,out/'findingbench_geometry.json');(out/'scene.blend').write_bytes(b'BLENDERsynthetic_unit_test_only')
+        return SimpleNamespace(returncode=0)
+    monkeypatch.setattr(ig.subprocess,'run',fake_upstream)
+    result=ig.run_cpu_generation(make_spec(),tmp_path,sys.executable,tmp_path/'run')
+    assert result['status']=='geometry_generated' and result['proxy_accepted_geometry_scenes']==1
+    assert result['attempts'][0]['measurement']['costs']['expected_operations']==5
+    command=result['export']['argv'];folder=Path(command[command.index('--input_folder')+1])
+    assert folder==tmp_path/'run/attempt_0/geometry' and (folder/'scene.blend').is_file()
+    assert result['evaluation_ready_episodes']==0
+
+
+def attach_synthetic_probe_receipt(overlay,assembly,assets,tmp_path):
+    """Complete synthetic evidence ONLY to test binding; never physical counts."""
+    from rummagebench.authoring.tasks import infinigen_probe as ip
+    from rummagebench.authoring.tasks.probe import ProbeConfig
+    from rummagebench.authoring.level1.snapshot import atomic_write_json
+    overlay.robot_config['kinematics']['urdf_path']=overlay.urdf_path
+    robot=tmp_path/'unit_robot.yaml';robot.write_text(yaml.safe_dump({'robot':overlay.robot_config,'feasibility':overlay.feasibility}))
+    target_root=assets/'objects/bowl/test_model_only';(target_root/'misc').mkdir(parents=True)
+    (target_root/'misc/metadata.json').write_text('{"synthetic_unit_test_only":true}')
+    triangles=[[[0,0,0],[6,0,0],[6,6,0]],[[0,0,0],[6,6,0],[0,6,0]]]
+    request={'version':1,'status':'pending_simulation','gpu_executed':False,'assembly':str(assembly),
+             'robot_config':str(robot),'urdf':overlay.urdf_path,'target_root':str(target_root),
+             'fingerprint':ip.probe_fingerprint(assembly,robot,Path(overlay.urdf_path),target_root),
+             'required_slots':sorted(overlay.slots),'room_map':ip.raster_floor(triangles,[]).to_dict(),
+             'probe_config':ProbeConfig().to_dict(),'synthetic_unit_test_only':True}
+    request['request_sha256']=sha256_bytes(canonical_json(request))
+    request_path=tmp_path/'synthetic_request.json';atomic_write_json(request_path,request)
+    evidence={'version':1,'status':'probed','gpu_executed':True,'camera_sensor':'synthetic_head_camera_fixture',
+              'camera_valid':True,'request_path':str(request_path),'request_sha256':request['request_sha256'],
+              'fingerprint':request['fingerprint'],'slots':{sid:inter.evidence for sid,inter in overlay.slots.items()},
+              'synthetic_unit_test_only':True,'evaluation_ready_episodes':0}
+    evidence_path=tmp_path/'synthetic_evidence.json';atomic_write_json(evidence_path,evidence)
+    overlay.source=str(evidence_path);overlay.notes.append('probe_evidence_sha256:'+sha256_path(evidence_path))
+    return request,evidence
+
+
+def test_infinigen_floor_proposals_preserve_nonrectangular_room_and_clearance():
+    from rummagebench.authoring.tasks.infinigen_probe import raster_floor,GeometryRoomMap
+    triangles=[[[0,0,0],[4,0,0],[0,4,0]]]
+    room_map=raster_floor(triangles,[[[.8,.8,0],[1.2,1.2,1.]]])
+    points=room_map.free_points('kitchen_0',.2,.2)
+    assert points and all(x+y<=4 for x,y in points)
+    assert all(not (.8<=x<=1.2 and .8<=y<=1.2) for x,y in points)
+    assert room_map.free_points('other_room',.2,.2)==[]
+    assert GeometryRoomMap.from_dict(room_map.to_dict()).free_points('kitchen_0',.2,.2)==points
+    with pytest.raises(ValueError,match='TRIANGLES_REQUIRED'):raster_floor([],[])
+
+
+def test_infinigen_probe_cpu_preparation_never_grants_physical_status(usd_bundle,tmp_path):
+    from pxr import Usd,UsdGeom
+    from rummagebench.authoring.tasks.infinigen_probe import prepare_probe,load_probe_request
+    from rummagebench.sim.omnigibson.infinigen_adapter import prepare_assembly
+    scene,solve,assets,bindings=usd_bundle
+    stage=Usd.Stage.Open(str(scene));floor=UsdGeom.Mesh.Define(stage,'/World/kitchen/floor')
+    floor.CreatePointsAttr([(-4,-4,0),(4,-4,0),(4,4,0),(-4,4,0)])
+    floor.CreateFaceVertexCountsAttr([4]);floor.CreateFaceVertexIndicesAttr([0,1,2,3]);stage.GetRootLayer().Save()
+    out=tmp_path/'assembly';prepare_assembly(make_spec(),scene,solve,bindings,assets,out)
+    repo=tmp_path/'unit_repo';(repo/'configs/tasks/robots').mkdir(parents=True)
+    robot=yaml.safe_load((REPO/'configs/tasks/robots/r1pro.yaml').read_text());urdf=repo/'unit_robot.urdf'
+    urdf.write_text('<robot name="synthetic_unit_only"><link name="base_link"/><link name="right_eef_link"/></robot>');robot['robot']['kinematics']['urdf_path']=str(urdf)
+    (repo/'configs/tasks/robots/r1pro.yaml').write_text(yaml.safe_dump(robot))
+    target_root=assets/'objects/bowl/test_model_only';(target_root/'misc').mkdir(parents=True)
+    (target_root/'misc/metadata.json').write_text('{"synthetic_unit_test_only":true}')
+    request=prepare_probe(make_spec(),out/'assembly.json',repo,assets,tmp_path/'pending_probe')
+    assert request['status']=='pending_simulation' and request['gpu_executed'] is False
+    assert len(request['required_slots'])==2 and request['start_proposals']
+    assert request['interaction_proposals'] and request['evaluation_ready_episodes']==0
+    assert not (tmp_path/'pending_probe/overlay.yaml').exists()
+    assert load_probe_request(tmp_path/'pending_probe/request.json')==request
+    urdf.write_text('<robot name="modified_synthetic_unit_only"><link name="base_link"/><link name="right_eef_link"/></robot>')
+    with pytest.raises(ValueError,match='INPUT_OR_IMPLEMENTATION_CHANGED'):
+        load_probe_request(tmp_path/'pending_probe/request.json')
+
+
+def test_complete_probe_evidence_rejects_one_failed_or_missing_position():
+    from rummagebench.authoring.tasks.infinigen_probe import validate_probe_evidence
+    from rummagebench.authoring.tasks.embodiment_slots import SlotEmbodimentOverlay,SlotInteraction,StartPose,Pose2
+    pose=Pose2((0,0,0),(0,0,0,1));measurement={'closed_visibility':{'visible_px':0},
+         'closed_graspable':False,'open_visibility':{'ratio':.8}}
+    overlay=SlotEmbodimentOverlay('unit','r1pro','u','h','probed','synthetic_unit_only',{}, {},
+          {'kitchen_0':[StartPose('start',pose)]},
+          {s:SlotInteraction(pose,True,True,True,evidence=deepcopy(measurement)) for s in ['a','b']})
+    request={'request_sha256':'unit','fingerprint':{},'required_slots':['a','b'],
+             'probe_config':{'reveal_visibility_min':.6}}
+    evidence={'status':'probed','gpu_executed':True,'request_sha256':'unit','fingerprint':{},
+              'camera_sensor':'synthetic_unit_camera','camera_valid':True,
+              'slots':{s:overlay.slots[s].evidence for s in ['a','b']}}
+    validate_probe_evidence(evidence,request,overlay)
+    overlay.slots['b'].grasp_region_feasible=False
+    with pytest.raises(ValueError,match='WHOLE_FAMILY_PROBE_REJECTED:b'):
+        validate_probe_evidence(evidence,request,overlay)
+    del evidence['slots']['b']
+    with pytest.raises(ValueError,match='COMPLETE_REAL_PROBE'):validate_probe_evidence(evidence,request,overlay)
+
+
+def test_source_blueprint_group_shared_across_difficulty_and_candidate_variants(policy):
+    repo,path=policy
+    variants=[sample_spec(path,repo,216,0,split_seed=97,difficulty_profile=p)
+              for p in ('low_low','high_low','low_high','high_high')]
+    assert len({s.base_layout_id for s in variants})>1
+    assert len({s.split_assignment.source_layout_group for s in variants})==1
+    assert len({s.split_assignment.label for s in variants})==1
+    assert len(set(grouped_split(variants,split_seed=97).values()))==1
+
+
+def test_final_upstream_violations_never_qualify_generated_geometry(tmp_path):
+    solve,geometry=geometry_fixture_for_measurement(tmp_path)
+    data=json.loads(geometry.read_text());data['upstream_constraints']={'passed':False,'violations':{'lighting':1}}
+    geometry.write_text(json.dumps(data))
+    result=ig.measure_generated_geometry(make_spec(),solve,geometry)
+    assert result['candidate_mapping']=={'storage_0':'a','storage_1':'b'}
+    assert result['costs']['expected_operations']==5
+    assert not result['proxy_filter_passed'] and 'UPSTREAM_FINAL_CONSTRAINTS_NOT_SATISFIED' in result['rejections']
+
+
+def test_fast_cpu_budget_preserves_final_acceptance_requirements():
+    spec=make_spec();normal=ig.generation_command(spec,'/cpu/python',REPO,REPO/'build/unit')
+    fast=ig.generation_command(spec,'/cpu/python',REPO,REPO/'build/unit','fast')
+    assert normal['request']==fast['request']
+    assert 'fast_solve.gin' in fast['argv']
+    assert 'SimulatedAnnealingSolver.max_invalid_candidates=1' in fast['argv']
+    assert 'configure_cycles_devices.use_gpu=False' in fast['argv']
+
+
+def test_real_solver_numeric_factory_and_room_names_use_usd_identifier_rules(tmp_path):
+    from pxr import Tf
+    names=['772315_KitchenCabinetFactory','kitchen_0/0.room','KitchenCabinetFactory(45)','ordinary']
+    path=tmp_path/'solve.json';path.write_text(json.dumps({'objs':{str(i):{'obj':name,'tags':[]} for i,name in enumerate(names)}}))
+    result=ig.read_solve_state(path)
+    assert [result['objects'][str(i)]['usd_name'] for i in range(len(names))]==[Tf.MakeValidIdentifier(name) for name in names]
+
+
+def test_generation_failure_classifies_final_dependency_not_intermediate_warnings():
+    text="Solver unsatisfied, continuing; abort_unsatisfied=False\nTraceback (most recent call last):\nValueError: addon='extra_mesh_objects' not found and online install is disabled"
+    assert ig.generation_failure_reason(text)=='UPSTREAM_DEPENDENCY_MISSING'
+    text="ImportError: optional addon warning\nTraceback (most recent call last):\nValueError: Solver has failed to satisfy constraints"
+    assert ig.generation_failure_reason(text)=='CONSTRAINT_UNSATISFIABLE'
+
+
+def test_pinned_solver_serialized_enum_tags_are_normalized_without_importing_blender(tmp_path):
+    raw={'objs':{'kitchen_0/0':{'obj':'kitchen_0/0','tags':['Semantics(kitchen)','Semantics(room)']},
+                 '229822_KitchenCabinetFactory':{'obj':'KitchenCabinetFactory(169139).spawn_asset(2237975)',
+                  'generator':'KitchenCabinetFactory(169139)','tags':['Semantics(storage)','Semantics(furniture)',
+                  '-Semantics(room)','Semantics(object)'],'relations':[{'target_name':'kitchen_0/0',
+                  'relation':{'relation_type':'StableAgainst'}}]}}}
+    path=tmp_path/'unit_serialized_tags.json';path.write_text(json.dumps(raw))
+    metadata=ig.read_solve_state(path)
+    assert metadata['kitchens']==['kitchen_0/0']
+    cabinet=metadata['objects']['229822_KitchenCabinetFactory']
+    assert set(cabinet['tags'])=={'Semantics.Storage','Semantics.Furniture','-Semantics.Room','Semantics.Object'}
+    assert cabinet['raw_tags']==sorted(raw['objs']['229822_KitchenCabinetFactory']['tags'])
+    assert cabinet['relations'][0]['parent']=='kitchen_0/0'
+    assert ig.normalize_solver_tag('Semantics(ground)')=='Semantics.GroundFloor'
+    assert ig.normalize_solver_tag('Semantics(food-pantry)')=='Semantics.FoodPantryItem'
+    assert ig.normalize_solver_tag('Subpart(support)')=='Subpart.SupportSurface'
+    assert ig.normalize_solver_tag('-Semantics(FloorMat)')=='-Semantics.FloorMat'
+
+
+def test_geometry_reinspection_preserves_original_failed_validation_receipt(tmp_path,monkeypatch):
+    import shutil
+    from rummagebench.authoring.level1.snapshot import atomic_write_json
+    monkeypatch.setattr(ig,'runtime_audit',lambda p:{'unit_fixture_only':True})
+    monkeypatch.setattr(ig,'source_audit',lambda p:{'commit':UPSTREAM_COMMIT})
+    source,geometry=geometry_fixture_for_measurement(tmp_path)
+    def synthetic_upstream(argv,**kw):
+        out=Path(argv[argv.index('--output_folder')+1]);shutil.copy2(source,out/'solve_state.json')
+        shutil.copy2(geometry,out/'findingbench_geometry.json');(out/'scene.blend').write_bytes(b'BLENDERsynthetic_unit_test_only')
+        return SimpleNamespace(returncode=0)
+    monkeypatch.setattr(ig.subprocess,'run',synthetic_upstream)
+    root=tmp_path/'unit_run';receipt=ig.run_cpu_generation(make_spec(),tmp_path,sys.executable,root)
+    receipt['status']='generation_failed';receipt['attempts'][0]['reason']='GENERATION_OUTPUT_INVALID'
+    atomic_write_json(root/'generation.json',receipt);original=(root/'generation.json').read_bytes()
+    checked=ig.inspect_geometry_receipt(make_spec(),root/'generation.json')
+    assert checked['status']=='geometry_generated' and checked['counts']['evaluation_ready_episodes']==0
+    assert (root/'generation.json').read_bytes()==original
+    (root/'attempt_0/geometry/scene.blend').write_bytes(b'BLENDERmodified_synthetic_unit_test')
+    with pytest.raises(ValueError,match='ARTIFACT_CHANGED'):ig.inspect_geometry_receipt(make_spec(),root/'generation.json')

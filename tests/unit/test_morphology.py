@@ -14,6 +14,12 @@ from pathlib import Path
 import pytest
 
 pin = pytest.importorskip("pinocchio")
+pytestmark = pytest.mark.kinematics
+from rummagebench.feasibility.fcl_compat import collision_backend
+try:
+    collision_backend()
+except ImportError as exc:
+    pytest.skip(str(exc), allow_module_level=True)
 
 from rummagebench.core.scenario import load_scenario
 from rummagebench.core.session import BenchmarkSession

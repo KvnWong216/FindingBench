@@ -22,3 +22,32 @@ difficulty_intervals:
   spatial: {low: [0.0, 8.0], high: [8.0, null]}
   operations: {low: [0.0, 6.0], high: [6.0, null]}
   calibration_status: pending
+# Every profile is consumed by the real constraint bridge and CPU postfilter.
+# Uniform single reveal: OPEN+OBSERVE=2, GRASP+REPORT=2 => E[ops]=n+3.
+search_model:
+  inspection_operations: 2.0
+  finish_operations: 2.0
+  movement_proxy_m_per_step: 0.5
+  scope: furniture_centers_euclidean_move_proxy_no_turn_or_path_certification
+request_profiles:
+  low_low:
+    spatial: low
+    operations: low
+    candidate_counts: [2]
+    storage_min_distance_m: 0.25
+  high_low:
+    spatial: high
+    operations: low
+    candidate_counts: [2]
+    storage_min_distance_m: 1.2
+  low_high:
+    spatial: low
+    operations: high
+    candidate_counts: [3, 4]
+    storage_min_distance_m: 0.25
+  high_high:
+    spatial: high
+    operations: high
+    candidate_counts: [3, 4]
+    storage_min_distance_m: 1.2
+sampling_profiles: [low_low, high_low, low_high, high_high]

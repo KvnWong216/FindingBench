@@ -15,7 +15,15 @@ from rummagebench.sim.omnigibson.usd_collision import (
     _BOX_TRIS, _bvh, bake_points, box_corners, decompose_world_transform,
     mesh_triangles, primitive_geometry)
 
-coal = collision_backend()
+try:
+    coal = collision_backend()
+except ImportError:
+    coal = None
+
+
+def require_collision_backend(fn):
+    return pytest.mark.kinematics(pytest.mark.skipif(
+        coal is None, reason="optional coal/hpp-fcl unavailable; install rummagebench[kinematics]")(fn))
 
 
 def usd_matrix(scale, rot_xyzw, t, parent_scale=(1, 1, 1), parent_rot=(0, 0, 0, 1)):
@@ -49,6 +57,7 @@ def test_decomposition_reproduces_the_usd_transform():
         assert np.allclose(bake_points(pts, P) @ R.T + t, ref, atol=1e-9)
 
 
+@require_collision_backend
 def test_cabinet_panel_collider_keeps_its_real_size():
     """Unit cube under scale [0.017, 0.46, 0.04] (measured on a BEHAVIOR
     cabinet) must become a 1.7 cm x 46 cm x 4 cm panel, not a 1 m cube."""
@@ -73,6 +82,7 @@ def _collides(g1, T1, g2, T2) -> bool:
     return res.isCollision()
 
 
+@require_collision_backend
 def test_scaled_mesh_collides_exactly_where_the_usd_shape_is():
     """A unit-cube MESH collider under a thin-panel scale: a probe sphere
     just outside the panel misses it, one touching the panel hits it."""
@@ -98,6 +108,7 @@ def test_scaled_mesh_collides_exactly_where_the_usd_shape_is():
     assert not _collides(geom, T, sphere, at(1.5, 0.0, 0.5))
 
 
+@require_collision_backend
 def test_convex_hull_colliders_are_solid():
     """PhysX convexHull colliders are solid: a body fully inside must
     collide (a BVH surface mesh would miss it)."""
@@ -114,6 +125,7 @@ def test_convex_hull_colliders_are_solid():
     assert not _collides(hollow, np.eye(4), sphere, inside)
 
 
+@require_collision_backend
 def test_primitives_under_non_uniform_scale():
     P = np.diag([2.0, 2.0, 0.5])
     g, a, _ = primitive_geometry("Cylinder", {"radius": 0.1, "height": 1.0, "axis": "Z"},
@@ -133,6 +145,7 @@ def test_polygon_triangulation():
     assert mesh_triangles([4, 3], [0, 1, 2, 3, 4, 5, 6]) == [(0, 1, 2), (0, 2, 3), (4, 5, 6)]
 
 
+@require_collision_backend
 def test_obb_in_parent_is_exact_for_a_rotated_scaled_box():
     from rummagebench.sim.omnigibson.usd_collision import obb_in_parent
 
@@ -150,6 +163,7 @@ def test_obb_in_parent_is_exact_for_a_rotated_scaled_box():
     assert np.allclose(np.sort(corners, 0), np.sort(ref, 0), atol=1e-9)
 
 
+@require_collision_backend
 def test_physics_pose_replaces_stale_usd_link_pose():
     """A collider follows its link's PHYSICS pose (drawer slid out, object
     fallen), keeping the static collider-to-link offset and the stretch."""

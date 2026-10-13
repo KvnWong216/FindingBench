@@ -171,13 +171,14 @@ def load_household_spec(path: Path, policy: Path):
 
 def plan_infinigen(args) -> dict:
     from rummagebench.authoring.tasks.household import sample_spec, family_members, grouped_split, validate_spec_assets
-    from rummagebench.authoring.tasks.infinigen import generation_command, export_command
+    from rummagebench.authoring.tasks.infinigen import generation_command
     if not 1 <= args.count <= 8:
         raise ValueError("pilot count must be 1..8; first verify one actual scene")
     args.out.mkdir(parents=True, exist_ok=True)
     all_specs, requests = [], []
     for index in range(args.count):
-        base = sample_spec(args.policy, REPO, args.seed, index)
+        base = sample_spec(args.policy, REPO, args.seed, index, split_seed=args.split_seed,
+                           test_fraction=args.test_fraction, difficulty_profile=args.difficulty_profile)
         validate_spec_assets(base, REPO, args.policy)
         members = family_members(base)
         for spec in members:
@@ -193,13 +194,14 @@ def plan_infinigen(args) -> dict:
                          "base_layout_id": base.base_layout_id,
                          "generation": generation_command(base, args.python, args.upstream_root,
                                                           args.out / base.base_layout_id / "geometry"),
-                         "export": export_command(args.python, args.upstream_root,
-                                                  args.out / base.base_layout_id / "geometry",
-                                                  args.out / base.base_layout_id / "export")})
+                         "export": {"execution_status": "pending_successful_generation_receipt",
+                                    "reason": "input folder must come from the successful attempt"}})
     report = {"version": 1, "stage": "plan_infinigen", "status": "candidate",
               "seed": args.seed, "counts": {"task_specs": len(all_specs), "families": args.count,
               "geometry_scenes": 0, "exported_scene_files": 0, "evaluation_ready_episodes": 0},
-              "split": grouped_split(all_specs, split_seed=args.split_seed),
+              "split": grouped_split(all_specs, split_seed=args.split_seed, test_fraction=args.test_fraction),
+              "split_seed": args.split_seed, "test_fraction": args.test_fraction,
+              "split_strategy_version": "base-layout-sha256-v1",
               "split_scope": "layout_grouped_dev_test; not a claim of asset or family generalization",
               "requests": requests, "failure_reasons": {}, "gpu_started": False,
               "appearance_status": "requested_pending_application_and_images",
@@ -214,7 +216,7 @@ def cpu_generate(args) -> dict:
     from rummagebench.authoring.tasks.infinigen import run_cpu_generation
     spec = load_household_spec(args.spec, args.policy)
     return run_cpu_generation(spec, args.upstream_root, args.python, args.out,
-                              timeout_s=args.timeout, retries=args.retries)
+                              timeout_s=args.timeout, retries=args.retries, solver_profile=args.solver_profile)
 
 
 def prepare_infinigen(args) -> dict:
@@ -328,6 +330,8 @@ def gpu_freeze_infinigen(args) -> dict:
     from rummagebench.sim.omnigibson.backend import OmniGibsonBackend
     from rummagebench.sim.omnigibson.infinigen_adapter import freeze_family_background
     family = json.loads((args.family_root / "family.json").read_text())
+    from rummagebench.authoring.tasks.household_binding import validate_family_index
+    validate_family_index(family)
     if family.get("status") != "pending_simulation":
         raise ValueError("FAMILY_NOT_PENDING_ASSEMBLY_CHECK")
     scenarios = [load_scenario(args.family_root / "candidates" / f"{tid}.yaml") for tid in family["task_ids"]]
@@ -363,7 +367,9 @@ def main(argv=None) -> int:
     plan.add_argument("--policy", type=Path, default=default_policy)
     plan.add_argument("--seed", type=int, default=0)
     plan.add_argument("--split-seed", type=int, default=0)
+    plan.add_argument("--test-fraction", type=float, default=.2)
     plan.add_argument("--count", type=int, default=1)
+    plan.add_argument("--difficulty-profile", choices=["low_low","high_low","low_high","high_high"])
     plan.add_argument("--out", type=Path, required=True)
     plan.add_argument("--upstream-root", type=Path, required=True)
     plan.add_argument("--python", required=True)
@@ -375,10 +381,17 @@ def main(argv=None) -> int:
     run.add_argument("--out", type=Path, required=True)
     run.add_argument("--timeout", type=float, default=300.)
     run.add_argument("--retries", type=int, default=0)
+    run.add_argument("--solver-profile", choices=["default","fast"], default="default",
+                     help="pinned upstream solver preset; identical strict final constraint and cost gates")
     inspect = sub.add_parser("inspect-infinigen", help="CPU standalone OpenUSD: real export inspection")
     inspect.add_argument("--scene", type=Path, required=True)
     inspect.add_argument("--solve-state", type=Path, required=True)
     inspect.add_argument("--report", type=Path)
+    geometry_check = sub.add_parser("inspect-infinigen-geometry", help="CPU: verify completed real geometry against current parser and cost gates")
+    geometry_check.add_argument("--spec",type=Path,required=True)
+    geometry_check.add_argument("--policy",type=Path,default=default_policy)
+    geometry_check.add_argument("--receipt",type=Path,required=True)
+    geometry_check.add_argument("--report",type=Path,required=True)
     prepare = sub.add_parser("prepare-infinigen", help="CPU: real asset replacements and retained background")
     prepare.add_argument("--spec", type=Path, required=True)
     prepare.add_argument("--policy", type=Path, default=default_policy)
@@ -403,7 +416,31 @@ def main(argv=None) -> int:
     freeze.add_argument("--family-root", type=Path, required=True)
     freeze.add_argument("--assembly", type=Path, required=True)
     freeze.add_argument("--out", type=Path, required=True)
+    probe = sub.add_parser("prepare-infinigen-probe", help="CPU: geometry pose proposals and hash-bound pending probe request")
+    probe.add_argument("--spec", type=Path, required=True)
+    probe.add_argument("--policy", type=Path, default=default_policy)
+    probe.add_argument("--assembly", type=Path, required=True)
+    probe.add_argument("--assets-root", type=Path, required=True)
+    probe.add_argument("--out", type=Path, required=True)
+    gpu_probe = sub.add_parser("gpu-probe-infinigen", help="GPU ONLY: existing SceneProber over every required Infinigen candidate")
+    gpu_probe.add_argument("--request", type=Path, required=True)
+    gpu_probe.add_argument("--out", type=Path, required=True)
     args = ap.parse_args(argv)
+    if args.stage == "inspect-infinigen-geometry":
+        from rummagebench.authoring.tasks.infinigen import inspect_geometry_receipt
+        report = inspect_geometry_receipt(load_household_spec(args.spec,args.policy),args.receipt)
+        write_report(args.report,report)
+        return 0 if report["status"] == "geometry_generated" else 2
+    if args.stage == "prepare-infinigen-probe":
+        from rummagebench.authoring.tasks.infinigen_probe import prepare_probe
+        request = prepare_probe(load_household_spec(args.spec,args.policy),args.assembly,REPO,args.assets_root,args.out)
+        write_report(None,{"status":request["status"],"request":str(args.out/"request.json"),
+                           "evaluation_ready_episodes":0})
+        return 0
+    if args.stage == "gpu-probe-infinigen":
+        from rummagebench.authoring.tasks.infinigen_probe import run_gpu_probe
+        write_report(None,run_gpu_probe(args.request,args.out))
+        return 0
     if args.stage == "gpu-freeze-infinigen":
         write_report(None, gpu_freeze_infinigen(args))
         return 0

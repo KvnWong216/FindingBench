@@ -7,6 +7,8 @@ explored finite abstract graph may claim unsolvability.
 
 from pathlib import Path
 
+import pytest
+
 from conftest import FakeBackend
 from rummagebench.core.scenario import load_scenario
 from rummagebench.core.session import BenchmarkSession
@@ -28,6 +30,8 @@ def _model_and_initial(fake_backend):
     return scenario, model, initial_oracle_state(scenario)
 
 
+@pytest.mark.kinematics
+@pytest.mark.usefixtures("require_collision_backend")
 def test_depth_truncation_reports_search_limit(fake_backend):
     """mini.yaml needs 3 actions; a max_depth of 2 truncates the frontier —
     the run must say the search hit its limit, not that the task is
@@ -39,6 +43,8 @@ def test_depth_truncation_reports_search_limit(fake_backend):
     assert result.depth is None
 
 
+@pytest.mark.kinematics
+@pytest.mark.usefixtures("require_collision_backend")
 def test_sufficient_depth_finds_the_plan(fake_backend):
     scenario, model, initial = _model_and_initial(fake_backend)
     result = solve_full_information(scenario, initial, model, max_depth=24)
@@ -47,6 +53,8 @@ def test_sufficient_depth_finds_the_plan(fake_backend):
     assert result.reason != "SEARCH_LIMIT_REACHED"
 
 
+@pytest.mark.kinematics
+@pytest.mark.usefixtures("require_collision_backend")
 def test_exhausted_graph_is_the_unsolvability_proof(fake_backend):
     """With a depth bound well above any plan, exhaustion of the finite
     abstract graph is the actual no-solution evidence. mini.yaml is solvable,

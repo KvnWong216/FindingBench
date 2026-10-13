@@ -12,6 +12,7 @@ dependencies = [
     "pydantic>=2.5",
     "pyyaml>=6.0",
     "numpy<2",
+    "scipy>=1.10,<2",
     "pillow>=10.0",
 ]
 
@@ -31,5 +32,7 @@ where = ["src"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 markers = [
+    "kinematics: optional Pinocchio/coal collision tests",
+    "local_assets: static checks requiring explicitly configured local assets",
     "sim: integration tests that require the OmniGibson simulator and the BEHAVIOR dataset",
 ]

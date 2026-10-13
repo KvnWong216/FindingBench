@@ -90,8 +90,14 @@ def test_static_robot_inventory_uses_yaml_and_usda_without_og_import(tmp_path):
     assert inventory['r1pro']['camera_verification'] == 'pending'
 
 
-def test_cpu_pipeline_reports_missing_sources_and_zero_generated_families():
-    result = subprocess.run([sys.executable, str(REPO / 'scripts/tasks/household_pipeline.py'), 'cpu'],
+def test_cpu_pipeline_reports_missing_sources_and_zero_generated_families(tmp_path):
+    (tmp_path/'test_robots/models').mkdir(parents=True)
+    host = tmp_path / 'host.yaml'
+    host.write_text(yaml.safe_dump({'behavior_assets_root':str(tmp_path/'test_assets'),
+                                   'bddl_activity_root':str(tmp_path/'test_bddl'),
+                                   'build_root':str(tmp_path/'test_build')}))
+    result = subprocess.run([sys.executable, str(REPO / 'scripts/tasks/household_pipeline.py'), 'cpu',
+                             '--host-config',str(host),'--robot-assets',str(tmp_path/'test_robots')],
                             cwd=REPO, capture_output=True, text=True)
     # Missing historical cloud sources remain visible. The explicitly
     # requested Infinigen route can proceed, with physical acceptance pending.
