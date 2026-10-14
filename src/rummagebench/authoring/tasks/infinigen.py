@@ -453,12 +453,44 @@ def inspect_export(scene_path: Path, solve_path: Path) -> dict:
             missing.append(key)
     if not meshes:
         raise ValueError("USD_MESH_GEOMETRY_MISSING")
+    components = {}
+    # Pinned Blender room parts are independent objects, so the USD exporter
+    # can emit sibling prims instead of descendants of the solver room mesh.
+    # Only exact known component names with actual exported mesh geometry
+    # count; arbitrary prefixes never infer source ownership.
+    for key,obj in metadata["objects"].items():
+        if not {"Semantics.Room","Semantics.Kitchen"} & set(obj["tags"]) or obj["usd_name"] is None:
+            continue
+        parts = {}
+        for component in ("floor","wall","ceiling","exterior","meshed"):
+            found = [p for p in names.get(obj["usd_name"]+"_"+component,[])
+                     if any(m==p or m.startswith(p+"/") for m in meshes)]
+            if len(found)>1:
+                ambiguous.append(key+"."+component)
+            elif found:
+                parts[component] = found[0]
+        components[key]=parts
     dependencies = usd_dependency_ledger(scene_path)
     return {"status": "export_inspected", "scene_sha256": sha256_path(scene_path),
             "solve_state_sha256": metadata["source_sha256"], "mesh_count": len(meshes),
             "joint_paths": joints, "dependency_ledger": dependencies, "source_to_usd": mapping, "unmapped_source_objects": missing,
             "ambiguous_source_objects": ambiguous, "all_mesh_paths": meshes,
+            "source_component_paths":components,
             "evaluation_ready_episodes": 0, "physical_interactivity_validated": False}
+
+
+def source_mesh_owner(inspection: dict, mesh_path: str) -> tuple[str | None,str | None]:
+    matched = [(len(path),key,None) for key,path in inspection["source_to_usd"].items()
+               if mesh_path==path or mesh_path.startswith(path+"/")]
+    for key,parts in inspection.get("source_component_paths",{}).items():
+        matched += [(len(path),key,component) for component,path in parts.items()
+                    if mesh_path==path or mesh_path.startswith(path+"/")]
+    if not matched:return None,None
+    matched.sort(key=lambda v:(-v[0],v[1],v[2] or ''))
+    longest = [m for m in matched if m[0]==matched[0][0]]
+    if len({m[1] for m in longest})!=1:
+        raise ValueError("USD_MESH_SOURCE_COMPONENT_OWNERSHIP_AMBIGUOUS")
+    return matched[0][1],matched[0][2]
 
 
 def usd_dependency_ledger(scene_path: Path) -> dict:

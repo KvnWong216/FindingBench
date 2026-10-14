@@ -449,7 +449,15 @@ def main(argv=None) -> int:
     inventory = sub.add_parser("infinigen-status", help="CPU: count actual protected pipeline artifacts and failure reasons")
     inventory.add_argument("--root", type=Path, required=True)
     inventory.add_argument("--report", type=Path)
+    locations = sub.add_parser("inspect-infinigen-search-locations", help="CPU: enumerate complete source-backed search location audit; unknown remains pending")
+    locations.add_argument("--assembly", type=Path, required=True)
+    locations.add_argument("--report", type=Path, required=True)
     args = ap.parse_args(argv)
+    if args.stage == "inspect-infinigen-search-locations":
+        from rummagebench.authoring.tasks.household_locations import inspect_search_locations
+        report = inspect_search_locations(args.assembly)
+        write_report(args.report,report)
+        return 2 if report["status"]=="failed" else 0
     if args.stage == "infinigen-status":
         from rummagebench.authoring.tasks.household_dataset import pipeline_inventory
         write_report(args.report,pipeline_inventory(args.root))

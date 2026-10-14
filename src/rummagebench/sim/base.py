@@ -83,6 +83,9 @@ class WorldCollisionObject:
     category: str = ""
     approximation: str = "aabb_primitive"
     aabb: tuple[list[float], list[float]] | None = None
+    # Evaluator provenance for complete collider export checks.
+    source_prim: str | None = None
+    physics_approximation: str | None = None
 
 
 @dataclass

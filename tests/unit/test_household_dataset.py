@@ -116,10 +116,14 @@ def trace(skills):
 def write_unit_member_results(validation_request):
     """Exercise validation logic with explicit test-only simulated measurements."""
     from rummagebench.authoring.tasks.search_certificate import SearchStructureCertificate, SimulatorEvidence
-    from rummagebench.sim.omnigibson.infinigen_adapter import scene_slots_from_assembly
+    from rummagebench.sim.omnigibson.infinigen_adapter import scene_slots_from_assembly,load_assembly_manifest
     from rummagebench.authoring.tasks.embodiment_slots import SlotEmbodimentOverlay
     root, family, frozen, output, _ = validation_request
     request = hd.load_validation_request(output / "request.json")
+    manifest=load_assembly_manifest(Path(request["inputs"]["assembly"]))
+    from rummagebench.authoring.tasks.household_physics import continuous_clearance, placement_stability,SWEEP_VERSION
+    from rummagebench.authoring.tasks.household_locations import search_location_inventory
+    from rummagebench.authoring.tasks.infinigen import read_solve_state
     _, specs, plans = hd.load_compiled_family(root)
     slots = scene_slots_from_assembly(Path(request["inputs"]["assembly"]))
     overlay = SlotEmbodimentOverlay.load(root / "overlay.json")
@@ -142,6 +146,18 @@ def write_unit_member_results(validation_request):
                   "reference_search": {"policy": POLICY_VERSION, "gpu_executed": True, "candidate_order": order,
                     "visited_slots": order[:index + 1], "trace": actions, "status": "SUCCESS", "closed_observe_bypass": False},
                   "artifacts": {}}
+        # Simulated physical proofs remain explicitly inside this CPU fixture.
+        record["door_sweep"]={"version":SWEEP_VERSION,"gpu_executed":True,"status":"passed","restored":True,
+            "containers":{b["name"]:continuous_clearance(lambda t: .1,.05) for b in manifest["candidate_bindings"]}}
+        poses=[[0.,0.,1.,0.,0.,0.,1.]]*7
+        record["temporary_place"]={"version":1,"gpu_executed":True,"status":"passed","restored":True,
+            "trace":trace(["GRASP","PLACE"]),"receptacle":manifest["objects"][0]["name"],
+            "relation":{"kind":"top_surface","satisfied":True,"fault":None},"stability_steps":30,
+            "physical_on_top_samples":[True]*6,"stability_poses":poses,"final_linear_velocity":[0.,0.,0.],
+            "final_angular_velocity":[0.,0.,0.],"stability":placement_stability(poses,[0.,0.,0.],[0.,0.,0.])}
+        loaded={o["name"]:{"openable_joints":["unit_fake_joint"],"fillable_volumes":[],"error":None} for o in manifest["objects"]}
+        record["search_locations"]=search_location_inventory(manifest,read_solve_state(Path(manifest["source"]["solve_state"])),loaded)
+        record["search_locations"]["loaded_entities"]=loaded
         write_json(output / "results" / episode / "result.json", signed(record, "receipt_sha256"))
     return output / "request.json", output / "results"
 
@@ -243,6 +259,19 @@ def test_publish_local_dataset_revalidates_and_protects_public_boundary(validati
         assert load_scenario(output / row["scenario"]).scene.frozen_member_manifest is not None
     (output / "public_tasks.json").write_text('{}')
     with pytest.raises(ValueError): hd.load_dataset(output)
+
+
+@pytest.mark.parametrize("missing",["door_sweep","temporary_place","search_locations"])
+def test_passed_summary_flags_cannot_release_missing_physical_evidence(validation_request,missing):
+    request,results=write_unit_member_results(validation_request)
+    episode=validation_request[1]["task_ids"][0]
+    path=results/episode/"result.json"
+    record=json.loads(path.read_text())
+    del record[missing]
+    write_json(path,signed(record,"receipt_sha256"))
+    report=hd.collect_family_validation(request,results)
+    assert report["status"]=="rejected" and report["counts"]["evaluation_ready_episodes"]==0
+    assert any(r.startswith("PHYSICAL_EVIDENCE_INVALID:") for r in report["rejections"])
 
 
 def test_reference_counts_actual_move_turn_observe_and_report_including_failures():

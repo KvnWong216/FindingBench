@@ -228,6 +228,9 @@ def test_module_imports_do_not_load_simulator_or_blender():
 import rummagebench.authoring.tasks.infinigen
 import rummagebench.authoring.tasks.household_binding
 import rummagebench.authoring.tasks.infinigen_probe
+import rummagebench.authoring.tasks.household_physics
+import rummagebench.authoring.tasks.household_locations
+import rummagebench.authoring.tasks.household_appearance
 import rummagebench.sim.omnigibson.infinigen_adapter
 assert not any(k.split('.')[0] in {'omnigibson','isaacsim','omni','bpy','pxr'} for k in sys.modules)
 """

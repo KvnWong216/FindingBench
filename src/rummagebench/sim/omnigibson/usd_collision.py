@@ -80,6 +80,9 @@ def collect_entity_collision(obj, geom_cache: dict[str, Any]) -> list[WorldColli
         if not colliders:
             continue
         for collider in colliders:
+            enabled = collider.GetAttribute("physics:collisionEnabled")
+            if enabled and enabled.Get() is False:
+                continue
             path = str(collider.GetPath())
             M = usd_matrix(collider) @ usd_to_physics
             stretch, rot, pos = decompose_world_transform(M)
@@ -108,6 +111,9 @@ def collect_entity_collision(obj, geom_cache: dict[str, Any]) -> list[WorldColli
                     category=category,
                     approximation=approximation or "aabb_primitive",
                     aabb=aabb,
+                    source_prim=path,
+                    physics_approximation=(str(UsdPhysics.MeshCollisionAPI(collider).GetApproximationAttr().Get() or "none")
+                                           if collider.HasAPI(UsdPhysics.MeshCollisionAPI) else "none"),
                 )
             )
     return bodies

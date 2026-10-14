@@ -20,6 +20,8 @@ def certify_member(request_path: Path, episode: str, output: Path) -> dict:
     from rummagebench.authoring.tasks.search_certificate import SearchStructureCertificate, navigation_lower_bound, minimum_required_interactions
     from rummagebench.authoring.tasks.household_search import run_reference_search
     from rummagebench.authoring.tasks.household_state import check_background, load_frozen_member
+    from rummagebench.authoring.tasks.household_physics import verify_door_sweeps, verify_temporary_place
+    from rummagebench.authoring.tasks.household_locations import inspect_loaded_search_locations
     from rummagebench.authoring.tasks.tiers import load_tier
     from rummagebench.authoring.tasks import gates
     from rummagebench.sim.omnigibson.infinigen_adapter import scene_slots_from_assembly, load_assembly_manifest, runtime_articulation_checks
@@ -66,6 +68,7 @@ def certify_member(request_path: Path, episode: str, output: Path) -> dict:
                       witness_trace=result.witness_trace, oracle_certificate=result.oracle_certificate,
                       details=result.details)
         checks = {name: "pending" for name in request["inputs"]["required_checks"]}
+        record["checks"] = checks
         if result.evidence.builder_ok is True:
             backend = certifier.backend
             backend.reset()
@@ -81,6 +84,19 @@ def certify_member(request_path: Path, episode: str, output: Path) -> dict:
             record["articulation_failures"] = articulation_failures
             record["appearance"] = getattr(backend._env, "_findingbench_appearance_evidence", {})
             backend.render_snapshot(str(output / "initial_rgb.png"))
+            from rummagebench.authoring.tasks.household_appearance import image_quality
+            from PIL import Image
+            import numpy as np
+            with Image.open(output / "initial_rgb.png") as saved_image:
+                record["image_quality"]=image_quality(np.asarray(saved_image),[scenario.robot.image_height,scenario.robot.image_width,3])
+            # Passing numeric QC does not certify semantic appearance or
+            # unimplemented texture swaps. Failed QC is an actual rejection.
+            if record["image_quality"]["status"]=="failed":checks["appearance_images"]="failed"
+            record["door_sweep"] = verify_door_sweeps(backend,manifest)
+            checks["door_sweep"] = record["door_sweep"]["status"]
+            check_background(backend,member,state_path.parent.parent)
+            record["search_locations"] = inspect_loaded_search_locations(backend,manifest)
+            checks["all_additional_counter_drawer_search_locations_classified"] = record["search_locations"]["status"]
             search = run_reference_search(backend, scenario, plan, slots, overlay, room_map)
             # Compiler slot IDs are distinct from household location IDs.
             location_for_slot = {next(s.slot_id for s in slots.slots if s.parent_entity == b["name"]): b["location_id"]
@@ -92,6 +108,10 @@ def certify_member(request_path: Path, episode: str, output: Path) -> dict:
             if cert.status == "certified" and search["status"] == "SUCCESS":
                 checks["robot_skills"] = "passed"
                 checks["visibility_and_observe"] = "failed" if search["closed_observe_bypass"] else "passed"
+            backend.reset()
+            record["temporary_place"] = verify_temporary_place(backend,scenario,plan,slots,overlay,room_map,manifest)
+            checks["temporary_place_space"] = record["temporary_place"]["status"]
+            check_background(backend,member,state_path.parent.parent)
             record["checks"] = checks
         else:
             record["reference_search"] = {"policy": "nearest-uninspected-anchor-v1", "gpu_executed": False,

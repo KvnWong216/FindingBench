@@ -113,7 +113,10 @@ def assembly_floor_map(manifest, assembly):
     stage = Usd.Stage.Open(manifest["source"]["scene_usd"])
     xforms = UsdGeom.XformCache()
     triangles = []
-    for prim in Usd.PrimRange(stage.GetPrimAtPath(path)):
+    floor_path = manifest.get("source_component_paths",{}).get(kitchen,{}).get("floor")
+    # Prefer the actual independently exported floor component. Existing
+    # nested room geometry remains supported for earlier exports.
+    for prim in Usd.PrimRange(stage.GetPrimAtPath(floor_path or path)):
         if not prim.IsA(UsdGeom.Mesh):
             continue
         mesh = UsdGeom.Mesh(prim)

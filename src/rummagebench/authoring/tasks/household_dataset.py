@@ -222,6 +222,25 @@ def collect_family_validation(request_path: Path, results: Path) -> dict:
                 failures.append(f"{check}:{episode}")
             elif status != "passed":
                 pending.append(f"{check}:{episode}")
+        # A summary flag cannot substitute for these physical measurements.
+        from rummagebench.authoring.tasks.household_physics import validate_sweep_evidence, validate_temporary_place_evidence
+        from rummagebench.authoring.tasks.household_locations import search_location_inventory
+        from rummagebench.authoring.tasks.infinigen import read_solve_state
+        try:
+            if record.get("checks",{}).get("door_sweep")=="passed":
+                validate_sweep_evidence(record.get("door_sweep",{}),[b["name"] for b in manifest["candidate_bindings"]])
+            if record.get("checks",{}).get("temporary_place_space")=="passed":
+                validate_temporary_place_evidence(record.get("temporary_place",{}),{o["name"] for o in manifest["objects"]},specs[episode].max_planning_steps)
+            if record.get("checks",{}).get("all_additional_counter_drawer_search_locations_classified")=="passed":
+                actual = record.get("search_locations",{})
+                loaded = actual.get("loaded_entities",{})
+                if set(loaded)!={o["name"] for o in manifest["objects"]}:
+                    raise ValueError("SEARCH_LOCATION_LOADED_INVENTORY_INCOMPLETE")
+                recomputed = search_location_inventory(manifest,read_solve_state(Path(manifest["source"]["solve_state"])),loaded)
+                if recomputed["status"]!="passed" or any(actual.get(k)!=v for k,v in recomputed.items()):
+                    raise ValueError("SEARCH_LOCATION_AUDIT_NOT_COMPLETE_OR_UNKNOWN")
+        except (ValueError,KeyError,TypeError) as exc:
+            failures.append(f"PHYSICAL_EVIDENCE_INVALID:{episode}:{exc}")
         records[episode] = {"path": str(path.resolve()), "sha256": sha256_path(path)}
         if record["reference_search"].get("candidate_order") != blind_order:
             failures.append(f"REFERENCE_ORDER_DIFFERS_FROM_TARGET_BLIND_POLICY:{episode}")

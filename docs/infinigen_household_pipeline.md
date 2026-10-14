@@ -520,13 +520,76 @@ references; it does not redistribute BEHAVIOR assets. Changes to implementations
 URDF/camera/skill configuration, approved priors, textures/layers, frozen states or
 member evidence invalidate reuse and require the applicable stages to rerun.
 
-**Still not implemented as complete automated acceptance:** replacement-support
-proof, furniture-to-background door sweep, usable temporary placement space,
-wall/texture appearance application and image/semantic review, and classification
-of every additional counter/drawer search cavity. These checks remain explicitly
-pending in the live worker; the family publisher requires all of them and cannot
-currently release a family from that worker alone. Opaque decrypted BEHAVIOR
-resource dependency inspection and combined-room collision representation also
-remain runtime risks. No CPU fixture, oracle result or boolean candidate label
-substitutes for these checks. GPU-executable probe/freeze/worker code is implemented
-but **unexecuted**. Therefore today's strict release acceptance is still pending.
+At the first delivery, door sweep, temporary placement and wall application were
+not yet implemented; the next iteration below implements scoped checks without
+claiming simulator acceptance. Replacement-support proof, complete texture
+application, semantic image review and opaque decrypted dependency inspection
+still require work. The publisher cannot release a family with pending checks.
+No CPU fixture, oracle result or boolean candidate label substitutes for them.
+
+## Follow-up iteration: physical checks and room-component integration
+
+The fixed main line remains pinned Infinigen + existing OG builder, one direct
+kitchen family and R1Pro head RGB. No GPU, Kit, rendering or training was run.
+No new geometry scenes were generated in this iteration; experimental episode
+counts remain zero.
+
+CPU result for this iteration: **650 passed, 40 skipped** (ordinary suite,
+including the live-body-pose guard). Optional real hpp-fcl subset:
+**2 passed**, no GPU or simulator imports. Skips remain optional kinematics and
+explicit local-asset checks, not passes. Logs are
+`/data1/ygwang/codes/_external/findingbench_iteration_cpu_final.log` and
+`/data1/ygwang/codes/_external/findingbench_iteration_real_fcl_final.log`.
+
+| Change / implementation | Acceptance scope and limits | Regression evidence |
+|---|---|---|
+| `household_physics.py::verify_door_sweeps` | Collects every enabled collision prim, actual fully-open joint endpoints and robot/background bodies; validates rigid one-joint kinematics before certifying continuous clearance | Clear endpoints with mid-path collision fail; incomplete interval cover and exhausted query budget cannot pass; **real CPU hpp-fcl** rotating-door tests |
+| `usd_collision.py::collect_entity_collision`, `sim/base.py::WorldCollisionObject` | Disabled collision prims are omitted; enabled prim path and PhysX approximation are recorded, allowing missing collider exports to reject verification | Actual standalone OpenUSD collider schema with disabled/enabled prims; synthetic geometry used only in test |
+| `verify_temporary_place` | Executes public MOVE/TURN/OPEN/GRASP/PLACE on a real support, checks production release/support relation, actual OnTop contacts, seven poses over 30 physics steps and final velocities; resets/releases grasp then restores original frozen state | Drift/rotation/velocity/contact and missing public-trace evidence reject; failed route restores unit-test world |
+| `household_locations.py` | Enumerates actual source ancestry and every mapped/plausible kitchen storage source; loaded joints/fillable links identify additional candidates; static unannotated counters stay **unknown** | An extra drawer rejects the whole distribution; no reweighting/pruning; static counter absence of joints does not prove no cavity |
+| Room sibling parts in `infinigen.py::inspect_export/source_mesh_owner` | Exact pinned `_floor/_wall/_ceiling/_exterior/_meshed` exported mesh names retain solver room ownership; arbitrary prefixes do not. Floor sampling uses the actual floor sibling | Real OpenUSD sibling floor/wall fixture; unrelated prefix ignored; actual floor triangles generate proposals |
+| `household_appearance.py::apply_wall_palette` | Changes a private, composed USDPreviewSurface network for explicitly mapped wall meshes, retaining table/object materials, asset resolution and geometry/physics attributes | Shared textured wall/table network: only wall tint changes; geometry digest identical; unsupported shader stays pending |
+| `household_appearance.py::image_quality` | Checks real RGB contract, nearly blank/black/clipped images and luminance range; records **numeric QC only** | Blank/dtype/shape reject; passing numeric QC still has semantic review pending |
+| Family verifier | Recomputes interval proof, placement trace/contact/stability and complete search-location inventory; `checks: passed` alone cannot qualify these gates | Missing physical proof with all summary flags still set passed rejects publication |
+
+The door certificate is bounded to 1,025 distance queries. Each midpoint distance
+must exceed the 5 mm margin plus a conservative rigid-body motion bound for the
+entire interval; safe endpoints alone are insufficient. Only tested exact
+primitive/convex-hull/triangle collision representations are accepted. Missing
+colliders, proxy/fallback geometry, unsupported cooked convex decomposition,
+bidirectional OPEN, nonrigid descendants and multi-joint motion remain pending.
+The scope is door-to-foreign-background/robot clearance; same-cabinet hinge/frame
+contacts and the task target are excluded explicitly. This is neither a general
+articulated trajectory planner nor a certificate of unsupported PhysX geometry.
+Evaluator sweep checks restore Python/NumPy random state as well as world state.
+
+Temporary PLACE requires actual top-surface support, six positive OnTop contact
+samples and a stability window: position drift <=5 mm, rotation <=2 degrees,
+final linear speed <=0.01 m/s and angular speed <=0.02 rad/s. Surface area and
+AABB proposals never establish success. This trace is a separate feasibility
+witness; its trials do not inflate or alter the reference search cost. Failure
+or exhaustion cannot yield usable placement space.
+
+CPU inspection after a real admitted assembly:
+
+```bash
+export PYTHONPATH=src
+$TEST_PYTHON scripts/tasks/household_pipeline.py inspect-infinigen-search-locations \
+  --assembly "$ASSEMBLY_OUT/assembly.json" --report "$ASSEMBLY_OUT/search_locations.json"
+# Ordinary CPU suite, including standalone OpenUSD:
+$TEST_PYTHON -m pytest tests/unit -q
+# Optional actual CPU collision queries; no simulator is imported:
+PYTHONPATH=src /data1/ygwang/codes/_external/findingbench-cpu/bin/python \
+  -m pytest tests/unit/test_household_physics.py -m kinematics -q
+```
+
+The existing later `gpu-certify-infinigen-member` command now runs these checks
+on the loaded frozen member, records detailed evidence and restores the member
+between the reference search and temporary-placement witness. Its command is
+unchanged. Do not execute it in this CPU-only session.
+
+Still pending: actual GPU execution; supported replacement contact/support proof;
+MDL/unknown wall shaders and texture swaps; semantic/full-scene image acceptance;
+unknown static counter/drawer cavities; cooked convex decomposition, multiple
+joint or bidirectional door paths; runtime decrypted dependency inspection and
+combined-room collision handling. These are explicit limits, not passed checks.

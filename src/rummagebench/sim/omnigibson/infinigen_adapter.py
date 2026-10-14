@@ -15,7 +15,7 @@ import numpy as np
 from rummagebench.authoring.level1.snapshot import atomic_write_json
 from rummagebench.authoring.tasks.household import HouseholdTaskSpec
 from rummagebench.authoring.tasks.infinigen import (inspect_export, read_solve_state, usd_dependency_ledger,
-                                                    verify_usd_dependency_ledger)
+                                                    verify_usd_dependency_ledger, source_mesh_owner)
 from rummagebench.authoring.tasks.plan import canonical_json, sha256_bytes, sha256_path
 
 
@@ -213,8 +213,7 @@ def prepare_assembly(spec: HouseholdTaskSpec, scene: Path, solve: Path, bindings
                          * Gf.Matrix4d(1.).SetTranslate(translation))
         if not np.allclose(np.asarray(matrix), np.asarray(reconstructed), atol=1e-6) or min(scale) <= 0:
             raise ValueError(f"USD_NONRIGID_TRANSFORM_UNSUPPORTED:{prim_path}")
-        source_id = next((k for k, p in inspection["source_to_usd"].items()
-                          if prim_path == p or prim_path.startswith(p + "/")), None)
+        source_id, component = source_mesh_owner(inspection,prim_path)
         tags = [] if source_id is None else metadata["objects"][source_id]["tags"]
         # Only explicitly tagged single-mesh handheld objects may be dynamic.
         # Grouped multi-mesh bodies need a rigid grouping transform, not one
@@ -242,14 +241,14 @@ def prepare_assembly(spec: HouseholdTaskSpec, scene: Path, solve: Path, bindings
         copy_effective_materials(stage, prim, dst, geom, source_layer)
         dst.GetRootLayer().Save()
         rel = str(asset_path.relative_to(output)); artifacts[rel] = sha256_path(asset_path)
-        source_id = next((k for k, p in inspection["source_to_usd"].items()
-                          if prim_path == p or prim_path.startswith(p + "/")), None)
+        source_id, component = source_mesh_owner(inspection,prim_path)
         tags = [] if source_id is None else metadata["objects"][source_id]["tags"]
         inferred_category = None if source_id is None else native_category(metadata["objects"][source_id])
         category = (inferred_category or ("countertop" if "Semantics.KitchenCounter" in tags else
                     "breakfast_table" if "Semantics.Table" in tags else
                     "shelf" if "Semantics.Storage" in tags else "infinigen_background"))
         objects.append({"name": name, "source_id": source_id, "source_usd_prim": prim_path,
+                        "source_component":component,
                         "role": "movable_rigid_body" if movable else "static_background", "source_tags": tags,
                         "category": category, "skill_bindings": ["PLACE"] if category != "infinigen_background" else [],
                         "reset_state": "frozen_native_transform",
@@ -283,6 +282,7 @@ def prepare_assembly(spec: HouseholdTaskSpec, scene: Path, solve: Path, bindings
                 "dependency_integrity": "supported_local_graphs_hashed; opaque_graphs_pending" if opaque_assets else "complete_supported_local_graphs",
                 "candidate_bindings": [replacement[p] for p in sorted(replacement)],
                 "source_to_usd": inspection["source_to_usd"], "appearance_request": spec.appearance,
+                "source_component_paths": inspection["source_component_paths"],
                 "target_asset": spec.target.model_dump(), "family_id": spec.family_id,
                 "generation_admission": admission,
                 "robot_config_ref": spec.robot_config_ref, "evaluation_ready_episodes": 0,
@@ -329,6 +329,15 @@ def install_runtime_lighting(env, manifest_path: str) -> None:
         pxr.Sdf.CopySpec(lighting.GetRootLayer(), prim.GetPath(), og.sim.stage.GetRootLayer(),
                          pxr.Sdf.Path(destination + "/" + prim.GetName()))
     env._findingbench_appearance_evidence = apply_light_appearance(og.sim.stage, destination, manifest["appearance_request"])
+    if manifest["appearance_request"].get("wall_color"):
+        from rummagebench.authoring.tasks.household_appearance import apply_wall_palette
+        from rummagebench.sim.omnigibson.entity_resolver import resolve_object
+        walls=[str(resolve_object(env.scene,item["name"]).prim.GetPath()) for item in manifest["objects"]
+               if item.get("source_component")=="wall" and item["role"]=="static_background"]
+        wall=apply_wall_palette(og.sim.stage,walls,manifest["appearance_request"]["wall_color"])
+        env._findingbench_appearance_evidence["wall_palette"]=wall
+        if wall["status"]=="applied":
+            env._findingbench_appearance_evidence["material_requests_pending"].remove("wall_color")
 
 
 def scene_slots_from_assembly(manifest_path: Path):
