@@ -1,4 +1,4 @@
-# Infinigen household pipeline — CPU handoff, 2026-10-13
+# Infinigen household pipeline — CPU handoff, 2026-10-14
 
 This implementation starts from the actual remote repository. PR #2 (`93dc197`)
 was fetched and merged without rewriting history. The earlier cloud commits
@@ -18,6 +18,10 @@ Only kitchen closed-cabinet search is implemented; other families are rejected.
 | Assembly and compiler | `sim/omnigibson/infinigen_adapter.py::{prepare_assembly,assembly_env_config,scene_slots_from_assembly}`, `tasks/household_binding.py::bind_family`, existing `compile.py::compile_plan`, `env_factory.py::{build_env_config,build_env}` |
 | Occupancy / freeze | `native_occupancy.py::{capture_native_occupancy,require_known_slots,verify_source}`, builder hooks in `backend.py::setup`; adapter `freeze_family_background` freezes after the target topology exists but before insertion, restores the same parked-target snapshot for every member, and rejects background changes |
 | Difficulty | `tasks/difficulty.py::exact_search_cost`: exact DP only for supplied static travel costs, positive known priors, one perfect reveal per node and mandatory confirmation. Cost includes declared inspection plus GRASP/REPORT; MOVE/TURN belong in the supplied travel cost. `euclidean_proxies` explicitly cannot certify traversable paths |
+| Frozen runtime state | `tasks/household_state.py`; hash-check local member tensors, scenario and background records, verify serialized object/link order BEFORE deserialization; `backend.setup/reset` restores and checks the frozen background |
+| Family validation / dataset | `tasks/household_dataset.py`; immutable validation requests, generation-admission binding, whole-family ID/split/artifact validation, gate/cost recomputation, local publication and reload verification |
+| Real reference search | `tasks/household_search.py`; fixed target-blind order, dynamic production MOVE/TURN routes and point skills, accepted closed-OBSERVE view checks, measured reference bins; no optimality claim |
+| GPU worker | `tasks/household_certify.py`; existing TaskCertifier and GeometryRoomMap on a frozen member; pending checks block publication |
 | Unified entry | `scripts/tasks/household_pipeline.py --help`; CPU stages and explicitly named GPU stages share the above contracts |
 
 `bind_family` requires every candidate's real OPEN/GRASP probe and causal reveal
@@ -283,8 +287,8 @@ physical-source split audit remain outside the currently accepted scope.
 
 The final CPU acceptance contract is intentionally strict: the two-location
 proxy calculation ran on a real scene, but there is still no accepted candidate.
-The full-family physical publisher and Infinigen adaptation of the public-skill
-certification worker remain unimplemented. Collision representation for combined
+The family publisher and Infinigen public-skill worker are now implemented
+(commands below), but have not run on a real simulator. Collision representation for combined
 architecture AABBs and decrypted BEHAVIOR dependency graphs need runtime work.
 GPU probing, appearance images, native freeze/reset and actual search costs are
 implemented only in part or as explicit later entries; none has been executed.
@@ -305,6 +309,7 @@ $CPU_PYTHON scripts/tasks/household_pipeline.py inspect-infinigen \
   --scene "$SCENE_USD" --solve-state "$SOLVE_JSON" --report "$EXPORT_REPORT"
 $CPU_PYTHON scripts/tasks/household_pipeline.py prepare-infinigen \
   --spec "$SPEC_JSON" --scene "$SCENE_USD" --solve-state "$SOLVE_JSON" \
+  --generation-receipt "$ACCEPTED_RUN/generation.json" \
   --bindings "$BINDINGS_JSON" --assets-root /data1/ygwang/codes/BEHAVIOR-1K/datasets/behavior-1k-assets \
   --out "$ASSEMBLY_OUT"
 ```
@@ -361,9 +366,9 @@ ungraspability, sufficient open visibility and a valid configured head camera.
 Any failed candidate rejects the whole family; only a complete live prefilter
 writes `overlay.yaml` and its hash-bound `evidence.json`. These prefilter
 measurements do not certify actual public skill execution or search difficulty.
-`TaskCertifier` can reuse this GeometryRoomMap and overlay, but the legacy
-`certify_tasks.py` CLI still loads BEHAVIOR maps; its Infinigen worker and a
-complete family publication verifier remain unimplemented. Do not route pending
+The new `gpu-certify-infinigen-member` worker reuses TaskCertifier, this
+GeometryRoomMap and overlay. The legacy `certify_tasks.py` CLI still loads
+BEHAVIOR maps. Do not route pending
 Infinigen candidates through that CLI or the legacy promoter.
 Combined architecture mesh AABBs may conservatively block every route; the
 runtime must reject that case until its actual collision representation is
@@ -391,9 +396,137 @@ initial invisibility, OPEN reveal, OBSERVE bypass/coupled reveal, reachable
 public skill chains, correct completion/recoverable wrong grasps, actual reset
 and identical background after every insertion. Unknown occupancy rejects the
 whole family. The freeze command checks full per-object states/poses/AABBs and
-rejects perturbations; it is not the final family verifier. A verified physical
-snapshot publisher, all skill/image gates, target-blind reference search
-measurement and final spatial×operation bins remain unfinished. Reference costs
-must label measured routes/actions and assumptions; oracle execution is only a
-feasibility witness. Layout-grouped dev/test is implemented, not a claim of
-unseen assets or task combinations. No release path accepts these pending bundles.
+rejects perturbations; it is not the final family verifier. It now saves a
+separate state and manifest for every member. The runtime restores these states
+instead of sampling placements again. Reference search measurement and measured
+bins are implemented but unexecuted; oracle execution is only a feasibility
+witness. Layout-grouped dev/test is implemented, not a claim of unseen assets or
+task combinations. No release path accepts these pending bundles.
+
+## 2026-10-14 delivery and remaining acceptance work
+
+Scope is still one kitchen/direct-container family and the existing R1Pro head
+RGB protocol. No GPU, Kit, rendering, training or large asset downloads were
+started. This is a CPU-tested data module, **not an accepted experimental dataset**.
+
+Final ordinary CPU validation: **613 passed, 38 skipped in 20.60 s**, using the
+fresh non-system-site-packages test environment and `pytest tests/unit -q`.
+Skips retain their optional kinematics/local-asset reasons and are not passes.
+Log: `/data1/ygwang/codes/_external/findingbench_delivery_cpu_final.log`.
+New snapshot/probe/publication fixtures are explicitly synthetic tests in pytest
+temporary directories; their simulated receipts are never counted as real data.
+
+New fixes and regression evidence (`tests/unit/test_household_dataset.py`,
+`test_backend_lifecycle.py`, `test_infinigen_pipeline.py`):
+
+| Finding | Implementation | Regression |
+|---|---|---|
+| Reveal anchors depended on the actual hidden position | Infinigen compiler includes every probed reveal anchor in every member | Distinct reveal poses, identical full anchors across target positions |
+| Freeze state was discarded when loading an episode | Persist topology-compatible per-member states; SceneSpec's evaluator-only `frozen_member_manifest` is loaded by builder/reset | No placement resampling; restore after full import; changed state/background and object order reject |
+| Compiled files could change after binding | Complete artifact ledger for plans, scenarios, specs and overlay; revalidate asset approvals and inherited split | Changed/missing/extra artifacts and non-default split tests |
+| Assembly could bypass a rejected geometry run | CLI requires generation receipt; match admitted solve hash and complete candidate mapping; recheck at validation | Rejected/unmatched/missing geometry cannot qualify; successful retry selected by its actual solve hash |
+| Report-required success cannot be reached by the legacy oracle interface | Evaluator-only oracle clone ends at holding; public witness independently executes REPORT_DONE | Original public termination remains unchanged |
+| Known-target witness could be mislabeled search difficulty | Separate target-blind nearest-uninspected policy, actual public calls including TURN/OBSERVE/failures, complete prior-weighted family summary | Asymmetric prior/trace, costs, missing members, changed order, OBSERVE bypass and pending physical checks |
+| A single certificate could release a family | Recompute gates, full member set, reference order/costs and required checks; immutable local publisher/reloader | Any necessary failure/pending check blocks the whole family, output remains absent |
+
+The new seed **218**, source seed **3274909325** (`c333268d`), split seed **17**,
+has two specifications and one requested source layout. One real CPU generation
+attempt completed in **279.484 s** (upstream main 265.189 s), with zero retries:
+
+```bash
+export PYTHONPATH=src
+TEST_PYTHON=/data1/ygwang/codes/_external/findingbench-rectification-tests/bin/python
+CPU_PYTHON=/data1/ygwang/codes/_external/infinigen-cpu-b11700e/bin/python
+IG_ROOT=/data1/ygwang/codes/_external/infinigen-indoors-b11700e
+$TEST_PYTHON scripts/tasks/household_pipeline.py plan-infinigen \
+  --seed 218 --split-seed 17 --difficulty-profile low_low --count 1 \
+  --out build/household/infinigen/delivery218/specs --upstream-root "$IG_ROOT" --python "$CPU_PYTHON"
+$TEST_PYTHON scripts/tasks/household_pipeline.py run-infinigen-cpu \
+  --spec build/household/infinigen/delivery218/specs/task_1af27e855d2da59fb856.json \
+  --upstream-root "$IG_ROOT" --python "$CPU_PYTHON" \
+  --out build/household/infinigen/delivery218/run --timeout 900 --retries 0 --solver-profile fast
+$TEST_PYTHON scripts/tasks/household_pipeline.py infinigen-status \
+  --root build/household/infinigen/delivery218
+$TEST_PYTHON -m pytest tests/unit -q
+```
+
+Real output: `build/household/infinigen/delivery218/run/attempt_0/geometry/`
+contains `scene.blend`, `solve_state.json`, `findingbench_geometry.json`.
+`attempt_0/measurement.json` records two SimpleBookcaseFactory sources, E[movement
+proxy]=7.0, E[operations]=5.0, low/low proxy bins, but violations of cabinet count
+(2), kitchen counters (1) and rugs (1). Receipt is **geometry_rejected**, accepted
+backgrounds/exported scenes/compiled real episodes/simulator-verified episodes/
+evaluation-ready episodes are **all zero**. No candidate was pruned or constraint
+disabled. The pinned upstream `min_distance_internal_impl` returns 0 for sets of
+size <=1; the mandatory rugs separation constraint therefore remains a blocker
+for those scenes. This delivery does not reinterpret that constraint as passed.
+
+The inventory entry checks actual files and hashes, deduplicates by content,
+and reports failures rather than counting configurations. Across the local
+development root it finds 18 distinct historical spec IDs, 3 source-seed groups,
+4 requested base-layout IDs and **6 real geometry outputs** (including hashed
+reinspection of the two older tag-parser failures), with **0 admitted outputs**.
+Those repeated implementation variants are not six independent source layouts
+or a production success-rate estimate. Historical invalid/incomplete receipts
+remain separately reported. For today's run use the narrower `delivery218` root.
+
+### Later commands, not executed in this CPU-only delivery
+
+After a real admitted generation, export, assembly, full probe, binding and
+freeze (earlier commands), prepare an immutable validation request:
+
+```bash
+$TEST_PYTHON scripts/tasks/household_pipeline.py prepare-infinigen-validation \
+  --family-root "$FAMILY_OUT" --frozen-root "$FROZEN_CHECK_OUT" \
+  --python /data1/ygwang/miniconda3/envs/behavior/bin/python --out "$VALIDATION_OUT"
+```
+
+`commands.json` contains exact argv arrays, one process per complete family
+member. Smallest explicit **later GPU** worker invocation:
+
+```bash
+PYTHONPATH=src /data1/ygwang/miniconda3/envs/behavior/bin/python \
+  scripts/tasks/household_pipeline.py gpu-certify-infinigen-member \
+  --request "$VALIDATION_OUT/request.json" --episode "$COMPILED_EPISODE_ID" \
+  --out "$VALIDATION_OUT/results/$COMPILED_EPISODE_ID"
+```
+
+Run every listed member. Worker saves before Kit shutdown. It reuses the
+execution witness and oracle, then resets to the same frozen member and runs a
+separate reference search with no target-informed ordering/routes/viewpoints.
+One submitted public call costs one step: MOVE+TURN are spatial; OPEN, CLOSE,
+OBSERVE, GRASP, PLACE and REPORT_DONE are operations. Rejected calls count too.
+The reference checks accepted closed-container OBSERVE views for target pixels.
+Detection only consults the target after it appears in the current frame; this
+is an evaluator-grounded reference policy, not an MLLM result or an optimality
+proof. Dynamic routes and coupled reveals are measured rather than forced into
+the static CPU model. All outcomes retain the planned positive target prior.
+
+CPU final verification and conditional local publication:
+
+```bash
+$TEST_PYTHON scripts/tasks/household_pipeline.py verify-infinigen-family \
+  --request "$VALIDATION_OUT/request.json" --results "$VALIDATION_OUT/results" \
+  --report "$VALIDATION_OUT/family_acceptance.json"
+# Only a fully validated family can execute this successfully:
+$TEST_PYTHON scripts/tasks/household_pipeline.py publish-infinigen-family \
+  --request "$VALIDATION_OUT/request.json" --results "$VALIDATION_OUT/results" --out "$DATASET_OUT"
+$TEST_PYTHON scripts/tasks/household_pipeline.py verify-infinigen-dataset --dataset "$DATASET_OUT"
+```
+
+Local publication includes accepted scenarios, public task text, inherited split,
+reference difficulty and acceptance receipts. It keeps local assembly/state/asset
+references; it does not redistribute BEHAVIOR assets. Changes to implementations,
+URDF/camera/skill configuration, approved priors, textures/layers, frozen states or
+member evidence invalidate reuse and require the applicable stages to rerun.
+
+**Still not implemented as complete automated acceptance:** replacement-support
+proof, furniture-to-background door sweep, usable temporary placement space,
+wall/texture appearance application and image/semantic review, and classification
+of every additional counter/drawer search cavity. These checks remain explicitly
+pending in the live worker; the family publisher requires all of them and cannot
+currently release a family from that worker alone. Opaque decrypted BEHAVIOR
+resource dependency inspection and combined-room collision representation also
+remain runtime risks. No CPU fixture, oracle result or boolean candidate label
+substitutes for these checks. GPU-executable probe/freeze/worker code is implemented
+but **unexecuted**. Therefore today's strict release acceptance is still pending.

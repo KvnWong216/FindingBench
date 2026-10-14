@@ -102,6 +102,12 @@ def bind_family(members: list[HouseholdTaskSpec], assembly: Path, overlay_path: 
               "publication": "blocked; legacy single-episode certificates cannot release this family"}
     validate_family_index(report)
     artifacts["family.json"] = report
+    artifacts["overlay.json"] = overlay.to_dict()
+    for member in members:
+        artifacts[f"specs/{member.task_id}.json"] = member.model_dump(mode="json")
+    report["artifact_hashes"] = {name: sha256_bytes(canonical_json(value))
+                                 for name, value in artifacts.items() if name != "family.json"}
+    # family.json is the immutable commit marker for all compiled inputs.
     write_environment_snapshot(output, artifacts)
     return report
 

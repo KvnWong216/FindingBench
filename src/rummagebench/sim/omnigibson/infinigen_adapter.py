@@ -72,7 +72,7 @@ def native_category(source: dict) -> str | None:
     return found[0] if len(found) == 1 else None
 
 def prepare_assembly(spec: HouseholdTaskSpec, scene: Path, solve: Path, bindings: list[dict],
-                     assets_root: Path, output: Path) -> dict:
+                     assets_root: Path, output: Path, *, generation_receipt: Path | None = None) -> dict:
     """Each required location must have an explicit source→real-asset binding.
 
     Binding fields: location_id, source_id, category, model. Actual metadata
@@ -80,6 +80,14 @@ def prepare_assembly(spec: HouseholdTaskSpec, scene: Path, solve: Path, bindings
     against the loaded articulation, never fabricated from configuration.
     """
     from pxr import Gf, Sdf, Usd, UsdGeom, UsdLux, UsdPhysics
+
+    admission = None
+    if generation_receipt is not None:
+        from rummagebench.authoring.tasks.household_dataset import verify_generation_admission
+        admission = verify_generation_admission(spec, generation_receipt, solve)
+        expected_mapping = admission["measurement"]["candidate_mapping"]
+        if {b["location_id"]: b["source_id"] for b in bindings} != expected_mapping:
+            raise ValueError("ASSEMBLY_BINDINGS_DIFFER_FROM_ACCEPTED_GENERATION_CANDIDATES")
 
     inspection = inspect_export(scene, solve)
     if inspection["ambiguous_source_objects"]:
@@ -276,6 +284,7 @@ def prepare_assembly(spec: HouseholdTaskSpec, scene: Path, solve: Path, bindings
                 "candidate_bindings": [replacement[p] for p in sorted(replacement)],
                 "source_to_usd": inspection["source_to_usd"], "appearance_request": spec.appearance,
                 "target_asset": spec.target.model_dump(), "family_id": spec.family_id,
+                "generation_admission": admission,
                 "robot_config_ref": spec.robot_config_ref, "evaluation_ready_episodes": 0,
                 "target_category_confounds": confounds, "semantic_labels": "factory_evidence_pending_visual_check",
                 "pending_checks": ["real_joints_limits_handles", "native_occupancy", "background_stability",
@@ -415,6 +424,7 @@ def freeze_family_background(backend, scenarios: list, manifest_path: Path, outp
     from rummagebench.authoring.tasks.native_occupancy import background_mismatches, capture_native_occupancy, require_known_slots
     from rummagebench.sim.omnigibson.state_io import save_snapshot
     from copy import deepcopy
+    from rummagebench.authoring.tasks.household_state import scenario_state_identity, runtime_topology
 
     manifest = load_assembly_manifest(manifest_path)
     if len(scenarios) != len(manifest["candidate_bindings"]):
@@ -437,6 +447,7 @@ def freeze_family_background(backend, scenarios: list, manifest_path: Path, outp
     names = [o["name"] for o in manifest["objects"]]
     frozen = {}
     report = {"status": "pending_simulation_acceptance", "evaluation_ready_episodes": 0,
+              "version": 1, "gpu_executed": True,
               "assembly_manifest_sha256": sha256_path(manifest_path), "members": [],
               "pending_checks": list(manifest["pending_checks"])}
     try:
@@ -476,6 +487,8 @@ def freeze_family_background(backend, scenarios: list, manifest_path: Path, outp
             if mismatch:
                 raise ValueError(f"FROZEN_BACKGROUND_RESTORE_MISMATCH:{mismatch}")
             build = backend._apply_placements(scenario, attempts=3)
+            backend.teleport_robot(scenario.anchors[scenario.robot.init_anchor])
+            backend.settle(15)
             backend.validate_physics_state()
             mismatch = background_mismatches(frozen["records"], background_records(backend, names))
             if mismatch:
@@ -487,9 +500,26 @@ def freeze_family_background(backend, scenarios: list, manifest_path: Path, outp
                 if (background_mismatches(frozen["records"], background_records(backend, names))
                         or canonical_json(backend.entity_pose(first.target.entity)) != canonical_json(target_pose)):
                     raise ValueError(f"MEMBER_RESTORE_MISMATCH:{scenario.id}")
+            state_ref = f"states/{scenario.id}.pt"
+            records_ref = "background_records.json"
+            member = {"version": 1, "status": "frozen_member", "scenario_id": scenario.id,
+                      "scenario_sha256": scenario_state_identity(scenario),
+                      "assembly_manifest_sha256": report["assembly_manifest_sha256"],
+                      "runtime_topology": runtime_topology(backend), "parking": frozen["parking"],
+                      "state": state_ref, "background_records": records_ref, "builder": build}
+            save_snapshot(output / state_ref, current["sim"],
+                          {"assembly_manifest_sha256": member["assembly_manifest_sha256"],
+                           "scenario_sha256": member["scenario_sha256"]})
+            member["artifacts"] = {ref: sha256_path(output / ref) for ref in (state_ref, records_ref)}
+            member["manifest_sha256"] = sha256_bytes(canonical_json(member))
+            atomic_write_json(output / "members" / f"{scenario.id}.json", member)
             report["members"].append({"scenario_id": scenario.id, "background_match": True,
-                                      "restore_repeats": 2, "builder": build})
+                                      "restore_repeats": 2, "builder": build,
+                                      "member_manifest": f"members/{scenario.id}.json"})
         report["background_and_members"] = "frozen_and_restore_checked"
+        report["artifacts"] = {str(p.relative_to(output)): sha256_path(p)
+                               for p in sorted(output.rglob("*")) if p.is_file()}
+        report["receipt_sha256"] = sha256_bytes(canonical_json(report))
         atomic_write_json(output / "family_preflight.json", report)
         return report
     except Exception as exc:

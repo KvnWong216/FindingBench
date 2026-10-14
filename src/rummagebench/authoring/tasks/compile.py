@@ -47,6 +47,11 @@ def compile_plan(plan: TaskPlan, scene_slots: SceneSlots,
         if s is None or s.room not in plan.search_rooms:
             continue
         anchors.setdefault(s.parent_entity, inter.navigation_anchor.to_anchor())
+        if (scene_slots.source.get("source_kind") == "infinigen"
+                and inter.reveal_anchor is not None
+                and inter.reveal_anchor != inter.navigation_anchor):
+            # Complete family geometry is independent of the hidden target.
+            anchors[reveal_anchor_name(s.parent_entity)] = inter.reveal_anchor.to_anchor()
 
     objects, placements = [], []
     stack_top = plan.target.entity

@@ -1,11 +1,13 @@
 """Object loading must finish before physics/rendering resumes."""
 import sys
 import types
+import pytest
 
 from rummagebench.sim.omnigibson import backend as module
 
 
-def test_setup_loads_all_objects_before_resuming(monkeypatch):
+@pytest.mark.parametrize("frozen", [False, True])
+def test_setup_loads_all_objects_before_resuming(monkeypatch, frozen):
     events = []
     imported = []
     class Sim:
@@ -54,17 +56,31 @@ def test_setup_loads_all_objects_before_resuming(monkeypatch):
     monkeypatch.setattr(backend, "robot_pose", lambda: ([0, 0, 0], [0, 0, 0, 1]))
     anchor = types.SimpleNamespace(position=[0, 0, 0], orientation=[0, 0, 0, 1])
     scenario = types.SimpleNamespace(
-        scene=types.SimpleNamespace(model="synthetic"),
+        scene=types.SimpleNamespace(model="synthetic", frozen_member_manifest="unit_member.json" if frozen else None),
         robot=types.SimpleNamespace(init_anchor="start"),
         objects=[types.SimpleNamespace(name=n, category="cube", model="fixed", fixed_base=False)
                  for n in ("one", "two")],
         placements=[], initial_states={}, anchors={"start": anchor, "legacy": anchor})
+    if frozen:
+        from rummagebench.authoring.tasks import household_state
+        member = {"parking": [100.,100.,10.], "builder": {"placements": [{"verified": True}]},
+                  "manifest_sha256": "synthetic unit evidence only"}
+        monkeypatch.setattr(household_state, "load_frozen_member", lambda *args: member)
+        def restore(*args):
+            assert sim.playing and len(imported) == 2
+            events.append("restore_member")
+            return member
+        monkeypatch.setattr(household_state, "restore_frozen_member", restore)
+        monkeypatch.setattr(backend, "_apply_placements", lambda *a, **kw: pytest.fail("frozen member was resampled"))
     report = backend.setup(scenario)
     assert events[:4] == ["stop", "add", "add", "play"]
     assert len(report["spawned"]) == 2
     assert report["anchor_validation_scope"] == "initial_spawn"
     assert report["untested_anchors"] == ["legacy"]
     assert len(scenario.anchors) == 2
+    if frozen:
+        assert events.count("restore_member") == 2
+        assert report["frozen_member_manifest_sha256"] == member["manifest_sha256"]
 
 def test_corrupt_robot_pose_never_returns_commanded_anchor():
     import numpy as np

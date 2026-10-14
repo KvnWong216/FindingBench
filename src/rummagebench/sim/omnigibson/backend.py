@@ -62,6 +62,13 @@ class OmniGibsonBackend(SimBackend):
               pre_placement_capture=None) -> dict[str, Any]:
         if native_scene_only and native_scene_capture is None:
             raise ValueError("native-only setup requires an occupancy capture")
+        frozen_path = scenario.scene.frozen_member_manifest
+        frozen_doc = None
+        if frozen_path is not None:
+            if native_scene_capture is not None or pre_placement_capture is not None or task_seed_pose is not None:
+                raise ValueError("frozen member restore cannot be combined with authoring hooks")
+            from rummagebench.authoring.tasks.household_state import load_frozen_member
+            frozen_doc = load_frozen_member(Path(frozen_path), scenario)
         import sys as _s
         self._validated_anchor_poses.clear()
         seed_everything(self._seed)
@@ -113,7 +120,8 @@ class OmniGibsonBackend(SimBackend):
             )
             # add first (loads the prim), then park it above its receptacle
             self._env.scene.add_object(obj)
-            seed_pos = self._seed_pose_for(spec) if task_seed_pose is None else task_seed_pose(self, spec)
+            seed_pos = (frozen_doc["parking"] if frozen_doc is not None else
+                        self._seed_pose_for(spec) if task_seed_pose is None else task_seed_pose(self, spec))
             if np.asarray(seed_pos).shape != (3,) or not np.isfinite(seed_pos).all():
                 raise ValueError("invalid evaluator task seed pose")
             obj.set_position_orientation(
@@ -131,7 +139,13 @@ class OmniGibsonBackend(SimBackend):
             # The complete object topology now exists. An authoring caller
             # can freeze background + parked target before target sampling.
             report["frozen_background"] = pre_placement_capture(self)
-        report.update(self._apply_placements(scenario, attempts=3))
+        if frozen_doc is None:
+            report.update(self._apply_placements(scenario, attempts=3))
+        else:
+            from rummagebench.authoring.tasks.household_state import restore_frozen_member
+            restore_frozen_member(self, Path(frozen_path), scenario)
+            report.update(frozen_doc["builder"])
+            report["frozen_member_manifest_sha256"] = frozen_doc["manifest_sha256"]
 
         # AGENT uses only the initial spawn; visiting legacy ORACLE navigation
         # anchors here can collide with furniture and poison the saved world.
@@ -159,6 +173,12 @@ class OmniGibsonBackend(SimBackend):
         self.validate_physics_state()
 
         self._validate_spawn_clearance()
+
+        if frozen_doc is not None:
+            # Anchor diagnostics must not alter the state being certified.
+            restore_frozen_member(self, Path(frozen_path), scenario)
+            self.validate_physics_state()
+            self._validate_spawn_clearance()
 
         # 5. capture deterministic snapshot
         print("[setup] snapshot", file=_s.stderr, flush=True)
@@ -492,6 +512,8 @@ class OmniGibsonBackend(SimBackend):
         physics sampler is re-seeded per call so the same (seed, episode)
         pair reproduces the same placement.
         """
+        if scenario.scene.frozen_member_manifest is not None or self._scenario.scene.frozen_member_manifest is not None:
+            raise SimBackendError("frozen family members require their own verified setup; placement resampling is forbidden")
         seed_everything(int(scenario.id.encode().hex()[-6:], 16) % (2**31))
 
         # start from the clean snapshot (releases lingering assisted grasps)
@@ -522,6 +544,11 @@ class OmniGibsonBackend(SimBackend):
         self.settle(15)
         self.validate_physics_state()
         self._validate_spawn_clearance()
+        if self._scenario.scene.frozen_member_manifest is not None:
+            from rummagebench.authoring.tasks.household_state import load_frozen_member, check_background
+            path = Path(self._scenario.scene.frozen_member_manifest)
+            doc = load_frozen_member(path, self._scenario)
+            check_background(self, doc, path.resolve().parent.parent)
 
     def _validate_spawn_clearance(self) -> None:
         from rummagebench.skills.move import base_pose_collision_free, yaw_from_quat

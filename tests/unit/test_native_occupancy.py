@@ -143,7 +143,7 @@ def fake_loaded_scene(monkeypatch, tmp_path):
     backend = backend_module.OmniGibsonBackend()
     backend._env = SimpleNamespace(scene=scene); backend._sim = sim
     backend.entity_aabb = lambda name: next(o.box for o in objects if o.name == name)
-    scenario = SimpleNamespace(scene=SimpleNamespace(model='S', source='behavior'), objects=[SimpleNamespace(name='target')])
+    scenario = SimpleNamespace(scene=SimpleNamespace(model='S', source='behavior', frozen_member_manifest=None), objects=[SimpleNamespace(name='target')])
     backend._scenario = scenario
     slots = SceneSlots('S', 1, {'scene_json_sha256': sha256_path(source)}, {'kitchen_0': 'kitchen'}, [slot()])
     return backend, scenario, slots, source, scene, state

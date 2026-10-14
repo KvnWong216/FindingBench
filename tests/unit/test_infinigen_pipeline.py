@@ -419,7 +419,10 @@ def test_frozen_family_restores_common_topology_and_rejects_background_perturbat
     from rummagebench.core.scenario import ScenarioSpec
     scene,solve,assets,bindings=usd_bundle;out=tmp_path/'assembly'
     doc=prepare_assembly(make_spec(),scene,solve,bindings,assets,out)
-    monkeypatch.setattr(state_io,'save_snapshot',lambda p,s,m:p.write_text('synthetic unit snapshot only'))
+    def save_unit_snapshot(p,s,m):
+        p.parent.mkdir(parents=True,exist_ok=True)
+        p.write_text('synthetic unit snapshot only')
+    monkeypatch.setattr(state_io,'save_snapshot',save_unit_snapshot)
     monkeypatch.setattr(native_occupancy,'capture_native_occupancy',lambda b,ss,**kw:(
         {'slots':[{'slot_id':s.slot_id,'status':'confirmed_empty','geometry_complete':True} for s in ss.slots]},None))
     scenarios=[]
@@ -434,10 +437,11 @@ def test_frozen_family_restores_common_topology_and_rejects_background_perturbat
     class UnitBackend:
         def __init__(self):
             self.values={o['name']:[0.,0.,0.] for o in doc['objects']};self.target=[0.,0.,5.]
-            self._env=SimpleNamespace(scene=SimpleNamespace(objects=[SimpleNamespace(name=n,dump_state=lambda serialized=False:[]) for n in self.values]))
+            self._env=SimpleNamespace(scene=SimpleNamespace(objects=[SimpleNamespace(name=n,links={},dump_state=lambda serialized=False:[]) for n in self.values]))
             self.restores=[]
         def set_open(self,*a):return True
         def settle(self,*a):pass
+        def teleport_robot(self,anchor):pass
         def validate_physics_state(self):pass
         def entity_pose(self,n):return list(self.target if n=='search_target' else self.values[n])
         def entity_aabb(self,n):return [[0.,0.,0.],[1.,1.,1.]]

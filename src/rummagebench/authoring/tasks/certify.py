@@ -180,6 +180,9 @@ class TaskCertifier:
         # validate every anchor at build time: the oracle's NAV only uses
         # build-time-verified anchors
         backend = OmniGibsonBackend(seed=0, validate_legacy_anchors=True)
+        # Family worker reuses the very same loaded frozen member for its
+        # separate target-blind reference search after the execution witness.
+        self.backend = backend
         t0 = time.time()
         try:
             try:
@@ -641,6 +644,8 @@ class TaskCertifier:
                                            2 * math.pi)) < 1e-3):
                 return
         z = float(scenario.anchors[scenario.robot.init_anchor].position[2])
+        if scenario.scene.frozen_member_manifest is not None:
+            raise ValueError("FROZEN_WITNESS_VIEW_NOT_IN_COMPLETE_PROBED_ANCHOR_SET; reprobe and rebind the whole family")
         anchor = AnchorSpec(position=[round(x, 4), round(y, 4), round(z, 4)],
                             orientation=[round(v, 6) for v in quat_from_yaw(yaw)])
         slot = self.ss.by_id()[self._target_slot_id]
@@ -669,10 +674,18 @@ class TaskCertifier:
 
         ev = out.evidence
         self._register_view_anchor(backend, scenario, out)
-        session = BenchmarkSession(backend, scenario)
+        oracle_scenario = scenario
+        if scenario.scene.source == "infinigen":
+            # The legacy oracle has no public REPORT_DONE action. Its
+            # evaluator-only execution question ends at holding the target;
+            # the public witness above separately proves the required report.
+            # Never mutate the loaded scenario or the agent's success rule.
+            oracle_scenario = scenario.model_copy(deep=True)
+            oracle_scenario.termination.succeed_when_holding_target = True
+        session = BenchmarkSession(backend, oracle_scenario)
         session.reset()
         t0 = time.time()
-        c = certify_episode(scenario, session)
+        c = certify_episode(oracle_scenario, session)
         if c.solvable and c.oracle_plan:
             session.reset()
             for a in c.oracle_plan:
@@ -691,4 +704,6 @@ class TaskCertifier:
                 and (a.get("target") or {}).get("value") != scenario.target.entity)
         ev.replay_success = c.plan_replay_status == "SUCCESS"
         out.oracle_certificate = c.to_dict()
+        if scenario.scene.source == "infinigen":
+            out.oracle_certificate["scope"] = "legacy_full_information_execution_to_holding; public_REPORT_DONE_proved_by_witness"
         out.details["oracle_seconds"] = round(time.time() - t0, 1)

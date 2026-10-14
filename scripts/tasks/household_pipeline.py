@@ -224,7 +224,7 @@ def prepare_infinigen(args) -> dict:
     spec = load_household_spec(args.spec, args.policy)
     try:
         doc = prepare_assembly(spec, args.scene, args.solve_state, json.loads(args.bindings.read_text()),
-                               args.assets_root, args.out)
+                               args.assets_root, args.out, generation_receipt=args.generation_receipt)
     except Exception as exc:
         # Keep partial preparation evidence; absence of assembly.json is the
         # commit marker distinguishing a failed bundle from a candidate.
@@ -397,6 +397,8 @@ def main(argv=None) -> int:
     prepare.add_argument("--policy", type=Path, default=default_policy)
     prepare.add_argument("--scene", type=Path, required=True)
     prepare.add_argument("--solve-state", type=Path, required=True)
+    prepare.add_argument("--generation-receipt", type=Path, required=True,
+                         help="generation.json; solve state must come from an actually proxy-admitted completed attempt")
     prepare.add_argument("--bindings", type=Path, required=True)
     prepare.add_argument("--assets-root", type=Path, required=True)
     prepare.add_argument("--out", type=Path, required=True)
@@ -425,7 +427,56 @@ def main(argv=None) -> int:
     gpu_probe = sub.add_parser("gpu-probe-infinigen", help="GPU ONLY: existing SceneProber over every required Infinigen candidate")
     gpu_probe.add_argument("--request", type=Path, required=True)
     gpu_probe.add_argument("--out", type=Path, required=True)
+    validation = sub.add_parser("prepare-infinigen-validation", help="CPU: verify compiled/frozen family and emit explicit GPU worker commands")
+    validation.add_argument("--family-root", type=Path, required=True)
+    validation.add_argument("--frozen-root", type=Path, required=True)
+    validation.add_argument("--python", required=True, help="existing simulator Python; command generation only")
+    validation.add_argument("--out", type=Path, required=True)
+    worker = sub.add_parser("gpu-certify-infinigen-member", help="GPU ONLY: existing certifier and target-blind search on one frozen member")
+    worker.add_argument("--request", type=Path, required=True)
+    worker.add_argument("--episode", required=True)
+    worker.add_argument("--out", type=Path, required=True)
+    collect = sub.add_parser("verify-infinigen-family", help="CPU: recompute whole-family gates; pending never releases")
+    collect.add_argument("--request", type=Path, required=True)
+    collect.add_argument("--results", type=Path, required=True)
+    collect.add_argument("--report", type=Path, required=True)
+    publish = sub.add_parser("publish-infinigen-family", help="CPU: immutable evaluator-local dataset, only after complete family acceptance")
+    publish.add_argument("--request", type=Path, required=True)
+    publish.add_argument("--results", type=Path, required=True)
+    publish.add_argument("--out", type=Path, required=True)
+    check_dataset = sub.add_parser("verify-infinigen-dataset", help="CPU: recheck dataset inputs, dependencies and live acceptance")
+    check_dataset.add_argument("--dataset", type=Path, required=True)
+    inventory = sub.add_parser("infinigen-status", help="CPU: count actual protected pipeline artifacts and failure reasons")
+    inventory.add_argument("--root", type=Path, required=True)
+    inventory.add_argument("--report", type=Path)
     args = ap.parse_args(argv)
+    if args.stage == "infinigen-status":
+        from rummagebench.authoring.tasks.household_dataset import pipeline_inventory
+        write_report(args.report,pipeline_inventory(args.root))
+        return 0
+    if args.stage == "prepare-infinigen-validation":
+        from rummagebench.authoring.tasks.household_dataset import prepare_family_validation
+        write_report(None, prepare_family_validation(args.family_root,args.frozen_root,args.out,args.python,Path(__file__)))
+        return 0
+    if args.stage == "gpu-certify-infinigen-member":
+        from rummagebench.authoring.tasks.household_certify import certify_member
+        report = certify_member(args.request,args.episode,args.out)
+        write_report(None, {"episode_id": report["episode_id"], "status": report["status"],
+                            "checks": report["checks"], "evaluation_ready_episodes": 0})
+        return 0 if report["status"] == "certified" else 2
+    if args.stage == "verify-infinigen-family":
+        from rummagebench.authoring.tasks.household_dataset import collect_family_validation
+        report = collect_family_validation(args.request,args.results)
+        write_report(args.report,report)
+        return 0 if report["status"] == "validated" else 2
+    if args.stage == "publish-infinigen-family":
+        from rummagebench.authoring.tasks.household_dataset import publish_family
+        write_report(None,publish_family(args.request,args.results,args.out))
+        return 0
+    if args.stage == "verify-infinigen-dataset":
+        from rummagebench.authoring.tasks.household_dataset import load_dataset
+        write_report(None,load_dataset(args.dataset))
+        return 0
     if args.stage == "inspect-infinigen-geometry":
         from rummagebench.authoring.tasks.infinigen import inspect_geometry_receipt
         report = inspect_geometry_receipt(load_household_spec(args.spec,args.policy),args.receipt)

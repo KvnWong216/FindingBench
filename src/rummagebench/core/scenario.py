@@ -31,11 +31,15 @@ class SceneSpec(BaseModel):
     model: str
     source: Literal["behavior", "infinigen"] = "behavior"
     assembly_manifest: Optional[str] = None
+    # Evaluator-local state bundle. Never exposed through PublicObservation.
+    frozen_member_manifest: Optional[str] = None
 
     @model_validator(mode="after")
     def source_binding(self):
         if (self.source == "infinigen") != (self.assembly_manifest is not None):
             raise ValueError("infinigen scenes require an assembly manifest; behavior scenes do not use one")
+        if self.frozen_member_manifest is not None and self.source != "infinigen":
+            raise ValueError("frozen household members require an Infinigen assembly")
         return self
 
 
