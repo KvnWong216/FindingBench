@@ -29,15 +29,15 @@ class SceneSpec(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     model: str
-    source: Literal["behavior", "infinigen"] = "behavior"
+    source: Literal["behavior", "behavior_layout", "infinigen"] = "behavior"
     assembly_manifest: Optional[str] = None
     # Evaluator-local state bundle. Never exposed through PublicObservation.
     frozen_member_manifest: Optional[str] = None
 
     @model_validator(mode="after")
     def source_binding(self):
-        if (self.source == "infinigen") != (self.assembly_manifest is not None):
-            raise ValueError("infinigen scenes require an assembly manifest; behavior scenes do not use one")
+        if (self.source in ("infinigen", "behavior_layout")) != (self.assembly_manifest is not None):
+            raise ValueError("assembled scenes require a manifest; ordinary behavior scenes do not use one")
         if self.frozen_member_manifest is not None and self.source != "infinigen":
             raise ValueError("frozen household members require an Infinigen assembly")
         return self
@@ -111,12 +111,34 @@ class FeasibilitySpec(BaseModel):
     collision_padding: float = 0.0  # m, safety margin subtracted from clearances
 
 
+class PanoramaSpec(BaseModel):
+    model_config = ConfigDict(extra="forbid", allow_inf_nan=False)
+    head_link: str = "zed_link"
+    # R1Pro's ZED frame is tilted. Define up/forward using its rigid neck
+    # support, then convert once into the actual head link's coordinates.
+    mount_frame_link: str = "torso_link4"
+    offset: tuple[float, float, float] = (0.0, 0.0, 0.15)
+    face_size: int = Field(default=256, ge=32, le=2048)
+    width: int = Field(default=1024, ge=64, le=8192)
+    height: int = Field(default=512, ge=32, le=4096)
+
+
+class BehaviorTaskSpec(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    activity_name: str = Field(pattern=r"^[a-z0-9_]+$")
+    activity_definition_id: int = Field(default=0, ge=0)
+    activity_instance_id: int = Field(default=0, ge=0)
+    # The original definition and the rigid-only audit must be available.
+    bddl_root: str
+
+
 class RobotSpec(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     model: str = "r1pro"
     name: str = "robot_0"
-    init_anchor: str
+    init_anchor: Optional[str] = None
+    panorama: Optional[PanoramaSpec] = None
     # §7: AGENT-mode scenarios request the synchronized private bundle by
     # declaring obs_modalities: [rgb, depth, seg_instance] in the scenario
     # (seg_semantic is auto-enabled by the sensor). Legacy scenarios stay
@@ -279,8 +301,9 @@ class ScenarioSpec(BaseModel):
     instruction: str
     scene: SceneSpec
     robot: RobotSpec
-    anchors: dict[str, AnchorSpec]
-    target: TargetSpec
+    anchors: dict[str, AnchorSpec] = Field(default_factory=dict)
+    target: Optional[TargetSpec] = None
+    behavior_task: Optional[BehaviorTaskSpec] = None
     objects: list[ObjectSpec] = Field(default_factory=list)
     placements: list[PlacementSpec] = Field(default_factory=list)
     initial_states: dict[str, InitialStateSpec] = Field(default_factory=dict)
@@ -306,10 +329,16 @@ class ScenarioSpec(BaseModel):
 
     @model_validator(mode="after")
     def _cross_check(self) -> "ScenarioSpec":
+        if self.behavior_task is not None:
+            if self.scene.source != "behavior" or self.objects or self.placements or self.initial_states or self.goal or self.temporal or self.target is not None:
+                raise ValueError("native BEHAVIOR tasks must preserve official objects, initial state and goals")
+            return self
         if self.robot.init_anchor not in self.anchors:
             raise ValueError(
                 f"robot.init_anchor {self.robot.init_anchor!r} is not a defined anchor"
             )
+        if self.target is None:
+            raise ValueError("legacy scenarios require a target")
         if self.target.entity not in {o.name for o in self.objects}:
             raise ValueError(
                 f"target.entity {self.target.entity!r} must be one of the spawned objects"

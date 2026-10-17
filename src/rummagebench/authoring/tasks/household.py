@@ -80,7 +80,7 @@ def source_layout_group_id(upstream_commit: str, scene_seed: int) -> str:
 
 class HouseholdTaskSpec(StrictData):
     schema_version: Literal[1] = 1
-    generator_version: Literal["household-infinigen-1", "household-infinigen-2"] = "household-infinigen-2"
+    generator_version: Literal["household-infinigen-1", "household-infinigen-2", "household-infinigen-native-3"] = "household-infinigen-2"
     task_id: str
     family_id: str
     base_layout_id: str
@@ -91,7 +91,7 @@ class HouseholdTaskSpec(StrictData):
     room_type: Literal["kitchen"] = "kitchen"
     instruction: str
     target: TargetAsset
-    locations: list[SearchLocation] = Field(min_length=2, max_length=8)
+    locations: list[SearchLocation] = Field(min_length=2, max_length=128)
     target_location: str
     background_policy: Literal["preserve_upstream_household_semantics_all_surfaces"]
     appearance: dict
@@ -117,8 +117,12 @@ class HouseholdTaskSpec(StrictData):
 
     @model_validator(mode="after")
     def semantic_contract(self):
-        from rummagebench.core.public_types import PUBLIC_SKILLS
+        from rummagebench.core.legacy_public_types import PUBLIC_SKILLS
         ids = [s.location_id for s in self.locations]
+        if self.generator_version!='household-infinigen-native-3' and len(ids)>8:
+            raise ValueError('SOURCE_PROPOSAL_LOCATION_LIMIT_EXCEEDED')
+        if self.generator_version=='household-infinigen-native-3' and not self.generation_constraints.get('native_region_lineage'):
+            raise ValueError('NATIVE_REGION_SPEC_REQUIRES_PROTECTED_SOURCE_LINEAGE')
         if len(ids) != len(set(ids)) or self.target_location not in ids:
             raise ValueError("duplicate or unknown candidate location")
         if abs(sum(s.prior for s in self.locations) - 1) > 1e-8:
@@ -225,6 +229,10 @@ def grouped_split(specs: list[HouseholdTaskSpec], *, test_fraction: float = .2,
 
 def validate_spec_assets(spec: HouseholdTaskSpec, repo: Path, policy_path: Path) -> None:
     """Mandatory semantic gate for template or externally proposed JSON specs."""
+    if spec.generator_version=='household-infinigen-native-3':
+        from rummagebench.authoring.tasks.infinigen_component_binding import validate_native_family_spec
+        validate_native_family_spec(spec,repo)
+        return
     policy = yaml.safe_load(Path(policy_path).read_text())
     pri_path, el_path = repo / policy["placement_priors"], repo / policy["eligibility"]
     priors, eligibility = PlacementPriors.load(pri_path), ObjectEligibility.load(el_path)
@@ -245,6 +253,13 @@ def validate_spec_assets(spec: HouseholdTaskSpec, repo: Path, policy_path: Path)
         raise ValueError("TARGET_GEOMETRY_DIFFERS_FROM_WHITELIST")
     if sha256_bytes(canonical_json(spec.appearance_config)) != spec.input_hashes.get("appearance_config"):
         raise ValueError("SPEC_INPUT_CHANGED:appearance_config")
+    try:
+        expected_appearance=sample_appearance(np.random.default_rng(stage_seed(spec.seed,spec.index,'household_appearance')),
+                                             spec.appearance_config)
+    except (KeyError,TypeError,ValueError) as exc:
+        raise ValueError('APPEARANCE_CONFIGURATION_INVALID') from exc
+    if spec.appearance != expected_appearance:
+        raise ValueError('APPEARANCE_REQUEST_DIFFERS_FROM_SEEDED_CONFIGURATION')
     for location in spec.locations:
         if not priors.is_approved(spec.target.category, location.slot_type, location.room_type):
             raise ValueError("UNAPPROVED_TARGET_LOCATION_PRIOR")
@@ -268,8 +283,35 @@ def family_members(spec: HouseholdTaskSpec) -> list[HouseholdTaskSpec]:
     return result
 
 
+def native_direct_tier(candidate_count: int, max_planning_steps: int):
+    """Instantiate the independent direct-family contract over every region.
+
+    The complete native candidate count is an EXACT structural requirement.
+    This contract grants no difficulty label and changes no physical gate.
+    """
+    from rummagebench.authoring.tasks.tiers import load_tier
+    from rummagebench.authoring.tasks.tiers.base import TierSpec
+    contract=load_tier('household_direct_v1')
+    if not contract.search.candidate_slot_count.contains(candidate_count):
+        raise ValueError('NATIVE_DIRECT_CANDIDATE_COUNT_INVALID')
+    doc=contract.model_dump(mode='json')
+    doc['search']['candidate_slot_count']={'min':candidate_count,'max':candidate_count}
+    doc['budget']['max_planning_steps']=max_planning_steps
+    return TierSpec.model_validate(doc)
+
+
+def execution_tier(spec: HouseholdTaskSpec):
+    from rummagebench.authoring.tasks.tiers import load_tier
+    if spec.generator_version=='household-infinigen-native-3':
+        return native_direct_tier(len(spec.locations),spec.max_planning_steps)
+    tier=load_tier('easy_v1')
+    return tier.model_copy(update={'budget':tier.budget.model_copy(update={'max_planning_steps':spec.max_planning_steps})})
+
+
 def profile_candidate_counts(policy: dict, profile_name: str) -> list[int]:
-    from rummagebench.authoring.tasks.difficulty import exact_search_cost, interval_label
+    from rummagebench.authoring.tasks.difficulty import separable_search_cost, interval_label
+    from rummagebench.authoring.tasks.household_search import validate_search_model
+    validate_search_model(policy["search_model"])
     profile = policy["request_profiles"].get(profile_name)
     if profile is None:
         raise ValueError("UNSUPPORTED_DIFFICULTY_PROFILE")
@@ -279,8 +321,14 @@ def profile_candidate_counts(policy: dict, profile_name: str) -> list[int]:
         if not isinstance(n, int) or not max(lo, 2) <= n <= min(hi, 8):
             raise ValueError("PROFILE_CANDIDATE_COUNT_OUTSIDE_SUPPORTED_RANGE")
         model = policy["search_model"]
-        costs = exact_search_cost(np.zeros((n+1,n+1)), [1/n]*n,
-                                  [model["inspection_operations"]]*n, finish_cost=model["finish_operations"])
+        # The last member pays for every inspection. Its movement is at
+        # least the requested expected spatial lower bound. If even that
+        # bound exceeds the public horizon, this complete cell cannot run.
+        spatial_lower = policy["difficulty_intervals"]["spatial"][profile["spatial"]][0]
+        if spatial_lower + n * model["inspection_operations"] + model["finish_operations"] > policy["max_planning_steps"]:
+            raise ValueError("REQUESTED_COST_CELL_EXCEEDS_PUBLIC_HORIZON")
+        costs = separable_search_cost([0.]*n, [0.]*n, [1/n]*n,
+                                     [model["inspection_operations"]]*n, finish_cost=model["finish_operations"])
         if interval_label(costs["expected_operations"], policy["difficulty_intervals"]["operations"]) == profile["operations"]:
             supported.append(n)
     if not supported or len(supported) != len(profile["candidate_counts"]):
@@ -292,7 +340,7 @@ def generation_requirements(policy: dict, profile_name: str, n: int) -> dict:
     if n not in profile_candidate_counts(policy, profile_name):
         raise ValueError("CANDIDATE_COUNT_NOT_SUPPORTED_FOR_REQUEST")
     profile = policy["request_profiles"][profile_name]
-    return {"version": 1, "profile": profile_name, "candidate_count": n,
+    result={"version": 1, "profile": profile_name, "candidate_count": n,
             "storage_min_distance_m": float(profile["storage_min_distance_m"]),
             "spatial_label": profile["spatial"], "operations_label": profile["operations"],
             "spatial_interval": policy["difficulty_intervals"]["spatial"][profile["spatial"]],
@@ -300,3 +348,8 @@ def generation_requirements(policy: dict, profile_name: str, n: int) -> dict:
             "difficulty_intervals": {k: policy["difficulty_intervals"][k] for k in ("spatial", "operations")},
             "search_model": policy["search_model"],
             "postfilter": "exact_candidate_count_then_geometric_model_cost_and_bins; no physical acceptance"}
+    if 'source_storage_dimensions_m' in policy:
+        result['source_storage_dimensions_m']=policy['source_storage_dimensions_m']
+    for key in ('source_sink_parameter_ranges_m','source_sink_front_margin_m','source_kitchen_cabinets_closed_only'):
+        if key in policy:result[key]=policy[key]
+    return result

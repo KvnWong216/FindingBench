@@ -59,9 +59,8 @@ class FootprintChecker:
                 continue
             if backend.describe_entity(name) is None or backend.is_holding(name):
                 continue
-            aabb = backend.entity_aabb(name)
-            if aabb is not None:
-                boxes.append(aabb)
+            from rummagebench.skills.move import navigation_aabbs
+            boxes.extend(navigation_aabbs(backend,name))
         return cls(boxes, half_extent, margin)
 
     def free(self, x: float, y: float, yaw: float) -> bool:

@@ -1,0 +1,117 @@
+{
+  "$defs": {
+    "Feedback": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "$ref": "#/$defs/PublicActionFeedback"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "title": "Feedback",
+      "type": "object"
+    },
+    "PublicActionFeedback": {
+      "description": "EXACTLY four public action-result classes. No other category may cross\nthe agent boundary.",
+      "enum": [
+        "EXECUTED",
+        "INVALID_ACTION",
+        "OUT_OF_CAPABILITY",
+        "UNSAFE"
+      ],
+      "title": "PublicActionFeedback",
+      "type": "string"
+    },
+    "PublicObservation": {
+      "additionalProperties": false,
+      "description": "The complete agent-facing observation. Nothing else may be added.\n\nForbidden anywhere in the serialized form: entity/category names, object\nstates, robot world pose, held-entity id, scene graph, pair_id, placement\nregime, oracle depth, segmentation, depth, camera extrinsics, candidate\nor admissible action sets, interaction targets.",
+      "properties": {
+        "instruction": {
+          "title": "Instruction",
+          "type": "string"
+        },
+        "frame_id": {
+          "title": "Frame Id",
+          "type": "string"
+        },
+        "image_png_b64": {
+          "title": "Image Png B64",
+          "type": "string"
+        },
+        "planning_step": {
+          "title": "Planning Step",
+          "type": "integer"
+        },
+        "max_planning_steps": {
+          "title": "Max Planning Steps",
+          "type": "integer"
+        },
+        "skill_library": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Skill Library",
+          "type": "array"
+        },
+        "feedback": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Feedback"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "instruction",
+        "frame_id",
+        "image_png_b64",
+        "planning_step",
+        "max_planning_steps"
+      ],
+      "title": "PublicObservation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "episode_status": {
+      "enum": [
+        "RUNNING",
+        "SUCCESS",
+        "FAIL_MAX_STEPS",
+        "FAIL_FALSE_COMPLETION"
+      ],
+      "title": "Episode Status",
+      "type": "string"
+    },
+    "planning_step": {
+      "title": "Planning Step",
+      "type": "integer"
+    },
+    "feedback": {
+      "$ref": "#/$defs/Feedback"
+    },
+    "observation": {
+      "$ref": "#/$defs/PublicObservation"
+    }
+  },
+  "required": [
+    "episode_status",
+    "planning_step",
+    "feedback",
+    "observation"
+  ],
+  "title": "PublicStepResult",
+  "type": "object"
+}

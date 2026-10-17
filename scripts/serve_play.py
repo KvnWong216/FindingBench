@@ -9,13 +9,12 @@ entity names, target lists, feasibility state or simulator labels.
 
     MOVE  -> dialog asking signed distance in cm
     TURN  -> dialog asking signed angle in degrees
-    OPEN / CLOSE / GRASP / PLACE / OBSERVE
+    VIEW -> dialog asking absolute yaw / pitch, in degrees
+    OPEN / CLOSE / GRASP / PLACE
           -> crosshair mode: click the current RGB; the normalized point plus
              the current frame_id are submitted automatically
     REPORT_DONE -> no parameter
 
-OBSERVE results render as a non-interactive gallery strip; auxiliary views
-are never valid point-reference frames.
 
 --assist (human debugging only) breaks that boundary on purpose: while a point
 skill is selected, objects the skills can act on are highlighted under the
@@ -41,11 +40,11 @@ ICONS = {
     "CLOSE": '<svg viewBox="0 0 48 48"><rect x="12" y="6" width="24" height="36" rx="2" fill="none" stroke="#0f6e4e" stroke-width="3"/><circle cx="30" cy="24" r="2.5" fill="#0f6e4e"/><path d="M40 8l-6 6M40 40l-6-6" stroke="#b3261e" stroke-width="3"/></svg>',
     "GRASP": '<svg viewBox="0 0 48 48"><path d="M14 26V14a3 3 0 0 1 6 0v8m0-10a3 3 0 0 1 6 0v10m0-12a3 3 0 0 1 6 0v12m0-8a3 3 0 0 1 6 0v10c0 8-5 14-12 14h-2c-6 0-10-4-10-10v-6" fill="none" stroke="#0f6e4e" stroke-width="3" stroke-linecap="round"/></svg>',
     "PLACE": '<svg viewBox="0 0 48 48"><path d="M24 8v18m0 0-7-7m7 7 7-7" fill="none" stroke="#0f6e4e" stroke-width="3" stroke-linecap="round"/><path d="M8 32v6a4 4 0 0 0 4 4h24a4 4 0 0 0 4-4v-6" fill="none" stroke="#0f6e4e" stroke-width="3" stroke-linecap="round"/></svg>',
-    "OBSERVE": '<svg viewBox="0 0 48 48"><path d="M4 24s8-12 20-12 20 12 20 12-8 12-20 12S4 24 4 24Z" fill="none" stroke="#0f6e4e" stroke-width="3"/><circle cx="24" cy="24" r="6" fill="none" stroke="#0f6e4e" stroke-width="3"/></svg>',
+    "VIEW": '<svg viewBox="0 0 48 48"><path d="M4 24s8-12 20-12 20 12 20 12-8 12-20 12S4 24 4 24Z" fill="none" stroke="#0f6e4e" stroke-width="3"/><circle cx="24" cy="24" r="6" fill="none" stroke="#0f6e4e" stroke-width="3"/></svg>',
     "REPORT_DONE": '<svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="17" fill="none" stroke="#0f6e4e" stroke-width="3"/><path d="M15 24l6 6 12-13" fill="none" stroke="#0f6e4e" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
 }
 
-POINT_SKILLS = ["OPEN", "CLOSE", "GRASP", "PLACE", "OBSERVE"]
+POINT_SKILLS = ["OPEN", "CLOSE", "GRASP", "PLACE"]
 
 PAGE = """<!DOCTYPE html>
 <html lang="en">
@@ -143,8 +142,8 @@ PAGE = """<!DOCTYPE html>
 </div></div>
 <script>
 const ICONS = __ICONS__;
-const POINT_SKILLS = ["OPEN", "CLOSE", "GRASP", "PLACE", "OBSERVE"];
-const SKILLS = ["MOVE", "TURN", "OPEN", "CLOSE", "GRASP", "PLACE", "OBSERVE", "REPORT_DONE"];
+const POINT_SKILLS = ["OPEN", "CLOSE", "GRASP", "PLACE"];
+const SKILLS = ["MOVE", "TURN", "OPEN", "CLOSE", "GRASP", "PLACE", "VIEW", "REPORT_DONE"];
 let cur = null, pendingSkill = null, busy = false, lastVerdictKey = null;
 // --assist: label image of actionable objects for the current frame
 let hints = null, hintPixels = null, hintKey = null, hoverIdx = 0;
@@ -238,6 +237,20 @@ function onSkill(t) {
   if (t === "REPORT_DONE") { submit({ skill: "REPORT_DONE" }); return; }
   if (t === "MOVE") return askNumber(t, "signed distance in cm", "positive = forward, negative = backward", 40);
   if (t === "TURN") return askNumber(t, "signed angle in degrees", "positive = left (CCW), negative = right (CW)", 45);
+  if (t === "VIEW") {
+    const m = $g("modal");
+    $g("m-title").textContent = "VIEW";
+    $g("m-body").innerHTML = '<label>yaw (left +) <input id="v-yaw" type="number" min="-180" max="180" value="0"></label><label>pitch (up +) <input id="v-pitch" type="number" min="-90" max="90" value="0"></label><button id="v-go">view</button><button id="v-cancel">cancel</button>';
+    m.style.display = "flex";
+    $g("v-cancel").onclick = () => m.style.display = "none";
+    $g("v-go").onclick = () => {
+      const yaw = Number($g("v-yaw").value), pitch = Number($g("v-pitch").value);
+      if (!Number.isFinite(yaw) || !Number.isFinite(pitch) || Math.abs(yaw)>180 || Math.abs(pitch)>90) return;
+      m.style.display = "none";
+      submit({skill: "VIEW", yaw, pitch});
+    };
+    return;
+  }
   // point skills: enter crosshair mode
   pendingSkill = (pendingSkill === t) ? null : t;
   $g("view").classList.toggle("selecting", pendingSkill !== null);
@@ -342,12 +355,6 @@ function render(st) {
     v.style.display = "block";
     v.innerHTML = `<span class="${VCLASS[f.code] || ""}">${f.code}</span>`;
   } else { v.style.display = "none"; }
-  const gal = $g("gallery");
-  if (st.observe_views && st.observe_views.length) {
-    gal.style.display = "flex";
-    gal.innerHTML = st.observe_views
-      .map(vw => `<img src="data:image/png;base64,${vw.image_png_b64}">`).join("");
-  } else { gal.style.display = "none"; gal.innerHTML = ""; }
   renderSkills();
 }
 
@@ -419,11 +426,12 @@ class PlayState:
     simulator) executes — Kit calls deadlock off their creating thread."""
 
     def __init__(self, scenario_path: str, seed: int, start_anchor: str | None = None,
-                 assist: bool = False):
+                 assist: bool = False, env_factory=None):
         self.scenario_path = scenario_path
         self.seed = seed
         self.start_anchor = start_anchor
         self.assist = assist
+        self.env_factory = env_factory
         self.lock = threading.Lock()
         self.ready = False
         self.error: str | None = None
@@ -434,10 +442,13 @@ class PlayState:
         self._pending: dict | None = None
 
     def boot(self) -> None:
-        from rummagebench.environment.env import InteractiveSearchEnv
-
         try:
-            env = InteractiveSearchEnv(self.scenario_path, seed=self.seed,
+            if self.env_factory is None:
+                from rummagebench.environment.env import InteractiveSearchEnv
+                factory = InteractiveSearchEnv
+            else:
+                factory = self.env_factory
+            env = factory(self.scenario_path, seed=self.seed,
                                        mode="agent",
                                        trace_path="runs/play_trace.jsonl")
             if self.start_anchor:
@@ -517,9 +528,11 @@ class PlayState:
                     self.snapshot = self.env.reset()["observation"]
                     self.snapshot.update({"ready": True, "pending": False,
                                           "episode_status": "RUNNING"})
+                    self.error = None
                     self._add_hints()
                     print("== episode reset", flush=True)
                 except Exception as e:
+                    self.error = f"reset failed: {e}"
                     print(f"== reset error: {e}", flush=True)
                 self.resets += 1
                 self.seq += 1
@@ -530,8 +543,10 @@ class PlayState:
                     self.snapshot = result["observation"]
                     self.snapshot.update({"ready": True, "pending": False,
                                           "episode_status": result["episode_status"]})
+                    self.error = None
                     self._add_hints()
                 except Exception as e:
+                    self.error = f"action failed: {e}"
                     print(f"== action error: {e}", flush=True)
                 self.seq += 1
                 last_view = time.time()

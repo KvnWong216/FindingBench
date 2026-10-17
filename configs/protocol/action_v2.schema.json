@@ -1,0 +1,175 @@
+{
+  "$defs": {
+    "MoveAction": {
+      "additionalProperties": false,
+      "description": "MOVE: signed base translation along the CURRENT heading.\n\ndistance_cm > 0 -> forward, < 0 -> backward. Zero is invalid.\nLegal magnitude 5..100 cm by default (agent_protocol.min/max_move_cm).",
+      "properties": {
+        "skill": {
+          "const": "MOVE",
+          "title": "Skill",
+          "type": "string"
+        },
+        "distance_cm": {
+          "title": "Distance Cm",
+          "type": "number"
+        }
+      },
+      "required": [
+        "skill",
+        "distance_cm"
+      ],
+      "title": "MoveAction",
+      "type": "object"
+    },
+    "Point": {
+      "additionalProperties": false,
+      "properties": {
+        "frame_id": {
+          "title": "Frame Id",
+          "type": "string"
+        },
+        "x": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "X",
+          "type": "number"
+        },
+        "y": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Y",
+          "type": "number"
+        }
+      },
+      "required": [
+        "frame_id",
+        "x",
+        "y"
+      ],
+      "title": "Point",
+      "type": "object"
+    },
+    "PointAction": {
+      "additionalProperties": false,
+      "description": "Object-directed skills (OPEN/CLOSE/GRASP/PLACE): the object is\nselected by a normalized 2D point on the CURRENT RGB frame.\n\nCoordinate convention: origin top-left, x rightward, y downward, both in\n[0, 1]. frame_id MUST equal the latest current frame; stale or unknown\nframe ids are INVALID_ACTION.",
+      "properties": {
+        "skill": {
+          "enum": [
+            "OPEN",
+            "CLOSE",
+            "GRASP",
+            "PLACE"
+          ],
+          "title": "Skill",
+          "type": "string"
+        },
+        "point": {
+          "$ref": "#/$defs/Point"
+        }
+      },
+      "required": [
+        "skill",
+        "point"
+      ],
+      "title": "PointAction",
+      "type": "object"
+    },
+    "ReportDoneAction": {
+      "additionalProperties": false,
+      "description": "REPORT_DONE: no parameters. Privately evaluates the scenario goal\npredicate; a false completion terminates the episode.",
+      "properties": {
+        "skill": {
+          "const": "REPORT_DONE",
+          "title": "Skill",
+          "type": "string"
+        }
+      },
+      "required": [
+        "skill"
+      ],
+      "title": "ReportDoneAction",
+      "type": "object"
+    },
+    "TurnAction": {
+      "additionalProperties": false,
+      "description": "TURN: signed base yaw rotation. angle_deg > 0 -> left (CCW),\n< 0 -> right (CW). Zero is invalid. Legal magnitude 5..180 deg.",
+      "properties": {
+        "skill": {
+          "const": "TURN",
+          "title": "Skill",
+          "type": "string"
+        },
+        "angle_deg": {
+          "title": "Angle Deg",
+          "type": "number"
+        }
+      },
+      "required": [
+        "skill",
+        "angle_deg"
+      ],
+      "title": "TurnAction",
+      "type": "object"
+    },
+    "ViewAction": {
+      "additionalProperties": false,
+      "description": "Absolute panoramic viewport angles in degrees; positive yaw looks left,\npositive pitch looks up. Neither the robot nor the camera mount moves.",
+      "properties": {
+        "skill": {
+          "const": "VIEW",
+          "title": "Skill",
+          "type": "string"
+        },
+        "yaw": {
+          "maximum": 180,
+          "minimum": -180,
+          "title": "Yaw",
+          "type": "number"
+        },
+        "pitch": {
+          "default": 0,
+          "maximum": 90,
+          "minimum": -90,
+          "title": "Pitch",
+          "type": "number"
+        }
+      },
+      "required": [
+        "skill",
+        "yaw"
+      ],
+      "title": "ViewAction",
+      "type": "object"
+    }
+  },
+  "discriminator": {
+    "mapping": {
+      "CLOSE": "#/$defs/PointAction",
+      "GRASP": "#/$defs/PointAction",
+      "MOVE": "#/$defs/MoveAction",
+      "OPEN": "#/$defs/PointAction",
+      "PLACE": "#/$defs/PointAction",
+      "REPORT_DONE": "#/$defs/ReportDoneAction",
+      "TURN": "#/$defs/TurnAction",
+      "VIEW": "#/$defs/ViewAction"
+    },
+    "propertyName": "skill"
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/MoveAction"
+    },
+    {
+      "$ref": "#/$defs/TurnAction"
+    },
+    {
+      "$ref": "#/$defs/ViewAction"
+    },
+    {
+      "$ref": "#/$defs/PointAction"
+    },
+    {
+      "$ref": "#/$defs/ReportDoneAction"
+    }
+  ]
+}

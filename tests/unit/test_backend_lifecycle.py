@@ -100,11 +100,62 @@ def test_world_validation_rejects_nonfinite_articulation():
     import pytest
     from rummagebench.core.errors import SimBackendError
     obj=types.SimpleNamespace(
+        name='unit_private_articulation',
         get_position_orientation=lambda:(np.zeros(3),np.array([0,0,0,1])),
         n_joints=1,get_joint_positions=lambda:np.array([np.nan]),links={})
     backend=module.OmniGibsonBackend()
     backend._env=types.SimpleNamespace(scene=types.SimpleNamespace(objects=[obj]))
-    with pytest.raises(SimBackendError):backend.validate_physics_state()
+    with pytest.raises(SimBackendError) as error:backend.validate_physics_state()
+    assert 'unit_private_articulation' not in str(error.value)
+    assert backend._last_physics_failure=={'entity':'unit_private_articulation',
+        'component':'joint_positions','reason':'nonfinite joint positions'}
+
+
+def test_unmapped_static_mesh_uses_real_geometry_for_navigation(monkeypatch):
+    from rummagebench.sim.omnigibson import usd_collision
+    b=module.OmniGibsonBackend()
+    b._scenario=types.SimpleNamespace(scene=types.SimpleNamespace(source='infinigen'))
+    b._env=types.SimpleNamespace(scene='unit_scene',_findingbench_floor_z=.1,
+        _findingbench_assembly_manifest={'objects':[{'name':'unit_skirting','role':'static_background','source_component':None}]})
+    position=[0,0,0]
+    obj=types.SimpleNamespace(scale=[1,1,1],links={'base':types.SimpleNamespace(scale=[1,1,1],
+        get_position_orientation=lambda:(position,[0,0,0,1]))})
+    monkeypatch.setattr(module,'resolve_object',lambda *a:obj)
+    called=[]
+    monkeypatch.setattr(usd_collision,'static_architecture_navigation_aabbs',lambda o,z:called.append((o,z)) or [])
+    assert b.navigation_obstacle_aabbs('unit_skirting')==[] and called==[(obj,.1)]
+    assert b.navigation_obstacle_aabbs('unit_skirting')==[] and len(called)==1
+    position[0]=1
+    assert b.navigation_obstacle_aabbs('unit_skirting')==[] and len(called)==2
+    obj.scale[0]=2
+    assert b.navigation_obstacle_aabbs('unit_skirting')==[] and len(called)==3
+
+
+def test_spawn_rejection_records_blocker_only_in_private_diagnostic(monkeypatch):
+    from rummagebench.core.errors import SimBackendError
+    b=module.OmniGibsonBackend()
+    monkeypatch.setattr(b,'robot_pose',lambda:([0,0,0],[0,0,0,1]))
+    monkeypatch.setattr(b,'robot_entity_names',lambda:set())
+    monkeypatch.setattr(b,'entity_names',lambda:['unit_private_blocker'])
+    monkeypatch.setattr(b,'describe_entity',lambda n:object())
+    monkeypatch.setattr(b,'is_holding',lambda n:False)
+    monkeypatch.setattr(b,'navigation_obstacle_aabbs',lambda n:[([-.1,-.1,0],[.1,.1,1])])
+    with pytest.raises(SimBackendError) as exc:b._validate_spawn_clearance()
+    assert 'unit_private_blocker' not in str(exc.value)
+    assert b._last_spawn_failure['blockers'][0]['entity']=='unit_private_blocker'
+
+
+def test_sdk_shutdown_system_exit_does_not_mask_physics_failure():
+    import pytest
+    from rummagebench.core.errors import SimBackendError
+    backend=module.OmniGibsonBackend()
+    def shutdown():raise SystemExit(0)
+    backend._og=types.SimpleNamespace(shutdown=shutdown)
+    backend._env=object()
+    with pytest.raises(SimBackendError,match='unit physics failure'):
+        try:raise SimBackendError('unit physics failure')
+        finally:backend.close()
+    assert backend._env is None
 
 def test_unverified_nav_fails_before_mutating_world():
     from rummagebench.skills.nav import NavSkill
@@ -139,3 +190,30 @@ def test_spawn_collision_rejected_before_snapshot(monkeypatch):
     monkeypatch.setattr(move, "base_pose_collision_free", lambda *a: False)
     with pytest.raises(SimBackendError, match="invalid spawn"):
         backend._validate_spawn_clearance()
+
+
+@pytest.mark.parametrize('category,fixed,walkable', [
+    ('floors', True, True), ('paver', True, True),
+    ('paver', False, False), ('walls', True, False),
+    ('stairs', True, False), ('coffee_table', True, False),
+])
+def test_native_ground_support_does_not_block_base_skills(monkeypatch, category, fixed, walkable):
+    from rummagebench.sim.omnigibson import usd_collision
+    from rummagebench.skills.move import execute_move, execute_turn
+    box = ([-2., -2., -.2], [2., 2., .16])
+    obj = types.SimpleNamespace(category=category, fixed_base=fixed, links={})
+    backend = module.OmniGibsonBackend()
+    backend._scenario = types.SimpleNamespace(behavior_task=object())
+    backend._env = types.SimpleNamespace(scene=object())
+    monkeypatch.setattr(module, 'resolve_object', lambda *args: obj)
+    monkeypatch.setattr(usd_collision, 'collider_navigation_aabbs', lambda obj: [box])
+    monkeypatch.setattr(backend, 'entity_names', lambda: ['surface'])
+    monkeypatch.setattr(backend, 'describe_entity', lambda name: {})
+    monkeypatch.setattr(backend, 'robot_entity_names', lambda: set())
+    monkeypatch.setattr(backend, 'is_holding', lambda name: False)
+    poses = []
+    monkeypatch.setattr(backend, 'teleport_robot', poses.append)
+    pose = ([0., 0., 0.], [0., 0., 0., 1.])
+    assert execute_move(backend, pose, .2, .4, .05, .03)[0] is walkable
+    assert execute_turn(backend, pose, 30., .4, 5., .03)[0] is walkable
+    assert len(poses) == (2 if walkable else 0)

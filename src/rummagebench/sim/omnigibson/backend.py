@@ -74,6 +74,16 @@ class OmniGibsonBackend(SimBackend):
         seed_everything(self._seed)
         apply_runtime_env()
 
+        if getattr(getattr(scenario, 'robot', None), 'kinematics', None) is not None:
+            # Register Pinocchio's Boost.Python containers before Kit loads
+            # its own bindings. Use the environment's C++ runtime first:
+            # torch's compiled kernels require newer symbols than the host.
+            import ctypes
+            cpp_runtime = Path(_s.prefix) / 'lib' / 'libstdc++.so.6'
+            if cpp_runtime.exists():
+                ctypes.CDLL(str(cpp_runtime), mode=ctypes.RTLD_GLOBAL)
+            import pinocchio  # noqa: F401
+
         import omnigibson as og
         from omnigibson.objects import DatasetObject
 
@@ -84,6 +94,18 @@ class OmniGibsonBackend(SimBackend):
             self._sim.play()
         self._robot = self._env.scene.robots[0]
         self._scenario = scenario
+
+        if getattr(scenario, "behavior_task", None) is not None:
+            self.validate_physics_state()
+            self._validate_spawn_clearance()
+            self._initial_state = dump_state(self._sim)
+            task = self._env.task
+            goals = task.activity_natural_language_goal_conditions
+            scenario.instruction = "\n".join(goals) if isinstance(goals, (list, tuple)) else str(goals)
+            if not scenario.instruction.strip() or scenario.instruction == "None":
+                raise SimBackendError("official task instruction unavailable")
+            self._build_report = {"source": "official_behavior_presampled", "task": scenario.behavior_task.model_dump()}
+            return self._build_report
 
         report: dict[str, Any] = {"scene": scenario.scene.model, "spawned": [], "placements": [], "initial_states": [], "anchors": []}
 
@@ -348,6 +370,15 @@ class OmniGibsonBackend(SimBackend):
         
         import torch as th
 
+        actual_link=(rec.links or {}).get(link)
+        if actual_link is not None and getattr(actual_link,'is_meta_link',False):
+            from rummagebench.sim.omnigibson.inside_volume import sample_selected_volume
+            self._collision_body_cache=None
+            ok,evidence=sample_selected_volume(obj,rec,link)
+            self._last_volume_placement=evidence
+            self._collision_body_cache=None
+            return ok
+
         volumes = [l for n, l in (rec.links or {}).items()
                    if n.startswith(f"meta__{link}_") and "fillable" in n]
         if not volumes:
@@ -366,6 +397,9 @@ class OmniGibsonBackend(SimBackend):
         if link not in (rec.links or {}):
             raise SimBackendError(f"{rec.name} has no link {link!r}; "
                                   f"links: {sorted(rec.links or {})}")
+        if getattr(rec.links[link],'is_meta_link',False):
+            from rummagebench.sim.omnigibson.inside_volume import selected_volume_contains
+            return selected_volume_contains(obj,rec,link)
         return self._containing_moving_link(rec, obj) is rec.links[link]
 
     def _place(self, obj, rec, relation: str, link: str | None = None) -> bool:
@@ -536,7 +570,20 @@ class OmniGibsonBackend(SimBackend):
                     self._robot._release_grasp(arm=arm)
                 except Exception as e:
                     logger.warning("release_grasp(%s) failed on reset: %s", arm, e)
+        if self._scenario.scene.frozen_member_manifest is not None:
+            # The checked member checkpoint already includes the robot start.
+            # Loading a newly dumped world, stepping twenty times and then
+            # teleporting creates a different reconstruction recipe and can
+            # disturb native props. Replay the original member input instead.
+            from rummagebench.authoring.tasks.household_state import restore_frozen_member
+            restore_frozen_member(self, Path(self._scenario.scene.frozen_member_manifest), self._scenario)
+            self.validate_physics_state()
+            self._validate_spawn_clearance()
+            return
         load_state(self._sim, self._initial_state)
+        if getattr(self._scenario, "behavior_task", None) is not None:
+            self.validate_physics_state()
+            return
         # re-assert the base pose explicitly: the snapshot restores joints, but
         # re-teleporting removes any residual base-controller drift. Settle for
         # the same duration as setup so both paths converge to the same pose.
@@ -544,21 +591,41 @@ class OmniGibsonBackend(SimBackend):
         self.settle(15)
         self.validate_physics_state()
         self._validate_spawn_clearance()
-        if self._scenario.scene.frozen_member_manifest is not None:
-            from rummagebench.authoring.tasks.household_state import load_frozen_member, check_background
-            path = Path(self._scenario.scene.frozen_member_manifest)
-            doc = load_frozen_member(path, self._scenario)
-            check_background(self, doc, path.resolve().parent.parent)
 
     def _validate_spawn_clearance(self) -> None:
         from rummagebench.skills.move import base_pose_collision_free, yaw_from_quat
         position, orientation = self.robot_pose()
         if not base_pose_collision_free(self, position[0], position[1],
                                         yaw_from_quat(orientation), 0.40, 0.03):
+            from rummagebench.skills.move import footprint_corners, navigation_aabbs, _aabb_overlaps_footprint
+            corners=footprint_corners(position[0],position[1],yaw_from_quat(orientation),.40)
+            try:
+                controlled=self.robot_entity_names()
+                self._last_spawn_failure={'position':position,'orientation':orientation,'blockers':[
+                    {'entity':name,'navigation_aabb':box} for name in self.entity_names()
+                    if name not in controlled and self.describe_entity(name) is not None and not self.is_holding(name)
+                    for box in navigation_aabbs(self,name) if _aabb_overlaps_footprint(box,corners,.03)]}
+            except Exception as exc:
+                self._last_spawn_failure={'diagnostic_error':type(exc).__name__}
+            logger.error("Spawn clearance diagnostics: %s", self._last_spawn_failure)
             raise SimBackendError("Initial robot footprint overlaps an obstacle; invalid spawn")
 
     def get_observation(self) -> np.ndarray:
+        if getattr(self, "_panorama_camera", None) is not None:
+            return self.capture_panorama_frame().rgb
         return capture_head_rgb(self._env, self._robot.name)
+
+    def capture_panorama_frame(self):
+        return self._panorama_camera.capture()
+
+    def behavior_goal_satisfied(self):
+        task = self._env.task
+        # Current pinned BDDL compiled API. Fail loudly on incompatible SDKs.
+        if hasattr(task, "compiled_task") and hasattr(task, "_evaluate_predicate"):
+            success, _ = task.compiled_task.check_goal(
+                lambda predicate, *entities: task._evaluate_predicate(0, predicate, *entities))
+            return bool(success)
+        raise SimBackendError("native task evaluation requires the pinned compiled BDDL API")
 
     def resolve_entity(self, name: str) -> ResolvedTarget:
         obj = resolve_object(self._env.scene, name)
@@ -776,18 +843,25 @@ class OmniGibsonBackend(SimBackend):
         def finite(value):
             value = value.detach().cpu().numpy() if hasattr(value, "detach") else np.asarray(value)
             return bool(np.isfinite(value).all())
+        context = {}
+        self._last_physics_failure = None
         try:
             for obj in self._env.scene.objects:
+                context = {'entity':obj.name,'component':'object_pose'}
                 position, quaternion = obj.get_position_orientation()
                 if not finite(position) or not finite(quaternion):
                     raise ValueError("nonfinite object pose")
+                context = {'entity':obj.name,'component':'joint_positions'}
                 if obj.n_joints and not finite(obj.get_joint_positions()):
                     raise ValueError("nonfinite joint positions")
                 for link in obj.links.values():
+                    context = {'entity':obj.name,'component':'link_pose','link':getattr(link,'name',None)}
                     position, quaternion = link.get_position_orientation()
                     if not finite(position) or not finite(quaternion):
                         raise ValueError("nonfinite link pose")
         except (AssertionError, ValueError) as error:
+            # Evaluator-only diagnostics; public error text stays generic.
+            self._last_physics_failure = {**context,'reason':str(error)}
             raise SimBackendError("Physics state is invalid; run must not be scored") from error
 
     def dump_state(self) -> Any:
@@ -800,13 +874,18 @@ class OmniGibsonBackend(SimBackend):
         """Full state for counterfactual multi-view rendering (evaluator-only)."""
         from copy import deepcopy
 
-        return {"sim": self.dump_state(), "commanded_pose": deepcopy(self._commanded_pose)}
+        from rummagebench.sim.omnigibson import spatial_snapshot
+        return {"sim": self.dump_state(), "commanded_pose": deepcopy(self._commanded_pose),
+                "spatial_cache": spatial_snapshot.capture(self._env.scene, self._sim.current_time_step_index)}
 
     def restore_observe_state(self, snapshot):
         """Restore without physics steps that would mutate the saved world."""
         from copy import deepcopy
 
         load_state(self._sim, snapshot["sim"], settle_steps=0)
+        if "spatial_cache" in snapshot:
+            from rummagebench.sim.omnigibson import spatial_snapshot
+            spatial_snapshot.restore(self._env.scene, self._sim.current_time_step_index, snapshot["spatial_cache"])
         self._commanded_pose = deepcopy(snapshot["commanded_pose"])
         self._collision_body_cache = None
 
@@ -857,6 +936,67 @@ class OmniGibsonBackend(SimBackend):
     def held_count(self) -> int:
         ag = getattr(self._robot, "_ag_obj_in_hand", {})
         return sum(1 for v in ag.values() if v is not None)
+
+    def navigation_obstacle_aabbs(self, name):
+        """Floor-relative, conservative obstacles for the common MOVE gate."""
+        scenario=getattr(self,'_scenario',None)
+        if getattr(scenario, 'behavior_task', None) is not None:
+            from rummagebench.sim.omnigibson.usd_collision import collider_navigation_aabbs
+            obj = resolve_object(self._env.scene, name)
+            # Official scene floors and fixed paving are supporting terrain,
+            # not obstacles to a planar base skill. Their collider thickness
+            # may extend above z=0; that must not make MOVE / TURN unsafe.
+            # Keep their PhysX colliders intact, and keep loose tiles and all
+            # other categories (including stairs) in the obstacle set.
+            if (getattr(obj, 'fixed_base', False)
+                    and getattr(obj, 'category', None) in {'floors', 'paver'}):
+                return []
+            signature = tuple(tuple(np.r_[_arr(link.get_position_orientation()[0]),
+                                            _arr(link.get_position_orientation()[1]), _arr(link.scale)])
+                              for link in obj.links.values())
+            cache = getattr(self, '_navigation_native_cache', {})
+            if name not in cache or cache[name][0] != signature:
+                cache[name] = (signature, collider_navigation_aabbs(obj))
+                self._navigation_native_cache = cache
+            return cache[name][1]
+        if getattr(scenario,'scene',None) is None or scenario.scene.source!='infinigen':
+            box=self.entity_aabb(name)
+            return [] if box is None else [box]
+        manifest=getattr(self._env,'_findingbench_assembly_manifest',None)
+        floor_z=getattr(self._env,'_findingbench_floor_z',None)
+        if manifest is None or floor_z is None or not np.isfinite(floor_z):
+            raise SimBackendError('INFINIGEN_VERIFIED_NAVIGATION_DATUM_REQUIRED')
+        item=next((o for o in manifest['objects'] if o['name']==name),None)
+        if (item is not None and item.get('role')=='static_background'
+                and (item.get('source_component') in ('wall','exterior') or item.get('source_id') is None)):
+            from rummagebench.sim.omnigibson.usd_collision import static_architecture_navigation_aabbs
+            obj=resolve_object(self._env.scene,name)
+            # Source meshes are immutable kinematic assets. Reuse clipping
+            # only while every live link frame and scale is exactly unchanged;
+            # restores or diagnostic parking at another pose invalidate it.
+            frames=[]
+            for link in obj.links.values():
+                pos,quat=link.get_position_orientation()
+                values=np.r_[_arr(pos),_arr(quat),_arr(link.scale)]
+                if not np.isfinite(values).all():raise SimBackendError('NAVIGATION_STATIC_FRAME_NONFINITE')
+                frames.append(tuple(values))
+            scale=np.asarray(_arr(obj.scale),float)
+            if not np.isfinite(scale).all():raise SimBackendError('NAVIGATION_STATIC_SCALE_NONFINITE')
+            key=(id(obj),float(floor_z),tuple(scale),tuple(frames))
+            cache=getattr(self,'_navigation_static_cache',{})
+            if name not in cache or cache[name][0]!=key:
+                cache[name]=(key,static_architecture_navigation_aabbs(obj,floor_z))
+                self._navigation_static_cache=cache
+            return cache[name][1]
+        box=self.entity_aabb(name)
+        if box is None:raise SimBackendError(f'INFINIGEN_NAVIGATION_GEOMETRY_UNAVAILABLE:{name}')
+        values=np.asarray(box,float)
+        if values.shape!=(2,3) or not np.isfinite(values).all():
+            raise SimBackendError(f'INFINIGEN_NAVIGATION_GEOMETRY_INVALID:{name}')
+        if item is not None and item.get('source_component')=='floor' and abs(values[1,2]-floor_z)>.02:
+            raise SimBackendError('LOADED_FLOOR_DATUM_DIFFERS_FROM_EXPORT')
+        values[:,2]-=floor_z
+        return [(values[0].tolist(),values[1].tolist())]
 
     def symbolic_place(self, entity: str, receptacle: str,
                        at: list[float] | None = None) -> bool:
@@ -1165,7 +1305,7 @@ class OmniGibsonBackend(SimBackend):
         try:
             if self._og is not None:
                 self._og.shutdown()
-        except Exception:
+        except (Exception, SystemExit):
             pass
         self._env = None
 
@@ -1296,12 +1436,19 @@ class OmniGibsonBackend(SimBackend):
 
     # -------------------------------------------- rgb-only raycast fallback
 
+    def _camera_sensor(self, sensor_name: str | None = None):
+        """Resolve the same RGB sensor as capture, never enumeration order."""
+        if sensor_name is None:
+            from rummagebench.sim.omnigibson.observation import select_head_rgb_sensor
+            observations,_=self._env.get_obs()
+            sensor_name,_=select_head_rgb_sensor(observations[0].get(self._robot.name,{}))
+        return self._robot.sensors.get(sensor_name)
+
     def _camera_prim(self, sensor_name: str | None = None):
         """The VisionSensor's USD camera prim (for intrinsics/extrinsics)."""
         try:
-            sensors = ([self._robot.sensors[sensor_name]]
-                       if sensor_name and sensor_name in self._robot.sensors
-                       else list(self._robot.sensors.values()))
+            sensor=self._camera_sensor(sensor_name)
+            sensors=[] if sensor is None else [sensor]
             for sensor in sensors:
                 pp = getattr(sensor, "prim_path", None)
                 if not pp:
@@ -1319,9 +1466,8 @@ class OmniGibsonBackend(SimBackend):
         """World (position, quat xyzw) of the rgb sensor, via the sensor
         object's own XFormPrim API — the same path the robot pose uses."""
         try:
-            sensors = ([self._robot.sensors[sensor_name]]
-                       if sensor_name and sensor_name in self._robot.sensors
-                       else list(self._robot.sensors.values()))
+            sensor=self._camera_sensor(sensor_name)
+            sensors=[] if sensor is None else [sensor]
             for sensor in sensors:
                 if hasattr(sensor, "get_position_orientation"):
                     pos, quat = sensor.get_position_orientation()

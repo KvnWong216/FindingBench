@@ -14,6 +14,47 @@ from rummagebench.authoring.tasks.household_physics import (
 from rummagebench.feasibility.ik_solver import Pose, quat_rotate
 
 
+@pytest.mark.kinematics
+@pytest.mark.parametrize('height,distance,depth',[(1.1,.1,0.),(1.,0.,0.),(.99,0.,.01)])
+def test_actual_fcl_replacement_pair_measurements(height,distance,depth):
+    """Real FCL boxes, synthetic CPU fixtures only; no simulator imports."""
+    from rummagebench.feasibility.fcl_compat import collision_backend
+    from rummagebench.authoring.tasks.household_physics import replacement_pair_measurement
+    from rummagebench.sim.base import WorldCollisionObject
+    try:coal=collision_backend()
+    except ImportError:pytest.skip('optional coal/hpp-fcl required for real CPU collider query')
+    cabinet=WorldCollisionObject('unit_cab',None,coal.Box(1.,1.,1.),Pose.from_lists([0.,0.,height]))
+    floor=WorldCollisionObject('unit_floor',None,coal.Box(4.,4.,1.),Pose.from_lists([0.,0.,0.]))
+    measured=replacement_pair_measurement(cabinet,floor)
+    assert measured['distance_m']==pytest.approx(distance,abs=1e-7)
+    assert measured['max_penetration_m']==pytest.approx(depth,abs=1e-7)
+    if distance:assert measured['nearest_points'] is not None
+    else:assert measured['contacts']
+
+
+@pytest.mark.parametrize('corruption',[None,'floating','penetration','missing_pair','unknown_foreign','fake_points','limit','flag'])
+def test_replacement_support_requires_complete_numeric_geometry(corruption):
+    from rummagebench.authoring.tasks.household_physics import validate_replacement_support_evidence
+    pair={'first':'unit_cab/collider','second':'unit_floor/collider','foreign_entity':'unit_floor',
+        'distance_m':.003,'max_penetration_m':0.,'contacts':[],'nearest_points':[[0.,0.,.003],[0.,0.,0.]]}
+    record={'status':'passed','fixed_base':True,'bottom_z_m':.003,'foreign_entities':['unit_floor'],
+        'collider_counts':{'unit_cab':1,'unit_floor':1},'pair_measurements':[pair],
+        'support':[{'floor':'unit_floor','point':[0.,0.,0.]}]}
+    report={'version':1,'status':'passed','gpu_executed':True,'max_penetration_m':.002,
+        'support_clearance_m':.005,'containers':{'unit_cab':record},'unit_fixture_only':True}
+    if corruption=='floating':pair['distance_m']=.1;pair['nearest_points'][0][2]=.1;record['bottom_z_m']=.1
+    if corruption=='penetration':pair['max_penetration_m']=.02
+    if corruption=='missing_pair':record['pair_measurements']=[]
+    if corruption=='unknown_foreign':pair['foreign_entity']='unit_unknown'
+    if corruption=='fake_points':pair['nearest_points'][1][0]=3.
+    if corruption=='limit':report['max_penetration_m']=1.
+    if corruption=='flag':report['gpu_executed']=False
+    args=(report,{'unit_cab'},{'unit_cab','unit_floor'},{'unit_floor'})
+    if corruption:
+        with pytest.raises(ValueError):validate_replacement_support_evidence(*args)
+    else:validate_replacement_support_evidence(*args)
+
+
 def test_continuous_clearance_finds_collision_between_clear_endpoints_and_midpoint():
     distance=lambda t:max(0.,abs(t-.375)-.01)
     assert all(distance(t)>.005 for t in (0.,.5,1.))
@@ -77,6 +118,15 @@ def test_contact_and_area_are_not_a_stability_certificate(case):
     if case=="nan":
         with pytest.raises(ValueError):placement_stability(poses,velocity,spin)
     else:assert not placement_stability(poses,velocity,spin)["passed"]
+
+
+@pytest.mark.parametrize('angle,passed',[(0.,True),(.005,True),(2.1,False)])
+def test_rotation_uses_normalized_quaternions_without_erasing_real_motion(angle,passed):
+    q=np.array([0.,0.,math.sin(math.radians(angle)/2),math.cos(math.radians(angle)/2)])
+    poses=[[0.,0.,1.,0.,0.,0.,.9999],[0.,0.,1.,*(-q*.9999)]]
+    result=placement_stability(poses,[0.,0.,0.],[0.,0.,0.])
+    assert result['rotation_drift_deg']==pytest.approx(angle,abs=1e-8)
+    assert result['passed']==passed
 
 
 def test_temporary_place_requires_actual_contact_stability_and_public_trace():

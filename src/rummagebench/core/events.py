@@ -28,7 +28,7 @@ SESSION_MODE_AGENT = "agent"
 
 ORACLE_ACTION_PROTOCOL = "oracle_symbolic_v1"
 ORACLE_FEEDBACK_PROTOCOL = "structured_step_feedback_v1"
-AGENT_ACTION_PROTOCOL = "visual_pixel_v1"
+AGENT_ACTION_PROTOCOL = "visual_pixel_v2"
 AGENT_FEEDBACK_PROTOCOL = "public_feedback_v1"
 
 # explicit non-action event types (R03: reset / terminal / infrastructure

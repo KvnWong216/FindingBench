@@ -44,5 +44,10 @@ def containing_link(backend, receptacle: str, entity: str) -> Optional[str]:
     return next((k for k, v in (rec.links or {}).items() if v is link), link.name)
 
 
+def link_membership(backend, receptacle: str, entity: str, link: str) -> bool:
+    """The builder's exact link check, including selected native meta volumes."""
+    return bool(backend._in_link(_obj(backend, entity), _obj(backend, receptacle), link))
+
+
 def link_names(backend, entity: str) -> list[str]:
     return sorted((_obj(backend, entity).links or {}).keys())

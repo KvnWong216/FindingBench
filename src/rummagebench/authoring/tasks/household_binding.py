@@ -13,14 +13,30 @@ from rummagebench.authoring.tasks.compile import compile_plan
 from rummagebench.authoring.tasks.embodiment_slots import SlotEmbodimentOverlay
 from rummagebench.authoring.tasks.household import HouseholdTaskSpec, source_layout_group_id
 from rummagebench.authoring.tasks.plan import PlacedObject, TaskPlan, canonical_json, sha256_bytes, sha256_path
-from rummagebench.authoring.tasks.tiers import load_tier
 from rummagebench.sim.omnigibson.infinigen_adapter import load_assembly_manifest, scene_slots_from_assembly
+
+
+def resolve_family_slots(bindings, slots):
+    """Bind actual cavities explicitly; never take the first drawer of an asset."""
+    result = {}
+    for binding in bindings:
+        location = binding['location_id']
+        candidates = [s for s in slots.slots if s.parent_entity == binding['name']
+                      and (binding.get('slot_id') is None or s.slot_id == binding['slot_id'])]
+        if location in result or len(candidates) != 1:
+            raise ValueError(f'FAMILY_LOCATION_REQUIRES_UNIQUE_EXPLICIT_SLOT:{location}')
+        result[location] = candidates[0]
+    if len({s.slot_id for s in result.values()}) != len(result):
+        raise ValueError('DISTINCT_FAMILY_LOCATIONS_CANNOT_ALIAS_ONE_SLOT')
+    return result
 
 
 def bind_family(members: list[HouseholdTaskSpec], assembly: Path, overlay_path: Path, output: Path) -> dict:
     if not members:
         raise ValueError("EMPTY_FAMILY")
     doc = load_assembly_manifest(assembly)
+    if doc.get('component_context',{}).get('complete_leaf_binding') == 'pending':
+        raise ValueError('COMPLETE_KITCHEN_LEAF_BINDING_PENDING')
     if doc.get("target_category_confounds"):
         raise ValueError("NATIVE_TARGET_CATEGORY_AMBIGUOUS; preserve background and reject family or supply verified descriptive instruction")
     slots = scene_slots_from_assembly(assembly)
@@ -54,8 +70,7 @@ def bind_family(members: list[HouseholdTaskSpec], assembly: Path, overlay_path: 
     probe_request = verify_overlay_evidence(overlay)
     if probe_request["fingerprint"]["assembly_sha256"] != sha256_path(assembly):
         raise ValueError("PROBE_ASSEMBLY_MISMATCH")
-    by_location = {b["location_id"]: next(s for s in slots.slots if s.parent_entity == b["name"])
-                   for b in doc["candidate_bindings"]}
+    by_location = resolve_family_slots(doc.get('native_region_bindings',doc['candidate_bindings']), slots)
     if set(by_location) != locations:
         raise ValueError("CANDIDATE_MAPPING_INCOMPLETE")
     for slot in by_location.values():
@@ -66,12 +81,12 @@ def bind_family(members: list[HouseholdTaskSpec], assembly: Path, overlay_path: 
     if not starts:
         raise ValueError("ROBOT_START_NOT_PROBED")
     start = starts[0]  # independent of actual target location
-    tier = load_tier("easy_v1")
-    tier = tier.model_copy(update={"budget": tier.budget.model_copy(update={"max_planning_steps": first.max_planning_steps})})
+    from rummagebench.authoring.tasks.household import execution_tier
+    tier=execution_tier(first)
     artifacts, ids, mapping = {}, [], {}
     for spec in members:
         target_slot = by_location[spec.target_location]
-        plan = TaskPlan("easy", 1, "in_container", spec.seed, spec.index, slots.scene, "kitchen_0", "kitchen",
+        plan = TaskPlan(tier.tier, tier.version, "in_container", spec.seed, spec.index, slots.scene, "kitchen_0", "kitchen",
             spec.robot_id, PlacedObject(spec.target.internal_entity, spec.target.category, spec.target.model,
                                         target_slot.slot_id, "target"), [], start.name, start.pose.to_anchor(),
             spec.instruction, ["kitchen_0"], sorted(s.slot_id for s in by_location.values()),

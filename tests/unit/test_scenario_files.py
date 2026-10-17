@@ -25,6 +25,13 @@ def test_scenario_passes_strict_schema(scenario_dir: Path):
     assert scenario.id == scenario_dir.name
     # a target must always be one of the spawned objects (schema cross-check
     # also enforces this; asserted here so the generator cannot regress it)
-    assert scenario.target.entity in {o.name for o in scenario.objects}
+    if scenario.behavior_task is not None:
+        assert scenario.target is None
+        assert not scenario.objects and not scenario.placements and not scenario.anchors
+    else:
+        assert scenario.target.entity in {o.name for o in scenario.objects}
     # the visual protocol requires the full renderer modality set
-    assert {"rgb", "depth_linear", "seg_instance"} <= set(scenario.robot.obs_modalities)
+    if scenario.robot.panorama is not None:
+        assert "rgb" in scenario.robot.obs_modalities
+    else:
+        assert {"rgb", "depth_linear", "seg_instance"} <= set(scenario.robot.obs_modalities)

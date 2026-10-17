@@ -10,7 +10,7 @@ from rummagebench.core.public_types import (
 
 def test_skill_library_is_exactly_eight():
     assert PUBLIC_SKILLS == [
-        "MOVE", "TURN", "OPEN", "CLOSE", "GRASP", "PLACE", "OBSERVE", "REPORT_DONE",
+        "MOVE", "TURN", "OPEN", "CLOSE", "GRASP", "PLACE", "VIEW", "REPORT_DONE",
     ]
 
 

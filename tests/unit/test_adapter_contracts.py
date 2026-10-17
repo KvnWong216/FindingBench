@@ -73,7 +73,7 @@ def test_mcp_worker_public_observe_and_json_reset(monkeypatch, visual_session):
     observed = conn.sent[1]["observation"]
     assert observed == reset  # observe neither consumes a step nor captures a frame
     assert set(reset) == {"instruction", "frame_id", "image_png_b64", "planning_step",
-                          "max_planning_steps", "skill_library", "feedback", "observe_views"}
+                          "max_planning_steps", "skill_library", "feedback"}
     assert conn.sent[2]["episode_status"] == "FAIL_FALSE_COMPLETION"
     assert conn.sent[3]["status"] == "FAIL_FALSE_COMPLETION"
 

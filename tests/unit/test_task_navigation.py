@@ -6,9 +6,55 @@ import math
 import numpy as np
 import pytest
 
+
+def test_collapsed_exported_wall_triangles_keep_conservative_obstacles():
+    from rummagebench.sim.omnigibson.usd_collision import mesh_navigation_aabbs
+    points=[[0,0,.2],[1,0,.3],[2,0,.4]]
+    boxes=mesh_navigation_aabbs(points,[3],[0,1,2],np.eye(4),.1)
+    assert len(boxes)==1 and np.allclose(boxes[0],[[0,0,.1],[2,0,.3]])
+    assert mesh_navigation_aabbs([[0,0,2]]*3,[3],[0,1,2],np.eye(4),.1)==[]
+
+
+def test_triangle_navigation_envelope_uses_clipped_edges_not_whole_face():
+    from rummagebench.sim.omnigibson.usd_collision import mesh_navigation_aabbs
+    boxes=mesh_navigation_aabbs([[0,0,0],[2,0,1],[0,2,1]],[3],[0,1,2],np.eye(4),0.)
+    assert len(boxes)==1
+    assert np.allclose(boxes[0],[[0,0,.05],[1,1,.5]])
+
 from rummagebench.authoring.tasks.navigation import (
     FootprintChecker, ProtocolLimits, plan_route, route_through)
 from rummagebench.skills.move import _aabb_overlaps_footprint, footprint_corners
+
+
+def test_merged_wall_mesh_keeps_interior_free_and_wall_crossings_blocked():
+    """Synthetic wall faces only; real mesh clipping, no simulator fixture."""
+    from types import SimpleNamespace
+    from rummagebench.sim.omnigibson.usd_collision import mesh_navigation_aabbs
+    from rummagebench.skills.move import base_pose_collision_free
+    points=[[-2,-2,0],[2,-2,0],[2,2,0],[-2,2,0],[-2,-2,3],[2,-2,3],[2,2,3],[-2,2,3]]
+    faces=[0,1,5,4,1,2,6,5,2,3,7,6,3,0,4,7]
+    boxes=mesh_navigation_aabbs(points,[4]*4,faces,np.eye(4),.1)
+    backend=SimpleNamespace(entity_names=lambda:['unit_wall'],robot_entity_names=lambda:set(),
+        describe_entity=lambda n:object(),is_holding=lambda n:False,
+        entity_aabb=lambda n:([-2,-2,0],[2,2,3]),navigation_obstacle_aabbs=lambda n:boxes)
+    checker=FootprintChecker.from_backend(backend,.4,.03)
+    assert checker.free(0,0,0) and base_pose_collision_free(backend,0,0,0,.4,.03)
+    for x,y in [(0,-1.8),(1.8,0),(0,1.8),(-1.8,0)]:
+        assert not checker.free(x,y,0)
+        assert not base_pose_collision_free(backend,x,y,0,.4,.03)
+    assert not checker.move_free(0,0,0,3.)
+    assert all(lo[2]>=.05-1e-12 and hi[2]<=.5+1e-12 for lo,hi in boxes)
+
+
+@pytest.mark.parametrize('bad',['nonplanar','concave','indices','perspective'])
+def test_uncertain_architecture_faces_cannot_be_silently_removed(bad):
+    from rummagebench.sim.omnigibson.usd_collision import mesh_navigation_aabbs
+    points=[[0,0,0],[1,0,0],[1,1,0],[0,1,0]];counts=[4];indices=[0,1,2,3];matrix=np.eye(4)
+    if bad=='nonplanar':points[-1][2]=.2
+    if bad=='concave':points[2]=[.1,.1,0]
+    if bad=='indices':indices[-1]=10
+    if bad=='perspective':matrix[0,3]=.2
+    with pytest.raises(ValueError):mesh_navigation_aabbs(points,counts,indices,matrix,0.)
 
 
 def _random_boxes(rng, n):

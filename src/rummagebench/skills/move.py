@@ -79,12 +79,23 @@ def base_pose_collision_free(backend, x: float, y: float, yaw: float,
         # carried by this robot are excluded from the external obstacle set.
         if getattr(backend, "is_holding", lambda _: False)(name):
             continue
-        aabb = backend.entity_aabb(name)
-        if aabb is None:
-            continue
-        if _aabb_overlaps_footprint(aabb, corners, margin):
+        if any(_aabb_overlaps_footprint(aabb, corners, margin) for aabb in navigation_aabbs(backend,name)):
             return False
     return True
+
+
+def navigation_aabbs(backend, name):
+    """One shared obstacle representation for probing and public execution.
+
+    Specialized backends may conservatively decompose architectural meshes
+    and express z relative to their actual floor. Legacy backends retain
+    their existing whole-entity bounds. Unavailable specialized geometry
+    raises instead of disappearing from the obstacle set.
+    """
+    provider=getattr(backend,'navigation_obstacle_aabbs',None)
+    if provider is not None:return provider(name)
+    box=backend.entity_aabb(name)
+    return [] if box is None else [box]
 
 
 def move_target_pose(robot_pose, distance_m: float) -> tuple[list[float], list[float]]:

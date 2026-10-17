@@ -1,13 +1,17 @@
+> **2026-10-17：原生 BEHAVIOR 试跑路线**：技能库已改为 MOVE / TURN / OPEN / CLOSE / GRASP / PLACE / VIEW / REPORT_DONE，移除公共 OBSERVE。首条任务为 `carrying_in_groceries`，选定 `house_double_floor_lower`。全景 / VIEW 真实仿真验收已通过，接口、准备命令和验证边界见 [试跑交接](docs/behavior_pilot.md)。下文旧自造场景流程保留作历史参考。
+
+人工操作：`./scripts/play_behavior.sh`，浏览器打开 `http://127.0.0.1:8090`。脚本自动激活 `ygbench`；安装与验收说明见 [环境文档](docs/ygbench_environment.md)。
+
 # RummageBench
 
-> Household generation (2026-10-13): pinned Infinigen Indoors CPU proposals, export inspection and OG assembly are connected to the existing task/compiler contracts. The current pilot has 4 candidates, **0 geometry scenes / 0 exported scenes / 0 evaluation-ready episodes**; the real CPU attempt failed on missing bpy. All physical checks remain pending. See [commands, evidence and unfinished work](docs/infinigen_household_pipeline.md) and [the earlier baseline audit](docs/household_pipeline_acceptance.md).
+> Household generation (2026-10-15): `behavior_pipeline.py prepare-home` retains a complete BEHAVIOR-1K house and uses InfiniGen's constraint solver for daily-object placement, then loads native assets through OmniGibson's existing skill executor. House architecture and large furniture remain fixed; **0 evaluation-ready household episodes**. See [commands and measured scope](docs/behavior_native_pipeline.md). The [earlier procedural-mesh implementation](docs/infinigen_household_pipeline.md) remains available for historical comparison.
 
 
 > **Validation status (2026-09-30):** the `build/` reports and `HANDOFF.md`
 > contain historical results, not acceptance evidence for the current code.
 > CPU regressions and real OmniGibson acceptance are separate gates. Offline
-> layout generation produces candidate manifests; it does not yet replace
-> furniture in the simulator or certify a playable generated scene. See
+> layout generation produces candidate manifests; the native BEHAVIOR adapter
+> loads these into the simulator, but household acceptance remains separate. See
 > `EXPERIMENT_PLAN.md` for the remaining acceptance gates and experiment order.
 
 Embodiment-grounded interactive object-search benchmark built on

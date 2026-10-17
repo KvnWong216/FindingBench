@@ -1,0 +1,19 @@
+# Runtime family from the migrated BEHAVIOR 3.9.3 environment.
+# Keep NumPy 1 for Isaac Sim and the compatible Pinocchio/HPP-FCL wheels.
+numpy==1.26.0
+torch==2.7.0
+torchvision==0.22.0
+torchaudio==2.7.0
+warp-lang==1.12.0
+pin>=2.7,<3
+mcp>=1.2,<2
+
+# Current PyArrow 26 dropped NumPy 1; OG / Isaac remain on NumPy 1.
+pyarrow==21.0.0
+# Preserve Isaac FastAPI compatibility while supporting MCP.
+starlette==0.45.3
+sse-starlette==2.2.1
+uvicorn==0.31.1
+ipython==8.32.0
+torchcodec==0.5
+huggingface-hub==1.0.0

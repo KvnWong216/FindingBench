@@ -56,14 +56,17 @@ def overlaps(a, b) -> bool:
 
 
 def summarize_slot(slot, objects: dict, relations: list, envelope,
-                   global_unknown: list[str]) -> dict:
+                   global_unknown: list[str], region_membership: dict | None = None) -> dict:
     """Three-way classification; retain uncertainty even when occupancy is proven."""
     reasons = list(global_unknown)
     definite, possible = set(), set()
     for r in relations:
         if r["parent"] == slot.parent_entity and r["relation"] == slot.relation:
-            # OG Inside is object-relative; it does not identify a drawer link.
-            (possible if slot.link is not None else definite).add(r["entity"])
+            if slot.link is None or (region_membership or {}).get(r['entity']) is True:
+                definite.add(r['entity'])
+            elif (region_membership or {}).get(r['entity']) is not False:
+                # Parent-relative Inside alone cannot identify a drawer.
+                possible.add(r['entity'])
     if envelope is None:
         reasons.append("SLOT_ENVELOPE_UNAVAILABLE")
     for name, record in objects.items():
@@ -196,6 +199,19 @@ def capture_native_occupancy(backend, slots: SceneSlots, *, source_scene_path: P
     results = []
     for slot in sorted(slots.slots, key=lambda s: s.slot_id):
         envelope = objects.get(slot.parent_entity, {}).get("aabb")
+        membership, slot_errors = None, list(errors)
+        if slot.relation == 'inside' and slot.link is not None:
+            rec = native.get(slot.parent_entity)
+            link = (getattr(rec,'links',{}) or {}).get(slot.link)
+            if link is not None and getattr(link,'is_meta_link',False):
+                try:
+                    from rummagebench.sim.omnigibson.inside_volume import selected_volume_contains
+                    envelope = checked_box(link.visual_aabb)
+                    membership = {name: selected_volume_contains(obj,rec,slot.link)
+                                  for name,obj in native.items() if name != slot.parent_entity}
+                except Exception as exc:
+                    envelope, membership = None, None
+                    slot_errors.append(f'NATIVE_REGION_QUERY_FAILED:{slot.link}:{type(exc).__name__}')
         if envelope is not None and slot.relation == "on_top":
             # Query the same live support interface the skill uses. Its top
             # is an exclusion envelope, not a verified usable surface.
@@ -206,7 +222,12 @@ def capture_native_occupancy(backend, slots: SceneSlots, *, source_scene_path: P
                             box[1][:2] + [box[1][2] + 0.02]]
             except Exception:
                 envelope = None
-        results.append(summarize_slot(slot, objects, relations, envelope, errors))
+        record = summarize_slot(slot, objects, relations, envelope, slot_errors, membership)
+        if membership is not None:
+            record['envelope_source'] = 'actual_native_fillable_visual_aabb'
+            record['region_membership'] = membership
+            record['membership_source'] = 'native_Inside_and_selected_volume_center_predicate'
+        results.append(record)
     if state_hash(backend.dump_state()) != digest:
         raise ValueError("native occupancy query mutated source state")
     if sha256_path(source_scene_path) != source_hash:

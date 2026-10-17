@@ -34,7 +34,7 @@ def test_agent_mode_rejects_entity_id_actions(visual_session):
 def test_agent_observation_fixed_skill_library(visual_session):
     obs = visual_session.step({"skill": "REPORT_DONE"}).observation
     assert obs.skill_library == [
-        "MOVE", "TURN", "OPEN", "CLOSE", "GRASP", "PLACE", "OBSERVE", "REPORT_DONE",
+        "MOVE", "TURN", "OPEN", "CLOSE", "GRASP", "PLACE", "VIEW", "REPORT_DONE",
     ]
 
 

@@ -18,11 +18,11 @@ def certify_member(request_path: Path, episode: str, output: Path) -> dict:
     from rummagebench.authoring.tasks.embodiment_slots import SlotEmbodimentOverlay, Pose2
     from rummagebench.authoring.tasks.infinigen_probe import GeometryRoomMap, verify_overlay_evidence
     from rummagebench.authoring.tasks.search_certificate import SearchStructureCertificate, navigation_lower_bound, minimum_required_interactions
-    from rummagebench.authoring.tasks.household_search import run_reference_search
+    from rummagebench.authoring.tasks.household_search import run_reference_search, POLICY_VERSION
     from rummagebench.authoring.tasks.household_state import check_background, load_frozen_member
-    from rummagebench.authoring.tasks.household_physics import verify_door_sweeps, verify_temporary_place
+    from rummagebench.authoring.tasks.household_physics import verify_door_sweeps, verify_temporary_place, verify_replacement_support
     from rummagebench.authoring.tasks.household_locations import inspect_loaded_search_locations
-    from rummagebench.authoring.tasks.tiers import load_tier
+    from rummagebench.authoring.tasks.household import execution_tier
     from rummagebench.authoring.tasks import gates
     from rummagebench.sim.omnigibson.infinigen_adapter import scene_slots_from_assembly, load_assembly_manifest, runtime_articulation_checks
     from rummagebench.core.scenario import load_scenario
@@ -49,8 +49,7 @@ def certify_member(request_path: Path, episode: str, output: Path) -> dict:
     cert = SearchStructureCertificate(plan.tier, plan.mode, 1, len(required), 1, 1, 0, 0,
         target_slot.slot_type, nav, minimum_required_interactions(1, 0, nav),
         candidate_slots=required, rooms=[plan.room])
-    tier = load_tier("easy_v1")
-    tier.budget.max_planning_steps = spec.max_planning_steps
+    tier=execution_tier(spec)
     output.mkdir(parents=True, exist_ok=False)
     scenario_path = output / "frozen_scenario.yaml"
     atomic_write_json(scenario_path, scenario.model_dump(mode="json"))
@@ -82,6 +81,8 @@ def certify_member(request_path: Path, episode: str, output: Path) -> dict:
             articulation_failures = runtime_articulation_checks(backend, manifest)
             checks["real_joints_limits_handles"] = "failed" if articulation_failures else "passed"
             record["articulation_failures"] = articulation_failures
+            record['replacement_support'] = verify_replacement_support(backend, manifest)
+            checks['replacement_support'] = record['replacement_support']['status']
             record["appearance"] = getattr(backend._env, "_findingbench_appearance_evidence", {})
             backend.render_snapshot(str(output / "initial_rgb.png"))
             from rummagebench.authoring.tasks.household_appearance import image_quality
@@ -99,8 +100,9 @@ def certify_member(request_path: Path, episode: str, output: Path) -> dict:
             checks["all_additional_counter_drawer_search_locations_classified"] = record["search_locations"]["status"]
             search = run_reference_search(backend, scenario, plan, slots, overlay, room_map)
             # Compiler slot IDs are distinct from household location IDs.
-            location_for_slot = {next(s.slot_id for s in slots.slots if s.parent_entity == b["name"]): b["location_id"]
-                                 for b in manifest["candidate_bindings"]}
+            from rummagebench.authoring.tasks.household_binding import resolve_family_slots
+            location_for_slot={slot.slot_id:location for location,slot in resolve_family_slots(
+                manifest.get('native_region_bindings',manifest['candidate_bindings']),slots).items()}
             search["candidate_order"] = [location_for_slot[s] for s in search["candidate_order"]]
             search["visited_slots"] = [location_for_slot[s] for s in search["visited_slots"]]
             record["reference_search"] = search
@@ -114,13 +116,13 @@ def certify_member(request_path: Path, episode: str, output: Path) -> dict:
             check_background(backend,member,state_path.parent.parent)
             record["checks"] = checks
         else:
-            record["reference_search"] = {"policy": "nearest-uninspected-anchor-v1", "gpu_executed": False,
+            record["reference_search"] = {"policy": POLICY_VERSION, "gpu_executed": False,
                 "candidate_order": [l.location_id for l in spec.locations], "visited_slots": [],
                 "trace": [], "status": "ENGINE_ERROR"}
     except Exception as exc:
         record.update(status="rejected", error=f"{type(exc).__name__}: {exc}")
         record.setdefault("search_certificate", cert.to_dict())
-        record.setdefault("reference_search", {"policy": "nearest-uninspected-anchor-v1", "gpu_executed": False,
+        record.setdefault("reference_search", {"policy": POLICY_VERSION, "gpu_executed": False,
             "candidate_order": [l.location_id for l in spec.locations], "visited_slots": [], "trace": [], "status": "ENGINE_ERROR"})
     # Write before Kit shutdown, which may terminate the interpreter. Missing
     # records/crashes stay pending and never count as verified episodes.

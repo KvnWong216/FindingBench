@@ -26,6 +26,17 @@ from rummagebench.authoring.tasks.plan import canonical_json, sha256_bytes, sha2
 REPO = Path(__file__).resolve().parents[2]
 
 
+def storage_unit_policy():
+    """Legacy two-storage UNIT model, not a complete kitchen scene fixture.
+
+    Full-room sink constraints have dedicated real SDK and rejection checks.
+    Old protected run policies must also remain inspectable.
+    """
+    doc=yaml.safe_load((REPO/'assets/tasks/household_families_v1.yaml').read_text())
+    for key in ('source_sink_parameter_ranges_m','source_sink_front_margin_m','source_kitchen_cabinets_closed_only'):doc.pop(key,None)
+    return doc
+
+
 def make_spec():
     return HouseholdTaskSpec(task_id="unit_test_only", family_id="fixture_family", base_layout_id="fixture_layout",
         seed=42, index=0, scene_seed=45, instruction="Find the bowl in the kitchen cabinets and pick it up.",
@@ -39,7 +50,7 @@ def make_spec():
         split_assignment=SplitAssignment(split_seed=17, test_fraction=.2, base_layout_id='fixture_layout',
                                          source_layout_group=source_layout_group_id(UPSTREAM_COMMIT,45),
                                          label=layout_split_label(source_layout_group_id(UPSTREAM_COMMIT,45),17,.2)), requested_difficulty={"spatial": "low", "operations": "low"},
-        generation_constraints=generation_requirements(yaml.safe_load((REPO/'assets/tasks/household_families_v1.yaml').read_text()),'low_low',2),
+        generation_constraints=generation_requirements(storage_unit_policy(),'low_low',2),
         input_hashes={"unit_fixture_only": "a"*64})
 
 
@@ -47,7 +58,7 @@ def make_spec():
 def policy(tmp_path):
     from rummagebench.authoring.tasks.eligibility import ObjectEligibility, EligibleCategory, ModelRecord
     from rummagebench.authoring.tasks.priors import PlacementPriors, PriorEntry
-    doc = yaml.safe_load((REPO / 'assets/tasks/household_families_v1.yaml').read_text())
+    doc = storage_unit_policy()
     doc.update(placement_priors='priors.yaml', eligibility='eligibility.yaml', robot_config='robot.yaml',
                appearance_config='appearance.yaml', target_categories=['bowl'])
     (tmp_path / 'policy.yaml').write_text(yaml.safe_dump(doc))
@@ -100,6 +111,35 @@ def test_seed_reproducibility_and_independent_streams(policy):
     validate_spec_assets(a, repo, path)
 
 
+def test_appearance_request_cannot_silently_drop_pending_swaps(policy):
+    repo,path=policy
+    spec=sample_spec(path,repo,219,0)
+    spec.appearance['support_texture_swap']=False
+    with pytest.raises(ValueError,match='DIFFERS_FROM_SEEDED_CONFIGURATION'):
+        validate_spec_assets(spec,repo,path)
+
+
+def test_native_factory_labels_preserve_unknown_and_category_confounds():
+    from rummagebench.sim.omnigibson.infinigen_adapter import native_category
+    assert native_category({'generator':'JarFactory(123)'})=='jar'
+    assert native_category({'generator':'FoodBoxFactory(123)'})=='food_box'
+    assert native_category({'generator':'BookColumnFactory(123)'})=='book'
+    assert native_category({'generator':'NatureShelfTrinketsFactory(123)'})=='nature_shelf_trinket'
+    assert native_category({'generator':'BowlFactory(123)'})=='bowl'
+    assert native_category({'generator':'UnknownFactory(123)'}) is None
+    assert native_category({'generator':'PretendJarFactory(123)'}) is None
+
+
+def test_real_asset_root_offset_is_scaled_and_rotated_not_assumed_zero():
+    from rummagebench.sim.omnigibson.infinigen_adapter import replacement_root_position
+    from math import sqrt
+    # Synthetic metadata exclusively to verify the actual SDK convention.
+    root=replacement_root_position([10,20,30],[2,3,4],[0,0,sqrt(.5),sqrt(.5)],{'base_link_offset':[1,2,3]})
+    assert root==pytest.approx([16,18,18])
+    with pytest.raises(ValueError,match='OFFSET_REQUIRED'):
+        replacement_root_position([0,0,0],[1,1,1],[0,0,0,1],{})
+
+
 @pytest.mark.parametrize('change,reason', [('category','INVALID_TARGET'),('bbox','TARGET_GEOMETRY'),('input','SPEC_INPUT')])
 def test_semantic_gate_uses_actual_whitelist(policy,change,reason):
     repo,path = policy; spec=sample_spec(path,repo,1,0)
@@ -130,7 +170,8 @@ def test_real_upstream_command_and_deferred_gpu_export():
     assert cmd['environment']['CUDA_VISIBLE_DEVICES']==''
     exp=ig.export_command('/cpu/python',REPO,REPO/'build/geometry',REPO/'build/export')
     assert exp['execution_status']=='deferred' and not exp['whole_scene_articulation_preserved']
-    assert '--omniverse' in exp['argv']
+    assert exp['argv'][1:4] == ['-m','rummagebench.authoring.tasks.infinigen','export-upstream']
+    assert exp['argv'][-2:] == ['--gpu','5']
 
 
 def test_discrete_model_hand_calculation_and_finish_report():
@@ -259,7 +300,7 @@ def usd_bundle(tmp_path):
     light=UsdLux.DistantLight.Define(stage,'/World/Light');light.CreateIntensityAttr(10)
     stage.GetRootLayer().Save();solve.write_text(json.dumps({'objs':meta}))
     assets=tmp_path/'unit_assets_only';model=assets/'objects/bottom_cabinet/unit_model';(model/'misc').mkdir(parents=True);(model/'usd').mkdir()
-    (model/'misc/metadata.json').write_text(json.dumps({'link_tags':{'door':['openable']},'bbox_size':[1,1,1]}))
+    (model/'misc/metadata.json').write_text(json.dumps({'link_tags':{'door':['openable']},'bbox_size':[1,1,1],'base_link_offset':[0,0,0]}))
     # A synthetic file intentionally does NOT supply joints. Preparation is
     # pending; runtime_articulation_checks must still reject this asset.
     unit_asset = Usd.Stage.CreateNew(str(model/'usd/unit_model.usd'))
@@ -274,6 +315,26 @@ def test_real_usd_inspection_retains_inactive_and_nonsearch_geometry(usd_bundle)
     scene,solve,_,_=usd_bundle;doc=ig.inspect_export(scene,solve)
     assert doc['mesh_count']==5 and doc['source_to_usd']['outside']=='/World/outside'
     assert doc['joint_paths']==[] and doc['evaluation_ready_episodes']==0
+
+
+def test_blender_xform_mesh_same_name_maps_one_root_but_separate_roots_reject(tmp_path):
+    pytest.importorskip('pxr')
+    from pxr import Usd,UsdGeom
+    scene=tmp_path/'synthetic_wrapped.usda';solve=tmp_path/'solve.json'
+    stage=Usd.Stage.CreateNew(str(scene));world=UsdGeom.Xform.Define(stage,'/World').GetPrim();stage.SetDefaultPrim(world)
+    UsdGeom.SetStageUpAxis(stage,'Z');UsdGeom.SetStageMetersPerUnit(stage,1.)
+    UsdGeom.Xform.Define(stage,'/World/cab')
+    mesh=UsdGeom.Mesh.Define(stage,'/World/cab/cab')
+    mesh.CreatePointsAttr([(0,0,0),(1,0,0),(0,1,0)])
+    mesh.CreateFaceVertexCountsAttr([3]);mesh.CreateFaceVertexIndicesAttr([0,1,2])
+    solve.write_text(json.dumps({'objs':{'cab':{'obj':'cab','tags':['Semantics.Storage']}}}))
+    stage.GetRootLayer().Save()
+    result=ig.inspect_export(scene,solve)
+    assert result['source_to_usd']=={'cab':'/World/cab'} and not result['ambiguous_source_objects']
+    assert ig.source_mesh_owner(result,'/World/cab/cab')==('cab',None)
+    UsdGeom.Xform.Define(stage,'/World/another/cab');stage.GetRootLayer().Save()
+    rejected=ig.inspect_export(scene,solve)
+    assert rejected['ambiguous_source_objects']==['cab'] and 'cab' not in rejected['source_to_usd']
 
 
 def test_real_usd_assembly_is_pending_with_all_geometry_and_manifest_checks(usd_bundle,tmp_path):
@@ -428,6 +489,8 @@ def test_frozen_family_restores_common_topology_and_rejects_background_perturbat
     monkeypatch.setattr(state_io,'save_snapshot',save_unit_snapshot)
     monkeypatch.setattr(native_occupancy,'capture_native_occupancy',lambda b,ss,**kw:(
         {'slots':[{'slot_id':s.slot_id,'status':'confirmed_empty','geometry_complete':True} for s in ss.slots]},None))
+    from rummagebench.sim.omnigibson import probe_support
+    monkeypatch.setattr(probe_support,'relation_holds',lambda *a:True) # UNIT protocol fixture only
     scenarios=[]
     robot=yaml.safe_load((REPO/'configs/tasks/robots/r1pro.yaml').read_text())['robot']
     for i in range(2):
@@ -442,6 +505,23 @@ def test_frozen_family_restores_common_topology_and_rejects_background_perturbat
             self.values={o['name']:[0.,0.,0.] for o in doc['objects']};self.target=[0.,0.,5.]
             self._env=SimpleNamespace(scene=SimpleNamespace(objects=[SimpleNamespace(name=n,links={},dump_state=lambda serialized=False:[]) for n in self.values]))
             self.restores=[]
+            self.imported=False
+            self._sim=SimpleNamespace(dump_state=lambda serialized=False:self.structured(),
+                serialize=self.encode,deserialize=lambda state:(self.decode(state),len(state)))
+        def structured(self):
+            objects={n:np.array(v,dtype=np.float32) for n,v in self.values.items()}
+            if self.imported:objects['search_target']=np.array(self.target,dtype=np.float32)
+            return {0:{'pos':np.zeros(3,dtype=np.float32),'ori':np.array([0,0,0,1],dtype=np.float32),
+                'registry':{'object_registry':objects,'system_registry':{}}}}
+        def encode(self,state):
+            return np.concatenate(list(state[0]['registry']['object_registry'].values())).astype(np.float32)
+        def decode(self,state):
+            objects={n:np.array(state[i*3:i*3+3]) for i,n in enumerate(self.values)}
+            if len(state)>3*len(self.values):objects['search_target']=np.array(state[-3:])
+            return {0:{'pos':np.zeros(3,dtype=np.float32),'ori':np.array([0,0,0,1],dtype=np.float32),
+                'registry':{'object_registry':objects,'system_registry':{}}}}
+        def dump_state(self):return self.encode(self.structured())
+        def _validate_spawn_clearance(self):pass
         def set_open(self,*a):return True
         def settle(self,*a):pass
         def teleport_robot(self,anchor):pass
@@ -450,9 +530,12 @@ def test_frozen_family_restores_common_topology_and_rejects_background_perturbat
         def entity_aabb(self,n):return [[0.,0.,0.],[1.,1.,1.]]
         def capture_observe_state(self):return deepcopy({'values':self.values,'target':self.target,'sim':[]})
         def restore_observe_state(self,s):
-            self.values=deepcopy(s['values']);self.target=deepcopy(s['target']);self.restores.append(deepcopy(s))
+            objects=self.decode(s['sim'])[0]['registry']['object_registry']
+            self.values={n:objects[n].tolist() for n in self.values}
+            if 'search_target' in objects:self.target=objects['search_target'].tolist()
+            self.restores.append(deepcopy(s))
         def setup(self,scenario,**kw):
-            kw['native_scene_capture'](self);self.target=kw['task_seed_pose'](self,scenario.objects[0]);kw['pre_placement_capture'](self)
+            kw['native_scene_capture'](self);self.target=kw['task_seed_pose'](self,scenario.objects[0]);self.imported=True;kw['pre_placement_capture'](self)
         def _apply_placements(self,s,attempts):
             assert attempts==3
             self.target=[float(s.id[-1]),0.,.5]
@@ -466,7 +549,8 @@ def test_frozen_family_restores_common_topology_and_rejects_background_perturbat
     else:
         result=freeze_family_background(backend,scenarios,out/'assembly.json',checked)
         assert len(result['members'])==2 and result['evaluation_ready_episodes']==0
-        assert backend.restores[0]==backend.restores[3] # shared parked target + background
+        assert all(np.array_equal(backend.restores[i]['sim'],backend.restores[1]['sim']) for i in [2,6])
+        assert result['version']==2 and result['background_restore_recipe']['contract']=='same-checkpoint-exact-world-v1'
         assert result['status']=='pending_simulation_acceptance'
 
 
@@ -568,17 +652,47 @@ def geometry_fixture_for_measurement(tmp_path):
     solve=tmp_path/'solve.json'
     solve.write_text(json.dumps({'objs':{
         'kitchen':{'obj':'kitchen','tags':['Semantics.Kitchen']},
-        'a':{'obj':'a','tags':['Semantics.Storage','Semantics.Furniture'],'relations':[{'target_name':'kitchen','relation':{'relation_type':'StableAgainst'}}]},
-        'b':{'obj':'b','tags':['Semantics.Storage','Semantics.Furniture'],'relations':[{'target_name':'kitchen','relation':{'relation_type':'StableAgainst'}}]},
+        'a':{'obj':'a','tags':['Semantics.Storage','Semantics.Furniture','FromGenerator(KitchenCabinetFactory)'],'relations':[{'target_name':'kitchen','relation':{'relation_type':'StableAgainst'}}]},
+        'b':{'obj':'b','tags':['Semantics.Storage','Semantics.Furniture','FromGenerator(KitchenCabinetFactory)'],'relations':[{'target_name':'kitchen','relation':{'relation_type':'StableAgainst'}}]},
     }}))
     geometry=tmp_path/'findingbench_geometry.json'
     geometry.write_text(json.dumps({'version':1,'solve_state_sha256':sha256_path(solve),
+                                   'source_storage_factory_dimensions_m':{'a':[.3,1.1,.7],'b':[.3,1.1,.7]},
                                    'upstream_constraints':{'passed':True,'synthetic_unit_test_only':True},'objects':{
         'kitchen':{'aabb':[[0,0,0],[5,5,3]],'center':[2.5,2.5,1.5]},
         'a':{'aabb':[[0,0,0],[1,1,1]],'center':[.5,.5,.5]},
         'b':{'aabb':[[1.5,0,0],[2.5,1,1]],'center':[2.,.5,.5]},
     }}))
     return solve,geometry
+
+
+def test_count_correct_bookcase_cannot_pass_cabinet_family(tmp_path):
+    solve,geometry=geometry_fixture_for_measurement(tmp_path)
+    state=json.loads(solve.read_text())
+    state['objs']['a']['tags'][-1]='FromGenerator(SimpleBookcaseFactory)'
+    solve.write_text(json.dumps(state))
+    data=json.loads(geometry.read_text());data['solve_state_sha256']=sha256_path(solve)
+    geometry.write_text(json.dumps(data))
+    result=ig.measure_generated_geometry(make_spec(),solve,geometry)
+    assert not result['proxy_filter_passed']
+    assert result['invalid_cabinet_sources']==['a']
+    assert 'CANDIDATE_IS_NOT_KITCHEN_CABINET' in result['rejections']
+
+
+def test_complete_kitchen_request_cannot_use_storage_only_or_wrong_sink_evidence(tmp_path):
+    solve,geometry=geometry_fixture_for_measurement(tmp_path)
+    spec=make_spec()
+    policy=yaml.safe_load((REPO/'assets/tasks/household_families_v1.yaml').read_text())
+    spec.generation_constraints=generation_requirements(policy,'low_low',2)
+    assert 'SOURCE_SINK_PARAMETER_REQUEST_NOT_SATISFIED' in ig.measure_generated_geometry(spec,solve,geometry)['rejections']
+    state=json.loads(solve.read_text())
+    state['objs']['unit_sink']={'obj':'unit_sink','tags':['Semantics(object)','Semantics(sink)'],
+        'relations':[{'target_name':'kitchen','relation':{'relation_type':'unit_fixture_only'}}]}
+    solve.write_text(json.dumps(state))
+    geo=json.loads(geometry.read_text());geo['solve_state_sha256']=sha256_path(solve)
+    geo['source_sink_parameters_m']={'unit_sink':{'Width':.8,'Margin':.025}}
+    geometry.write_text(json.dumps(geo))
+    assert 'SOURCE_SINK_PARAMETER_REQUEST_NOT_SATISFIED' in ig.measure_generated_geometry(spec,solve,geometry)['rejections']
 
 
 def test_production_measurement_cost_bins_and_rejection_are_consumed(tmp_path,monkeypatch):
@@ -611,10 +725,122 @@ def test_difficulty_requests_change_real_bridge_inputs_and_supported_candidate_c
     assert len(low.locations)==2 and len(more.locations) in (3,4)
     assert low.target==high.target and low.target_location==high.target_location
     assert len(low.locations)==ig.generation_request(low)['generation_constraints']['candidate_count']
-    cfg=yaml.safe_load(path.read_text());cfg['difficulty_intervals']['operations']['high']=[8,None]
+    cfg=yaml.safe_load(path.read_text());cfg['difficulty_intervals']['operations']['high']=[10,None]
     with pytest.raises(ValueError,match='UNREACHABLE'):profile_candidate_counts(cfg,'low_high')
     command=ig.generation_command(low,'/cpu/python',repo,repo/'geometry')
     assert int(command['argv'][command['argv'].index('--seed')+1],16)==low.scene_seed
+
+
+def test_reference_cost_model_and_horizon_reject_impossible_cells():
+    from rummagebench.authoring.tasks.household import profile_candidate_counts
+    cfg=yaml.safe_load((REPO/'assets/tasks/household_families_v1.yaml').read_text())
+    cfg['search_model']['inspection_operations']=3
+    with pytest.raises(ValueError,match='DIFFERS_FROM_DECLARED_INSPECTION_MODEL'):
+        profile_candidate_counts(cfg,'low_low')
+    cfg['search_model']['inspection_operations']=2
+    cfg['max_planning_steps']=16
+    with pytest.raises(ValueError,match='EXCEEDS_PUBLIC_HORIZON'):
+        profile_candidate_counts(cfg,'high_high')
+    cfg['max_planning_steps']=48
+    assert profile_candidate_counts(cfg,'high_high')==[3,4]
+
+
+@pytest.mark.parametrize('change',['missing','wide','extra'])
+def test_source_dimension_requests_require_complete_actual_factory_records(tmp_path,change):
+    solve,geometry=geometry_fixture_for_measurement(tmp_path)
+    raw=json.loads(geometry.read_text())
+    if change=='missing':raw.pop('source_storage_factory_dimensions_m')
+    if change=='wide':raw['source_storage_factory_dimensions_m']['a'][1]=3.8
+    if change=='extra':raw['source_storage_factory_dimensions_m']['unrequested']=[.3,1.1,.7]
+    geometry.write_text(json.dumps(raw))
+    report=ig.measure_generated_geometry(make_spec(),solve,geometry)
+    assert not report['proxy_filter_passed']
+    assert 'SOURCE_STORAGE_FACTORY_DIMENSIONS_NOT_VERIFIED' in report['rejections']
+
+
+def test_fast_kitchen_uses_upstream_background_budget_without_changing_requirements():
+    slow=ig.generation_command(make_spec(),'/unit/python',REPO,REPO/'unit_not_generated','kitchen')
+    fast=ig.generation_command(make_spec(),'/unit/python',REPO,REPO/'unit_not_generated','kitchen-fast')
+    assert slow['request']==fast['request'] and slow['environment']==fast['environment']
+    assert '--kitchen-stage-budgets' in fast['argv']
+    assert 'compose_indoors.solve_steps_small=5' in fast['argv']
+    assert 'compose_indoors.solve_steps_small=25' in slow['argv']
+    assert 'SimulatedAnnealingSolver.max_invalid_candidates=5' in fast['argv']
+
+
+def test_automatic_bindings_use_exact_existing_slots_and_keep_complete_family(usd_bundle,tmp_path,monkeypatch):
+    from rummagebench.sim.omnigibson import infinigen_adapter as adapter
+    from rummagebench.authoring.tasks import household_dataset as dataset
+    from rummagebench.authoring.tasks.slots import SceneSlots,Slot,SlotGeometry
+    scene,solve,assets,bindings=usd_bundle
+    approved=tmp_path/'synthetic_easy_slots.yaml'
+    slots=SceneSlots('synthetic_original',1,{'synthetic_unit_only':True},{'kitchen_0':'kitchen'})
+    slots.slots=[Slot('unit',slots.scene,'kitchen_0','kitchen','unit_cab','bottom_cabinet','unit_model',
+        'inside','cabinet_interior',None,True,True,SlotGeometry((.8,.8,.8),.512,(.8,.8),0.),(0.,0.,0.),0.)]
+    slots.save(approved)
+    receipt=tmp_path/'TEST_ONLY_admission.json';receipt.write_text('{}')
+    monkeypatch.setattr(dataset,'verify_generation_admission',lambda *a:{'measurement':
+        {'candidate_mapping':{b['location_id']:b['source_id'] for b in bindings}}})
+    spec=make_spec()
+    result=adapter.propose_interactive_bindings(spec,scene,solve,receipt,assets,[approved])
+    assert result['status']=='candidate' and result['bindings']==bindings
+    spec.target_location='storage_1'
+    assert adapter.propose_interactive_bindings(spec,scene,solve,receipt,assets,[approved])==result
+    (assets/'objects/bottom_cabinet/unit_model/misc/metadata.json').write_text('{"bbox_size":[100,100,100],"link_tags":{"door":["openable"]}}')
+    rejected=adapter.propose_interactive_bindings(spec,scene,solve,receipt,assets,[approved])
+    assert rejected['status']=='rejected' and len(rejected['failures'])==2
+    assert rejected['bindings']==[] and rejected['evaluation_ready_episodes']==0
+
+
+def test_batch_runner_uses_one_background_per_complete_family_and_bounds_resume(policy,tmp_path,monkeypatch):
+    import importlib
+    monkeypatch.syspath_prepend(str(REPO/'scripts/tasks'))
+    cli=importlib.import_module('household_pipeline')
+    repo,path=policy
+    monkeypatch.setattr(cli,'REPO',repo)
+    args=SimpleNamespace(policy=path,seed=321,start_index=10,count=9,split_seed=17,test_fraction=.2,
+        difficulty_profile='low_low',out=tmp_path/'specs',python='/TEST_ONLY/python',upstream_root=tmp_path)
+    report=cli.plan_infinigen(args)
+    assert report['counts']['families']==9 and report['counts']['task_specs']==18
+    assert report['counts']['geometry_scenes']==0
+    calls=[]
+    def fixture_run(spec,*a,**kw):
+        calls.append(spec.family_id)
+        return {'status':'generation_failed','failure_reasons':{'TEST_ONLY_FAILURE':1}}
+    monkeypatch.setattr(ig,'run_cpu_generation',fixture_run)
+    run=SimpleNamespace(batch=args.out/'batch.json',policy=path,python=args.python,upstream_root=tmp_path,
+        out=tmp_path/'runs',timeout=1.,retries=0,solver_profile='kitchen')
+    result=cli.batch_cpu_generate(run)
+    assert len(calls)==9 and len(set(calls))==9
+    assert result['failure_reasons']=={'TEST_ONLY_FAILURE':9}
+    assert result['counts']['actual_geometry_outputs']==0 and result['counts']['evaluation_ready_episodes']==0
+    run.timeout=2.
+    with pytest.raises(ValueError,match='BATCH_RESUME_INPUT_CONFLICT'):cli.batch_cpu_generate(run)
+    raw=json.loads(run.batch.read_text());raw['requests'][0]['specs'].pop();run.batch.write_text(json.dumps(raw))
+    with pytest.raises(ValueError,match='BATCH_INCOMPLETE_MATCHED_FAMILY'):cli.batch_cpu_generate(run)
+    assert len(calls)==9
+
+
+def test_explicit_lighting_profile_changes_only_appearance_request(policy,tmp_path,monkeypatch):
+    import importlib
+    monkeypatch.syspath_prepend(str(REPO/'scripts/tasks'))
+    cli=importlib.import_module('household_pipeline')
+    repo,path=policy;monkeypatch.setattr(cli,'REPO',repo)
+    args=SimpleNamespace(policy=path,out=tmp_path/'requested/specs',count=1,start_index=0,seed=219,
+        split_seed=17,test_fraction=.2,difficulty_profile='high_low',python='/unit/python',upstream_root=tmp_path,
+        appearance_profile='requested')
+    first=cli.plan_infinigen(args)
+    a=HouseholdTaskSpec.model_validate_json((args.out/first['requests'][0]['specs'][0]).read_text())
+    args.out=tmp_path/'lighting_variant';args.appearance_profile='lighting-only'
+    second=cli.plan_infinigen(args)
+    b=HouseholdTaskSpec.model_validate_json((args.out/second['requests'][0]['specs'][0]).read_text())
+    assert ig.generation_request(a)==ig.generation_request(b)
+    assert a.split_assignment==b.split_assignment and a.target==b.target
+    assert b.appearance['support_texture_swap'] is False and b.appearance['container_texture_swap'] is False
+    assert 'wall_color' not in b.appearance and second['appearance_profile']=='lighting-only'
+    assert second['counts']['evaluation_ready_episodes']==0
+    from rummagebench.authoring.tasks.household_dataset import pipeline_inventory
+    assert pipeline_inventory(tmp_path)['counts']['task_specifications']==4
 
 
 def test_runner_success_receipt_uses_actual_geometry_and_export_input(tmp_path,monkeypatch):
@@ -633,6 +859,31 @@ def test_runner_success_receipt_uses_actual_geometry_and_export_input(tmp_path,m
     command=result['export']['argv'];folder=Path(command[command.index('--input_folder')+1])
     assert folder==tmp_path/'run/attempt_0/geometry' and (folder/'scene.blend').is_file()
     assert result['evaluation_ready_episodes']==0
+
+
+def test_failed_populated_storage_repair_retains_tamper_checked_evidence(tmp_path,monkeypatch):
+    monkeypatch.setattr(ig,'runtime_audit',lambda p:{'unit_fixture_only':True})
+    monkeypatch.setattr(ig,'source_audit',lambda p:{'commit':UPSTREAM_COMMIT})
+    calls=[]
+    def fixture_failure(argv,**kwargs):
+        calls.append(argv)
+        geometry=Path(argv[argv.index('--output_folder')+1])
+        (geometry/'populated_storage_refinement.json').write_text(json.dumps({
+            'status':'failed','unit_fixture_only':True,'violations_after':{'findingbench_storage_separation':1}}))
+        kwargs['stderr'].write('ValueError: POPULATED_STORAGE_REFINEMENT_UNSATISFIED\n')
+        return SimpleNamespace(returncode=1)
+    monkeypatch.setattr(ig.subprocess,'run',fixture_failure)
+    output=tmp_path/'failed'
+    result=ig.run_cpu_generation(make_spec(),tmp_path,sys.executable,output)
+    attempt=result['attempts'][0]
+    assert attempt['reason']=='POPULATED_STORAGE_REFINEMENT_UNSATISFIED'
+    assert attempt['geometry_generated'] is False and result['evaluation_ready_episodes']==0
+    evidence='attempt_0/geometry/populated_storage_refinement.json'
+    assert attempt['artifacts'][evidence]==sha256_path(output/evidence)
+    assert ig.run_cpu_generation(make_spec(),tmp_path,sys.executable,output)==result and len(calls)==1
+    (output/evidence).write_text('{"status":"passed","unit_fixture_only":true}')
+    with pytest.raises(ValueError,match='RESUME_ARTIFACT_CONFLICT'):
+        ig.run_cpu_generation(make_spec(),tmp_path,sys.executable,output)
 
 
 def attach_synthetic_probe_receipt(overlay,assembly,assets,tmp_path):

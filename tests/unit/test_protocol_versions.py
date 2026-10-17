@@ -29,7 +29,7 @@ def _teleport_kitchen(backend):
 
 
 def test_versions_are_pinned_and_consistent():
-    assert PROTOCOL_VERSION == "agent-visual-v1"
+    assert PROTOCOL_VERSION == "agent-visual-v2"
     assert FEEDBACK_VERSION == "four-class-v1"
     cfg = AgentProtocolConfig()
     assert cfg.protocol_version == PROTOCOL_VERSION

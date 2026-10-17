@@ -91,12 +91,226 @@ def placement_stability(poses, linear_velocity, angular_velocity) -> dict:
             or not np.allclose(np.linalg.norm(values[:,3:],axis=1),1.,atol=1e-3)):
         raise ValueError("PLACEMENT_STABILITY_REAL_POSES_AND_VELOCITIES_REQUIRED")
     drift = float(np.linalg.norm(values[:,:3]-values[0,:3],axis=1).max())
-    dots = np.clip(np.abs(values[:,3:] @ values[0,3:]),0.,1.)
-    rotation = float(np.degrees(2*np.arccos(dots)).max())
+    # Float32 poses are allowed a small norm error above. Normalize before
+    # computing angles: identical quaternions of norm .9999 otherwise appear
+    # to rotate 2.29 degrees. atan2 also preserves very small real rotations.
+    quaternions = values[:,3:] / np.linalg.norm(values[:,3:],axis=1)[:,None]
+    aligned = quaternions * np.where(quaternions @ quaternions[0] < 0,-1.,1.)[:,None]
+    rotation = float(np.degrees(4*np.arctan2(np.linalg.norm(aligned-quaternions[0],axis=1),
+                                           np.linalg.norm(aligned+quaternions[0],axis=1))).max())
     speed, spin = float(np.linalg.norm(linear)),float(np.linalg.norm(angular))
     return {"passed": drift<=.005 and rotation<=2. and speed<=.01 and spin<=.02,
             "position_drift_m":drift,"rotation_drift_deg":rotation,"linear_speed_m_s":speed,"angular_speed_rad_s":spin,
             "limits":{"position_m":.005,"rotation_deg":2.,"linear_m_s":.01,"angular_rad_s":.02}}
+
+
+def _complete_collision(backend, obj):
+    """Require all enabled live physics colliders; no bounding-box fallback."""
+    from pxr import UsdPhysics
+    from rummagebench.sim.omnigibson.usd_collision import collect_entity_collision, iter_prims
+    from rummagebench.authoring.tasks.native_occupancy import plain
+    for body in [obj, *list((obj.links or {}).values())]:
+        position, orientation = plain(body.get_position_orientation())
+        if (np.asarray(position).shape != (3,) or np.asarray(orientation).shape != (4,)
+                or not np.isfinite(position).all() or not np.isfinite(orientation).all()
+                or not np.isclose(np.linalg.norm(orientation), 1., atol=1e-3)):
+            raise ValueError(f'LIVE_COLLIDER_POSE_INVALID:{obj.name}')
+    expected = {str(p.GetPath()) for p in iter_prims(obj.prim) if p.HasAPI(UsdPhysics.CollisionAPI)
+                and p.GetAttribute('physics:collisionEnabled').Get() is not False}
+    bodies = collect_entity_collision(obj, backend._geom_cache)
+    paths = [body.source_prim for body in bodies]
+    if not expected or set(paths) != expected or len(paths) != len(set(paths)):
+        raise ValueError(f'LIVE_COLLIDER_EXPORT_INCOMPLETE:{obj.name}')
+    if any((body.approximation, body.physics_approximation) not in SUPPORTED_SWEEP_COLLIDERS
+           or body.geometry is None or body.aabb is None or not np.isfinite(np.asarray(body.aabb)).all()
+           for body in bodies):
+        raise ValueError(f'LIVE_COLLIDER_FIDELITY_UNSUPPORTED:{obj.name}')
+    return bodies
+
+
+def replacement_pair_measurement(first, second) -> dict:
+    """Actual FCL distance and contacts between two exported physics bodies."""
+    from rummagebench.feasibility.fcl_compat import collision_backend, transform3
+    coal = collision_backend()
+    def collider(body):
+        rotation = np.column_stack([quat_rotate(body.pose.orientation, np.eye(3)[i]) for i in range(3)])
+        return coal.CollisionObject(body.geometry, transform3(coal, body.pose.position, rotation))
+    left, right = collider(first), collider(second)
+    collision = coal.CollisionResult()
+    request = coal.CollisionRequest()
+    request.enable_contact = True
+    request.num_max_contacts = 10000
+    coal.collide(left, right, request, collision)
+    if collision.isCollision():
+        # Coal 3 stores signed distance; HPP-FCL 2.4 stores positive
+        # penetration. Normalize explicitly, never guess with abs().
+        version = str(getattr(coal, '__version__', ''))
+        if version.split('.')[0] == '3':
+            distance_sign = 1.
+        elif version.startswith('2.4.'):
+            distance_sign = -1.
+        else:
+            raise ValueError('FCL_CONTACT_SIGN_CONVENTION_UNSUPPORTED')
+        contacts = list(collision.getContacts())
+        if not contacts or len(contacts) >= request.num_max_contacts:
+            raise ValueError('REPLACEMENT_CONTACTS_MISSING_OR_TRUNCATED')
+        samples = [{'point': np.asarray(c.pos, float).tolist(), 'normal': np.asarray(c.normal, float).tolist(),
+                    'penetration_m': max(0., -distance_sign * float(c.penetration_depth)),
+                    'raw_signed_distance_m': distance_sign * float(c.penetration_depth)} for c in contacts]
+        if any(not np.isfinite([*c['point'], *c['normal'], c['penetration_m']]).all()
+               or c['raw_signed_distance_m'] > 1e-8 for c in samples):
+            raise ValueError('REPLACEMENT_CONTACT_MEASUREMENT_INVALID')
+        return {'distance_m': 0., 'max_penetration_m': max(c['penetration_m'] for c in samples),
+                'contacts': samples, 'nearest_points': None}
+    request = coal.DistanceRequest()
+    request.enable_nearest_points = True
+    result = coal.DistanceResult()
+    distance = float(coal.distance(left, right, request, result))
+    points = [np.asarray(result.getNearestPoint1(), float), np.asarray(result.getNearestPoint2(), float)]
+    if distance < 0 or not np.isfinite(distance) or np.asarray(points).shape != (2, 3) or not np.isfinite(points).all():
+        raise ValueError('REPLACEMENT_DISTANCE_MEASUREMENT_INVALID')
+    return {'distance_m': distance, 'max_penetration_m': 0., 'contacts': [],
+            'nearest_points': [p.tolist() for p in points]}
+
+
+def _replacement_support_points(pairs, floors, bottom):
+    support = []
+    for pair in pairs:
+        if pair['foreign_entity'] not in floors or pair['max_penetration_m'] > .002:
+            continue
+        for contact in pair['contacts']:
+            if abs(contact['point'][2] - bottom) <= .005 and abs(contact['normal'][2]) >= .9:
+                support.append({'floor': pair['foreign_entity'], 'point': contact['point']})
+        points = pair['nearest_points']
+        if (points is not None and pair['distance_m'] <= .005 and abs(points[0][2] - bottom) <= .005
+                and -.002 <= points[0][2] - points[1][2] <= .005):
+            support.append({'floor': pair['foreign_entity'], 'point': points[1]})
+    return support
+
+
+def validate_replacement_support_evidence(report, candidates, entities, floors):
+    if (report.get('version') != 1 or report.get('gpu_executed') is not True or report.get('status') != 'passed'
+            or set(report.get('containers', {})) != set(candidates) or not floors
+            or report.get('max_penetration_m') != .002 or report.get('support_clearance_m') != .005):
+        raise ValueError('COMPLETE_REAL_REPLACEMENT_SUPPORT_EVIDENCE_REQUIRED')
+    for name, record in report['containers'].items():
+        counts = record['collider_counts']
+        if (record.get('fixed_base') is not True or record.get('status') != 'passed'
+                or set(counts) != set(entities) or any(type(n) is not int or n <= 0 for n in counts.values())
+                or set(record['foreign_entities']) != set(entities) - {name} or not math.isfinite(record['bottom_z_m'])):
+            raise ValueError('REPLACEMENT_COLLIDER_INVENTORY_INCOMPLETE')
+        for foreign in sorted(set(entities) - {name}):
+            pairs = [p for p in record['pair_measurements'] if p['foreign_entity'] == foreign]
+            ids = {(p['first'], p['second']) for p in pairs}
+            if (len(pairs) != counts[name] * counts[foreign] or len(ids) != len(pairs)
+                    or len({p['first'] for p in pairs}) != counts[name]
+                    or len({p['second'] for p in pairs}) != counts[foreign]):
+                raise ValueError('REPLACEMENT_COLLIDER_PAIRS_INCOMPLETE')
+        if set(p['foreign_entity'] for p in record['pair_measurements']) != set(entities) - {name}:
+            raise ValueError('REPLACEMENT_FOREIGN_INVENTORY_MISMATCH')
+        for pair in record['pair_measurements']:
+            distance, depth = pair['distance_m'], pair['max_penetration_m']
+            if not np.isfinite([distance, depth]).all() or distance < 0 or not 0 <= depth <= .002:
+                raise ValueError('REPLACEMENT_FOREIGN_PENETRATION')
+            if pair['contacts']:
+                for contact in pair['contacts']:
+                    if (np.asarray(contact['point']).shape != (3,) or np.asarray(contact['normal']).shape != (3,)
+                            or not np.isfinite([*contact['point'], *contact['normal'], contact['penetration_m']]).all()
+                            or not 0 <= contact['penetration_m'] <= .002
+                            or not math.isfinite(contact['raw_signed_distance_m'])
+                            or contact['raw_signed_distance_m'] > 1e-8
+                            or contact['penetration_m'] != max(0., -contact['raw_signed_distance_m'])
+                            or not np.isclose(np.linalg.norm(contact['normal']), 1., atol=1e-3)):
+                        raise ValueError('REPLACEMENT_CONTACT_INVALID')
+                if distance != 0 or depth != max(c['penetration_m'] for c in pair['contacts']) or pair['nearest_points'] is not None:
+                    raise ValueError('REPLACEMENT_CONTACT_SUMMARY_INVALID')
+            else:
+                points = np.asarray(pair['nearest_points'], float)
+                if (points.shape != (2, 3) or not np.isfinite(points).all() or depth != 0
+                        or not np.isclose(np.linalg.norm(points[0] - points[1]), distance, atol=1e-4, rtol=1e-4)):
+                    raise ValueError('REPLACEMENT_NEAREST_POINTS_INVALID')
+        support = _replacement_support_points(record['pair_measurements'], floors, record['bottom_z_m'])
+        if not support or support != record['support']:
+            raise ValueError('REPLACEMENT_BASAL_SUPPORT_UNPROVEN')
+
+
+def verify_replacement_support(backend, manifest) -> dict:
+    """GPU: fixed fixtures need basal floor contact and no deep foreign overlap.
+
+    Fixed cabinets cannot tip; this narrowly validates their physical mounting
+    geometry, not free-body stability. Movable replacements stay unsupported.
+    Background/target stability and door sweeps have separate live checks.
+    """
+    from rummagebench.sim.omnigibson.entity_resolver import resolve_object
+    reports = {}
+    try:
+        expected = {o['name'] for o in manifest['objects']} | backend.robot_entity_names() | {manifest['target_asset']['internal_entity']}
+        objects = {obj.name: obj for obj in backend._env.scene.objects}
+        if set(objects) != expected:
+            raise ValueError('REPLACEMENT_LOADED_INVENTORY_MISMATCH')
+        bodies = {name: _complete_collision(backend, objects[name]) for name in sorted(expected)}
+        floors = {o['name'] for o in manifest['objects'] if o.get('source_component') == 'floor'}
+        if not floors:
+            raise ValueError('REPLACEMENT_ACTUAL_FLOOR_COMPONENT_REQUIRED')
+        for candidate in manifest['candidate_bindings']:
+            name = candidate['name']
+            obj = resolve_object(backend._env.scene, name)
+            if candidate['og_config'].get('fixed_base') is not True or not obj.fixed_base:
+                raise ValueError('REPLACEMENT_SUPPORT_ONLY_FIXED_FIXTURES_SUPPORTED')
+            bottom = min(body.aabb[0][2] for body in bodies[name])
+            pairs = []
+            for foreign in sorted(expected - {name}):
+                for body in bodies[name]:
+                    for other in bodies[foreign]:
+                        measurement = replacement_pair_measurement(body, other)
+                        pairs.append({'first': body.source_prim, 'second': other.source_prim,
+                                      'foreign_entity': foreign, **measurement})
+            support = _replacement_support_points(pairs, floors, bottom)
+            penetrating = any(p['max_penetration_m'] > .002 for p in pairs)
+            reports[name] = {'status': 'failed' if penetrating or not support else 'passed',
+                             'fixed_base': True, 'bottom_z_m': float(bottom), 'support': support,
+                             'pair_measurements': pairs, 'foreign_entities': sorted(expected - {name}),
+                             'collider_counts': {key: len(value) for key, value in bodies.items()}}
+    except (ValueError, KeyError, ImportError) as exc:
+        return {'version': 1, 'gpu_executed': True, 'status': 'pending', 'reason': str(exc), 'containers': reports}
+    return {'version': 1, 'gpu_executed': True, 'status': 'passed' if reports and
+            all(r['status'] == 'passed' for r in reports.values()) else 'failed', 'containers': reports,
+            'scope': 'fixed_fixture_basal_floor_contact_and_foreign_penetration',
+            'max_penetration_m': .002, 'support_clearance_m': .005}
+
+
+def diagnose_nearby_contacts(backend, entity, margin_m=.05):
+    """Actual FCL contacts near one body, for fault localization only.
+
+    This deliberately does not certify support or global collision freedom.
+    AABB proximity selects measurements; only FCL yields collision evidence.
+    """
+    from rummagebench.authoring.tasks.native_occupancy import checked_box
+    objects={obj.name:obj for obj in backend._env.scene.objects}
+    if entity not in objects: raise ValueError('CONTACT_DIAGNOSTIC_ENTITY_NOT_LOADED')
+    target=np.asarray(checked_box(backend.entity_aabb(entity)),float)
+    pairs,unknown,far=[],[],[]
+    try:bodies=_complete_collision(backend,objects[entity])
+    except (ValueError,ImportError) as exc:
+        return {'scope':'nearby_contact_diagnostic_only','status':'pending','reason':str(exc),
+                'evaluation_ready_episodes':0}
+    for name,obj in sorted(objects.items()):
+        if name==entity:continue
+        try:
+            box=np.asarray(checked_box(backend.entity_aabb(name)),float)
+            if np.any(target[0]>box[1]+margin_m) or np.any(box[0]>target[1]+margin_m):
+                far.append(name);continue
+            foreign=_complete_collision(backend,obj)
+            for first in bodies:
+                for second in foreign:
+                    pairs.append({'foreign_entity':name,'first':first.source_prim,'second':second.source_prim,
+                                  **replacement_pair_measurement(first,second)})
+        except (ValueError,ImportError) as exc:
+            unknown.append({'entity':name,'reason':str(exc)})
+    return {'scope':'nearby_contact_diagnostic_only','status':'measured','entity':entity,
+            'selection_margin_m':margin_m,'measurements':pairs,'unknown':unknown,
+            'unmeasured_far_entities':far,'global_collision_or_support_certified':False,
+            'evaluation_ready_episodes':0}
 
 
 def verify_door_sweeps(backend, manifest) -> dict:

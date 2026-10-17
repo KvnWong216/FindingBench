@@ -91,12 +91,19 @@ def validation_inputs(family_root: Path, frozen_root: Path) -> dict:
     episode = family["task_ids"][0]
     scenario = load_scenario(family_root / "candidates" / f"{episode}.yaml")
     manifest = load_assembly_manifest(Path(scenario.scene.assembly_manifest))
-    admission = manifest.get("generation_admission")
-    if not admission:
-        raise ValueError("ASSEMBLY_GENERATION_ADMISSION_REQUIRED; prepare using an accepted generation receipt")
     first_spec = next(iter(specs.values()))
-    if verify_generation_admission(first_spec, Path(admission["receipt"]), Path(manifest["source"]["solve_state"])) != admission:
-        raise ValueError("ASSEMBLY_GENERATION_ADMISSION_CHANGED")
+    if first_spec.generator_version=='household-infinigen-native-3':
+        from rummagebench.authoring.tasks.infinigen_component_binding import native_source_inputs
+        _,native_manifest,admission=native_source_inputs(first_spec.generation_constraints['native_region_lineage'],
+            Path(__file__).resolve().parents[4])
+        if native_manifest!=manifest:
+            raise ValueError('NATIVE_GENERATION_ADMISSION_ASSEMBLY_MISMATCH')
+    else:
+        admission = manifest.get("generation_admission")
+        if not admission:
+            raise ValueError("ASSEMBLY_GENERATION_ADMISSION_REQUIRED; prepare using an accepted generation receipt")
+        if verify_generation_admission(first_spec, Path(admission["receipt"]), Path(manifest["source"]["solve_state"])) != admission:
+            raise ValueError("ASSEMBLY_GENERATION_ADMISSION_CHANGED")
     overlay = SlotEmbodimentOverlay.load(family_root / "overlay.json")
     probe = verify_overlay_evidence(overlay)
     if probe["fingerprint"]["assembly_sha256"] != family["assembly_manifest_sha256"]:
@@ -109,6 +116,8 @@ def validation_inputs(family_root: Path, frozen_root: Path) -> dict:
             or preflight.get("assembly_manifest_sha256") != family["assembly_manifest_sha256"]
             or preflight.get("status") != "pending_simulation_acceptance"):
         raise ValueError("COMPLETE_GPU_FROZEN_FAMILY_RECEIPT_REQUIRED")
+    if first_spec.generator_version=='household-infinigen-native-3' and preflight.get('version')!=2:
+        raise ValueError('NATIVE_FAMILY_REQUIRES_VERSIONED_EXACT_RECONSTRUCTION_RECEIPT')
     for ref, digest in preflight["artifacts"].items():
         bundle_file(frozen_root, ref, digest)
     members = preflight["members"]
@@ -120,7 +129,9 @@ def validation_inputs(family_root: Path, frozen_root: Path) -> dict:
     for m in members:
         scenario = load_scenario(family_root / "candidates" / f"{m['scenario_id']}.yaml")
         member_path = bundle_file(frozen_root, m["member_manifest"], preflight["artifacts"][m["member_manifest"]])
-        load_frozen_member(member_path, scenario)
+        member=load_frozen_member(member_path, scenario)
+        if first_spec.generator_version=='household-infinigen-native-3' and member['version']!=2:
+            raise ValueError('NATIVE_FAMILY_REQUIRES_EXACT_MEMBER_RECONSTRUCTION_RECIPE')
         states[m["scenario_id"]] = str(member_path)
     return {"family_root": str(family_root.resolve()), "frozen_root": str(frozen_root.resolve()),
             "family_sha256": sha256_path(family_root / "family.json"),
@@ -170,7 +181,7 @@ def collect_family_validation(request_path: Path, results: Path) -> dict:
     from rummagebench.authoring.tasks import gates
     from rummagebench.authoring.tasks.search_certificate import SearchStructureCertificate
     from rummagebench.authoring.tasks.household_search import summarize_reference_search
-    from rummagebench.authoring.tasks.tiers import load_tier
+    from rummagebench.authoring.tasks.household import execution_tier
     request = load_validation_request(request_path)
     family_root = Path(request["inputs"]["family_root"])
     family, specs, _ = load_compiled_family(family_root)
@@ -180,8 +191,9 @@ def collect_family_validation(request_path: Path, results: Path) -> dict:
     overlay = SlotEmbodimentOverlay.load(family_root / "overlay.json")
     manifest = load_assembly_manifest(Path(request["inputs"]["assembly"]))
     slots = scene_slots_from_assembly(Path(request["inputs"]["assembly"]))
-    location_for_slot = {next(s.slot_id for s in slots.slots if s.parent_entity == b["name"]): b["location_id"]
-                         for b in manifest["candidate_bindings"]}
+    from rummagebench.authoring.tasks.household_binding import resolve_family_slots
+    location_for_slot={slot.slot_id:location for location,slot in resolve_family_slots(
+        manifest.get('native_region_bindings',manifest['candidate_bindings']),slots).items()}
     scenario0 = load_scenario(family_root / "candidates" / f"{family['task_ids'][0]}.yaml")
     start = scenario0.anchors[scenario0.robot.init_anchor].position[:2]
     blind_order = [location_for_slot[s] for s in reference_order(start,
@@ -205,8 +217,7 @@ def collect_family_validation(request_path: Path, results: Path) -> dict:
         for ref, digest in record.get("artifacts", {}).items():
             bundle_file(path.parent, ref, digest)
         cert = SearchStructureCertificate.from_dict(record["search_certificate"])
-        tier = load_tier("easy_v1")
-        tier.budget.max_planning_steps = specs[episode].max_planning_steps
+        tier=execution_tier(specs[episode])
         violations = gates.certify(cert, tier)
         if (violations or record.get("error") or record.get("status") != "certified"
                 or cert.candidate_slot_count != len(specs[episode].locations)
@@ -223,10 +234,15 @@ def collect_family_validation(request_path: Path, results: Path) -> dict:
             elif status != "passed":
                 pending.append(f"{check}:{episode}")
         # A summary flag cannot substitute for these physical measurements.
-        from rummagebench.authoring.tasks.household_physics import validate_sweep_evidence, validate_temporary_place_evidence
+        from rummagebench.authoring.tasks.household_physics import validate_sweep_evidence, validate_temporary_place_evidence, validate_replacement_support_evidence
         from rummagebench.authoring.tasks.household_locations import search_location_inventory
         from rummagebench.authoring.tasks.infinigen import read_solve_state
         try:
+            if record.get('checks', {}).get('replacement_support') == 'passed':
+                validate_replacement_support_evidence(record.get('replacement_support', {}),
+                    {b['name'] for b in manifest['candidate_bindings']},
+                    {o['name'] for o in manifest['objects']} | {scenario0.robot.name, specs[episode].target.internal_entity},
+                    {o['name'] for o in manifest['objects'] if o.get('source_component') == 'floor'})
             if record.get("checks",{}).get("door_sweep")=="passed":
                 validate_sweep_evidence(record.get("door_sweep",{}),[b["name"] for b in manifest["candidate_bindings"]])
             if record.get("checks",{}).get("temporary_place_space")=="passed":
@@ -340,7 +356,38 @@ def pipeline_inventory(root: Path) -> dict:
     root = root.resolve()
     specs, sources, layouts, geometry, accepted, exports, compiled, simulated, validated, ready = (set() for _ in range(10))
     failures = Counter()
-    for path in sorted(root.glob("**/specs/task_*.json")):
+    component_scenes, component_cells = set(), set()
+    active_runs = interrupted_runs = 0
+    for path in sorted(root.glob("**/input.json")):
+        if (path.parent / "generation.json").exists():
+            continue
+        try:
+            import fcntl
+            doc = json.loads(path.read_text())
+            inputs = doc["inputs"]
+            if (doc["input_sha256"] != sha256_bytes(canonical_json(inputs))
+                    or inputs["source"]["commit"] != UPSTREAM_COMMIT):
+                raise ValueError("PARTIAL_GENERATION_INPUT_INVALID")
+            lock_path = path.parent / ".run.lock"
+            running = False
+            if lock_path.is_file():
+                with lock_path.open("r") as lock:
+                    try:
+                        fcntl.flock(lock, fcntl.LOCK_SH | fcntl.LOCK_NB)
+                        fcntl.flock(lock, fcntl.LOCK_UN)
+                    except BlockingIOError:
+                        running = True
+            if running:
+                active_runs += 1
+            else:
+                interrupted_runs += 1
+                failures["GENERATION_INTERRUPTED_NO_COMMIT_RECEIPT"] += 1
+        except (OSError, ValueError, KeyError, TypeError) as exc:
+            failures[f"invalid_partial_generation:{type(exc).__name__}"] += 1
+    # plan-infinigen accepts arbitrary output directories, including named
+    # appearance variants. Recognize actual schema/ID-checked specifications
+    # rather than assuming the directory is literally named "specs".
+    for path in sorted(root.glob("**/task_*.json")):
         try:
             spec = HouseholdTaskSpec.model_validate_json(path.read_text())
             if spec.task_id != path.stem:
@@ -419,6 +466,22 @@ def pipeline_inventory(root: Path) -> dict:
                     accepted.add(sha256_path(blend))
         except (OSError, ValueError, KeyError, TypeError) as exc:
             failures[f"invalid_reinspection:{type(exc).__name__}"] += 1
+    for path in sorted(root.glob("**/export.json")):
+        try:
+            from rummagebench.authoring.tasks.infinigen import inspect_export
+            doc = json.loads(path.read_text())
+            live = inspect_export(Path(doc["scene"]),Path(doc["source_solve_state"]))
+            if (doc.get("status") != "exported_pending_simulation" or doc.get("gpu_executed") is not True
+                    or doc.get("source",{}).get("commit") != UPSTREAM_COMMIT or doc.get("physical_gpu") not in (4, 5)
+                    or sha256_path(doc["input_blend"]) != doc["input_blend_sha256"]
+                    or sha256_path(doc["source_solve_state"]) != doc["solve_state_sha256"]
+                    or not _blend_valid(Path(doc["input_blend"]))
+                    or any(live[key] != doc["inspection"][key]
+                           for key in ("scene_sha256","solve_state_sha256","dependency_ledger"))):
+                raise ValueError("PINNED_LIVE_EXPORT_ARTIFACTS_REQUIRED")
+            exports.add(sha256_path(doc["scene"]))
+        except (OSError, ValueError, KeyError, TypeError) as exc:
+            failures[f"invalid_export:{type(exc).__name__}"] += 1
     for path in sorted(root.glob("**/family.json")):
         try:
             family, _, _ = load_compiled_family(path.parent)
@@ -455,13 +518,141 @@ def pipeline_inventory(root: Path) -> dict:
                 validated.add(report["family_id"])
         except (OSError, ValueError, KeyError, TypeError) as exc:
             failures[f"invalid_validation:{type(exc).__name__}"] += 1
+    for path in sorted(root.glob('**/components_preparation.json')):
+        try:
+            report = json.loads(path.read_text())
+            if report.get('status') == 'failed':
+                failures['COMPONENT_PREPARATION_FAILED'] += 1
+                continue
+            from rummagebench.authoring.tasks.infinigen_component_binding import verify_component_preparation
+            _,report = verify_component_preparation(path)
+            scene_hash = report['artifacts'][str((path.parent / 'geometry/scene.blend').resolve())]
+            component_scenes.add(scene_hash)
+            for binding in report['asset_proposals']['bindings']:
+                component_cells.add((scene_hash,binding['component_id']))
+            for failure in report['asset_proposals']['failures']:
+                failures[failure['reason']] += 1
+        except (OSError, ValueError, KeyError, TypeError) as exc:
+            failures[f'invalid_component_preparation:{type(exc).__name__}'] += 1
+    # Import preflight is a background diagnostic, never an episode or a
+    # complete-family certificate. Preserve actual failure causes separately.
+    preflight_seen, preflight_passed, preflight_failed = set(), 0, 0
+    required_preflight = {'native_inventory','native_restore_twice','camera_rgb_shape',
+                          'loaded_articulation_query','spawn_clearance'}
+    for path in sorted(root.glob('**/preflight.json')):
+        try:
+            digest = sha256_path(path)
+            if digest in preflight_seen:
+                continue
+            preflight_seen.add(digest)
+            doc = json.loads(path.read_text())
+            if doc.get('stage') != 'infinigen_gpu_preflight':
+                raise ValueError('NATIVE_IMPORT_PREFLIGHT_STAGE_REQUIRED')
+            if doc.get('status') in ('failed_preflight','rejected_preflight'):
+                preflight_failed += 1
+                phase = doc.get('native_phase','unknown_phase')
+                failures[f'NATIVE_PREFLIGHT:{phase}:{doc.get("error","rejected")}'] += 1
+                failures.update(doc.get('failures',[]))
+            elif (doc.get('status') == 'pending_simulation_acceptance'
+                  and not doc.get('failures') and not doc.get('error')
+                  and doc.get('native_restore_repeats') == 2
+                  and set(doc.get('completed_checks',[])) == required_preflight):
+                from rummagebench.sim.omnigibson.observation import head_rgb_metadata_matches
+                if head_rgb_metadata_matches(doc.get('camera')):
+                    preflight_passed += 1
+                else:
+                    preflight_failed += 1
+                    failures['NATIVE_PREFLIGHT_CAMERA_IDENTITY_UNVERIFIED'] += 1
+            else:
+                raise ValueError('NATIVE_IMPORT_PREFLIGHT_INCOMPLETE')
+        except (OSError, ValueError, KeyError, TypeError) as exc:
+            failures[f'invalid_native_preflight:{type(exc).__name__}'] += 1
+    rejected_images=set()
+    for path in sorted(root.glob('**/image_review.json')):
+        try:
+            review=json.loads(path.read_text())
+            image_hash=sha256_path(path.parent/'initial_rgb.png')
+            if (review.get('stage')!='native_import_image_review'
+                    or not image_hash or image_hash!=review.get('image_sha256')):
+                raise ValueError('NATIVE_IMAGE_REVIEW_SOURCE_MISMATCH')
+            if review.get('semantic_review')=='rejected' and review['image_sha256'] not in rejected_images:
+                rejected_images.add(review['image_sha256'])
+                failures.update('NATIVE_IMAGE_REVIEW:'+r for r in review.get('reasons',[]))
+        except (OSError, ValueError, KeyError, TypeError) as exc:
+            failures[f'invalid_native_image_review:{type(exc).__name__}'] += 1
     return {"stage": "infinigen_dataset_status", "status": "validated" if ready else "pending_simulation",
             "counts": {"task_specifications": len(specs), "source_layout_groups": len(sources),
                        "requested_base_layouts": len(layouts), "actual_geometry_outputs": len(geometry),
                        "proxy_accepted_geometry_outputs": len(accepted), "verified_exported_scenes": len(exports),
                        "compiled_candidates": len(compiled), "validated_families": len(validated),
                        "simulator_validated_episodes": len(simulated),
-                       "evaluation_ready_episodes": len(ready)},
+                       "evaluation_ready_episodes": len(ready),
+                       "prepared_component_scenes":len(component_scenes),
+                       "proposed_interactive_component_bodies":len(component_cells),
+                       "native_import_preflights_passed":preflight_passed,
+                       "native_import_preflights_failed":preflight_failed,
+                       'native_images_rejected':len(rejected_images),
+                       "active_generation_runs":active_runs,"interrupted_generation_runs":interrupted_runs},
             "failure_reasons": dict(sorted(failures.items())),
             "counting_scope": "content-deduplicated actual artifacts; geometry variants are not independent source layouts",
             "gpu_started_by_this_command": False, "training_started_by_this_command": False}
+
+
+def difficulty_inventory(root: Path, target_per_cell: int = 100) -> dict:
+    """Recompute evidence, then count final reference bins once per family.
+
+    A proposal's requested label never fills a quota. Pending image/physics
+    gates may have measured costs, but only accepted complete families fill
+    validated quotas. Thresholds are recorded so incompatible runs cannot be
+    silently pooled. No simulation or new generator is started here.
+    """
+    if not 1 <= target_per_cell <= 100000:
+        raise ValueError("DIFFICULTY_QUOTA_OUTSIDE_BOUNDS")
+    from collections import Counter
+    cells = {f"{s}_{o}": {"measured_families":0,"validated_families":0,"evaluation_ready_episodes":0}
+             for s in ("low","high") for o in ("low","high")}
+    measured, failures, seen, thresholds = [], Counter(), {}, None
+    for path in sorted(Path(root).rglob("request.json")):
+        try:
+            raw = json.loads(path.read_text())
+            if "episode_ids" not in raw or "family_root" not in raw.get("inputs", {}):
+                continue
+            report = collect_family_validation(path, path.parent / "results")
+            search = report.get("search_measurement")
+            if not search or search.get("status") != "measured_reference":
+                failures.update(report.get("rejections", []))
+                continue
+            _, specs, _ = load_compiled_family(Path(raw["inputs"]["family_root"]))
+            first = next(iter(specs.values()))
+            intervals = first.generation_constraints["difficulty_intervals"]
+            if thresholds is not None and intervals != thresholds:
+                raise ValueError("DIFFICULTY_INTERVALS_DIFFER; use separate reporting roots")
+            thresholds = intervals
+            family_id = report["family_id"]
+            row = {"family_id":family_id,"status":report["status"],"expected":search["expected"],
+                   "worst_case":search["worst_case"],"requested":first.requested_difficulty,
+                   "measured":search["reference_difficulty"],"candidate_count":len(first.locations),
+                   "split":first.split_assignment.label,
+                   "evaluation_ready_episodes":report["counts"]["evaluation_ready_episodes"]}
+            if family_id in seen:
+                if seen[family_id] != row:
+                    raise ValueError("DUPLICATE_FAMILY_CONFLICTING_MEASUREMENTS")
+                continue
+            seen[family_id] = row
+            key = "_".join(row["measured"][k] for k in ("spatial","operations"))
+            cells[key]["measured_families"] += 1
+            if report["status"] == "validated":
+                cells[key]["validated_families"] += 1
+                cells[key]["evaluation_ready_episodes"] += row["evaluation_ready_episodes"]
+            measured.append(row)
+        except (OSError, ValueError, KeyError, TypeError) as exc:
+            failures[f"invalid_difficulty_evidence:{type(exc).__name__}:{exc}"] += 1
+    for counts in cells.values():
+        counts["deficit"] = max(0, target_per_cell - counts["validated_families"])
+    return {"version":1,"stage":"infinigen_difficulty_inventory","scope":"real_public_skill_reference_cost",
+            "cost_contract":"one per submitted call including rejected calls; MOVE/TURN spatial, other calls operational",
+            "intervals":thresholds,"calibration_status":"protocol_budget_thresholds; empirical_calibration_pending",
+            "target_per_cell":target_per_cell,"cells":cells,"families":measured,
+            "sampling_priority":sorted(cells,key=lambda key:(-cells[key]["deficit"],key)),
+            "failure_reasons":dict(failures),"real_scene_optimality_proved":False,
+            "gpu_started_by_this_command":False}

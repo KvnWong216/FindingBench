@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import subprocess
 import sys
 from pathlib import Path
 
@@ -86,6 +87,8 @@ def main() -> int:
     parser.add_argument("--scenario", type=str, help="scenario YAML whose robot to export")
     parser.add_argument("--robot", type=str, default="r1pro", help="robot model name")
     parser.add_argument("--scene", type=str, default="Beechwood_0_int")
+    parser.add_argument("--gpu", type=int, choices=[4, 5], help="physical GPU 4 or 5; isolate its actual PCI device before importing Kit")
+    parser.add_argument("--gpu-isolated", action='store_true', help=argparse.SUPPRESS)
     parser.add_argument(
         "--out", type=str, default=None,
         help="output URDF path (default: build/robots/<robot>.urdf)",
@@ -107,6 +110,25 @@ def main() -> int:
     parser.add_argument("--skip-validation", action="store_true",
                         help="DEV ONLY: skip the random-config gate")
     args = parser.parse_args()
+    if not args.inspect and args.gpu is None and not args.gpu_isolated:
+        parser.error('GPU export requires --gpu 5 (physical device isolation)')
+
+    if args.gpu is not None and not args.inspect:
+        from rummagebench.sim.gpu_isolation import resolve_gpu,isolated_gpu_command
+        child_args=list(sys.argv[1:])
+        if '--gpu' in child_args:
+            at=child_args.index('--gpu');del child_args[at:at+2]
+        else:
+            child_args=[value for value in child_args if not value.startswith('--gpu=')]
+        child=[sys.executable,str(Path(__file__).resolve()),*child_args]
+        child.append('--gpu-isolated')
+        gpu=resolve_gpu(args.gpu)
+        command,env=isolated_gpu_command(child,gpu)
+        print(f"GPU isolation: physical={gpu['index']} PCI={gpu['pci']} device={gpu['device']} UUID={gpu['uuid']}",flush=True)
+        result=subprocess.run(command,env=env,timeout=900,check=False)
+        if result.returncode==0 and args.out and not Path(args.out).is_file():
+            raise RuntimeError('GPU_EXPORT_EXITED_WITHOUT_URDF')
+        return result.returncode
 
     if args.inspect:
         if not args.urdf:
@@ -144,14 +166,24 @@ def main() -> int:
         robot_model, scene_model = args.robot, args.scene
 
     # simulator import happens here so --help / --inspect stay cheap
+    if args.gpu_isolated:
+        from rummagebench.sim.gpu_isolation import verify_isolated_cuda
+        import torch
+        verify_isolated_cuda(torch)
     from omnigibson.envs import Environment
-    from omnigibson.scenes import InteractiveTraversableScene
+    if args.gpu_isolated:
+        os.environ['OMNI_KIT_ACCEPT_EULA']='YES'  # same bootstrap setting as the existing OG launcher
+        import isaacsim
+        from rummagebench.sim.gpu_isolation import configure_single_gpu_kit
+        # A single isolated card has no peer; never run Kit's all-card
+        # IOMMU bandwidth test on a shared host.
+        configure_single_gpu_kit(isaacsim)
 
     print(f"loading {robot_model} in {scene_model} (Kit launch takes minutes)...")
     env = Environment(
         configs={
-            "scene": {"type": "InteractiveTraversableScene", "model": scene_model},
-            "robots": [{"type": robot_model, "obs_modalities": []}],
+            "scene": {"type": "InteractiveTraversableScene", "scene_model": scene_model},
+            "robots": [{"model": robot_model.lower(), "obs_modalities": []}],
         }
     )
     robot = env.scene.robots[0]

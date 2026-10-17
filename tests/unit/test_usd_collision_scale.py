@@ -184,3 +184,24 @@ def test_physics_pose_replaces_stale_usd_link_pose():
     _, _, pts = primitive_geometry("Cube", {"size": 1.0}, P, coal)
     ext = pts.max(0) - pts.min(0)
     assert np.allclose(sorted(ext), sorted([0.02 * 1.3, 0.4 * 1.2, 0.1 * 1.1]), atol=1e-9)
+
+
+def test_disconnected_paving_keeps_empty_space_between_actual_colliders():
+    from types import SimpleNamespace
+    pytest.importorskip('pxr')
+    from pxr import Usd, UsdGeom, UsdPhysics
+    from rummagebench.sim.omnigibson.usd_collision import collider_navigation_aabbs
+    from rummagebench.skills.move import footprint_corners, _aabb_overlaps_footprint
+    stage = Usd.Stage.CreateInMemory()
+    root = stage.DefinePrim('/paving', 'Xform')
+    for name, x in [('left', -2.), ('right', 2.)]:
+        cube = UsdGeom.Cube.Define(stage, '/paving/' + name)
+        cube.CreateSizeAttr(.3)
+        UsdGeom.Xformable(cube).AddTranslateOp().Set((x, 0., .15))
+        UsdPhysics.CollisionAPI.Apply(cube.GetPrim())
+    boxes = collider_navigation_aabbs(SimpleNamespace(prim=root, links={}))
+    assert len(boxes) == 2
+    spawn = footprint_corners(0., 0., 0., .4)
+    assert not any(_aabb_overlaps_footprint(box, spawn, .03) for box in boxes)
+    on_paving = footprint_corners(2., 0., 0., .4)
+    assert any(_aabb_overlaps_footprint(box, on_paving, .03) for box in boxes)

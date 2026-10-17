@@ -27,7 +27,6 @@ from rummagebench.core.public_types import (
     AgentProtocolConfig,
     Feedback,
     MoveAction,
-    ObserveView,
     PointAction,
     PublicAction,
     PublicActionFeedback,
@@ -36,6 +35,7 @@ from rummagebench.core.public_types import (
     ReportDoneAction,
     REPORT_COMPLETE_ALIAS,
     TurnAction,
+    ViewAction,
     fine_reason_for,
 )
 from rummagebench.core.events import (
@@ -57,7 +57,6 @@ from rummagebench.perception.visual_bridge import (
     VisualGroundingError,
 )
 from rummagebench.skills.move import execute_move, execute_turn
-from rummagebench.skills.observe import ObserveConfig, run_observe
 from rummagebench.skills.report_done import goal_satisfied
 
 logger = logging.getLogger(__name__)
@@ -82,7 +81,6 @@ class VisualProtocolSession:
         scenario,
         protocol: AgentProtocolConfig | None = None,
         base_half_extent: float = 0.40,
-        observe_cfg: ObserveConfig | None = None,
     ):
         # Session-specific policy must not mutate the caller's scenario.
         scenario = scenario.model_copy(deep=True)
@@ -103,14 +101,14 @@ class VisualProtocolSession:
         if feas is not None and hasattr(feas, "base_half_extent"):
             feas.base_half_extent = base_half_extent
         self._protocol = protocol or getattr(scenario, "agent_protocol", AgentProtocolConfig())
-        self._observe_cfg = observe_cfg or ObserveConfig()
         self._base_half_extent = base_half_extent
         self._store = FrameStore()
         self._bridge = VisualBridge()
         self._public_step = 0
+        self._view_angles = None
+        self._panorama_frame = None
         self._status = _PUBLIC_RUNNING
         self._last_feedback: Feedback | None = None
-        self._observe_views: list[ObserveView] = []
         self._trace: list[dict[str, Any]] = []
         self._trace_path: Path | None = None
         # optional model identity recorded in the run metadata event (set by
@@ -201,7 +199,19 @@ class VisualProtocolSession:
         return None
 
     def _capture_current(self):
-        frame = self._backend.capture_visual_frame()
+        if getattr(self._scenario.robot, "panorama", None) is not None:
+            frame = self._backend.capture_panorama_frame()
+            self._panorama_frame = frame
+            if self._view_angles is not None:
+                from rummagebench.perception.panorama import perspective_view
+                frame = perspective_view(frame, *self._view_angles,
+                                         width=self._scenario.robot.image_width,
+                                         height=self._scenario.robot.image_height)
+        else:
+            frame = self._backend.capture_visual_frame()
+        return self._register_frame(frame)
+
+    def _register_frame(self, frame):
         frame.frame_id = self._store.new_frame_id()
         self._store.register(frame)
         return frame
@@ -220,7 +230,6 @@ class VisualProtocolSession:
             max_planning_steps=self._scenario.termination.max_planning_steps,
             skill_library=list(PUBLIC_SKILLS),
             feedback=self._last_feedback,
-            observe_views=list(self._observe_views),
         )
 
     def observe(self) -> PublicObservation:
@@ -237,19 +246,20 @@ class VisualProtocolSession:
     def reset(self) -> PublicObservation:
         self._status = "ENGINE_ERROR"  # usable only after the entire reset succeeds
         self._session.reset()
+        self._view_angles = None
         # the AGENT episode starts at the scenario spawn anchor: the visual
         # protocol has no NAV anchors, so the spawn is applied here
         from rummagebench.core.scenario import AnchorSpec
 
-        init = self._scenario.anchors[self._scenario.robot.init_anchor]
-        self._backend.teleport_robot(
-            AnchorSpec(position=list(init.position), orientation=list(init.orientation))
-        )
-        self._backend.settle(5)
+        if getattr(self._scenario, "behavior_task", None) is None:
+            init = self._scenario.anchors[self._scenario.robot.init_anchor]
+            self._backend.teleport_robot(
+                AnchorSpec(position=list(init.position), orientation=list(init.orientation))
+            )
+            self._backend.settle(5)
         self._store.reset()
         self._public_step = 0
         self._last_feedback = None
-        self._observe_views = []
         self._skill_events = []
         self._trace.clear()
         frame = self._capture_current()
@@ -332,7 +342,6 @@ class VisualProtocolSession:
             action.model_dump(mode="json") if action is not None else None
         )
 
-        self._observe_views = []
         frame = self._store.get(self._store.current_id)
         record["current_frame_id"] = frame.frame_id if frame is not None else None
 
@@ -345,6 +354,19 @@ class VisualProtocolSession:
                 self._step_move(action, record)
             elif isinstance(action, TurnAction):
                 self._step_turn(action, record)
+            elif isinstance(action, ViewAction):
+                if getattr(self._scenario.robot, "panorama", None) is None:
+                    self._last_feedback = self._feedback(PublicActionFeedback.OUT_OF_CAPABILITY)
+                    record["feedback"] = "OUT_OF_CAPABILITY"
+                else:
+                    self._view_angles = (action.yaw, action.pitch)
+                    from rummagebench.perception.panorama import perspective_view
+                    self._register_frame(perspective_view(
+                        self._panorama_frame, action.yaw, action.pitch,
+                        width=self._scenario.robot.image_width,
+                        height=self._scenario.robot.image_height))
+                    self._last_feedback = self._feedback(PublicActionFeedback.EXECUTED)
+                    record["feedback"] = "EXECUTED"
             elif isinstance(action, ReportDoneAction):
                 self._step_report_done(record)
             else:
@@ -486,9 +508,6 @@ class VisualProtocolSession:
         record["input_frame_id"] = action.point.frame_id
         record["point"] = [action.point.x, action.point.y]
 
-        if action.skill == "OBSERVE":
-            return self._step_observe(action, frame, record)
-
         resolved = self._resolve_point(frame, action.point.x, action.point.y, record)
         if resolved is None:
             return None
@@ -604,34 +623,3 @@ class VisualProtocolSession:
         if reason in (FailureReason.COLLISION, FailureReason.UNSAFE_ACTION):
             return self._feedback(PublicActionFeedback.UNSAFE)
         return self._feedback(PublicActionFeedback.INVALID_ACTION)
-
-    def _step_observe(self, action, frame, record):
-        resolved = self._resolve_point(frame, action.point.x, action.point.y, record)
-        if resolved is None:
-            return None
-        entity, _surface = resolved
-        record.update(selected_entity=entity, observe_target=True)
-
-        accepted = run_observe(
-            self._backend, entity, self._observe_cfg,
-            base_half_extent=self._base_half_extent, collision_margin=0.03,
-            render_private_frame=lambda: self._backend.capture_visual_frame(),
-            visible_pixel_count=lambda fr, ent: self._backend.entity_visible_pixels(fr, ent),
-            settle=lambda n: self._backend.settle(n),
-            log=lambda r: record.setdefault("observe_viewpoints", []).append(
-                {k: v for k, v in r.items() if k != "rgb"}
-            ),
-        )
-        self._observe_views = [
-            ObserveView(view_index=i, image_png_b64=_png_b64(v["rgb"]))
-            for i, v in enumerate(accepted)
-        ]
-        if not self._observe_views:
-            self._last_feedback = self._feedback(PublicActionFeedback.UNSAFE)
-            record["feedback"] = "UNSAFE"
-            record["private_reason"] = "NO_VALID_OBSERVE_VIEWPOINT"
-            return None
-        self._last_feedback = self._feedback(PublicActionFeedback.EXECUTED)
-        record["feedback"] = "EXECUTED"
-        record["accepted_observe_views"] = len(accepted)
-        return self._capture_current()  # fresh CURRENT frame after restore

@@ -425,6 +425,8 @@ class BenchmarkSession:
         never against the simulator's assisted-grasp internals.
         """
         term = self._scenario.termination
+        if getattr(self._scenario, "behavior_task", None) is not None:
+            return  # native task success is evaluated by REPORT_DONE
 
         if action.skill == "GRASP" and skill_result.executed and skill_result.postcondition_satisfied:
             held_entity = self._world_state.held_object

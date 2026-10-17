@@ -21,6 +21,10 @@ from rummagebench.core.errors import FeasibilityBackendError
 
 
 def goal_satisfied(world_state, scenario, backend=None, events=None) -> bool:
+    if getattr(scenario, "behavior_task", None) is not None:
+        if backend is None:
+            raise ValueError("native BEHAVIOR goal requires the official task evaluator")
+        return backend.behavior_goal_satisfied()
     goal = list(getattr(scenario, "goal", None) or [])
     temporal = list(getattr(scenario, "temporal", None) or [])
     if not goal and not temporal:

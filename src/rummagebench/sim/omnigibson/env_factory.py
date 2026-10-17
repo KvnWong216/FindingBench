@@ -74,6 +74,13 @@ def build_env_config(scenario: ScenarioSpec) -> dict:
         if not manifest_path.is_absolute():
             manifest_path = repo_root() / manifest_path
         config.update(assembly_env_config(manifest_path))
+    elif scenario.scene.source == "behavior_layout":
+        from rummagebench.sim.omnigibson.behavior_adapter import assembly_env_config
+
+        manifest_path = Path(scenario.scene.assembly_manifest)
+        if not manifest_path.is_absolute():
+            manifest_path = repo_root() / manifest_path
+        config.update(assembly_env_config(manifest_path, config["scene"], scenario.scene.model))
     else:
         config["scene"]["scene_model"] = scenario.scene.model
 
@@ -108,11 +115,25 @@ def build_env_config(scenario: ScenarioSpec) -> dict:
         sensor_kwargs["focal_length"] = scenario.robot.focal_length_mm
     # Robot initial pose comes from the scenario's init anchor; the backend
     # teleports via the same anchor mechanism used by NAV to keep one code path.
-    anchor = scenario.anchors[scenario.robot.init_anchor]
-    robot_cfg["position"] = list(anchor.position)
-    robot_cfg["orientation"] = list(anchor.orientation)
-    robot_cfg["pose_frame"] = "world"
+    if getattr(scenario, "behavior_task", None) is None:
+        anchor = scenario.anchors[scenario.robot.init_anchor]
+        robot_cfg["position"] = list(anchor.position)
+        robot_cfg["orientation"] = list(anchor.orientation)
+        robot_cfg["pose_frame"] = "world"
     config["robots"] = [robot_cfg]
+    if getattr(scenario, "behavior_task", None) is not None:
+        from rummagebench.datasets.behavior import assert_rigid_task
+        assert_rigid_task(scenario.behavior_task)
+        config["task"] = {
+            "type": "BehaviorTask",
+            **scenario.behavior_task.model_dump(exclude={"bddl_root"}),
+            "online_object_sampling": False,
+            "use_presampled_robot_pose": True,
+            "highlight_task_relevant_objects": False,
+        }
+        # The task loads the official cached scene and robot pose.
+        for key in ("position", "orientation", "pose_frame"):
+            robot_cfg.pop(key, None)
     return config
 
 
@@ -128,9 +149,68 @@ def build_env(scenario: ScenarioSpec):
     # to a bowl — and spawn a "sludge" particle system, which on this host
     # (no GPU dynamics) aborts the scene build.
     gm.ENABLE_TRANSITION_RULES = False
+    if scenario.robot.panorama is not None:
+        # The human UI and agents both use the head panorama. Do not create
+        # an additional, unused spectator render product in headless runs.
+        gm.RENDER_VIEWER_CAMERA = False
+
+    if scenario.scene.source == 'behavior_layout':
+        from omnigibson.utils.asset_utils import get_dataset_path
+        from rummagebench.sim.omnigibson.behavior_adapter import load_manifest
+        manifest_path = Path(scenario.scene.assembly_manifest)
+        if not manifest_path.is_absolute():
+            manifest_path = repo_root() / manifest_path
+        manifest = load_manifest(manifest_path)
+        runtime_root = Path(get_dataset_path('behavior-1k-assets')).resolve()
+        for asset in manifest['assets'].values():
+            for source in asset['sources']:
+                if not Path(source).resolve().is_relative_to(runtime_root):
+                    raise SimBackendError('native layout and OmniGibson must use the same BEHAVIOR dataset')
+
+    if scenario.scene.source == 'infinigen' and og.sim is None:
+        # In Isaac's environment pxr is provided by the running Kit app.
+        # Reading assembly USD dependencies before Environment construction
+        # otherwise fails before the first simulator launch.
+        og.launch()
 
     config = build_env_config(scenario)
-    env = Environment(configs=config)
+    if getattr(scenario, "behavior_task", None) is not None:
+        import bddl
+        from omnigibson.utils.asset_utils import get_dataset_path
+        spec = scenario.behavior_task
+        definition = Path("activity_definitions") / spec.activity_name / f"problem{spec.activity_definition_id}.bddl"
+        if (Path(bddl.__file__).parent / definition).read_bytes() != (Path(spec.bddl_root) / definition).read_bytes():
+            raise SimBackendError("installed BDDL definition differs from audited source")
+        from omnigibson.utils.asset_utils import get_task_instance_path
+        instance = f"{scenario.scene.model}_task_{spec.activity_name}_{spec.activity_definition_id}_{spec.activity_instance_id}_template"
+        template = get_task_instance_path(scenario.scene.model, instance)
+        if template is None or not Path(template).is_file():
+            raise SimBackendError(f"official pre-sampled task instance missing: {instance}")
+    if scenario.scene.source == 'infinigen':
+        from rummagebench.sim.omnigibson.infinigen_adapter import load_assembly_manifest, restore_source_static_colliders
+        manifest_path = Path(scenario.scene.assembly_manifest)
+        if not manifest_path.is_absolute():
+            manifest_path = repo_root() / manifest_path
+        manifest = load_assembly_manifest(manifest_path)
+        expected = {item['name'] for item in manifest['objects'] if item['role']=='static_background'}
+        evidence = []
+        def source_collider_import(obj):
+            result = restore_source_static_colliders(obj, expected)
+            if result is not None: evidence.append(result)
+        hook = 'findingbench_infinigen_source_triangle_colliders'
+        og.sim.add_callback_on_add_obj(hook,source_collider_import)
+        try:
+            env = Environment(configs=config)
+        finally:
+            og.sim.remove_callback_on_add_obj(hook)
+        if {e['entity'] for e in evidence} != expected:
+            raise ValueError('SOURCE_STATIC_COLLIDER_IMPORT_COVERAGE_INCOMPLETE')
+        env._findingbench_source_collider_import = evidence
+    else:
+        env = Environment(configs=config)
+    if scenario.scene.source == 'behavior_layout' and manifest.get('living_context',{}).get('geometry'):
+        from rummagebench.authoring.layout.indoor_geometry import restore_native_state
+        env._findingbench_geometry_restore = restore_native_state(env,manifest)
     if scenario.scene.source == "infinigen":
         from rummagebench.sim.omnigibson.infinigen_adapter import install_runtime_lighting
 

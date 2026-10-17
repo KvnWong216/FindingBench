@@ -96,6 +96,11 @@ class VisualBridge:
         order = np.lexsort(((cols+u0-u)**2 + (rows+v0-v)**2, np.abs(vals-median)))
         idx = order[0]
         pu, pv, d = int(cols[idx]+u0), int(rows[idx]+v0), float(vals[idx])
+        if "pixel_rays" in frame.meta:
+            rays = np.asarray(frame.meta["pixel_rays"])
+            if rays.shape != (*depth.shape, 3) or not np.isfinite(rays[pv, pu]).all():
+                raise VisualGroundingError("INVALID_DEPTH_GEOMETRY")
+            return to_world(d * rays[pv, pu], frame.camera_extrinsics)
         unproject = unproject_z_depth if frame.depth_convention == "z_depth" else unproject_range
         return to_world(unproject(pu, pv, d, frame.camera_intrinsics), frame.camera_extrinsics)
 

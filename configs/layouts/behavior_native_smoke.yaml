@@ -1,0 +1,20 @@
+# Integration fixture only. Not a complete household or benchmark sample.
+layout:
+  id: behavior_native_smoke
+  base_scene: __empty__
+  storage_units: 2
+  work_surfaces: 1
+  clutter_per_surface: 2
+  placement_regions: [[-2.5, 1.0, 2.5, 4.0]]
+  robot_spawn: [0.0, 0.0]
+  min_robot_clearance_m: 0.65
+  front_strip_extra_m: 0.65
+pool:
+  storage:
+    - {category: bottom_cabinet_no_top, model: vzzafs}
+  surface:
+    - {category: breakfast_table, model: bhszwe}
+  clutter:
+    - {category: bowl, model: adciys}
+    - {category: plate, model: aewthq}
+target: {category: tablespoon, model: pltxjb}

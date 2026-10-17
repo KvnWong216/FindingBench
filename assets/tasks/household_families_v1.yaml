@@ -3,10 +3,29 @@ implemented_family: kitchen_cabinet_search
 room_type: kitchen
 target_categories: [bowl, teacup, tablefork, tablespoon]
 candidate_count: [2, 4]
+# Standalone storage proposal count, NOT the complete kitchen search set.
+# prepare-infinigen-components derives a new prior including nested cabinets,
+# each drawer and open cells. These profiles cannot certify that full set.
+# Actual standalone KitchenCabinetFactory Dimensions (depth, width, height).
+# KitchenSpace's explicit native nested dimensions remain unchanged.
+source_storage_dimensions_m: [[0.25, 0.35], [1.0, 1.2], [0.5, 0.9]]
+# Real upstream SinkFactory parameters and its existing CoPlanar relation.
+# Full-scene measurements found sink/cabinet penetration; these bias proposals
+# toward a normal single basin recessed from the counter front. Physics gates
+# remain unchanged and may reject the entire family.
+source_sink_parameter_ranges_m: {Width: [0.4, 0.45], Margin: [0.02, 0.03]}
+source_sink_front_margin_m: 0.18
+# First direct-container family: the real factory's drawer_only=True chooses
+# doors OR drawers and excludes open shelving. Every resulting cabinet remains
+# in the search scope; old open-cell families are retained as mixed candidates.
+source_kitchen_cabinets_closed_only: true
 target_prior: uniform
 initial_visibility_max: 0.0
 required_skills: [MOVE, TURN, OBSERVE, OPEN, GRASP, REPORT_DONE]
-max_planning_steps: 16
+# Household factorial experiment budget; compile_plan/TaskCertifier reuse the
+# easy_v1 direct-reveal structure with this explicit horizon. The original
+# easy_v1 benchmark retains its own 16-step budget.
+max_planning_steps: 48
 background_policy: preserve_upstream_household_semantics_all_surfaces
 placement_priors: build/tasks/priors/placement_v1.yaml
 eligibility: build/tasks/priors/eligibility_v1.yaml
@@ -18,17 +37,22 @@ upstream:
   reference: indoors-stable
   license: BSD-3-Clause
 difficulty_intervals:
-  # Provisional thresholds in declared abstract steps; require calibration.
+  # Reference public calls, half-open bins; protocol budget boundaries,
+  # not empirical quantiles. Calibration remains pending.
   spatial: {low: [0.0, 8.0], high: [8.0, null]}
   operations: {low: [0.0, 6.0], high: [6.0, null]}
   calibration_status: pending
 # Every profile is consumed by the real constraint bridge and CPU postfilter.
-# Uniform single reveal: OPEN+OBSERVE=2, GRASP+REPORT=2 => E[ops]=n+3.
+# Proposal model assumes OPEN+OBSERVE at each location, GRASP+REPORT at
+# completion: E[ops]=n+3. Live reference policy uses current RGB first and
+# only observes when needed; measured costs may fall into another cell.
 search_model:
   inspection_operations: 2.0
   finish_operations: 2.0
+  inspection_skills: [OPEN, OBSERVE]
+  finish_skills: [GRASP, REPORT_DONE]
   movement_proxy_m_per_step: 0.5
-  scope: furniture_centers_euclidean_move_proxy_no_turn_or_path_certification
+  scope: furniture_center_move_proxy_and_assumed_OPEN_OBSERVE; adaptive_live_calls_measured_separately
 request_profiles:
   low_low:
     spatial: low

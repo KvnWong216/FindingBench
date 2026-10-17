@@ -1,0 +1,92 @@
+id: behavior_groceries_pilot
+instruction: Bring the groceries from the car into the refrigerator and close the
+  car and refrigerator.
+scene:
+  model: house_double_floor_lower
+  source: behavior
+  assembly_manifest: null
+  frozen_member_manifest: null
+robot:
+  model: r1pro
+  name: robot_0
+  init_anchor: null
+  panorama:
+    head_link: zed_link
+    mount_frame_link: torso_link4
+    offset:
+    - 0.0
+    - 0.0
+    - 0.15
+    face_size: 256
+    width: 1024
+    height: 512
+  obs_modalities:
+  - rgb
+  include_sensor_names: null
+  exclude_sensor_names: null
+  image_width: 640
+  image_height: 480
+  focal_length_mm: null
+  grasping_mode: sticky
+  reach_radius: 1.0
+  z_min: 0.0
+  z_max: 1.6
+  hand_capacity: 1
+  kinematics:
+    urdf_path: build/robots/r1pro.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    gripper_links: null
+    ik_seed: 0
+anchors: {}
+target: null
+behavior_task:
+  activity_name: carrying_in_groceries
+  activity_definition_id: 0
+  activity_instance_id: 0
+  bddl_root: /home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/assets/behavior_official/bddl
+objects: []
+placements: []
+initial_states: {}
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+  ik_pos_tol: 0.005
+  ik_rot_tol: 0.0873
+  ik_max_iters: 200
+  ik_restarts: 25
+  collision_padding: 0.0
+action_interface:
+  mode: admissible
+agent_protocol:
+  min_move_cm: 5.0
+  max_move_cm: 100.0
+  min_turn_deg: 5.0
+  max_turn_deg: 180.0
+  protocol_version: agent-visual-v2
+  feedback_version: four-class-v1
+oracle_min_steps: null
+placement_regime: null
+pair_id: null
+skills:
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+safety:
+  forbidden_categories: []
+  grasping_fixed_base_unsafe: true
+agent:
+  scripted_success: []
+  scripted_wrong_object: []
+  unsafe_sequence: []
+expose_available_skills: false
+goal: []
+temporal: []

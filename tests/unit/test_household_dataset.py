@@ -44,6 +44,12 @@ def compiled_family(usd_bundle, tmp_path, monkeypatch):
                  "solve_state_sha256": sha256_path(solve), "scope": "synthetic_unit_fixture_only"}
     monkeypatch.setattr(hd,"verify_generation_admission",lambda *args: admission)
     prepare_assembly(make_spec(), scene, solve, bindings, assets, assembly, generation_receipt=Path(admission["receipt"]))
+    # This existing geometric fixture's static room mesh stands in for a
+    # floor only in CPU protocol tests; it is never a physical certificate.
+    manifest=json.loads((assembly/'assembly.json').read_text())
+    next(o for o in manifest['objects'] if o['role']=='static_background')['source_component']='floor'
+    manifest.pop('manifest_sha256')
+    write_json(assembly/'assembly.json',signed(manifest,'manifest_sha256'))
     slots = scene_slots_from_assembly(assembly / "assembly.json")
     urdf = tmp_path / "unit_robot.urdf"
     urdf.write_text('<robot name="synthetic_unit_only"><link name="base_link"/><link name="right_eef_link"/></robot>')
@@ -139,7 +145,7 @@ def write_unit_member_results(validation_request):
             certified_execution_steps=4)
         certificate.attach_evidence(ev)
         index = order.index(specs[episode].target_location)
-        actions = trace(["MOVE", "TURN"] + ["OBSERVE", "OPEN"] * (index + 1) + ["GRASP", "REPORT_DONE"])
+        actions = trace(["MOVE", "TURN"] + ["OPEN", "OBSERVE"] * (index + 1) + ["GRASP", "REPORT_DONE"])
         record = {"version": 1, "episode_id": episode, "request_sha256": request["request_sha256"],
                   "gpu_executed": True, "status": "certified", "error": None, "search_certificate": certificate.to_dict(),
                   "checks": {c: "passed" for c in request["inputs"]["required_checks"]},
@@ -147,6 +153,22 @@ def write_unit_member_results(validation_request):
                     "visited_slots": order[:index + 1], "trace": actions, "status": "SUCCESS", "closed_observe_bypass": False},
                   "artifacts": {}}
         # Simulated physical proofs remain explicitly inside this CPU fixture.
+        scenario=load_scenario(root/'candidates'/f'{episode}.yaml')
+        entities={o['name'] for o in manifest['objects']} | {scenario.robot.name, specs[episode].target.internal_entity}
+        floors={o['name'] for o in manifest['objects'] if o.get('source_component')=='floor'}
+        support={}
+        for binding in manifest['candidate_bindings']:
+            name=binding['name'];pairs=[]
+            for foreign in sorted(entities-{name}):
+                pairs.append({'first':name+'/unit_collider','second':foreign+'/unit_collider','foreign_entity':foreign,
+                    'distance_m':0. if foreign in floors else 1.,'max_penetration_m':0.,
+                    'contacts':[{'point':[0.,0.,0.],'normal':[0.,0.,1.],'penetration_m':0.,'raw_signed_distance_m':0.}] if foreign in floors else [],
+                    'nearest_points':None if foreign in floors else [[0.,0.,0.],[1.,0.,0.]]})
+            support[name]={'status':'passed','fixed_base':True,'bottom_z_m':0.,'pair_measurements':pairs,
+                'collider_counts':{e:1 for e in entities},'foreign_entities':sorted(entities-{name}),
+                'support':[{'floor':floor,'point':[0.,0.,0.]} for floor in sorted(floors)]}
+        record['replacement_support']={'version':1,'gpu_executed':True,'status':'passed','unit_fixture_only':True,
+            'max_penetration_m':.002,'support_clearance_m':.005,'containers':support}
         record["door_sweep"]={"version":SWEEP_VERSION,"gpu_executed":True,"status":"passed","restored":True,
             "containers":{b["name"]:continuous_clearance(lambda t: .1,.05) for b in manifest["candidate_bindings"]}}
         poses=[[0.,0.,1.,0.,0.,0.,1.]]*7
@@ -198,6 +220,35 @@ def test_frozen_manifest_binding_and_topology_guard(frozen_family, monkeypatch):
     with pytest.raises(ValueError, match="TOPOLOGY_OR_ORDER"): restore_frozen_member(backend, path, scenario)
     scenario.instruction = "changed"
     with pytest.raises(ValueError, match="SCENARIO_OR_HASH"): load_frozen_member(path, scenario)
+
+
+def test_versioned_member_loads_original_input_and_checks_observed_world(frozen_family,monkeypatch):
+    """UNIT tensor fixtures only; a V2 recipe binds BOTH input and observed hashes."""
+    import numpy as np
+    from rummagebench.authoring.tasks import household_state
+    from rummagebench.authoring.tasks.native_occupancy import state_hash
+    from rummagebench.sim.omnigibson import state_io
+    root,family,frozen=frozen_family;episode=family['task_ids'][0]
+    scenario=load_scenario(root/'candidates'/f'{episode}.yaml')
+    path=frozen/'members'/f'{episode}.json';doc=json.loads(path.read_text())
+    source=np.array([1.,-0.],dtype=np.float32);world=np.array([1.0000001,-0.],dtype=np.float32)
+    recipe={'contract':'same-checkpoint-exact-world-v1','checkpoint_input_state_sha256':state_hash(source),
+            'observed_world_state_sha256':state_hash(world)}
+    doc.update(version=2,restore_recipe=recipe)
+    write_json(path,signed(doc,'manifest_sha256'))
+    meta={'assembly_manifest_sha256':doc['assembly_manifest_sha256'],'scenario_sha256':doc['scenario_sha256'],
+          'restore_recipe':recipe}
+    monkeypatch.setattr(state_io,'load_snapshot',lambda _: (source.copy(),deepcopy(meta)))
+    monkeypatch.setattr(household_state,'runtime_topology',lambda _:doc['runtime_topology'])
+    checked=[];monkeypatch.setattr(household_state,'check_background',lambda *a:checked.append(True))
+    loads=[]
+    backend=SimpleNamespace(restore_observe_state=lambda s:loads.append(s['sim'].copy()),
+        validate_physics_state=lambda:None,_validate_spawn_clearance=lambda:None,dump_state=lambda:world.copy())
+    restore_frozen_member(backend,path,scenario)
+    assert len(loads)==1 and np.array_equal(loads[0],source) and checked==[True]
+    world[1]=0.
+    with pytest.raises(ValueError,match='EXACT_WORLD_RECONSTRUCTION_MISMATCH'):
+        restore_frozen_member(backend,path,scenario)
 
 
 @pytest.mark.parametrize("artifact", ["state", "background_records"])
@@ -261,7 +312,7 @@ def test_publish_local_dataset_revalidates_and_protects_public_boundary(validati
     with pytest.raises(ValueError): hd.load_dataset(output)
 
 
-@pytest.mark.parametrize("missing",["door_sweep","temporary_place","search_locations"])
+@pytest.mark.parametrize("missing",["door_sweep","temporary_place","search_locations","replacement_support"])
 def test_passed_summary_flags_cannot_release_missing_physical_evidence(validation_request,missing):
     request,results=write_unit_member_results(validation_request)
     episode=validation_request[1]["task_ids"][0]
@@ -288,11 +339,11 @@ def test_reference_cost_is_asymmetric_measured_and_not_an_optimum():
     order = reference_order([0., 0.], {"a": [2., 0.], "b": [1., 0.]})
     assert order == ["b", "a"]
     runs = {k: {"policy": POLICY_VERSION, "gpu_executed": True, "candidate_order": order,
-               "visited_slots": order[:i + 1], "status": "SUCCESS", "trace": trace(["MOVE", "TURN"] + ["OPEN", "OBSERVE"] * (i + 1) + ["GRASP", "REPORT_DONE"])}
+               "visited_slots": order[:i + 1], "status": "SUCCESS", "trace": trace(["MOVE", "TURN"] + ["OBSERVE", "OPEN", "OBSERVE"] * (i + 1) + ["GRASP", "REPORT_DONE"])}
             for i, k in enumerate(order)}
     intervals = {"spatial": {"low": [0, 8], "high": [8, None]}, "operations": {"low": [0, 6], "high": [6, None]}}
     doc = summarize_reference_search(runs, {"a": .8, "b": .2}, intervals)
-    assert doc["expected"] == {"spatial": 2., "operations": pytest.approx(5.6)}
+    assert doc["expected"] == {"spatial": 2., "operations": pytest.approx(7.4)}
     assert doc["status"] == "measured_reference" and doc["real_scene_optimality_proved"] is False
     runs["a"]["closed_observe_bypass"] = True
     assert summarize_reference_search(runs, {"a": .8, "b": .2}, intervals)["status"] == "rejected"
@@ -339,6 +390,86 @@ def test_generation_admission_selects_matching_successful_retry(tmp_path,monkeyp
     assert admitted["receipt_sha256"] == sha256_path(receipt)
 
 
+def test_difficulty_quotas_use_measured_complete_families_and_leave_pending_unfilled(validation_request):
+    request,results=write_unit_member_results(validation_request)
+    report=hd.difficulty_inventory(request.parent,3)
+    assert report['cells']['low_low']=={'measured_families':1,'validated_families':1,
+                                      'evaluation_ready_episodes':2,'deficit':2}
+    assert report['families'][0]['expected']['operations']==5.
+    episode=validation_request[1]['task_ids'][0]
+    path=results/episode/'result.json'
+    record=json.loads(path.read_text());record['checks']['appearance_images']='pending'
+    write_json(path,signed(record,'receipt_sha256'))
+    pending=hd.difficulty_inventory(request.parent,3)
+    assert pending['cells']['low_low']['measured_families']==1
+    assert pending['cells']['low_low']['validated_families']==0
+    assert pending['cells']['low_low']['deficit']==3
+
+
+def test_missing_inspection_or_cross_location_reveal_cannot_certify_direct_search():
+    runs={location:{'gpu_executed':True,'policy':POLICY_VERSION,'candidate_order':['a','b'],
+                   'visited_slots':['a','b'][:i+1],'status':'SUCCESS','closed_observe_bypass':False,
+                   'trace':trace(['OBSERVE','OPEN','OBSERVE']*(i+1)+['GRASP','REPORT_DONE'])}
+          for i,location in enumerate(('a','b'))}
+    intervals={'spatial':{'low':[0,8],'high':[8,None]},'operations':{'low':[0,8],'high':[8,None]}}
+    runs['a']['trace']=trace(['OBSERVE','GRASP','REPORT_DONE'])
+    result=summarize_reference_search(runs,{'a':.5,'b':.5},intervals)
+    assert 'REFERENCE_INSPECTION_CHAIN_INVALID:a' in result['rejections']
+    runs['a']['trace']=trace(['OBSERVE','OPEN','OBSERVE','GRASP','REPORT_DONE'])
+    runs['b']['visited_slots']=['a'];runs['b']['trace']=deepcopy(runs['a']['trace'])
+    result=summarize_reference_search(runs,{'a':.5,'b':.5},intervals)
+    assert 'CROSS_LOCATION_OR_UNVISITED_TARGET_REVEAL:b' in result['rejections']
+
+
+def test_status_distinguishes_live_lock_and_interrupted_partial_generation(tmp_path):
+    import fcntl
+    from rummagebench.authoring.tasks.household import UPSTREAM_COMMIT
+    inputs={'source':{'commit':UPSTREAM_COMMIT},'synthetic_unit_only':True}
+    write_json(tmp_path/'input.json',{'inputs':inputs,'input_sha256':sha256_bytes(canonical_json(inputs))})
+    with (tmp_path/'.run.lock').open('a') as lock:
+        fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+        live=hd.pipeline_inventory(tmp_path)
+        assert live['counts']['active_generation_runs']==1 and live['counts']['actual_geometry_outputs']==0
+    interrupted=hd.pipeline_inventory(tmp_path)
+    assert interrupted['counts']['interrupted_generation_runs']==1
+    assert interrupted['failure_reasons']=={'GENERATION_INTERRUPTED_NO_COMMIT_RECEIPT':1}
+
+
+def test_reference_uses_returned_rgb_without_mandatory_observe(monkeypatch):
+    """Protocol unit fixture only; never physical validation evidence."""
+    from rummagebench.authoring.tasks import certify,household_search
+    from rummagebench.core import visual_session
+    from rummagebench.sim.omnigibson import visibility
+    pose=SimpleNamespace(xy=[0.,0.],yaw=0.)
+    frame=SimpleNamespace(frame_id='synthetic_frame')
+    backend=SimpleNamespace(open=False,entity_visible_pixels=lambda f,e:20 if backend.open else 0,
+                            is_open=lambda e:backend.open)
+    class FixtureSession:
+        def __init__(self,*a,**kw):
+            self._store=SimpleNamespace(current_id='synthetic_frame',get=lambda fid:frame)
+            self.state='RUNNING';self.step_count=0
+        def reset(self):pass
+        def status(self):return self.state
+        def step(self,action):
+            self.step_count+=1
+            if action['skill']=='OPEN':backend.open=True
+            if action['skill']=='REPORT_DONE':self.state='SUCCESS'
+            return SimpleNamespace(feedback=SimpleNamespace(code=SimpleNamespace(value='EXECUTED')),
+                episode_status=self.state,planning_step=self.step_count)
+    monkeypatch.setattr(visual_session,'VisualProtocolSession',FixtureSession)
+    monkeypatch.setattr(certify,'TaskCertifier',lambda *a,**kw:SimpleNamespace(
+        reveal_min=.65,_drive_pose=lambda *a:True))
+    monkeypatch.setattr(certify,'click_point',lambda *a:(.5,.5))
+    monkeypatch.setattr(visibility,'measure_visibility',lambda *a:SimpleNamespace(to_dict=lambda:{'ratio':1.}))
+    plan=SimpleNamespace(candidate_slots=['unit_slot'],start={'position':[0.,0.,0.]})
+    slots=SimpleNamespace(by_id=lambda:{'unit_slot':SimpleNamespace(parent_entity='unit_cab')})
+    overlay=SimpleNamespace(slots={'unit_slot':SimpleNamespace(navigation_anchor=pose,reveal_anchor=None)})
+    scenario=SimpleNamespace(target=SimpleNamespace(entity='synthetic_target'))
+    result=household_search.run_reference_search(backend,scenario,plan,slots,overlay,None)
+    assert result['status']=='SUCCESS'
+    assert [r['action']['skill'] for r in result['trace']]==['OPEN','GRASP','REPORT_DONE']
+
+
 def test_legacy_oracle_adaptation_does_not_change_public_completion(compiled_family, monkeypatch):
     from rummagebench.authoring.tasks.certify import TaskCertifier, EpisodeCertification
     from rummagebench.core import session as session_module
@@ -369,3 +500,35 @@ def test_legacy_oracle_adaptation_does_not_change_public_completion(compiled_fam
     assert scenario == original and observed[0] != scenario
     assert out.evidence.replay_success is True
     assert "public_REPORT_DONE" in out.oracle_certificate["scope"]
+
+
+def test_inventory_reports_native_import_failures_without_counting_episodes(tmp_path):
+    """Receipt-only unit fixtures never count as accepted simulation data."""
+    failed={'stage':'infinigen_gpu_preflight','status':'failed_preflight',
+            'native_phase':'settling_closed_background','error':'ValueError: nonfinite joints'}
+    passed={'stage':'infinigen_gpu_preflight','status':'pending_simulation_acceptance',
+            'native_restore_repeats':2,'failures':[],
+            'camera':{'sensor_name':'robot:zed_link:Camera:0','prim':'/unit/zed_link/Camera','shape':[480,854,3]},
+            'completed_checks':['native_inventory','native_restore_twice','camera_rgb_shape',
+                                'loaded_articulation_query','spawn_clearance']}
+    for name,doc in [('failure',failed),('same_failure_copy',failed),('limited_pass',passed),
+                     ('incomplete',{'stage':'infinigen_gpu_preflight','status':'pending_simulation_acceptance'})]:
+        folder=tmp_path/name;folder.mkdir();write_json(folder/'preflight.json',doc)
+    report=hd.pipeline_inventory(tmp_path)
+    assert report['counts']['native_import_preflights_failed']==1
+    assert report['counts']['native_import_preflights_passed']==1
+    assert report['counts']['simulator_validated_episodes']==0
+    assert report['counts']['evaluation_ready_episodes']==0
+    assert report['failure_reasons']['NATIVE_PREFLIGHT:settling_closed_background:ValueError: nonfinite joints']==1
+    assert report['failure_reasons']['invalid_native_preflight:ValueError']==1
+    # Unit bytes only. A rejected review is a failure counter, never an
+    # accepted image/episode, and must refer to an unchanged source artifact.
+    image=tmp_path/'review/initial_rgb.png';image.parent.mkdir();image.write_bytes(b'UNIT ONLY')
+    write_json(image.parent/'image_review.json',{'stage':'native_import_image_review',
+        'image_sha256':sha256_path(image),'semantic_review':'rejected','reasons':['unit_overexposure']})
+    rejected=hd.pipeline_inventory(tmp_path)
+    assert rejected['counts']['native_images_rejected']==1
+    assert rejected['failure_reasons']['NATIVE_IMAGE_REVIEW:unit_overexposure']==1
+    assert rejected['counts']['evaluation_ready_episodes']==0
+    image.write_bytes(b'UNIT CHANGED')
+    assert hd.pipeline_inventory(tmp_path)['counts']['native_images_rejected']==0

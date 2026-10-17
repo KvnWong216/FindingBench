@@ -1,0 +1,12 @@
+# Selection, not a claim that the licensed runtime assets are installed.
+source: official_behavior_1k
+upstream_commit: 6cbf70b075816096e9be53958780769f3264d25d
+activity_name: carrying_in_groceries
+activity_definition_id: 0
+scene_model: house_double_floor_lower
+instance_selection: first_installed_official_template_in_selected_scene
+bddl_root: assets/behavior_official/bddl
+robot: r1pro
+max_planning_steps: 200
+protocol: agent-visual-v2
+public_skills: [MOVE, TURN, OPEN, CLOSE, GRASP, PLACE, VIEW, REPORT_DONE]

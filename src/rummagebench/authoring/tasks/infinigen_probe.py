@@ -107,13 +107,13 @@ def assembly_floor_map(manifest, assembly):
     if len(meta["kitchens"]) != 1:
         raise ValueError("SINGLE_KITCHEN_REQUIRED_FOR_PROBE")
     kitchen = meta["kitchens"][0]
-    path = manifest["source_to_usd"].get(kitchen)
+    floor_path = manifest.get("source_component_paths",{}).get(kitchen,{}).get("floor")
+    path = floor_path or manifest["source_to_usd"].get(kitchen)
     if path is None:
         raise ValueError("KITCHEN_MESH_MAPPING_REQUIRED_FOR_PROBE")
     stage = Usd.Stage.Open(manifest["source"]["scene_usd"])
     xforms = UsdGeom.XformCache()
     triangles = []
-    floor_path = manifest.get("source_component_paths",{}).get(kitchen,{}).get("floor")
     # Prefer the actual independently exported floor component. Existing
     # nested room geometry remains supported for earlier exports.
     for prim in Usd.PrimRange(stage.GetPrimAtPath(floor_path or path)):
@@ -135,9 +135,14 @@ def assembly_floor_map(manifest, assembly):
                     triangles.append(tri)
     if not triangles:
         raise ValueError("KITCHEN_HORIZONTAL_FLOOR_GEOMETRY_REQUIRED")
-    lowest = min(t[:, 2].mean() for t in triangles)
-    # Either winding is accepted; live settling verifies the actual floor.
-    floor = [t for t in triangles if t[:, 2].mean() <= lowest+.02]
+    levels=[float(t[:,2].mean()) for t in triangles]
+    if floor_path is None and max(levels)-min(levels)>.02:
+        raise ValueError('UNANNOTATED_ROOM_SURFACES_CANNOT_IDENTIFY_FLOOR_TOP')
+    # A floor slab has a bottom and a walking surface. The independently
+    # mapped FLOOR component supplies its top; the room envelope alone
+    # cannot distinguish floor from ceiling. Winding is not a reliable cue.
+    top=max(levels)
+    floor=[t for t in triangles if t[:,2].mean()>=top-.02]
     obstacles = []
     cache = UsdGeom.BBoxCache(Usd.TimeCode.Default(), [UsdGeom.Tokens.default_, UsdGeom.Tokens.render])
     for obj in manifest["objects"]:
@@ -145,9 +150,18 @@ def assembly_floor_map(manifest, assembly):
             cfg = obj["og_config"]
             # The replacement size is stored in its source world envelope.
             source_prim = stage.GetPrimAtPath(manifest["source_to_usd"][obj["source_id"]])
-        elif "Semantics.Furniture" in obj.get("source_tags", []):
-            source_prim = stage.GetPrimAtPath(obj["source_usd_prim"])
         else:
+            source_prim = stage.GetPrimAtPath(obj["source_usd_prim"])
+        if (obj.get('role')=='static_background'
+                and (obj.get('source_component') in ('wall','exterior') or obj.get('source_id') is None)):
+            from rummagebench.sim.omnigibson.usd_collision import mesh_navigation_aabbs
+            for prim in Usd.PrimRange(source_prim):
+                if not prim.IsA(UsdGeom.Mesh):continue
+                mesh=UsdGeom.Mesh(prim)
+                boxes=mesh_navigation_aabbs(mesh.GetPointsAttr().Get(),list(mesh.GetFaceVertexCountsAttr().Get()),
+                    list(mesh.GetFaceVertexIndicesAttr().Get()),np.asarray(xforms.GetLocalToWorldTransform(prim)),top)
+                for lo,hi in boxes:
+                    obstacles.append([lo[:2]+[lo[2]+top],hi[:2]+[hi[2]+top]])
             continue
         bounds = cache.ComputeWorldBound(source_prim).ComputeAlignedRange()
         obstacles.append([list(bounds.GetMin()), list(bounds.GetMax())])
@@ -190,7 +204,12 @@ def prepare_probe(spec, assembly: Path, repo: Path, assets_root: Path, output: P
     from rummagebench.authoring.tasks.probe import ProbeConfig, anchor_candidates
     from rummagebench.sim.omnigibson.infinigen_adapter import load_assembly_manifest, scene_slots_from_assembly
     manifest = load_assembly_manifest(assembly)
-    if manifest["scene_id"] != spec.base_layout_id or manifest["family_id"] != spec.family_id:
+    family_matches=manifest['family_id']==spec.family_id
+    if manifest.get('native_region_catalog') and not family_matches:
+        context=manifest['component_context']
+        family_matches=(context['source_spec_sha256']==sha256_bytes(spec.canonical_bytes())
+            and context['complete_search_distribution']['supersedes_family_id']==spec.family_id)
+    if manifest["scene_id"] != spec.base_layout_id or not family_matches:
         raise ValueError("ASSEMBLY_SPEC_MISMATCH")
     if manifest["target_asset"] != spec.target.model_dump():
         raise ValueError("PROBE_TARGET_ASSET_MISMATCH")
@@ -309,6 +328,8 @@ def run_gpu_probe(request_path: Path, output: Path):
     evidence = {"version":1, "status":"partial", "gpu_executed":False,
         "request_sha256":request["request_sha256"], "fingerprint":request["fingerprint"],
         "slots":{}, "furniture":{}, "evaluation_ready_episodes":0}
+    atomic_write_json(output/'progress.json',{**evidence,'phase':'creating_complete_environment',
+        'required_slots':request['required_slots']})
     try:
         from omnigibson.utils.asset_utils import get_dataset_path
         actual_target = Path(get_dataset_path("behavior-1k-assets"))/"objects"/manifest["target_asset"]["category"]/manifest["target_asset"]["model"]
@@ -331,6 +352,8 @@ def run_gpu_probe(request_path: Path, output: Path):
         prober = SceneProber(backend, BenchmarkSession(backend,scenario), ss,room_map,"probe_object",cfg,
                              views_dir=output/"views",expected_base_z=request["expected_base_z"])
         starts = {"kitchen_0":prober.probe_start_poses("kitchen_0")}
+        atomic_write_json(output/'progress.json',{**evidence,'phase':'probing_all_regions',
+            'required_slots':request['required_slots'],'start_poses':len(starts['kitchen_0'])})
         interactions = {}
         for furn in sorted(ss.furniture,key=lambda f:f.entity):
             slots = [s for s in ss.slots if s.parent_entity == furn.entity]
@@ -341,6 +364,9 @@ def run_gpu_probe(request_path: Path, output: Path):
                 if inter is not None:
                     interactions[slot.slot_id] = inter
                     evidence["slots"][slot.slot_id] = inter.evidence
+            atomic_write_json(output/'progress.json',{**evidence,'phase':'probing_all_regions',
+                'required_slots':request['required_slots'],'last_furniture':furn.entity,
+                'usable_slot_count':sum(bool(i.usable(True)) for i in interactions.values())})
         overlay = SlotEmbodimentOverlay(ss.scene,"r1pro",request["urdf"],request["fingerprint"]["urdf_sha256"],
             "probed", str((output/"evidence.json").resolve()),robot["robot"],robot["feasibility"],starts,interactions,
             notes=["assembly_manifest_sha256:"+sha256_path(assembly)])

@@ -29,6 +29,9 @@ def prepare_renderer_grounding(scenario) -> bool:
     the environment is built: fewer render products on the crash-prone host,
     and the AGENT protocol only ever reads the head camera.
     """
+    if scenario.robot.panorama is not None:
+        scenario.robot.include_sensor_names = []
+        return True
     requested = set(getattr(scenario.robot, "obs_modalities", None) or [])
     if not requested & GROUNDING_MODALITIES:
         return False
@@ -52,6 +55,10 @@ def install_renderer_grounding(backend) -> str:
     )
 
     install_physics_only_settle(backend)
+    if backend._scenario.robot.panorama is not None:
+        from rummagebench.sim.omnigibson.panorama import PanoramaCamera
+        backend._panorama_camera = PanoramaCamera(backend, backend._scenario.robot.panorama)
+        return "head_panorama"
     return enable_renderer_grounding(backend)
 
 

@@ -62,6 +62,20 @@ def test_parent_inside_does_not_prove_drawer_membership():
     assert rec['status'] == 'unknown'
 
 
+def test_measured_native_region_distinguishes_another_drawer_without_guessing():
+    relations=[{'entity':'spoon','parent':'cab','relation':'inside'}]
+    other=summarize_slot(slot(link='meta__upper_fillable'),{'cab':obj(BOX),'spoon':obj(FAR)},
+                         relations,BOX,[],{'spoon':False})
+    assert other['status']=='confirmed_empty'
+    occupied=summarize_slot(slot(link='meta__upper_fillable'),{'cab':obj(BOX),'spoon':obj(BOX)},
+                            relations,BOX,[],{'spoon':True})
+    assert occupied['status']=='confirmed_occupied' and occupied['occupants']==['spoon']
+    # A rejected membership test does not turn overlapping unknown geometry empty.
+    uncertain=summarize_slot(slot(link='meta__upper_fillable'),{'cab':obj(BOX),'spoon':obj(BOX)},
+                             relations,BOX,[],{'spoon':False})
+    assert uncertain['status']=='unknown'
+
+
 def test_unknown_candidates_reject_whole_requested_set_without_pruning():
     ids = ['one', 'two']
     doc = {'slots': [{'slot_id': 'one', 'status': 'confirmed_empty', 'geometry_complete': True},

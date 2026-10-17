@@ -9,6 +9,17 @@ from __future__ import annotations
 import numpy as np
 
 
+def head_rgb_metadata_matches(camera) -> bool:
+    """A receipt's RGB sensor and prim must name the same known head link."""
+    if not isinstance(camera,dict):return False
+    links={'head','head_camera','zed_link'}
+    sensor_links=set(str(camera.get('sensor_name','')).split(':')) & links
+    prim_links=set(str(camera.get('prim','')).split('/')) & links
+    shape=camera.get('shape')
+    return (bool(sensor_links & prim_links) and isinstance(shape,list) and len(shape)==3
+            and all(type(v) is int and v>0 for v in shape) and shape[2]==3)
+
+
 def select_head_rgb_sensor(robot_obs):
     """Choose the head camera by identity, never dict enumeration order.
 
@@ -22,7 +33,11 @@ def select_head_rgb_sensor(robot_obs):
     if len(heads) == 1:
         return heads[0]
     if not heads and len(candidates) == 1:
-        return candidates[0]
+        # A known wrist camera cannot become a head camera merely because
+        # the other cameras were disabled in a configuration.
+        wrist={'left_realsense_link','right_realsense_link','wrist','wrist_camera'}
+        if not set(candidates[0][0].split(':')) & wrist:
+            return candidates[0]
     raise RuntimeError("visual protocol: missing or ambiguous head RGB sensor")
 
 
@@ -64,15 +79,10 @@ def capture_private_frame(env, robot_name: str) -> dict:
     obs_list, _info = env.get_obs()
     obs = obs_list[0]
     robot_obs = obs.get(robot_name, {})
-    for _sensor, sensor_obs in robot_obs.items():
-        if not isinstance(sensor_obs, dict):
-            continue
-        if rgb is None and sensor_obs.get("rgb") is not None:
-            rgb = _to_numpy(sensor_obs["rgb"])
-        if depth is None and sensor_obs.get("depth") is not None:
-            depth = _to_numpy(sensor_obs["depth"]).astype(np.float64)
-        if seg is None and sensor_obs.get("seg_instance") is not None:
-            seg = _to_numpy(sensor_obs["seg_instance"])
+    sensor_name,sensor_obs=select_head_rgb_sensor(robot_obs)
+    rgb=_to_numpy(sensor_obs['rgb'])
+    if sensor_obs.get('depth') is not None:depth=_to_numpy(sensor_obs['depth']).astype(np.float64)
+    if sensor_obs.get('seg_instance') is not None:seg=_to_numpy(sensor_obs['seg_instance'])
     if rgb is None:
         raise RuntimeError(f"no RGB sensor for robot {robot_name!r}")
     if rgb.ndim == 3 and rgb.shape[-1] == 4:
@@ -89,6 +99,7 @@ def capture_private_frame(env, robot_name: str) -> dict:
     if seg.shape[:2] != (H, W):
         seg = np.resize(seg, (H, W))
     return {"rgb": rgb, "depth": depth, "seg": seg,
+            'sensor_name':sensor_name,
             "seg_is_paths": seg.dtype.kind in "USO"}
 
 
@@ -139,8 +150,7 @@ def build_visual_frame(env, robot_name: str, frame_id: str,
     bundle = capture_private_frame(env, robot_name)
     H, W = bundle["rgb"].shape[:2]
     K = default_intrinsics(W, H)
-    sensors = camera_sensor_names(env, robot_name)
-    T_world_camera = camera_extrinsics(env, robot_name, sensors[0] if sensors else None)
+    T_world_camera = camera_extrinsics(env, robot_name, bundle['sensor_name'])
 
     frame = VisualFramePrivate(
         frame_id=frame_id,

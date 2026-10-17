@@ -219,7 +219,9 @@ def _quat_from_matrix(R: np.ndarray) -> list[float]:
 # ------------------------------------------------------------ USD -> coal
 
 def _bvh(points: np.ndarray, tris, coal):
-    verts_std = coal.StdVec_Vec3s()
+    # Coal 3 renamed the double-precision vector wrapper from Vec3f to Vec3s.
+    vector_type = getattr(coal, "StdVec_Vec3s", None) or coal.StdVec_Vec3f
+    verts_std = vector_type()
     for p in points:
         verts_std.append(np.array([float(p[0]), float(p[1]), float(p[2])]))
     tris_std = coal.StdVec_Triangle()
@@ -316,6 +318,146 @@ def mesh_triangles(counts, idx) -> list[tuple[int, int, int]]:
             tris.append((idx[i], idx[i + k], idx[i + k + 1]))
         i += n
     return tris
+
+
+def mesh_navigation_aabbs(points, counts, indices, matrix, floor_z):
+    """Conservative bounds of real wall faces clipped to the base z band.
+
+    A merged room's outer AABB fills its interior. Triangle envelopes retain
+    every intersecting face without declaring the empty room an obstacle.
+    Only convex planar faces are supported; uncertain tessellation rejects.
+    Output z is relative to the verified floor, as the public footprint band.
+    """
+    points,matrix=np.asarray(points,float),np.asarray(matrix,float)
+    if (points.ndim!=2 or points.shape[1]!=3 or not len(points) or matrix.shape!=(4,4)
+            or not np.isfinite(points).all() or not np.isfinite(matrix).all() or not np.isfinite(floor_z)
+            or not np.allclose(matrix[:,3],[0.,0.,0.,1.],atol=1e-10,rtol=0)
+            or sum(counts)!=len(indices) or any(type(n) is not int or n<3 for n in counts)
+            or any(type(i) is not int or not 0<=i<len(points) for i in indices)):
+        raise ValueError('NAV_ARCHITECTURE_MESH_INVALID')
+    points=(np.c_[points,np.ones(len(points))]@matrix)[:,:3]
+    if all(n==3 for n in counts):
+        # Triangles are already convex and planar, including collapsed ones.
+        # Clip all their vertices/edge intersections in bulk. Real exported
+        # trim meshes contain many thousands of faces and are queried by MOVE.
+        triangles=points[np.asarray(indices,dtype=int).reshape(-1,3)]
+        lower,upper=floor_z+.05,floor_z+.5
+        triangles=triangles[(triangles[:,:,2].max(1)>=lower)&(triangles[:,:,2].min(1)<=upper)]
+        if not len(triangles):return []
+        vertices=[triangles];masks=[(triangles[:,:,2]>=lower)&(triangles[:,:,2]<=upper)]
+        end=np.roll(triangles,-1,axis=1);dz=end[:,:,2]-triangles[:,:,2]
+        for height in (lower,upper):
+            fraction=np.divide(height-triangles[:,:,2],dz,out=np.zeros_like(dz),where=dz!=0)
+            vertices.append(triangles+(end-triangles)*fraction[:,:,None])
+            masks.append((dz!=0)&(fraction>=0)&(fraction<=1))
+        vertices=np.concatenate(vertices,axis=1);mask=np.concatenate(masks,axis=1)
+        if not mask.any(1).all():raise ValueError('NAV_TRIANGLE_CLIPPING_UNRESOLVED')
+        lo=np.where(mask[:,:,None],vertices,np.inf).min(1)
+        hi=np.where(mask[:,:,None],vertices,-np.inf).max(1)
+        lo[:,2]-=floor_z;hi[:,2]-=floor_z
+        return list(zip(lo.tolist(),hi.tolist()))
+    boxes=[];offset=0
+    def clip(poly,height,keep_above):
+        out=[]
+        for a,b in zip(poly,[*poly[1:],poly[0]]):
+            inside_a=a[2]>=height if keep_above else a[2]<=height
+            inside_b=b[2]>=height if keep_above else b[2]<=height
+            if inside_a:out.append(a)
+            if inside_a!=inside_b:out.append(a+(b-a)*((height-a[2])/(b[2]-a[2])))
+        return out
+    for count in counts:
+        face=points[indices[offset:offset+count]];offset+=count
+        if count==3 and (face[:,2].max()<floor_z+.05 or face[:,2].min()>floor_z+.5):
+            continue
+        normals=np.cross(face[1:-1]-face[0],face[2:]-face[0])
+        lengths=np.linalg.norm(normals,axis=1)
+        if not (lengths>1e-10).any():
+            # Real exported boolean wall meshes include collapsed triangles.
+            # Retain a conservative clipped face envelope, including point
+            # and line geometry, instead of dropping its collision evidence.
+            lo,hi=face.min(axis=0),face.max(axis=0)
+            lo[2]=max(lo[2],floor_z+.05);hi[2]=min(hi[2],floor_z+.5)
+            if lo[2]<=hi[2]:
+                lo[2]-=floor_z;hi[2]-=floor_z
+                boxes.append((lo.tolist(),hi.tolist()))
+            continue
+        normal=normals[np.argmax(lengths)]/lengths.max()
+        edge=np.roll(face,-1,axis=0)-face
+        turns=np.cross(edge,np.roll(edge,-1,axis=0))@normal
+        if ((face-face[0])@normal).max()>1e-5 or abs(((face-face[0])@normal).min())>1e-5 or (turns< -1e-8).any():
+            raise ValueError('NAV_ARCHITECTURE_FACE_TESSELLATION_UNSUPPORTED')
+        for i in range(1,count-1):
+            poly=clip(list(face[[0,i,i+1]]),floor_z+.05,True)
+            if poly:poly=clip(poly,floor_z+.5,False)
+            if poly:
+                local=np.asarray(poly);local[:,2]-=floor_z
+                boxes.append((local.min(0).tolist(),local.max(0).tolist()))
+    return boxes
+
+
+def collider_navigation_aabbs(obj):
+    """Conservative bounds per enabled collider, using live physics poses.
+
+    A single dataset object can contain disconnected paving / wall pieces.
+    Its whole-object AABB fills the empty rooms between those pieces.
+    Keep each actual collider separate without dropping categories or faces.
+    """
+    from pxr import Usd, UsdGeom, UsdPhysics
+    cache = UsdGeom.BBoxCache(Usd.TimeCode.Default(), [UsdGeom.Tokens.default_, UsdGeom.Tokens.render])
+    boxes = []
+    for prim in iter_prims(obj.prim):
+        if not prim.HasAPI(UsdPhysics.CollisionAPI) or prim.GetAttribute('physics:collisionEnabled').Get() is False:
+            continue
+        body = prim
+        while body != obj.prim and not body.HasAPI(UsdPhysics.RigidBodyAPI):
+            body = body.GetParent()
+        base = np.asarray(UsdGeom.Xformable(body).ComputeLocalToWorldTransform(0.), float)
+        correction = np.linalg.inv(base) @ physics_link_matrix(obj, body.GetName(), base)
+        if prim.IsA(UsdGeom.Mesh):
+            points = np.asarray(UsdGeom.Mesh(prim).GetPointsAttr().Get(), float)
+            matrix = np.asarray(UsdGeom.Xformable(prim).ComputeLocalToWorldTransform(0.), float) @ correction
+        else:
+            bound = cache.ComputeWorldBound(prim).ComputeAlignedRange()
+            lo, hi = np.asarray(bound.min), np.asarray(bound.max)
+            points = np.array([[x,y,z] for x in (lo[0],hi[0]) for y in (lo[1],hi[1]) for z in (lo[2],hi[2])])
+            matrix = correction
+        if points.ndim != 2 or points.shape[1] != 3 or not len(points):
+            raise ValueError('NATIVE_NAVIGATION_COLLIDER_GEOMETRY_MISSING')
+        world = points @ matrix[:3,:3] + matrix[3,:3]
+        if not np.isfinite(world).all():
+            raise ValueError('NATIVE_NAVIGATION_COLLIDER_NONFINITE')
+        boxes.append((world.min(0).tolist(), world.max(0).tolist()))
+    return boxes
+
+
+def static_architecture_navigation_aabbs(obj, floor_z):
+    """Use enabled, kinematic triangle-mesh colliders and their live frames.
+
+    Includes unmapped source geometry such as whole-house skirting boards;
+    their outer AABB spans empty rooms just like a joined wall mesh does.
+    No factory/category inference or omitted collision faces is needed.
+    """
+    from pxr import UsdGeom,UsdPhysics
+    boxes=[];found=False
+    for prim in iter_prims(obj.prim):
+        if not prim.HasAPI(UsdPhysics.CollisionAPI) or prim.GetAttribute('physics:collisionEnabled').Get() is False:
+            continue
+        found=True
+        approximation=UsdPhysics.MeshCollisionAPI(prim).GetApproximationAttr().Get()
+        if not prim.IsA(UsdGeom.Mesh) or approximation not in (None,'none'):
+            raise ValueError('NAV_ARCHITECTURE_REQUIRES_ACTUAL_TRIANGLE_COLLIDER')
+        body=prim
+        while body!=obj.prim and not body.HasAPI(UsdPhysics.RigidBodyAPI):body=body.GetParent()
+        if body.HasAPI(UsdPhysics.RigidBodyAPI) and body.GetAttribute('physics:kinematicEnabled').Get() is not True:
+            raise ValueError('NAV_ARCHITECTURE_DYNAMIC_COLLIDER_UNSUPPORTED')
+        base=np.asarray(UsdGeom.Xformable(body).ComputeLocalToWorldTransform(0.),float)
+        actual=physics_link_matrix(obj,body.GetName(),base)
+        world=np.asarray(UsdGeom.Xformable(prim).ComputeLocalToWorldTransform(0.),float)@np.linalg.inv(base)@actual
+        mesh=UsdGeom.Mesh(prim)
+        boxes.extend(mesh_navigation_aabbs(mesh.GetPointsAttr().Get(),list(mesh.GetFaceVertexCountsAttr().Get()),
+                                          list(mesh.GetFaceVertexIndicesAttr().Get()),world,floor_z))
+    if not found:raise ValueError('NAV_ARCHITECTURE_COLLIDERS_UNAVAILABLE')
+    return boxes
 
 
 def mesh_geometry_from_points(pts: np.ndarray, tris, physx_approximation: str, coal):

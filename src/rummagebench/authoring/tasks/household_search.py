@@ -10,9 +10,20 @@ import math
 from pydantic import TypeAdapter
 
 from rummagebench.authoring.tasks.difficulty import interval_label
-from rummagebench.core.public_types import PUBLIC_SKILLS, PublicAction
+from rummagebench.core.legacy_public_types import PUBLIC_SKILLS, PublicAction
 
-POLICY_VERSION = "nearest-uninspected-anchor-v1"
+POLICY_VERSION = "nearest-uninspected-anchor-adaptive-rgb-v2"
+INSPECTION_SKILLS = ("OPEN", "OBSERVE")  # proposal-model assumption, not mandatory live calls
+FINISH_SKILLS = ("GRASP", "REPORT_DONE")
+
+
+def validate_search_model(model: dict) -> None:
+    """Validate the explicitly declared proxy model, not live optimality."""
+    if (model.get("inspection_skills") != list(INSPECTION_SKILLS)
+            or model.get("finish_skills") != list(FINISH_SKILLS)
+            or model.get("inspection_operations") != len(INSPECTION_SKILLS)
+            or model.get("finish_operations") != len(FINISH_SKILLS)):
+        raise ValueError("PROXY_COST_MODEL_DIFFERS_FROM_DECLARED_INSPECTION_MODEL")
 
 
 def reference_order(start_xy, anchors: dict[str, list[float]]) -> list[str]:
@@ -68,6 +79,16 @@ def summarize_reference_search(runs: dict[str, dict], priors: dict[str, float], 
             rejections.append(f"REFERENCE_SEARCH_FAILED:{location}")
         if run.get("closed_observe_bypass"):
             rejections.append(f"CLOSED_OBSERVE_BYPASS:{location}")
+        if run.get("status") == "SUCCESS" and (run.get("visited_slots") or [None])[-1] != location:
+            rejections.append(f"CROSS_LOCATION_OR_UNVISITED_TARGET_REVEAL:{location}")
+        executed = [row["action"]["skill"] for row in run["trace"]
+                    if row["feedback"] == "EXECUTED" and row["action"]["skill"] not in ("MOVE", "TURN")]
+        # OBSERVE is optional: OPEN and all movement already return images.
+        # Every visited direct-container candidate still needs one OPEN;
+        # repeated observation cannot substitute for or pad that evidence.
+        without_observe = [skill for skill in executed if skill != "OBSERVE"]
+        if without_observe != ["OPEN"] * len(run.get("visited_slots", [])) + list(FINISH_SKILLS):
+            rejections.append(f"REFERENCE_INSPECTION_CHAIN_INVALID:{location}")
         outcomes[location] = {"prior": priors[location], **metrics, "status": run["status"]}
     expected = {axis: sum(priors[k] * outcomes[k][axis] for k in priors)
                 for axis in ("spatial", "operations")}
@@ -147,16 +168,25 @@ def run_reference_search(backend, scenario, plan, slots, overlay, room_map) -> d
             if not certifier._drive_pose(vs, backend, plan, (anchor.xy[0], anchor.xy[1], anchor.yaw),
                                          sid, step, out):
                 break
-            if not observe(slot.parent_entity, not backend.is_open(slot.parent_entity)):
-                break
-            if result["closed_observe_bypass"] or not click("OPEN", slot.parent_entity):
-                break
+            # Try the current RGB first. An unnecessary closed/open OBSERVE
+            # must not be inserted just to manufacture operation difficulty.
+            if not click("OPEN", slot.parent_entity):
+                if (vs.status() != "RUNNING" or not observe(slot.parent_entity, True)
+                        or result["closed_observe_bypass"] or not click("OPEN", slot.parent_entity)):
+                    break
             anchor = interaction.reveal_anchor or interaction.navigation_anchor
             if not certifier._drive_pose(vs, backend, plan, (anchor.xy[0], anchor.xy[1], anchor.yaw),
                                          sid + "_reveal", step, out):
                 break
-            if not observe(slot.parent_entity, False):
-                break
+            # A visible target can be grasped from the returned OPEN/MOVE
+            # image. Otherwise inspect the cavity through the public skill.
+            frame = vs._store.get(vs._store.current_id)
+            pixels = backend.entity_visible_pixels(frame, scenario.target.entity)
+            current_visibility = measure_visibility(backend, scenario.target.entity).to_dict() if pixels > 0 else None
+            if (not current_visibility or current_visibility.get("ratio") is None
+                    or current_visibility["ratio"] < certifier.reveal_min):
+                if not observe(slot.parent_entity, False):
+                    break
             frame = vs._store.get(vs._store.current_id)
             # The true target is consulted only when visible in the CURRENT
             # image. It never supplies an order, a route, or a new viewpoint.

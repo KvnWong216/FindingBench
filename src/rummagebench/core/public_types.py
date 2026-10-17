@@ -24,7 +24,7 @@ PUBLIC_SKILLS = [
     "CLOSE",
     "GRASP",
     "PLACE",
-    "OBSERVE",
+    "VIEW",
     "REPORT_DONE",
 ]
 
@@ -34,7 +34,7 @@ PUBLIC_SKILLS = [
 # the action schema and observation shape; FEEDBACK_VERSION covers the
 # feedback mapping. The four-class boundary below is replayable as
 # four-class-v1; the fine-grained codes stay evaluator-private.
-PROTOCOL_VERSION = "agent-visual-v1"
+PROTOCOL_VERSION = "agent-visual-v2"
 FEEDBACK_VERSION = "four-class-v1"
 
 # R05: optional public alias for the report skill, normalized at the parse
@@ -167,8 +167,18 @@ class TurnAction(_PublicAction):
     angle_deg: float
 
 
+class ViewAction(_PublicAction):
+    """Absolute panoramic viewport angles in degrees; positive yaw looks left,
+    positive pitch looks up. Neither the robot nor the camera mount moves.
+    """
+
+    skill: Literal["VIEW"]
+    yaw: float = Field(ge=-180, le=180, allow_inf_nan=False)
+    pitch: float = Field(default=0, ge=-90, le=90, allow_inf_nan=False)
+
+
 class PointAction(_PublicAction):
-    """Object-directed skills (OPEN/CLOSE/GRASP/PLACE/OBSERVE): the object is
+    """Object-directed skills (OPEN/CLOSE/GRASP/PLACE): the object is
     selected by a normalized 2D point on the CURRENT RGB frame.
 
     Coordinate convention: origin top-left, x rightward, y downward, both in
@@ -176,7 +186,7 @@ class PointAction(_PublicAction):
     frame ids are INVALID_ACTION.
     """
 
-    skill: Literal["OPEN", "CLOSE", "GRASP", "PLACE", "OBSERVE"]
+    skill: Literal["OPEN", "CLOSE", "GRASP", "PLACE"]
 
     class Point(BaseModel):
         model_config = ConfigDict(extra="forbid")
@@ -196,21 +206,12 @@ class ReportDoneAction(_PublicAction):
 
 
 PublicAction = Annotated[
-    Union[MoveAction, TurnAction, PointAction, ReportDoneAction],
+    Union[MoveAction, TurnAction, ViewAction, PointAction, ReportDoneAction],
     Field(discriminator="skill"),
 ]
 
 
 # ----------------------------------------------------------------- observation
-
-class ObserveView(BaseModel):
-    """One auxiliary OBSERVE view. Contains ONLY an index and an RGB image."""
-
-    model_config = ConfigDict(extra="forbid")
-
-    view_index: int
-    image_png_b64: str
-
 
 class PublicObservation(BaseModel):
     """The complete agent-facing observation. Nothing else may be added.
@@ -230,7 +231,6 @@ class PublicObservation(BaseModel):
     max_planning_steps: int
     skill_library: list[str] = Field(default_factory=lambda: list(PUBLIC_SKILLS))
     feedback: Optional[Feedback] = None  # null on the initial observation
-    observe_views: list[ObserveView] = Field(default_factory=list)
 
 
 class PublicStepResult(BaseModel):

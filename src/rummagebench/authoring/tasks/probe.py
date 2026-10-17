@@ -298,12 +298,14 @@ class SceneProber:
         relation = ps.relation_holds(self.backend, self.probe, rec, slot.relation)
         link_name = ps.containing_link(self.backend, rec, self.probe)
         if slot.link is not None:
-            link_ok = link_name == slot.link
+            # Exact native fillable links are distinct from their physical
+            # parent drawer links. Reuse the builder's membership predicate.
+            link_ok = ps.link_membership(self.backend, rec, self.probe, slot.link)
         elif slot.relation == "inside":
             link_ok = link_name is None or not self._is_drawer_link(slot, link_name)
         else:
             link_ok = True
-        return {"placed": bool(relation and link_ok), "sampler_ok": sampled,
+        return {"placed": bool(sampled and relation and link_ok), "sampler_ok": sampled,
                 "relation_ok": bool(relation), "containing_link": link_name}
 
     def _is_drawer_link(self, slot: Slot, link_name: str) -> bool:
