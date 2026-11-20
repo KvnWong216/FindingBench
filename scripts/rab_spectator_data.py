@@ -7,7 +7,7 @@ import os
 from pathlib import Path
 
 ROOT = Path(os.environ.get('RUMMAGEBENCH_ROOT', Path(__file__).resolve().parents[1])).resolve()
-DEFAULT_RELEASE = Path(os.environ.get('FINDINGBENCH_RAB_RELEASE', ROOT / 'runs/rab_dense_serial_20261119')).resolve()
+DEFAULT_RELEASE = Path(os.environ.get('FINDINGBENCH_RAB_RELEASE', ROOT / 'runs/rab_lived_in_20261120')).resolve()
 DEFAULT_OVERLAYS = ROOT / 'build/rab_spectator'
 RAB_MIGRATION = ROOT / 'runs/rab_migration_20261118'
 

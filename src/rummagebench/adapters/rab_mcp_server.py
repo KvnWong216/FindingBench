@@ -515,7 +515,7 @@ def _get_handle() -> RabWorkerHandle:
     global _RAB_HANDLE
     if _RAB_HANDLE is None:
         root = _repo_root()
-        release = Path(os.environ.get("FINDINGBENCH_RAB_RELEASE", root / "runs/rab_dense_serial_20261119"))
+        release = Path(os.environ.get("FINDINGBENCH_RAB_RELEASE", root / "runs/rab_lived_in_20261120"))
         out_root = Path(os.environ.get("FINDINGBENCH_RAB_MCP_OUT", root / "runs/rab_mcp_sessions"))
         gpu_id = int(os.environ.get("RUMMAGEBENCH_MCP_GPU", os.environ.get("CUDA_VISIBLE_DEVICES", "0").split(",")[0] or "0"))
         startup_timeout = float(os.environ.get("FINDINGBENCH_RAB_STARTUP_TIMEOUT", "240"))
