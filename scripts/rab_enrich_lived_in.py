@@ -1,16 +1,21 @@
-"""Enrich all 1,000 FindingBench RAB episodes with 'lived-in' household ambient items
-across non-task zones (coffee table, small side table, kitchen counter, pantry shelf
-boards, and articulated coffee-table drawers), while strictly preserving:
-- Every existing task target, search-zone distractor, occlusion shield, and comparison sample.
-- Reserved delivery drop footprints on the destination fixture.
-- Unique item identities so ambient items never duplicate the task target asset.
-- Full compatibility with spectator.py, play_data.py, rab_skills.py, and rab_mcp_server.py.
+"""Enrich all 1,000 FindingBench RAB episodes with V2 full-home 'lived-in' household items
+across all visible household furniture & storage zones:
+  - coffee      : Living room main coffee table top (5 items, preserving delivery drop clearance)
+  - tv_console  : Living room open 4-bay media console shelves under the TV (5 items)
+  - side        : Sofa side table (4 items)
+  - dining      : Kitchen/dining table (`KitchenTable53` / `KitchenCoffeeTable03`, 5 items)
+  - counter     : Kitchen countertop (`CounterTop_17` & modular `ConstructorKitchen`, 6 items)
+  - shelf       : Multi-tier pantry shelving unit (7 items)
+  - drawer      : Primary articulated coffee-table drawer `black_box_1` (3 items when non-task)
+  - drawer_alt  : Secondary articulated coffee-table drawer `black_box_3` (3 items when non-task)
+  - cubby_2     : Open under-coffee-table storage basket `black_box_2` (2 items)
+  - cubby_4     : Open under-coffee-table storage basket `black_box_4` (2 items)
 
-Usage:
-  1) Author all 1,000 USD layers, episode.json, physics_receipt.json, and combined_manifest.json:
-     python scripts/rab_enrich_lived_in.py --out runs/rab_lived_in_20261120
-  2) Run native PhysX 75-step settle + drawer/fridge verification (pilot or batch):
-     python scripts/rab_enrich_lived_in.py --out runs/rab_lived_in_20261120 --verify-physx --pilot-only
+Strictly preserves:
+  - Every existing task target, search-zone distractor, occlusion shield, and comparison sample.
+  - Generous clear delivery drop footprints on the destination fixture.
+  - Unique item identities so ambient items never duplicate the task target asset(s).
+  - Full compatibility with spectator.py, play_data.py, rab_skills.py, and rab_mcp_server.py.
 """
 from __future__ import annotations
 
@@ -18,7 +23,6 @@ import argparse
 from collections import Counter
 from copy import deepcopy
 import json
-import math
 import os
 from pathlib import Path
 import random
@@ -47,62 +51,139 @@ from rab_dense_search import (  # noqa: E402
     side_pose,
 )
 
-# Zone-appropriate household ambient pools ("lived-in" semantics)
+UNDER_TABLE_CUBBIES: dict[str, str] = {
+    "cubby_2": "/World/Assets/CoffeeTable/black_box_2",
+    "cubby_4": "/World/Assets/CoffeeTable/black_box_4",
+}
+ALL_UNDER_TABLE_BOXES: dict[str, str] = {**DRAWERS, **UNDER_TABLE_CUBBIES}
+
+EXTRA_ZUP_HOUSEHOLD_ASSETS: tuple[str, ...] = (
+    "context_trash_chipped_ceramic_mug",
+    "context_trash_metal_cookie_tin",
+    "context_trash_newspaper_bundle",
+    "context_trash_cardboard_box",
+    "context_trash_spent_ballpoint_pen",
+    "cutlery_holder",
+    "cake_frosted_white",
+    "cake_plain_yellow",
+    "grapefruit_can",
+    "cayman_jacked",
+)
+
+STATIC_PROP_NAMES: tuple[str, ...] = (
+    "Tv",
+    "DiningTableMicrowave",
+    "CoffeeGrinder",
+    "AirFryer",
+)
+
+# Zone-appropriate household ambient pools ("lived-in" human home semantics)
 ZONE_POOLS: dict[str, tuple[str, ...]] = {
     "coffee": (
+        "context_trash_chipped_ceramic_mug",
+        "paper_cup",
+        "starbucks",
+        "context_trash_metal_cookie_tin",
         "remote_tv",
         "glasses_case",
-        "coffee_cup_cream_classic",
-        "coffee_cup_blue_compact",
         "book_red",
+        "context_trash_newspaper_bundle",
         "notebook_green",
-        "cloth_clear_memo_pad",
         "wallet",
         "power_bank",
+        "context_trash_spent_ballpoint_pen",
+        "oreo_gf",
+        "grapefruit_can",
+        "coke_c3",
+        "cake_frosted_white",
+        "cloth_clear_memo_pad",
+        "cloth_clear_cat",
+        "cloth_clear_bear",
+    ),
+    "tv_console": (
+        "context_trash_cardboard_box",
+        "context_trash_metal_cookie_tin",
+        "book_red",
+        "notebook_green",
+        "context_trash_newspaper_bundle",
+        "remote_tv",
+        "glasses_case",
+        "power_bank",
+        "wallet",
+        "cloth_clear_car",
+        "cloth_clear_train",
+        "cloth_clear_house",
+        "cloth_clear_block",
+        "cloth_clear_pouch",
         "cloth_clear_bear",
         "cloth_clear_cat",
     ),
     "side": (
-        "coffee_cup_green_tall",
-        "coffee_cup_cream_classic",
+        "context_trash_chipped_ceramic_mug",
+        "paper_cup",
         "book_red",
         "notebook_green",
         "glasses_case",
         "wallet",
         "power_bank",
-        "cloth_clear_memo_pad",
+        "context_trash_metal_cookie_tin",
+        "context_trash_spent_ballpoint_pen",
+        "remote_tv",
         "cloth_clear_duck",
         "cloth_clear_penguin",
-        "remote_tv",
+        "cloth_clear_memo_pad",
     ),
-    "counter": (
-        "coffee_bag",
-        "starbucks",
+    "dining": (
+        "cutlery_holder",
+        "cake_frosted_white",
+        "cake_plain_yellow",
+        "context_trash_chipped_ceramic_mug",
         "paper_cup",
-        "paper_plate_task2",
         "meal_fork",
         "meal_knife",
         "coke_c3",
         "sprite_c1",
         "grapefruit_can",
+        "good2grow",
         "honeymaid",
         "oreo_gf",
+        "context_trash_metal_cookie_tin",
+    ),
+    "counter": (
+        "cutlery_holder",
+        "starbucks",
+        "paper_cup",
+        "context_trash_chipped_ceramic_mug",
+        "meal_fork",
+        "meal_knife",
+        "coke_c3",
+        "sprite_c1",
+        "grapefruit_can",
+        "cayman_jacked",
+        "gatorade_m",
+        "good2grow",
+        "honeymaid",
+        "oreo_gf",
+        "cake_frosted_white",
         "zbar_t",
     ),
     "shelf": (
         "pring_bbq",
         "honeymaid",
         "oreo_gf",
-        "coffee_bag",
+        "context_trash_cardboard_box",
+        "context_trash_metal_cookie_tin",
         "coke_c3",
         "sprite_c1",
         "grapefruit_can",
+        "cayman_jacked",
+        "gatorade_t",
+        "gatorade_m",
         "starbucks",
         "zbar_t",
         "skit_littles",
         "chomps_r",
         "cloth_clear_pouch",
-        "cloth_clear_house",
         "cloth_clear_train",
         "cloth_clear_car",
         "cloth_clear_rabbit",
@@ -117,6 +198,7 @@ ZONE_POOLS: dict[str, tuple[str, ...]] = {
         "power_bank",
         "wallet",
         "glasses_case",
+        "context_trash_spent_ballpoint_pen",
         "zbar_t",
         "chomps_r",
         "skit_littles",
@@ -129,26 +211,73 @@ ZONE_POOLS: dict[str, tuple[str, ...]] = {
         "wallet",
         "power_bank",
         "glasses_case",
+        "context_trash_metal_cookie_tin",
         "zbar_t",
         "chomps_r",
         "skit_littles",
     ),
+    "cubby_2": (
+        "context_trash_newspaper_bundle",
+        "book_red",
+        "notebook_green",
+        "context_trash_metal_cookie_tin",
+        "cloth_clear_pouch",
+        "glasses_case",
+        "wallet",
+        "cloth_clear_bear",
+    ),
+    "cubby_4": (
+        "context_trash_cardboard_box",
+        "notebook_green",
+        "cloth_clear_memo_pad",
+        "cloth_clear_block",
+        "cloth_clear_car",
+        "cloth_clear_duck",
+        "power_bank",
+    ),
 }
 
-# Target minimum item counts per zone for a natural lived-in home look
+# Rich lived-in target item counts per household zone
 ZONE_TARGET_COUNTS: dict[str, int] = {
-    "coffee": 2,
-    "side": 2,
-    "counter": 3,
-    "shelf": 4,
-    "drawer": 2,
-    "drawer_alt": 2,
+    "coffee": 5,
+    "tv_console": 5,
+    "side": 4,
+    "dining": 5,
+    "counter": 6,
+    "shelf": 7,
+    "drawer": 3,
+    "drawer_alt": 3,
+    "cubby_2": 2,
+    "cubby_4": 2,
 }
+
+
+def load_extra_household_assets(resources_root: Path, bundle: LayerBundle) -> dict[str, dict]:
+    from pxr import Gf
+    from rab_build_search import read_asset
+
+    extra: dict[str, dict] = {}
+    all_assets_dir = resources_root / "libraries/current_assets/all_assets"
+    for name in EXTRA_ZUP_HOUSEHOLD_ASSETS:
+        usd_path = all_assets_dir / name / "asset.usda"
+        if not usd_path.is_file():
+            continue
+        parsed = read_asset(usd_path, bundle)
+        if parsed is None:
+            continue
+        extra[name] = dict(
+            parsed,
+            rotation=Gf.Matrix4d(1.0),
+            clearance=float(-parsed["box"][0, 2]),
+            pose_variant="zup_native",
+        )
+    return extra
 
 
 def extract_constructor_counter_boards(stage):
-    from pxr import Usd, UsdGeom, UsdPhysics
+    from pxr import UsdGeom, UsdPhysics
     from rab_build_search import triangles
+
     root = stage.GetPrimAtPath("/World/Background/Shell/ConstructorKitchen")
     if not root or not root.IsActive():
         return []
@@ -175,12 +304,100 @@ def extract_constructor_counter_boards(stage):
     return boards
 
 
-def extract_usd_pose(stage, prim_path: str) -> list[float]:
+def extract_dining_table_boards(stage):
+    from pxr import Usd, UsdGeom, UsdPhysics
+    from rab_build_search import triangles
+
+    transforms = UsdGeom.XformCache()
+    boards = []
+    for root_path in ("/World/Assets/KitchenTable53", "/World/Assets/KitchenCoffeeTable03"):
+        root = stage.GetPrimAtPath(root_path)
+        if not root or not root.IsActive():
+            continue
+        best = []
+        for prim in Usd.PrimRange(root):
+            if not prim.IsA(UsdGeom.Mesh) or not prim.HasAPI(UsdPhysics.CollisionAPI):
+                continue
+            if prim.GetAttribute("physics:collisionEnabled").Get() is False:
+                continue
+            tris = triangles(UsdGeom.Mesh(prim), transforms)
+            if not len(tris):
+                continue
+            flat = tris[np.ptp(tris[:, :, 2], axis=1) < 0.004]
+            if not len(flat):
+                continue
+            heights = np.rint(flat[:, :, 2].mean(axis=1) * 100) / 100
+            for h in sorted(set(heights), reverse=True):
+                if not 0.70 <= h <= 1.05:
+                    continue
+                plane = flat[np.abs(flat[:, :, 2].mean(axis=1) - h) < 0.006]
+                if not len(plane):
+                    continue
+                box = np.array([plane.min(axis=(0, 1)), plane.max(axis=(0, 1))])
+                if min(box[1, :2] - box[0, :2]) < 0.35:
+                    continue
+                best.append((box, plane[:, :, :2], str(prim.GetPath())))
+        best.sort(key=lambda r: r[0][1, 2], reverse=True)
+        if best:
+            boards.append(best[0])
+    return boards
+
+
+def extract_tv_console_bays(stage):
+    """Extract the 4 open cubby bays (2 columns x 2 shelf levels z~0.13m, z~0.29m) of /World/Assets/TvTable."""
+    from pxr import Usd, UsdGeom, UsdPhysics
+    from rab_build_search import triangles
+
+    root = stage.GetPrimAtPath("/World/Assets/TvTable")
+    if not root or not root.IsActive():
+        return []
+    transforms = UsdGeom.XformCache()
+    bays = []
+    for prim in Usd.PrimRange(root):
+        if not prim.IsA(UsdGeom.Mesh) or not prim.HasAPI(UsdPhysics.CollisionAPI):
+            continue
+        if prim.GetAttribute("physics:collisionEnabled").Get() is False:
+            continue
+        tris = triangles(UsdGeom.Mesh(prim), transforms)
+        if not len(tris):
+            continue
+        flat = tris[np.ptp(tris[:, :, 2], axis=1) < 0.004]
+        if not len(flat):
+            continue
+        heights = np.rint(flat[:, :, 2].mean(axis=1) * 100) / 100
+        for target_z in (0.29, 0.13):
+            plane = flat[np.abs(flat[:, :, 2].mean(axis=1) - target_z) < 0.008]
+            if len(plane) < 20:
+                continue
+            full_box = np.array([plane.min(axis=(0, 1)), plane.max(axis=(0, 1))])
+            span = full_box[1, :2] - full_box[0, :2]
+            if max(span) < 1.20 or min(span) < 0.22:
+                continue
+            # Split along the long axis around the center vertical divider (leaving 5cm margin)
+            long_ax = int(np.argmax(span))
+            mid = 0.5 * (full_box[0, long_ax] + full_box[1, long_ax])
+            for lo_v, hi_v in (
+                (full_box[0, long_ax] + 0.055, mid - 0.050),
+                (mid + 0.050, full_box[1, long_ax] - 0.055),
+            ):
+                if hi_v - lo_v < 0.28:
+                    continue
+                sub_box = full_box.copy()
+                sub_box[0, long_ax] = lo_v
+                sub_box[1, long_ax] = hi_v
+                # Use None for triangle mask since sub_box is a clean solid rectangular shelf bay
+                bays.append((sub_box, None, str(prim.GetPath())))
+    return bays
+
+
+def extract_usd_pose(stage, prim_path: str, xf_cache=None) -> list[float]:
     from pxr import UsdGeom
+
     prim = stage.GetPrimAtPath(prim_path)
     if not prim:
         raise ValueError(f"Missing prim in stage: {prim_path}")
-    mat = UsdGeom.XformCache().GetLocalToWorldTransform(prim)
+    cache = xf_cache if xf_cache is not None else UsdGeom.XformCache()
+    mat = cache.GetLocalToWorldTransform(prim)
     tr = mat.ExtractTranslation()
     rot = mat.RemoveScaleShear().ExtractRotationQuat()
     im = rot.GetImaginary()
@@ -199,7 +416,17 @@ def build_variants(assets: dict[str, dict]) -> dict[str, tuple[dict, ...]]:
     variants: dict[str, tuple[dict, ...]] = {}
     for name, asset in assets.items():
         v = (asset, quarter_turn(asset))
-        if name in ("zbar_t", "chomps_r", "skit_littles", "oreo_gf", "honeymaid", "coke_c3", "sprite_c1", "grapefruit_can", "starbucks"):
+        if name in (
+            "zbar_t",
+            "chomps_r",
+            "skit_littles",
+            "oreo_gf",
+            "honeymaid",
+            "coke_c3",
+            "sprite_c1",
+            "grapefruit_can",
+            "starbucks",
+        ):
             flat = side_pose(asset)
             v = v + (flat, quarter_turn(flat))
         variants[name] = v
@@ -207,24 +434,29 @@ def build_variants(assets: dict[str, dict]) -> dict[str, tuple[dict, ...]]:
 
 
 def compatible_with_zone(asset: dict, zone: str, fixtures: dict, headroom: dict[str, float]) -> bool:
-    if zone not in DRAWERS:
-        return True
-    if zone not in fixtures:
-        return False
     size = asset["box"][1] - asset["box"][0]
-    footprint = fixtures[zone][0][0]
-    return bool(
-        size[2] + 0.003 + max(0.0, asset.get("clearance", 0.0)) <= headroom.get(zone, 0.105)
-        and np.all(size[:2] + 0.016 < footprint[1, :2] - footprint[0, :2])
-    )
+    if zone == "tv_console":
+        # Inter-shelf clearance inside TvTable open bays is ~0.14m
+        return bool(size[2] + 0.003 + max(0.0, asset.get("clearance", 0.0)) <= 0.115 and max(size[:2]) <= 0.29)
+    if zone in ALL_UNDER_TABLE_BOXES:
+        if zone not in fixtures:
+            return False
+        footprint = fixtures[zone][0][0]
+        return bool(
+            size[2] + 0.003 + max(0.0, asset.get("clearance", 0.0)) <= headroom.get(zone, 0.105)
+            and np.all(size[:2] + 0.018 < footprint[1, :2] - footprint[0, :2])
+        )
+    return True
 
 
 def enrich_all_episodes(source_release: Path, out_release: Path) -> dict:
     from pxr import Gf, Sdf, Usd, UsdGeom
     from rab_build_search import bounds, load_assets, placement, supports
+
     run_migration = ROOT / "runs/rab_migration_20261118"
     repo = ROOT / "references/RobotAgentBench"
-    sys.path.insert(0, str(repo / "src"))
+    if str(repo / "src") not in sys.path:
+        sys.path.insert(0, str(repo / "src"))
 
     out_release.mkdir(parents=True, exist_ok=True)
     layers_dir = out_release / "asset_layers"
@@ -235,6 +467,9 @@ def enrich_all_episodes(source_release: Path, out_release: Path) -> dict:
     bundle = LayerBundle(namespace(resources), layers_dir)
     poses = load(run_migration / "pose_calibration/poses.json")["assets"]
     assets, _ = load_assets(mapping, repo, bundle, poses)
+    extra_assets = load_extra_household_assets(resources, bundle)
+    for k, v in extra_assets.items():
+        assets.setdefault(k, v)
     if "remote_tv" in assets:
         assets["remote_tv"] = mesh_footprint(assets["remote_tv"])
     variants = build_variants(assets)
@@ -246,10 +481,9 @@ def enrich_all_episodes(source_release: Path, out_release: Path) -> dict:
 
     manifest = load(source_release / "combined_manifest.json")
     tasks_in = manifest["tasks"]
-    only_ids = set(os.environ.get("FINDINGBENCH_ENRICH_ONLY", "").split(",")) - {""}
-    seed_salt = os.environ.get("FINDINGBENCH_ENRICH_SALT", "v1")
+    seed_salt = os.environ.get("FINDINGBENCH_ENRICH_SALT", "v2_lived_in")
 
-    layout_cache: dict[tuple[str, str], tuple[Path, dict, list, dict[str, float], dict[str, list[float]], object]] = {}
+    layout_cache: dict[tuple[str, str], tuple] = {}
     new_tasks = []
     zone_added_totals = Counter()
     total_added_items = 0
@@ -259,31 +493,30 @@ def enrich_all_episodes(source_release: Path, out_release: Path) -> dict:
         orig_ep = load(item["episode"])
         orig_rec = load(item["physics_receipt"])
         ident = orig_ep["id"]
-        only_missing_counter = os.environ.get("FINDINGBENCH_ONLY_MISSING_COUNTER") == "1"
-        if (only_ids and ident not in only_ids) or (only_missing_counter and not only_ids):
+        kind = orig_ep["arrangement"]["kind"]
+        if os.environ.get("FINDINGBENCH_REAUTHOR_NON_DRAWER") == "1" and kind == "articulated_drawer":
             ep_out_path = out_release / "cases" / ident / "episode.json"
             rec_out_path = out_release / "cases" / ident / "native_validation.json"
             ex_ep = load(ep_out_path)
-            if (only_ids and ident not in only_ids) or (only_missing_counter and "counter" in {p.get("zone") for p in ex_ep.get("placed", [])}):
-                for p_row in ex_ep.get("placed", []):
-                    if p_row.get("ambient_enrichment"):
-                        zone_added_totals[p_row["zone"]] += 1
-                        total_added_items += 1
-                new_item = deepcopy(item)
-                new_item["episode"] = str(ep_out_path)
-                new_item["physics_receipt"] = str(rec_out_path)
-                new_item["ambient_enrichment_count"] = ex_ep.get("ambient_enrichment_count", 0)
-                new_tasks.append(new_item)
-                continue
-        kind = orig_ep["arrangement"]["kind"]
+            for p_row in ex_ep.get("placed", []):
+                if p_row.get("ambient_enrichment"):
+                    zone_added_totals[p_row["zone"]] += 1
+                    total_added_items += 1
+            new_item = deepcopy(item)
+            new_item["episode"] = str(ep_out_path)
+            new_item["physics_receipt"] = str(rec_out_path)
+            new_item["ambient_enrichment_count"] = ex_ep.get("ambient_enrichment_count", 0)
+            new_tasks.append(new_item)
+            continue
 
         src_layer = Sdf.Layer.FindOrOpen(orig_ep["scene"])
-        base_sublayer = Path(list(src_layer.subLayerPaths)[0])
+        orig_sublayers = list(src_layer.subLayerPaths)
+        base_sublayer = Path(orig_sublayers[0])
         cache_key = (str(base_sublayer), kind)
 
         if cache_key not in layout_cache:
-            if kind in ("occluded_open", "articulated_refrigerator"):
-                composed_path = layers_dir / f"lived_in_{base_sublayer.stem}_{ident}_drawer.usda"
+            if kind == "occluded_open":
+                composed_path = layers_dir / f"lived_in_{base_sublayer.stem}_drawer.usda"
                 if not composed_path.exists():
                     compose_drawer(base_sublayer, composed_path, reference_tf, slide_layer, scale_xy=1.0)
                 active_sublayer = composed_path
@@ -296,29 +529,69 @@ def enrich_all_episodes(source_release: Path, out_release: Path) -> dict:
                 c_boards = extract_constructor_counter_boards(st_layout)
                 if c_boards:
                     fixtures["counter"] = c_boards
-            fixtures.update({z: drawer_support(st_layout, p) for z, p in DRAWERS.items()})
-            headroom = drawer_headroom(st_layout, fixtures)
+            dining_boards = extract_dining_table_boards(st_layout)
+            if dining_boards:
+                fixtures["dining"] = dining_boards
+            tv_bays = extract_tv_console_bays(st_layout)
+            if tv_bays:
+                fixtures["tv_console"] = tv_bays
+            box_map = ALL_UNDER_TABLE_BOXES if kind == "articulated_drawer" else (DRAWERS if kind == "occluded_open" else {})
+            for z, p in box_map.items():
+                if st_layout.GetPrimAtPath(p):
+                    try:
+                        fixtures[z] = drawer_support(st_layout, p)
+                    except Exception:
+                        pass
+            headroom = drawer_headroom(st_layout, fixtures) if "drawer" in fixtures else {}
             drawer_origins = {
                 z: extract_usd_pose(st_layout, p)[:3]
                 for z, p in DRAWERS.items()
+                if st_layout.GetPrimAtPath(p)
             }
             cache_b = UsdGeom.BBoxCache(0, ["default", "render", "proxy", "guide"])
             robot_prim = st_layout.GetPrimAtPath("/World/Robot")
             robot_box = bounds(cache_b, robot_prim) if robot_prim else None
-            layout_cache[cache_key] = (active_sublayer, fixtures, obstacles, headroom, drawer_origins, robot_box)
 
-        active_sublayer, fixtures, obstacles, headroom, drawer_origins, robot_box = layout_cache[cache_key]
+            static_prop_boxes = []
+            for sp_name in STATIC_PROP_NAMES:
+                sp_prim = st_layout.GetPrimAtPath(f"/World/Assets/{sp_name}")
+                if sp_prim and sp_prim.IsActive():
+                    sb = bounds(cache_b, sp_prim)
+                    if sb is not None and np.isfinite(sb).all():
+                        sb_pad = sb.copy()
+                        sb_pad[0, :2] -= 0.025
+                        sb_pad[1, :2] += 0.025
+                        static_prop_boxes.append(sb_pad)
+
+            layout_cache[cache_key] = (
+                active_sublayer,
+                fixtures,
+                obstacles,
+                headroom,
+                drawer_origins,
+                robot_box,
+                static_prop_boxes,
+            )
+
+        (
+            active_sublayer,
+            fixtures,
+            obstacles,
+            headroom,
+            drawer_origins,
+            robot_box,
+            static_prop_boxes,
+        ) = layout_cache[cache_key]
 
         rng = random.Random(f"lived_in_{seed_salt}:{ident}")
         target_assets = {p["asset"] for p in orig_ep["placed"] if p["target"]}
-        # Never place an ambient item from the same asset model as the task target(s)
         forbidden_assets = set(target_assets)
 
-        occupied = []
+        occupied = [sb.copy() for sb in static_prop_boxes]
         for p in orig_ep["placed"]:
             b = np.array(p["expected_bounds_m"], dtype=float)
-            b[0, :2] -= 0.015
-            b[1, :2] += 0.015
+            b[0, :2] -= 0.018
+            b[1, :2] += 0.018
             occupied.append(b)
         if robot_box is not None:
             r_pad = robot_box.copy()
@@ -329,10 +602,12 @@ def enrich_all_episodes(source_release: Path, out_release: Path) -> dict:
             occupied.append(r_pad)
         for dp in orig_ep.get("delivery", {}).get("placements", []):
             if "bounds_m" in dp:
-                occupied.append(np.array(dp["bounds_m"], dtype=float))
+                db = np.array(dp["bounds_m"], dtype=float)
+                # Reserve a generous ~26cm+ clear delivery pad around the target placement zone
+                db[0, :2] -= 0.085
+                db[1, :2] += 0.085
+                occupied.append(db)
 
-        # Protect line-of-sight rays for occluded_open tasks so ambient items never block the occlusion rays
-        shield = orig_ep.get("arrangement", {}).get("shield")
         search_zone = orig_ep.get("search_fixture")
         alt_search_zone = orig_ep.get("alternative_search_fixture")
 
@@ -340,11 +615,10 @@ def enrich_all_episodes(source_release: Path, out_release: Path) -> dict:
         asset_counts = Counter(p["asset"] for p in orig_ep["placed"])
         added_records = []
 
-        # Enrich every non-task zone (and under-populated non-primary zones)
         for zone, want_count in ZONE_TARGET_COUNTS.items():
             if zone not in fixtures:
                 continue
-            # Do not alter the primary search zone or primary decoy zone of the task
+            # Never alter the primary search zone or primary decoy drawer of the episode
             if zone in (search_zone, alt_search_zone):
                 continue
             current_in_zone = zone_counts[zone]
@@ -354,19 +628,37 @@ def enrich_all_episodes(source_release: Path, out_release: Path) -> dict:
 
             pool = [a for a in ZONE_POOLS[zone] if a in assets and a not in forbidden_assets]
             rng.shuffle(pool)
-            pool.sort(key=lambda a: asset_counts[a])
 
-            blockers = (
-                [r for r in obstacles if not r[0].startswith(DRAWERS[zone] + "/") and r[0] != "/World/Assets/CoffeeTable/Mesh"]
-                if zone in DRAWERS
-                else obstacles
+            if zone in ALL_UNDER_TABLE_BOXES:
+                box_prefix = ALL_UNDER_TABLE_BOXES[zone] + "/"
+                blockers = [
+                    r for r in obstacles
+                    if not r[0].startswith(box_prefix) and r[0] != "/World/Assets/CoffeeTable/Mesh"
+                ]
+            elif zone == "tv_console":
+                blockers = [r for r in obstacles if not r[0].startswith("/World/Assets/TvTable/")]
+            else:
+                blockers = obstacles
+
+            zone_inset = (
+                0.055 if zone in ("counter", "shelf", "dining")
+                else 0.025 if zone in ("coffee", "side")
+                else 0.015 if zone == "tv_console"
+                else 0.010
             )
+            zone_sep = 0.022 if zone not in ALL_UNDER_TABLE_BOXES else 0.014
 
-            for _ in range(to_add):
+            for slot_idx in range(to_add):
                 placed_ok = False
-                for candidate_name in sorted(pool, key=lambda a: (asset_counts[a], rng.random())):
+                # On the first 3 slots of coffee/side/dining, prefer taller visible 3D objects (>3.5cm)
+                def sort_key(a_name: str):
+                    h = float(assets[a_name]["box"][1, 2] - assets[a_name]["box"][0, 2])
+                    prefer_3d = 0 if (zone not in ("coffee", "side", "dining") or slot_idx >= 3 or h >= 0.038) else 1
+                    return (asset_counts[a_name], prefer_3d, rng.random())
+
+                for candidate_name in sorted(pool, key=sort_key):
                     opts = list(variants[candidate_name])
-                    if zone not in DRAWERS:
+                    if zone not in ALL_UNDER_TABLE_BOXES:
                         opts = opts[:2]
                     for asset_var in opts:
                         if not compatible_with_zone(asset_var, zone, fixtures, headroom):
@@ -379,8 +671,8 @@ def enrich_all_episodes(source_release: Path, out_release: Path) -> dict:
                             rng,
                             occupied,
                             asset_var.get("clearance", 0.0),
-                            inset=0.055 if zone in ("counter", "shelf") else None,
-                            separation=0.020,
+                            inset=zone_inset,
+                            separation=zone_sep,
                         )
                         if res is not None:
                             box, support_path = res
@@ -405,15 +697,13 @@ def enrich_all_episodes(source_release: Path, out_release: Path) -> dict:
                     if placed_ok:
                         break
 
-        # Compose the enriched USD scene layer: copy existing /World/FindingBench/Item_* Xforms
-        # verbatim so original indices, target/blocker paths, and poses remain 100% intact.
         case_dir = out_release / "cases" / ident
         case_dir.mkdir(parents=True, exist_ok=True)
         new_scene_path = case_dir / "scene.usda"
 
         new_layer = Sdf.Layer.CreateAnonymous("lived_in_scene.usda")
         new_layer.TransferContent(src_layer)
-        new_layer.subLayerPaths = [str(active_sublayer)]
+        new_layer.subLayerPaths = []
 
         stage_mem = Usd.Stage.Open(new_layer)
         UsdGeom.SetStageUpAxis(stage_mem, "Z")
@@ -422,6 +712,7 @@ def enrich_all_episodes(source_release: Path, out_release: Path) -> dict:
         new_placed = deepcopy(orig_ep["placed"])
         base_n = len(new_placed)
         added_usd_poses: dict[str, list[float]] = {}
+        xf_mem = UsdGeom.XformCache()
 
         for offset_i, rec in enumerate(added_records):
             item_id = f"Item_{base_n + offset_i:02d}"
@@ -432,7 +723,7 @@ def enrich_all_episodes(source_release: Path, out_release: Path) -> dict:
             delta = Gf.Matrix4d().SetTranslate(Gf.Vec3d(*(rec["box"][0] - asset_var["box"][0])))
             root_prim.MakeMatrixXform().Set(asset_var["rotation"] * delta)
             body_path = f"/World/FindingBench/{item_id}/Model" + asset_var["body"]
-            added_usd_poses[body_path] = extract_usd_pose(stage_mem, body_path)
+            added_usd_poses[body_path] = extract_usd_pose(stage_mem, body_path, xf_mem)
             new_placed.append(
                 dict(
                     body=body_path,
@@ -447,12 +738,11 @@ def enrich_all_episodes(source_release: Path, out_release: Path) -> dict:
                 )
             )
 
-        if not stage_mem.GetRootLayer().Export(str(new_scene_path)):
+        new_layer.subLayerPaths = [str(active_sublayer), *orig_sublayers[1:]]
+        if not new_layer.Export(str(new_scene_path)):
             raise RuntimeError(f"Failed to export enriched USD scene for {ident}")
         new_scene_sha = digest(new_scene_path)
 
-        # Update episode metadata: preserve original task kind, and enable drawer articulations
-        # on open/fridge scenes as well so the drawers with ambient items can be opened/closed!
         new_ep = deepcopy(orig_ep)
         new_ep["scene"] = str(new_scene_path)
         new_ep["scene_sha256"] = new_scene_sha
@@ -461,14 +751,15 @@ def enrich_all_episodes(source_release: Path, out_release: Path) -> dict:
         new_ep["ambient_enrichment_count"] = len(added_records)
 
         art_map = dict(new_ep["arrangement"].get("articulations") or {})
-        for z_k, d_path in DRAWERS.items():
-            if z_k not in art_map:
-                art_map[z_k] = d_path + "_slide"
+        if kind != "articulated_refrigerator":
+            for z_k, d_path in DRAWERS.items():
+                if z_k not in art_map:
+                    art_map[z_k] = d_path + "_slide"
         new_ep["arrangement"]["articulations"] = art_map
 
-        # Update physics receipt & restoration reference
         new_rec = deepcopy(orig_rec)
         new_rec["scene_sha256"] = new_scene_sha
+        new_rec["physx_lived_in_verified"] = False
         ref = new_rec.get("dense_checks", {}).get("restoration_reference") or new_rec.get("restoration_reference")
         if ref:
             ref_bodies = ref.setdefault("bodies", {})
@@ -484,7 +775,7 @@ def enrich_all_episodes(source_release: Path, out_release: Path) -> dict:
                     zone=p_row["zone"],
                     target=False,
                 )
-                if p_row["zone"] in DRAWERS:
+                if p_row["zone"] in DRAWERS and p_row["zone"] in drawer_origins:
                     d_orig = drawer_origins[p_row["zone"]]
                     entry["drawer_relative_xyz_m"] = [
                         float(u_pose[0] - d_orig[0]),
@@ -521,26 +812,29 @@ def enrich_all_episodes(source_release: Path, out_release: Path) -> dict:
 
         if idx_task % 100 == 0 or idx_task == len(tasks_in):
             print(
-                f"[lived-in] Authored {idx_task}/{len(tasks_in)} episodes | total added items={total_added_items} ({time.monotonic() - t0:.1f}s)",
+                f"[lived-in-v2] Authored {idx_task}/{len(tasks_in)} episodes | total added items={total_added_items} ({time.monotonic() - t0:.1f}s)",
                 flush=True,
             )
 
     out_summary = deepcopy(manifest.get("summary", {}))
     out_summary["ambient_enrichment"] = {
+        "version": "v2_full_home_lived_in",
         "total_added_items": total_added_items,
         "mean_added_items_per_episode": round(total_added_items / len(new_tasks), 3),
         "added_by_zone": dict(zone_added_totals),
+        "asset_catalog_count": len(assets),
         "parent_release": str(source_release),
         "parent_manifest_sha256": digest(source_release / "combined_manifest.json"),
     }
     out_manifest = dict(
         summary=out_summary,
         baseline_sha256=manifest.get("baseline_sha256"),
-        acceptance_scope="Dense initialization with lived-in non-task zone enrichment (coffee, side, counter, shelf, drawers)",
+        acceptance_scope="Dense initialization with V2 full-home lived-in enrichment across 10 household zones (coffee, tv_console, side, dining, counter, shelf, drawers, cubbies)",
         tasks=new_tasks,
         pending=[],
     )
     save(out_release / "combined_manifest.json", out_manifest)
+    save(out_release / "enrichment_report.json", out_summary["ambient_enrichment"])
     return out_summary
 
 
@@ -555,7 +849,7 @@ def verify_physx_subset(out_release: Path, task_ids: list[str]) -> dict:
             width=64,
             height=64,
             multi_gpu=False,
-            limit_cpu_threads=8,
+            limit_cpu_threads=4,
             extra_args=["--/log/level=error"],
         )
     )
@@ -613,7 +907,6 @@ def verify_physx_subset(out_release: Path, task_ids: list[str]) -> dict:
         ok = v_res["status"] == "physx_initialization_pass"
         if ok:
             passed_count += 1
-            # Update settled poses in receipt and restoration_reference from live PhysX 75-step settle
             settled_by_body = {o["body"]: o["settled_pose"] for o in v_res["objects"]}
             rec["objects"] = v_res["objects"]
             ref = rec.get("dense_checks", {}).get("restoration_reference") or rec.get("restoration_reference")
@@ -646,10 +939,11 @@ def verify_physx_subset(out_release: Path, task_ids: list[str]) -> dict:
                 max_drift_m=round(max_drift, 5),
             )
         )
-        print(
-            f"[physx-verify {idx}/{len(task_ids)}] {tid}: {v_res['status']} (objects={len(v_res['objects'])}, max_drift={max_drift:.4f}m)",
-            flush=True,
-        )
+        if idx % 25 == 0 or not ok or idx == len(task_ids):
+            print(
+                f"[physx-verify {idx}/{len(task_ids)}] {tid}: {v_res['status']} (objects={len(v_res['objects'])}, max_drift={max_drift:.4f}m, unsettled={unsettled})",
+                flush=True,
+            )
 
     report = dict(
         verified_count=len(task_ids),
@@ -677,18 +971,21 @@ def main() -> int:
     parser.add_argument("--author-only", action="store_true")
     parser.add_argument("--verify-physx", action="store_true")
     parser.add_argument("--pilot-only", action="store_true", help="Verify all 48 pilot+reserve tasks in PhysX")
+    parser.add_argument("--tasks", type=str, default=None, help="Comma-separated task IDs to verify in PhysX")
     parser.add_argument("--limit", type=int, default=None)
     args = parser.parse_args()
 
     out_release = args.out.resolve()
     if not (out_release / "combined_manifest.json").exists() or args.author_only:
         summary = enrich_all_episodes(args.source.resolve(), out_release)
-        print("Enrichment summary:", json.dumps(summary, indent=2, ensure_ascii=False), flush=True)
+        print("Enrichment summary:", json.dumps(summary["ambient_enrichment"], indent=2, ensure_ascii=False), flush=True)
         if args.author_only and not args.verify_physx:
             return 0
 
     if args.verify_physx:
-        if args.pilot_only:
+        if args.tasks:
+            tids = [x.strip() for x in args.tasks.split(",") if x.strip()]
+        elif args.pilot_only:
             pilot_cfg = load(ROOT / "configs/benchmarks/rab_v1_pilot_draft.json")
             tids = [r["id"] for r in pilot_cfg["primary_candidates"]]
             for group_rows in pilot_cfg.get("reserve_candidates", {}).values():

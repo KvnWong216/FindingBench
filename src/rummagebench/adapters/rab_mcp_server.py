@@ -374,6 +374,15 @@ class RabWorkerHandle:
             raise RuntimeError(f"INFRA_WORKER_CRASHED (rc={rc}); see {self.episode_dir / 'worker.log'}")
 
     def observe(self) -> tuple[dict[str, Any], bytes, bytes | None]:
+        if self.episode_uuid is not None and self.episode_status != "RUNNING" and self.last_public_obs is not None and self.last_scene_png is not None:
+            payload = {
+                "ok": True,
+                "episode_id": self.episode_uuid,
+                "task_id": self.task_id,
+                "episode_status": self.episode_status,
+                "observation": self.last_public_obs,
+            }
+            return payload, self.last_scene_png, self.last_check_png
         self._check_alive()
         data = self._http_get("/observation")
         if data.get("error"):
@@ -394,12 +403,9 @@ class RabWorkerHandle:
         return payload, scene_png, check_png
 
     def act(self, action: dict[str, Any]) -> tuple[dict[str, Any], bytes, bytes | None]:
-        self._check_alive()
-        if not isinstance(action, dict):
-            raise ValueError("action must be a JSON object")
-
-        # Post-termination guard: reject any subsequent action without charging steps or advancing physics
-        if self.episode_status != "RUNNING":
+        if self.episode_uuid is not None and self.episode_status != "RUNNING" and self.last_public_obs is not None and self.last_scene_png is not None:
+            if not isinstance(action, dict):
+                raise ValueError("action must be a JSON object")
             feedback = {
                 "code": "INVALID_ACTION",
                 "message": "The episode has already terminated; call reset_episode to start a new episode.",
@@ -422,8 +428,11 @@ class RabWorkerHandle:
                     "episode_status": self.episode_status,
                 }
             )
-            assert self.last_scene_png is not None
             return payload, self.last_scene_png, None
+
+        self._check_alive()
+        if not isinstance(action, dict):
+            raise ValueError("action must be a JSON object")
 
         t0 = time.monotonic()
         code, res = self._http_post("/action", action)
@@ -483,10 +492,25 @@ class RabWorkerHandle:
                 "check_png_sha256": hashlib.sha256(check_png).hexdigest() if check_png else None,
             }
         )
+        if self.episode_status != "RUNNING" and os.environ.get("FINDINGBENCH_RAB_STOP_ON_TERMINAL", "").lower() in ("1", "true", "yes"):
+            self.stop()
         return public_result, scene_png, check_png
 
     def status(self) -> dict[str, Any]:
-        if self.process is None or self.episode_uuid is None:
+        if self.episode_uuid is None:
+            return {"ok": True, "status": "NO_EPISODE"}
+        if self.episode_status != "RUNNING":
+            return {
+                "ok": True,
+                "episode_id": self.episode_uuid,
+                "task_id": self.task_id,
+                "status": self.episode_status,
+                "terminal": True,
+                "planning_step": self.planning_step,
+                "max_planning_steps": self.max_planning_steps,
+                "protocol": PROTOCOL_VERSION,
+            }
+        if self.process is None:
             return {"ok": True, "status": "NO_EPISODE"}
         self._check_alive()
         return {
@@ -494,7 +518,7 @@ class RabWorkerHandle:
             "episode_id": self.episode_uuid,
             "task_id": self.task_id,
             "status": self.episode_status,
-            "terminal": self.episode_status != "RUNNING",
+            "terminal": False,
             "planning_step": self.planning_step,
             "max_planning_steps": self.max_planning_steps,
             "protocol": PROTOCOL_VERSION,

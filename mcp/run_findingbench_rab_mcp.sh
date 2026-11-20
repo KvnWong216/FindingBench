@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+export RUMMAGEBENCH_ROOT="${RUMMAGEBENCH_ROOT:-/home/ubuntu/ygwang/FindingBench}"
+export FINDINGBENCH_RAB_RELEASE="${FINDINGBENCH_RAB_RELEASE:-${RUMMAGEBENCH_ROOT}/runs/rab_lived_in_20261120}"
+export FINDINGBENCH_RAB_MCP_OUT="${FINDINGBENCH_RAB_MCP_OUT:-${RUMMAGEBENCH_ROOT}/runs/rab_mcp_sessions}"
+export RUMMAGEBENCH_MCP_GPU="${RUMMAGEBENCH_MCP_GPU:-0}"
+export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0}"
+export FINDINGBENCH_RAB_STOP_ON_TERMINAL="${FINDINGBENCH_RAB_STOP_ON_TERMINAL:-1}"
+export PYTHONPATH="${RUMMAGEBENCH_ROOT}/src:${RUMMAGEBENCH_ROOT}/scripts"
+
+exec /home/ubuntu/miniforge3/envs/ygbench/bin/python -u -m rummagebench.adapters.rab_mcp_server "$@"
