@@ -1,0 +1,171 @@
+{
+  "id": "asset_P055_01",
+  "family": "semantic_P055",
+  "scene": "Wainscott_0_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P055_01/scenario.yaml",
+  "scenario_sha256": "983fee50861959f6cab8a282f45d8875affbc5665123e89bfefe03c8f85ec6ab",
+  "instruction": "There is a sample on the table in front of you in the bedroom. Find the alarm clock matching that sample in the living-room storage and bring it to the table in front of you in the bedroom in the bedroom.",
+  "target_key": "alarm_clock/trwyaq",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_2",
+  "destination_room": "bedroom_0",
+  "source_receptacle": "bottom_cabinet_jhymlr_0",
+  "destination_receptacle": "console_table_emeeke_0",
+  "object_count": 12,
+  "distractor_count": 10,
+  "source_survey_sha256": "bfc3f55c9661a7a599b91007a0d13bfe6624ef15110725894b31404980af12ee",
+  "route": {
+    "start": [
+      -1.6,
+      -5.300000000000001,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -1.6,
+        -5.300000000000001
+      ],
+      [
+        -1.6,
+        -5.2
+      ],
+      [
+        -1.6,
+        -5.1000000000000005
+      ],
+      [
+        -1.6,
+        -5.0
+      ],
+      [
+        -1.6,
+        -4.9
+      ],
+      [
+        -1.6,
+        -4.800000000000001
+      ],
+      [
+        -1.6,
+        -4.7
+      ],
+      [
+        -1.6,
+        -4.6000000000000005
+      ],
+      [
+        -1.6,
+        -4.5
+      ],
+      [
+        -1.6,
+        -4.4
+      ],
+      [
+        -1.6,
+        -4.3
+      ],
+      [
+        -1.6,
+        -4.2
+      ],
+      [
+        -1.6,
+        -4.1000000000000005
+      ],
+      [
+        -1.6,
+        -4.0
+      ],
+      [
+        -1.6,
+        -3.9000000000000004
+      ],
+      [
+        -1.7000000000000002,
+        -3.9000000000000004
+      ],
+      [
+        -1.7000000000000002,
+        -3.8000000000000003
+      ],
+      [
+        -1.7000000000000002,
+        -3.7
+      ],
+      [
+        -1.7000000000000002,
+        -3.6
+      ],
+      [
+        -1.7000000000000002,
+        -3.5
+      ],
+      [
+        -1.7000000000000002,
+        -3.4000000000000004
+      ],
+      [
+        -1.8,
+        -3.4000000000000004
+      ],
+      [
+        -1.9000000000000001,
+        -3.4000000000000004
+      ]
+    ],
+    "length_m": 2.2,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 6,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "comparison_negative_0",
+    "comparison_negative_1",
+    "bottom_cabinet_jhymlr_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "parent_task_id": "P055",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P055_01",
+    "parent_task_id": "P055",
+    "before_instruction": "Find the alarm clock with the largest face among the clocks in living-room game storage and put it on the bedroom nightstand beside the lamp.",
+    "after_instruction": "There is a sample on the table in front of you in the bedroom. Find the alarm clock matching that sample in the living-room storage and bring it to the table in front of you in the bedroom in the bedroom.",
+    "reason": "Replaces unsupported largest-face ordering with a physical clock reference. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "alarm_clock/trwyaq",
+    "target_assets": [
+      "alarm_clock/trwyaq"
+    ]
+  },
+  "binding_sha256": "b8ae3cde41452b755341abd086ca6ebcf484a8feca778639e3d006631b99f930"
+}

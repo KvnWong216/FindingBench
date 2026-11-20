@@ -1,0 +1,544 @@
+{
+  "tasks": [
+    {
+      "id": "asset_U121_01",
+      "family": "semantic_U121",
+      "scene": "Merom_0_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/quarter_turn_furniture_v79_U121_20261115_U121/asset_U121_01/scenario.yaml",
+      "scenario_sha256": "fa863fe2f50dbea355a7953ca4a23d69b95efbd5ecb2ba0d17c4d161ca1a10a4",
+      "instruction": "Collect the shopping basket from the storage room and put it on the table in front of you in the storage room for sorting the household purchases.",
+      "target_key": "shopping_basket/vsxhsv",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "storage_room_0",
+      "destination_room": "storage_room_0",
+      "source_receptacle": "search_work_surface",
+      "destination_receptacle": "delivery_surface",
+      "object_count": 11,
+      "distractor_count": 8,
+      "source_survey_sha256": "432c3be0b4dd33aa136873f8d072cfc232afe601bfa0f68e3b7489a89af8f0f5",
+      "route": {
+        "start": [
+          -0.65,
+          9.35,
+          0.0
+        ],
+        "path_xy": [
+          [
+            -0.65,
+            9.35
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 15,
+        "destination_approach_count": 15,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "delivery_surface",
+          "category": "breakfast_table",
+          "model": "iaritq",
+          "floor": "floors_getzeg_0",
+          "position_xy": [
+            0.35000000000000003,
+            9.450000000000001
+          ],
+          "aabb": [
+            [
+              -0.0010002899169921364,
+              9.099453765869141,
+              0.0
+            ],
+            [
+              0.7010002899169923,
+              9.800546234130861,
+              0.7490009155273437
+            ]
+          ],
+          "room": "storage_room_0"
+        },
+        {
+          "name": "search_work_surface",
+          "category": "desk",
+          "model": "tdhgko",
+          "floor": "floors_getzeg_0",
+          "position_xy": [
+            -1.85,
+            9.450000000000001
+          ],
+          "aabb": [
+            [
+              -2.1553712158203124,
+              9.02901890563965,
+              0.0
+            ],
+            [
+              -1.5446287841796875,
+              9.870981094360353,
+              0.7631020889282226
+            ]
+          ],
+          "room": "storage_room_0"
+        }
+      ],
+      "parent_task_id": "U121",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_U121_01",
+        "parent_task_id": "U121",
+        "before_instruction": "I want a rigid basket for sorting the recent household purchases. Find the shopping basket among the storage room containers and put it beside the door.",
+        "after_instruction": "Collect the shopping basket from the storage room and put it on the table in front of you in the storage room for sorting the household purchases.",
+        "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; The instruction delivers the shopping basket beside the door rather than onto a named support. No explicit ground handoff region is compiled. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+        "target_asset": "shopping_basket/vsxhsv",
+        "target_assets": [
+          "shopping_basket/vsxhsv"
+        ]
+      },
+      "binding_sha256": "f5db70a8e26ea6223cabbdb9da7cbeef394ddb6e6f3dde079d9ddf7450927dba",
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      },
+      "source_layout_revisions": [
+        {
+          "method": "expert_reauthored_generic_storage_on_open_work_surface",
+          "source_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_U121_01/scenario.yaml",
+          "source_sha256": "15a772e6d954fff8692fb99b81f349241ca8d1ea618a799b5885becdcb01972e",
+          "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_gpu_new_20261106/asset_U121_01",
+          "relation_changes": [
+            {
+              "before": {
+                "entity": "item_00",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_00",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  -1.9658712158203124,
+                  9.588018905639649
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_01",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_01",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  -2.0753712158203124,
+                  9.24901890563965
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_02",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_02",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  -1.7903712158203124,
+                  9.229018905639649
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_03",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_03",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  -2.0403712158203122,
+                  9.76451890563965
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_04",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_04",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  -1.6753712158203125,
+                  9.579518905639649
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_05",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_05",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  -1.5918712158203125,
+                  9.17501890563965
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_06",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_06",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  -1.9203712158203123,
+                  9.24901890563965
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_07",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_07",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  -1.6853712158203125,
+                  9.229018905639649
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_08",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_08",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  -1.8153712158203124,
+                  9.787518905639649
+                ]
+              }
+            }
+          ],
+          "removed_unused_authored_fixtures": [
+            "search_storage"
+          ],
+          "flat_stock_stacks": [],
+          "stack_footprint_envelopes_m": {},
+          "source_surface": "search_work_surface",
+          "plans": [
+            {
+              "receptacle": "search_work_surface",
+              "entities": [
+                "item_00",
+                "item_01",
+                "item_02",
+                "item_03",
+                "item_04",
+                "item_05",
+                "item_06",
+                "item_07",
+                "item_08"
+              ],
+              "solver": {
+                "status": "feasible_model",
+                "device": "cuda",
+                "backend": "torch_cuda_finite_csp",
+                "solve_seconds": 1.0248040091246367,
+                "nodes": 652,
+                "candidate_tests": 103078,
+                "search_orders_tried": 2,
+                "grid_m": 0.001,
+                "margin_m": 0.005,
+                "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+                "physical_validation_required": true,
+                "assignment": {
+                  "item_01": "surface",
+                  "item_06": "surface",
+                  "item_00": "surface",
+                  "item_02": "surface",
+                  "item_07": "surface",
+                  "item_04": "surface",
+                  "item_05": "surface",
+                  "item_03": "surface",
+                  "item_08": "surface"
+                },
+                "poses": {
+                  "item_01": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.005,
+                      0.005
+                    ],
+                    "footprint_m": [
+                      0.15,
+                      0.43
+                    ],
+                    "center_xy_m": [
+                      0.08,
+                      0.22
+                    ]
+                  },
+                  "item_06": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.16,
+                      0.005
+                    ],
+                    "footprint_m": [
+                      0.15,
+                      0.43
+                    ],
+                    "center_xy_m": [
+                      0.23500000000000001,
+                      0.22
+                    ]
+                  },
+                  "item_00": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.005,
+                      0.44
+                    ],
+                    "footprint_m": [
+                      0.369,
+                      0.23800000000000002
+                    ],
+                    "center_xy_m": [
+                      0.1895,
+                      0.559
+                    ]
+                  },
+                  "item_02": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.315,
+                      0.005
+                    ],
+                    "footprint_m": [
+                      0.1,
+                      0.39
+                    ],
+                    "center_xy_m": [
+                      0.365,
+                      0.2
+                    ]
+                  },
+                  "item_07": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.42,
+                      0.005
+                    ],
+                    "footprint_m": [
+                      0.1,
+                      0.39
+                    ],
+                    "center_xy_m": [
+                      0.47000000000000003,
+                      0.2
+                    ]
+                  },
+                  "item_04": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.379,
+                      0.4
+                    ],
+                    "footprint_m": [
+                      0.202,
+                      0.301
+                    ],
+                    "center_xy_m": [
+                      0.48,
+                      0.5505
+                    ]
+                  },
+                  "item_05": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.525,
+                      0.005
+                    ],
+                    "footprint_m": [
+                      0.077,
+                      0.28200000000000003
+                    ],
+                    "center_xy_m": [
+                      0.5635,
+                      0.146
+                    ]
+                  },
+                  "item_03": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.005,
+                      0.683
+                    ],
+                    "footprint_m": [
+                      0.22,
+                      0.105
+                    ],
+                    "center_xy_m": [
+                      0.115,
+                      0.7355
+                    ]
+                  },
+                  "item_08": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.23,
+                      0.706
+                    ],
+                    "footprint_m": [
+                      0.22,
+                      0.105
+                    ],
+                    "center_xy_m": [
+                      0.34,
+                      0.7585000000000001
+                    ]
+                  }
+                },
+                "authoring_spacing_attempts": [
+                  {
+                    "margin_m": 0.025,
+                    "grid_m": 0.001,
+                    "status": "infeasible_model",
+                    "reason": "Total inflated footprint exceeds total bin area"
+                  },
+                  {
+                    "margin_m": 0.015,
+                    "grid_m": 0.001,
+                    "status": "unknown",
+                    "reason": "Search budget exhausted; no infeasibility claim"
+                  },
+                  {
+                    "margin_m": 0.005,
+                    "grid_m": 0.001,
+                    "status": "feasible_model",
+                    "reason": null
+                  }
+                ]
+              },
+              "measured_scene_obstacles": [],
+              "physical_validation_required": true
+            }
+          ],
+          "source_room": "storage_room_0",
+          "reviewed_initial_placement": {
+            "before": {
+              "position": [
+                -0.65,
+                9.35,
+                0.0053
+              ],
+              "orientation": [
+                0,
+                0,
+                0.0,
+                1.0
+              ]
+            },
+            "after": {
+              "position": [
+                -0.65,
+                9.35,
+                0.0053
+              ],
+              "orientation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            "reason": "Keep a unique forward delivery table after explicitly reauthoring generic source storage on a work surface.",
+            "displacement_m": 0.0,
+            "same_initial_room": true,
+            "physical_validation_required": true
+          },
+          "reviewed_open_source_relayout": false,
+          "reviewed_surface_yaw_proposals": true,
+          "reviewed_furniture_yaw_proposals": true,
+          "reviewed_source_scope": " the storage room ",
+          "reason": "The task names unqualified source stock. Reauthor its initial arrangement on a real work surface, retaining the exact instruction, goal, native props and counts; journal every support relation and initial-pose change and rerun all native physical checks.",
+          "physical_validation_required": true,
+          "human_completion_verified": false
+        }
+      ]
+    }
+  ]
+}

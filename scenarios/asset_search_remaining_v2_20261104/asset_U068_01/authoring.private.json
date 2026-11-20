@@ -1,0 +1,81 @@
+{
+  "id": "asset_U068_01",
+  "family": "semantic_U068",
+  "scene": "Ihlen_0_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_U068_01/scenario.yaml",
+  "scenario_sha256": "c9d880ba6c2378be1dc1d57989354ea82fdc9225ecb13936e7fff943b8528a86",
+  "instruction": "One screw is missing from a fitting. Find a screw among the garage hardware matching the sample on the cabinet top in front of you in the garage, and bring it to the same surface.",
+  "target_key": "screw/mkfodk",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "garage_0",
+  "destination_room": "garage_0",
+  "source_receptacle": "bottom_cabinet_jrhgeu_0",
+  "destination_receptacle": "bottom_cabinet_jrhgeu_0",
+  "object_count": 11,
+  "distractor_count": 9,
+  "source_survey_sha256": "4e67f717bc639fa8251f9cbf52bc0b8a96e19f8594526a196ad4548a95e97acd",
+  "route": {
+    "start": [
+      4.1000000000000005,
+      4.2,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        4.1000000000000005,
+        4.2
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "comparison_negative_0",
+    "bottom_cabinet_jrhgeu_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "parent_task_id": "U068",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_U068_01",
+    "parent_task_id": "U068",
+    "before_instruction": "One screw is missing from this fitting. Search the garage's loose hardware for a screw matching the sample on the worktable and put it beside the sample.",
+    "after_instruction": "One screw is missing from a fitting. Find a screw among the garage hardware matching the sample on the cabinet top in front of you in the garage, and bring it to the same surface.",
+    "reason": "Preserves the source/destination room types and the single-source-object matching requirement. Grounds the comparison sample on the uniquely initial-facing handoff surface; reference is not a goal target. Delivery is onto the reference-bearing surface; no unimplemented beside-distance predicate is claimed. Exact same-model sample and different-model negatives are explicitly instantiated.",
+    "target_asset": "screw/mkfodk",
+    "target_assets": [
+      "screw/mkfodk"
+    ]
+  },
+  "binding_sha256": "1a7dd9f4577778b4b2236999552e1b680acbe9717d69f6a4d8fd4c00c775d74f"
+}

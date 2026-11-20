@@ -1,0 +1,110 @@
+{
+  "method": "real_native_box_nesting_instead_of_unsupported_open_box_stack",
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/bbox_stack_v97_20261115_P089/asset_P089_01/scenario.yaml",
+  "spread_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/pinpoint_20261115/P089/nested_storage_v83/spread_source/asset_P089_01/scenario.yaml",
+  "spread_sha256": "7d34363b9419acc11ecab43788fff714dbafd8663fe6851217869562bbcc8b61",
+  "before": {
+    "entity": "item_00",
+    "relation": "on_top",
+    "receptacle": "search_work_surface",
+    "position_xy": [
+      -1.8716253662109377,
+      -4.76156381225586
+    ]
+  },
+  "after": {
+    "entity": "item_00",
+    "relation": "inside",
+    "receptacle": "comparison_negative_1"
+  },
+  "parent_asset": "storage_box/izcglf",
+  "preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "comparison_negative_1",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link": [
+            0.3858203251361847,
+            0.3895766694545746,
+            0.1841687126805993
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "storage_box/izcglf",
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "open_top_centroid_height": false,
+          "metadata_sha256": "1570c576a334b99b9284871bbb612cb8cbe918df916c433a819c9f8fa9fbde29",
+          "encrypted_asset_sha256": "53dd499c9731c0e1e2dab89c724175d111e74f1e0c7e6591e17918e3732dd676",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "solver": {
+          "status": "feasible_model",
+          "device": "cuda",
+          "backend": "torch_cuda_finite_csp",
+          "solve_seconds": 0.01461196132004261,
+          "nodes": 0,
+          "candidate_tests": 0,
+          "search_orders_tried": 0,
+          "grid_m": 0.001,
+          "margin_m": 0.005,
+          "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+          "physical_validation_required": true,
+          "assignment": {
+            "item_00": "meta__base_link_fillable_0_0_link"
+          },
+          "poses": {
+            "item_00": {
+              "bin": "meta__base_link_fillable_0_0_link",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.005,
+                0.005
+              ],
+              "footprint_m": [
+                0.20400000000000001,
+                0.20400000000000001
+              ],
+              "center_xy_m": [
+                0.10700000000000001,
+                0.10700000000000001
+              ]
+            }
+          },
+          "constructive_witness": "single strip; exact quantized box and clearance checks"
+        },
+        "assignment": {
+          "item_00": "meta__base_link_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_00": "meta__base_link_fillable_0_0_link"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_00": "meta__base_link_fillable_0_0_link"
+    },
+    "physical_validation_required": true
+  },
+  "reason": "Native failed-stack poses show that smaller boxes enter a larger open storage box. Use the real Inside relation for the searched box; keep all game sets and other props on a jointly packed work surface instead of assuming hollow boxes or chess pieces are flat supports.",
+  "preserved": [
+    "instruction",
+    "goal",
+    "all native props and counts",
+    "target identity",
+    "matching reference",
+    "robot",
+    "source room"
+  ],
+  "physical_validation_required": true
+}

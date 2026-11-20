@@ -1,0 +1,95 @@
+{
+  "id": "asset_F048_01",
+  "family": "semantic_F048",
+  "scene": "Beechwood_0_int",
+  "scenario": "scenarios/overnight_expert_20261109/initial_generate/asset_F048_01/scenario.yaml",
+  "scenario_sha256": "03651017e3f12c6361e0378f7b61d2078fb542ffcf139db0e45140ef7100b1ee",
+  "instruction": "Find the cream pitcher in the cupboards in this dining room and put it on the table in front of you.",
+  "target_key": "cream_pitcher/wmkwhg",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "dining_room_0",
+  "destination_room": "dining_room_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "coffee_table_dnsjnv_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+  "route": {
+    "start": [
+      -3.5500000000000003,
+      -6.15,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -3.5500000000000003,
+        -6.15
+      ],
+      [
+        -3.6500000000000004,
+        -6.15
+      ],
+      [
+        -3.75,
+        -6.15
+      ],
+      [
+        -3.85,
+        -6.15
+      ],
+      [
+        -3.95,
+        -6.15
+      ],
+      [
+        -4.05,
+        -6.15
+      ],
+      [
+        -4.15,
+        -6.15
+      ],
+      [
+        -4.25,
+        -6.15
+      ],
+      [
+        -4.3500000000000005,
+        -6.15
+      ]
+    ],
+    "length_m": 0.8,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 19,
+    "destination_approach_count": 17,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate"
+}

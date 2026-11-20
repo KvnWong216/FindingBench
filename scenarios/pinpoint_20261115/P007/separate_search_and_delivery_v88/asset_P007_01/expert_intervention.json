@@ -1,0 +1,92 @@
+{
+  "status": "static_screened_physics_pending",
+  "method": "joint_native_open_surface_layout",
+  "source_kind": "table",
+  "initial_goal_overlap_repaired": true,
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/bathroom_matching_v82_P007_20261115_P007/asset_P007_01/scenario.yaml",
+  "old_storage": "countertop_tpuwys_1",
+  "new_storage": {
+    "name": "expert_surface_88",
+    "category": "breakfast_table",
+    "model": "iaritq",
+    "floor": "floors_igemfx_0",
+    "position_xy": [
+      -5.5,
+      -2.9000000000000004
+    ],
+    "aabb": [
+      [
+        -5.851000289916993,
+        -3.2505462341308595,
+        0.002
+      ],
+      [
+        -5.148999710083007,
+        -2.549453765869141,
+        0.7510009155273437
+      ]
+    ],
+    "room": "bathroom_1"
+  },
+  "replaced_auxiliary_fixture": false,
+  "reviewed_surface_entity": "item_00",
+  "reviewed_surface_categories": [
+    "breakfast_table"
+  ],
+  "delivery_entity": "countertop_tpuwys_1",
+  "private_route_destination_anchor": "countertop_tpuwys_1",
+  "solver": {
+    "status": "feasible_model",
+    "device": "cuda",
+    "backend": "torch_cuda_finite_csp",
+    "solve_seconds": 0.37273729825392365,
+    "nodes": 0,
+    "candidate_tests": 0,
+    "search_orders_tried": 0,
+    "grid_m": 0.001,
+    "margin_m": 0.025,
+    "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+    "physical_validation_required": true,
+    "assignment": {
+      "item_00": "surface"
+    },
+    "poses": {
+      "item_00": {
+        "bin": "surface",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.025,
+          0.025
+        ],
+        "footprint_m": [
+          0.615,
+          0.398
+        ],
+        "center_xy_m": [
+          0.3325,
+          0.224
+        ]
+      }
+    },
+    "constructive_witness": "single strip; exact quantized box and clearance checks",
+    "authoring_spacing_attempts": [
+      {
+        "margin_m": 0.025,
+        "grid_m": 0.001,
+        "status": "feasible_model",
+        "reason": null
+      }
+    ]
+  },
+  "physical_validation_required": true,
+  "coordinate_proposal": "offline_rectangle_XY",
+  "preserved": [
+    "instruction",
+    "goal",
+    "target",
+    "robot",
+    "spawn",
+    "all task items and counts",
+    "all placement relations"
+  ]
+}

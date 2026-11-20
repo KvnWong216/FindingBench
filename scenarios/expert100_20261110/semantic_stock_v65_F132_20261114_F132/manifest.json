@@ -1,0 +1,527 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F132_01",
+      "family": "semantic_F132",
+      "scene": "Pomaria_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/semantic_stock_v65_F132_20261114_F132/asset_F132_01/scenario.yaml",
+      "scenario_sha256": "12d072cef0482d9a9059838cf0f5d19acb563ad5f4c463943857d65a636d8311",
+      "instruction": "Find two apples among the kitchen produce in the basket in the kitchen and bring both to the table in front of you in the kitchen.",
+      "target_key": "apple/bwteqh",
+      "target_entities": [
+        "item_01",
+        "item_02"
+      ],
+      "target_count": 2,
+      "source_room": "kitchen_0",
+      "destination_room": "kitchen_0",
+      "source_receptacle": "item_00",
+      "destination_receptacle": "breakfast_table_uhrsex_0",
+      "object_count": 11,
+      "distractor_count": 8,
+      "source_survey_sha256": "05d404c89ade70d34c89459d2b340c53ef49d49041a6624fcc9a997b8b7322b3",
+      "route": {
+        "start": [
+          -1.1500000000000001,
+          -2.85,
+          1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            -1.1500000000000001,
+            -2.85
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 51,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "editorial_revision_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_00",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "item_09",
+        "item_10"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [],
+      "parent_task_id": "F132",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F132_01",
+        "parent_task_id": "F132",
+        "before_instruction": "Find one apple in each of the two rigid grocery crates in the kitchen and put both apples beside the fruit bowl on the kitchen table.",
+        "after_instruction": "Find two apples among the kitchen produce in the basket in the kitchen and bring both to the table in front of you in the kitchen.",
+        "reason": "Preserves two-apple collection but explicitly revises two separate crates into one constructed produce source. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "apple/bwteqh",
+        "target_assets": [
+          "apple/bwteqh",
+          "apple/bwteqh"
+        ],
+        "editorial_revision_id": "expert_semantic_stock_binding_20261114_F132"
+      },
+      "binding_sha256": "052a8200f8e49b71befa0a16fee7036c31a3856602dc2005ffa17829ee886ec3",
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "item_00",
+            "volume_extents_m": {
+              "meta__base_link_openfillable_0_0_link": [
+                0.54239067029953,
+                0.3574627299308777,
+                0.5728350430478137
+              ]
+            },
+            "native_links": {
+              "meta__base_link_openfillable_0_0_link": "meta__base_link_openfillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "shopping_basket/nedrsh",
+              "scale": [
+                1.0,
+                1.0,
+                1.0
+              ],
+              "metadata_sha256": "81ae6e4fb6c17c9417ff94217d33fe634b26672c84b92d201a03b0b6a68a631e",
+              "encrypted_asset_sha256": "bb340aa2669a7e5476003c73dc5b0344d8ce34de8eeb4db7abf79d903d92f65a",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.1074667563661933,
+              "nodes": 10,
+              "candidate_tests": 1474299,
+              "search_orders_tried": 1,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_10": "meta__base_link_openfillable_0_0_link",
+                "item_05": "meta__base_link_openfillable_0_0_link",
+                "item_08": "meta__base_link_openfillable_0_0_link",
+                "item_03": "meta__base_link_openfillable_0_0_link",
+                "item_01": "meta__base_link_openfillable_0_0_link",
+                "item_02": "meta__base_link_openfillable_0_0_link",
+                "item_07": "meta__base_link_openfillable_0_0_link",
+                "item_06": "meta__base_link_openfillable_0_0_link",
+                "item_09": "meta__base_link_openfillable_0_0_link",
+                "item_04": "meta__base_link_openfillable_0_0_link"
+              },
+              "poses": {
+                "item_10": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.15,
+                    0.169
+                  ],
+                  "center_xy_m": [
+                    0.08,
+                    0.0895
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.16,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.156,
+                    0.14300000000000002
+                  ],
+                  "center_xy_m": [
+                    0.23800000000000002,
+                    0.0765
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.321,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.14200000000000002,
+                    0.11800000000000001
+                  ],
+                  "center_xy_m": [
+                    0.392,
+                    0.064
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.321,
+                    0.128
+                  ],
+                  "footprint_m": [
+                    0.10200000000000001,
+                    0.09
+                  ],
+                  "center_xy_m": [
+                    0.372,
+                    0.17300000000000001
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.468,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.066,
+                    0.07200000000000001
+                  ],
+                  "center_xy_m": [
+                    0.501,
+                    0.041
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.468,
+                    0.082
+                  ],
+                  "footprint_m": [
+                    0.066,
+                    0.07200000000000001
+                  ],
+                  "center_xy_m": [
+                    0.501,
+                    0.11800000000000001
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.16,
+                    0.153
+                  ],
+                  "footprint_m": [
+                    0.04,
+                    0.053
+                  ],
+                  "center_xy_m": [
+                    0.18,
+                    0.1795
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.20500000000000002,
+                    0.153
+                  ],
+                  "footprint_m": [
+                    0.045,
+                    0.021
+                  ],
+                  "center_xy_m": [
+                    0.2275,
+                    0.1635
+                  ]
+                },
+                "item_09": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.428,
+                    0.128
+                  ],
+                  "footprint_m": [
+                    0.015,
+                    0.013000000000000001
+                  ],
+                  "center_xy_m": [
+                    0.4355,
+                    0.1345
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.448,
+                    0.128
+                  ],
+                  "footprint_m": [
+                    0.011,
+                    0.011
+                  ],
+                  "center_xy_m": [
+                    0.4535,
+                    0.1335
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_10": "meta__base_link_openfillable_0_0_link",
+              "item_05": "meta__base_link_openfillable_0_0_link",
+              "item_08": "meta__base_link_openfillable_0_0_link",
+              "item_03": "meta__base_link_openfillable_0_0_link",
+              "item_01": "meta__base_link_openfillable_0_0_link",
+              "item_02": "meta__base_link_openfillable_0_0_link",
+              "item_07": "meta__base_link_openfillable_0_0_link",
+              "item_06": "meta__base_link_openfillable_0_0_link",
+              "item_09": "meta__base_link_openfillable_0_0_link",
+              "item_04": "meta__base_link_openfillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_10": "meta__base_link_openfillable_0_0_link",
+              "item_05": "meta__base_link_openfillable_0_0_link",
+              "item_08": "meta__base_link_openfillable_0_0_link",
+              "item_03": "meta__base_link_openfillable_0_0_link",
+              "item_01": "meta__base_link_openfillable_0_0_link",
+              "item_02": "meta__base_link_openfillable_0_0_link",
+              "item_07": "meta__base_link_openfillable_0_0_link",
+              "item_06": "meta__base_link_openfillable_0_0_link",
+              "item_09": "meta__base_link_openfillable_0_0_link",
+              "item_04": "meta__base_link_openfillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_10": "meta__base_link_openfillable_0_0_link",
+          "item_05": "meta__base_link_openfillable_0_0_link",
+          "item_08": "meta__base_link_openfillable_0_0_link",
+          "item_03": "meta__base_link_openfillable_0_0_link",
+          "item_01": "meta__base_link_openfillable_0_0_link",
+          "item_02": "meta__base_link_openfillable_0_0_link",
+          "item_07": "meta__base_link_openfillable_0_0_link",
+          "item_06": "meta__base_link_openfillable_0_0_link",
+          "item_09": "meta__base_link_openfillable_0_0_link",
+          "item_04": "meta__base_link_openfillable_0_0_link"
+        },
+        "physical_validation_required": true
+      },
+      "support_asset_changes": [
+        {
+          "instruction_sha256": "2fb9f50c4c5bd52585ede73a3f4d1f10225425c27a2c5130d0de2d2722676642",
+          "entity": "item_00",
+          "original_object": {
+            "name": "item_00",
+            "category": "shopping_basket",
+            "model": "vsxhsv"
+          },
+          "replacement": {
+            "name": "item_00",
+            "category": "shopping_basket",
+            "model": "nedrsh"
+          },
+          "reason": "The small native basket contains ten fruits including a watermelon; the conservative size model cannot pack one layer and the unchanged native-runtime counterfactual is being retained separately. Propose the real larger native shopping basket already strictly validated for F016, at unchanged scale, preserving the full inventory, source counter, natural instruction, targets, goals and spawn. No physical gate relaxed; independent init/reload mandatory."
+        }
+      ],
+      "surface_pose_repairs": [
+        {
+          "method": "repack_failed_surface_on_same_native_body",
+          "source_sha256": "38b14f6e99f009899d1151379771b2c3a42c7b310b79309d32be110fd852817f",
+          "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/native_larger_basket_F132_20261114_F132/asset_F132_01/scenario.yaml",
+          "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_lane2_20261111/native_larger_basket_F132_20261114_F132/asset_F132_01",
+          "plans": [
+            {
+              "receptacle": "countertop_tpuwys_4",
+              "entities": [
+                "item_00"
+              ],
+              "solver": {
+                "status": "feasible_model",
+                "device": "cuda",
+                "backend": "torch_cuda_finite_csp",
+                "solve_seconds": 0.5468606930226088,
+                "nodes": 1,
+                "candidate_tests": 17910,
+                "search_orders_tried": 1,
+                "grid_m": 0.005,
+                "margin_m": 0.025,
+                "model": "upright boxes; yaw 0/90; single-layer independent bins; integer grid with convex centre halfspaces / fixed obstacles",
+                "physical_validation_required": true,
+                "assignment": {
+                  "item_00": "surface"
+                },
+                "poses": {
+                  "item_00": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.025,
+                      0.03
+                    ],
+                    "footprint_m": [
+                      0.615,
+                      0.4
+                    ],
+                    "center_xy_m": [
+                      0.3325,
+                      0.23
+                    ]
+                  }
+                },
+                "authoring_spacing_attempts": [
+                  {
+                    "margin_m": 0.025,
+                    "grid_m": 0.005,
+                    "status": "feasible_model",
+                    "reason": null
+                  }
+                ]
+              },
+              "measured_scene_obstacles": [
+                [
+                  -0.0030000000000001137,
+                  1.0679999999999998,
+                  -0.01100000000000001,
+                  0.5840000000000001,
+                  2.003,
+                  0.051999999999999935
+                ],
+                [
+                  -10.431,
+                  -0.15900000000000025,
+                  -0.92,
+                  0.4889999999999999,
+                  0.0009999999999998899,
+                  1.48
+                ]
+              ],
+              "physical_validation_required": true
+            }
+          ],
+          "preserved": [
+            "instruction",
+            "goal",
+            "all original assets",
+            "source and destination bodies",
+            "spawn",
+            "relation kinds"
+          ],
+          "physical_validation_required": true
+        }
+      ],
+      "previous_binding_sha256": "0629acf87df4806a76cdefe0fe8165b9b6e2c4816d71dcd0ade4a9bdd0f31089",
+      "editorial_revisions": [
+        {
+          "status": "editorial_revision_physics_pending",
+          "revision_id": "expert_semantic_stock_binding_20261114_F132",
+          "authorization": "user_approved_find_and_deliver_rewrite",
+          "reason": "The native 1.4-cm gooseberry is the sole final Inside failure. Use a native plum as one non-target fruit distractor; retain both requested apples, the basket, all counts and the exact instruction/goal. This is an explicit data-binding revision, not a physics tolerance change.",
+          "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/native_sleep_defaults_v89_20261114_F132/asset_F132_01/scenario.yaml",
+          "original_archive": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/pinpoint_20261114/F132/semantic_stock_v65/asset_F132_01/original_scenario.yaml",
+          "original_scenario_sha256": "d1c2b6dc3ba8b07949c8254cb899810bdae3bd62acaf3e1e4a1696cfc51669bd",
+          "revised_scenario_sha256": "12d072cef0482d9a9059838cf0f5d19acb563ad5f4c463943857d65a636d8311",
+          "before_instruction": "Find two apples among the kitchen produce in the basket in the kitchen and bring both to the table in front of you in the kitchen.",
+          "after_instruction": "Find two apples among the kitchen produce in the basket in the kitchen and bring both to the table in front of you in the kitchen.",
+          "object_changes": [
+            {
+              "before": {
+                "name": "item_09",
+                "category": "gooseberry",
+                "model": "cltzwx"
+              },
+              "after": {
+                "name": "item_09",
+                "category": "plum",
+                "model": "rhaemq"
+              },
+              "native_bbox_m": [
+                0.06059822654724121,
+                0.04010300064086914,
+                0.03894007873535156
+              ],
+              "metadata_sha256": "498e2b64d7f5f2744357d2b1279e4e097036ef9805416e513a994f6eaf983363",
+              "encrypted_asset_sha256": "49dd1393bfa4074fc7946705078371fad4d831f136e26132dfe041b40ac40197"
+            }
+          ],
+          "surface_binding_changes": [],
+          "before_goal": [
+            {
+              "kind": "on_top",
+              "entity": "item_01",
+              "receptacle": "breakfast_table_uhrsex_0"
+            },
+            {
+              "kind": "on_top",
+              "entity": "item_02",
+              "receptacle": "breakfast_table_uhrsex_0"
+            }
+          ],
+          "after_goal": [
+            {
+              "kind": "on_top",
+              "entity": "item_01",
+              "receptacle": "breakfast_table_uhrsex_0"
+            },
+            {
+              "kind": "on_top",
+              "entity": "item_02",
+              "receptacle": "breakfast_table_uhrsex_0"
+            }
+          ],
+          "before_target": {
+            "entity": "item_01",
+            "category": "apple"
+          },
+          "after_target": {
+            "entity": "item_01",
+            "category": "apple"
+          },
+          "preserved": [
+            "find-and-deliver paradigm",
+            "goal entity and relation",
+            "scene",
+            "spawn",
+            "robot",
+            "skills",
+            "entity names and count",
+            "placement relations",
+            "target cardinality"
+          ],
+          "physical_validation_required": true,
+          "human_completion_verified": false
+        }
+      ]
+    }
+  ]
+}

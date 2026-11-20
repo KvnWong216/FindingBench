@@ -1,0 +1,78 @@
+task_id: N023
+family: fetch
+scene: Pomaria_1_int
+source:
+  official_activity: clearing_table_after_snacks#0
+  official_activities_with_same_subgoal:
+  - clearing_table_after_snacks#0
+  official_subgoal: (inside half__apple.n.01 compost_bin.n.01)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K Pomaria_1_int (+ clearance manifest)
+  object: BEHAVIOR-1K half_apple/sguztn
+start:
+  name: start_kitchen_0_1
+  room: kitchen_0
+  x: -3.42
+  y: -1.48
+  yaw: 0.517
+target:
+  entity: target_obj
+  category: half_apple
+  model: sguztn
+  noun: half apple
+  colour_estimate: green
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S3
+missing_spatial_levels:
+- S1
+- S2
+initial_states: {}
+spatial:
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bookcase_owvfik_0
+    room: living_room_0
+    location_phrase: null
+    grasp_hints:
+    - - -11.786
+      - -1.78
+      - 2.609
+    - - -11.736
+      - -1.931
+      - 2.498
+    - - -11.75
+      - -2.118
+      - 2.347
+    - - -11.686
+      - -1.88
+      - 2.572
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start: null
+    task_scope: cross_room
+    route_from_start_steps: 14
+language:
+  L1: {}
+  L2: Get the half apple and hold on to it.
+  L3: I'm clearing table after snacks and I need the half apple. Could you get it
+    for me?
+available_language_levels:
+  S3:
+  - L2
+  - L3
+description_provenance:
+  missing_L1_reason: source location lacks an unambiguous description
+  missing_L1_spatial_levels:
+  - S3
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

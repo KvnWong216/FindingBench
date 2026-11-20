@@ -1,0 +1,107 @@
+{
+  "id": "asset_F008_01",
+  "family": "semantic_F008",
+  "scene": "Pomaria_1_int",
+  "scenario": "scenarios/asset_search_v1/asset_F008_01/scenario.yaml",
+  "scenario_sha256": "f590c77964b8e7372306cbc1531b5c86a11c19ae585cdd2fffb645efa61e5230",
+  "instruction": "I need baking powder for a recipe. Find it in the kitchen cupboards and put the container on the table in front of you in the kitchen; leave the baking soda there.",
+  "target_key": "baking_powder_jar/lgopij",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "bottom_cabinet_no_top_vzzafs_0",
+  "destination_receptacle": "breakfast_table_uhrsex_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "05d404c89ade70d34c89459d2b340c53ef49d49041a6624fcc9a997b8b7322b3",
+  "route": {
+    "start": [
+      -1.05,
+      -0.8500000000000001,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -1.05,
+        -0.8500000000000001
+      ],
+      [
+        -1.05,
+        -0.75
+      ],
+      [
+        -1.05,
+        -0.65
+      ],
+      [
+        -1.05,
+        -0.55
+      ],
+      [
+        -1.05,
+        -0.45
+      ],
+      [
+        -1.05,
+        -0.35000000000000003
+      ],
+      [
+        -1.05,
+        -0.25
+      ],
+      [
+        -1.1500000000000001,
+        -0.25
+      ],
+      [
+        -1.25,
+        -0.25
+      ]
+    ],
+    "length_m": 0.8,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 51,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_jrhgeu_0",
+    "bottom_cabinet_no_top_vzzafs_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "parent_task_id": "F008",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F008_01",
+    "parent_task_id": "F008",
+    "before_instruction": "I need baking powder for the recipe on the kitchen table. Find it in the baking cupboard and put the container beside the recipe book; leave the baking soda there.",
+    "after_instruction": "I need baking powder for a recipe. Find it in the kitchen cupboards and put the container on the table in front of you in the kitchen; leave the baking soda there.",
+    "reason": "Explicit first-tranche grounding: native storage and initial-facing destination replace uninstantiated decorative reference props; no new semantic-task count.",
+    "target_asset": "baking_powder_jar/lgopij"
+  }
+}

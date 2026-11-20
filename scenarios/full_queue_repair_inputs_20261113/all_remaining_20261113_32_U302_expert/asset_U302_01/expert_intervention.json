@@ -1,0 +1,332 @@
+{
+  "status": "static_screened_physics_pending",
+  "expert_policy": {
+    "method": "relocate_storage",
+    "clear_unstated_links": true,
+    "plan_surfaces": true,
+    "runtime_changes": [
+      "closed_native_bbox_XY",
+      "disjoint_measured_support_patches",
+      "bounded_CUDA_candidate_domains"
+    ],
+    "original_instruction_retained": true,
+    "explicit_location_scope_retained": true,
+    "diagnosis": "native_placement",
+    "reason": "placement failed verification after physics settled: ['item_00 inside bottom_cabinet_nddvba_0', 'item_01 inside bottom_cabinet_nddvba_0', 'item_02 inside bottom_cabinet_nddvba_0', 'item_03 inside bottom_cabinet_nddvba_0', 'item_04 inside bottom_cabinet_nddvba_0', 'item_05 inside bottom_cabinet_nddvba_0', 'item_06 inside bottom_cabinet_immwzb_0', 'item_07 inside bottom_cabinet_immwzb_0', 'item_08 inside bottom_cabinet_immwzb_0', 'comparison_sample on_top desk_rzyfxk_1', 'required_negative_0 inside bottom_cabinet_nddvba_0']"
+  },
+  "partial_authoring_steps": [
+    {
+      "status": "static_partial_not_native_ready",
+      "old_storage": "bottom_cabinet_nddvba_0",
+      "new_storage": {
+        "name": "expert_storage_93",
+        "category": "metal_bottom_cabinet",
+        "model": "jqyhjy",
+        "floor": "floors_jniagb_0",
+        "position_xy": [
+          4.3500000000000005,
+          -3.5500000000000003
+        ],
+        "aabb": [
+          [
+            4.014299804687501,
+            -4.176032287597657,
+            -0.0
+          ],
+          [
+            4.6857001953125,
+            -2.923967712402344,
+            0.9464012756347656
+          ]
+        ],
+        "room": "private_office_0"
+      },
+      "released_compiler_links": [
+        {
+          "entity": "item_00",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_01",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_02",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_03",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_04",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_05",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "required_negative_0",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        }
+      ],
+      "replaced_failed_auxiliary_fixture": false,
+      "previous_auxiliary_asset": null,
+      "conservative_opening_clearance_m": 0.0,
+      "opening_sweep_requires_native_measurement": true,
+      "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_32_U302_expert/_working/step_0/asset_U302_01/scenario.yaml",
+      "original_sha256": "b6ca51dcc021dab5e2915fa1f375d8e0a5a41264e08dd111aade43fbd4a7ed88",
+      "diagnosis_directory": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_gpu_new_20261106/asset_U302_01",
+      "solver": {
+        "status": "feasible_model",
+        "device": "cuda",
+        "backend": "torch_cuda_finite_csp",
+        "solve_seconds": 0.12228034529834986,
+        "nodes": 7,
+        "candidate_tests": 18781,
+        "search_orders_tried": 1,
+        "grid_m": 0.001,
+        "margin_m": 0.015,
+        "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+        "physical_validation_required": true,
+        "assignment": {
+          "item_02": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "required_negative_0": "meta__base_link_fillable_0_0_link",
+          "item_00": "meta__base_link_fillable_0_0_link"
+        },
+        "poses": {
+          "item_02": {
+            "bin": "meta__base_link_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.015
+            ],
+            "footprint_m": [
+              0.311,
+              0.219
+            ],
+            "center_xy_m": [
+              0.1705,
+              0.1245
+            ]
+          },
+          "item_04": {
+            "bin": "meta__base_link_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.249
+            ],
+            "footprint_m": [
+              0.311,
+              0.219
+            ],
+            "center_xy_m": [
+              0.1705,
+              0.3585
+            ]
+          },
+          "item_01": {
+            "bin": "meta__base_link_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.483
+            ],
+            "footprint_m": [
+              0.211,
+              0.291
+            ],
+            "center_xy_m": [
+              0.1205,
+              0.6285000000000001
+            ]
+          },
+          "item_03": {
+            "bin": "meta__base_link_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.241,
+              0.483
+            ],
+            "footprint_m": [
+              0.211,
+              0.291
+            ],
+            "center_xy_m": [
+              0.34650000000000003,
+              0.6285000000000001
+            ]
+          },
+          "item_05": {
+            "bin": "meta__base_link_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.789
+            ],
+            "footprint_m": [
+              0.211,
+              0.291
+            ],
+            "center_xy_m": [
+              0.1205,
+              0.9345
+            ]
+          },
+          "required_negative_0": {
+            "bin": "meta__base_link_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.341,
+              0.015
+            ],
+            "footprint_m": [
+              0.1,
+              0.39
+            ],
+            "center_xy_m": [
+              0.391,
+              0.21
+            ]
+          },
+          "item_00": {
+            "bin": "meta__base_link_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.241,
+              0.789
+            ],
+            "footprint_m": [
+              0.112,
+              0.054
+            ],
+            "center_xy_m": [
+              0.297,
+              0.8160000000000001
+            ]
+          }
+        }
+      },
+      "variant": 93,
+      "task_local_model_experience": [],
+      "preserved": [
+        "instruction",
+        "goal",
+        "target",
+        "robot",
+        "spawn",
+        "all task items and counts",
+        "relation types"
+      ]
+    },
+    {
+      "status": "static_screened_physics_pending",
+      "old_storage": "bottom_cabinet_immwzb_0",
+      "reused_native_storage": "bottom_cabinet_nddvba_0",
+      "released_compiler_links": [
+        {
+          "entity": "item_06",
+          "previous_link": "link_1"
+        },
+        {
+          "entity": "item_07",
+          "previous_link": "link_3"
+        },
+        {
+          "entity": "item_08",
+          "previous_link": "link_2"
+        }
+      ],
+      "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_32_U302_expert/_working/step_1/asset_U302_01/scenario.yaml",
+      "diagnosis_directory": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_gpu_new_20261106/asset_U302_01",
+      "solver": {
+        "status": "feasible_model",
+        "device": "cuda",
+        "backend": "torch_cuda_finite_csp",
+        "solve_seconds": 0.024424853269010782,
+        "nodes": 3,
+        "candidate_tests": 160,
+        "search_orders_tried": 1,
+        "grid_m": 0.001,
+        "margin_m": 0.015,
+        "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+        "physical_validation_required": true,
+        "assignment": {
+          "item_06": "link_1",
+          "item_08": "link_2",
+          "item_07": "link_3"
+        },
+        "poses": {
+          "item_06": {
+            "bin": "link_1",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.015
+            ],
+            "footprint_m": [
+              0.311,
+              0.219
+            ],
+            "center_xy_m": [
+              0.1705,
+              0.1245
+            ]
+          },
+          "item_08": {
+            "bin": "link_2",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.015
+            ],
+            "footprint_m": [
+              0.311,
+              0.219
+            ],
+            "center_xy_m": [
+              0.1705,
+              0.1245
+            ]
+          },
+          "item_07": {
+            "bin": "link_3",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.015
+            ],
+            "footprint_m": [
+              0.211,
+              0.291
+            ],
+            "center_xy_m": [
+              0.1205,
+              0.1605
+            ]
+          }
+        }
+      },
+      "preserved": [
+        "instruction",
+        "goal",
+        "target",
+        "robot",
+        "spawn",
+        "all original assets",
+        "furniture geometry",
+        "relation types"
+      ]
+    }
+  ],
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_U302_01/scenario.yaml",
+  "removed_compiler_links": [],
+  "physical_validation_required": true
+}

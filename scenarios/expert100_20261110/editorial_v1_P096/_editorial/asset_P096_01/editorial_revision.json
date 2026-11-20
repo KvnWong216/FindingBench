@@ -1,0 +1,132 @@
+{
+  "status": "editorial_revision_physics_pending",
+  "revision_id": "expert_editorial_20261110_P096",
+  "authorization": "user_approved_find_and_deliver_rewrite",
+  "reason": "Original matching makeup mirror is 89 cm high and cannot fit genuine vanity drawers; source nightstand has no Open state. Use a native comb reference, a distinct comb and brush as near-negative clutter, and a genuine prismatic-drawer unit. Preserve remaining toiletries, entity count and living-room delivery goal.",
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_P096_01/scenario.yaml",
+  "original_archive": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/editorial_v1_P096/_editorial/asset_P096_01/original_scenario.yaml",
+  "original_scenario_sha256": "a9acda7780410350a9384225621a2cc374a1199869e3e9d3790cc35e6db7d17d",
+  "revised_scenario_sha256": "9cca860b0afbd6426ee630b2be985cb5ca7fb7caf9a5338c0f2c99893277926a",
+  "before_instruction": "There is a sample on the table in front of you in the living room. Find the makeup mirror matching that sample among the bathroom vanity drawers and bring it to the table in front of you in the living room in the living room.",
+  "after_instruction": "Find the comb in the bathroom vanity drawers that matches the one on the table in front of you in the living room, and bring it to that table.",
+  "object_changes": [
+    {
+      "before": {
+        "name": "item_00",
+        "category": "makeup_mirror",
+        "model": "vtccbu"
+      },
+      "after": {
+        "name": "item_00",
+        "category": "comb",
+        "model": "nybyjz"
+      },
+      "native_bbox_m": [
+        0.1060797119140625,
+        0.03064678955078125,
+        0.01866670799255371
+      ],
+      "metadata_sha256": "e7f4bb8a4327d1bc08e24de264e8703bcfd59994ed9a1c3be225f0f18f42169f",
+      "encrypted_asset_sha256": "f2d28d97aa1897f745b2ef282915ab91e222f3b648f9e2dd2ebe38e1deb3dea1"
+    },
+    {
+      "before": {
+        "name": "comparison_sample",
+        "category": "makeup_mirror",
+        "model": "vtccbu"
+      },
+      "after": {
+        "name": "comparison_sample",
+        "category": "comb",
+        "model": "nybyjz"
+      },
+      "native_bbox_m": [
+        0.1060797119140625,
+        0.03064678955078125,
+        0.01866670799255371
+      ],
+      "metadata_sha256": "e7f4bb8a4327d1bc08e24de264e8703bcfd59994ed9a1c3be225f0f18f42169f",
+      "encrypted_asset_sha256": "f2d28d97aa1897f745b2ef282915ab91e222f3b648f9e2dd2ebe38e1deb3dea1"
+    },
+    {
+      "before": {
+        "name": "item_02",
+        "category": "bottle_of_essential_oil",
+        "model": "xvqshn"
+      },
+      "after": {
+        "name": "item_02",
+        "category": "comb",
+        "model": "yopqrq"
+      },
+      "native_bbox_m": [
+        0.016634643554687502,
+        0.107776123046875,
+        0.0039383316040039066
+      ],
+      "metadata_sha256": "dffacc432b75ec7b00687ba2ef1ea3f626c99652a35777357496c65f6491859a",
+      "encrypted_asset_sha256": "b40358b69be7a542458989e152ae4fc1b77c5615dc7ae3438f4c946cfde5944a"
+    },
+    {
+      "before": {
+        "name": "item_04",
+        "category": "bottle_of_lavender_oil",
+        "model": "csalbx"
+      },
+      "after": {
+        "name": "item_04",
+        "category": "hairbrush",
+        "model": "bdylnb"
+      },
+      "native_bbox_m": [
+        0.2400228042602539,
+        0.048953834533691405,
+        0.029273777961730956
+      ],
+      "metadata_sha256": "e3999fabdc007035c04b000fb4b22734628db8ecb477d5093e58a96b7b95ee18",
+      "encrypted_asset_sha256": "017b8cd84531ce01d78286831c9dbab3233573d39859a77ecefc63a8974c3d74"
+    },
+    {
+      "before": {
+        "name": "search_storage",
+        "category": "nightstand",
+        "model": "roxnbe",
+        "fixed_base": true
+      },
+      "after": {
+        "name": "search_storage",
+        "category": "bottom_cabinet_no_top",
+        "model": "ncgmqr",
+        "fixed_base": true
+      },
+      "native_bbox_m": [
+        0.6237394104003906,
+        0.41669439697265626,
+        0.6957286682128906
+      ],
+      "metadata_sha256": "4f69836ec4373a572ddb8592f3f5f5e84e399b02a8b6553a4147db5c12cdb121",
+      "encrypted_asset_sha256": "654ec43b4fbdc16ab935e47e394df2e4452ea2ef8e5df804fc94faba3196f5a7"
+    }
+  ],
+  "before_target": {
+    "entity": "item_00",
+    "category": "makeup_mirror"
+  },
+  "after_target": {
+    "entity": "item_00",
+    "category": "comb"
+  },
+  "preserved": [
+    "find-and-deliver paradigm",
+    "goal entity and destination",
+    "scene",
+    "spawn",
+    "robot",
+    "skills",
+    "entity names and count",
+    "placement relations",
+    "target cardinality"
+  ],
+  "physical_validation_required": true,
+  "human_completion_verified": false
+}

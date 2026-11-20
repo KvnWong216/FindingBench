@@ -1,0 +1,75 @@
+{
+  "status": "editorial_revision_physics_pending",
+  "revision_id": "expert_editorial_20261110_P107",
+  "authorization": "user_approved_find_and_deliver_rewrite",
+  "reason": "The 89 cm native mirror does not fit physically supported vanity compartments. Replace that secondary requested object with an existing eyeshadow palette. Preserve the three-target cardinality, comb and razor, all distractors and delivery surface.",
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_P107_01/scenario.yaml",
+  "original_archive": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/editorial_v23_P107/_editorial/asset_P107_01/original_scenario.yaml",
+  "original_scenario_sha256": "ab6d5ab2ecf4ae2fe063475bdf291650f25e6e91bd3471d7830477bcacfe6e69",
+  "revised_scenario_sha256": "80fe387f315e81c6048ad0ccf5e09b3b7cc0546b6ee363907e33551222b9cc87",
+  "before_instruction": "Find a comb, a makeup mirror and a razor among the bathroom vanity supplies and put all three on the counter in front of you in the bathroom for grooming.",
+  "after_instruction": "Find a comb, an eyeshadow palette and a razor among the bathroom vanity supplies and put all three on the counter in front of you.",
+  "object_changes": [
+    {
+      "before": {
+        "name": "item_01",
+        "category": "makeup_mirror",
+        "model": "vtccbu"
+      },
+      "after": {
+        "name": "item_01",
+        "category": "case_of_eyeshadow",
+        "model": "zgervc"
+      },
+      "native_bbox_m": [
+        0.06453958129882813,
+        0.08011849975585937,
+        0.013151816368103027
+      ],
+      "metadata_sha256": "bb9fd50f2e0e22c16e65d0bff7a657f568b1ac6932aa3959bc7cf93c840757c0",
+      "encrypted_asset_sha256": "2543f8bc0a7285e4a350f969c76f463ee94ddaee3b2b6a59cbcddf413bca1185"
+    },
+    {
+      "before": {
+        "name": "search_storage",
+        "category": "nightstand",
+        "model": "uudzva",
+        "fixed_base": true
+      },
+      "after": {
+        "name": "search_storage",
+        "category": "bottom_cabinet_no_top",
+        "model": "ncgmqr",
+        "fixed_base": true
+      },
+      "native_bbox_m": [
+        0.6237394104003906,
+        0.41669439697265626,
+        0.6957286682128906
+      ],
+      "metadata_sha256": "4f69836ec4373a572ddb8592f3f5f5e84e399b02a8b6553a4147db5c12cdb121",
+      "encrypted_asset_sha256": "654ec43b4fbdc16ab935e47e394df2e4452ea2ef8e5df804fc94faba3196f5a7"
+    }
+  ],
+  "before_target": {
+    "entity": "item_00",
+    "category": "comb"
+  },
+  "after_target": {
+    "entity": "item_00",
+    "category": "comb"
+  },
+  "preserved": [
+    "find-and-deliver paradigm",
+    "goal entity and destination",
+    "scene",
+    "spawn",
+    "robot",
+    "skills",
+    "entity names and count",
+    "placement relations",
+    "target cardinality"
+  ],
+  "physical_validation_required": true,
+  "human_completion_verified": false
+}

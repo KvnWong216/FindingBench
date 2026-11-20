@@ -1,0 +1,256 @@
+{
+  "id": "asset_P134_01",
+  "family": "semantic_P134",
+  "scene": "house_double_floor_upper",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P134_01/scenario.yaml",
+  "scenario_sha256": "e0cd7826159e4b55465626ec9fedf1f3a57a7995093fe847434e0dc18308db4f",
+  "instruction": "There is a sample on the cabinet top in front of you in the living room. Find a DVD matching that sample in the bedroom media drawers and bring it to the cabinet top in front of you in the living room in the living room.",
+  "target_key": "dvd/lggrfa",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bedroom_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 12,
+  "distractor_count": 8,
+  "source_survey_sha256": "bad4111136351f4ccb189cc8da21449e65bb285de15b8c94024c1d045abd820a",
+  "route": {
+    "start": [
+      -1.0,
+      -0.4,
+      0.0
+    ],
+    "path_xy": [
+      [
+        -1.0,
+        -0.4
+      ],
+      [
+        -1.0,
+        -0.30000000000000004
+      ],
+      [
+        -1.0,
+        -0.2
+      ],
+      [
+        -1.0,
+        -0.1
+      ],
+      [
+        -1.0,
+        0.0
+      ],
+      [
+        -1.0,
+        0.1
+      ],
+      [
+        -1.0,
+        0.2
+      ],
+      [
+        -1.0,
+        0.30000000000000004
+      ],
+      [
+        -1.0,
+        0.4
+      ],
+      [
+        -1.0,
+        0.5
+      ],
+      [
+        -1.0,
+        0.6000000000000001
+      ],
+      [
+        -1.1,
+        0.6000000000000001
+      ],
+      [
+        -1.2000000000000002,
+        0.6000000000000001
+      ],
+      [
+        -1.3,
+        0.6000000000000001
+      ],
+      [
+        -1.4000000000000001,
+        0.6000000000000001
+      ],
+      [
+        -1.5,
+        0.6000000000000001
+      ],
+      [
+        -1.6,
+        0.6000000000000001
+      ],
+      [
+        -1.7000000000000002,
+        0.6000000000000001
+      ],
+      [
+        -1.8,
+        0.6000000000000001
+      ],
+      [
+        -1.9000000000000001,
+        0.6000000000000001
+      ],
+      [
+        -2.0,
+        0.6000000000000001
+      ],
+      [
+        -2.1,
+        0.6000000000000001
+      ],
+      [
+        -2.2,
+        0.6000000000000001
+      ],
+      [
+        -2.3000000000000003,
+        0.6000000000000001
+      ],
+      [
+        -2.4000000000000004,
+        0.6000000000000001
+      ],
+      [
+        -2.5,
+        0.6000000000000001
+      ],
+      [
+        -2.6,
+        0.6000000000000001
+      ],
+      [
+        -2.7,
+        0.6000000000000001
+      ],
+      [
+        -2.8000000000000003,
+        0.6000000000000001
+      ],
+      [
+        -2.9000000000000004,
+        0.6000000000000001
+      ],
+      [
+        -3.0,
+        0.6000000000000001
+      ],
+      [
+        -3.1,
+        0.6000000000000001
+      ],
+      [
+        -3.2,
+        0.6000000000000001
+      ]
+    ],
+    "length_m": 3.2,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "nightstand",
+      "model": "uudzva",
+      "floor": "floors_nlswvt_0",
+      "position_xy": [
+        -4.1000000000000005,
+        1.3
+      ],
+      "aabb": [
+        [
+          -4.275,
+          1.0700000228881836,
+          0.0
+        ],
+        [
+          -3.9250000000000007,
+          1.5299999771118165,
+          0.7000004272460938
+        ]
+      ],
+      "room": "bedroom_0"
+    },
+    {
+      "name": "delivery_surface",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_rfqizg_0",
+      "position_xy": [
+        -0.30000000000000004,
+        0.1
+      ],
+      "aabb": [
+        [
+          -0.467144760131836,
+          -0.24228797912597658,
+          0.0
+        ],
+        [
+          -0.1328552398681641,
+          0.4422879791259766,
+          0.6846599731445313
+        ]
+      ],
+      "room": "living_room_0"
+    }
+  ],
+  "parent_task_id": "P134",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P134_01",
+    "parent_task_id": "P134",
+    "before_instruction": "Find disc 2 of Sea Voyage among the bedroom media drawers and put its closed case beside disc 1 on the living-room TV cabinet.",
+    "after_instruction": "There is a sample on the cabinet top in front of you in the living room. Find a DVD matching that sample in the bedroom media drawers and bring it to the cabinet top in front of you in the living room in the living room.",
+    "reason": "Replaces fictional numbered disc relation and unverified case closure with actual native DVD matching. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "dvd/lggrfa",
+    "target_assets": [
+      "dvd/lggrfa"
+    ]
+  },
+  "binding_sha256": "21a7dfd2ce772da93608d47f5d39d68dff99743edd95f2cd140821313faabaf9"
+}

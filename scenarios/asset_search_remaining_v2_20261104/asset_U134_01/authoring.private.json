@@ -1,0 +1,103 @@
+{
+  "id": "asset_U134_01",
+  "family": "semantic_U134",
+  "scene": "Ihlen_0_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_U134_01/scenario.yaml",
+  "scenario_sha256": "6d6349ca87b5e4d2db5c4a08050d15bb43f29cefe0b52cb8754a36f1de12913e",
+  "instruction": "We are splitting household expenses. Fetch the calculator from the dining room workspace and put it on the table in front of you in the dining room in the dining room.",
+  "target_key": "calculator/kwmmty",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "dining_room_0",
+  "destination_room": "dining_room_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "breakfast_table_uhrsex_0",
+  "object_count": 10,
+  "distractor_count": 8,
+  "source_survey_sha256": "4e67f717bc639fa8251f9cbf52bc0b8a96e19f8594526a196ad4548a95e97acd",
+  "route": {
+    "start": [
+      -3.0,
+      3.4000000000000004,
+      -3.141592653589793
+    ],
+    "path_xy": [
+      [
+        -3.0,
+        3.4000000000000004
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_kwnype_0",
+      "position_xy": [
+        -2.2,
+        3.5
+      ],
+      "aabb": [
+        [
+          -2.3671447601318363,
+          3.1577120208740235,
+          0.0
+        ],
+        [
+          -2.032855239868164,
+          3.8422879791259765,
+          0.6846599731445313
+        ]
+      ],
+      "room": "dining_room_0"
+    }
+  ],
+  "parent_task_id": "U134",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_U134_01",
+    "parent_task_id": "U134",
+    "before_instruction": "We're splitting household expenses at the dining table. Find the large key calculator among the study's desk supplies and bring it to the dining table beside the chair nearest the door.",
+    "after_instruction": "We are splitting household expenses. Fetch the calculator from the dining room workspace and put it on the table in front of you in the dining room in the dining room.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Large-key calculator identity needs visible key-size evidence. The category calculator does not certify the accessibility-style subtype. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: private_office/cabinet -> dining_room/table becomes dining_room/cabinet -> dining_room/table. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+    "target_asset": "calculator/kwmmty",
+    "target_assets": [
+      "calculator/kwmmty"
+    ]
+  },
+  "binding_sha256": "b9ae3b7a7a81418c08816873efea3dbd82aa6450fbf7c91f3a20e48b5d546040"
+}

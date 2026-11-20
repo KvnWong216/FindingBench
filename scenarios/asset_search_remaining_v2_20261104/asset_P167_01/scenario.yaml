@@ -1,0 +1,160 @@
+id: asset_P167_01
+instruction: Collect four toy dice from the bedroom game storage and put all four
+  on the cabinet top in front of you in the bedroom for the four players.
+scene:
+  model: Benevolence_2_int
+  source: behavior
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - 1.25
+    - -1.4500000000000002
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - -0.7071067811865475
+    - 0.7071067811865476
+target:
+  entity: item_00
+  category: toy_dice
+objects:
+- name: item_00
+  category: toy_dice
+  model: cmqtch
+- name: item_01
+  category: toy_dice
+  model: cmqtch
+- name: item_02
+  category: toy_dice
+  model: cmqtch
+- name: item_03
+  category: toy_dice
+  model: cmqtch
+- name: item_04
+  category: dreidel
+  model: vsmlcg
+- name: item_05
+  category: hourglass
+  model: sdzunm
+- name: item_06
+  category: jigsaw_puzzle_piece
+  model: jcafwy
+- name: item_07
+  category: alphabet_abacus
+  model: wojwvu
+- name: item_08
+  category: dice
+  model: iswudu
+- name: item_09
+  category: gaming_controller
+  model: yofqbq
+- name: item_10
+  category: jigsaw_puzzle
+  model: antykn
+- name: item_11
+  category: dreidel
+  model: vsmlcg
+placements:
+- entity: item_00
+  relation: inside
+  receptacle: bottom_cabinet_jrhgeu_0
+- entity: item_01
+  relation: inside
+  receptacle: bottom_cabinet_jrhgeu_0
+- entity: item_02
+  relation: inside
+  receptacle: bottom_cabinet_jrhgeu_0
+- entity: item_03
+  relation: inside
+  receptacle: bottom_cabinet_jrhgeu_0
+- entity: item_04
+  relation: inside
+  receptacle: bottom_cabinet_jrhgeu_0
+- entity: item_05
+  relation: inside
+  receptacle: bottom_cabinet_jrhgeu_0
+- entity: item_06
+  relation: inside
+  receptacle: bottom_cabinet_jrhgeu_0
+- entity: item_07
+  relation: inside
+  receptacle: bottom_cabinet_jrhgeu_0
+- entity: item_08
+  relation: inside
+  receptacle: bottom_cabinet_jrhgeu_0
+- entity: item_09
+  relation: inside
+  receptacle: bottom_cabinet_slgzfc_0
+- entity: item_10
+  relation: inside
+  receptacle: bottom_cabinet_slgzfc_0
+- entity: item_11
+  relation: inside
+  receptacle: bottom_cabinet_slgzfc_0
+initial_states:
+  bottom_cabinet_slgzfc_0:
+    open: false
+  bottom_cabinet_jrhgeu_0:
+    open: false
+goal:
+- kind: on_top
+  entity: item_00
+  receptacle: bottom_cabinet_jrhgeu_0
+- kind: on_top
+  entity: item_01
+  receptacle: bottom_cabinet_jrhgeu_0
+- kind: on_top
+  entity: item_02
+  receptacle: bottom_cabinet_jrhgeu_0
+- kind: on_top
+  entity: item_03
+  receptacle: bottom_cabinet_jrhgeu_0
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

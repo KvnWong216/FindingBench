@@ -1,0 +1,451 @@
+{
+  "status": "static_screened_physics_pending",
+  "expert_policy": {
+    "method": "relocate_storage",
+    "clear_unstated_links": true,
+    "plan_surfaces": true,
+    "runtime_changes": [
+      "closed_native_bbox_XY",
+      "disjoint_measured_support_patches",
+      "bounded_CUDA_candidate_domains"
+    ],
+    "original_instruction_retained": true,
+    "explicit_location_scope_retained": true,
+    "diagnosis": "surface_or_timeout",
+    "reason": "placement failed verification after physics settled: ['item_00 inside search_storage', 'item_01 inside search_storage', 'item_02 inside search_storage', 'item_03 inside search_storage', 'item_04 inside search_storage', 'item_05 inside search_storage', 'item_06 inside search_storage', 'item_07 inside search_storage', 'item_08 inside search_storage', 'item_09 inside search_storage', 'item_10 inside search_storage', 'comparison_sample on_top countertop_kelker_0', 'comparison_negative_0 inside search_storage', 'comparison_negative_1 inside search_storage']"
+  },
+  "partial_authoring_steps": [
+    {
+      "status": "static_partial_not_native_ready",
+      "old_storage": "search_storage",
+      "new_storage": {
+        "name": "expert_storage_93",
+        "category": "bottom_cabinet",
+        "model": "songes",
+        "floor": "floors_khjmrr_0",
+        "position_xy": [
+          6.2,
+          1.9000000000000001
+        ],
+        "aabb": [
+          [
+            5.936380737304687,
+            1.480784881591797,
+            -0.0
+          ],
+          [
+            6.463619262695313,
+            2.319215118408203,
+            0.82936767578125
+          ]
+        ],
+        "room": "dining_room_0"
+      },
+      "released_compiler_links": [
+        {
+          "entity": "item_00",
+          "previous_link": "meta__middledrawer_fillable_0_0_link"
+        },
+        {
+          "entity": "item_01",
+          "previous_link": "meta__bottomdrawer_fillable_0_0_link"
+        },
+        {
+          "entity": "item_04",
+          "previous_link": "meta__bottomdrawer_fillable_0_0_link"
+        },
+        {
+          "entity": "item_05",
+          "previous_link": "meta__topdrawer_fillable_0_0_link"
+        },
+        {
+          "entity": "item_06",
+          "previous_link": "meta__topdrawer_fillable_0_0_link"
+        },
+        {
+          "entity": "comparison_negative_1",
+          "previous_link": "meta__middledrawer_fillable_0_0_link"
+        }
+      ],
+      "replaced_failed_auxiliary_fixture": false,
+      "previous_auxiliary_asset": null,
+      "conservative_opening_clearance_m": 0.0,
+      "opening_sweep_requires_native_measurement": true,
+      "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_048_F235_expert_937efb242618/_working/step_0/asset_F235_01/scenario.yaml",
+      "original_sha256": "69a6dffcb49b0f9e45ea4d486f309ab8f792cb4494c65f0c08987bd66eb73f84",
+      "diagnosis_directory": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/reviewed_followup_005_F235/asset_F235_01",
+      "solver": {
+        "status": "feasible_model",
+        "device": "cuda",
+        "backend": "torch_cuda_finite_csp",
+        "solve_seconds": 0.033568210899829865,
+        "nodes": 6,
+        "candidate_tests": 210,
+        "search_orders_tried": 1,
+        "grid_m": 0.001,
+        "margin_m": 0.015,
+        "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+        "physical_validation_required": true,
+        "assignment": {
+          "item_04": "meta__bottomdrawer_fillable_0_0_link",
+          "comparison_negative_1": "meta__middledrawer_fillable_0_0_link",
+          "item_05": "meta__topdrawer_fillable_0_0_link",
+          "item_06": "meta__topdrawer_fillable_0_0_link",
+          "item_00": "meta__middledrawer_fillable_0_0_link",
+          "item_01": "meta__bottomdrawer_fillable_0_0_link"
+        },
+        "poses": {
+          "item_04": {
+            "bin": "meta__bottomdrawer_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.015
+            ],
+            "footprint_m": [
+              0.25,
+              0.417
+            ],
+            "center_xy_m": [
+              0.14,
+              0.2235
+            ]
+          },
+          "comparison_negative_1": {
+            "bin": "meta__middledrawer_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.015
+            ],
+            "footprint_m": [
+              0.299,
+              0.299
+            ],
+            "center_xy_m": [
+              0.1645,
+              0.1645
+            ]
+          },
+          "item_05": {
+            "bin": "meta__topdrawer_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.015
+            ],
+            "footprint_m": [
+              0.364,
+              0.244
+            ],
+            "center_xy_m": [
+              0.197,
+              0.137
+            ]
+          },
+          "item_06": {
+            "bin": "meta__topdrawer_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.274
+            ],
+            "footprint_m": [
+              0.201,
+              0.301
+            ],
+            "center_xy_m": [
+              0.1155,
+              0.4245
+            ]
+          },
+          "item_00": {
+            "bin": "meta__middledrawer_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.329
+            ],
+            "footprint_m": [
+              0.232,
+              0.232
+            ],
+            "center_xy_m": [
+              0.131,
+              0.445
+            ]
+          },
+          "item_01": {
+            "bin": "meta__bottomdrawer_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.447
+            ],
+            "footprint_m": [
+              0.232,
+              0.232
+            ],
+            "center_xy_m": [
+              0.131,
+              0.5630000000000001
+            ]
+          }
+        }
+      },
+      "variant": 93,
+      "task_local_model_experience": [],
+      "removed_uninstantiated_open_state": null,
+      "preserved": [
+        "instruction",
+        "goal",
+        "target",
+        "robot",
+        "spawn",
+        "all task items and counts",
+        "relation types"
+      ],
+      "partitioned_original_group": [
+        "item_00",
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "item_09",
+        "item_10",
+        "comparison_negative_0",
+        "comparison_negative_1"
+      ],
+      "moved_entities": [
+        "item_04",
+        "comparison_negative_1",
+        "item_05",
+        "item_06",
+        "item_00",
+        "item_01"
+      ]
+    },
+    {
+      "status": "static_screened_physics_pending",
+      "old_storage": "search_storage",
+      "new_storage": {
+        "name": "search_storage",
+        "category": "bottom_cabinet_no_top",
+        "model": "ncgmqr",
+        "floor": "floors_khjmrr_0",
+        "position_xy": [
+          8.3,
+          1.9000000000000001
+        ],
+        "aabb": [
+          [
+            7.988130294799806,
+            1.691652801513672,
+            -0.0
+          ],
+          [
+            8.611869705200196,
+            2.1083471984863285,
+            0.6957286682128906
+          ]
+        ],
+        "room": "dining_room_0"
+      },
+      "released_compiler_links": [
+        {
+          "entity": "item_02",
+          "previous_link": "meta__drawer1_fillable_0_0_link"
+        },
+        {
+          "entity": "item_03",
+          "previous_link": "meta__drawer0_fillable_0_0_link"
+        },
+        {
+          "entity": "item_07",
+          "previous_link": "meta__drawer2_fillable_0_0_link"
+        },
+        {
+          "entity": "item_08",
+          "previous_link": "meta__drawer2_fillable_0_0_link"
+        },
+        {
+          "entity": "item_09",
+          "previous_link": "meta__drawer1_fillable_0_0_link"
+        },
+        {
+          "entity": "item_10",
+          "previous_link": "meta__drawer2_fillable_0_0_link"
+        },
+        {
+          "entity": "comparison_negative_0",
+          "previous_link": "meta__drawer0_fillable_0_0_link"
+        }
+      ],
+      "replaced_failed_auxiliary_fixture": true,
+      "previous_auxiliary_asset": {
+        "category": "bottom_cabinet",
+        "model": "jrhgeu"
+      },
+      "conservative_opening_clearance_m": 0.3118697052001953,
+      "opening_sweep_requires_native_measurement": true,
+      "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_048_F235_expert_937efb242618/_working/step_1/asset_F235_01/scenario.yaml",
+      "original_sha256": "67a6793c891211925f6b1a2354557231fb19920274e289233ca02f90dcb331c6",
+      "diagnosis_directory": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/reviewed_followup_005_F235/asset_F235_01",
+      "solver": {
+        "status": "feasible_model",
+        "device": "cuda",
+        "backend": "torch_cuda_finite_csp",
+        "solve_seconds": 0.03157625673338771,
+        "nodes": 7,
+        "candidate_tests": 4460,
+        "search_orders_tried": 1,
+        "grid_m": 0.001,
+        "margin_m": 0.015,
+        "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+        "physical_validation_required": true,
+        "assignment": {
+          "item_10": "meta__drawer2_fillable_0_0_link",
+          "item_08": "meta__drawer2_fillable_0_0_link",
+          "item_02": "meta__drawer1_fillable_0_0_link",
+          "item_03": "meta__drawer0_fillable_0_0_link",
+          "comparison_negative_0": "meta__drawer0_fillable_0_0_link",
+          "item_07": "meta__drawer2_fillable_0_0_link",
+          "item_09": "meta__drawer1_fillable_0_0_link"
+        },
+        "poses": {
+          "item_10": {
+            "bin": "meta__drawer2_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.015
+            ],
+            "footprint_m": [
+              0.148,
+              0.146
+            ],
+            "center_xy_m": [
+              0.089,
+              0.088
+            ]
+          },
+          "item_08": {
+            "bin": "meta__drawer2_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.178,
+              0.015
+            ],
+            "footprint_m": [
+              0.127,
+              0.129
+            ],
+            "center_xy_m": [
+              0.2415,
+              0.0795
+            ]
+          },
+          "item_02": {
+            "bin": "meta__drawer1_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.015
+            ],
+            "footprint_m": [
+              0.232,
+              0.232
+            ],
+            "center_xy_m": [
+              0.131,
+              0.131
+            ]
+          },
+          "item_03": {
+            "bin": "meta__drawer0_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.015
+            ],
+            "footprint_m": [
+              0.126,
+              0.277
+            ],
+            "center_xy_m": [
+              0.078,
+              0.1535
+            ]
+          },
+          "comparison_negative_0": {
+            "bin": "meta__drawer0_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.156,
+              0.015
+            ],
+            "footprint_m": [
+              0.17,
+              0.17
+            ],
+            "center_xy_m": [
+              0.241,
+              0.1
+            ]
+          },
+          "item_07": {
+            "bin": "meta__drawer2_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.32,
+              0.015
+            ],
+            "footprint_m": [
+              0.126,
+              0.126
+            ],
+            "center_xy_m": [
+              0.383,
+              0.078
+            ]
+          },
+          "item_09": {
+            "bin": "meta__drawer1_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.262,
+              0.015
+            ],
+            "footprint_m": [
+              0.126,
+              0.088
+            ],
+            "center_xy_m": [
+              0.325,
+              0.059000000000000004
+            ]
+          }
+        }
+      },
+      "variant": 94,
+      "task_local_model_experience": [],
+      "removed_uninstantiated_open_state": null,
+      "preserved": [
+        "instruction",
+        "goal",
+        "target",
+        "robot",
+        "spawn",
+        "all task items and counts",
+        "relation types"
+      ]
+    }
+  ],
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/reviewed_followup_005_F235/asset_F235_01/scenario.yaml",
+  "removed_compiler_links": [],
+  "physical_validation_required": true
+}

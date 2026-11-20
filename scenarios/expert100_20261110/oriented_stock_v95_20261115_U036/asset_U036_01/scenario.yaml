@@ -1,0 +1,193 @@
+id: asset_U036_01
+instruction: The boxed router needs to go back to the shop. Collect it from the study
+  purchases and put it on the desk in front of you in the study for packing.
+scene:
+  model: Pomaria_0_int
+  source: behavior
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - -6.300000000000001
+    - -1.4000000000000001
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.8384922379048738
+    - 0.5449135408239334
+target:
+  entity: item_00
+  category: boxed_router
+objects:
+- name: item_00
+  category: boxed_router
+  model: dsgtpk
+- name: item_01
+  category: hard_drive
+  model: ijibkm
+- name: item_02
+  category: boxed_cpu_board
+  model: xlqvil
+- name: item_03
+  category: modem
+  model: axqxsv
+- name: item_04
+  category: router
+  model: tokdic
+- name: item_05
+  category: hard_drive
+  model: ijibkm
+- name: item_06
+  category: boxed_cpu_board
+  model: xlqvil
+- name: item_07
+  category: modem
+  model: axqxsv
+- name: item_08
+  category: router
+  model: tokdic
+- name: delivery_surface
+  category: desk
+  model: tmluxa
+  fixed_base: true
+placements:
+- entity: item_00
+  relation: on_top
+  receptacle: breakfast_table_idnnmz_0
+  orientation_hint_xyzw:
+  - 0.0
+  - 0.7071067811865475
+  - 0.0
+  - 0.7071067811865476
+  position_xy:
+  - -8.3
+  - -1.9480000000000002
+- entity: item_01
+  relation: on_top
+  receptacle: breakfast_table_idnnmz_0
+  position_xy:
+  - -8.07
+  - -1.7905000000000002
+- entity: item_02
+  relation: on_top
+  receptacle: breakfast_table_idnnmz_0
+  orientation_hint_xyzw:
+  - 0.0
+  - 0.7071067811865475
+  - 0.0
+  - 0.7071067811865476
+  position_xy:
+  - -8.015
+  - -2.0005
+- entity: item_03
+  relation: on_top
+  receptacle: breakfast_table_idnnmz_0
+  orientation_hint_xyzw:
+  - 0.7071067811865475
+  - 0.0
+  - 0.0
+  - 0.7071067811865476
+  position_xy:
+  - -8.0975
+  - -0.6355000000000002
+- entity: item_04
+  relation: on_top
+  receptacle: breakfast_table_idnnmz_0
+  position_xy:
+  - -8.1075
+  - -0.903
+- entity: item_05
+  relation: on_top
+  receptacle: breakfast_table_idnnmz_0
+  position_xy:
+  - -7.925000000000001
+  - -1.7905000000000002
+- entity: item_06
+  relation: on_top
+  receptacle: breakfast_table_idnnmz_0
+  orientation_hint_xyzw:
+  - 0.0
+  - 0.7071067811865475
+  - 0.0
+  - 0.7071067811865476
+  position_xy:
+  - -8.33
+  - -1.5855000000000001
+- entity: item_07
+  relation: on_top
+  receptacle: breakfast_table_idnnmz_0
+  orientation_hint_xyzw:
+  - 0.7071067811865475
+  - 0.0
+  - 0.0
+  - 0.7071067811865476
+  position_xy:
+  - -7.887500000000001
+  - -0.6355000000000002
+- entity: item_08
+  relation: on_top
+  receptacle: breakfast_table_idnnmz_0
+  position_xy:
+  - -7.9175
+  - -0.903
+- entity: delivery_surface
+  relation: on_top
+  receptacle: floors_elvhyh_0
+  position_xy:
+  - -6.7
+  - -0.5
+initial_states:
+  bottom_cabinet_no_top_spojpj_0:
+    open: false
+goal:
+- kind: on_top
+  entity: item_00
+  receptacle: delivery_surface
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

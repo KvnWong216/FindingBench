@@ -1,0 +1,466 @@
+{
+  "tasks": [
+    {
+      "id": "asset_P144_01",
+      "family": "semantic_P144",
+      "scene": "Wainscott_0_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/full_queue_866c64bb754e_P144/asset_P144_01/scenario.yaml",
+      "scenario_sha256": "fd0b84da00661b2bffb663e7c984d344d293cb17149933a26d9afeac958e4952",
+      "instruction": "There is a sample on the table in front of you in the living room. Find the paperback matching that sample among the bedroom books and bring it to the table in front of you in the living room in the living room.",
+      "target_key": "paperback_book/fvzdec",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "bedroom_0",
+      "destination_room": "living_room_2",
+      "source_receptacle": "bottom_cabinet_dajebq_0",
+      "destination_receptacle": "coffee_table_dnsjnv_0",
+      "object_count": 12,
+      "distractor_count": 10,
+      "source_survey_sha256": "bfc3f55c9661a7a599b91007a0d13bfe6624ef15110725894b31404980af12ee",
+      "route": {
+        "start": [
+          -3.2,
+          -2.9000000000000004,
+          3.141592653589793
+        ],
+        "path_xy": [
+          [
+            -3.2,
+            -2.9000000000000004
+          ],
+          [
+            -3.1,
+            -2.9000000000000004
+          ],
+          [
+            -3.0,
+            -2.9000000000000004
+          ],
+          [
+            -2.9000000000000004,
+            -2.9000000000000004
+          ],
+          [
+            -2.8000000000000003,
+            -2.9000000000000004
+          ],
+          [
+            -2.7,
+            -2.9000000000000004
+          ],
+          [
+            -2.6,
+            -2.9000000000000004
+          ],
+          [
+            -2.5,
+            -2.9000000000000004
+          ],
+          [
+            -2.4000000000000004,
+            -2.9000000000000004
+          ],
+          [
+            -2.4000000000000004,
+            -3.0
+          ],
+          [
+            -2.3000000000000003,
+            -3.0
+          ],
+          [
+            -2.2,
+            -3.0
+          ],
+          [
+            -2.2,
+            -3.1
+          ],
+          [
+            -2.1,
+            -3.1
+          ],
+          [
+            -2.1,
+            -3.2
+          ],
+          [
+            -2.1,
+            -3.3000000000000003
+          ],
+          [
+            -2.1,
+            -3.4000000000000004
+          ],
+          [
+            -2.1,
+            -3.5
+          ],
+          [
+            -2.0,
+            -3.5
+          ]
+        ],
+        "length_m": 1.8,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 14,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "comparison_sample",
+        "comparison_negative_0",
+        "comparison_negative_1",
+        "bottom_cabinet_dajebq_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_dajebq_0",
+            "volume_extents_m": {
+              "meta__base_link_fillable_0_0_link#component:0": [
+                0.3540855558764069,
+                0.9811452143736206,
+                0.2856079660783142
+              ],
+              "meta__base_link_fillable_0_0_link#component:1": [
+                0.35408861205986253,
+                0.9808577126936935,
+                0.285816207118801
+              ],
+              "meta__base_link_fillable_0_0_link#component:2": [
+                0.35408713815578463,
+                0.9807706608043449,
+                0.288188077626628
+              ],
+              "meta__base_link_fillable_0_0_link#component:3": [
+                0.3611215404430912,
+                0.980284995629505,
+                0.3759275828680413
+              ],
+              "meta__base_link_fillable_0_0_link#component:4": [
+                0.3613712044939113,
+                0.9802865960364706,
+                0.349595729037518
+              ]
+            },
+            "native_links": {
+              "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:3": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:4": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet/dajebq",
+              "scale": [
+                1.4545886516571045,
+                1.9178837537765503,
+                2.139132261276245
+              ],
+              "encrypted_asset_sha256": "79b9d218ade6a8e9097bec53cc4384b06a832160355ecbbe34512413fb816773",
+              "metadata_sha256": "0ce33b960ac13e706b0f2b3b2609e9c88845c42987414e3ed291c2d38f58fda1",
+              "root_orientation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.07107163313776255,
+              "nodes": 11,
+              "candidate_tests": 214099,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_05": "meta__base_link_fillable_0_0_link#component:3",
+                "item_00": "meta__base_link_fillable_0_0_link#component:4",
+                "comparison_negative_1": "meta__base_link_fillable_0_0_link#component:0",
+                "item_01": "meta__base_link_fillable_0_0_link#component:1",
+                "item_08": "meta__base_link_fillable_0_0_link#component:2",
+                "item_03": "meta__base_link_fillable_0_0_link#component:1",
+                "comparison_negative_0": "meta__base_link_fillable_0_0_link#component:2",
+                "item_07": "meta__base_link_fillable_0_0_link#component:4",
+                "item_02": "meta__base_link_fillable_0_0_link#component:0",
+                "item_06": "meta__base_link_fillable_0_0_link#component:0",
+                "item_04": "meta__base_link_fillable_0_0_link#component:4"
+              },
+              "poses": {
+                "item_05": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:3",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.28500000000000003,
+                    0.384
+                  ],
+                  "center_xy_m": [
+                    0.1475,
+                    0.197
+                  ]
+                },
+                "item_00": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:4",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.308,
+                    0.223
+                  ],
+                  "center_xy_m": [
+                    0.159,
+                    0.1165
+                  ]
+                },
+                "comparison_negative_1": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.306,
+                    0.22
+                  ],
+                  "center_xy_m": [
+                    0.158,
+                    0.115
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.298,
+                    0.212
+                  ],
+                  "center_xy_m": [
+                    0.154,
+                    0.111
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:2",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.298,
+                    0.212
+                  ],
+                  "center_xy_m": [
+                    0.154,
+                    0.111
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.222
+                  ],
+                  "footprint_m": [
+                    0.263,
+                    0.192
+                  ],
+                  "center_xy_m": [
+                    0.1365,
+                    0.318
+                  ]
+                },
+                "comparison_negative_0": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:2",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.222
+                  ],
+                  "footprint_m": [
+                    0.21,
+                    0.166
+                  ],
+                  "center_xy_m": [
+                    0.11,
+                    0.305
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:4",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.233
+                  ],
+                  "footprint_m": [
+                    0.17200000000000001,
+                    0.167
+                  ],
+                  "center_xy_m": [
+                    0.091,
+                    0.3165
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.23
+                  ],
+                  "footprint_m": [
+                    0.194,
+                    0.131
+                  ],
+                  "center_xy_m": [
+                    0.10200000000000001,
+                    0.2955
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.20400000000000001,
+                    0.23
+                  ],
+                  "footprint_m": [
+                    0.092,
+                    0.23600000000000002
+                  ],
+                  "center_xy_m": [
+                    0.25,
+                    0.34800000000000003
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:4",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.182,
+                    0.233
+                  ],
+                  "footprint_m": [
+                    0.161,
+                    0.12
+                  ],
+                  "center_xy_m": [
+                    0.2625,
+                    0.293
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_00": "meta__base_link_fillable_0_0_link",
+              "comparison_negative_1": "meta__base_link_fillable_0_0_link",
+              "item_01": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link",
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "comparison_negative_0": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link",
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_05": "meta__base_link_fillable_0_0_link#component:3",
+              "item_00": "meta__base_link_fillable_0_0_link#component:4",
+              "comparison_negative_1": "meta__base_link_fillable_0_0_link#component:0",
+              "item_01": "meta__base_link_fillable_0_0_link#component:1",
+              "item_08": "meta__base_link_fillable_0_0_link#component:2",
+              "item_03": "meta__base_link_fillable_0_0_link#component:1",
+              "comparison_negative_0": "meta__base_link_fillable_0_0_link#component:2",
+              "item_07": "meta__base_link_fillable_0_0_link#component:4",
+              "item_02": "meta__base_link_fillable_0_0_link#component:0",
+              "item_06": "meta__base_link_fillable_0_0_link#component:0",
+              "item_04": "meta__base_link_fillable_0_0_link#component:4"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "comparison_negative_1": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "comparison_negative_0": "meta__base_link_fillable_0_0_link",
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link"
+        },
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [],
+      "parent_task_id": "P144",
+      "tier": "long",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_P144_01",
+        "parent_task_id": "P144",
+        "before_instruction": "Find the paperback whose cover shows three bears under a green tree among bedroom books and put it on the living-room coffee table.",
+        "after_instruction": "There is a sample on the table in front of you in the living room. Find the paperback matching that sample among the bedroom books and bring it to the table in front of you in the living room in the living room.",
+        "reason": "Replaces unverified bear-count and green-tree cover attributes with physical publication matching. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "paperback_book/fvzdec",
+        "target_assets": [
+          "paperback_book/fvzdec"
+        ]
+      },
+      "binding_sha256": "fb409996856a94835bbcde8a21b6196d717234416c4fe5abc24864f8f0ff6072"
+    }
+  ]
+}

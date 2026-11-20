@@ -1,0 +1,477 @@
+{
+  "status": "proposed",
+  "record": {
+    "id": "asset_U297_01",
+    "family": "semantic_U297",
+    "scene": "Pomaria_0_int",
+    "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_279_U297_expert_24bde59cfaa5/asset_U297_01/scenario.yaml",
+    "scenario_sha256": "98dcd222c0e8ad3125eab8c3028fd0bc84fd730b435c4395f663882f88cd548f",
+    "instruction": "Retrieve the microscope from the study storage science supplies and put it on the desk in front of you in the study in the study for examining the specimen.",
+    "target_key": "microscope/ktzwez",
+    "target_entities": [
+      "item_00"
+    ],
+    "target_count": 1,
+    "source_room": "private_office_0",
+    "destination_room": "private_office_0",
+    "source_receptacle": "search_storage",
+    "destination_receptacle": "delivery_surface",
+    "object_count": 11,
+    "distractor_count": 8,
+    "source_survey_sha256": "5f126672121f241779c0ea9705424fa8ac90469f422772fc224ad7184f7883fc",
+    "route": {
+      "start": [
+        -5.9,
+        -1.0,
+        3.141592653589793
+      ],
+      "path_xy": [
+        [
+          -5.9,
+          -1.0
+        ]
+      ],
+      "length_m": 0.0,
+      "grid_m": 0.1,
+      "base_radius_m": 0.38355339059327376,
+      "endpoint_free_patch_radius_m": 0.2,
+      "source_approach_count": 5,
+      "destination_approach_count": 6,
+      "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+    },
+    "status": "static_screened_physics_pending",
+    "human_reference_steps": null,
+    "required_gates": [
+      "fresh_native_initialization",
+      "stable_dense_layout",
+      "target_CHECK_identifiability",
+      "all_yaw_live_navigation_and_tolerant_endpoints",
+      "reachable_open_grasp_place",
+      "initial_goal_false",
+      "human_completion"
+    ],
+    "restoration_entities": [
+      "item_01",
+      "item_02",
+      "item_03",
+      "item_04",
+      "item_05",
+      "item_06",
+      "item_07",
+      "item_08",
+      "bottom_cabinet_no_top_spojpj_0",
+      "search_storage"
+    ],
+    "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+    "inserted_furniture": [
+      {
+        "name": "delivery_surface",
+        "category": "desk",
+        "model": "tmluxa",
+        "floor": "floors_elvhyh_0",
+        "position_xy": [
+          -6.7,
+          -0.5
+        ],
+        "aabb": [
+          [
+            -6.95371273803711,
+            -0.8538818969726563,
+            0.0
+          ],
+          [
+            -6.44628726196289,
+            -0.14611810302734374,
+            0.7001053161621094
+          ]
+        ],
+        "room": "private_office_0"
+      },
+      {
+        "name": "search_storage",
+        "category": "bottom_cabinet_no_top",
+        "model": "vzzafs",
+        "floor": "floors_elvhyh_0",
+        "position_xy": [
+          -6.4,
+          -1.8000000000000003
+        ],
+        "aabb": [
+          [
+            -6.726364059448242,
+            -2.0264886016845707,
+            0.0
+          ],
+          [
+            -6.073635940551759,
+            -1.5735113983154299,
+            0.8682071838378906
+          ]
+        ],
+        "room": "private_office_0"
+      }
+    ],
+    "parent_task_id": "U297",
+    "tier": "short",
+    "physics_status": "pending",
+    "adaptation": {
+      "id": "asset_U297_01",
+      "parent_task_id": "U297",
+      "before_instruction": "The specimen on the study desk needs more magnification than the hand lens. Find the compact microscope among the storage room's science equipment and put it beside the specimen.",
+      "after_instruction": "Retrieve the microscope from the study storage science supplies and put it on the desk in front of you in the study in the study for examining the specimen.",
+      "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; The microscope must be compact enough for the desk setup; the allocated approximately 0.48 m high model has not been reviewed against that subtype. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: storage_room/cabinet -> private_office/desk becomes private_office/cabinet -> private_office/desk. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+      "target_asset": "microscope/ktzwez",
+      "target_assets": [
+        "microscope/ktzwez"
+      ]
+    },
+    "binding_sha256": "4deb06522f352b95a3bcf231a24187eacee92585c0641a5823bbb646839ad067",
+    "layout_preflight": {
+      "status": "heuristic_fit",
+      "findings": [
+        {
+          "receptacle": "search_storage",
+          "volume_extents_m": {
+            "meta__base_link_fillable_0_0_link": [
+              0.5315370221138,
+              0.39102343478868673,
+              0.6658233661651611
+            ]
+          },
+          "native_links": {
+            "meta__base_link_fillable_0_0_link": "meta__base_link_fillable_0_0_link"
+          },
+          "geometry_source": "offline_asset_hint",
+          "geometry_provenance": {
+            "asset": "bottom_cabinet_no_top/vzzafs",
+            "scale": [
+              1,
+              1,
+              1
+            ],
+            "encrypted_asset_sha256": "b4daa08616feaef1a73fc5cb01bcd60c278fad77ff3d5bda42d007a631e01515",
+            "metadata_sha256": "f0ba45ae134ef2c37866c9bb0186200606042fb03eafed9783116a94253ac4bf",
+            "root_orientation": [
+              0,
+              0,
+              0,
+              1
+            ],
+            "coordinates": "size_only_not_world_positions",
+            "physical_validation_required": true
+          },
+          "status": "heuristic_fit",
+          "solver": {
+            "status": "feasible_model",
+            "device": "cuda",
+            "backend": "torch_cuda_finite_csp",
+            "solve_seconds": 0.02040355931967497,
+            "nodes": 6,
+            "candidate_tests": 31408,
+            "search_orders_tried": 1,
+            "grid_m": 0.001,
+            "margin_m": 0.005,
+            "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+            "physical_validation_required": true,
+            "assignment": {
+              "item_00": "meta__base_link_fillable_0_0_link",
+              "item_01": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link",
+              "item_03": "meta__base_link_fillable_0_0_link"
+            },
+            "poses": {
+              "item_00": {
+                "bin": "meta__base_link_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.005
+                ],
+                "footprint_m": [
+                  0.268,
+                  0.199
+                ],
+                "center_xy_m": [
+                  0.139,
+                  0.1045
+                ]
+              },
+              "item_01": {
+                "bin": "meta__base_link_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.278,
+                  0.005
+                ],
+                "footprint_m": [
+                  0.228,
+                  0.10300000000000001
+                ],
+                "center_xy_m": [
+                  0.392,
+                  0.0565
+                ]
+              },
+              "item_05": {
+                "bin": "meta__base_link_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.278,
+                  0.113
+                ],
+                "footprint_m": [
+                  0.138,
+                  0.163
+                ],
+                "center_xy_m": [
+                  0.34700000000000003,
+                  0.1945
+                ]
+              },
+              "item_04": {
+                "bin": "meta__base_link_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.209
+                ],
+                "footprint_m": [
+                  0.124,
+                  0.129
+                ],
+                "center_xy_m": [
+                  0.067,
+                  0.2735
+                ]
+              },
+              "item_02": {
+                "bin": "meta__base_link_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.134,
+                  0.209
+                ],
+                "footprint_m": [
+                  0.108,
+                  0.106
+                ],
+                "center_xy_m": [
+                  0.188,
+                  0.262
+                ]
+              },
+              "item_03": {
+                "bin": "meta__base_link_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.421,
+                  0.113
+                ],
+                "footprint_m": [
+                  0.031,
+                  0.128
+                ],
+                "center_xy_m": [
+                  0.4365,
+                  0.177
+                ]
+              }
+            }
+          },
+          "assignment": {
+            "item_00": "meta__base_link_fillable_0_0_link",
+            "item_01": "meta__base_link_fillable_0_0_link",
+            "item_05": "meta__base_link_fillable_0_0_link",
+            "item_04": "meta__base_link_fillable_0_0_link",
+            "item_02": "meta__base_link_fillable_0_0_link",
+            "item_03": "meta__base_link_fillable_0_0_link"
+          },
+          "component_allocation": {
+            "item_00": "meta__base_link_fillable_0_0_link",
+            "item_01": "meta__base_link_fillable_0_0_link",
+            "item_05": "meta__base_link_fillable_0_0_link",
+            "item_04": "meta__base_link_fillable_0_0_link",
+            "item_02": "meta__base_link_fillable_0_0_link",
+            "item_03": "meta__base_link_fillable_0_0_link"
+          }
+        },
+        {
+          "receptacle": "bottom_cabinet_no_top_spojpj_0",
+          "volume_extents_m": {
+            "meta__base_link_fillable_0_0_link#component:0": [
+              0.47778748757643297,
+              0.7533896995103886,
+              0.17911914148513677
+            ],
+            "meta__base_link_fillable_0_0_link#component:1": [
+              0.47957378669274847,
+              0.7552043790479293,
+              0.20087095049054082
+            ],
+            "meta__base_link_fillable_0_0_link#component:2": [
+              0.48415563986783583,
+              0.7562513069118342,
+              0.20778712613745862
+            ]
+          },
+          "native_links": {
+            "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+            "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+            "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+          },
+          "geometry_source": "offline_asset_hint",
+          "geometry_provenance": {
+            "asset": "bottom_cabinet_no_top/spojpj",
+            "scale": [
+              1.2320706844329834,
+              1.2762794494628906,
+              1.4180110692977905
+            ],
+            "encrypted_asset_sha256": "b1a8387eba4405101e82da8fc1a934432b2f15dfaf23df29ca85b10f676830d9",
+            "metadata_sha256": "821af7f29773bfc2aa846ad7360069c7f643f3d0cf7d09e47400953b401bb4e3",
+            "root_orientation": [
+              0.0,
+              0.0,
+              0.7071068286895752,
+              -0.7071067094802856
+            ],
+            "coordinates": "size_only_not_world_positions",
+            "physical_validation_required": true
+          },
+          "status": "heuristic_fit",
+          "solver": {
+            "status": "feasible_model",
+            "device": "cuda",
+            "backend": "torch_cuda_finite_csp",
+            "solve_seconds": 0.011027634143829346,
+            "nodes": 0,
+            "candidate_tests": 0,
+            "search_orders_tried": 0,
+            "grid_m": 0.001,
+            "margin_m": 0.005,
+            "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+            "physical_validation_required": true,
+            "assignment": {
+              "item_06": "meta__base_link_fillable_0_0_link#component:0",
+              "item_07": "meta__base_link_fillable_0_0_link#component:0",
+              "item_08": "meta__base_link_fillable_0_0_link#component:0"
+            },
+            "poses": {
+              "item_06": {
+                "bin": "meta__base_link_fillable_0_0_link#component:0",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.005
+                ],
+                "footprint_m": [
+                  0.228,
+                  0.10300000000000001
+                ],
+                "center_xy_m": [
+                  0.11900000000000001,
+                  0.0565
+                ]
+              },
+              "item_07": {
+                "bin": "meta__base_link_fillable_0_0_link#component:0",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.113
+                ],
+                "footprint_m": [
+                  0.108,
+                  0.106
+                ],
+                "center_xy_m": [
+                  0.059,
+                  0.166
+                ]
+              },
+              "item_08": {
+                "bin": "meta__base_link_fillable_0_0_link#component:0",
+                "yaw_degrees": 90,
+                "lower_xy_m": [
+                  0.005,
+                  0.224
+                ],
+                "footprint_m": [
+                  0.128,
+                  0.031
+                ],
+                "center_xy_m": [
+                  0.069,
+                  0.2395
+                ]
+              }
+            },
+            "constructive_witness": "single strip; exact quantized box and clearance checks"
+          },
+          "assignment": {
+            "item_06": "meta__base_link_fillable_0_0_link",
+            "item_07": "meta__base_link_fillable_0_0_link",
+            "item_08": "meta__base_link_fillable_0_0_link"
+          },
+          "component_allocation": {
+            "item_06": "meta__base_link_fillable_0_0_link#component:0",
+            "item_07": "meta__base_link_fillable_0_0_link#component:0",
+            "item_08": "meta__base_link_fillable_0_0_link#component:0"
+          }
+        }
+      ],
+      "prefer_alternative_layout": false,
+      "assignments": {
+        "item_00": "meta__base_link_fillable_0_0_link",
+        "item_01": "meta__base_link_fillable_0_0_link",
+        "item_05": "meta__base_link_fillable_0_0_link",
+        "item_04": "meta__base_link_fillable_0_0_link",
+        "item_02": "meta__base_link_fillable_0_0_link",
+        "item_03": "meta__base_link_fillable_0_0_link",
+        "item_06": "meta__base_link_fillable_0_0_link",
+        "item_07": "meta__base_link_fillable_0_0_link",
+        "item_08": "meta__base_link_fillable_0_0_link"
+      },
+      "physical_validation_required": true
+    },
+    "scene_fixture_replacements": [
+      {
+        "entity": "search_storage",
+        "replacement_entity": "search_storage",
+        "before_asset": "bottom_cabinet/jrhgeu",
+        "after_asset": "bottom_cabinet_no_top/vzzafs",
+        "before_aabb": [
+          [
+            -6.5671447601318365,
+            -2.142287979125977,
+            0.0
+          ],
+          [
+            -6.232855239868164,
+            -1.4577120208740235,
+            0.6846599731445313
+          ]
+        ],
+        "after_aabb": [
+          [
+            -6.726364059448242,
+            -2.0264886016845707,
+            0.0
+          ],
+          [
+            -6.073635940551759,
+            -1.5735113983154299,
+            0.8682071838378906
+          ]
+        ],
+        "source_sha256": "a3e36e582c011eb3057044a8acc1b76105017eaf8bd4708051085203a0f66b02",
+        "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_gpu_new_20261106/asset_U297_01",
+        "reason": "Replace failed source at its existing site; adding another fixture consumes its approach space",
+        "physical_validation_required": true
+      }
+    ]
+  },
+  "reused_immutable_candidate": true
+}

@@ -1,0 +1,71 @@
+{
+  "status": "surface_body_binding_corrected_physics_pending",
+  "changes": [
+    {
+      "field": "goal",
+      "entity": "item_00",
+      "before": "bottom_cabinet_no_top_pluwfl_0",
+      "after": "countertop_tpuwys_0"
+    }
+  ],
+  "destination_approach_patch": {
+    "contact_body": "countertop_tpuwys_0",
+    "above_fixture": "bottom_cabinet_no_top_pluwfl_0",
+    "aabb": [
+      [
+        -0.169,
+        -7.091,
+        0.851
+      ],
+      [
+        0.848,
+        -6.513,
+        0.87
+      ]
+    ],
+    "scope": "private route proposal to a subset of the actual slab; no synthetic body"
+  },
+  "geometry": {
+    "bottom_cabinet_no_top_pluwfl_0": {
+      "before": [
+        [
+          -0.171,
+          -7.092,
+          0.005
+        ],
+        [
+          0.848,
+          -6.513,
+          0.845
+        ]
+      ],
+      "after": [
+        [
+          -0.169,
+          -7.091,
+          0.851
+        ],
+        [
+          1.407,
+          -6.494,
+          0.87
+        ]
+      ]
+    }
+  },
+  "source_survey": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/vla_difficulty_v2/_survey/Beechwood_0_int.json",
+  "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/pinpoint_v22_F019/asset_F019_01/scenario.yaml",
+  "original_scenario_sha256": "879096f6c19918113c6cc22723b7f7d16ef417651c5716cb4cd2436cfa7b2d9f",
+  "reason": "Native OnTop requires touching the named body; a separate measured slab covers the named cabinet.",
+  "preserved": [
+    "instruction",
+    "all object models and counts",
+    "target identities",
+    "relation kinds",
+    "spawn",
+    "robot and skills",
+    "physical delivery location"
+  ],
+  "physical_validation_required": true
+}

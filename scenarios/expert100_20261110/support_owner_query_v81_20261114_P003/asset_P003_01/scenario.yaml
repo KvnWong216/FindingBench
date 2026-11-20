@@ -1,0 +1,185 @@
+id: asset_P003_01
+instruction: There is a sample on the counter in front of you in the bathroom. Find
+  the comb matching that sample in the bathroom vanity drawers and put it on the counter
+  in front of you in the bathroom.
+scene:
+  model: Beechwood_1_int
+  source: behavior
+  clearance_manifest: /home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/pinpoint_20261114/P003/candidate_alias_v2/asset_P003_01/clearance_f3fd4c1876cd88d7.json
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - -6.9
+    - -2.9000000000000004
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - -0.7071067811865475
+    - 0.7071067811865476
+target:
+  entity: item_00
+  category: comb
+objects:
+- name: item_00
+  category: comb
+  model: lqnwhb
+- name: item_01
+  category: bobby_pin
+  model: zphpcz
+- name: item_02
+  category: razor
+  model: jocsgp
+- name: item_03
+  category: bobby_pin
+  model: zphpcz
+- name: item_04
+  category: razor
+  model: jocsgp
+- name: item_05
+  category: bobby_pin
+  model: zphpcz
+- name: item_06
+  category: razor
+  model: jocsgp
+- name: item_07
+  category: bobby_pin
+  model: zphpcz
+- name: item_08
+  category: razor
+  model: jocsgp
+- name: comparison_sample
+  category: comb
+  model: lqnwhb
+- name: comparison_negative_0
+  category: comb
+  model: yopqrq
+- name: comparison_negative_1
+  category: comb
+  model: nybyjz
+- name: expert_storage_93
+  category: bottom_cabinet
+  model: immwzb
+  fixed_base: true
+- name: replacement_bottom_cabinet_no_top_pluwfl_1
+  category: bottom_cabinet
+  model: rvpunw
+  fixed_base: true
+- name: drawer_support_cac7c0d0
+  category: notebook
+  model: gqkaqu
+  fixed_base: false
+placements:
+- entity: item_00
+  relation: inside
+  receptacle: replacement_bottom_cabinet_no_top_pluwfl_1
+- entity: item_01
+  relation: inside
+  receptacle: replacement_bottom_cabinet_no_top_pluwfl_1
+- entity: item_02
+  relation: inside
+  receptacle: bottom_cabinet_no_top_pluwfl_0
+- entity: item_03
+  relation: inside
+  receptacle: replacement_bottom_cabinet_no_top_pluwfl_1
+- entity: item_04
+  relation: inside
+  receptacle: bottom_cabinet_no_top_pluwfl_0
+- entity: item_05
+  relation: inside
+  receptacle: replacement_bottom_cabinet_no_top_pluwfl_1
+- entity: item_06
+  relation: inside
+  receptacle: bottom_cabinet_no_top_pluwfl_0
+- entity: item_07
+  relation: inside
+  receptacle: replacement_bottom_cabinet_no_top_pluwfl_1
+- entity: item_08
+  relation: inside
+  receptacle: bottom_cabinet_no_top_pluwfl_0
+- entity: comparison_sample
+  relation: on_top
+  receptacle: countertop_tpuwys_1
+  position_xy:
+  - -7.141
+  - -3.741
+- entity: comparison_negative_0
+  relation: inside
+  receptacle: replacement_bottom_cabinet_no_top_pluwfl_1
+- entity: comparison_negative_1
+  relation: inside
+  receptacle: expert_storage_93
+- entity: expert_storage_93
+  relation: on_top
+  receptacle: floors_igemfx_0
+  position_xy:
+  - -5.5
+  - -2.7
+- entity: replacement_bottom_cabinet_no_top_pluwfl_1
+  relation: on_top
+  receptacle: floors_igemfx_0
+  position_xy:
+  - -7.94
+  - -2.9655
+- entity: drawer_support_cac7c0d0
+  relation: inside
+  receptacle: replacement_bottom_cabinet_no_top_pluwfl_1
+initial_states:
+  bottom_cabinet_no_top_pluwfl_0:
+    open: false
+  expert_storage_93:
+    open: false
+  replacement_bottom_cabinet_no_top_pluwfl_1:
+    open: false
+goal:
+- kind: on_top
+  entity: item_00
+  receptacle: countertop_tpuwys_1
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

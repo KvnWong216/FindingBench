@@ -1,0 +1,71 @@
+task_id: X06004
+family: fetch
+scene: Wainscott_1_int
+source:
+  official_activity: moving_boxes_to_storage#0
+  official_activities_with_same_subgoal:
+  - moving_boxes_to_storage#0
+  official_subgoal: (ontop storage_container.n.01 floor.n.01)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K Wainscott_1_int (+ clearance manifest)
+  object: BEHAVIOR-1K storage_box/aqdbdu
+start:
+  name: start_bathroom_0_0
+  room: bathroom_0
+  x: 4.22
+  y: 10.36
+  yaw: -3.065
+target:
+  entity: target_obj
+  category: storage_box
+  model: aqdbdu
+  noun: storage box
+  colour_estimate: teal
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S1
+missing_spatial_levels:
+- S2
+- S3
+initial_states: {}
+spatial:
+  S1:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: countertop_tpuwys_0
+    room: bathroom_0
+    location_phrase: the counter in the bathroom
+    grasp_hints:
+    - - 4.672
+      - 11.971
+      - 0.403
+    - - 4.622
+      - 11.921
+      - 0.435
+    - - 4.622
+      - 12.122
+      - 0.194
+    - - 4.572
+      - 12.072
+      - 0.242
+    extra_ops_vs_S1: []
+    probe_visibility_from_start:
+      px: 111
+      delta_e: 28.6
+    task_scope: single_room
+language:
+  L1:
+    S1: Go to the counter in the bathroom, pick up the storage box on it and hold
+      it.
+  L2: Pick up the storage box and keep holding it.
+  L3: I'm moving boxes to storage. Can you find the storage box and hold it for me?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

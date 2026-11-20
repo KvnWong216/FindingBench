@@ -1,0 +1,81 @@
+task_id: T04_apple_to_living_room
+task_name: 把苹果拿到客厅茶几上 (bring the apple to the living-room coffee table)
+family: fetch_and_place_cross_room_goal
+replaces_in_grid: T03_apple_to_fridge   # T03 is blocked: PLACE cannot realise inside(fixed furniture), see docs/phaseB_paper_tasks.md §3
+source:
+  findingbench: scenarios/knife_search_001/scenario.yaml   # scene, apple model agveuv, the knife series' living_room start area
+  official_behavior_analogue: >
+    bringing_water (bottles carried kitchen -> living-room table, ontop goal) and
+    moving_boxes_to_storage (cross-room ontop); same goal form, different scenes
+
+target: {entity: target_apple, category: apple, model: agveuv}
+goal:
+  - {kind: on_top, entity: target_apple, receptacle: coffee_table_qlmqyy_0}   # living_room_0, movable (top_surface region)
+
+# same background as T03 so the two remain comparable if T03 is unblocked later
+background_objects:
+  - {name: bg_bowl,       category: bowl,          model: adciys}
+  - {name: bg_teacup,     category: teacup,        model: cpozxi}
+  - {name: bg_tablespoon, category: tablespoon,    model: huudhe}
+  - {name: bg_tablefork,  category: tablefork,     model: flexrc}
+  - {name: bg_mug,        category: mug,           model: dhnxww}
+  - {name: bg_cutting_board, category: cutting_board, model: aibvew}
+  - {name: bg_plate,      category: plate,         model: aewthq}
+background_placements:
+  - {entity: bg_bowl,          relation: inside, receptacle: bottom_cabinet_no_top_spojpj_0}
+  - {entity: bg_teacup,        relation: inside, receptacle: bottom_cabinet_no_top_spojpj_0}
+  - {entity: bg_tablespoon,    relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: bg_tablefork,     relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: bg_mug,           relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: bg_cutting_board, relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: bg_plate,         relation: on_top, receptacle: breakfast_table_uhrsex_0}
+initial_states:
+  bottom_cabinet_rvpunw_0: {open: false}
+  bottom_cabinet_no_top_qohxjq_0: {open: false}
+  bottom_cabinet_no_top_spojpj_0: {open: false}
+
+spatial:   # identical target locations to T03
+  S1:
+    placement: {entity: target_apple, relation: on_top, receptacle: countertop_tpuwys_4}
+    room: kitchen_0
+    location_phrase: the kitchen island
+    extra_ops_vs_S1: []
+  S2:
+    # certified 2026-10-18 (runs/vla_difficulty_v1/_locations/round3_mug.json): 0 px at start,
+    # 0 px and GRASP infeasible from the interaction pose while closed, 496 px open.
+    # = knife_search_001's original target drawer. rvpunw_0 (old choice) has only
+    # floor-level drawers (z<0.31) that the arm cannot reach.
+    placement: {entity: target_apple, relation: inside, receptacle: bottom_cabinet_no_top_qohxjq_0, link: link_2}
+    room: kitchen_0
+    location_phrase: the top drawer of the cabinet next to the hallway door
+    extra_ops_vs_S1: [OPEN]
+    naturalness_note: an apple in a drawer is a counterfactual location; record when comparing L3
+  S3:
+    # certified 2026-10-18 (round1_mug.json): living_room_0, 0 px from the kitchen
+    # start, GRASP feasible, 7-step route. The office / dining room of the old design
+    # are behind ~0.75 m doors the 0.86 m R1Pro footprint cannot pass
+    # (docs/evidence/vla_difficulty_v1/beechwood_reachability.png).
+    placement: {entity: target_apple, relation: on_top, receptacle: bookcase_owvfik_1}
+    room: living_room_0
+    location_phrase: the low shelf under the TV in the living room
+    extra_ops_vs_S1: [cross-room navigation (open-plan kitchen -> living room)]
+
+language:
+  L1:
+    S1: Go to the kitchen island and pick up the apple on it. Then carry it to the low coffee table in the living room, place it on the table, and report that you are done.
+    S2: Go to the top drawer of the cabinet next to the hallway door and open it. Pick up the apple inside. Then carry it to the low coffee table in the living room, place it on the table, and report that you are done.
+    S3: Go to the office and pick up the apple on one of the desks there. Then carry it to the low coffee table in the living room, place it on the table, and report that you are done.
+  L2: Put the apple on the coffee table in the living room.
+  L3: I'm about to watch TV on the living-room sofa and I'd like a snack. Could you leave the apple on the table in front of me?
+
+l3_ambiguity_check:
+  competing_interpretations: [other snacks, the living-room breakfast table breakfast_table_skczfi_0, handing it over]
+  resolution: >
+    the apple is the only food item; "the table in front of me" while on the sofa
+    (sofa_xhxdqf_0 at y=-9.12) is the coffee table (y=-7.99), not the breakfast
+    table (2.68,-7.44) behind the sofa line; handing over is not in the skill library
+  residual_risk: breakfast_table_skczfi_0 is also in living_room_0 — check in the L3 pilot whether models pick it
+
+verification_needed:
+  - PLACE onto coffee_table_qlmqyy_0 (low table, top ~0.5 m) needs an IK-feasible pose — first run decides
+  - countertop_tpuwys_4, rvpunw_0/link_2, desk_rzyfxk_1 as in T01/T03

@@ -1,0 +1,225 @@
+{
+  "status": "static_screened_physics_pending",
+  "expert_policy": {
+    "method": "relocate_storage",
+    "clear_unstated_links": true,
+    "plan_surfaces": true,
+    "runtime_changes": [
+      "closed_native_bbox_XY",
+      "disjoint_measured_support_patches",
+      "bounded_CUDA_candidate_domains"
+    ],
+    "original_instruction_retained": true,
+    "explicit_location_scope_retained": true,
+    "diagnosis": "surface_or_timeout",
+    "reason": "placement failed verification after physics settled: ['item_00 on_top search_storage']"
+  },
+  "removed_compiler_links": [],
+  "centered_container_placements": [],
+  "explicit_surface_plans": [
+    {
+      "receptacle": "search_storage",
+      "entities": [
+        "item_00",
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08"
+      ],
+      "solver": {
+        "status": "feasible_model",
+        "device": "cuda",
+        "backend": "torch_cuda_finite_csp",
+        "solve_seconds": 0.44494244176894426,
+        "nodes": 9,
+        "candidate_tests": 566024,
+        "search_orders_tried": 1,
+        "grid_m": 0.001,
+        "margin_m": 0.025,
+        "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+        "physical_validation_required": true,
+        "assignment": {
+          "item_05": "surface",
+          "item_03": "surface",
+          "item_00": "surface",
+          "item_01": "surface",
+          "item_07": "surface",
+          "item_02": "surface",
+          "item_08": "surface",
+          "item_04": "surface",
+          "item_06": "surface"
+        },
+        "poses": {
+          "item_05": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.025,
+              0.025
+            ],
+            "footprint_m": [
+              0.211,
+              0.105
+            ],
+            "center_xy_m": [
+              0.1305,
+              0.0775
+            ]
+          },
+          "item_03": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.025,
+              0.155
+            ],
+            "footprint_m": [
+              0.098,
+              0.148
+            ],
+            "center_xy_m": [
+              0.074,
+              0.229
+            ]
+          },
+          "item_00": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.261,
+              0.025
+            ],
+            "footprint_m": [
+              0.04,
+              0.20700000000000002
+            ],
+            "center_xy_m": [
+              0.281,
+              0.1285
+            ]
+          },
+          "item_01": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.148,
+              0.155
+            ],
+            "footprint_m": [
+              0.081,
+              0.08
+            ],
+            "center_xy_m": [
+              0.1885,
+              0.195
+            ]
+          },
+          "item_07": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.148,
+              0.26
+            ],
+            "footprint_m": [
+              0.081,
+              0.08
+            ],
+            "center_xy_m": [
+              0.1885,
+              0.3
+            ]
+          },
+          "item_02": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.254,
+              0.257
+            ],
+            "footprint_m": [
+              0.021,
+              0.116
+            ],
+            "center_xy_m": [
+              0.2645,
+              0.315
+            ]
+          },
+          "item_08": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.3,
+              0.257
+            ],
+            "footprint_m": [
+              0.021,
+              0.116
+            ],
+            "center_xy_m": [
+              0.3105,
+              0.315
+            ]
+          },
+          "item_04": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.025,
+              0.328
+            ],
+            "footprint_m": [
+              0.011,
+              0.079
+            ],
+            "center_xy_m": [
+              0.0305,
+              0.3675
+            ]
+          },
+          "item_06": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.061,
+              0.328
+            ],
+            "footprint_m": [
+              0.051000000000000004,
+              0.021
+            ],
+            "center_xy_m": [
+              0.08650000000000001,
+              0.3385
+            ]
+          }
+        },
+        "authoring_spacing_attempts": [
+          {
+            "margin_m": 0.025,
+            "status": "feasible_model",
+            "reason": null
+          }
+        ]
+      },
+      "physical_validation_required": true
+    }
+  ],
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/reviewed_followup_231_U215/asset_U215_01/scenario.yaml",
+  "original_sha256": "650b1132740b9aac04782cbe6d9049b61d7921f6f6d6d4963deab3687cf43e75",
+  "diagnosis_directory": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/reviewed_followup_231_U215/asset_U215_01",
+  "preserved": [
+    "instruction",
+    "goal",
+    "target",
+    "robot",
+    "spawn",
+    "all original assets",
+    "relation types"
+  ]
+}

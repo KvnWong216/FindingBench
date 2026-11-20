@@ -1,0 +1,15 @@
+# §8/§23/rev§8: stability expressed in simulated seconds; the equivalent
+# physics-step counts derive from physics_hz. Never relaxed to hit quotas.
+gravity: -9.81
+physics_hz: 120.0
+drop_batch_size: 3
+
+settle:
+  stable_linear_velocity_mps: 0.02
+  stable_angular_velocity_rps: 0.10
+  stable_window_sim_seconds: 0.25    # 30 frames at 120 Hz
+  max_settle_sim_seconds: 5.0        # 600 frames at 120 Hz
+
+penetration_tolerance_m: 0.005
+# an object is "escaped" when its XY leaves the workspace radius + margin
+escape_radius_margin_m: 0.75

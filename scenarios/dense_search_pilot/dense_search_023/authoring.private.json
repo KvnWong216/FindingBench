@@ -1,0 +1,80 @@
+{
+  "id": "dense_search_023",
+  "family": "living_cabinet",
+  "scene": "house_double_floor_lower",
+  "scenario": "scenarios/dense_search_pilot/dense_search_023/scenario.yaml",
+  "scenario_sha256": "c2eed965100b6f3312519e8e5d8f298ae0c124f0924ff63fc225ffc656a9d28c",
+  "instruction": "Find the flashlight in the drawers in this living room and put it on the table in front of you.",
+  "target_key": "flashlight",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "bottom_cabinet_rhdbzv_0",
+  "destination_receptacle": "coffee_table_koagbh_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "0a3f401e7605a056f40f88d913d8c052476ef760acf457ac11cb1f76abbe581f",
+  "route": {
+    "start": [
+      4.65,
+      4.25,
+      2.396007657031716
+    ],
+    "path_xy": [
+      [
+        4.65,
+        4.25
+      ],
+      [
+        4.75,
+        4.25
+      ],
+      [
+        4.8500000000000005,
+        4.25
+      ],
+      [
+        4.95,
+        4.25
+      ],
+      [
+        5.050000000000001,
+        4.25
+      ]
+    ],
+    "length_m": 0.4,
+    "grid_m": 0.1,
+    "base_radius_m": 0.5956854249492382,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 53,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_rhdbzv_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "robot_model": "g1_bench"
+}

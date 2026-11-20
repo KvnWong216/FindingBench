@@ -1,0 +1,356 @@
+{
+  "method": "expert_reauthored_generic_storage_on_open_work_surface",
+  "source_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/reviewed_followup_269_U314/asset_U314_01/scenario.yaml",
+  "source_sha256": "8b628ded0ccefeb648fbbb32ca3770b46f324ed5a323e9d03125439356bd096e",
+  "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/reviewed_followup_269_U314/asset_U314_01",
+  "relation_changes": [
+    {
+      "before": {
+        "entity": "item_00",
+        "relation": "inside",
+        "receptacle": "search_storage"
+      },
+      "after": {
+        "entity": "item_00",
+        "relation": "on_top",
+        "receptacle": "search_work_surface",
+        "position_xy": [
+          0.6489997100830079,
+          6.674453765869141
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_01",
+        "relation": "inside",
+        "receptacle": "search_storage"
+      },
+      "after": {
+        "entity": "item_01",
+        "relation": "on_top",
+        "receptacle": "search_work_surface",
+        "position_xy": [
+          0.5679997100830079,
+          6.858953765869141
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_02",
+        "relation": "inside",
+        "receptacle": "search_storage"
+      },
+      "after": {
+        "entity": "item_02",
+        "relation": "on_top",
+        "receptacle": "search_work_surface",
+        "position_xy": [
+          1.0944997100830078,
+          6.579953765869141
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_03",
+        "relation": "inside",
+        "receptacle": "search_storage"
+      },
+      "after": {
+        "entity": "item_03",
+        "relation": "on_top",
+        "receptacle": "search_work_surface",
+        "position_xy": [
+          0.9169997100830078,
+          6.649953765869141
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_04",
+        "relation": "inside",
+        "receptacle": "search_storage"
+      },
+      "after": {
+        "entity": "item_04",
+        "relation": "on_top",
+        "receptacle": "search_work_surface",
+        "position_xy": [
+          0.6809997100830079,
+          6.858953765869141
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_05",
+        "relation": "inside",
+        "receptacle": "search_storage"
+      },
+      "after": {
+        "entity": "item_05",
+        "relation": "on_top",
+        "receptacle": "search_work_surface",
+        "position_xy": [
+          1.0944997100830078,
+          6.715953765869141
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_06",
+        "relation": "inside",
+        "receptacle": "bottom_cabinet_bamfsz_0"
+      },
+      "after": {
+        "entity": "item_06",
+        "relation": "on_top",
+        "receptacle": "search_work_surface",
+        "position_xy": [
+          0.9169997100830078,
+          6.925953765869141
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_07",
+        "relation": "inside",
+        "receptacle": "bottom_cabinet_bamfsz_0"
+      },
+      "after": {
+        "entity": "item_07",
+        "relation": "on_top",
+        "receptacle": "search_work_surface",
+        "position_xy": [
+          0.5679997100830079,
+          6.9029537658691416
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_08",
+        "relation": "inside",
+        "receptacle": "bottom_cabinet_bamfsz_0"
+      },
+      "after": {
+        "entity": "item_08",
+        "relation": "on_top",
+        "receptacle": "search_work_surface",
+        "position_xy": [
+          1.0944997100830078,
+          6.851953765869141
+        ]
+      }
+    }
+  ],
+  "removed_unused_authored_fixtures": [
+    "search_storage"
+  ],
+  "source_surface": "search_work_surface",
+  "plans": [
+    {
+      "receptacle": "search_work_surface",
+      "entities": [
+        "item_00",
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08"
+      ],
+      "solver": {
+        "status": "feasible_model",
+        "device": "cuda",
+        "backend": "torch_cuda_finite_csp",
+        "solve_seconds": 0.018541547935456038,
+        "nodes": 9,
+        "candidate_tests": 168966,
+        "search_orders_tried": 1,
+        "grid_m": 0.001,
+        "margin_m": 0.025,
+        "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+        "physical_validation_required": true,
+        "assignment": {
+          "item_00": "surface",
+          "item_03": "surface",
+          "item_06": "surface",
+          "item_02": "surface",
+          "item_05": "surface",
+          "item_08": "surface",
+          "item_01": "surface",
+          "item_04": "surface",
+          "item_07": "surface"
+        },
+        "poses": {
+          "item_00": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.025,
+              0.025
+            ],
+            "footprint_m": [
+              0.25,
+              0.3
+            ],
+            "center_xy_m": [
+              0.15,
+              0.17500000000000002
+            ]
+          },
+          "item_03": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.3,
+              0.025
+            ],
+            "footprint_m": [
+              0.23600000000000002,
+              0.251
+            ],
+            "center_xy_m": [
+              0.418,
+              0.1505
+            ]
+          },
+          "item_06": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.3,
+              0.301
+            ],
+            "footprint_m": [
+              0.23600000000000002,
+              0.251
+            ],
+            "center_xy_m": [
+              0.418,
+              0.4265
+            ]
+          },
+          "item_02": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.561,
+              0.025
+            ],
+            "footprint_m": [
+              0.069,
+              0.111
+            ],
+            "center_xy_m": [
+              0.5955,
+              0.0805
+            ]
+          },
+          "item_05": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.561,
+              0.161
+            ],
+            "footprint_m": [
+              0.069,
+              0.111
+            ],
+            "center_xy_m": [
+              0.5955,
+              0.2165
+            ]
+          },
+          "item_08": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.561,
+              0.297
+            ],
+            "footprint_m": [
+              0.069,
+              0.111
+            ],
+            "center_xy_m": [
+              0.5955,
+              0.3525
+            ]
+          },
+          "item_01": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.025,
+              0.35000000000000003
+            ],
+            "footprint_m": [
+              0.088,
+              0.019
+            ],
+            "center_xy_m": [
+              0.069,
+              0.3595
+            ]
+          },
+          "item_04": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.138,
+              0.35000000000000003
+            ],
+            "footprint_m": [
+              0.088,
+              0.019
+            ],
+            "center_xy_m": [
+              0.182,
+              0.3595
+            ]
+          },
+          "item_07": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.025,
+              0.394
+            ],
+            "footprint_m": [
+              0.088,
+              0.019
+            ],
+            "center_xy_m": [
+              0.069,
+              0.4035
+            ]
+          }
+        },
+        "authoring_spacing_attempts": [
+          {
+            "margin_m": 0.025,
+            "grid_m": 0.001,
+            "status": "feasible_model",
+            "reason": null
+          }
+        ]
+      },
+      "measured_scene_obstacles": [],
+      "physical_validation_required": true
+    }
+  ],
+  "source_room": "utility_room_0",
+  "reason": "Task names generic storage rather than an enclosed receptacle. Large household equipment and containers are stored on a real work surface among the same unchanged clutter; retain task meaning and all native physical checks.",
+  "physical_validation_required": true,
+  "human_completion_verified": false
+}

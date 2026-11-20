@@ -1,0 +1,150 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F110_01",
+      "family": "semantic_F110",
+      "scene": "Ihlen_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_15_F110_expert_a374ba97efaf/asset_F110_01/scenario.yaml",
+      "scenario_sha256": "176e58aeb71b1e6e8af35a7e36fe8f88be7389efed15748184487bda20a8db95",
+      "instruction": "Find the spatula in the kitchen utensil drawer and bring it to the counter in front of you in the kitchen for cooking pancakes.",
+      "target_key": "spatula/vnymjm",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "kitchen_0",
+      "destination_room": "kitchen_0",
+      "source_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+      "destination_receptacle": "countertop_tpuwys_3",
+      "object_count": 5,
+      "distractor_count": 4,
+      "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+      "route": {
+        "start": [
+          -3.9000000000000004,
+          4.7,
+          -1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            -3.9000000000000004,
+            4.7
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 37,
+        "destination_approach_count": 37,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "bottom_cabinet_no_top_qohxjq_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [],
+      "parent_task_id": "F110",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F110_01",
+        "parent_task_id": "F110",
+        "before_instruction": "Find the kitchen utensil with a broad flat blade used for lifting pancakes and put it beside the frying pan on the counter.",
+        "after_instruction": "Find the spatula in the kitchen utensil drawer and bring it to the counter in front of you in the kitchen for cooking pancakes.",
+        "reason": "Uses the native utensil category instead of asserting a specific broad-blade geometry absent from metadata. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "spatula/vnymjm",
+        "target_assets": [
+          "spatula/vnymjm"
+        ]
+      },
+      "binding_sha256": "0516cbf0af32f176412850c0d9be888f359ce436b1acdbd8a394b7edfed1720e",
+      "surface_binding_revision": {
+        "status": "surface_body_binding_corrected_physics_pending",
+        "changes": [
+          {
+            "field": "goal",
+            "entity": "item_00",
+            "before": "bottom_cabinet_no_top_qohxjq_0",
+            "after": "countertop_tpuwys_3"
+          }
+        ],
+        "destination_approach_patch": {
+          "contact_body": "countertop_tpuwys_3",
+          "above_fixture": "bottom_cabinet_no_top_qohxjq_0",
+          "aabb": [
+            [
+              -4.469,
+              3.565,
+              0.901
+            ],
+            [
+              -3.97,
+              4.148,
+              0.92
+            ]
+          ],
+          "scope": "private route proposal to a subset of the actual slab; no synthetic body"
+        },
+        "geometry": {
+          "bottom_cabinet_no_top_qohxjq_0": {
+            "before": [
+              [
+                -4.469,
+                3.565,
+                0.002
+              ],
+              [
+                -3.97,
+                4.152,
+                0.898
+              ]
+            ],
+            "after": [
+              [
+                -5.058,
+                3.561,
+                0.901
+              ],
+              [
+                -3.501,
+                4.148,
+                0.92
+              ]
+            ]
+          }
+        },
+        "source_survey": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/vla_difficulty_v2/_survey/Ihlen_1_int.json",
+        "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+        "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_F110_01/scenario.yaml",
+        "original_scenario_sha256": "8108a90bfacc0bce77b7781cd57bc72f173488fd19923d117a0a5ad7aeae08a3",
+        "reason": "Native OnTop requires touching the named body; a separate measured slab covers the named cabinet.",
+        "preserved": [
+          "instruction",
+          "all object models and counts",
+          "target identities",
+          "relation kinds",
+          "spawn",
+          "robot and skills",
+          "physical delivery location"
+        ],
+        "physical_validation_required": true
+      }
+    }
+  ]
+}

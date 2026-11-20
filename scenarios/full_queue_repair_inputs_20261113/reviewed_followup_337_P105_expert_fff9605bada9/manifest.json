@@ -1,0 +1,658 @@
+{
+  "tasks": [
+    {
+      "id": "asset_P105_01",
+      "family": "semantic_P105",
+      "scene": "house_double_floor_upper",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_337_P105_expert_fff9605bada9/asset_P105_01/scenario.yaml",
+      "scenario_sha256": "d80a8f6f02de2d0186b647f80accbf452959b627d4188e55d1e890109352cd5d",
+      "instruction": "There is a sample on the cabinet top in front of you in the bedroom. Find a toy figure matching that sample among the living-room toys and bring it to the cabinet top in front of you in the bedroom in the bedroom.",
+      "target_key": "toy_figure/issvzv",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "living_room_0",
+      "destination_room": "bedroom_0",
+      "source_receptacle": "search_storage",
+      "destination_receptacle": "delivery_surface",
+      "object_count": 14,
+      "distractor_count": 10,
+      "source_survey_sha256": "bad4111136351f4ccb189cc8da21449e65bb285de15b8c94024c1d045abd820a",
+      "route": {
+        "start": [
+          -3.4000000000000004,
+          0.8,
+          3.141592653589793
+        ],
+        "path_xy": [
+          [
+            -3.4000000000000004,
+            0.8
+          ],
+          [
+            -3.4000000000000004,
+            0.7000000000000001
+          ],
+          [
+            -3.4000000000000004,
+            0.6000000000000001
+          ],
+          [
+            -3.3000000000000003,
+            0.6000000000000001
+          ],
+          [
+            -3.2,
+            0.6000000000000001
+          ],
+          [
+            -3.1,
+            0.6000000000000001
+          ],
+          [
+            -3.0,
+            0.6000000000000001
+          ],
+          [
+            -2.9000000000000004,
+            0.6000000000000001
+          ],
+          [
+            -2.8000000000000003,
+            0.6000000000000001
+          ],
+          [
+            -2.7,
+            0.6000000000000001
+          ],
+          [
+            -2.6,
+            0.6000000000000001
+          ],
+          [
+            -2.5,
+            0.6000000000000001
+          ],
+          [
+            -2.4000000000000004,
+            0.6000000000000001
+          ],
+          [
+            -2.3000000000000003,
+            0.6000000000000001
+          ],
+          [
+            -2.2,
+            0.6000000000000001
+          ],
+          [
+            -2.1,
+            0.6000000000000001
+          ],
+          [
+            -2.0,
+            0.6000000000000001
+          ],
+          [
+            -1.9000000000000001,
+            0.6000000000000001
+          ],
+          [
+            -1.8,
+            0.6000000000000001
+          ],
+          [
+            -1.7000000000000002,
+            0.6000000000000001
+          ],
+          [
+            -1.6,
+            0.6000000000000001
+          ],
+          [
+            -1.5,
+            0.6000000000000001
+          ],
+          [
+            -1.4000000000000001,
+            0.6000000000000001
+          ],
+          [
+            -1.3,
+            0.6000000000000001
+          ]
+        ],
+        "length_m": 2.3,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "editorial_revision_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "comparison_sample",
+        "comparison_negative_0",
+        "comparison_negative_1",
+        "search_storage"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [
+        {
+          "name": "delivery_surface",
+          "category": "bottom_cabinet",
+          "model": "jrhgeu",
+          "floor": "floors_nlswvt_0",
+          "position_xy": [
+            -4.1000000000000005,
+            1.3
+          ],
+          "aabb": [
+            [
+              -4.267144760131837,
+              0.9577120208740235,
+              0.0
+            ],
+            [
+              -3.9328552398681644,
+              1.6422879791259766,
+              0.6846599731445313
+            ]
+          ],
+          "room": "bedroom_0"
+        },
+        {
+          "name": "search_storage",
+          "category": "wardrobe",
+          "model": "brimns",
+          "floor": "floors_rfqizg_0",
+          "position_xy": [
+            -0.30000000000000004,
+            0.1
+          ],
+          "aabb": [
+            [
+              -0.5600450134277344,
+              -0.29100003051757817,
+              0.0
+            ],
+            [
+              -0.03995498657226565,
+              0.4910000305175781,
+              1.9049998779296875
+            ]
+          ],
+          "room": "living_room_0"
+        }
+      ],
+      "parent_task_id": "P105",
+      "tier": "long",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_P105_01",
+        "parent_task_id": "P105",
+        "before_instruction": "Find the toy car matching the wheel pattern and body shape of the car on the bedroom play shelf among the living-room toys; put it beside that car.",
+        "after_instruction": "There is a sample on the cabinet top in front of you in the bedroom. Find a toy figure matching that sample among the living-room toys and bring it to the cabinet top in front of you in the bedroom in the bedroom.",
+        "reason": "Native-model identity preserves body/wheel matching without separately asserting unverified part measurements. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "toy_figure/issvzv",
+        "target_assets": [
+          "toy_figure/issvzv"
+        ],
+        "editorial_revision_id": "expert_native_household_size_20261114_P105"
+      },
+      "binding_sha256": "f04d5978094c462a86b7786d3e262f2f9a2bbd01ef75cd3e356010b5f48df817",
+      "previous_binding_sha256": "34e39e9804a3748f47dd986e21cf1e7b1dd4b0c71259a6b3a40b1a2607eef327",
+      "editorial_revisions": [
+        {
+          "status": "editorial_revision_physics_pending",
+          "revision_id": "expert_native_household_size_20261114_P105",
+          "authorization": "user_approved_find_and_deliver_rewrite",
+          "reason": "All four native toy cars are 45\u201389 cm long; use three distinct native handheld toy figures while retaining exact sample matching, clutter, entity counts, rooms and delivery.",
+          "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_P105_01/scenario.yaml",
+          "original_archive": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_337_P105_expert_fff9605bada9/_editorial/asset_P105_01/original_scenario.yaml",
+          "original_scenario_sha256": "53ff969701c24cf0965a591510d0cade5adaa88f0964214d9fe6232b033364f9",
+          "revised_scenario_sha256": "c75a5675e3c65d18ca21cfdb76ffac9928cb66416400dad0a57b56cd77039a9e",
+          "before_instruction": "There is a sample on the cabinet top in front of you in the bedroom. Find a toy car matching that sample among the living-room toys and bring it to the cabinet top in front of you in the bedroom in the bedroom.",
+          "after_instruction": "There is a sample on the cabinet top in front of you in the bedroom. Find a toy figure matching that sample among the living-room toys and bring it to the cabinet top in front of you in the bedroom in the bedroom.",
+          "object_changes": [
+            {
+              "before": {
+                "name": "item_00",
+                "category": "toy_car",
+                "model": "ksijjl"
+              },
+              "after": {
+                "name": "item_00",
+                "category": "toy_figure",
+                "model": "issvzv"
+              },
+              "native_bbox_m": [
+                0.14876868438720703,
+                0.1061657485961914,
+                0.14032323986291886
+              ],
+              "metadata_sha256": "e996251a9110e82552cbf297b000805b8ab1fc1a09e21cb1c679daefbb0fe809",
+              "encrypted_asset_sha256": "38c189e0cca398ef25b8d5df781446b22ff7ebf3577c236a171d198d3b24138a"
+            },
+            {
+              "before": {
+                "name": "comparison_sample",
+                "category": "toy_car",
+                "model": "ksijjl"
+              },
+              "after": {
+                "name": "comparison_sample",
+                "category": "toy_figure",
+                "model": "issvzv"
+              },
+              "native_bbox_m": [
+                0.14876868438720703,
+                0.1061657485961914,
+                0.14032323986291886
+              ],
+              "metadata_sha256": "e996251a9110e82552cbf297b000805b8ab1fc1a09e21cb1c679daefbb0fe809",
+              "encrypted_asset_sha256": "38c189e0cca398ef25b8d5df781446b22ff7ebf3577c236a171d198d3b24138a"
+            },
+            {
+              "before": {
+                "name": "comparison_negative_0",
+                "category": "toy_car",
+                "model": "dgnnin"
+              },
+              "after": {
+                "name": "comparison_negative_0",
+                "category": "toy_figure",
+                "model": "fekpjq"
+              },
+              "native_bbox_m": [
+                0.103241455078125,
+                0.11427047729492187,
+                0.08317471694946289
+              ],
+              "metadata_sha256": "996b4e092ecb1f299a8fa8c0a2fcf5c88f3afdb994b400194ca45226270c5290",
+              "encrypted_asset_sha256": "5df40943f4fddb6d9e95e7c9ac92504cb4a2091c9b5d8dee0427978f08d9b961"
+            },
+            {
+              "before": {
+                "name": "comparison_negative_1",
+                "category": "toy_car",
+                "model": "nhtywr"
+              },
+              "after": {
+                "name": "comparison_negative_1",
+                "category": "toy_figure",
+                "model": "cqeowc"
+              },
+              "native_bbox_m": [
+                0.11246259212493896,
+                0.1539401626586914,
+                0.07903120422363281
+              ],
+              "metadata_sha256": "9446e7c5c3ef25798c55cfa0838208a1d18f07ddc8090e5058ba9ebd17950915",
+              "encrypted_asset_sha256": "dacd3948acd72958ce03cb7d1f9a3328ec833ed1287883bf6927d0b3e367c6e6"
+            }
+          ],
+          "surface_binding_changes": [],
+          "before_goal": [
+            {
+              "kind": "on_top",
+              "entity": "item_00",
+              "receptacle": "delivery_surface"
+            }
+          ],
+          "after_goal": [
+            {
+              "kind": "on_top",
+              "entity": "item_00",
+              "receptacle": "delivery_surface"
+            }
+          ],
+          "before_target": {
+            "entity": "item_00",
+            "category": "toy_car"
+          },
+          "after_target": {
+            "entity": "item_00",
+            "category": "toy_figure"
+          },
+          "preserved": [
+            "find-and-deliver paradigm",
+            "goal entity and relation",
+            "scene",
+            "spawn",
+            "robot",
+            "skills",
+            "entity names and count",
+            "placement relations",
+            "target cardinality"
+          ],
+          "physical_validation_required": true,
+          "human_completion_verified": false
+        }
+      ],
+      "storage_model_experience": [],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "search_storage",
+            "volume_extents_m": {
+              "meta__base_link_fillable_0_0_link#component:0": [
+                0.46800010991096497,
+                0.7500002864599307,
+                1.103999973461032
+              ],
+              "meta__base_link_fillable_0_0_link#component:1": [
+                0.4680001237988505,
+                0.3669997589923316,
+                0.7060000839233347
+              ],
+              "meta__base_link_fillable_0_0_link#component:2": [
+                0.46800006622075796,
+                0.36900001085549583,
+                0.3523999531745805
+              ],
+              "meta__base_link_fillable_0_0_link#component:3": [
+                0.4680000939965272,
+                0.36900001085549583,
+                0.32359911148552034
+              ]
+            },
+            "native_links": {
+              "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:3": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "wardrobe/brimns",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "3371793f298fc9f2f52a109285b48b4b4fad82c8fd0181e8c4bef124cc805566",
+              "metadata_sha256": "e74c8b7aade07f8443440e3dd73b5836c1ef5e9634387ecad985bad851a5e353",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.09970426186919212,
+              "nodes": 11,
+              "candidate_tests": 1313991,
+              "search_orders_tried": 1,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_07": "meta__base_link_fillable_0_0_link#component:0",
+                "item_04": "meta__base_link_fillable_0_0_link#component:2",
+                "item_08": "meta__base_link_fillable_0_0_link#component:3",
+                "item_06": "meta__base_link_fillable_0_0_link#component:1",
+                "item_02": "meta__base_link_fillable_0_0_link#component:0",
+                "comparison_negative_1": "meta__base_link_fillable_0_0_link#component:0",
+                "item_00": "meta__base_link_fillable_0_0_link#component:1",
+                "item_03": "meta__base_link_fillable_0_0_link#component:3",
+                "comparison_negative_0": "meta__base_link_fillable_0_0_link#component:2",
+                "item_05": "meta__base_link_fillable_0_0_link#component:0",
+                "item_01": "meta__base_link_fillable_0_0_link#component:0"
+              },
+              "poses": {
+                "item_07": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.223,
+                    0.223
+                  ],
+                  "center_xy_m": [
+                    0.1165,
+                    0.1165
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:2",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.20400000000000001,
+                    0.194
+                  ],
+                  "center_xy_m": [
+                    0.107,
+                    0.10200000000000001
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:3",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.192,
+                    0.192
+                  ],
+                  "center_xy_m": [
+                    0.101,
+                    0.101
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.126,
+                    0.277
+                  ],
+                  "center_xy_m": [
+                    0.068,
+                    0.14350000000000002
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.233,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.136,
+                    0.203
+                  ],
+                  "center_xy_m": [
+                    0.301,
+                    0.1065
+                  ]
+                },
+                "comparison_negative_1": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.233,
+                    0.213
+                  ],
+                  "footprint_m": [
+                    0.113,
+                    0.154
+                  ],
+                  "center_xy_m": [
+                    0.2895,
+                    0.29
+                  ]
+                },
+                "item_00": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.136,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.149,
+                    0.107
+                  ],
+                  "center_xy_m": [
+                    0.2105,
+                    0.0585
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:3",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.202,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.066,
+                    0.197
+                  ],
+                  "center_xy_m": [
+                    0.23500000000000001,
+                    0.10350000000000001
+                  ]
+                },
+                "comparison_negative_0": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:2",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.214,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.10400000000000001,
+                    0.115
+                  ],
+                  "center_xy_m": [
+                    0.266,
+                    0.0625
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.374,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.07100000000000001,
+                    0.089
+                  ],
+                  "center_xy_m": [
+                    0.40950000000000003,
+                    0.0495
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.374,
+                    0.099
+                  ],
+                  "footprint_m": [
+                    0.031,
+                    0.031
+                  ],
+                  "center_xy_m": [
+                    0.3895,
+                    0.1145
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_07": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link",
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link",
+              "comparison_negative_1": "meta__base_link_fillable_0_0_link",
+              "item_00": "meta__base_link_fillable_0_0_link",
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "comparison_negative_0": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_01": "meta__base_link_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_07": "meta__base_link_fillable_0_0_link#component:0",
+              "item_04": "meta__base_link_fillable_0_0_link#component:2",
+              "item_08": "meta__base_link_fillable_0_0_link#component:3",
+              "item_06": "meta__base_link_fillable_0_0_link#component:1",
+              "item_02": "meta__base_link_fillable_0_0_link#component:0",
+              "comparison_negative_1": "meta__base_link_fillable_0_0_link#component:0",
+              "item_00": "meta__base_link_fillable_0_0_link#component:1",
+              "item_03": "meta__base_link_fillable_0_0_link#component:3",
+              "comparison_negative_0": "meta__base_link_fillable_0_0_link#component:2",
+              "item_05": "meta__base_link_fillable_0_0_link#component:0",
+              "item_01": "meta__base_link_fillable_0_0_link#component:0"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link",
+          "comparison_negative_1": "meta__base_link_fillable_0_0_link",
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "comparison_negative_0": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link"
+        },
+        "physical_validation_required": true
+      }
+    }
+  ]
+}

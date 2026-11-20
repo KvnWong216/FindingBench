@@ -1,0 +1,560 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F270_01",
+      "family": "semantic_F270",
+      "scene": "Beechwood_0_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/pinpoint_20261114/F270/measured_surface_v18/asset_F270_01/scenario.yaml",
+      "scenario_sha256": "5dfcf4336ffb30c279f73a91295f7a5c8c9e9e5fb34053a1dd02dae43976b70f",
+      "instruction": "Find the plate and mug among the items on the living-room work table and bring both to the counter in front of you in the kitchen in the kitchen.",
+      "target_key": "plate/ntedfx",
+      "target_entities": [
+        "item_00",
+        "item_01"
+      ],
+      "target_count": 2,
+      "source_room": "living_room_0",
+      "destination_room": "kitchen_0",
+      "source_receptacle": "coffee_table_qlmqyy_0",
+      "destination_receptacle": "countertop_tpuwys_0",
+      "object_count": 10,
+      "distractor_count": 8,
+      "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+      "route": {
+        "start": [
+          0.9500000000000001,
+          -5.95,
+          -1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            0.9500000000000001,
+            -5.95
+          ],
+          [
+            0.9500000000000001,
+            -6.050000000000001
+          ],
+          [
+            1.05,
+            -6.050000000000001
+          ],
+          [
+            1.1500000000000001,
+            -6.050000000000001
+          ],
+          [
+            1.25,
+            -6.050000000000001
+          ],
+          [
+            1.35,
+            -6.050000000000001
+          ],
+          [
+            1.4500000000000002,
+            -6.050000000000001
+          ],
+          [
+            1.55,
+            -6.050000000000001
+          ],
+          [
+            1.6500000000000001,
+            -6.050000000000001
+          ],
+          [
+            1.6500000000000001,
+            -6.15
+          ],
+          [
+            1.75,
+            -6.15
+          ],
+          [
+            1.75,
+            -6.25
+          ],
+          [
+            1.85,
+            -6.25
+          ],
+          [
+            1.85,
+            -6.3500000000000005
+          ],
+          [
+            1.9500000000000002,
+            -6.3500000000000005
+          ],
+          [
+            2.0500000000000003,
+            -6.3500000000000005
+          ],
+          [
+            2.15,
+            -6.3500000000000005
+          ],
+          [
+            2.25,
+            -6.3500000000000005
+          ],
+          [
+            2.35,
+            -6.3500000000000005
+          ],
+          [
+            2.45,
+            -6.3500000000000005
+          ],
+          [
+            2.45,
+            -6.45
+          ],
+          [
+            2.5500000000000003,
+            -6.45
+          ],
+          [
+            2.5500000000000003,
+            -6.550000000000001
+          ],
+          [
+            2.6500000000000004,
+            -6.550000000000001
+          ],
+          [
+            2.6500000000000004,
+            -6.65
+          ],
+          [
+            2.75,
+            -6.65
+          ],
+          [
+            2.75,
+            -6.75
+          ],
+          [
+            2.85,
+            -6.75
+          ],
+          [
+            2.95,
+            -6.75
+          ],
+          [
+            3.0500000000000003,
+            -6.75
+          ],
+          [
+            3.1500000000000004,
+            -6.75
+          ],
+          [
+            3.25,
+            -6.75
+          ],
+          [
+            3.25,
+            -6.8500000000000005
+          ],
+          [
+            3.35,
+            -6.8500000000000005
+          ],
+          [
+            3.45,
+            -6.8500000000000005
+          ]
+        ],
+        "length_m": 3.4,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "item_09"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [
+        {
+          "scene": "Beechwood_0_int",
+          "source": "breakfast_table_skczfi_0",
+          "reason": "Previously failed source layout"
+        },
+        {
+          "scene": "Beechwood_0_int",
+          "source": "breakfast_table_skczfi_0",
+          "reason": "Previously failed source layout"
+        }
+      ],
+      "parent_task_id": "F270",
+      "tier": "long",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F270_01",
+        "parent_task_id": "F270",
+        "before_instruction": "Find the empty plate and mug among the items on the private office desk and shelves and put both on the kitchen counter beside the sink.",
+        "after_instruction": "Find the plate and mug among the items on the living-room work table and bring both to the counter in front of you in the kitchen in the kitchen.",
+        "reason": "Explicit surface-search revision: use supported surveyed furniture and an initial-facing delivery surface; remove unsupported decorative destination references. Preserve target categories, target count, source and destination room types. Empty-vessel state must be established by construction, not inferred from its label. Explicit spatial revision from ('private_office', 'desk', 'kitchen', 'counter') to ('living_room', 'table', 'kitchen', 'counter'): uses a room/storage pairing with previously found robot clearance and path evidence (7 prior recipes). Item sets, reference matching and inventory predicates are unchanged. Cross-room transfer is retained where the revised source and destination differ.",
+        "target_asset": "plate/ntedfx",
+        "target_assets": [
+          "plate/ntedfx",
+          "mug/waqrdy"
+        ]
+      },
+      "binding_sha256": "f0168b6421bfc2d77bd09d8f03fad2a0547fed3c93fa68c0b02d94a46e1c11f4",
+      "proposal_native_policy_signature": "638901e57b44747045bd55ed10084fe82451f1075c4c28aa6f0af555449b389c",
+      "surface_binding_revision": {
+        "status": "surface_body_binding_corrected_physics_pending",
+        "changes": [
+          {
+            "field": "goal",
+            "entity": "item_00",
+            "before": "bottom_cabinet_no_top_qohxjq_0",
+            "after": "countertop_tpuwys_0"
+          },
+          {
+            "field": "goal",
+            "entity": "item_01",
+            "before": "bottom_cabinet_no_top_qohxjq_0",
+            "after": "countertop_tpuwys_0"
+          }
+        ],
+        "destination_approach_patch": {
+          "contact_body": "countertop_tpuwys_0",
+          "above_fixture": "bottom_cabinet_no_top_qohxjq_0",
+          "aabb": [
+            [
+              0.869,
+              -7.091,
+              0.851
+            ],
+            [
+              1.368,
+              -6.509,
+              0.87
+            ]
+          ],
+          "scope": "private route proposal to a subset of the actual slab; no synthetic body"
+        },
+        "geometry": {
+          "bottom_cabinet_no_top_qohxjq_0": {
+            "before": [
+              [
+                0.869,
+                -7.094,
+                0.001
+              ],
+              [
+                1.368,
+                -6.509,
+                0.848
+              ]
+            ],
+            "after": [
+              [
+                -0.169,
+                -7.091,
+                0.851
+              ],
+              [
+                1.407,
+                -6.494,
+                0.87
+              ]
+            ]
+          }
+        },
+        "source_survey": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/vla_difficulty_v2/_survey/Beechwood_0_int.json",
+        "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+        "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/full_queue_565ddf0abdcd_F270/asset_F270_01/scenario.yaml",
+        "original_scenario_sha256": "97a3e02c4e42cf589cc5a999fb12b6489aa3c9d5e0144cb7d96683e116bf271a",
+        "reason": "Native OnTop requires touching the named body; a separate measured slab covers the named cabinet.",
+        "preserved": [
+          "instruction",
+          "all object models and counts",
+          "target identities",
+          "relation kinds",
+          "spawn",
+          "robot and skills",
+          "physical delivery location"
+        ],
+        "physical_validation_required": true
+      },
+      "surface_pose_repairs": [
+        {
+          "method": "repack_failed_surface_on_same_native_body",
+          "source_sha256": "6e87133c556e8c7bd7b5c2c0f99a2567c0f4ec26e03b8e72b63490e700cb866f",
+          "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/reviewed_followup_005_F270/asset_F270_01/scenario.yaml",
+          "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/reviewed_followup_005_F270/asset_F270_01",
+          "plans": [
+            {
+              "receptacle": "coffee_table_qlmqyy_0",
+              "entities": [
+                "item_00",
+                "item_01",
+                "item_02",
+                "item_03",
+                "item_04",
+                "item_05",
+                "item_06",
+                "item_07",
+                "item_08",
+                "item_09"
+              ],
+              "solver": {
+                "status": "feasible_model",
+                "device": "cuda",
+                "backend": "torch_cuda_finite_csp",
+                "solve_seconds": 0.037918119225651026,
+                "nodes": 10,
+                "candidate_tests": 556185,
+                "search_orders_tried": 1,
+                "grid_m": 0.001,
+                "margin_m": 0.005,
+                "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+                "physical_validation_required": true,
+                "assignment": {
+                  "item_03": "surface",
+                  "item_04": "surface",
+                  "item_08": "surface",
+                  "item_09": "surface",
+                  "item_05": "surface",
+                  "item_00": "surface",
+                  "item_02": "surface",
+                  "item_06": "surface",
+                  "item_01": "surface",
+                  "item_07": "surface"
+                },
+                "poses": {
+                  "item_03": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.005,
+                      0.005
+                    ],
+                    "footprint_m": [
+                      0.25,
+                      0.417
+                    ],
+                    "center_xy_m": [
+                      0.13,
+                      0.2135
+                    ]
+                  },
+                  "item_04": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.26,
+                      0.005
+                    ],
+                    "footprint_m": [
+                      0.364,
+                      0.244
+                    ],
+                    "center_xy_m": [
+                      0.442,
+                      0.127
+                    ]
+                  },
+                  "item_08": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.629,
+                      0.005
+                    ],
+                    "footprint_m": [
+                      0.218,
+                      0.34500000000000003
+                    ],
+                    "center_xy_m": [
+                      0.738,
+                      0.1775
+                    ]
+                  },
+                  "item_09": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.26,
+                      0.254
+                    ],
+                    "footprint_m": [
+                      0.268,
+                      0.268
+                    ],
+                    "center_xy_m": [
+                      0.394,
+                      0.388
+                    ]
+                  },
+                  "item_05": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.533,
+                      0.355
+                    ],
+                    "footprint_m": [
+                      0.196,
+                      0.307
+                    ],
+                    "center_xy_m": [
+                      0.631,
+                      0.5085000000000001
+                    ]
+                  },
+                  "item_00": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.005,
+                      0.427
+                    ],
+                    "footprint_m": [
+                      0.23900000000000002,
+                      0.23900000000000002
+                    ],
+                    "center_xy_m": [
+                      0.1245,
+                      0.5465
+                    ]
+                  },
+                  "item_02": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.734,
+                      0.355
+                    ],
+                    "footprint_m": [
+                      0.126,
+                      0.277
+                    ],
+                    "center_xy_m": [
+                      0.797,
+                      0.4935
+                    ]
+                  },
+                  "item_06": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.249,
+                      0.527
+                    ],
+                    "footprint_m": [
+                      0.135,
+                      0.135
+                    ],
+                    "center_xy_m": [
+                      0.3165,
+                      0.5945
+                    ]
+                  },
+                  "item_01": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.389,
+                      0.527
+                    ],
+                    "footprint_m": [
+                      0.082,
+                      0.11900000000000001
+                    ],
+                    "center_xy_m": [
+                      0.43,
+                      0.5865
+                    ]
+                  },
+                  "item_07": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.533,
+                      0.254
+                    ],
+                    "footprint_m": [
+                      0.075,
+                      0.07100000000000001
+                    ],
+                    "center_xy_m": [
+                      0.5705,
+                      0.2895
+                    ]
+                  }
+                },
+                "authoring_spacing_attempts": [
+                  {
+                    "margin_m": 0.025,
+                    "grid_m": 0.001,
+                    "status": "infeasible_model",
+                    "reason": "Total inflated footprint exceeds total bin area"
+                  },
+                  {
+                    "margin_m": 0.015,
+                    "grid_m": 0.001,
+                    "status": "unknown",
+                    "reason": "Search budget exhausted; no infeasibility claim"
+                  },
+                  {
+                    "margin_m": 0.005,
+                    "grid_m": 0.001,
+                    "status": "feasible_model",
+                    "reason": null
+                  }
+                ]
+              },
+              "measured_scene_obstacles": [],
+              "physical_validation_required": true
+            }
+          ],
+          "preserved": [
+            "instruction",
+            "goal",
+            "all original assets",
+            "source and destination bodies",
+            "spawn",
+            "relation kinds"
+          ],
+          "physical_validation_required": true
+        }
+      ]
+    }
+  ]
+}

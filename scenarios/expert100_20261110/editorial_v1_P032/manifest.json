@@ -1,0 +1,572 @@
+{
+  "tasks": [
+    {
+      "id": "asset_P032_01",
+      "family": "semantic_P032",
+      "scene": "Merom_0_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/editorial_v1_P032/asset_P032_01/scenario.yaml",
+      "scenario_sha256": "4d94eb912944e58aa8e61c5086417f8605f8273321706863f39663adb51c62cb",
+      "instruction": "Find the toy figure in the living-room toy drawers that matches the one on the table in front of you, and bring it to that table.",
+      "target_key": "toy_figure/issvzv",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "living_room_0",
+      "destination_room": "living_room_0",
+      "source_receptacle": "expert_storage_80",
+      "destination_receptacle": "coffee_table_dnsjnv_0",
+      "object_count": 14,
+      "distractor_count": 10,
+      "source_survey_sha256": "432c3be0b4dd33aa136873f8d072cfc232afe601bfa0f68e3b7489a89af8f0f5",
+      "route": {
+        "start": [
+          3.0500000000000003,
+          8.05,
+          0.0
+        ],
+        "path_xy": [
+          [
+            3.0500000000000003,
+            8.05
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 50,
+        "destination_approach_count": 25,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "editorial_revision_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "comparison_sample",
+        "comparison_negative_0",
+        "comparison_negative_1",
+        "search_storage",
+        "expert_storage_80"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [
+        {
+          "name": "search_storage",
+          "category": "bottom_cabinet_no_top",
+          "model": "ncgmqr",
+          "floor": "floors_lqngig_0",
+          "position_xy": [
+            3.25,
+            8.950000000000001
+          ],
+          "aabb": [
+            [
+              2.9381302947998047,
+              8.741652801513673,
+              0.0
+            ],
+            [
+              3.5618697052001953,
+              9.158347198486329,
+              0.6957286682128906
+            ]
+          ],
+          "room": "living_room_0"
+        },
+        {
+          "name": "expert_storage_80",
+          "category": "bottom_cabinet_no_top",
+          "model": "ncgmqr",
+          "floor": "floors_lqngig_0",
+          "position_xy": [
+            2.15,
+            7.050000000000001
+          ],
+          "aabb": [
+            [
+              1.8381302947998046,
+              6.841652801513672,
+              0.0
+            ],
+            [
+              2.461869705200195,
+              7.258347198486329,
+              0.6957286682128906
+            ]
+          ],
+          "room": "living_room_0"
+        }
+      ],
+      "parent_task_id": "P032",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_P032_01",
+        "parent_task_id": "P032",
+        "before_instruction": "Find the toy bus among the vehicles in the living-room toy drawers and place it on the play mat next to the toy road.",
+        "after_instruction": "Find the toy figure in the living-room toy drawers that matches the one on the table in front of you, and bring it to that table.",
+        "reason": "The allocated toy_car has no verified bus identity; substitutes model-reference selection without inventing a bus or toy-road landmark. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "toy_figure/issvzv",
+        "target_assets": [
+          "toy_figure/issvzv"
+        ],
+        "editorial_revision_id": "expert_editorial_20261110_P032"
+      },
+      "binding_sha256": "05d10b5df59a71876ffbfc40952dfa0211cfe7b15c4e814cf8b7c07aa729cb87",
+      "previous_binding_sha256": "9967b03cd849765f90268728e2be8ea913441b8d80b5a211a6b9882004307c89",
+      "editorial_revisions": [
+        {
+          "status": "editorial_revision_physics_pending",
+          "revision_id": "expert_editorial_20261110_P032",
+          "authorization": "user_approved_find_and_deliver_rewrite",
+          "reason": "Original toy-car near-negatives reach 89 cm and the doll exceeds native drawer capacity; the source nightstand has no Open state. Rebind the matching task to distinct native toy figures and a genuine prismatic-drawer unit, retaining every named entity, count and delivery goal.",
+          "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_P032_01/scenario.yaml",
+          "original_archive": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/editorial_v1_P032/_editorial/asset_P032_01/original_scenario.yaml",
+          "original_scenario_sha256": "2c9a57a077d078e4b3257c3d273b0ae7a7896c1718672d490294d9a7bca4aecf",
+          "revised_scenario_sha256": "cf4574329e33d455fb158f5612237750859c702a8b50102d701542faf1250b70",
+          "before_instruction": "There is a sample on the table in front of you in the living room. Find the toy vehicle matching that sample among the living-room toy drawers and bring it to the table in front of you in the living room.",
+          "after_instruction": "Find the toy figure in the living-room toy drawers that matches the one on the table in front of you, and bring it to that table.",
+          "object_changes": [
+            {
+              "before": {
+                "name": "item_00",
+                "category": "toy_car",
+                "model": "ksijjl"
+              },
+              "after": {
+                "name": "item_00",
+                "category": "toy_figure",
+                "model": "issvzv"
+              },
+              "native_bbox_m": [
+                0.14876868438720703,
+                0.1061657485961914,
+                0.14032323986291886
+              ],
+              "metadata_sha256": "e996251a9110e82552cbf297b000805b8ab1fc1a09e21cb1c679daefbb0fe809",
+              "encrypted_asset_sha256": "38c189e0cca398ef25b8d5df781446b22ff7ebf3577c236a171d198d3b24138a"
+            },
+            {
+              "before": {
+                "name": "comparison_sample",
+                "category": "toy_car",
+                "model": "ksijjl"
+              },
+              "after": {
+                "name": "comparison_sample",
+                "category": "toy_figure",
+                "model": "issvzv"
+              },
+              "native_bbox_m": [
+                0.14876868438720703,
+                0.1061657485961914,
+                0.14032323986291886
+              ],
+              "metadata_sha256": "e996251a9110e82552cbf297b000805b8ab1fc1a09e21cb1c679daefbb0fe809",
+              "encrypted_asset_sha256": "38c189e0cca398ef25b8d5df781446b22ff7ebf3577c236a171d198d3b24138a"
+            },
+            {
+              "before": {
+                "name": "comparison_negative_0",
+                "category": "toy_car",
+                "model": "dgnnin"
+              },
+              "after": {
+                "name": "comparison_negative_0",
+                "category": "toy_figure",
+                "model": "fnueyn"
+              },
+              "native_bbox_m": [
+                0.09579336786270141,
+                0.14551026153564453,
+                0.057767131805419925
+              ],
+              "metadata_sha256": "880cf6dc35dce34e1c787b7d756e85dcf24868a0dd3810798212d762f26dcdcc",
+              "encrypted_asset_sha256": "dbc9cf08508e3f93f5b8cac0f25be317a098d885b77f1edd17c435b91ca7c1b8"
+            },
+            {
+              "before": {
+                "name": "comparison_negative_1",
+                "category": "toy_car",
+                "model": "nhtywr"
+              },
+              "after": {
+                "name": "comparison_negative_1",
+                "category": "toy_figure",
+                "model": "vcmcoi"
+              },
+              "native_bbox_m": [
+                0.11702210235595703,
+                0.1382398910522461,
+                0.05773983955383301
+              ],
+              "metadata_sha256": "eefcfce49431bf8dd4fe32391e07e30d9c488ed54c9e51761a9053c8c749ced4",
+              "encrypted_asset_sha256": "60bd723f5bf7f0f641a59707139d051fbb3bef3d5567f898ccd7055a9e0b799e"
+            },
+            {
+              "before": {
+                "name": "item_04",
+                "category": "doll",
+                "model": "fhdgrp"
+              },
+              "after": {
+                "name": "item_04",
+                "category": "toy_figure",
+                "model": "wvpqbf"
+              },
+              "native_bbox_m": [
+                0.14889772510528565,
+                0.08713554382324219,
+                0.08221013641357422
+              ],
+              "metadata_sha256": "0699aaf357076eda15dcbfb4df5bc8a2a816d736ee3737b95ea9af1588fdce00",
+              "encrypted_asset_sha256": "c51f1a8c3e69785fe9d20b2642ca217aa027bf66140a0f97b6735e9a39dc377f"
+            },
+            {
+              "before": {
+                "name": "search_storage",
+                "category": "nightstand",
+                "model": "gjwjtj",
+                "fixed_base": true
+              },
+              "after": {
+                "name": "search_storage",
+                "category": "bottom_cabinet_no_top",
+                "model": "ncgmqr",
+                "fixed_base": true
+              },
+              "native_bbox_m": [
+                0.6237394104003906,
+                0.41669439697265626,
+                0.6957286682128906
+              ],
+              "metadata_sha256": "4f69836ec4373a572ddb8592f3f5f5e84e399b02a8b6553a4147db5c12cdb121",
+              "encrypted_asset_sha256": "654ec43b4fbdc16ab935e47e394df2e4452ea2ef8e5df804fc94faba3196f5a7"
+            }
+          ],
+          "before_target": {
+            "entity": "item_00",
+            "category": "toy_car"
+          },
+          "after_target": {
+            "entity": "item_00",
+            "category": "toy_figure"
+          },
+          "preserved": [
+            "find-and-deliver paradigm",
+            "goal entity and destination",
+            "scene",
+            "spawn",
+            "robot",
+            "skills",
+            "entity names and count",
+            "placement relations",
+            "target cardinality"
+          ],
+          "physical_validation_required": true,
+          "human_completion_verified": false
+        }
+      ],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "expert_storage_80",
+            "volume_extents_m": {
+              "meta__drawer0_fillable_0_0_link": [
+                0.5233886344018981,
+                0.39358985018730164,
+                0.14444891703128815
+              ],
+              "meta__drawer1_fillable_0_0_link": [
+                0.5237021703720093,
+                0.39821761441230774,
+                0.14396608537536593
+              ],
+              "meta__drawer2_fillable_0_0_link": [
+                0.5186685735186505,
+                0.3985025246143341,
+                0.28758682544270653
+              ]
+            },
+            "native_links": {
+              "meta__drawer0_fillable_0_0_link": "meta__drawer0_fillable_0_0_link",
+              "meta__drawer1_fillable_0_0_link": "meta__drawer1_fillable_0_0_link",
+              "meta__drawer2_fillable_0_0_link": "meta__drawer2_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet_no_top/ncgmqr",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "654ec43b4fbdc16ab935e47e394df2e4452ea2ef8e5df804fc94faba3196f5a7",
+              "metadata_sha256": "4f69836ec4373a572ddb8592f3f5f5e84e399b02a8b6553a4147db5c12cdb121",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.02492583729326725,
+              "nodes": 11,
+              "candidate_tests": 785447,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_07": "meta__drawer1_fillable_0_0_link",
+                "item_05": "meta__drawer0_fillable_0_0_link",
+                "item_03": "meta__drawer0_fillable_0_0_link",
+                "item_06": "meta__drawer1_fillable_0_0_link",
+                "comparison_negative_1": "meta__drawer1_fillable_0_0_link",
+                "item_00": "meta__drawer2_fillable_0_0_link",
+                "comparison_negative_0": "meta__drawer0_fillable_0_0_link",
+                "item_04": "meta__drawer2_fillable_0_0_link",
+                "item_01": "meta__drawer1_fillable_0_0_link",
+                "item_08": "meta__drawer0_fillable_0_0_link",
+                "item_02": "meta__drawer2_fillable_0_0_link"
+              },
+              "poses": {
+                "item_07": {
+                  "bin": "meta__drawer1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.096,
+                    0.096
+                  ],
+                  "center_xy_m": [
+                    0.053,
+                    0.053
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__drawer0_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.075,
+                    0.075
+                  ],
+                  "center_xy_m": [
+                    0.0425,
+                    0.0425
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__drawer0_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.085,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.074,
+                    0.074
+                  ],
+                  "center_xy_m": [
+                    0.122,
+                    0.042
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__drawer1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.106,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.007,
+                    0.007
+                  ],
+                  "center_xy_m": [
+                    0.1095,
+                    0.0085
+                  ]
+                },
+                "comparison_negative_1": {
+                  "bin": "meta__drawer1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.11800000000000001,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.11800000000000001,
+                    0.139
+                  ],
+                  "center_xy_m": [
+                    0.177,
+                    0.0745
+                  ]
+                },
+                "item_00": {
+                  "bin": "meta__drawer2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.149,
+                    0.107
+                  ],
+                  "center_xy_m": [
+                    0.0795,
+                    0.0585
+                  ]
+                },
+                "comparison_negative_0": {
+                  "bin": "meta__drawer0_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.164,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.096,
+                    0.146
+                  ],
+                  "center_xy_m": [
+                    0.212,
+                    0.078
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__drawer2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.159,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.149,
+                    0.088
+                  ],
+                  "center_xy_m": [
+                    0.2335,
+                    0.049
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__drawer1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.241,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.10400000000000001,
+                    0.115
+                  ],
+                  "center_xy_m": [
+                    0.293,
+                    0.0625
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__drawer0_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.265,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.10400000000000001,
+                    0.115
+                  ],
+                  "center_xy_m": [
+                    0.317,
+                    0.0625
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__drawer2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.313,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.056,
+                    0.031
+                  ],
+                  "center_xy_m": [
+                    0.341,
+                    0.0205
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_07": "meta__drawer1_fillable_0_0_link",
+              "item_05": "meta__drawer0_fillable_0_0_link",
+              "item_03": "meta__drawer0_fillable_0_0_link",
+              "item_06": "meta__drawer1_fillable_0_0_link",
+              "comparison_negative_1": "meta__drawer1_fillable_0_0_link",
+              "item_00": "meta__drawer2_fillable_0_0_link",
+              "comparison_negative_0": "meta__drawer0_fillable_0_0_link",
+              "item_04": "meta__drawer2_fillable_0_0_link",
+              "item_01": "meta__drawer1_fillable_0_0_link",
+              "item_08": "meta__drawer0_fillable_0_0_link",
+              "item_02": "meta__drawer2_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_07": "meta__drawer1_fillable_0_0_link",
+              "item_05": "meta__drawer0_fillable_0_0_link",
+              "item_03": "meta__drawer0_fillable_0_0_link",
+              "item_06": "meta__drawer1_fillable_0_0_link",
+              "comparison_negative_1": "meta__drawer1_fillable_0_0_link",
+              "item_00": "meta__drawer2_fillable_0_0_link",
+              "comparison_negative_0": "meta__drawer0_fillable_0_0_link",
+              "item_04": "meta__drawer2_fillable_0_0_link",
+              "item_01": "meta__drawer1_fillable_0_0_link",
+              "item_08": "meta__drawer0_fillable_0_0_link",
+              "item_02": "meta__drawer2_fillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    }
+  ]
+}

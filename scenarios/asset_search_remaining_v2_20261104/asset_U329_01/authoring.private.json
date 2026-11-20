@@ -1,0 +1,79 @@
+{
+  "id": "asset_U329_01",
+  "family": "semantic_U329",
+  "scene": "Wainscott_1_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_U329_01/scenario.yaml",
+  "scenario_sha256": "b08f82f7efe8df91b72a31cef41057cdfef4be02eae20b72c7343ccab0510dd0",
+  "instruction": "Bring the digital thermometer from the utility room storage household instruments to the counter in front of you in the utility room in the utility room for checking the room conditions.",
+  "target_key": "digital_thermometer/bpnigg",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "utility_room_0",
+  "destination_room": "utility_room_0",
+  "source_receptacle": "bottom_cabinet_bamfsz_0",
+  "destination_receptacle": "bottom_cabinet_bamfsz_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "7894c711eea34a656ee926a132d6563ce3833b5ddb45c126d0ce534dd2edca60",
+  "route": {
+    "start": [
+      1.05,
+      6.95,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        1.05,
+        6.95
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 20,
+    "destination_approach_count": 20,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_bamfsz_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "parent_task_id": "U329",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_U329_01",
+    "parent_task_id": "U329",
+    "before_instruction": "I want to track the dampness in the utility room. Find the portable hygrometer among the storage room's household instruments and put it on the utility counter beside the washer.",
+    "after_instruction": "Bring the digital thermometer from the utility room storage household instruments to the counter in front of you in the utility room in the utility room for checking the room conditions.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; No target model allocated for hygrometer. Hygrometer asset absent Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: storage_room/cabinet -> utility_room/counter becomes utility_room/cabinet -> utility_room/counter. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+    "target_asset": "digital_thermometer/bpnigg",
+    "target_assets": [
+      "digital_thermometer/bpnigg"
+    ]
+  },
+  "binding_sha256": "5b3b2d7177dff1b3f93cc41c6c518a57728ce2803f90c6d175904cb2fd102518"
+}

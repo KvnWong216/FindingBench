@@ -1,0 +1,157 @@
+{
+  "scene_model": "Beechwood_0_int",
+  "status": "main_task_portal_replayed",
+  "wall_warps": [
+    {
+      "entity": "walls_szxayl_0",
+      "axis": 0,
+      "source": [
+        -0.7514943947971471,
+        1.0580988314859345,
+        1.8689158681747589,
+        4.2637137700922985
+      ],
+      "target": [
+        -0.7514943947971471,
+        0.81,
+        2.01,
+        4.2637137700922985
+      ],
+      "measured_width_m": 0.8108170366888243,
+      "requested_width_m": 1.2,
+      "wall_plane": -5.046561243081091
+    }
+  ],
+  "translations": [
+    {
+      "entity": "bottom_cabinet_no_top_pluwfl_0",
+      "delta": [
+        0.5,
+        -1.4,
+        0
+      ]
+    },
+    {
+      "entity": "bottom_cabinet_no_top_qohxjq_0",
+      "delta": [
+        0.5,
+        -1.4,
+        0
+      ]
+    },
+    {
+      "entity": "countertop_tpuwys_0",
+      "delta": [
+        0.5,
+        -1.4,
+        0
+      ]
+    }
+  ],
+  "manual_review": [
+    {
+      "entity": "walls_cesukw_0",
+      "opening": [
+        4.818505776689575,
+        5.518918745807684
+      ],
+      "reason": "Insufficient adjoining wall for local widening"
+    },
+    {
+      "entity": "walls_eyalcx_0",
+      "reason": "Nonplanar or diagonal wall needs manual editing"
+    },
+    {
+      "entity": "walls_fxibmi_0",
+      "reason": "Nonplanar or diagonal wall needs manual editing"
+    },
+    {
+      "entity": "walls_nvtvxi_0",
+      "reason": "Nonplanar or diagonal wall needs manual editing"
+    },
+    {
+      "entity": "walls_qyejch_0",
+      "reason": "Nonplanar or diagonal wall needs manual editing"
+    },
+    {
+      "entity": "walls_ugemkf_0",
+      "opening": [
+        -4.791620370633097,
+        -4.060860105230325
+      ],
+      "reason": "Insufficient adjoining wall for local widening"
+    },
+    {
+      "entity": "walls_uwsqqu_0",
+      "reason": "Nonplanar or diagonal wall needs manual editing"
+    },
+    {
+      "entity": "walls_zoonsb_0",
+      "opening": [
+        -4.7016192093995866,
+        -3.9708572014511554
+      ],
+      "reason": "Insufficient adjoining wall for local widening"
+    }
+  ],
+  "note": "Main kitchen/living/hall task area. Preserve cabinet/worktop assembly and relocate it as a freestanding preparation island by (+0.5,-1.4,0)m; remove the unbound old central island. Bedroom/bathroom openings remain outside validation scope.",
+  "removed_objects": [
+    "bottom_cabinet_no_top_qohxjq_1",
+    "bottom_cabinet_no_top_qudfwe_0",
+    "bottom_cabinet_no_top_spojpj_1",
+    "bottom_cabinet_no_top_ufhpbn_0",
+    "burner_pmntxh_0",
+    "countertop_tpuwys_4"
+  ],
+  "validation_report": "runs/clearance_beechwood_validation/report.json",
+  "scenario_anchor_changes": {
+    "level1/*/table_side": {
+      "from": [
+        1.6,
+        -5.15,
+        0.0053
+      ],
+      "to": [
+        1.41,
+        -5.15,
+        0.0053
+      ],
+      "reason": "Center the start in the widened passage; original start intersects the jamb"
+    }
+  },
+  "expert_fixture_replacements": [
+    {
+      "entity": "bottom_cabinet_no_top_spojpj_1",
+      "before_asset": "bottom_cabinet_no_top/spojpj",
+      "after_asset": "bottom_cabinet_no_top/exgntg",
+      "before_aabb": [
+        [
+          -3.234,
+          -8.411,
+          0.001
+        ],
+        [
+          -2.618,
+          -7.622,
+          0.847
+        ]
+      ],
+      "after_aabb": [
+        [
+          -3.119667579650879,
+          -8.358685607910157,
+          -0.0
+        ],
+        [
+          -2.7323324203491213,
+          -7.674314392089844,
+          0.6558555603027344
+        ]
+      ],
+      "source_sha256": "fb715d2421060210c3e9053ba63a595dcb56927e55917e539007983195414b4e",
+      "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_lane2_20261111/reviewed_followup_016_F148/asset_F148_01",
+      "reason": "Replace failed source at its existing site; adding another fixture consumes its approach space",
+      "physical_validation_required": true
+    }
+  ]
+}

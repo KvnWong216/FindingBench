@@ -1,0 +1,349 @@
+{
+  "tasks": [
+    {
+      "id": "asset_U183_01",
+      "family": "semantic_U183",
+      "scene": "Wainscott_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_09_U183_expert/asset_U183_01/scenario.yaml",
+      "scenario_sha256": "1a761eca83c04a3d71943a8c25ba0d68451162c070a7af19f4d0c3218c19475e",
+      "instruction": "Bring a crayon from the bedroom household storage craft supplies to the table in front of you in the bedroom in the bedroom for the child's drawing activity.",
+      "target_key": "crayon/xmysum",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "bedroom_0",
+      "destination_room": "bedroom_0",
+      "source_receptacle": "bottom_cabinet_nnvyol_0",
+      "destination_receptacle": "breakfast_table_skczfi_2",
+      "object_count": 9,
+      "distractor_count": 8,
+      "source_survey_sha256": "7894c711eea34a656ee926a132d6563ce3833b5ddb45c126d0ce534dd2edca60",
+      "route": {
+        "start": [
+          -1.6500000000000001,
+          12.25,
+          1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            -1.6500000000000001,
+            12.25
+          ],
+          [
+            -1.55,
+            12.25
+          ]
+        ],
+        "length_m": 0.1,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 47,
+        "destination_approach_count": 3,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "bottom_cabinet_nnvyol_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_nnvyol_0",
+            "volume_extents_m": {
+              "meta__base_link_fillable_0_0_link#component:0": [
+                0.3966507231608152,
+                0.6310247979390966,
+                0.3343766506221162
+              ],
+              "meta__base_link_fillable_0_0_link#component:1": [
+                0.3996685581629198,
+                0.6310357640069337,
+                0.4390722118043223
+              ],
+              "meta__base_link_fillable_0_0_link#component:2": [
+                0.3996629760583388,
+                0.6310478865737359,
+                0.4313127568062473
+              ],
+              "meta__base_link_fillable_0_0_link#component:3": [
+                0.3966576676838318,
+                0.6310504975881241,
+                0.35144540129198537
+              ]
+            },
+            "native_links": {
+              "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:3": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet/nnvyol",
+              "scale": [
+                1.3446524143218994,
+                2.0859787464141846,
+                2.052330493927002
+              ],
+              "encrypted_asset_sha256": "887a4818b174c0f04c36ec47839e426d6a59dd79bd95d4f28953d8d57a8d4162",
+              "metadata_sha256": "b96561d74ef50f76cdb25ad30017bd50cc0bd225355dd685dc54ec19cde2d678",
+              "root_orientation": [
+                -0.0001456280442653224,
+                -0.0001420076296199113,
+                0.9298031330108643,
+                -0.3680572509765625
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.08192967576906085,
+              "nodes": 9,
+              "candidate_tests": 71354,
+              "search_orders_tried": 1,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_03": "meta__base_link_fillable_0_0_link#component:1",
+                "item_07": "meta__base_link_fillable_0_0_link#component:2",
+                "item_04": "meta__base_link_fillable_0_0_link#component:0",
+                "item_08": "meta__base_link_fillable_0_0_link#component:3",
+                "item_01": "meta__base_link_fillable_0_0_link#component:0",
+                "item_05": "meta__base_link_fillable_0_0_link#component:3",
+                "item_02": "meta__base_link_fillable_0_0_link#component:1",
+                "item_06": "meta__base_link_fillable_0_0_link#component:2",
+                "item_00": "meta__base_link_fillable_0_0_link#component:0"
+              },
+              "poses": {
+                "item_03": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.331,
+                    0.331
+                  ],
+                  "center_xy_m": [
+                    0.1705,
+                    0.1705
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:2",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.331,
+                    0.331
+                  ],
+                  "center_xy_m": [
+                    0.1705,
+                    0.1705
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.291,
+                    0.312
+                  ],
+                  "center_xy_m": [
+                    0.1505,
+                    0.161
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:3",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.291,
+                    0.312
+                  ],
+                  "center_xy_m": [
+                    0.1505,
+                    0.161
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.322
+                  ],
+                  "footprint_m": [
+                    0.094,
+                    0.20500000000000002
+                  ],
+                  "center_xy_m": [
+                    0.052000000000000005,
+                    0.4245
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:3",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.322
+                  ],
+                  "footprint_m": [
+                    0.094,
+                    0.20500000000000002
+                  ],
+                  "center_xy_m": [
+                    0.052000000000000005,
+                    0.4245
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.341
+                  ],
+                  "footprint_m": [
+                    0.063,
+                    0.194
+                  ],
+                  "center_xy_m": [
+                    0.0365,
+                    0.438
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:2",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.341
+                  ],
+                  "footprint_m": [
+                    0.063,
+                    0.194
+                  ],
+                  "center_xy_m": [
+                    0.0365,
+                    0.438
+                  ]
+                },
+                "item_00": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.10400000000000001,
+                    0.322
+                  ],
+                  "footprint_m": [
+                    0.109,
+                    0.01
+                  ],
+                  "center_xy_m": [
+                    0.1585,
+                    0.327
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link",
+              "item_01": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link",
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_00": "meta__base_link_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_03": "meta__base_link_fillable_0_0_link#component:1",
+              "item_07": "meta__base_link_fillable_0_0_link#component:2",
+              "item_04": "meta__base_link_fillable_0_0_link#component:0",
+              "item_08": "meta__base_link_fillable_0_0_link#component:3",
+              "item_01": "meta__base_link_fillable_0_0_link#component:0",
+              "item_05": "meta__base_link_fillable_0_0_link#component:3",
+              "item_02": "meta__base_link_fillable_0_0_link#component:1",
+              "item_06": "meta__base_link_fillable_0_0_link#component:2",
+              "item_00": "meta__base_link_fillable_0_0_link#component:0"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link",
+          "item_00": "meta__base_link_fillable_0_0_link"
+        },
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [],
+      "parent_task_id": "U183",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_U183_01",
+        "parent_task_id": "U183",
+        "before_instruction": "The crayon set on the child's desk is missing the color shown by its empty slot. Find that crayon among the storage room craft supplies and put it beside the set.",
+        "after_instruction": "Bring a crayon from the bedroom household storage craft supplies to the table in front of you in the bedroom in the bedroom for the child's drawing activity.",
+        "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Native category metadata does not certify the stated target predicate: crayon matching empty color position. Color coded reference set and matching crayon required Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: storage_room/cabinet -> childs_room/table becomes bedroom/cabinet -> bedroom/table. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+        "target_asset": "crayon/xmysum",
+        "target_assets": [
+          "crayon/xmysum"
+        ]
+      },
+      "binding_sha256": "a28f99b71e4afd5f420dde45d67fd71a48d03d25eab698829ac40f75630e9118"
+    }
+  ]
+}

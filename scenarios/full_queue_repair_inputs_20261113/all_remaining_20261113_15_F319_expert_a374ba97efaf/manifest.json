@@ -1,0 +1,226 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F319_01",
+      "family": "semantic_F319",
+      "scene": "Beechwood_0_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_15_F319_expert_a374ba97efaf/asset_F319_01/scenario.yaml",
+      "scenario_sha256": "ded91d32b6cfa88452117dc16819e101313a62e0096cc26330560f8989ba9e67",
+      "instruction": "Find the snack tray among the objects on the living-room coffee table and return it to the counter in front of you in the kitchen in the kitchen.",
+      "target_key": "tray/txcjux",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "living_room_0",
+      "destination_room": "kitchen_0",
+      "source_receptacle": "breakfast_table_skczfi_0",
+      "destination_receptacle": "countertop_tpuwys_0",
+      "object_count": 9,
+      "distractor_count": 8,
+      "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+      "route": {
+        "start": [
+          0.9500000000000001,
+          -5.95,
+          -1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            0.9500000000000001,
+            -5.95
+          ],
+          [
+            0.9500000000000001,
+            -6.050000000000001
+          ],
+          [
+            1.05,
+            -6.050000000000001
+          ],
+          [
+            1.1500000000000001,
+            -6.050000000000001
+          ],
+          [
+            1.25,
+            -6.050000000000001
+          ],
+          [
+            1.35,
+            -6.050000000000001
+          ],
+          [
+            1.4500000000000002,
+            -6.050000000000001
+          ],
+          [
+            1.55,
+            -6.050000000000001
+          ],
+          [
+            1.6500000000000001,
+            -6.050000000000001
+          ],
+          [
+            1.6500000000000001,
+            -6.15
+          ],
+          [
+            1.75,
+            -6.15
+          ],
+          [
+            1.75,
+            -6.25
+          ],
+          [
+            1.85,
+            -6.25
+          ],
+          [
+            1.9500000000000002,
+            -6.25
+          ],
+          [
+            2.0500000000000003,
+            -6.25
+          ],
+          [
+            2.15,
+            -6.25
+          ],
+          [
+            2.25,
+            -6.25
+          ]
+        ],
+        "length_m": 1.6,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [],
+      "parent_task_id": "F319",
+      "tier": "long",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F319_01",
+        "parent_task_id": "F319",
+        "before_instruction": "Find the snack tray under the board-game boxes on the living room coffee table and bring it to the kitchen counter beside the kettle.",
+        "after_instruction": "Find the snack tray among the objects on the living-room coffee table and return it to the counter in front of you in the kitchen in the kitchen.",
+        "reason": "Removes unconstructed under-board-game relation while preserving cluttered-table retrieval and cleanup purpose. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "tray/txcjux",
+        "target_assets": [
+          "tray/txcjux"
+        ]
+      },
+      "binding_sha256": "a91c1d98e2dd09a7eda2ecfb3dfb28bb50647cb6b4f85121dde08f5b3ef9985f",
+      "proposal_native_policy_signature": "638901e57b44747045bd55ed10084fe82451f1075c4c28aa6f0af555449b389c",
+      "surface_binding_revision": {
+        "status": "surface_body_binding_corrected_physics_pending",
+        "changes": [
+          {
+            "field": "goal",
+            "entity": "item_00",
+            "before": "bottom_cabinet_no_top_qohxjq_0",
+            "after": "countertop_tpuwys_0"
+          }
+        ],
+        "destination_approach_patch": {
+          "contact_body": "countertop_tpuwys_0",
+          "above_fixture": "bottom_cabinet_no_top_qohxjq_0",
+          "aabb": [
+            [
+              0.869,
+              -7.091,
+              0.851
+            ],
+            [
+              1.368,
+              -6.509,
+              0.87
+            ]
+          ],
+          "scope": "private route proposal to a subset of the actual slab; no synthetic body"
+        },
+        "geometry": {
+          "bottom_cabinet_no_top_qohxjq_0": {
+            "before": [
+              [
+                0.869,
+                -7.094,
+                0.001
+              ],
+              [
+                1.368,
+                -6.509,
+                0.848
+              ]
+            ],
+            "after": [
+              [
+                -0.169,
+                -7.091,
+                0.851
+              ],
+              [
+                1.407,
+                -6.494,
+                0.87
+              ]
+            ]
+          }
+        },
+        "source_survey": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/vla_difficulty_v2/_survey/Beechwood_0_int.json",
+        "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+        "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/full_queue_565ddf0abdcd_F319/asset_F319_01/scenario.yaml",
+        "original_scenario_sha256": "1a7ae62ee4eb643d8de6e4752c74bc09a07d63e0925eaa797f4bcbfa2b0a09b4",
+        "reason": "Native OnTop requires touching the named body; a separate measured slab covers the named cabinet.",
+        "preserved": [
+          "instruction",
+          "all object models and counts",
+          "target identities",
+          "relation kinds",
+          "spawn",
+          "robot and skills",
+          "physical delivery location"
+        ],
+        "physical_validation_required": true
+      }
+    }
+  ]
+}

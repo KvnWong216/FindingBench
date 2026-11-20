@@ -1,0 +1,185 @@
+{
+  "id": "asset_P141_01",
+  "family": "semantic_P141",
+  "scene": "Wainscott_1_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_P141_01/scenario.yaml",
+  "scenario_sha256": "3f680457918f046c5970cd40626e8e5f03d1aea736124c8e704fcfa879c2ca5b",
+  "instruction": "There is a sample on the table in front of you in the bedroom. Find the paperback matching that sample among the bedroom books and bring it to the table in front of you in the bedroom for bedtime reading.",
+  "target_key": "paperback_book/bisnup",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bedroom_0",
+  "destination_room": "bedroom_0",
+  "source_receptacle": "bottom_cabinet_nnvyol_0",
+  "destination_receptacle": "breakfast_table_skczfi_2",
+  "object_count": 12,
+  "distractor_count": 10,
+  "source_survey_sha256": "7894c711eea34a656ee926a132d6563ce3833b5ddb45c126d0ce534dd2edca60",
+  "route": {
+    "start": [
+      -1.6500000000000001,
+      12.25,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -1.6500000000000001,
+        12.25
+      ],
+      [
+        -1.55,
+        12.25
+      ]
+    ],
+    "length_m": 0.1,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 47,
+    "destination_approach_count": 3,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "comparison_negative_0",
+    "comparison_negative_1",
+    "bottom_cabinet_nnvyol_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_nnvyol_0",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.3966507231608152,
+            0.6310247979390966,
+            0.3343766506221162
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.3996685581629198,
+            0.6310357640069337,
+            0.4390722118043223
+          ],
+          "meta__base_link_fillable_0_0_link#component:2": [
+            0.3996629760583388,
+            0.6310478865737359,
+            0.4313127568062473
+          ],
+          "meta__base_link_fillable_0_0_link#component:3": [
+            0.3966576676838318,
+            0.6310504975881241,
+            0.35144540129198537
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:3": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet/nnvyol",
+          "scale": [
+            1.3446524143218994,
+            2.0859787464141846,
+            2.052330493927002
+          ],
+          "encrypted_asset_sha256": "887a4818b174c0f04c36ec47839e426d6a59dd79bd95d4f28953d8d57a8d4162",
+          "metadata_sha256": "b96561d74ef50f76cdb25ad30017bd50cc0bd225355dd685dc54ec19cde2d678",
+          "root_orientation": [
+            -0.0001456280442653224,
+            -0.0001420076296199113,
+            0.9298031330108643,
+            -0.3680572509765625
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "comparison_negative_0": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link",
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "comparison_negative_1": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_07": "meta__base_link_fillable_0_0_link#component:0",
+          "item_06": "meta__base_link_fillable_0_0_link#component:3",
+          "item_04": "meta__base_link_fillable_0_0_link#component:2",
+          "comparison_negative_0": "meta__base_link_fillable_0_0_link#component:1",
+          "item_02": "meta__base_link_fillable_0_0_link#component:0",
+          "item_03": "meta__base_link_fillable_0_0_link#component:2",
+          "item_08": "meta__base_link_fillable_0_0_link#component:1",
+          "item_00": "meta__base_link_fillable_0_0_link#component:0",
+          "comparison_negative_1": "meta__base_link_fillable_0_0_link#component:1",
+          "item_01": "meta__base_link_fillable_0_0_link#component:2",
+          "item_05": "meta__base_link_fillable_0_0_link#component:0"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_07": "meta__base_link_fillable_0_0_link",
+      "item_06": "meta__base_link_fillable_0_0_link",
+      "item_04": "meta__base_link_fillable_0_0_link",
+      "comparison_negative_0": "meta__base_link_fillable_0_0_link",
+      "item_02": "meta__base_link_fillable_0_0_link",
+      "item_03": "meta__base_link_fillable_0_0_link",
+      "item_08": "meta__base_link_fillable_0_0_link",
+      "item_00": "meta__base_link_fillable_0_0_link",
+      "comparison_negative_1": "meta__base_link_fillable_0_0_link",
+      "item_01": "meta__base_link_fillable_0_0_link",
+      "item_05": "meta__base_link_fillable_0_0_link"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "P141",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P141_01",
+    "parent_task_id": "P141",
+    "before_instruction": "Find the paperback with both a fox and a crescent moon on its cover among bedroom books and put it on the bedside table.",
+    "after_instruction": "There is a sample on the table in front of you in the bedroom. Find the paperback matching that sample among the bedroom books and bring it to the table in front of you in the bedroom for bedtime reading.",
+    "reason": "Replaces unverified fox-and-moon cover conjunction with a native publication reference. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "paperback_book/bisnup",
+    "target_assets": [
+      "paperback_book/bisnup"
+    ]
+  },
+  "binding_sha256": "3150b8d7b1649d52f205c9aa7e507f6219f61c746108139f2c1cc52144fe0e1f"
+}

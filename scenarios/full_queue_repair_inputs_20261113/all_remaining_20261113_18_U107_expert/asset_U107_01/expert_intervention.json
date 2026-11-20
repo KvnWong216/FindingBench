@@ -1,0 +1,117 @@
+{
+  "status": "static_screened_physics_pending",
+  "old_storage": "expert_storage_0",
+  "new_storage": {
+    "name": "expert_storage_93",
+    "category": "bottom_cabinet_no_top",
+    "model": "vzzafs",
+    "floor": "floors_jniagb_0",
+    "position_xy": [
+      4.15,
+      -2.75
+    ],
+    "aabb": [
+      [
+        3.823635940551758,
+        -2.9764886016845704,
+        -0.0
+      ],
+      [
+        4.476364059448242,
+        -2.5235113983154296,
+        0.8682071838378906
+      ]
+    ],
+    "room": "private_office_0"
+  },
+  "released_compiler_links": [
+    {
+      "entity": "item_01",
+      "previous_link": "meta__base_link_fillable_0_0_link"
+    },
+    {
+      "entity": "item_05",
+      "previous_link": "meta__base_link_fillable_0_0_link"
+    }
+  ],
+  "replaced_failed_auxiliary_fixture": false,
+  "previous_auxiliary_asset": null,
+  "conservative_opening_clearance_m": 0.0,
+  "opening_sweep_requires_native_measurement": true,
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/full_queue_565ddf0abdcd_U107/asset_U107_01/scenario.yaml",
+  "original_sha256": "dd498c5b1b52aac116c7379300479112fe0fd933303cc6140424dbce39e0ba30",
+  "diagnosis_directory": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/full_queue_565ddf0abdcd_U107/asset_U107_01",
+  "solver": {
+    "status": "feasible_model",
+    "device": "cuda",
+    "backend": "torch_cuda_finite_csp",
+    "solve_seconds": 0.2944363825954497,
+    "nodes": 0,
+    "candidate_tests": 0,
+    "search_orders_tried": 0,
+    "grid_m": 0.001,
+    "margin_m": 0.015,
+    "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+    "physical_validation_required": true,
+    "assignment": {
+      "item_01": "meta__base_link_fillable_0_0_link",
+      "item_05": "meta__base_link_fillable_0_0_link"
+    },
+    "poses": {
+      "item_01": {
+        "bin": "meta__base_link_fillable_0_0_link",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.015
+        ],
+        "footprint_m": [
+          0.228,
+          0.111
+        ],
+        "center_xy_m": [
+          0.129,
+          0.07050000000000001
+        ]
+      },
+      "item_05": {
+        "bin": "meta__base_link_fillable_0_0_link",
+        "yaw_degrees": 90,
+        "lower_xy_m": [
+          0.015,
+          0.14100000000000001
+        ],
+        "footprint_m": [
+          0.048,
+          0.008
+        ],
+        "center_xy_m": [
+          0.039,
+          0.14500000000000002
+        ]
+      }
+    },
+    "constructive_witness": "single strip; exact quantized box and clearance checks"
+  },
+  "variant": 93,
+  "task_local_model_experience": [
+    {
+      "inventory_sha256": "b1795be522d571327d6e54ddb17a46b19893b567ee8b0b59c67465d1b028bf95",
+      "asset": "bottom_cabinet/nnvyol",
+      "reason": "No allowed bin/orientation fits an item",
+      "native_policy_signature": "638901e57b44747045bd55ed10084fe82451f1075c4c28aa6f0af555449b389c",
+      "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/full_queue_565ddf0abdcd_U107/asset_U107_01/native_validation.log",
+      "scenario_sha256": "dd498c5b1b52aac116c7379300479112fe0fd933303cc6140424dbce39e0ba30",
+      "scope": "same task and unchanged inventory; try another model first, never exclude the asset globally"
+    }
+  ],
+  "preserved": [
+    "instruction",
+    "goal",
+    "target",
+    "robot",
+    "spawn",
+    "all task items and counts",
+    "relation types"
+  ]
+}

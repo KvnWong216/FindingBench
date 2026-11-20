@@ -1,0 +1,247 @@
+{
+  "id": "asset_P273_01",
+  "family": "semantic_P273",
+  "scene": "Wainscott_1_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P273_01/scenario.yaml",
+  "scenario_sha256": "930e16f9599a1a4f2ff80be4046d49b540b3fd6e03df6d5008eba2a310f4803a",
+  "instruction": "Find the cologne bottle matching the sample on the cabinet top in front of you in the bedroom in the bedroom among the bathroom toiletries and put it beside the sample.",
+  "target_key": "bottle_of_cologne/lyipur",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bathroom_0",
+  "destination_room": "bedroom_0",
+  "source_receptacle": "bottom_cabinet_nnvyol_1",
+  "destination_receptacle": "bottom_cabinet_jhymlr_1",
+  "object_count": 11,
+  "distractor_count": 9,
+  "source_survey_sha256": "7894c711eea34a656ee926a132d6563ce3833b5ddb45c126d0ce534dd2edca60",
+  "route": {
+    "start": [
+      -1.25,
+      9.15,
+      -3.141592653589793
+    ],
+    "path_xy": [
+      [
+        -1.25,
+        9.15
+      ],
+      [
+        -1.25,
+        9.25
+      ],
+      [
+        -1.25,
+        9.35
+      ],
+      [
+        -1.25,
+        9.450000000000001
+      ],
+      [
+        -1.25,
+        9.55
+      ],
+      [
+        -1.25,
+        9.65
+      ],
+      [
+        -1.25,
+        9.75
+      ],
+      [
+        -1.25,
+        9.850000000000001
+      ],
+      [
+        -1.25,
+        9.950000000000001
+      ],
+      [
+        -1.25,
+        10.05
+      ],
+      [
+        -1.25,
+        10.15
+      ],
+      [
+        -1.25,
+        10.25
+      ],
+      [
+        -1.25,
+        10.350000000000001
+      ],
+      [
+        -1.1500000000000001,
+        10.350000000000001
+      ],
+      [
+        -1.05,
+        10.350000000000001
+      ],
+      [
+        -0.9500000000000001,
+        10.350000000000001
+      ],
+      [
+        -0.8500000000000001,
+        10.350000000000001
+      ],
+      [
+        -0.75,
+        10.350000000000001
+      ],
+      [
+        -0.65,
+        10.350000000000001
+      ],
+      [
+        -0.55,
+        10.350000000000001
+      ],
+      [
+        -0.45,
+        10.350000000000001
+      ],
+      [
+        -0.35000000000000003,
+        10.350000000000001
+      ],
+      [
+        -0.25,
+        10.350000000000001
+      ],
+      [
+        -0.15000000000000002,
+        10.350000000000001
+      ],
+      [
+        -0.05,
+        10.350000000000001
+      ],
+      [
+        0.05,
+        10.350000000000001
+      ],
+      [
+        0.15000000000000002,
+        10.350000000000001
+      ],
+      [
+        0.25,
+        10.350000000000001
+      ],
+      [
+        0.35000000000000003,
+        10.350000000000001
+      ],
+      [
+        0.45,
+        10.350000000000001
+      ],
+      [
+        0.45,
+        10.25
+      ],
+      [
+        0.55,
+        10.25
+      ],
+      [
+        0.55,
+        10.15
+      ],
+      [
+        0.65,
+        10.15
+      ],
+      [
+        0.65,
+        10.05
+      ],
+      [
+        0.65,
+        9.950000000000001
+      ],
+      [
+        0.65,
+        9.850000000000001
+      ],
+      [
+        0.65,
+        9.75
+      ],
+      [
+        0.65,
+        9.65
+      ],
+      [
+        0.65,
+        9.55
+      ],
+      [
+        0.65,
+        9.450000000000001
+      ],
+      [
+        0.75,
+        9.450000000000001
+      ]
+    ],
+    "length_m": 4.1,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 33,
+    "destination_approach_count": 60,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "required_negative_0",
+    "bottom_cabinet_nnvyol_2",
+    "bottom_cabinet_nnvyol_1"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "parent_task_id": "P273",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P273_01",
+    "parent_task_id": "P273",
+    "before_instruction": "Find the cologne bottle marked 100 mL among bathroom toiletries and put it beside the small cologne bottle on the bedroom vanity.",
+    "after_instruction": "Find the cologne bottle matching the sample on the cabinet top in front of you in the bedroom in the bedroom among the bathroom toiletries and put it beside the sample.",
+    "reason": "Retains matching-based retrieval through a physical same-native-model sample on the delivery surface. Any original cross-object compatibility, photo or consumable-state requirement is explicitly replaced with visible product/shape matching. Original source and destination rooms preserved; forced native distractor creates a real competing selection.",
+    "target_asset": "bottle_of_cologne/lyipur",
+    "target_assets": [
+      "bottle_of_cologne/lyipur"
+    ]
+  },
+  "binding_sha256": "df0a980bb5b861d404956310a2ab06ad1c6df190729cf5d9b3aa4e4ab94f519b"
+}

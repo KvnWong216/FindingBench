@@ -1,0 +1,165 @@
+id: asset_F064_01
+instruction: Find a can of tomatoes and a jar of tomato sauce on the grocery shelves
+  and put both in the shopping basket in front of you in the grocery store for two
+  pasta recipes.
+scene:
+  model: grocery_store_convenience
+  source: behavior
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - 1.6
+    - 0.30000000000000004
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - 1.0
+    - 6.123233995736766e-17
+target:
+  entity: item_01
+  category: can_of_tomatoes
+objects:
+- name: item_00
+  category: shopping_basket
+  model: vsxhsv
+- name: item_01
+  category: can_of_tomatoes
+  model: ckdouu
+- name: item_02
+  category: tomato_sauce_jar
+  model: krfzqk
+- name: item_03
+  category: bottle_of_mushroom_sauce
+  model: xamfxi
+- name: item_04
+  category: bottle_of_mustard
+  model: qbbqat
+- name: item_05
+  category: bottle_of_pesto
+  model: hyeetr
+- name: item_06
+  category: bottle_of_pizza_sauce
+  model: clttao
+- name: item_07
+  category: bottle_of_soy_sauce
+  model: afxisg
+- name: item_08
+  category: bottle_of_sriracha
+  model: gnklax
+- name: item_09
+  category: bottle_of_tomato_paste
+  model: pnshkj
+- name: item_10
+  category: catsup_bottle
+  model: qfvqfm
+- name: search_storage
+  category: shelf
+  model: vanltx
+  fixed_base: true
+- name: delivery_surface
+  category: breakfast_table
+  model: iaritq
+  fixed_base: true
+placements:
+- entity: item_00
+  relation: on_top
+  receptacle: delivery_surface
+- entity: item_01
+  relation: on_top
+  receptacle: search_storage
+- entity: item_02
+  relation: on_top
+  receptacle: search_storage
+- entity: item_03
+  relation: on_top
+  receptacle: search_storage
+- entity: item_04
+  relation: on_top
+  receptacle: search_storage
+- entity: item_05
+  relation: on_top
+  receptacle: search_storage
+- entity: item_06
+  relation: on_top
+  receptacle: search_storage
+- entity: item_07
+  relation: on_top
+  receptacle: search_storage
+- entity: item_08
+  relation: on_top
+  receptacle: search_storage
+- entity: item_09
+  relation: on_top
+  receptacle: search_storage
+- entity: item_10
+  relation: on_top
+  receptacle: search_storage
+- entity: search_storage
+  relation: on_top
+  receptacle: floors_rojznj_0
+  position_xy:
+  - 0.2
+  - -1.4000000000000001
+- entity: delivery_surface
+  relation: on_top
+  receptacle: floors_rojznj_0
+  position_xy:
+  - 0.7000000000000001
+  - 0.7000000000000001
+initial_states: {}
+goal:
+- kind: inside
+  entity: item_01
+  receptacle: item_00
+- kind: inside
+  entity: item_02
+  receptacle: item_00
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

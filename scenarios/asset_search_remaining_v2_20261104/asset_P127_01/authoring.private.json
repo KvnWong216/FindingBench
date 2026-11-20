@@ -1,0 +1,127 @@
+{
+  "id": "asset_P127_01",
+  "family": "semantic_P127",
+  "scene": "hotel_suite_small",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P127_01/scenario.yaml",
+  "scenario_sha256": "941a77d3ac471361cf3dccdc965f516139e11b0cbc4b89d5f8816c5c67652bca",
+  "instruction": "There is a sample on the counter in front of you in the bedroom. Find the perfume bottle matching that sample among the bedroom vanity bottles and put it on the counter in front of you in the bedroom.",
+  "target_key": "bottle_of_perfume/ipurzb",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bedroom_0",
+  "destination_room": "bedroom_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 12,
+  "distractor_count": 8,
+  "source_survey_sha256": "2a5d624adab0b3fa86ce27d00fa1bb4bcc30f498b6341249b53a05c61a35a019",
+  "route": {
+    "start": [
+      -4.0,
+      0.4,
+      0.0
+    ],
+    "path_xy": [
+      [
+        -4.0,
+        0.4
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 54,
+    "destination_approach_count": 23,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "nightstand",
+      "model": "uudzva",
+      "floor": "floors_iylkzm_0",
+      "position_xy": [
+        -3.5,
+        -0.30000000000000004
+      ],
+      "aabb": [
+        [
+          -3.675,
+          -0.5299999771118165,
+          0.0
+        ],
+        [
+          -3.325,
+          -0.07000002288818363,
+          0.7000004272460938
+        ]
+      ],
+      "room": "bedroom_0"
+    },
+    {
+      "name": "delivery_surface",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_iylkzm_0",
+      "position_xy": [
+        -3.2,
+        0.6000000000000001
+      ],
+      "aabb": [
+        [
+          -3.3671447601318363,
+          0.2577120208740235,
+          0.0
+        ],
+        [
+          -3.032855239868164,
+          0.9422879791259766,
+          0.6846599731445313
+        ]
+      ],
+      "room": "bedroom_0"
+    }
+  ],
+  "parent_task_id": "P127",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P127_01",
+    "parent_task_id": "P127",
+    "before_instruction": "Find the perfume bottle with the lowest printed volume among the bedroom vanity bottles and put it in the empty tray on the dresser.",
+    "after_instruction": "There is a sample on the counter in front of you in the bedroom. Find the perfume bottle matching that sample among the bedroom vanity bottles and put it on the counter in front of you in the bedroom.",
+    "reason": "Replaces unsupported smallest printed-volume ordering with a physical fragrance reference. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "bottle_of_perfume/ipurzb",
+    "target_assets": [
+      "bottle_of_perfume/ipurzb"
+    ]
+  },
+  "binding_sha256": "6e60c604e8c35fbb4754fbce59061e1f593b4db123e9e2c550e73dc62cf39e55"
+}

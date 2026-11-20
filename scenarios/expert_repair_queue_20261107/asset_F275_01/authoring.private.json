@@ -1,0 +1,88 @@
+{
+  "id": "asset_F275_01",
+  "family": "semantic_F275",
+  "scene": "Beechwood_0_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_F275_01/scenario.yaml",
+  "scenario_sha256": "10b57bc7e86b255a39d1e85adb6c34ec260aea43ac5406c851711b73de334ccb",
+  "instruction": "Find two water bottles on the kitchen drink shelves and bring both to the table in front of you in the kitchen in the kitchen.",
+  "target_key": "bottle_of_water/rrkhva",
+  "target_entities": [
+    "item_00",
+    "item_01"
+  ],
+  "target_count": 2,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "bookcase_owvfik_0",
+  "destination_receptacle": "breakfast_table_uhrsex_0",
+  "object_count": 10,
+  "distractor_count": 8,
+  "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+  "route": {
+    "start": [
+      0.25,
+      -8.55,
+      0.0
+    ],
+    "path_xy": [
+      [
+        0.25,
+        -8.55
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [],
+    "prefer_alternative_layout": false,
+    "assignments": {},
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "F275",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F275_01",
+    "parent_task_id": "F275",
+    "before_instruction": "Find two water bottles in the pantry drink shelves and put them beside the empty pitcher on the kitchen table.",
+    "after_instruction": "Find two water bottles on the kitchen drink shelves and bring both to the table in front of you in the kitchen in the kitchen.",
+    "reason": "The identified delivery surface is grounded by the initial facing direction; decorative destination landmarks are omitted. Target identity, requested cardinality and source/destination room types are retained. Layout revision: the unbuilt pantry-room task is explicitly relocated to the kitchen food-storage area because surveyed pantry rooms lack two robot-accessible storage/delivery positions. Target models, counts, reference matching, destination inventory and goals are unchanged; this changes room scope and may shorten transport.",
+    "target_asset": "bottle_of_water/rrkhva",
+    "target_assets": [
+      "bottle_of_water/rrkhva",
+      "bottle_of_water/rrkhva"
+    ]
+  },
+  "binding_sha256": "4e7d2b0542e03083848224422d1786b1344f1d63abaac8bc83a566e6c2f81e11"
+}

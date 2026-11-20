@@ -1,0 +1,463 @@
+{
+  "tasks": [
+    {
+      "id": "asset_U221_01",
+      "family": "semantic_U221",
+      "scene": "house_double_floor_lower",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_255_U221_expert_1346d24cf3bf/asset_U221_01/scenario.yaml",
+      "scenario_sha256": "7f9f0193c3cbe105108f663a161b28a2e58784ddf2dbf6f5b4204c417585d531",
+      "instruction": "Bring the water sprayer from the garden supply storage to the table in front of you in the garden in the garden for the potted plants.",
+      "target_key": "water_atomizer/lfarai",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "garden_0",
+      "destination_room": "garden_0",
+      "source_receptacle": "search_storage",
+      "destination_receptacle": "delivery_surface",
+      "object_count": 11,
+      "distractor_count": 8,
+      "source_survey_sha256": "0a3f401e7605a056f40f88d913d8c052476ef760acf457ac11cb1f76abbe581f",
+      "route": {
+        "start": [
+          16.45,
+          3.5500000000000003,
+          3.141592653589793
+        ],
+        "path_xy": [
+          [
+            16.45,
+            3.5500000000000003
+          ],
+          [
+            16.55,
+            3.5500000000000003
+          ],
+          [
+            16.650000000000002,
+            3.5500000000000003
+          ],
+          [
+            16.75,
+            3.5500000000000003
+          ],
+          [
+            16.85,
+            3.5500000000000003
+          ],
+          [
+            16.95,
+            3.5500000000000003
+          ],
+          [
+            17.05,
+            3.5500000000000003
+          ],
+          [
+            17.150000000000002,
+            3.5500000000000003
+          ],
+          [
+            17.150000000000002,
+            3.6500000000000004
+          ],
+          [
+            17.150000000000002,
+            3.75
+          ],
+          [
+            17.150000000000002,
+            3.85
+          ],
+          [
+            17.150000000000002,
+            3.95
+          ],
+          [
+            17.150000000000002,
+            4.05
+          ],
+          [
+            17.150000000000002,
+            4.15
+          ]
+        ],
+        "length_m": 1.3,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "search_storage"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "delivery_surface",
+          "category": "breakfast_table",
+          "model": "iaritq",
+          "floor": "floors_ghetev_0",
+          "position_xy": [
+            15.55,
+            3.95
+          ],
+          "aabb": [
+            [
+              15.198999710083008,
+              3.599453765869141,
+              0.014
+            ],
+            [
+              15.901000289916993,
+              4.300546234130859,
+              0.7630009155273437
+            ]
+          ],
+          "room": "garden_0"
+        },
+        {
+          "name": "search_storage",
+          "category": "metal_bottom_cabinet",
+          "model": "mvsgdm",
+          "floor": "floors_ghetev_0",
+          "position_xy": [
+            17.95,
+            4.75
+          ],
+          "aabb": [
+            [
+              17.642566650390624,
+              4.547301391601563,
+              0.014
+            ],
+            [
+              18.257433349609375,
+              4.952698608398437,
+              0.936740234375
+            ]
+          ],
+          "room": "garden_0"
+        }
+      ],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "search_storage",
+            "volume_extents_m": {
+              "meta__base_link_fillable_0_0_link": [
+                0.5473286929526531,
+                0.3705734570026398,
+                0.6824468834533353
+              ]
+            },
+            "native_links": {
+              "meta__base_link_fillable_0_0_link": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "metal_bottom_cabinet/mvsgdm",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "b4233c87f868b2952c59b5151803ddafbba2e91d07ab899a0083df0ebe24f91e",
+              "metadata_sha256": "ad6327768f6e24a442bee2d5aa82636474c2abddb0c786104299975551c260a1",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.035793391056358814,
+              "nodes": 9,
+              "candidate_tests": 8866,
+              "search_orders_tried": 1,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_01": "meta__base_link_fillable_0_0_link",
+                "item_02": "meta__base_link_fillable_0_0_link",
+                "item_03": "meta__base_link_fillable_0_0_link",
+                "item_04": "meta__base_link_fillable_0_0_link",
+                "item_05": "meta__base_link_fillable_0_0_link",
+                "item_06": "meta__base_link_fillable_0_0_link",
+                "item_07": "meta__base_link_fillable_0_0_link",
+                "item_08": "meta__base_link_fillable_0_0_link",
+                "item_00": "meta__base_link_fillable_0_0_link"
+              },
+              "poses": {
+                "item_01": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.106,
+                    0.084
+                  ],
+                  "center_xy_m": [
+                    0.058,
+                    0.047
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.116,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.106,
+                    0.084
+                  ],
+                  "center_xy_m": [
+                    0.169,
+                    0.047
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.227,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.106,
+                    0.084
+                  ],
+                  "center_xy_m": [
+                    0.28,
+                    0.047
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.338,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.106,
+                    0.084
+                  ],
+                  "center_xy_m": [
+                    0.391,
+                    0.047
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.094
+                  ],
+                  "footprint_m": [
+                    0.106,
+                    0.084
+                  ],
+                  "center_xy_m": [
+                    0.058,
+                    0.136
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.116,
+                    0.094
+                  ],
+                  "footprint_m": [
+                    0.106,
+                    0.084
+                  ],
+                  "center_xy_m": [
+                    0.169,
+                    0.136
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.227,
+                    0.094
+                  ],
+                  "footprint_m": [
+                    0.106,
+                    0.084
+                  ],
+                  "center_xy_m": [
+                    0.28,
+                    0.136
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.338,
+                    0.094
+                  ],
+                  "footprint_m": [
+                    0.106,
+                    0.084
+                  ],
+                  "center_xy_m": [
+                    0.391,
+                    0.136
+                  ]
+                },
+                "item_00": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.449,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.077,
+                    0.091
+                  ],
+                  "center_xy_m": [
+                    0.4875,
+                    0.0505
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_01": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link",
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link",
+              "item_00": "meta__base_link_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_01": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link",
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link",
+              "item_00": "meta__base_link_fillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link",
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link",
+          "item_00": "meta__base_link_fillable_0_0_link"
+        },
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [],
+      "parent_task_id": "U221",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_U221_01",
+        "parent_task_id": "U221",
+        "before_instruction": "The plant pot on the garden table has a narrow opening. Find the watering can with the narrowest spout among the garage supplies and put it beside that pot.",
+        "after_instruction": "Bring the water sprayer from the garden supply storage to the table in front of you in the garden in the garden for the potted plants.",
+        "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Missing constructed comparison/count evidence and distractor set for watering can with narrow spout. Multiple spout forms and empty rigid can required; watering_can: every surveyed model exceeds 0.60 m in at least one dimension; no default portable fetch model established and no automatic shrinking; watering_can: only one native model; requested within-category size alternatives are not established Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: garage/cabinet -> garden/table becomes garden/cabinet -> garden/table. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+        "target_asset": "water_atomizer/lfarai",
+        "target_assets": [
+          "water_atomizer/lfarai"
+        ]
+      },
+      "binding_sha256": "b2628bfa24a44fef150e2f416b84b97a370758603d5872b8c8b6faa0631b8182",
+      "storage_model_experience": [],
+      "scene_fixture_replacements": [
+        {
+          "entity": "search_storage",
+          "replacement_entity": "search_storage",
+          "before_asset": "bottom_cabinet_no_top/vzzafs",
+          "after_asset": "metal_bottom_cabinet/mvsgdm",
+          "before_aabb": [
+            [
+              17.623635940551758,
+              4.52351139831543,
+              0.014
+            ],
+            [
+              18.27636405944824,
+              4.97648860168457,
+              0.8822071838378907
+            ]
+          ],
+          "after_aabb": [
+            [
+              17.642566650390624,
+              4.547301391601563,
+              0.014
+            ],
+            [
+              18.257433349609375,
+              4.952698608398437,
+              0.936740234375
+            ]
+          ],
+          "source_sha256": "af0ece74f3f14dab112c6d1b6e8fda2ff0a59ce4e0a28d6883b72ba804103a4b",
+          "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/reviewed_followup_231_U221/asset_U221_01",
+          "reason": "Replace failed source at its existing site; adding another fixture consumes its approach space",
+          "physical_validation_required": true
+        }
+      ]
+    }
+  ]
+}

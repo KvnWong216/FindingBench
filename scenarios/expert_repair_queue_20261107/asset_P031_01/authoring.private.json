@@ -1,0 +1,166 @@
+{
+  "id": "asset_P031_01",
+  "family": "semantic_P031",
+  "scene": "Rs_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_P031_01/scenario.yaml",
+  "scenario_sha256": "2986bd9c7339f732c8df2988d915d592e371efa3bd4dc36e88a6a2d3df953e4f",
+  "instruction": "Find the toy train in the living-room toy cabinet and bring it to the table in front of you in the living room for playtime.",
+  "target_key": "toy_train/zdfhbw",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "bottom_cabinet_jhymlr_0",
+  "destination_receptacle": "coffee_table_fqluyq_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "24bd47925e994c3defe707f3d8a919b355cd46a7128d2b59d373bc2697d8185e",
+  "route": {
+    "start": [
+      0.4,
+      -1.6,
+      3.141592653589793
+    ],
+    "path_xy": [
+      [
+        0.4,
+        -1.6
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_jhymlr_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_jhymlr_0",
+        "volume_extents_m": {
+          "link_0": [
+            0.4754772186279297,
+            0.7418394088745117,
+            0.12009961158037186
+          ],
+          "link_1": [
+            0.47547733783721924,
+            0.7418254613876343,
+            0.12009966373443604
+          ],
+          "link_2": [
+            0.4754762649536133,
+            0.7418252229690552,
+            0.06008857488632202
+          ],
+          "link_3": [
+            0.4754774570465088,
+            0.7418394088745117,
+            0.12009958922863007
+          ],
+          "link_4": [
+            0.47547757625579834,
+            0.7418253421783447,
+            0.12009960412979126
+          ],
+          "link_5": [
+            0.47547638416290283,
+            0.7418251633644104,
+            0.06008857488632202
+          ]
+        },
+        "native_links": {
+          "link_0": "link_0",
+          "link_1": "link_1",
+          "link_2": "link_2",
+          "link_3": "link_3",
+          "link_4": "link_4",
+          "link_5": "link_5"
+        },
+        "geometry_source": "survey",
+        "geometry_provenance": {},
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_05": "link_3",
+          "item_01": "link_0",
+          "item_07": "link_4",
+          "item_00": "link_1",
+          "item_06": "link_0",
+          "item_02": "link_5",
+          "item_08": "link_2",
+          "item_04": "link_5",
+          "item_03": "link_2"
+        },
+        "component_allocation": {
+          "item_05": "link_3",
+          "item_01": "link_0",
+          "item_07": "link_4",
+          "item_00": "link_1",
+          "item_06": "link_0",
+          "item_02": "link_5",
+          "item_08": "link_2",
+          "item_04": "link_5",
+          "item_03": "link_2"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_05": "link_3",
+      "item_01": "link_0",
+      "item_07": "link_4",
+      "item_00": "link_1",
+      "item_06": "link_0",
+      "item_02": "link_5",
+      "item_08": "link_2",
+      "item_04": "link_5",
+      "item_03": "link_2"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "P031",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P031_01",
+    "parent_task_id": "P031",
+    "before_instruction": "Find the toy locomotive among the living-room toy cabinet contents and place it at the end of the tracks on the play mat.",
+    "after_instruction": "Find the toy train in the living-room toy cabinet and bring it to the table in front of you in the living room for playtime.",
+    "reason": "Uses native toy_train without unverified locomotive subtype or unconstructed rail endpoint. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "toy_train/zdfhbw",
+    "target_assets": [
+      "toy_train/zdfhbw"
+    ]
+  },
+  "binding_sha256": "44f05afe1fe883244e024d484cb601586eabc355252ee71122d9fec9ee830a1f"
+}

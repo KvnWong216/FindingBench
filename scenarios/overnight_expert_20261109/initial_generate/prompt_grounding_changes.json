@@ -1,0 +1,447 @@
+[
+  {
+    "id": "asset_F072_01",
+    "parent_task_id": "F072",
+    "before_instruction": "Find a kitchen bowl smaller than the mixing bowl on the counter, small enough to nest inside it, and place it beside that mixing bowl.",
+    "after_instruction": "There is a sample on the counter in front of you in the kitchen. Find a bowl matching that sample in the kitchen cupboard and bring it to the counter in front of you in the kitchen.",
+    "reason": "Replaces unverified nesting fit into a mixing bowl with direct native-model matching. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "bowl/fiarri",
+    "target_assets": [
+      "bowl/fiarri"
+    ]
+  },
+  {
+    "id": "asset_F073_01",
+    "parent_task_id": "F073",
+    "before_instruction": "Find a tray in the kitchen storage with enough flat space for the two plates already on the kitchen table, and set it beside them.",
+    "after_instruction": "Find a serving tray in the kitchen storage and bring it to the table in front of you in the kitchen so I can carry the dishes.",
+    "reason": "Removed unverified two-plate capacity requirement; retained serving-tray use and kitchen retrieval. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "tray/spopfj",
+    "target_assets": [
+      "tray/spopfj"
+    ]
+  },
+  {
+    "id": "asset_F136_01",
+    "parent_task_id": "F136",
+    "before_instruction": "Find a table fork in the kitchen utensil drawers and put it beside the cake plate on the living room coffee table.",
+    "after_instruction": "Find a table fork in the kitchen utensil drawers and bring it to the table in front of you in the living room in the living room for cake.",
+    "reason": "The identified delivery surface is grounded by the initial facing direction; decorative destination landmarks are omitted. Target identity, requested cardinality and source/destination room types are retained.",
+    "target_asset": "tablefork/ptqjqv",
+    "target_assets": [
+      "tablefork/ptqjqv"
+    ]
+  },
+  {
+    "id": "asset_F182_01",
+    "parent_task_id": "F182",
+    "before_instruction": "Find the lid fitting the Dutch oven on the kitchen counter among the cookware in the storage room and put it beside that pot.",
+    "after_instruction": "There is a sample on the counter in front of you in the kitchen. Find a pot lid matching that sample among the kitchen cookware and bring it to the counter in front of you in the kitchen.",
+    "reason": "Replaces unverified Dutch-oven compatibility with a real matching-lid sample; source storage room retained. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Explicit spatial revision from ('storage_room', 'cabinet', 'kitchen', 'counter') to ('kitchen', 'cabinet', 'kitchen', 'counter'): uses a room/storage pairing with previously found robot clearance and path evidence (20 prior recipes). Item sets, reference matching and inventory predicates are unchanged. This is now local preparation rather than cross-room transport.",
+    "target_asset": "lid/obuzeh",
+    "target_assets": [
+      "lid/obuzeh"
+    ]
+  },
+  {
+    "id": "asset_F206_01",
+    "parent_task_id": "F206",
+    "before_instruction": "Find an undamaged box of chocolates among the kitchen sweets and put it beside the gift bag on the entryway table.",
+    "after_instruction": "There is a sample on the table in front of you in the entryway. Find a chocolate box matching that sample among the kitchen sweets and bring it to the table in front of you in the entryway in the entryway.",
+    "reason": "Revises unsupported damage inspection into native-product matching while preserving gift-preparation transport. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "box_of_chocolates/bdvkbh",
+    "target_assets": [
+      "box_of_chocolates/bdvkbh"
+    ]
+  },
+  {
+    "id": "asset_F208_01",
+    "parent_task_id": "F208",
+    "before_instruction": "Find a cookie box with an untorn front among the kitchen groceries and put it beside the camera on the dining room sideboard.",
+    "after_instruction": "There is a sample on the cabinet top in front of you in the dining room. Find the cookie box matching that sample among the kitchen groceries and bring it to the cabinet top in front of you in the dining room in the dining room for a photograph.",
+    "reason": "Replaces unverified untorn-front quality criterion with a native product sample. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "box_of_cookies/jtalxs",
+    "target_assets": [
+      "box_of_cookies/jtalxs"
+    ]
+  },
+  {
+    "id": "asset_P095_01",
+    "parent_task_id": "P095",
+    "before_instruction": "Find the toy train engine with the number 3 on its side among the living-room toy drawers and put it on the entryway bench.",
+    "after_instruction": "There is a sample on the cabinet top in front of you in the entryway. Find the toy train matching that sample among the living-room toy drawers and bring it to the cabinet top in front of you in the entryway in the entryway.",
+    "reason": "Replaces unverified number 3 and engine subtype with native train matching. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "toy_train/zdfhbw",
+    "target_assets": [
+      "toy_train/zdfhbw"
+    ]
+  },
+  {
+    "id": "asset_P106_01",
+    "parent_task_id": "P106",
+    "before_instruction": "Find the cell phone, rigid wallet, and house-tagged keys among the bedroom dresser and nightstand storage; put all three on the bed-foot bench.",
+    "after_instruction": "Find the phone, keys and wallet in the bedroom dresser drawers and put all three on the cabinet top in front of you in the bedroom before I go out.",
+    "reason": "Preserves the three-item packing list; removes unverified rigid wallet, house tag and a second hypothetical source. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "cell_phone/dbhfuh",
+    "target_assets": [
+      "cell_phone/dbhfuh",
+      "keys/olymng",
+      "wallet/lagjae"
+    ]
+  },
+  {
+    "id": "asset_P109_01",
+    "parent_task_id": "P109",
+    "before_instruction": "Find the chess-set box and the jigsaw box marked 100 pieces in living-room storage; put both on the entryway bench.",
+    "after_instruction": "Find the chess set and the jigsaw puzzle in the living-room game storage and bring both to the cabinet top in front of you in the entryway in the entryway for the visit.",
+    "reason": "Preserves two game categories; removes unverified separate boxes and fictional 100-piece label. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "chess_set/nzgefv",
+    "target_assets": [
+      "chess_set/nzgefv",
+      "jigsaw_puzzle/antykn"
+    ]
+  },
+  {
+    "id": "asset_P129_01",
+    "parent_task_id": "P129",
+    "before_instruction": "Find a shampoo bottle marked 75 mL and a toothpaste tube marked 25 mL among bedroom travel supplies; place both beside the bathroom sink.",
+    "after_instruction": "Find the conditioner bottle marked \"250 ml\" and the toothpaste tube marked \"100ml\" among the bedroom travel supplies and bring both to the counter in front of you in the bathroom in the bathroom.",
+    "reason": "Directly viewed native labels support conditioner 250 ml and toothpaste 100ml; replaces nonexistent shampoo 75 mL and toothpaste 25 mL while preserving two labeled-volume selections. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "bottle_of_shampoo/dvrzmy",
+    "target_assets": [
+      "bottle_of_shampoo/dvrzmy",
+      "tube_of_toothpaste/vsclsj"
+    ]
+  },
+  {
+    "id": "asset_P137_01",
+    "parent_task_id": "P137",
+    "before_instruction": "Find discs 1 and 2 of City Lights among the living-room media storage and put both closed cases below the television.",
+    "after_instruction": "There is a sample on the cabinet top in front of you in the living room. Find two DVDs matching that sample in the living-room media storage and bring both to the cabinet top in front of you in the living room.",
+    "reason": "Preserves cardinality two while replacing fictional numbered films and unverified closed cases with same-model discs. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "dvd/lggrfa",
+    "target_assets": [
+      "dvd/lggrfa",
+      "dvd/lggrfa"
+    ]
+  },
+  {
+    "id": "asset_P163_01",
+    "parent_task_id": "P163",
+    "before_instruction": "Find the rigid miniature stop sign among bedroom toy drawers and put it beside the empty sign base on the living-room play mat.",
+    "after_instruction": "Fetch a toy car from the bedroom toys and put it on the table in front of you in the living room in the living room for the pretend street scene.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; No target model allocated for miniature stop sign. No native miniature stop-sign component was identified; full-size signpost is not an interchangeable toy asset. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Uses a smaller existing native model without rescaling; large toy vehicle/chess board is not imported as a portable target.",
+    "target_asset": "toy_car/ksijjl",
+    "target_assets": [
+      "toy_car/ksijjl"
+    ]
+  },
+  {
+    "id": "asset_P169_01",
+    "parent_task_id": "P169",
+    "before_instruction": "Find the black and white knight pieces among living-room game storage and place them on the bedroom bedside table beside the small board.",
+    "after_instruction": "Retrieve the chess set from the living room games and put it on the cabinet top in front of you in the bedroom in the bedroom for playing chess.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Missing complete set membership, quantities and/or attribute-specific native models for black and white knights. Whole chess_set availability does not establish separately graspable black and white knight objects. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Uses a smaller existing native model without rescaling; large toy vehicle/chess board is not imported as a portable target.",
+    "target_asset": "chess_set/nzgefv",
+    "target_assets": [
+      "chess_set/nzgefv"
+    ]
+  },
+  {
+    "id": "asset_P178_01",
+    "parent_task_id": "P178",
+    "before_instruction": "Find the paperback marked Dyslexia Friendly among living-room books and put it on the bedroom nightstand beside the lamp.",
+    "after_instruction": "Bring the paperback with the same cover as the sample on the cabinet top in front of you in the bedroom in the bedroom from the living room books and put it beside the sample.",
+    "reason": "Retains matching-based retrieval through a physical same-native-model sample on the delivery surface. Any original cross-object compatibility, photo or consumable-state requirement is explicitly replaced with visible product/shape matching. Original source and destination rooms preserved; forced native distractor creates a real competing selection.",
+    "target_asset": "paperback_book/ydarnr",
+    "target_assets": [
+      "paperback_book/ydarnr"
+    ]
+  },
+  {
+    "id": "asset_P194_01",
+    "parent_task_id": "P194",
+    "before_instruction": "Find the rigid lid labeled Chess Pieces among living-room game storage and put it beside the open box on the bedroom play table.",
+    "after_instruction": "Bring a lid matching the sample on the cabinet top in front of you in the bedroom in the bedroom from the living room game storage and put it beside the sample.",
+    "reason": "Retains matching-based retrieval through a physical same-native-model sample on the delivery surface. Any original cross-object compatibility, photo or consumable-state requirement is explicitly replaced with visible product/shape matching. Original source and destination rooms preserved; forced native distractor creates a real competing selection.",
+    "target_asset": "lid/gploju",
+    "target_assets": [
+      "lid/gploju"
+    ]
+  },
+  {
+    "id": "asset_P267_01",
+    "parent_task_id": "P267",
+    "before_instruction": "Find the frame showing exactly two adults and one child among living-room cabinet keepsakes and place it facing the sofa on the coffee table.",
+    "after_instruction": "Bring the picture frame matching the sample on the table in front of you in the living room from the living room keepsakes and put it beside that sample.",
+    "reason": "Retains matching-based retrieval through a physical same-native-model sample on the delivery surface. Any original cross-object compatibility, photo or consumable-state requirement is explicitly replaced with visible product/shape matching. Original source and destination rooms preserved; forced native distractor creates a real competing selection.",
+    "target_asset": "picture_frame/guatvs",
+    "target_assets": [
+      "picture_frame/guatvs"
+    ]
+  },
+  {
+    "id": "asset_P284_01",
+    "parent_task_id": "P284",
+    "before_instruction": "Find the chess-set box labeled Travel among living-room games and put it on the bedroom bedside table.",
+    "after_instruction": "Fetch the chess set from the living room games and put it on the cabinet top in front of you in the bedroom in the bedroom for a game before bed.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; No verified native texture/model binding establishes the requested marking for Travel-labeled chess set. Native categories are only candidates; required subtype, markings, quantity, or reference appearance remain unverified: Travel-labeled chess set. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+    "target_asset": "chess_set/nzgefv",
+    "target_assets": [
+      "chess_set/nzgefv"
+    ]
+  },
+  {
+    "id": "asset_P293_01",
+    "parent_task_id": "P293",
+    "before_instruction": "Find the jigsaw box marked Ages 6+ among living-room games and put it on the bedroom play table.",
+    "after_instruction": "Find the jigsaw puzzle matching the sample on the cabinet top in front of you in the bedroom in the bedroom among the living room games and put it beside that sample.",
+    "reason": "Retains matching-based retrieval through a physical same-native-model sample on the delivery surface. Any original cross-object compatibility, photo or consumable-state requirement is explicitly replaced with visible product/shape matching. Original source and destination rooms preserved; forced native distractor creates a real competing selection.",
+    "target_asset": "jigsaw_puzzle/antykn",
+    "target_assets": [
+      "jigsaw_puzzle/antykn"
+    ]
+  },
+  {
+    "id": "asset_P316_01",
+    "parent_task_id": "P316",
+    "before_instruction": "Find the sunscreen labeled 50 mL and SPF 50 among bedroom travel drawers and place it on the entryway bench.",
+    "after_instruction": "Find the sunscreen marked \"SUN SCREEN\" and \"SPF 30\" among the bedroom travel supplies and put it on the table in front of you in the living room in the living room.",
+    "reason": "Replaces unsupported 50 mL/SPF 50 variant with actual native SUN SCREEN/SPF 30 labeling; remains explicit product-label selection, not generic sunscreen. Delivery is grounded on the unique initial-facing handoff support in the original destination room. Layout revision uses a surveyed feasible geometry pair: bedroom/drawer -> entryway/table becomes bedroom/drawer -> living_room/table. Native target models, quantities, reference criteria and distractors are unchanged. Cross-room transport remains explicit. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+    "target_asset": "bottle_of_sunscreen/prlrwi",
+    "target_assets": [
+      "bottle_of_sunscreen/prlrwi"
+    ]
+  },
+  {
+    "id": "asset_U034_01",
+    "parent_task_id": "U034",
+    "before_instruction": "I want the spare router ready for the network setup. Search the study's electronics storage and put it on the desk beside the monitor.",
+    "after_instruction": "I want the spare router ready for the network setup. Find it in the study electronics storage and put it on the desk in front of you in the study.",
+    "reason": "Preserves object identity and purpose; explicitly grounds the destination as the initial-facing native surface instead of an uninstantiated decorative landmark.",
+    "target_asset": "router/tokdic",
+    "target_assets": [
+      "router/tokdic"
+    ]
+  },
+  {
+    "id": "asset_U068_01",
+    "parent_task_id": "U068",
+    "before_instruction": "One screw is missing from this fitting. Search the garage's loose hardware for a screw matching the sample on the worktable and put it beside the sample.",
+    "after_instruction": "One screw is missing from a fitting. Find a screw among the garage hardware matching the sample on the cabinet top in front of you in the garage, and bring it to the same surface.",
+    "reason": "Preserves the source/destination room types and the single-source-object matching requirement. Grounds the comparison sample on the uniquely initial-facing handoff surface; reference is not a goal target. Delivery is onto the reference-bearing surface; no unimplemented beside-distance predicate is claimed. Exact same-model sample and different-model negatives are explicitly instantiated.",
+    "target_asset": "screw/mkfodk",
+    "target_assets": [
+      "screw/mkfodk"
+    ]
+  },
+  {
+    "id": "asset_U110_01",
+    "parent_task_id": "U110",
+    "before_instruction": "The sample tubes need somewhere to stand. Find the test tube rack in the study's science supplies and set it in the middle of the desk.",
+    "after_instruction": "The sample tubes need somewhere to stand. Find the test tube rack among the study science supplies and put it on the desk in front of you in the study.",
+    "reason": "Preserves object identity and purpose; explicitly grounds the destination as the initial-facing native surface instead of an uninstantiated decorative landmark.",
+    "target_asset": "test_tube_rack/ertfpr",
+    "target_assets": [
+      "test_tube_rack/ertfpr"
+    ]
+  },
+  {
+    "id": "asset_U116_01",
+    "parent_task_id": "U116",
+    "before_instruction": "The loose hardware needs separate compartments. Find a small desktop organizer in the storage room and put it on the table beside the toolbox.",
+    "after_instruction": "The loose hardware needs separate compartments. Find the small desktop organizer among the storage room containers and put it on the table in front of you in the storage room.",
+    "reason": "Preserves object identity and purpose; explicitly grounds the destination as the initial-facing native surface instead of an uninstantiated decorative landmark.",
+    "target_asset": "desk_organizer/yidrel",
+    "target_assets": [
+      "desk_organizer/yidrel"
+    ]
+  },
+  {
+    "id": "asset_U117_01",
+    "parent_task_id": "U117",
+    "before_instruction": "I want to carry the active project pieces together without digging into a box. Find a shallow tray in the storage room and set it on the table beside the chair.",
+    "after_instruction": "Bring a tray from the storage room containers to the table in front of you in the storage room; I want to lay out the current project pieces together.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; The tray must be shallow and permit carrying project pieces without a box; the candidate tray needs support-rim/usable-depth evidence, not only its category. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+    "target_asset": "tray/glwebh",
+    "target_assets": [
+      "tray/glwebh"
+    ]
+  },
+  {
+    "id": "asset_U118_01",
+    "parent_task_id": "U118",
+    "before_instruction": "The storage box on the table is missing its lid. Search the storage room's loose covers for the one that fits and put it beside the box.",
+    "after_instruction": "The lid sample is on the table in front of you in the storage room. Find a lid of the same shape among the storage room's loose covers and put it beside the sample.",
+    "reason": "Retains matching-based retrieval through a physical same-native-model sample on the delivery surface. Any original cross-object compatibility, photo or consumable-state requirement is explicitly replaced with visible product/shape matching. Original source and destination rooms preserved; forced native distractor creates a real competing selection.",
+    "target_asset": "lid/lryrtt",
+    "target_assets": [
+      "lid/lryrtt"
+    ]
+  },
+  {
+    "id": "asset_U119_01",
+    "parent_task_id": "U119",
+    "before_instruction": "I need a container to carry the repair tools. Find an empty toolbox among the storage room containers and put it on the table nearest the door.",
+    "after_instruction": "Retrieve a storage box from the storage room and leave it on the table in front of you in the storage room; I am organizing the repair tools.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; The toolbox must be empty; no empty-content state/verification is bound, and closing state may hide pre-existing contents. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+    "target_asset": "storage_box/bwbpvg",
+    "target_assets": [
+      "storage_box/bwbpvg"
+    ]
+  },
+  {
+    "id": "asset_U133_01",
+    "parent_task_id": "U133",
+    "before_instruction": "I want to put the wind chime back up for the season. Find it among the garden's stored accessories and put it on the garden table beside the door.",
+    "after_instruction": "Bring the wind chime from the garden storage to the table in front of you in the garden; I am preparing the seasonal decorations.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; A wind chime can contain multiple hanging articulated pieces; rigid graspable subtype and stable movable-object eligibility have not been certified. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+    "target_asset": "wind_chime/tghelo",
+    "target_assets": [
+      "wind_chime/tghelo"
+    ]
+  },
+  {
+    "id": "asset_U141_01",
+    "parent_task_id": "U141",
+    "before_instruction": "We're recording a family story at the dining table. Find the microphone with its small desk stand among the study equipment and bring it to the center of the dining table.",
+    "after_instruction": "We are preparing to record a family story. Bring the microphone from the dining room workspace equipment to the table in front of you in the dining room in the dining room.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; The microphone must include its small desk stand; a bare microphone allocation does not establish the compound target. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: private_office/cabinet -> dining_room/table becomes dining_room/cabinet -> dining_room/table. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+    "target_asset": "microphone/eyleyk",
+    "target_assets": [
+      "microphone/eyleyk"
+    ]
+  },
+  {
+    "id": "asset_U146_01",
+    "parent_task_id": "U146",
+    "before_instruction": "We're drawing the dining room layout at the dining table. Find the longest ruler in the study's drafting supplies and put it beside the plan on the table.",
+    "after_instruction": "We are sketching the dining room layout. Fetch the ruler from the dining room workspace drafting supplies and put it on the table in front of you in the dining room in the dining room.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Missing constructed comparison/count evidence and distractor set for long ruler. Multiple ruler lengths required; rigid plan can be staged Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: private_office/cabinet -> dining_room/table becomes dining_room/cabinet -> dining_room/table. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+    "target_asset": "ruler/rutqab",
+    "target_assets": [
+      "ruler/rutqab"
+    ]
+  },
+  {
+    "id": "asset_U156_01",
+    "parent_task_id": "U156",
+    "before_instruction": "The compact keyboard borrowed from the visitor is still mixed into the study peripherals. Find it and put it on the corridor console beside the office door for collection.",
+    "after_instruction": "The spare keyboard needs to be collected. Bring it from the living room workspace peripherals to the table in front of you in the entryway in the entryway.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; The compact keyboard must be identifiable as the visitor-borrowed unit; no distinctive visitor reference/marking or compact-subtype evidence is bound. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: private_office/cabinet -> corridor/table becomes living_room/cabinet -> entryway/table. Native target models, quantities, reference criteria and distractors are unchanged. Cross-room transport remains explicit. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+    "target_asset": "keyboard/mzskhj",
+    "target_assets": [
+      "keyboard/mzskhj"
+    ]
+  },
+  {
+    "id": "asset_U173_01",
+    "parent_task_id": "U173",
+    "before_instruction": "The household equipment inspection is coming up. Find the portable fire extinguisher among the storage room equipment and put it upright beside the corridor console.",
+    "after_instruction": "Bring the fire extinguisher from the garage household storage equipment to the table in front of you in the corridor in the corridor for the household safety inspection.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; The fire extinguisher must stand upright beside the corridor console; floor-region placement and upright orientation are not represented by the current surface goal. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: storage_room/cabinet -> corridor/table becomes garage/cabinet -> corridor/table. Native target models, quantities, reference criteria and distractors are unchanged. Cross-room transport remains explicit. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+    "target_asset": "fire_extinguisher/xqtkxb",
+    "target_assets": [
+      "fire_extinguisher/xqtkxb"
+    ]
+  },
+  {
+    "id": "asset_U181_01",
+    "parent_task_id": "U181",
+    "before_instruction": "The small household spares on the bedroom dresser need four separate spaces. Find a desktop organizer with at least four compartments in the storage room and put it beside the spares.",
+    "after_instruction": "The small bedroom spares need organizing. Bring the desk organizer from the living room household storage to the cabinet top in front of you in the bedroom in the bedroom.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Missing constructed comparison/count evidence and distractor set for compact desktop organizer with at least four compartments. Compact native desk_organizer exists; four distinct compartments and accessible grasp need geometry verification. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: storage_room/cabinet -> bedroom/cabinet becomes living_room/cabinet -> bedroom/cabinet. Native target models, quantities, reference criteria and distractors are unchanged. Cross-room transport remains explicit. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+    "target_asset": "desk_organizer/yidrel",
+    "target_assets": [
+      "desk_organizer/yidrel"
+    ]
+  },
+  {
+    "id": "asset_U186_01",
+    "parent_task_id": "U186",
+    "before_instruction": "The joint on the bedroom furniture has very little clearance. Find the smallest mallet among the garage tools and leave it on the bedroom dresser beside the loose joint piece.",
+    "after_instruction": "Fetch the mallet from the living room repair supplies and put it on the cabinet top in front of you in the bedroom in the bedroom for the loose furniture joint.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Missing constructed comparison/count evidence and distractor set for compact mallet. Multiple mallet sizes and reference piece required; mallet: only one native model; requested within-category size alternatives are not established Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: garage/cabinet -> bedroom/cabinet becomes living_room/cabinet -> bedroom/cabinet. Native target models, quantities, reference criteria and distractors are unchanged. Cross-room transport remains explicit. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+    "target_asset": "mallet/wpswgw",
+    "target_assets": [
+      "mallet/wpswgw"
+    ]
+  },
+  {
+    "id": "asset_U202_01",
+    "parent_task_id": "U202",
+    "before_instruction": "I need a temporary hold for the loose bracket on the garden table. Find a clamp in the garage that spans the bracket and put it beside it.",
+    "after_instruction": "Bring the clamp from the garage tools to the table in front of you in the garage in the garage for preparing the garden-bracket repair.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Native category metadata does not certify the stated target predicate: clamp sized for loose garden bracket. Bracket and clamp span compatibility required Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: garage/cabinet -> garden/table becomes garage/cabinet -> garage/table. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+    "target_asset": "clamp/feswhy",
+    "target_assets": [
+      "clamp/feswhy"
+    ]
+  },
+  {
+    "id": "asset_U212_01",
+    "parent_task_id": "U212",
+    "before_instruction": "I need a light that fits under the kitchen appliance. Find the slimmest flashlight among the garage tools and put it on the kitchen counter beside the fridge.",
+    "after_instruction": "Bring a flashlight from the garage tools to the counter in front of you in the kitchen in the kitchen; I need light to inspect the appliance.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Missing explicit reference entity and validated target-reference correspondence for slim flashlight. Multiple flashlight widths required; flashlight: only one native model; requested within-category size alternatives are not established Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+    "target_asset": "flashlight/jtrbkc",
+    "target_assets": [
+      "flashlight/jtrbkc"
+    ]
+  },
+  {
+    "id": "asset_U259_01",
+    "parent_task_id": "U259",
+    "before_instruction": "The narrow planter on the garden table needs a slim hand tool. Find the narrowest trowel among the garage's garden supplies and put it beside that planter.",
+    "after_instruction": "Fetch a hand trowel from the garden supply storage and put it on the table in front of you in the garden in the garden for planting the narrow beds.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Missing constructed comparison/count evidence and distractor set for thin hand trowel. Trowel width variants and reference planter required; trowel: only one native model; requested within-category size alternatives are not established Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: garage/cabinet -> garden/table becomes garden/cabinet -> garden/table. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+    "target_asset": "trowel/ematag",
+    "target_assets": [
+      "trowel/ematag"
+    ]
+  },
+  {
+    "id": "asset_U280_01",
+    "parent_task_id": "U280",
+    "before_instruction": "The planting space is narrow. Find the shovel with the narrowest blade among the garage's garden tools and put it on the ground beside the garden table.",
+    "after_instruction": "Retrieve the hand trowel from the garden tool storage and put it on the table in front of you in the garden in the garden for transplanting.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; The stated destination is a floor/ground region; the compiler has no grounded floor-region goal for this task. Preserve the original destination. Additional requirement: Compact narrow shovel variant required; shovel: every surveyed model exceeds 0.60 m in at least one dimension; no default portable fetch model established and no automatic shrinking; shovel: only one native model; requested within-category size alternatives are not established Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: garage/cabinet -> garden/table becomes garden/cabinet -> garden/table. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+    "target_asset": "trowel/ematag",
+    "target_assets": [
+      "trowel/ematag"
+    ]
+  },
+  {
+    "id": "asset_U314_01",
+    "parent_task_id": "U314",
+    "before_instruction": "I can donate the spare bucket, but the cracked one needs to stay separate. Find the intact spare among the utility room containers and put it beside the donation box on the storage room table.",
+    "after_instruction": "Bring a bucket from the utility containers to the table in front of you in the corridor in the corridor for the household donation inventory.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; The target must be intact while a cracked bucket remains. No cracked-vs-intact asset pair or visual condition evidence is bound. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: utility_room/cabinet -> storage_room/table becomes utility_room/cabinet -> corridor/table. Native target models, quantities, reference criteria and distractors are unchanged. Cross-room transport remains explicit. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+    "target_asset": "bucket/wlilma",
+    "target_assets": [
+      "bucket/wlilma"
+    ]
+  },
+  {
+    "id": "asset_U315_01",
+    "parent_task_id": "U315",
+    "before_instruction": "Someone is collecting the empty spare toolbox. Find the empty case among the garage tool storage and put it on the corridor floor beside the console.",
+    "after_instruction": "Retrieve an empty storage box from the garage tool storage and put it on the table in front of you in the corridor in the corridor for collection.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Native category metadata does not certify the stated target predicate: empty spare toolbox. Empty and occupied toolbox instances required; toolbox: every surveyed model exceeds 0.60 m in at least one dimension; no default portable fetch model established and no automatic shrinking Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+    "target_asset": "storage_box/bwbpvg",
+    "target_assets": [
+      "storage_box/bwbpvg"
+    ]
+  },
+  {
+    "id": "asset_U333_01",
+    "parent_task_id": "U333",
+    "before_instruction": "I need a light that can stand by itself during the living room inspection. Find a flashlight with a flat standing base among the garage tools and put it on the coffee table beside the inspection tray.",
+    "after_instruction": "Bring a flashlight from the garage tools to the table in front of you in the living room in the living room for the household inspection kit.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; The flashlight must stand on a flat base; no base geometry and upright stability evidence is bound. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+    "target_asset": "flashlight/jtrbkc",
+    "target_assets": [
+      "flashlight/jtrbkc"
+    ]
+  }
+]

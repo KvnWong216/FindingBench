@@ -1,0 +1,177 @@
+id: asset_U096_01
+instruction: A tall stem needs support. Find a plant stake among the garden supplies
+  and lay it on the table in front of you in the garden.
+scene:
+  model: house_double_floor_lower
+  source: behavior
+  clearance_manifest: /home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/build/vla_difficulty_v2/clearance/house_double_floor_lower.json
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - 16.45
+    - 3.5500000000000003
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - 1.0
+    - 6.123233995736766e-17
+target:
+  entity: item_00
+  category: stake
+objects:
+- name: item_00
+  category: stake
+  model: hnasfo
+- name: item_01
+  category: dowel
+  model: ghnjry
+- name: item_02
+  category: plant_pot
+  model: gtnmis
+- name: item_03
+  category: dowel
+  model: ghnjry
+- name: item_04
+  category: plant_pot
+  model: gtnmis
+- name: item_05
+  category: dowel
+  model: ghnjry
+- name: item_06
+  category: plant_pot
+  model: gtnmis
+- name: item_07
+  category: dowel
+  model: ghnjry
+- name: item_08
+  category: plant_pot
+  model: gtnmis
+- name: search_storage
+  category: bookcase
+  model: xsfeyi
+  fixed_base: true
+- name: delivery_surface
+  category: breakfast_table
+  model: iaritq
+  fixed_base: true
+placements:
+- entity: item_00
+  relation: on_top
+  receptacle: search_storage
+  position_xy:
+  - 18.6845
+  - 3.113811828613281
+- entity: item_01
+  relation: on_top
+  receptacle: search_storage
+  position_xy:
+  - 18.593
+  - 3.1538118286132812
+- entity: item_02
+  relation: on_top
+  receptacle: search_storage
+  position_xy:
+  - 18.685000000000002
+  - 3.293311828613281
+- entity: item_03
+  relation: on_top
+  receptacle: search_storage
+  position_xy:
+  - 18.593
+  - 3.432811828613281
+- entity: item_04
+  relation: on_top
+  receptacle: search_storage
+  position_xy:
+  - 18.685000000000002
+  - 3.572311828613281
+- entity: item_05
+  relation: on_top
+  receptacle: search_storage
+  position_xy:
+  - 18.593
+  - 3.711811828613281
+- entity: item_06
+  relation: on_top
+  receptacle: search_storage
+  position_xy:
+  - 18.685000000000002
+  - 3.8513118286132815
+- entity: item_07
+  relation: on_top
+  receptacle: search_storage
+  position_xy:
+  - 18.593
+  - 3.9908118286132814
+- entity: item_08
+  relation: on_top
+  receptacle: search_storage
+  position_xy:
+  - 18.685000000000002
+  - 4.130311828613282
+- entity: search_storage
+  relation: on_top
+  receptacle: floors_ghetev_0
+  position_xy:
+  - 18.75
+  - 3.85
+- entity: delivery_surface
+  relation: on_top
+  receptacle: floors_ghetev_0
+  position_xy:
+  - 15.55
+  - 3.95
+initial_states: {}
+goal:
+- kind: on_top
+  entity: item_00
+  receptacle: delivery_surface
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

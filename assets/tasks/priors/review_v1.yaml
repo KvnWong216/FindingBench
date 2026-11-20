@@ -1,0 +1,1268 @@
+# Placement-prior review table. Only triples listed under `approve` can
+# generate tasks. Edit by hand.
+# slot_class cabinet_storage = drawer + cabinet_interior (BDDL does
+# not distinguish them); narrow one approval with
+#   exclude_slot_types: [drawer]   (evidence stays shared)
+# One synset may cover several asset categories (aliases, e.g.
+# chopping_board + cutting_board); narrow with
+#   exclude_categories: [cutting_board]
+# `categories` / `covers_slot_types` are informational only.
+reviewer: claude-first-pass
+status: auto_threshold_pending_human_review
+policy: approve (synset, slot_class, room_type) with BDDL evidence >= 3 facts in >= 2 activities; non-rigid
+  / unsupported categories are removed later by eligibility, not here
+weight_policy: "weight 1.0 = no benchmark preference between approved triples; it is NOT derived from\
+  \ evidence_count, which reflects the BDDL corpus, not real homes"
+compatibility_from_evidence:
+  high: 10
+  medium: 3
+approve:
+- object_synset: aluminum_foil.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=5 activities=4
+  categories:
+  - aluminum_foil
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: apple.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=9 activities=6
+  categories:
+  - apple
+  covers_slot_types:
+  - countertop
+- object_synset: apple.n.01
+  slot_class: table
+  room_type: dining_room
+  weight: 1.0
+  note: evidence=3 activities=2
+  categories:
+  - apple
+  covers_slot_types:
+  - table
+- object_synset: baking_powder__jar.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=4 activities=4
+  categories:
+  - baking_powder_jar
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: baking_powder__jar.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=4 activities=4
+  categories:
+  - baking_powder_jar
+  covers_slot_types:
+  - countertop
+- object_synset: bar_soap.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=4 activities=4
+  categories:
+  - bar_soap
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: beer_bottle.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=5 activities=2
+  categories:
+  - beer_bottle
+  covers_slot_types:
+  - countertop
+- object_synset: beer_glass.n.01
+  slot_class: countertop
+  room_type: bar
+  weight: 1.0
+  note: evidence=5 activities=2
+  categories:
+  - beer_glass
+  covers_slot_types:
+  - countertop
+- object_synset: blender.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=15 activities=15
+  categories:
+  - blender
+  covers_slot_types:
+  - countertop
+- object_synset: bowl.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=15 activities=11
+  categories:
+  - bowl
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: bowl.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=38 activities=38
+  categories:
+  - bowl
+  covers_slot_types:
+  - countertop
+- object_synset: bowl.n.01
+  slot_class: table
+  room_type: dining_room
+  weight: 1.0
+  note: evidence=11 activities=5
+  categories:
+  - bowl
+  covers_slot_types:
+  - table
+- object_synset: bowl.n.01
+  slot_class: table
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=4 activities=2
+  categories:
+  - bowl
+  covers_slot_types:
+  - table
+- object_synset: bread_slice.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=3 activities=2
+  categories:
+  - bread_slice
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: brown_sugar__sack.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=3 activities=3
+  categories:
+  - brown_sugar_sack
+  covers_slot_types:
+  - countertop
+- object_synset: bucket.n.01
+  slot_class: countertop
+  room_type: utility_room
+  weight: 1.0
+  note: evidence=3 activities=2
+  categories:
+  - bucket
+  - ice_bucket
+  covers_slot_types:
+  - countertop
+- object_synset: carafe.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=3 activities=2
+  categories:
+  - carafe
+  - decanter
+  covers_slot_types:
+  - countertop
+- object_synset: carving_knife.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=5 activities=5
+  categories:
+  - carving_knife
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: carving_knife.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=21 activities=20
+  categories:
+  - carving_knife
+  covers_slot_types:
+  - countertop
+- object_synset: casserole.n.02
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=3 activities=3
+  categories:
+  - casserole
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: casserole.n.02
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=10 activities=6
+  categories:
+  - casserole
+  covers_slot_types:
+  - countertop
+- object_synset: casserole.n.02
+  slot_class: table
+  room_type: dining_room
+  weight: 1.0
+  note: evidence=7 activities=2
+  categories:
+  - casserole
+  covers_slot_types:
+  - table
+- object_synset: chopping_board.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=6 activities=6
+  categories:
+  - chopping_board
+  - cutting_board
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: chopping_board.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=61 activities=58
+  categories:
+  - chopping_board
+  - cutting_board
+  covers_slot_types:
+  - countertop
+- object_synset: cinnamon__shaker.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=5 activities=5
+  categories:
+  - cinnamon_shaker
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: cocoa_powder__jar.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=6 activities=6
+  categories:
+  - cocoa_powder_jar
+  covers_slot_types:
+  - countertop
+- object_synset: coffee_maker.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=8 activities=8
+  categories:
+  - coffee_maker
+  covers_slot_types:
+  - countertop
+- object_synset: colander.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=4 activities=4
+  categories:
+  - colander
+  covers_slot_types:
+  - countertop
+- object_synset: cookie_sheet.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=4 activities=4
+  categories:
+  - baking_sheet
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: cookie_sheet.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=18 activities=17
+  categories:
+  - baking_sheet
+  covers_slot_types:
+  - countertop
+- object_synset: cooking_oil__bottle.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=3 activities=3
+  categories:
+  - cooking_oil_bottle
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: cooking_oil__bottle.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=7 activities=7
+  categories:
+  - cooking_oil_bottle
+  covers_slot_types:
+  - countertop
+- object_synset: detergent__bottle.n.01
+  slot_class: cabinet_storage
+  room_type: utility_room
+  weight: 1.0
+  note: evidence=5 activities=5
+  categories:
+  - detergent_bottle
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: detergent__bottle.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=4 activities=4
+  categories:
+  - detergent_bottle
+  covers_slot_types:
+  - countertop
+- object_synset: disinfectant__bottle.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=6 activities=6
+  categories:
+  - disinfectant_bottle
+  covers_slot_types:
+  - countertop
+- object_synset: electric_kettle.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=3 activities=3
+  categories:
+  - electric_kettle
+  covers_slot_types:
+  - countertop
+- object_synset: electric_mixer.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=20 activities=20
+  categories:
+  - electric_mixer
+  covers_slot_types:
+  - countertop
+- object_synset: flour__sack.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=6 activities=6
+  categories:
+  - flour_sack
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: flour__sack.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=13 activities=13
+  categories:
+  - flour_sack
+  covers_slot_types:
+  - countertop
+- object_synset: food_processor.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=5 activities=5
+  categories:
+  - food_processor
+  covers_slot_types:
+  - countertop
+- object_synset: frying_pan.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=9 activities=9
+  categories:
+  - frying_pan
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: frying_pan.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=15 activities=15
+  categories:
+  - frying_pan
+  covers_slot_types:
+  - countertop
+- object_synset: granulated_sugar__sack.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=3 activities=3
+  categories:
+  - granulated_sugar_sack
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: granulated_sugar__sack.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=3 activities=3
+  categories:
+  - granulated_sugar_sack
+  covers_slot_types:
+  - countertop
+- object_synset: hand_towel.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=7 activities=7
+  categories:
+  - hand_towel
+  covers_slot_types:
+  - countertop
+- object_synset: hinged_jar.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=4 activities=2
+  categories:
+  - hinged_jar
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: hingeless_jar.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=6 activities=2
+  categories:
+  - hingeless_jar
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: honey__jar.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=3 activities=3
+  categories:
+  - honey_jar
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: honey__jar.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=3 activities=3
+  categories:
+  - honey_jar
+  covers_slot_types:
+  - countertop
+- object_synset: instant_coffee__jar.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=3 activities=3
+  categories:
+  - instant_coffee_jar
+  covers_slot_types:
+  - countertop
+- object_synset: keyboard.n.01
+  slot_class: desk
+  room_type: shared_office
+  weight: 1.0
+  note: evidence=3 activities=2
+  categories:
+  - keyboard
+  covers_slot_types:
+  - desk
+- object_synset: lemon_juice__bottle.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=6 activities=6
+  categories:
+  - lemon_juice_bottle
+  covers_slot_types:
+  - countertop
+- object_synset: lid.n.02
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=8 activities=4
+  categories:
+  - lid
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: liquid_soap__bottle.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=5 activities=5
+  categories:
+  - liquid_soap_bottle
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: liquid_soap__bottle.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=33 activities=33
+  categories:
+  - liquid_soap_bottle
+  covers_slot_types:
+  - countertop
+- object_synset: marjoram__shaker.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=5 activities=5
+  categories:
+  - marjoram_shaker
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: mixing_bowl.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=16 activities=14
+  categories:
+  - mixing_bowl
+  covers_slot_types:
+  - countertop
+- object_synset: mouse.n.04
+  slot_class: desk
+  room_type: shared_office
+  weight: 1.0
+  note: evidence=3 activities=2
+  categories:
+  - mouse
+  covers_slot_types:
+  - desk
+- object_synset: mug.n.04
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=4 activities=4
+  categories:
+  - mug
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: mug.n.04
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=13 activities=10
+  categories:
+  - mug
+  covers_slot_types:
+  - countertop
+- object_synset: mug.n.04
+  slot_class: table
+  room_type: living_room
+  weight: 1.0
+  note: evidence=4 activities=2
+  categories:
+  - mug
+  covers_slot_types:
+  - table
+- object_synset: nutmeg__shaker.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=3 activities=3
+  categories:
+  - nutmeg_shaker
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: olive_oil__bottle.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=9 activities=9
+  categories:
+  - olive_oil_bottle
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: olive_oil__bottle.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=13 activities=13
+  categories:
+  - olive_oil_bottle
+  covers_slot_types:
+  - countertop
+- object_synset: paper_towel.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=12 activities=11
+  categories:
+  - paper_towel
+  covers_slot_types:
+  - countertop
+- object_synset: paprika__shaker.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=3 activities=3
+  categories:
+  - paprika_shaker
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: pasta__box.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=3 activities=3
+  categories:
+  - pasta_box
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: pen.n.01
+  slot_class: desk
+  room_type: childs_room
+  weight: 1.0
+  note: evidence=3 activities=2
+  categories:
+  - pen
+  covers_slot_types:
+  - desk
+- object_synset: pepper__shaker.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=4 activities=4
+  categories:
+  - pepper_shaker
+  covers_slot_types:
+  - countertop
+- object_synset: pitcher.n.02
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=6 activities=6
+  categories:
+  - jug
+  - pitcher
+  covers_slot_types:
+  - countertop
+- object_synset: place_mat.n.01
+  slot_class: table
+  room_type: dining_room
+  weight: 1.0
+  note: evidence=7 activities=4
+  categories:
+  - place_mat
+  covers_slot_types:
+  - table
+- object_synset: plate.n.04
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=10 activities=9
+  categories:
+  - plate
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: plate.n.04
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=43 activities=27
+  categories:
+  - plate
+  covers_slot_types:
+  - countertop
+- object_synset: plate.n.04
+  slot_class: table
+  room_type: dining_room
+  weight: 1.0
+  note: evidence=18 activities=11
+  categories:
+  - plate
+  covers_slot_types:
+  - table
+- object_synset: plate.n.04
+  slot_class: table
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=6 activities=4
+  categories:
+  - plate
+  covers_slot_types:
+  - table
+- object_synset: platter.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=6 activities=4
+  categories:
+  - platter
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: platter.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=6 activities=5
+  categories:
+  - platter
+  covers_slot_types:
+  - countertop
+- object_synset: potato.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=4 activities=2
+  categories:
+  - potato
+  covers_slot_types:
+  - countertop
+- object_synset: rag.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=11 activities=8
+  categories:
+  - rag
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: rag.n.01
+  slot_class: cabinet_storage
+  room_type: utility_room
+  weight: 1.0
+  note: evidence=6 activities=6
+  categories:
+  - rag
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: rag.n.01
+  slot_class: countertop
+  room_type: bathroom
+  weight: 1.0
+  note: evidence=3 activities=3
+  categories:
+  - rag
+  covers_slot_types:
+  - countertop
+- object_synset: rag.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=31 activities=31
+  categories:
+  - rag
+  covers_slot_types:
+  - countertop
+- object_synset: rag.n.01
+  slot_class: desk
+  room_type: bedroom
+  weight: 1.0
+  note: evidence=3 activities=3
+  categories:
+  - rag
+  covers_slot_types:
+  - desk
+- object_synset: rag.n.01
+  slot_class: table
+  room_type: living_room
+  weight: 1.0
+  note: evidence=9 activities=7
+  categories:
+  - rag
+  covers_slot_types:
+  - table
+- object_synset: rosemary__shaker.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=4 activities=4
+  categories:
+  - rosemary_shaker
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: sack.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=4 activities=3
+  categories:
+  - paper_bag
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: sack.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=16 activities=12
+  categories:
+  - paper_bag
+  covers_slot_types:
+  - countertop
+- object_synset: salt__shaker.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=13 activities=13
+  categories:
+  - salt_shaker
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: salt__shaker.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=47 activities=47
+  categories:
+  - salt_shaker
+  covers_slot_types:
+  - countertop
+- object_synset: saucepan.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=8 activities=8
+  categories:
+  - saucepan
+  covers_slot_types:
+  - countertop
+- object_synset: saucepot.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=4 activities=4
+  categories:
+  - saucepot
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: saucer.n.02
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=3 activities=2
+  categories:
+  - saucer
+  covers_slot_types:
+  - countertop
+- object_synset: scrub_brush.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=5 activities=5
+  categories:
+  - scrub_brush
+  covers_slot_types:
+  - countertop
+- object_synset: sodium_carbonate__jar.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=5 activities=5
+  categories:
+  - sodium_carbonate_jar
+  covers_slot_types:
+  - countertop
+- object_synset: spatula.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=5 activities=5
+  categories:
+  - spatula
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: sponge.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=19 activities=19
+  categories:
+  - sponge
+  covers_slot_types:
+  - countertop
+- object_synset: stockpot.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=8 activities=8
+  categories:
+  - stockpot
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: stockpot.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=14 activities=14
+  categories:
+  - stockpot
+  covers_slot_types:
+  - countertop
+- object_synset: sugar__sack.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=7 activities=7
+  categories:
+  - sugar_sack
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: sugar__sack.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=19 activities=19
+  categories:
+  - sugar_sack
+  covers_slot_types:
+  - countertop
+- object_synset: table_knife.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=14 activities=3
+  categories:
+  - table_knife
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: table_knife.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=5 activities=5
+  categories:
+  - table_knife
+  covers_slot_types:
+  - countertop
+- object_synset: table_knife.n.01
+  slot_class: table
+  room_type: dining_room
+  weight: 1.0
+  note: evidence=3 activities=2
+  categories:
+  - table_knife
+  covers_slot_types:
+  - table
+- object_synset: table_lamp.n.01
+  slot_class: table
+  room_type: living_room
+  weight: 1.0
+  note: evidence=4 activities=4
+  categories:
+  - table_lamp
+  covers_slot_types:
+  - table
+- object_synset: tablefork.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=5 activities=2
+  categories:
+  - tablefork
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: tablefork.n.01
+  slot_class: table
+  room_type: dining_room
+  weight: 1.0
+  note: evidence=7 activities=4
+  categories:
+  - tablefork
+  covers_slot_types:
+  - table
+- object_synset: tablespoon.n.02
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=13 activities=4
+  categories:
+  - tablespoon
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: tablespoon.n.02
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=28 activities=28
+  categories:
+  - tablespoon
+  covers_slot_types:
+  - countertop
+- object_synset: tablespoon.n.02
+  slot_class: table
+  room_type: dining_room
+  weight: 1.0
+  note: evidence=6 activities=3
+  categories:
+  - tablespoon
+  covers_slot_types:
+  - table
+- object_synset: teacup.n.02
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=3 activities=2
+  categories:
+  - teacup
+  covers_slot_types:
+  - countertop
+- object_synset: teaspoon.n.02
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=4 activities=3
+  categories:
+  - teaspoon
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: teaspoon.n.02
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=6 activities=6
+  categories:
+  - teaspoon
+  covers_slot_types:
+  - countertop
+- object_synset: toaster.n.02
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=4 activities=4
+  categories:
+  - toaster
+  covers_slot_types:
+  - countertop
+- object_synset: tongs.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=6 activities=4
+  categories:
+  - test_tube_holder
+  - tongs
+  covers_slot_types:
+  - countertop
+- object_synset: tray.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=8 activities=7
+  categories:
+  - tray
+  covers_slot_types:
+  - countertop
+- object_synset: tray.n.01
+  slot_class: table
+  room_type: dining_room
+  weight: 1.0
+  note: evidence=3 activities=3
+  categories:
+  - tray
+  covers_slot_types:
+  - table
+- object_synset: tupperware.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=23 activities=13
+  categories:
+  - tupperware
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: tupperware.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=9 activities=8
+  categories:
+  - tupperware
+  covers_slot_types:
+  - countertop
+- object_synset: tupperware.n.01
+  slot_class: table
+  room_type: dining_room
+  weight: 1.0
+  note: evidence=3 activities=2
+  categories:
+  - tupperware
+  covers_slot_types:
+  - table
+- object_synset: vanilla__bottle.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=4 activities=4
+  categories:
+  - vanilla_bottle
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: vanilla__bottle.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=5 activities=5
+  categories:
+  - vanilla_bottle
+  covers_slot_types:
+  - countertop
+- object_synset: vidalia_onion.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=5 activities=5
+  categories:
+  - vidalia_onion
+  covers_slot_types:
+  - countertop
+- object_synset: vinegar__bottle.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=11 activities=11
+  categories:
+  - vinegar_bottle
+  covers_slot_types:
+  - countertop
+- object_synset: water_bottle.n.01
+  slot_class: table
+  room_type: dining_room
+  weight: 1.0
+  note: evidence=4 activities=2
+  categories:
+  - water_bottle
+  covers_slot_types:
+  - table
+- object_synset: water_glass.n.02
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=5 activities=5
+  categories:
+  - water_glass
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: water_glass.n.02
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=11 activities=10
+  categories:
+  - water_glass
+  covers_slot_types:
+  - countertop
+- object_synset: wicker_basket.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=5 activities=4
+  categories:
+  - wicker_basket
+  covers_slot_types:
+  - countertop
+- object_synset: wine_bottle.n.01
+  slot_class: cabinet_storage
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=3 activities=3
+  categories:
+  - wine_bottle
+  covers_slot_types:
+  - cabinet_interior
+  - drawer
+- object_synset: wine_bottle.n.01
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=5 activities=2
+  categories:
+  - wine_bottle
+  covers_slot_types:
+  - countertop
+- object_synset: wine_bottle.n.01
+  slot_class: table
+  room_type: dining_room
+  weight: 1.0
+  note: evidence=3 activities=3
+  categories:
+  - wine_bottle
+  covers_slot_types:
+  - table
+- object_synset: wineglass.n.01
+  slot_class: countertop
+  room_type: bar
+  weight: 1.0
+  note: evidence=6 activities=3
+  categories:
+  - wineglass
+  covers_slot_types:
+  - countertop
+- object_synset: wineglass.n.01
+  slot_class: table
+  room_type: dining_room
+  weight: 1.0
+  note: evidence=4 activities=3
+  categories:
+  - wineglass
+  covers_slot_types:
+  - table
+- object_synset: wooden_spoon.n.02
+  slot_class: countertop
+  room_type: kitchen
+  weight: 1.0
+  note: evidence=6 activities=6
+  categories:
+  - wooden_spoon
+  covers_slot_types:
+  - countertop
+reject: []

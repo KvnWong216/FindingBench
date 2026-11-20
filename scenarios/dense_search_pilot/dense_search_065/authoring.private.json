@@ -1,0 +1,65 @@
+{
+  "id": "dense_search_065",
+  "family": "fruit_bowl",
+  "scene": "Beechwood_0_int",
+  "scenario": "scenarios/dense_search_pilot/dense_search_065/scenario.yaml",
+  "scenario_sha256": "1c031c99e83f29e5a1717a2003bc21b1a583aceabf22def9ed3e4012715f71b7",
+  "instruction": "Find all the apples in the fruit basket in this kitchen and put them in the kitchen sink in front of you.",
+  "target_key": "apple",
+  "target_entities": [
+    "item_01",
+    "item_02"
+  ],
+  "target_count": 2,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "item_00",
+  "destination_receptacle": "furniture_sink_czyfhq_0",
+  "object_count": 11,
+  "distractor_count": 8,
+  "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+  "route": {
+    "start": [
+      -1.25,
+      -8.25,
+      -2.649578422454926
+    ],
+    "path_xy": [
+      [
+        -1.25,
+        -8.25
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.5956854249492382,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 4,
+    "destination_approach_count": 34,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_00",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09",
+    "item_10"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "robot_model": "g1_bench"
+}

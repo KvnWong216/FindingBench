@@ -1,0 +1,224 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F155_01",
+      "family": "semantic_F155",
+      "scene": "Pomaria_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_04_F155_direct/asset_F155_01/scenario.yaml",
+      "scenario_sha256": "b9740c3106e3fc3f1cd3eaa11d9e0f9017093b68dc4693c4c2984779750a8adb",
+      "instruction": "Find the honey jar in the kitchen baking supplies and bring it to the table in front of you in the kitchen in the kitchen for the recipe.",
+      "target_key": "honey_jar/dhgtvg",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "kitchen_0",
+      "destination_room": "kitchen_0",
+      "source_receptacle": "countertop_tpuwys_1",
+      "destination_receptacle": "breakfast_table_uhrsex_0",
+      "object_count": 9,
+      "distractor_count": 8,
+      "source_survey_sha256": "05d404c89ade70d34c89459d2b340c53ef49d49041a6624fcc9a997b8b7322b3",
+      "route": {
+        "start": [
+          -1.1500000000000001,
+          -2.85,
+          1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            -1.1500000000000001,
+            -2.85
+          ],
+          [
+            -1.05,
+            -2.85
+          ],
+          [
+            -1.05,
+            -2.95
+          ],
+          [
+            -0.9500000000000001,
+            -2.95
+          ],
+          [
+            -0.9500000000000001,
+            -3.0500000000000003
+          ],
+          [
+            -0.8500000000000001,
+            -3.0500000000000003
+          ],
+          [
+            -0.75,
+            -3.0500000000000003
+          ],
+          [
+            -0.65,
+            -3.0500000000000003
+          ],
+          [
+            -0.55,
+            -3.0500000000000003
+          ],
+          [
+            -0.45,
+            -3.0500000000000003
+          ],
+          [
+            -0.35000000000000003,
+            -3.0500000000000003
+          ],
+          [
+            -0.25,
+            -3.0500000000000003
+          ],
+          [
+            -0.15000000000000002,
+            -3.0500000000000003
+          ],
+          [
+            -0.05,
+            -3.0500000000000003
+          ],
+          [
+            0.05,
+            -3.0500000000000003
+          ],
+          [
+            0.15000000000000002,
+            -3.0500000000000003
+          ],
+          [
+            0.15000000000000002,
+            -2.95
+          ],
+          [
+            0.25,
+            -2.95
+          ],
+          [
+            0.25,
+            -2.85
+          ],
+          [
+            0.35000000000000003,
+            -2.85
+          ],
+          [
+            0.35000000000000003,
+            -2.75
+          ],
+          [
+            0.45,
+            -2.75
+          ],
+          [
+            0.45,
+            -2.6500000000000004
+          ],
+          [
+            0.45,
+            -2.5500000000000003
+          ],
+          [
+            0.45,
+            -2.45
+          ],
+          [
+            0.45,
+            -2.35
+          ],
+          [
+            0.45,
+            -2.25
+          ],
+          [
+            0.45,
+            -2.15
+          ],
+          [
+            0.45,
+            -2.0500000000000003
+          ],
+          [
+            0.45,
+            -1.9500000000000002
+          ],
+          [
+            0.45,
+            -1.85
+          ],
+          [
+            0.45,
+            -1.75
+          ],
+          [
+            0.45,
+            -1.6500000000000001
+          ]
+        ],
+        "length_m": 3.2,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 38,
+        "destination_approach_count": 51,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [
+        {
+          "scene": "Pomaria_1_int",
+          "source": "countertop_tpuwys_4",
+          "reason": "Previously failed source layout"
+        }
+      ],
+      "parent_task_id": "F155",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F155_01",
+        "parent_task_id": "F155",
+        "before_instruction": "Find the honey jar between the flour box and the cocoa jar on the pantry shelves, and put it beside the recipe book on the kitchen table.",
+        "after_instruction": "Find the honey jar in the kitchen baking supplies and bring it to the table in front of you in the kitchen in the kitchen for the recipe.",
+        "reason": "Removes unsupported between-flour-and-cocoa relation; retains the pantry-to-kitchen ingredient task. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Layout revision: the unbuilt pantry-room task is explicitly relocated to the kitchen food-storage area because surveyed pantry rooms lack two robot-accessible storage/delivery positions. Target models, counts, reference matching, destination inventory and goals are unchanged; this changes room scope and may shorten transport.",
+        "target_asset": "honey_jar/dhgtvg",
+        "target_assets": [
+          "honey_jar/dhgtvg"
+        ]
+      },
+      "proposal_native_policy_signature": "638901e57b44747045bd55ed10084fe82451f1075c4c28aa6f0af555449b389c"
+    }
+  ]
+}

@@ -1,0 +1,156 @@
+id: asset_P127_01
+instruction: There is a sample on the counter in front of you in the bedroom. Find
+  the perfume bottle matching that sample among the bedroom vanity bottles and put
+  it on the counter in front of you in the bedroom.
+scene:
+  model: hotel_suite_small
+  source: behavior
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - -4.0
+    - 0.4
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - 0.0
+    - 1.0
+target:
+  entity: item_00
+  category: bottle_of_perfume
+objects:
+- name: item_00
+  category: bottle_of_perfume
+  model: ipurzb
+- name: item_01
+  category: bottle_of_skin_cream
+  model: ynwxtx
+- name: item_02
+  category: case_of_eyeshadow
+  model: zgervc
+- name: item_03
+  category: cleansing_bottle
+  model: ovjhuf
+- name: item_04
+  category: deodorant_atomizer
+  model: utjfug
+- name: item_05
+  category: deodorant_stick
+  model: albeyc
+- name: item_06
+  category: jade_roller
+  model: chplbu
+- name: item_07
+  category: lipstick
+  model: petufo
+- name: item_08
+  category: bottle_of_skin_cream
+  model: ynwxtx
+- name: comparison_sample
+  category: bottle_of_perfume
+  model: ipurzb
+- name: search_storage
+  category: nightstand
+  model: uudzva
+  fixed_base: true
+- name: delivery_surface
+  category: bottom_cabinet
+  model: jrhgeu
+  fixed_base: true
+placements:
+- entity: item_00
+  relation: on_top
+  receptacle: search_storage
+- entity: item_01
+  relation: on_top
+  receptacle: search_storage
+- entity: item_02
+  relation: on_top
+  receptacle: search_storage
+- entity: item_03
+  relation: on_top
+  receptacle: search_storage
+- entity: item_04
+  relation: on_top
+  receptacle: search_storage
+- entity: item_05
+  relation: on_top
+  receptacle: search_storage
+- entity: item_06
+  relation: on_top
+  receptacle: search_storage
+- entity: item_07
+  relation: on_top
+  receptacle: search_storage
+- entity: item_08
+  relation: on_top
+  receptacle: search_storage
+- entity: comparison_sample
+  relation: on_top
+  receptacle: delivery_surface
+- entity: search_storage
+  relation: on_top
+  receptacle: floors_iylkzm_0
+  position_xy:
+  - -3.5
+  - -0.30000000000000004
+- entity: delivery_surface
+  relation: on_top
+  receptacle: floors_iylkzm_0
+  position_xy:
+  - -3.2
+  - 0.6000000000000001
+initial_states: {}
+goal:
+- kind: on_top
+  entity: item_00
+  receptacle: delivery_surface
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

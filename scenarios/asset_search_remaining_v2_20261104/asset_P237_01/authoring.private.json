@@ -1,0 +1,82 @@
+{
+  "id": "asset_P237_01",
+  "family": "semantic_P237",
+  "scene": "Pomaria_2_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P237_01/scenario.yaml",
+  "scenario_sha256": "98c0068259e6749bd17b6e166050f4ce2102ac5500d4f21d1a8ced805b123bd5",
+  "instruction": "Find a razor matching the sample on the counter in front of you in the bathroom among the bathroom vanity supplies and put it beside the sample.",
+  "target_key": "razor/jocsgp",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bathroom_0",
+  "destination_room": "bathroom_0",
+  "source_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+  "destination_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+  "object_count": 11,
+  "distractor_count": 9,
+  "source_survey_sha256": "62e51428546de3c0a833496f29b3c3303a5b7156fd7ac39a8975412318ea7e2d",
+  "route": {
+    "start": [
+      -0.30000000000000004,
+      2.6,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -0.30000000000000004,
+        2.6
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 35,
+    "destination_approach_count": 35,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "required_negative_0",
+    "bottom_cabinet_no_top_qohxjq_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "parent_task_id": "P237",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P237_01",
+    "parent_task_id": "P237",
+    "before_instruction": "Find the razor with the striped handle among bathroom vanity drawers and put it beside the handheld mirror on the counter.",
+    "after_instruction": "Find a razor matching the sample on the counter in front of you in the bathroom among the bathroom vanity supplies and put it beside the sample.",
+    "reason": "Retains matching-based retrieval through a physical same-native-model sample on the delivery surface. Any original cross-object compatibility, photo or consumable-state requirement is explicitly replaced with visible product/shape matching. Original source and destination rooms preserved; forced native distractor creates a real competing selection.",
+    "target_asset": "razor/jocsgp",
+    "target_assets": [
+      "razor/jocsgp"
+    ]
+  },
+  "binding_sha256": "3239863aaf4ea2c7384782466e6a862ce8b00cfe290b03daa368d87b89da4bba"
+}

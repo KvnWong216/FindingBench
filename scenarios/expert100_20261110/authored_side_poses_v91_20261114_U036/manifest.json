@@ -1,0 +1,252 @@
+{
+  "tasks": [
+    {
+      "id": "asset_U036_01",
+      "family": "semantic_U036",
+      "scene": "Pomaria_0_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/authored_side_poses_v91_20261114_U036/asset_U036_01/scenario.yaml",
+      "scenario_sha256": "5ea5a41d03362321abb03bf4113d83ddccfdbd16e751d1e97fdbbd1582dfbaf4",
+      "instruction": "The boxed router needs to go back to the shop. Collect it from the study purchases and put it on the desk in front of you in the study for packing.",
+      "target_key": "boxed_router/dsgtpk",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "private_office_0",
+      "destination_room": "private_office_0",
+      "source_receptacle": "search_storage",
+      "destination_receptacle": "delivery_surface",
+      "object_count": 11,
+      "distractor_count": 8,
+      "source_survey_sha256": "5f126672121f241779c0ea9705424fa8ac90469f422772fc224ad7184f7883fc",
+      "route": {
+        "start": [
+          -5.9,
+          -1.0,
+          3.141592653589793
+        ],
+        "path_xy": [
+          [
+            -5.9,
+            -1.0
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 8,
+        "destination_approach_count": 6,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "bottom_cabinet_no_top_spojpj_0",
+        "search_storage"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "search_storage",
+          "category": "bottom_cabinet",
+          "model": "jrhgeu",
+          "floor": "floors_elvhyh_0",
+          "position_xy": [
+            -6.4,
+            -1.8
+          ],
+          "aabb": [
+            [
+              -6.5671447601318365,
+              -2.142287979125977,
+              0.0
+            ],
+            [
+              -6.232855239868164,
+              -1.4577120208740235,
+              0.6846599731445313
+            ]
+          ],
+          "room": "private_office_0"
+        },
+        {
+          "name": "delivery_surface",
+          "category": "desk",
+          "model": "tmluxa",
+          "floor": "floors_elvhyh_0",
+          "position_xy": [
+            -6.7,
+            -0.5
+          ],
+          "aabb": [
+            [
+              -6.95371273803711,
+              -0.8538818969726563,
+              0.0
+            ],
+            [
+              -6.44628726196289,
+              -0.14611810302734374,
+              0.7001053161621094
+            ]
+          ],
+          "room": "private_office_0"
+        }
+      ],
+      "parent_task_id": "U036",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_U036_01",
+        "parent_task_id": "U036",
+        "before_instruction": "I'm returning the router we never installed. Find the boxed router in the study's stored purchases and put it beside the office door.",
+        "after_instruction": "The boxed router needs to go back to the shop. Collect it from the study purchases and put it on the desk in front of you in the study for packing.",
+        "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Uninstalled/boxed-return identity and the door-side handoff region are not grounded; a generic router category is insufficient. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+        "target_asset": "boxed_router/dsgtpk",
+        "target_assets": [
+          "boxed_router/dsgtpk"
+        ]
+      },
+      "binding_sha256": "9433e108f8370485e848e22d70e07eedb49eeac31d596eb7389edf9f4efbfaef",
+      "layout_preflight": {
+        "status": "orientation_proposal_pending_native"
+      },
+      "orientation_authoring_revisions": [
+        {
+          "method": "explicit_native_asset_side_pose_for_layout_authoring",
+          "source_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_U036_01/scenario.yaml",
+          "source_sha256": "111d5da932b08bcb6f405c4b2134a07bb6527a1c431278be6556b42ec0dba073",
+          "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_gpu_new_20261106/asset_U036_01",
+          "edits": [
+            {
+              "entity": "item_00",
+              "asset": "boxed_router/dsgtpk",
+              "before_orientation_hint": null,
+              "after_orientation_hint_xyzw": [
+                0.0,
+                0.7071067811865475,
+                0.0,
+                0.7071067811865476
+              ],
+              "before_bbox_m": [
+                0.09972151184082031,
+                0.38921385192871094,
+                0.28785654485225676
+              ],
+              "after_bbox_m": [
+                0.28785654485225676,
+                0.38921385192871094,
+                0.09972151184082038
+              ]
+            },
+            {
+              "entity": "item_02",
+              "asset": "boxed_cpu_board/xlqvil",
+              "before_orientation_hint": null,
+              "after_orientation_hint_xyzw": [
+                0.0,
+                0.7071067811865475,
+                0.0,
+                0.7071067811865476
+              ],
+              "before_bbox_m": [
+                0.07629208374023437,
+                0.28197283935546874,
+                0.2264825255870819
+              ],
+              "after_bbox_m": [
+                0.22648252558708193,
+                0.28197283935546874,
+                0.07629208374023443
+              ]
+            },
+            {
+              "entity": "item_03",
+              "asset": "modem/axqxsv",
+              "before_orientation_hint": null,
+              "after_orientation_hint_xyzw": [
+                0.7071067811865475,
+                0.0,
+                0.0,
+                0.7071067811865476
+              ],
+              "before_bbox_m": [
+                0.1841515769958496,
+                0.0492483446598053,
+                0.20417897903919222
+              ],
+              "after_bbox_m": [
+                0.1841515769958496,
+                0.20417897903919222,
+                0.04924834465980535
+              ]
+            },
+            {
+              "entity": "item_06",
+              "asset": "boxed_cpu_board/xlqvil",
+              "before_orientation_hint": null,
+              "after_orientation_hint_xyzw": [
+                0.0,
+                0.7071067811865475,
+                0.0,
+                0.7071067811865476
+              ],
+              "before_bbox_m": [
+                0.07629208374023437,
+                0.28197283935546874,
+                0.2264825255870819
+              ],
+              "after_bbox_m": [
+                0.22648252558708193,
+                0.28197283935546874,
+                0.07629208374023443
+              ]
+            },
+            {
+              "entity": "item_07",
+              "asset": "modem/axqxsv",
+              "before_orientation_hint": null,
+              "after_orientation_hint_xyzw": [
+                0.7071067811865475,
+                0.0,
+                0.0,
+                0.7071067811865476
+              ],
+              "before_bbox_m": [
+                0.1841515769958496,
+                0.0492483446598053,
+                0.20417897903919222
+              ],
+              "after_bbox_m": [
+                0.1841515769958496,
+                0.20417897903919222,
+                0.04924834465980535
+              ]
+            }
+          ],
+          "reason": "Native metadata lacks stable poses; store long tools and boxed equipment on a broad side rather than forcing them upright. The actual collision mesh and all native acceptance gates are retained.",
+          "physical_validation_required": true,
+          "player_skill_change": false
+        }
+      ]
+    }
+  ]
+}

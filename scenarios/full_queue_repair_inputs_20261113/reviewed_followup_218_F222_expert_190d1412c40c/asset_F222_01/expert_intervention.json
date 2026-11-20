@@ -1,0 +1,77 @@
+{
+  "method": "local_initial_spawn_repair",
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/reviewed_followup_193_F222/asset_F222_01/scenario.yaml",
+  "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/reviewed_followup_193_F222/asset_F222_01",
+  "edit": {
+    "authorization": "user_requested_change_initial_spawn_20261114",
+    "before": {
+      "position": [
+        -3.9000000000000004,
+        4.7,
+        0.0053
+      ],
+      "orientation": [
+        0,
+        0,
+        -0.7071067811865475,
+        0.7071067811865476
+      ]
+    },
+    "after": {
+      "position": [
+        -3.8000000000000003,
+        5.0,
+        0.0053
+      ],
+      "orientation": [
+        0,
+        0,
+        -0.7071067811865475,
+        0.7071067811865476
+      ]
+    },
+    "source_sha256": "1c8258fed2e06eab1456a7e598713d9658539b9348eab46f83e7b941e3e8cc7b",
+    "observed_robot_contacts": [
+      [
+        "/World/scene_0/articulated__bottom_cabinet_no_top_qohxjq_0/link_2",
+        "/World/scene_0/controllable__g1_bench__robot_0/right_dex1_finger_link_2"
+      ],
+      [
+        "/World/scene_0/articulated__bottom_cabinet_no_top_qohxjq_0/link_2",
+        "/World/scene_0/controllable__g1_bench__robot_0/right_dex1_finger_link_1"
+      ],
+      [
+        "/World/scene_0/articulated__bottom_cabinet_no_top_qohxjq_0/link_2",
+        "/World/scene_0/controllable__g1_bench__robot_0/right_dex1_finger_link_2"
+      ],
+      [
+        "/World/scene_0/articulated__bottom_cabinet_no_top_qohxjq_0/link_2",
+        "/World/scene_0/controllable__g1_bench__robot_0/right_dex1_finger_link_2"
+      ]
+    ],
+    "observed_error": "placement failed verification after physics settled: ['bottom_cabinet_no_top_qohxjq_0 open=True (declared False)']",
+    "screening": {
+      "room_id": 9,
+      "room_name": "kitchen_0",
+      "extra_floor_clearance_m": 0.30000000000000004,
+      "contacted_fixture_standoffs_m": {
+        "bottom_cabinet_no_top_qohxjq_0": 0.9438769721732515
+      },
+      "same_component_as_source_and_destination": true,
+      "front_of_you_preserved": true,
+      "heading_unchanged": true
+    },
+    "physical_validation_required": true
+  },
+  "preserved": [
+    "instruction",
+    "goal",
+    "target",
+    "robot",
+    "spawn height and orientation",
+    "all assets",
+    "all placements",
+    "all other anchors"
+  ],
+  "physical_validation_required": true
+}

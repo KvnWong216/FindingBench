@@ -1,0 +1,126 @@
+{
+  "action": "expert",
+  "case": {
+    "id": "F127",
+    "record": {
+      "id": "asset_F127_01",
+      "family": "semantic_F127",
+      "scene": "house_single_floor",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_F127_01/scenario.yaml",
+      "scenario_sha256": "6ea5a5669cf816458fe6e591864a41fd9c7689fc9fb1957cc758e9afd7cdb81c",
+      "instruction": "Find a can of tomatoes and a jar of tomato sauce in the kitchen cupboards and put both on the counter in front of you in the kitchen for cooking.",
+      "target_key": "can_of_tomatoes/ckdouu",
+      "target_entities": [
+        "item_00",
+        "item_01"
+      ],
+      "target_count": 2,
+      "source_room": "kitchen_0",
+      "destination_room": "kitchen_0",
+      "source_receptacle": "bottom_cabinet_no_top_gjeoer_0",
+      "destination_receptacle": "bottom_cabinet_no_top_gjeoer_0",
+      "object_count": 10,
+      "distractor_count": 8,
+      "source_survey_sha256": "14714104a089f0a43cdebe256d01d697215fe5627c0e2fcb55a030a71a1fb2a5",
+      "route": {
+        "start": [
+          5.0,
+          1.4000000000000001,
+          -1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            5.0,
+            1.4000000000000001
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "item_09",
+        "bottom_cabinet_no_top_rkgjer_0",
+        "bottom_cabinet_no_top_gjeoer_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [],
+      "parent_task_id": "F127",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F127_01",
+        "parent_task_id": "F127",
+        "before_instruction": "Find either a can of tomatoes or a jar of tomato sauce in the kitchen food cupboards and put it beside the empty stockpot on the counter.",
+        "after_instruction": "Find a can of tomatoes and a jar of tomato sauce in the kitchen cupboards and put both on the counter in front of you in the kitchen for cooking.",
+        "reason": "Changes an OR retrieval to a concrete two-ingredient preparation; no unsupported empty stockpot is referenced. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "can_of_tomatoes/ckdouu",
+        "target_assets": [
+          "can_of_tomatoes/ckdouu",
+          "tomato_sauce_jar/krfzqk"
+        ]
+      },
+      "binding_sha256": "32cabb1b23e602d67b28969445d97ddaabb92676b89d1bcb28048fcb60a30def"
+    },
+    "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_full_20261105/asset_F127_01",
+    "error": "AUTHORING_SURFACE_BODY_BINDING",
+    "source_sha256": "6ea5a5669cf816458fe6e591864a41fd9c7689fc9fb1957cc758e9afd7cdb81c",
+    "expert_diagnosis": {
+      "category": "native_placement",
+      "error": "AUTHORING_SURFACE_BODY_BINDING",
+      "native_rejections_in_current_queue": 0,
+      "first_blocker": {
+        "entity": "item_05",
+        "relation": "inside",
+        "receptacle": "bottom_cabinet_no_top_gjeoer_0"
+      },
+      "solver": null,
+      "support_measurements": {
+        "total": 0,
+        "planar": 0,
+        "reasons": {}
+      },
+      "first_contact": null,
+      "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_full_20261105/asset_F127_01/native_validation.log",
+      "inference_scope": "proposal/model diagnosis; native physics acceptance unchanged"
+    },
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "native_placement",
+      "reason": "AUTHORING_SURFACE_BODY_BINDING"
+    }
+  },
+  "out": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_15_F127_expert_af780492c411",
+  "variant": 93
+}

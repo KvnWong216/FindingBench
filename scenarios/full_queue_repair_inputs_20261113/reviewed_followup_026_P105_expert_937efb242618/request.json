@@ -1,0 +1,270 @@
+{
+  "action": "expert",
+  "case": {
+    "id": "P105",
+    "record": {
+      "id": "asset_P105_01",
+      "family": "semantic_P105",
+      "scene": "house_double_floor_upper",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_P105_01/scenario.yaml",
+      "scenario_sha256": "53ff969701c24cf0965a591510d0cade5adaa88f0964214d9fe6232b033364f9",
+      "instruction": "There is a sample on the cabinet top in front of you in the bedroom. Find a toy car matching that sample among the living-room toys and bring it to the cabinet top in front of you in the bedroom in the bedroom.",
+      "target_key": "toy_car/ksijjl",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "living_room_0",
+      "destination_room": "bedroom_0",
+      "source_receptacle": "search_storage",
+      "destination_receptacle": "delivery_surface",
+      "object_count": 14,
+      "distractor_count": 10,
+      "source_survey_sha256": "bad4111136351f4ccb189cc8da21449e65bb285de15b8c94024c1d045abd820a",
+      "route": {
+        "start": [
+          -3.4000000000000004,
+          0.8,
+          3.141592653589793
+        ],
+        "path_xy": [
+          [
+            -3.4000000000000004,
+            0.8
+          ],
+          [
+            -3.4000000000000004,
+            0.7000000000000001
+          ],
+          [
+            -3.4000000000000004,
+            0.6000000000000001
+          ],
+          [
+            -3.3000000000000003,
+            0.6000000000000001
+          ],
+          [
+            -3.2,
+            0.6000000000000001
+          ],
+          [
+            -3.1,
+            0.6000000000000001
+          ],
+          [
+            -3.0,
+            0.6000000000000001
+          ],
+          [
+            -2.9000000000000004,
+            0.6000000000000001
+          ],
+          [
+            -2.8000000000000003,
+            0.6000000000000001
+          ],
+          [
+            -2.7,
+            0.6000000000000001
+          ],
+          [
+            -2.6,
+            0.6000000000000001
+          ],
+          [
+            -2.5,
+            0.6000000000000001
+          ],
+          [
+            -2.4000000000000004,
+            0.6000000000000001
+          ],
+          [
+            -2.3000000000000003,
+            0.6000000000000001
+          ],
+          [
+            -2.2,
+            0.6000000000000001
+          ],
+          [
+            -2.1,
+            0.6000000000000001
+          ],
+          [
+            -2.0,
+            0.6000000000000001
+          ],
+          [
+            -1.9000000000000001,
+            0.6000000000000001
+          ],
+          [
+            -1.8,
+            0.6000000000000001
+          ],
+          [
+            -1.7000000000000002,
+            0.6000000000000001
+          ],
+          [
+            -1.6,
+            0.6000000000000001
+          ],
+          [
+            -1.5,
+            0.6000000000000001
+          ],
+          [
+            -1.4000000000000001,
+            0.6000000000000001
+          ],
+          [
+            -1.3,
+            0.6000000000000001
+          ],
+          [
+            -1.2000000000000002,
+            0.6000000000000001
+          ]
+        ],
+        "length_m": 2.4,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "comparison_sample",
+        "comparison_negative_0",
+        "comparison_negative_1",
+        "search_storage"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [
+        {
+          "name": "search_storage",
+          "category": "bottom_cabinet",
+          "model": "jrhgeu",
+          "floor": "floors_rfqizg_0",
+          "position_xy": [
+            -0.30000000000000004,
+            0.1
+          ],
+          "aabb": [
+            [
+              -0.467144760131836,
+              -0.24228797912597658,
+              0.0
+            ],
+            [
+              -0.1328552398681641,
+              0.4422879791259766,
+              0.6846599731445313
+            ]
+          ],
+          "room": "living_room_0"
+        },
+        {
+          "name": "delivery_surface",
+          "category": "bottom_cabinet",
+          "model": "jrhgeu",
+          "floor": "floors_nlswvt_0",
+          "position_xy": [
+            -4.1000000000000005,
+            1.3
+          ],
+          "aabb": [
+            [
+              -4.267144760131837,
+              0.9577120208740235,
+              0.0
+            ],
+            [
+              -3.9328552398681644,
+              1.6422879791259766,
+              0.6846599731445313
+            ]
+          ],
+          "room": "bedroom_0"
+        }
+      ],
+      "parent_task_id": "P105",
+      "tier": "long",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_P105_01",
+        "parent_task_id": "P105",
+        "before_instruction": "Find the toy car matching the wheel pattern and body shape of the car on the bedroom play shelf among the living-room toys; put it beside that car.",
+        "after_instruction": "There is a sample on the cabinet top in front of you in the bedroom. Find a toy car matching that sample among the living-room toys and bring it to the cabinet top in front of you in the bedroom in the bedroom.",
+        "reason": "Native-model identity preserves body/wheel matching without separately asserting unverified part measurements. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "toy_car/ksijjl",
+        "target_assets": [
+          "toy_car/ksijjl"
+        ]
+      },
+      "binding_sha256": "34e39e9804a3748f47dd986e21cf1e7b1dd4b0c71259a6b3a40b1a2607eef327"
+    },
+    "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_full_20261105/asset_P105_01",
+    "error": "placement failed verification after physics settled: ['item_00 inside search_storage', 'item_01 inside search_storage', 'item_02 inside search_storage', 'item_03 inside search_storage', 'item_04 inside search_storage', 'item_05 inside search_storage', 'item_06 inside search_storage', 'item_07 inside search_storage', 'item_08 inside search_storage', 'comparison_sample on_top delivery_surface', 'comparison_negative_0 inside search_storage', 'comparison_negative_1 inside search_storage']",
+    "source_sha256": "53ff969701c24cf0965a591510d0cade5adaa88f0964214d9fe6232b033364f9",
+    "expert_diagnosis": {
+      "category": "native_placement",
+      "error": "placement failed verification after physics settled: ['item_00 inside search_storage', 'item_01 inside search_storage', 'item_02 inside search_storage', 'item_03 inside search_storage', 'item_04 inside search_storage', 'item_05 inside search_storage', 'item_06 inside search_storage', 'item_07 inside search_storage', 'item_08 inside search_storage', 'comparison_sample on_top delivery_surface', 'comparison_negative_0 inside search_storage', 'comparison_negative_1 inside search_storage']",
+      "native_rejections_in_current_queue": 0,
+      "first_blocker": {
+        "entity": "comparison_negative_0",
+        "relation": "inside",
+        "receptacle": "search_storage"
+      },
+      "solver": null,
+      "support_measurements": {
+        "total": 0,
+        "planar": 0,
+        "reasons": {}
+      },
+      "first_contact": null,
+      "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_full_20261105/asset_P105_01/native_validation.log",
+      "inference_scope": "proposal/model diagnosis; native physics acceptance unchanged"
+    },
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "native_placement",
+      "reason": "placement failed verification after physics settled: ['item_00 inside search_storage', 'item_01 inside search_storage', 'item_02 inside search_storage', 'item_03 inside search_storage', 'item_04 inside search_storage', 'item_05 inside search_storage', 'item_06 inside search_storage', 'item_07 inside search_storage', 'item_08 inside search_storage', 'comparison_sample on_top delivery_surface', 'comparison_negative_0 inside search_storage', 'comparison_negative_1 inside search_storage']"
+    }
+  },
+  "out": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_026_P105_expert_937efb242618",
+  "variant": 93
+}

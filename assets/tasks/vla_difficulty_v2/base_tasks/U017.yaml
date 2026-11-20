@@ -1,0 +1,136 @@
+task_id: U017
+family: place_on
+scene: house_double_floor_upper
+source:
+  official_activity: setting_up_living_room_for_guest#0
+  official_activities_with_same_subgoal:
+  - setting_up_living_room_for_guest#0
+  - setting_up_room_for_a_movie#0
+  official_subgoal: (ontop bowl.n.01 table.n.02)
+  reuse: official sub-goal re-used as the task goal
+  scene: BEHAVIOR-1K house_double_floor_upper (+ clearance manifest)
+  object: BEHAVIOR-1K bowl/sqqahm
+start:
+  name: start_bedroom_0_0
+  room: bedroom_0
+  x: -4.14
+  y: 1.33
+  yaw: 0.0
+target:
+  entity: target_obj
+  category: bowl
+  model: sqqahm
+  noun: bowl
+  colour_estimate: yellow
+goal:
+- kind: on_top
+  entity: target_obj
+  receptacle: desk_iotfzl_0
+place_hints:
+- - -1.494
+  - -1.795
+  - -1.571
+- - -1.899
+  - -1.795
+  - -0.942
+- - -1.414
+  - -4.106
+  - 1.571
+- - -1.443
+  - -1.745
+  - -1.571
+background_objects: []
+background_placements: []
+initial_states: {}
+spatial:
+  S1:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bookcase_kmuacd_0
+    room: bedroom_0
+    location_phrase: the bookcase next to the desk in the bedroom with the maps on
+      the wall
+    grasp_hints:
+    - - -3.858
+      - 0.443
+      - -2.356
+    - - -3.758
+      - 0.543
+      - -2.356
+    - - -3.96
+      - 0.543
+      - -2.157
+    - - -3.708
+      - 0.392
+      - -2.537
+    extra_ops_vs_S1: []
+    probe_visibility_from_start:
+      px: 239
+      delta_e: 6.1
+  S2:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: desk_aduafr_0
+    room: bedroom_0
+    location_phrase: the desk in the bedroom with the maps on the wall
+    grasp_hints:
+    - - -4.221
+      - 0.737
+      - -2.356
+    - - -4.371
+      - 0.787
+      - -2.137
+    - - -4.321
+      - 0.837
+      - -2.159
+    - - -4.071
+      - 0.687
+      - -2.536
+    extra_ops_vs_S1:
+    - search behind occluders
+    s2_kind: occluded
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bottom_cabinet_jhymlr_0
+    room: bathroom_0
+    location_phrase: the cabinet in the bathroom
+    grasp_hints:
+    - - 1.251
+      - 2.004
+      - -0.345
+    - - 1.201
+      - 2.356
+      - -0.696
+    - - 1.201
+      - 1.954
+      - -0.256
+    - - 1.151
+      - 2.306
+      - -0.62
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    route_from_start_steps: 11
+language:
+  L1:
+    S1: Go to the bookcase next to the desk in the bedroom with the maps on the wall,
+      pick up the bowl on it. Then put it on the desk in the living room.
+    S2: Go to the desk in the bedroom with the maps on the wall, pick up the bowl
+      on it. Then put it on the desk in the living room.
+    S3: Leave the bedroom with the maps on the wall, go to the cabinet in the bathroom,
+      pick up the bowl on it. Then put it on the desk in the living room.
+  L2: Place the bowl on the desk in the living room.
+  L3: I'm setting up living room for guest, so could you make sure the bowl is on
+    the desk in the living room?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

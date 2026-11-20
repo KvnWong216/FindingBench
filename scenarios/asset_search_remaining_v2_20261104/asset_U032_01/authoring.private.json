@@ -1,0 +1,80 @@
+{
+  "id": "asset_U032_01",
+  "family": "semantic_U032",
+  "scene": "Beechwood_0_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_U032_01/scenario.yaml",
+  "scenario_sha256": "e5dfd4d4a224ca91ef2603718a19442f4e98ab44eae900792685f33ff880f7b6",
+  "instruction": "Bring the charger from the study electronics to the desk in front of you in the study so I can check it before charging the laptop.",
+  "target_key": "charger/bapkyh",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "private_office_0",
+  "destination_room": "private_office_0",
+  "source_receptacle": "bottom_cabinet_nddvba_0",
+  "destination_receptacle": "desk_rzyfxk_1",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+  "route": {
+    "start": [
+      5.3500000000000005,
+      -3.95,
+      0.0
+    ],
+    "path_xy": [
+      [
+        5.3500000000000005,
+        -3.95
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 12,
+    "destination_approach_count": 13,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_immwzb_0",
+    "bottom_cabinet_nddvba_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "parent_task_id": "U032",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_U032_01",
+    "parent_task_id": "U032",
+    "before_instruction": "I need to charge the study laptop. Find its charger among the office electronics and put it on the desk beside the laptop.",
+    "after_instruction": "Bring the charger from the study electronics to the desk in front of you in the study so I can check it before charging the laptop.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; The laptop and its connector-compatible charger are not instantiated as a verified pair; choosing any charger loses the matching requirement. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+    "target_asset": "charger/bapkyh",
+    "target_assets": [
+      "charger/bapkyh"
+    ]
+  },
+  "binding_sha256": "e5cd5a3660fb00df2488354209599bdb65d5d7047113a1ea41347300ce04d879"
+}

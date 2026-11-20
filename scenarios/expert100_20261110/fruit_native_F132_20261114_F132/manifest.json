@@ -1,0 +1,85 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F132_01",
+      "family": "semantic_F132",
+      "scene": "Pomaria_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/fruit_native_F132_20261114_F132/asset_F132_01/scenario.yaml",
+      "scenario_sha256": "a9b59e4acd5ab92e940408b37b59e3a38b1b69166c97721d074d197a570049b4",
+      "instruction": "Find two apples among the kitchen produce in the basket in the kitchen and bring both to the table in front of you in the kitchen.",
+      "target_key": "apple/bwteqh",
+      "target_entities": [
+        "item_01",
+        "item_02"
+      ],
+      "target_count": 2,
+      "source_room": "kitchen_0",
+      "destination_room": "kitchen_0",
+      "source_receptacle": "item_00",
+      "destination_receptacle": "breakfast_table_uhrsex_0",
+      "object_count": 11,
+      "distractor_count": 8,
+      "source_survey_sha256": "05d404c89ade70d34c89459d2b340c53ef49d49041a6624fcc9a997b8b7322b3",
+      "route": {
+        "start": [
+          -1.1500000000000001,
+          -2.85,
+          1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            -1.1500000000000001,
+            -2.85
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 51,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_00",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "item_09",
+        "item_10"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [],
+      "parent_task_id": "F132",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F132_01",
+        "parent_task_id": "F132",
+        "before_instruction": "Find one apple in each of the two rigid grocery crates in the kitchen and put both apples beside the fruit bowl on the kitchen table.",
+        "after_instruction": "Find two apples among the kitchen produce in the basket in the kitchen and bring both to the table in front of you in the kitchen.",
+        "reason": "Preserves two-apple collection but explicitly revises two separate crates into one constructed produce source. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "apple/bwteqh",
+        "target_assets": [
+          "apple/bwteqh",
+          "apple/bwteqh"
+        ]
+      },
+      "binding_sha256": "0629acf87df4806a76cdefe0fe8165b9b6e2c4816d71dcd0ade4a9bdd0f31089"
+    }
+  ]
+}

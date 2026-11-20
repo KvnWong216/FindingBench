@@ -1,0 +1,87 @@
+{
+  "id": "asset_P095_01",
+  "family": "semantic_P095",
+  "scene": "Rs_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_P095_01/scenario.yaml",
+  "scenario_sha256": "9f1e45e2ca54aad803010053926934a1f80441f37cf68457144191161366005c",
+  "instruction": "Find the toy train in the drawers in the living room and put it on the cabinet in front of you.",
+  "target_key": "toy_train/zdfhbw",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_0",
+  "destination_room": "entryway_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 1,
+  "distractor_count": 0,
+  "source_survey_sha256": "24bd47925e994c3defe707f3d8a919b355cd46a7128d2b59d373bc2697d8185e",
+  "route": {
+    "start": [
+      1.1,
+      1.9000000000000001,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        1.1,
+        1.9000000000000001
+      ],
+      [
+        1.1,
+        1.8
+      ],
+      [
+        1.1,
+        1.7000000000000002
+      ],
+      [
+        1.1,
+        1.6
+      ],
+      [
+        1.1,
+        1.5
+      ],
+      [
+        1.1,
+        1.4000000000000001
+      ],
+      [
+        1.1,
+        1.3
+      ],
+      [
+        1.1,
+        1.2000000000000002
+      ],
+      [
+        1.0,
+        1.2000000000000002
+      ]
+    ],
+    "length_m": 0.8,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 16,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate"
+}

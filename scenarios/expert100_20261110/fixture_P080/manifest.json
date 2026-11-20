@@ -1,0 +1,488 @@
+{
+  "tasks": [
+    {
+      "id": "asset_P080_01",
+      "family": "semantic_P080",
+      "scene": "Rs_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/fixture_P080/asset_P080_01/scenario.yaml",
+      "scenario_sha256": "0c82220900a1780ae6cfaf67017a668c136ea37eabc2c82f6b0438156e10b10a",
+      "instruction": "There is a sample on the cabinet top in front of you in the entryway. Find the baseball matching that sample among the living-room keepsakes and bring it to the cabinet top in front of you in the entryway in the entryway.",
+      "target_key": "baseball/zanmar",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "living_room_0",
+      "destination_room": "entryway_0",
+      "source_receptacle": "search_storage",
+      "destination_receptacle": "delivery_surface",
+      "object_count": 13,
+      "distractor_count": 8,
+      "source_survey_sha256": "24bd47925e994c3defe707f3d8a919b355cd46a7128d2b59d373bc2697d8185e",
+      "route": {
+        "start": [
+          1.1,
+          1.9000000000000001,
+          1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            1.1,
+            1.9000000000000001
+          ],
+          [
+            1.1,
+            1.8
+          ],
+          [
+            1.1,
+            1.7000000000000002
+          ],
+          [
+            1.1,
+            1.6
+          ],
+          [
+            1.1,
+            1.5
+          ],
+          [
+            1.1,
+            1.4000000000000001
+          ],
+          [
+            1.1,
+            1.3
+          ],
+          [
+            1.1,
+            1.2000000000000002
+          ],
+          [
+            1.0,
+            1.2000000000000002
+          ]
+        ],
+        "length_m": 0.8,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 16,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "comparison_sample",
+        "bottom_cabinet_bamfsz_1",
+        "search_storage",
+        "expert_storage_11"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [
+        {
+          "name": "search_storage",
+          "category": "bottom_cabinet",
+          "model": "jrhgeu",
+          "floor": "floors_ptwlei_0",
+          "position_xy": [
+            0.2,
+            0.4
+          ],
+          "aabb": [
+            [
+              0.03285523986816408,
+              0.05771202087402344,
+              -0.0
+            ],
+            [
+              0.36714476013183595,
+              0.7422879791259767,
+              0.6846599731445313
+            ]
+          ],
+          "room": "living_room_0"
+        },
+        {
+          "name": "delivery_surface",
+          "category": "bottom_cabinet",
+          "model": "jrhgeu",
+          "floor": "floors_gjemfr_0",
+          "position_xy": [
+            1.2000000000000002,
+            2.8000000000000003
+          ],
+          "aabb": [
+            [
+              1.0328552398681643,
+              2.4577120208740237,
+              -0.0
+            ],
+            [
+              1.367144760131836,
+              3.142287979125977,
+              0.6846599731445313
+            ]
+          ],
+          "room": "entryway_0"
+        },
+        {
+          "name": "expert_storage_11",
+          "category": "bottom_cabinet_no_top",
+          "model": "vzzafs",
+          "floor": "floors_ptwlei_0",
+          "position_xy": [
+            1.1,
+            0.6000000000000001
+          ],
+          "aabb": [
+            [
+              0.7736359405517579,
+              0.3735113983154298,
+              -0.0
+            ],
+            [
+              1.4263640594482423,
+              0.8264886016845704,
+              0.8682071838378906
+            ]
+          ],
+          "room": "living_room_0"
+        }
+      ],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "search_storage",
+            "volume_extents_m": {
+              "meta__base_link_fillable_0_0_link#component:0": [
+                0.23922629249095917,
+                0.18965983357072802,
+                0.5851681912193236
+              ],
+              "meta__base_link_fillable_0_0_link#component:1": [
+                0.23877585313392102,
+                0.19861903381347656,
+                0.5853487684532628
+              ],
+              "meta__base_link_fillable_0_0_link#component:2": [
+                0.23817441952228546,
+                0.189000270903126,
+                0.5853966732025147
+              ]
+            },
+            "native_links": {
+              "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet/jrhgeu",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "70d166224352a46e63c008e4d1b5af6bec5bfdfc27f6b21dad220cca350bc871",
+              "metadata_sha256": "838fad16a0dc49e7be965c08b9de0d54b477a05592b32eb05d6519a940331708",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.021306931041181087,
+              "nodes": 6,
+              "candidate_tests": 12765,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_05": "meta__base_link_fillable_0_0_link#component:1",
+                "item_04": "meta__base_link_fillable_0_0_link#component:0",
+                "item_02": "meta__base_link_fillable_0_0_link#component:2",
+                "item_00": "meta__base_link_fillable_0_0_link#component:2",
+                "item_03": "meta__base_link_fillable_0_0_link#component:0",
+                "item_01": "meta__base_link_fillable_0_0_link#component:0"
+              },
+              "poses": {
+                "item_05": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.098,
+                    0.098
+                  ],
+                  "center_xy_m": [
+                    0.054,
+                    0.054
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.077,
+                    0.077
+                  ],
+                  "center_xy_m": [
+                    0.043500000000000004,
+                    0.043500000000000004
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:2",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.075,
+                    0.075
+                  ],
+                  "center_xy_m": [
+                    0.0425,
+                    0.0425
+                  ]
+                },
+                "item_00": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:2",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.085,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.074,
+                    0.074
+                  ],
+                  "center_xy_m": [
+                    0.122,
+                    0.042
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.08700000000000001,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.007,
+                    0.007
+                  ],
+                  "center_xy_m": [
+                    0.0905,
+                    0.0085
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.099,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.056,
+                    0.031
+                  ],
+                  "center_xy_m": [
+                    0.127,
+                    0.0205
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link",
+              "item_00": "meta__base_link_fillable_0_0_link",
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "item_01": "meta__base_link_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_05": "meta__base_link_fillable_0_0_link#component:1",
+              "item_04": "meta__base_link_fillable_0_0_link#component:0",
+              "item_02": "meta__base_link_fillable_0_0_link#component:2",
+              "item_00": "meta__base_link_fillable_0_0_link#component:2",
+              "item_03": "meta__base_link_fillable_0_0_link#component:0",
+              "item_01": "meta__base_link_fillable_0_0_link#component:0"
+            }
+          },
+          {
+            "receptacle": "expert_storage_11",
+            "volume_extents_m": {
+              "meta__base_link_fillable_0_0_link": [
+                0.5315370221138,
+                0.39102343478868673,
+                0.6658233661651611
+              ]
+            },
+            "native_links": {
+              "meta__base_link_fillable_0_0_link": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet_no_top/vzzafs",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "b4daa08616feaef1a73fc5cb01bcd60c278fad77ff3d5bda42d007a631e01515",
+              "metadata_sha256": "f0ba45ae134ef2c37866c9bb0186200606042fb03eafed9783116a94253ac4bf",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.0009844228625297546,
+              "nodes": 0,
+              "candidate_tests": 0,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_06": "meta__base_link_fillable_0_0_link",
+                "item_07": "meta__base_link_fillable_0_0_link",
+                "item_08": "meta__base_link_fillable_0_0_link"
+              },
+              "poses": {
+                "item_06": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.056,
+                    0.031
+                  ],
+                  "center_xy_m": [
+                    0.033,
+                    0.0205
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.041
+                  ],
+                  "footprint_m": [
+                    0.075,
+                    0.075
+                  ],
+                  "center_xy_m": [
+                    0.042499999999999996,
+                    0.0785
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.121
+                  ],
+                  "footprint_m": [
+                    0.007,
+                    0.007
+                  ],
+                  "center_xy_m": [
+                    0.0085,
+                    0.1245
+                  ]
+                }
+              },
+              "constructive_witness": "single strip; exact quantized box and clearance checks"
+            },
+            "assignment": {
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [],
+      "parent_task_id": "P080",
+      "tier": "long",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_P080_01",
+        "parent_task_id": "P080",
+        "before_instruction": "Find the baseball with the signature among the living-room display cabinet keepsakes and put it in the entryway bench tray.",
+        "after_instruction": "There is a sample on the cabinet top in front of you in the entryway. Find the baseball matching that sample among the living-room keepsakes and bring it to the cabinet top in front of you in the entryway in the entryway.",
+        "reason": "Replaces unverified signature text with native baseball matching and a grounded destination. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "baseball/zanmar",
+        "target_assets": [
+          "baseball/zanmar"
+        ]
+      },
+      "binding_sha256": "326c0d8858ac74b20cd6354ac40be11b36a85f90b15e26dce59039bc40c817f4"
+    }
+  ]
+}

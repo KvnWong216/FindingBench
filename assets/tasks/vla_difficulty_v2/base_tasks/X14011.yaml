@@ -1,0 +1,70 @@
+task_id: X14011
+family: fetch
+scene: Merom_0_int
+source:
+  official_activity: cook_arepas#0
+  official_activities_with_same_subgoal:
+  - cook_arepas#0
+  official_subgoal: (ontop arepa.n.01 griddle.n.01)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K Merom_0_int
+  object: BEHAVIOR-1K arepa/hhtbuy
+start:
+  name: start_utility_room_0_1
+  room: utility_room_0
+  x: -0.09
+  y: 0.47
+  yaw: 2.045
+target:
+  entity: target_obj
+  category: arepa
+  model: hhtbuy
+  noun: arepa
+  colour_estimate: brown
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S1
+missing_spatial_levels:
+- S2
+- S3
+initial_states: {}
+spatial:
+  S1:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: breakfast_table_skczfi_0
+    room: utility_room_0
+    location_phrase: the table in the utility room
+    grasp_hints:
+    - - -1.397
+      - -0.213
+      - 3.142
+    - - -1.347
+      - -0.163
+      - 3.142
+    - - -1.297
+      - 0.089
+      - -2.823
+    - - -1.297
+      - -0.313
+      - 3.001
+    extra_ops_vs_S1: []
+    probe_visibility_from_start:
+      px: 161
+      delta_e: 5.7
+    task_scope: single_room
+language:
+  L1:
+    S1: Go to the table in the utility room, pick up the arepa on it and hold it.
+  L2: Pick up the arepa and keep holding it.
+  L3: I'm working on cook arepas. Can you find the arepa and hold it for me?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

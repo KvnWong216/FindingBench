@@ -1,0 +1,203 @@
+{
+  "method": "replace_native_scene_source_at_same_site",
+  "edit": {
+    "entity": "bottom_cabinet_slgzfc_0",
+    "replacement_entity": "replacement_bottom_cabinet_slgzfc_0",
+    "before_asset": "bottom_cabinet/slgzfc",
+    "after_asset": "bottom_cabinet/songes",
+    "before_aabb": [
+      [
+        1.606,
+        0.079,
+        -0.0
+      ],
+      [
+        2.175,
+        1.047,
+        0.839
+      ]
+    ],
+    "after_aabb": [
+      [
+        1.6268807373046874,
+        0.1437848815917968,
+        0.0
+      ],
+      [
+        2.1541192626953123,
+        0.9822151184082031,
+        0.82936767578125
+      ]
+    ],
+    "source_sha256": "b05a75d52806578f9c8c9e42666a2a0a163d23d7f945855a5dee4b1a4dd939fe",
+    "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/reviewed_followup_007_P177/asset_P177_01",
+    "reason": "Replace failed source at its existing site; adding another fixture consumes its approach space",
+    "physical_validation_required": true
+  },
+  "expert_replaced_unanchored_scene_fixture": true,
+  "shared_delivery_alias": {
+    "before": "bottom_cabinet_slgzfc_0",
+    "after": "replacement_bottom_cabinet_slgzfc_0",
+    "physical_site_unchanged": true
+  },
+  "initial_closed_state_retained": {
+    "open": false
+  },
+  "solver": {
+    "status": "feasible_model",
+    "device": "cuda",
+    "backend": "torch_cuda_finite_csp",
+    "solve_seconds": 0.1075445651076734,
+    "nodes": 7,
+    "candidate_tests": 221736,
+    "search_orders_tried": 1,
+    "grid_m": 0.005,
+    "margin_m": 0.015,
+    "model": "upright boxes; yaw 0/90; single-layer independent bins; integer grid with convex centre halfspaces / fixed obstacles",
+    "physical_validation_required": true,
+    "assignment": {
+      "item_04": "meta__bottomdrawer_fillable_0_0_link#mesh:0",
+      "required_negative_0": "meta__middledrawer_fillable_0_0_link#mesh:0",
+      "item_00": "meta__topdrawer_fillable_0_0_link#mesh:0",
+      "item_05": "meta__topdrawer_fillable_0_0_link#mesh:0",
+      "item_01": "meta__topdrawer_fillable_0_0_link#mesh:0",
+      "item_08": "meta__middledrawer_fillable_0_0_link#mesh:0",
+      "item_07": "meta__topdrawer_fillable_0_0_link#mesh:0",
+      "item_02": "meta__topdrawer_fillable_0_0_link#mesh:0",
+      "item_03": "meta__topdrawer_fillable_0_0_link#mesh:0",
+      "item_06": "meta__topdrawer_fillable_0_0_link#mesh:0"
+    },
+    "poses": {
+      "item_04": {
+        "bin": "meta__bottomdrawer_fillable_0_0_link#mesh:0",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.015
+        ],
+        "footprint_m": [
+          0.305,
+          0.275
+        ],
+        "center_xy_m": [
+          0.1675,
+          0.1525
+        ]
+      },
+      "required_negative_0": {
+        "bin": "meta__middledrawer_fillable_0_0_link#mesh:0",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.015
+        ],
+        "footprint_m": [
+          0.255,
+          0.165
+        ],
+        "center_xy_m": [
+          0.14250000000000002,
+          0.0975
+        ]
+      },
+      "item_00": {
+        "bin": "meta__topdrawer_fillable_0_0_link#mesh:0",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.015
+        ],
+        "footprint_m": [
+          0.185,
+          0.13
+        ],
+        "center_xy_m": [
+          0.1075,
+          0.08
+        ]
+      },
+      "item_05": {
+        "bin": "meta__topdrawer_fillable_0_0_link#mesh:0",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.215,
+          0.015
+        ],
+        "footprint_m": [
+          0.085,
+          0.1
+        ],
+        "center_xy_m": [
+          0.2575,
+          0.065
+        ]
+      },
+      "item_01": {
+        "bin": "meta__topdrawer_fillable_0_0_link#mesh:0",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.215,
+          0.13
+        ],
+        "footprint_m": [
+          0.095,
+          0.06
+        ],
+        "center_xy_m": [
+          0.2625,
+          0.16
+        ]
+      },
+      "item_08": {
+        "bin": "meta__middledrawer_fillable_0_0_link#mesh:0",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.28500000000000003,
+          0.015
+        ],
+        "footprint_m": [
+          0.095,
+          0.06
+        ],
+        "center_xy_m": [
+          0.3325,
+          0.045
+        ]
+      },
+      "item_07": {
+        "bin": "meta__topdrawer_fillable_0_0_link#mesh:0",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.315,
+          0.015
+        ],
+        "footprint_m": [
+          0.03,
+          0.03
+        ],
+        "center_xy_m": [
+          0.33,
+          0.03
+        ]
+      }
+    },
+    "deferred_native_stacking": {
+      "item_02": "item_00",
+      "item_03": "item_00",
+      "item_06": "item_00"
+    },
+    "model_scope": "Base-layer box witness only; deferred props require actual measured native support and fresh physical validation"
+  },
+  "preserved": [
+    "instruction",
+    "goal",
+    "physical source site and room",
+    "initial source open/closed state",
+    "target",
+    "all task props",
+    "robot",
+    "spawn",
+    "all original relation kinds"
+  ],
+  "physical_validation_required": true
+}

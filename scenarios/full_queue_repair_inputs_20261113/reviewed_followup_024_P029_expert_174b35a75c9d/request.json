@@ -1,0 +1,133 @@
+{
+  "action": "expert",
+  "case": {
+    "id": "P029",
+    "record": {
+      "id": "asset_P029_01",
+      "family": "semantic_P029",
+      "scene": "Ihlen_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/all_remaining_20261113_22_P029/asset_P029_01/scenario.yaml",
+      "scenario_sha256": "6b78dd49addb7a9e53249dbf9a694f1efd69d327c1e7f4cc3118ced6f2492bf3",
+      "instruction": "There is a sample on the table in front of you in the living room. Find the picture frame matching that sample among the living-room decorations and bring it to the table in front of you in the living room.",
+      "target_key": "picture_frame/brhofj",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "living_room_0",
+      "destination_room": "living_room_0",
+      "source_receptacle": "bottom_cabinet_jrhgeu_2",
+      "destination_receptacle": "coffee_table_gcollb_0",
+      "object_count": 12,
+      "distractor_count": 10,
+      "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+      "route": {
+        "start": [
+          1.9000000000000001,
+          0.2,
+          0.0
+        ],
+        "path_xy": [
+          [
+            1.9000000000000001,
+            0.2
+          ],
+          [
+            1.9000000000000001,
+            0.1
+          ],
+          [
+            1.9000000000000001,
+            0.0
+          ],
+          [
+            1.8,
+            0.0
+          ],
+          [
+            1.8,
+            -0.1
+          ],
+          [
+            1.7000000000000002,
+            -0.1
+          ],
+          [
+            1.6,
+            -0.1
+          ]
+        ],
+        "length_m": 0.6,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 1,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "comparison_sample",
+        "comparison_negative_0",
+        "comparison_negative_1",
+        "bottom_cabinet_jrhgeu_2"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [],
+      "parent_task_id": "P029",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_P029_01",
+        "parent_task_id": "P029",
+        "before_instruction": "Find the empty freestanding photo frame among the living-room cabinet decorations and place it on the coffee table beside the photograph.",
+        "after_instruction": "There is a sample on the table in front of you in the living room. Find the picture frame matching that sample among the living-room decorations and bring it to the table in front of you in the living room.",
+        "reason": "Removes unsupported empty-frame/freestanding claims and uses physical-reference identification. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "picture_frame/brhofj",
+        "target_assets": [
+          "picture_frame/brhofj"
+        ]
+      },
+      "binding_sha256": "784eef06258c3d996b503f8035f55b44e2637a2d6eec62058441c0f7286b64aa"
+    },
+    "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_lane2_20261111/all_remaining_20261113_22_P029/asset_P029_01",
+    "accepted": false,
+    "error": "EXPERT_CONTAINER_CLOSED_DURING_SETTLING",
+    "source": "reviewed_polling_probe_all_remaining_20261113_22",
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "joint_interference",
+      "reason": "EXPERT_CONTAINER_CLOSED_DURING_SETTLING"
+    }
+  },
+  "out": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_024_P029_expert_174b35a75c9d",
+  "variant": 93
+}

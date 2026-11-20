@@ -1,0 +1,222 @@
+{
+  "action": "expert",
+  "case": {
+    "id": "U283",
+    "record": {
+      "id": "asset_U283_01",
+      "family": "semantic_U283",
+      "scene": "house_double_floor_lower",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/reviewed_followup_234_U283/asset_U283_01/scenario.yaml",
+      "scenario_sha256": "486d4fb1c60a192d9658eac437c1cad9e3ea7467469cddfcf4d66bf8bb7dcbba",
+      "instruction": "Find a spare garden light among the garden supply storage matching the sample on the table in front of you in the garden, and bring it to the same surface.",
+      "target_key": "garden_light/xqmqmi",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "garden_0",
+      "destination_room": "garden_0",
+      "source_receptacle": "search_storage",
+      "destination_receptacle": "delivery_surface",
+      "object_count": 13,
+      "distractor_count": 9,
+      "source_survey_sha256": "0a3f401e7605a056f40f88d913d8c052476ef760acf457ac11cb1f76abbe581f",
+      "route": {
+        "start": [
+          16.45,
+          3.5500000000000003,
+          3.141592653589793
+        ],
+        "path_xy": [
+          [
+            16.45,
+            3.5500000000000003
+          ],
+          [
+            16.55,
+            3.5500000000000003
+          ],
+          [
+            16.650000000000002,
+            3.5500000000000003
+          ],
+          [
+            16.75,
+            3.5500000000000003
+          ],
+          [
+            16.85,
+            3.5500000000000003
+          ],
+          [
+            16.95,
+            3.5500000000000003
+          ],
+          [
+            17.05,
+            3.5500000000000003
+          ],
+          [
+            17.150000000000002,
+            3.5500000000000003
+          ],
+          [
+            17.25,
+            3.5500000000000003
+          ],
+          [
+            17.35,
+            3.5500000000000003
+          ],
+          [
+            17.45,
+            3.5500000000000003
+          ],
+          [
+            17.55,
+            3.5500000000000003
+          ],
+          [
+            17.650000000000002,
+            3.5500000000000003
+          ],
+          [
+            17.75,
+            3.5500000000000003
+          ],
+          [
+            17.85,
+            3.5500000000000003
+          ],
+          [
+            17.95,
+            3.5500000000000003
+          ]
+        ],
+        "length_m": 1.5,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "comparison_sample",
+        "comparison_negative_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [
+        {
+          "name": "search_storage",
+          "category": "shelf",
+          "model": "vanltx",
+          "floor": "floors_ghetev_0",
+          "position_xy": [
+            18.75,
+            3.6500000000000004
+          ],
+          "aabb": [
+            [
+              18.576926239013673,
+              3.0574854125976567,
+              0.014
+            ],
+            [
+              18.923073760986327,
+              4.242514587402344,
+              0.44211041259765627
+            ]
+          ],
+          "room": "garden_0"
+        },
+        {
+          "name": "delivery_surface",
+          "category": "breakfast_table",
+          "model": "iaritq",
+          "floor": "floors_ghetev_0",
+          "position_xy": [
+            15.55,
+            3.95
+          ],
+          "aabb": [
+            [
+              15.198999710083008,
+              3.599453765869141,
+              0.014
+            ],
+            [
+              15.901000289916993,
+              4.300546234130859,
+              0.7630009155273437
+            ]
+          ],
+          "room": "garden_0"
+        }
+      ],
+      "parent_task_id": "U283",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_U283_01",
+        "parent_task_id": "U283",
+        "before_instruction": "One spare garden light should match the light beside the garden table. Find it among the storage room's outdoor equipment and put it on the table beside that light.",
+        "after_instruction": "Find a spare garden light among the garden supply storage matching the sample on the table in front of you in the garden, and bring it to the same surface.",
+        "reason": "Preserves the source/destination room types and the single-source-object matching requirement. Grounds the comparison sample on the uniquely initial-facing handoff surface; reference is not a goal target. Delivery is onto the reference-bearing surface; no unimplemented beside-distance predicate is claimed. Exact same-model sample and different-model negatives are explicitly instantiated. Source stock relocated to the garage because native house layouts provide garage-garden pairs, not storage-room-garden pairs; purpose and native objects retained. Layout revision uses a surveyed feasible geometry pair: garage/shelf -> garden/table becomes garden/shelf -> garden/table. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+        "target_asset": "garden_light/xqmqmi",
+        "target_assets": [
+          "garden_light/xqmqmi"
+        ]
+      },
+      "binding_sha256": "c48a9f8a6c93a35a084287d4dd8244df4577e4b50b309122ec44c75b8b5c293a",
+      "proposal_native_policy_signature": "638901e57b44747045bd55ed10084fe82451f1075c4c28aa6f0af555449b389c",
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    },
+    "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_lane2_20261111/reviewed_followup_234_U283/asset_U283_01",
+    "accepted": false,
+    "error": "placement failed verification after physics settled: ['item_00 on_top search_storage', 'item_01 on_top search_storage', 'item_02 on_top search_storage', 'item_03 on_top search_storage', 'item_04 on_top search_storage', 'item_05 on_top search_storage', 'item_06 on_top search_storage', 'item_07 on_top search_storage', 'item_08 on_top search_storage', 'comparison_negative_0 on_top search_storage']",
+    "source": "reviewed_polling_probe_reviewed_followup_234",
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "surface_or_timeout",
+      "reason": "placement failed verification after physics settled: ['item_00 on_top search_storage', 'item_01 on_top search_storage', 'item_02 on_top search_storage', 'item_03 on_top search_storage', 'item_04 on_top search_storage', 'item_05 on_top search_storage', 'item_06 on_top search_storage', 'item_07 on_top search_storage', 'item_08 on_top search_storage', 'comparison_negative_0 on_top search_storage']"
+    }
+  },
+  "out": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_253_U283_expert_9a8a94feb089",
+  "variant": 93
+}

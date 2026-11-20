@@ -1,0 +1,64 @@
+{
+  "id": "dense_search_096",
+  "family": "breakfast_basket",
+  "scene": "house_single_floor",
+  "scenario": "scenarios/dense_search_pilot/dense_search_096/scenario.yaml",
+  "scenario_sha256": "a124c9e4daff92901fc4299ad75155326e469756143e51af0ab8c530afd32277",
+  "instruction": "Find the cup of yogurt in the shopping basket in this kitchen and put it on the cabinet in front of you.",
+  "target_key": "yogurt",
+  "target_entities": [
+    "item_01"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "item_00",
+  "destination_receptacle": "bottom_cabinet_no_top_gjeoer_0",
+  "object_count": 10,
+  "distractor_count": 8,
+  "source_survey_sha256": "14714104a089f0a43cdebe256d01d697215fe5627c0e2fcb55a030a71a1fb2a5",
+  "route": {
+    "start": [
+      5.2,
+      1.5,
+      -2.111172725475059
+    ],
+    "path_xy": [
+      [
+        5.2,
+        1.5
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.5956854249492382,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 7,
+    "destination_approach_count": 7,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_00",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "robot_model": "g1_bench"
+}

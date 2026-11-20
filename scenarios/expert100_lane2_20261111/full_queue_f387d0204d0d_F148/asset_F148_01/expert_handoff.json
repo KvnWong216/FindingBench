@@ -1,0 +1,76 @@
+{
+  "source_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/surface_body_v56_F148/asset_F148_01/scenario.yaml",
+  "source_sha256": "75ce2a45c28a5497e9336dd428b918b090e0d9f78ed684375ac8e03ebf6c4b5d",
+  "source_intervention": {
+    "status": "surface_body_binding_corrected_physics_pending",
+    "changes": [
+      {
+        "field": "goal",
+        "entity": "item_00",
+        "before": "bottom_cabinet_no_top_spojpj_0",
+        "after": "countertop_tpuwys_2"
+      }
+    ],
+    "destination_approach_patch": {
+      "contact_body": "countertop_tpuwys_2",
+      "above_fixture": "bottom_cabinet_no_top_spojpj_0",
+      "aabb": [
+        [
+          -3.221,
+          -7.601,
+          0.851
+        ],
+        [
+          -2.618,
+          -6.863,
+          0.87
+        ]
+      ],
+      "scope": "private route proposal to a subset of the actual slab; no synthetic body"
+    },
+    "geometry": {
+      "bottom_cabinet_no_top_spojpj_0": {
+        "before": [
+          [
+            -3.235,
+            -7.601,
+            0.001
+          ],
+          [
+            -2.618,
+            -6.863,
+            0.847
+          ]
+        ],
+        "after": [
+          [
+            -3.221,
+            -8.399,
+            0.851
+          ],
+          [
+            -2.612,
+            -6.857,
+            0.87
+          ]
+        ]
+      }
+    },
+    "source_survey": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/vla_difficulty_v2/_survey/Beechwood_0_int.json",
+    "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+    "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert_repair_queue_20261107/asset_F148_01/scenario.yaml",
+    "original_scenario_sha256": "cac4220ac480911e6ed769f3da26a48ad94fd41c814780e2ed701565074f2b0f",
+    "reason": "Native OnTop requires touching the named body; a separate measured slab covers the named cabinet.",
+    "preserved": [
+      "instruction",
+      "all object models and counts",
+      "target identities",
+      "relation kinds",
+      "spawn",
+      "robot and skills",
+      "physical delivery location"
+    ],
+    "physical_validation_required": true
+  },
+  "physical_validation_required": true
+}

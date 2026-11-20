@@ -1,0 +1,722 @@
+{
+  "status": "proposed",
+  "record": {
+    "id": "asset_U161_01",
+    "family": "semantic_U161",
+    "scene": "Rs_int",
+    "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_20_U161_expert_fdaa6a557299/asset_U161_01/scenario.yaml",
+    "scenario_sha256": "e78ff1e776f4a7df2e1191151aba74b6c4158fa6327bea7e5a4d820b2bf271df",
+    "instruction": "Bring a bulldog clip from the living room workspace stationery to the table in front of you in the entryway in the entryway for the temporary notice.",
+    "target_key": "bulldog_clip/cqxnkn",
+    "target_entities": [
+      "item_00"
+    ],
+    "target_count": 1,
+    "source_room": "living_room_0",
+    "destination_room": "entryway_0",
+    "source_receptacle": "search_storage",
+    "destination_receptacle": "delivery_surface",
+    "object_count": 12,
+    "distractor_count": 8,
+    "source_survey_sha256": "24bd47925e994c3defe707f3d8a919b355cd46a7128d2b59d373bc2697d8185e",
+    "route": {
+      "start": [
+        1.0,
+        1.8,
+        1.5707963267948966
+      ],
+      "path_xy": [
+        [
+          1.0,
+          1.8
+        ],
+        [
+          1.0,
+          1.7000000000000002
+        ],
+        [
+          1.0,
+          1.6
+        ],
+        [
+          1.0,
+          1.5
+        ],
+        [
+          1.0,
+          1.4000000000000001
+        ],
+        [
+          1.0,
+          1.3
+        ],
+        [
+          1.0,
+          1.2000000000000002
+        ]
+      ],
+      "length_m": 0.6,
+      "grid_m": 0.1,
+      "base_radius_m": 0.38355339059327376,
+      "endpoint_free_patch_radius_m": 0.2,
+      "source_approach_count": 64,
+      "destination_approach_count": 12,
+      "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+    },
+    "status": "static_screened_physics_pending",
+    "human_reference_steps": null,
+    "required_gates": [
+      "fresh_native_initialization",
+      "stable_dense_layout",
+      "target_CHECK_identifiability",
+      "all_yaw_live_navigation_and_tolerant_endpoints",
+      "reachable_open_grasp_place",
+      "initial_goal_false",
+      "human_completion"
+    ],
+    "restoration_entities": [
+      "item_01",
+      "item_02",
+      "item_03",
+      "item_04",
+      "item_05",
+      "item_06",
+      "item_07",
+      "item_08",
+      "bottom_cabinet_bamfsz_1",
+      "search_storage",
+      "expert_storage_93"
+    ],
+    "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+    "inserted_furniture": [
+      {
+        "name": "search_storage",
+        "category": "bottom_cabinet",
+        "model": "jrhgeu",
+        "floor": "floors_ptwlei_0",
+        "position_xy": [
+          0.2,
+          0.4
+        ],
+        "aabb": [
+          [
+            0.03285523986816408,
+            0.05771202087402344,
+            -0.0
+          ],
+          [
+            0.36714476013183595,
+            0.7422879791259767,
+            0.6846599731445313
+          ]
+        ],
+        "room": "living_room_0"
+      },
+      {
+        "name": "delivery_surface",
+        "category": "breakfast_table",
+        "model": "iaritq",
+        "floor": "floors_gjemfr_0",
+        "position_xy": [
+          1.2000000000000002,
+          2.8000000000000003
+        ],
+        "aabb": [
+          [
+            0.848999710083008,
+            2.4494537658691407,
+            -0.0
+          ],
+          [
+            1.5510002899169923,
+            3.15054623413086,
+            0.7490009155273437
+          ]
+        ],
+        "room": "entryway_0"
+      },
+      {
+        "name": "expert_storage_93",
+        "category": "bottom_cabinet_no_top",
+        "model": "vzzafs",
+        "floor": "floors_ptwlei_0",
+        "position_xy": [
+          1.1,
+          0.6000000000000001
+        ],
+        "aabb": [
+          [
+            0.7736359405517579,
+            0.3735113983154298,
+            -0.0
+          ],
+          [
+            1.4263640594482423,
+            0.8264886016845704,
+            0.8682071838378906
+          ]
+        ],
+        "room": "living_room_0"
+      }
+    ],
+    "layout_preflight": {
+      "status": "heuristic_fit",
+      "findings": [
+        {
+          "receptacle": "search_storage",
+          "volume_extents_m": {
+            "meta__base_link_fillable_0_0_link#component:0": [
+              0.23922629249095917,
+              0.18965983357072802,
+              0.5851681912193236
+            ],
+            "meta__base_link_fillable_0_0_link#component:1": [
+              0.23877585313392102,
+              0.19861903381347656,
+              0.5853487684532628
+            ],
+            "meta__base_link_fillable_0_0_link#component:2": [
+              0.23817441952228546,
+              0.189000270903126,
+              0.5853966732025147
+            ]
+          },
+          "native_links": {
+            "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+            "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+            "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+          },
+          "geometry_source": "offline_asset_hint",
+          "geometry_provenance": {
+            "asset": "bottom_cabinet/jrhgeu",
+            "scale": [
+              1,
+              1,
+              1
+            ],
+            "encrypted_asset_sha256": "70d166224352a46e63c008e4d1b5af6bec5bfdfc27f6b21dad220cca350bc871",
+            "metadata_sha256": "838fad16a0dc49e7be965c08b9de0d54b477a05592b32eb05d6519a940331708",
+            "root_orientation": [
+              0,
+              0,
+              0,
+              1
+            ],
+            "coordinates": "size_only_not_world_positions",
+            "physical_validation_required": true
+          },
+          "status": "heuristic_fit",
+          "solver": {
+            "status": "feasible_model",
+            "device": "cuda",
+            "backend": "torch_cuda_finite_csp",
+            "solve_seconds": 0.001660522073507309,
+            "nodes": 0,
+            "candidate_tests": 0,
+            "search_orders_tried": 0,
+            "grid_m": 0.001,
+            "margin_m": 0.005,
+            "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+            "physical_validation_required": true,
+            "assignment": {
+              "item_00": "meta__base_link_fillable_0_0_link#component:0",
+              "item_01": "meta__base_link_fillable_0_0_link#component:0",
+              "item_02": "meta__base_link_fillable_0_0_link#component:0",
+              "item_03": "meta__base_link_fillable_0_0_link#component:0",
+              "item_04": "meta__base_link_fillable_0_0_link#component:0",
+              "item_05": "meta__base_link_fillable_0_0_link#component:0"
+            },
+            "poses": {
+              "item_00": {
+                "bin": "meta__base_link_fillable_0_0_link#component:0",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.005
+                ],
+                "footprint_m": [
+                  0.03,
+                  0.022
+                ],
+                "center_xy_m": [
+                  0.02,
+                  0.016
+                ]
+              },
+              "item_01": {
+                "bin": "meta__base_link_fillable_0_0_link#component:0",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.032
+                ],
+                "footprint_m": [
+                  0.004,
+                  0.004
+                ],
+                "center_xy_m": [
+                  0.007,
+                  0.034
+                ]
+              },
+              "item_02": {
+                "bin": "meta__base_link_fillable_0_0_link#component:0",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.041
+                ],
+                "footprint_m": [
+                  0.02,
+                  0.005
+                ],
+                "center_xy_m": [
+                  0.015,
+                  0.043500000000000004
+                ]
+              },
+              "item_03": {
+                "bin": "meta__base_link_fillable_0_0_link#component:0",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.051000000000000004
+                ],
+                "footprint_m": [
+                  0.013000000000000001,
+                  0.009000000000000001
+                ],
+                "center_xy_m": [
+                  0.0115,
+                  0.05550000000000001
+                ]
+              },
+              "item_04": {
+                "bin": "meta__base_link_fillable_0_0_link#component:0",
+                "yaw_degrees": 90,
+                "lower_xy_m": [
+                  0.005,
+                  0.065
+                ],
+                "footprint_m": [
+                  0.009000000000000001,
+                  0.008
+                ],
+                "center_xy_m": [
+                  0.009500000000000001,
+                  0.069
+                ]
+              },
+              "item_05": {
+                "bin": "meta__base_link_fillable_0_0_link#component:0",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.078
+                ],
+                "footprint_m": [
+                  0.004,
+                  0.004
+                ],
+                "center_xy_m": [
+                  0.007,
+                  0.08
+                ]
+              }
+            },
+            "constructive_witness": "single strip; exact quantized box and clearance checks"
+          },
+          "assignment": {
+            "item_00": "meta__base_link_fillable_0_0_link",
+            "item_01": "meta__base_link_fillable_0_0_link",
+            "item_02": "meta__base_link_fillable_0_0_link",
+            "item_03": "meta__base_link_fillable_0_0_link",
+            "item_04": "meta__base_link_fillable_0_0_link",
+            "item_05": "meta__base_link_fillable_0_0_link"
+          },
+          "component_allocation": {
+            "item_00": "meta__base_link_fillable_0_0_link#component:0",
+            "item_01": "meta__base_link_fillable_0_0_link#component:0",
+            "item_02": "meta__base_link_fillable_0_0_link#component:0",
+            "item_03": "meta__base_link_fillable_0_0_link#component:0",
+            "item_04": "meta__base_link_fillable_0_0_link#component:0",
+            "item_05": "meta__base_link_fillable_0_0_link#component:0"
+          }
+        },
+        {
+          "receptacle": "expert_storage_93",
+          "volume_extents_m": {
+            "meta__base_link_fillable_0_0_link": [
+              0.5315370221138,
+              0.39102343478868673,
+              0.6658233661651611
+            ]
+          },
+          "native_links": {
+            "meta__base_link_fillable_0_0_link": "meta__base_link_fillable_0_0_link"
+          },
+          "geometry_source": "offline_asset_hint",
+          "geometry_provenance": {
+            "asset": "bottom_cabinet_no_top/vzzafs",
+            "scale": [
+              1,
+              1,
+              1
+            ],
+            "encrypted_asset_sha256": "b4daa08616feaef1a73fc5cb01bcd60c278fad77ff3d5bda42d007a631e01515",
+            "metadata_sha256": "f0ba45ae134ef2c37866c9bb0186200606042fb03eafed9783116a94253ac4bf",
+            "root_orientation": [
+              0,
+              0,
+              0,
+              1
+            ],
+            "coordinates": "size_only_not_world_positions",
+            "physical_validation_required": true
+          },
+          "status": "heuristic_fit",
+          "solver": {
+            "status": "feasible_model",
+            "device": "cuda",
+            "backend": "torch_cuda_finite_csp",
+            "solve_seconds": 0.001338388305157423,
+            "nodes": 0,
+            "candidate_tests": 0,
+            "search_orders_tried": 0,
+            "grid_m": 0.001,
+            "margin_m": 0.005,
+            "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+            "physical_validation_required": true,
+            "assignment": {
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link"
+            },
+            "poses": {
+              "item_06": {
+                "bin": "meta__base_link_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.005
+                ],
+                "footprint_m": [
+                  0.02,
+                  0.005
+                ],
+                "center_xy_m": [
+                  0.015,
+                  0.0075
+                ]
+              },
+              "item_07": {
+                "bin": "meta__base_link_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.015
+                ],
+                "footprint_m": [
+                  0.013000000000000001,
+                  0.009000000000000001
+                ],
+                "center_xy_m": [
+                  0.0115,
+                  0.0195
+                ]
+              }
+            },
+            "constructive_witness": "single strip; exact quantized box and clearance checks"
+          },
+          "assignment": {
+            "item_06": "meta__base_link_fillable_0_0_link",
+            "item_07": "meta__base_link_fillable_0_0_link"
+          },
+          "component_allocation": {
+            "item_06": "meta__base_link_fillable_0_0_link",
+            "item_07": "meta__base_link_fillable_0_0_link"
+          }
+        },
+        {
+          "receptacle": "bottom_cabinet_bamfsz_1",
+          "volume_extents_m": {
+            "link_1": [
+              0.33487772941589355,
+              0.370966374874115,
+              0.20883751660585403
+            ],
+            "link_2": [
+              0.3371378183364868,
+              0.3809979259967804,
+              0.0892288088798523
+            ],
+            "link_3": [
+              0.3351621627807617,
+              0.37633565068244934,
+              0.03191465139389038
+            ],
+            "link_4": [
+              0.3346196413040161,
+              0.38081181049346924,
+              0.03191465139389038
+            ]
+          },
+          "native_links": {
+            "link_1": "link_1",
+            "link_2": "link_2",
+            "link_3": "link_3",
+            "link_4": "link_4"
+          },
+          "geometry_source": "survey",
+          "geometry_provenance": {},
+          "status": "heuristic_fit",
+          "solver": {
+            "status": "feasible_model",
+            "device": "cuda",
+            "backend": "torch_cuda_finite_csp",
+            "solve_seconds": 0.0014067422598600388,
+            "nodes": 0,
+            "candidate_tests": 0,
+            "search_orders_tried": 0,
+            "grid_m": 0.001,
+            "margin_m": 0.005,
+            "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+            "physical_validation_required": true,
+            "assignment": {
+              "item_08": "link_1"
+            },
+            "poses": {
+              "item_08": {
+                "bin": "link_1",
+                "yaw_degrees": 90,
+                "lower_xy_m": [
+                  0.005,
+                  0.005
+                ],
+                "footprint_m": [
+                  0.009000000000000001,
+                  0.008
+                ],
+                "center_xy_m": [
+                  0.009500000000000001,
+                  0.009000000000000001
+                ]
+              }
+            },
+            "constructive_witness": "single strip; exact quantized box and clearance checks"
+          },
+          "assignment": {
+            "item_08": "link_1"
+          },
+          "component_allocation": {
+            "item_08": "link_1"
+          }
+        }
+      ],
+      "prefer_alternative_layout": false,
+      "assignments": {
+        "item_00": "meta__base_link_fillable_0_0_link",
+        "item_01": "meta__base_link_fillable_0_0_link",
+        "item_02": "meta__base_link_fillable_0_0_link",
+        "item_03": "meta__base_link_fillable_0_0_link",
+        "item_04": "meta__base_link_fillable_0_0_link",
+        "item_05": "meta__base_link_fillable_0_0_link",
+        "item_06": "meta__base_link_fillable_0_0_link",
+        "item_07": "meta__base_link_fillable_0_0_link",
+        "item_08": "link_1"
+      },
+      "physical_validation_required": true
+    },
+    "rejected_layout_candidates": [],
+    "parent_task_id": "U161",
+    "tier": "long",
+    "physics_status": "pending",
+    "adaptation": {
+      "id": "asset_U161_01",
+      "parent_task_id": "U161",
+      "before_instruction": "The hallway notice needs a removable clip. Find a bulldog clip in the study with jaws wide enough for the support on the corridor console and put it beside that support.",
+      "after_instruction": "Bring a bulldog clip from the living room workspace stationery to the table in front of you in the entryway in the entryway for the temporary notice.",
+      "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Missing constructed comparison/count evidence and distractor set for bulldog clip wide enough for notice support. Reference support and varied clip openings required; bulldog_clip: only one native model; requested within-category size alternatives are not established Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: private_office/cabinet -> corridor/table becomes living_room/cabinet -> entryway/table. Native target models, quantities, reference criteria and distractors are unchanged. Cross-room transport remains explicit. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+      "target_asset": "bulldog_clip/cqxnkn",
+      "target_assets": [
+        "bulldog_clip/cqxnkn"
+      ]
+    },
+    "binding_sha256": "f729773afec44ac158c0eebbe147806769233afb9228f3fe0dc234f8a86a52b4",
+    "proposal_native_policy_signature": "638901e57b44747045bd55ed10084fe82451f1075c4c28aa6f0af555449b389c",
+    "storage_model_experience": []
+  },
+  "evidence": {
+    "status": "static_screened_physics_pending",
+    "old_storage": "bottom_cabinet_bamfsz_1",
+    "new_storage": {
+      "name": "expert_storage_93",
+      "category": "bottom_cabinet_no_top",
+      "model": "vzzafs",
+      "floor": "floors_ptwlei_0",
+      "position_xy": [
+        1.1,
+        0.6000000000000001
+      ],
+      "aabb": [
+        [
+          0.7736359405517579,
+          0.3735113983154298,
+          -0.0
+        ],
+        [
+          1.4263640594482423,
+          0.8264886016845704,
+          0.8682071838378906
+        ]
+      ],
+      "room": "living_room_0"
+    },
+    "released_compiler_links": [
+      {
+        "entity": "item_00",
+        "previous_link": "meta__base_link_fillable_0_0_link"
+      },
+      {
+        "entity": "item_01",
+        "previous_link": "meta__base_link_fillable_0_0_link"
+      },
+      {
+        "entity": "item_02",
+        "previous_link": "meta__base_link_fillable_0_0_link"
+      },
+      {
+        "entity": "item_03",
+        "previous_link": "meta__base_link_fillable_0_0_link"
+      },
+      {
+        "entity": "item_04",
+        "previous_link": "meta__base_link_fillable_0_0_link"
+      },
+      {
+        "entity": "item_05",
+        "previous_link": "meta__base_link_fillable_0_0_link"
+      },
+      {
+        "entity": "item_06",
+        "previous_link": "meta__base_link_fillable_0_0_link"
+      },
+      {
+        "entity": "item_07",
+        "previous_link": "meta__base_link_fillable_0_0_link"
+      },
+      {
+        "entity": "item_08",
+        "previous_link": "link_4"
+      }
+    ],
+    "replaced_failed_auxiliary_fixture": false,
+    "previous_auxiliary_asset": null,
+    "conservative_opening_clearance_m": 0.0,
+    "opening_sweep_requires_native_measurement": true,
+    "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/full_queue_565ddf0abdcd_U161/asset_U161_01/scenario.yaml",
+    "original_sha256": "95db7fc53c5f67707f7880c77751886bd139b17de1c189ec5d268bc82773651b",
+    "diagnosis_directory": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/full_queue_565ddf0abdcd_U161/asset_U161_01",
+    "solver": {
+      "status": "feasible_model",
+      "device": "cuda",
+      "backend": "torch_cuda_finite_csp",
+      "solve_seconds": 0.36736346408724785,
+      "nodes": 0,
+      "candidate_tests": 0,
+      "search_orders_tried": 0,
+      "grid_m": 0.001,
+      "margin_m": 0.015,
+      "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+      "physical_validation_required": true,
+      "assignment": {
+        "item_06": "meta__base_link_fillable_0_0_link",
+        "item_07": "meta__base_link_fillable_0_0_link"
+      },
+      "poses": {
+        "item_06": {
+          "bin": "meta__base_link_fillable_0_0_link",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.015,
+            0.015
+          ],
+          "footprint_m": [
+            0.02,
+            0.005
+          ],
+          "center_xy_m": [
+            0.025,
+            0.017499999999999998
+          ]
+        },
+        "item_07": {
+          "bin": "meta__base_link_fillable_0_0_link",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.015,
+            0.035
+          ],
+          "footprint_m": [
+            0.013000000000000001,
+            0.009000000000000001
+          ],
+          "center_xy_m": [
+            0.0215,
+            0.03950000000000001
+          ]
+        }
+      },
+      "constructive_witness": "single strip; exact quantized box and clearance checks"
+    },
+    "variant": 93,
+    "task_local_model_experience": [],
+    "preserved": [
+      "instruction",
+      "goal",
+      "target",
+      "robot",
+      "spawn",
+      "all task items and counts",
+      "relation types"
+    ],
+    "native_blocking_subset": [
+      "item_06",
+      "item_07"
+    ],
+    "native_solver_evidence": {
+      "receptacle": "bottom_cabinet_bamfsz_1",
+      "deferred_thin_entities": [],
+      "status": "infeasible_model",
+      "device": "cuda",
+      "backend": "torch_cuda_finite_csp",
+      "solve_seconds": 0.0009545101784169674,
+      "nodes": 0,
+      "candidate_tests": 0,
+      "search_orders_tried": 0,
+      "grid_m": 0.001,
+      "margin_m": 0.015,
+      "model": "upright boxes; yaw 0/90; single-layer shared physical cavity groups; integer grid with convex centre halfspaces / fixed obstacles",
+      "physical_validation_required": true,
+      "reason": "No allowed bin/orientation fits an item",
+      "blocking_entities": [
+        "item_06",
+        "item_07"
+      ]
+    },
+    "reason": "Preserve all objects; collective source description permits a neighbouring physical fixture",
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "restricted_packing",
+      "reason": "EXPERT_LAYOUT_UNRESOLVED: infeasible_model No allowed bin/orientation fits an item"
+    }
+  }
+}

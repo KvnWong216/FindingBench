@@ -1,0 +1,178 @@
+{
+  "action": "expert",
+  "case": {
+    "id": "P003",
+    "record": {
+      "id": "asset_P003_01",
+      "family": "semantic_P003",
+      "scene": "Beechwood_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/remaining_layout_repairs_20261108/asset_P003_01/scenario.yaml",
+      "scenario_sha256": "edcc8b8fd68c51884f3ece0c8fd9c8c9ac769fa63b653771cc1e7b8f952b98c9",
+      "instruction": "There is a sample on the counter in front of you in the bathroom. Find the comb matching that sample in the bathroom vanity drawers and put it on the counter in front of you in the bathroom.",
+      "target_key": "comb/lqnwhb",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "bathroom_1",
+      "destination_room": "bathroom_1",
+      "source_receptacle": "bottom_cabinet_no_top_pluwfl_0",
+      "destination_receptacle": "bottom_cabinet_no_top_pluwfl_0",
+      "object_count": 12,
+      "distractor_count": 10,
+      "source_survey_sha256": "e6788ca8219b4da8643d87d4deebe4595aa9d5f15520af27b74393574b33a410",
+      "route": {
+        "start": [
+          -6.9,
+          -2.9000000000000004,
+          -1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            -6.9,
+            -2.9000000000000004
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 36,
+        "destination_approach_count": 36,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "comparison_sample",
+        "comparison_negative_0",
+        "comparison_negative_1",
+        "bottom_cabinet_no_top_pluwfl_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_no_top_pluwfl_0",
+            "volume_extents_m": {
+              "link_1": [
+                0.2846336364746094,
+                0.3759188652038574,
+                0.027045100927352905
+              ]
+            },
+            "native_links": {
+              "link_1": "link_1"
+            },
+            "geometry_source": "survey",
+            "geometry_provenance": {},
+            "status": "heuristic_fit",
+            "assignment": {
+              "comparison_negative_1": "link_1",
+              "item_02": "link_1",
+              "item_04": "link_1",
+              "item_06": "link_1",
+              "item_08": "link_1",
+              "comparison_negative_0": "link_1",
+              "item_01": "link_1",
+              "item_03": "link_1",
+              "item_05": "link_1",
+              "item_07": "link_1",
+              "item_00": "link_1"
+            },
+            "component_allocation": {
+              "comparison_negative_1": "link_1",
+              "item_02": "link_1",
+              "item_04": "link_1",
+              "item_06": "link_1",
+              "item_08": "link_1",
+              "comparison_negative_0": "link_1",
+              "item_01": "link_1",
+              "item_03": "link_1",
+              "item_05": "link_1",
+              "item_07": "link_1",
+              "item_00": "link_1"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [],
+      "parent_task_id": "P003",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_P003_01",
+        "parent_task_id": "P003",
+        "before_instruction": "Find the comb with a long pointed handle in the bathroom vanity drawers and put it on the counter below the mirror.",
+        "after_instruction": "There is a sample on the counter in front of you in the bathroom. Find the comb matching that sample in the bathroom vanity drawers and put it on the counter in front of you in the bathroom.",
+        "reason": "Replaces unverified pointed-handle geometry with a physically instantiated comb reference. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "comb/lqnwhb",
+        "target_assets": [
+          "comb/lqnwhb"
+        ]
+      },
+      "binding_sha256": "69cf680045ae67e5186b613baeaee11e5e7288a825cd859dbbc5aca4a1e3b678"
+    },
+    "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/remaining_repairs_20261108/asset_P003_01",
+    "error": "AUTHORING_SURFACE_BODY_BINDING",
+    "source_sha256": "edcc8b8fd68c51884f3ece0c8fd9c8c9ac769fa63b653771cc1e7b8f952b98c9",
+    "expert_diagnosis": {
+      "category": "surface_or_timeout",
+      "error": "AUTHORING_SURFACE_BODY_BINDING",
+      "native_rejections_in_current_queue": 0,
+      "first_blocker": {
+        "entity": "comparison_sample",
+        "relation": "on_top",
+        "receptacle": "bottom_cabinet_no_top_pluwfl_0"
+      },
+      "solver": null,
+      "support_measurements": {
+        "total": 0,
+        "planar": 0,
+        "reasons": {}
+      },
+      "first_contact": null,
+      "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/remaining_repairs_20261108/asset_P003_01/native_validation.log",
+      "inference_scope": "proposal/model diagnosis; native physics acceptance unchanged"
+    },
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "surface_or_timeout",
+      "reason": "AUTHORING_SURFACE_BODY_BINDING"
+    }
+  },
+  "out": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_17_P003_expert_fdaa6a557299",
+  "variant": 93
+}

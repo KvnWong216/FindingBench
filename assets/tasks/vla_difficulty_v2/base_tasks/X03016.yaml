@@ -1,0 +1,89 @@
+task_id: X03016
+family: place_in
+scene: house_double_floor_lower
+source:
+  official_activity: storing_food#0
+  official_activities_with_same_subgoal:
+  - storing_food#0
+  official_subgoal: (inside jar__of__sugar.n.01 cabinet.n.01)
+  reuse: official sub-goal re-used as the task goal
+  scene: BEHAVIOR-1K house_double_floor_lower (+ clearance manifest)
+  object: BEHAVIOR-1K jar_of_sugar/pnbbfb
+start:
+  name: start_kitchen_0_1
+  room: kitchen_0
+  x: 4.74
+  y: 3.46
+  yaw: -1.5
+target:
+  entity: target_obj
+  category: jar_of_sugar
+  model: pnbbfb
+  noun: jar of sugar
+  colour_estimate: yellow
+goal:
+- kind: inside
+  entity: target_obj
+  receptacle: bottom_cabinet_rhdbzv_0
+place_hints:
+- - 5.267
+  - 2.871
+  - 0.785
+- - 5.419
+  - 2.821
+  - 1.033
+- - 5.217
+  - 5.039
+  - 0.0
+- - 5.167
+  - 3.981
+  - 0.0
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S3
+missing_spatial_levels:
+- S1
+- S2
+initial_states:
+  bottom_cabinet_rhdbzv_0:
+    open: false
+spatial:
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bottom_cabinet_qacthv_0
+    room: bathroom_0
+    location_phrase: the cabinet in the bathroom
+    grasp_hints:
+    - - -2.478
+      - -0.225
+      - -2.356
+    - - -2.378
+      - -0.125
+      - -2.356
+    - - -2.378
+      - -0.325
+      - -2.537
+    - - -2.529
+      - -0.075
+      - -2.191
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    task_scope: cross_room
+    route_from_start_steps: 14
+language:
+  L1:
+    S3: First go and open the cabinet in the living room. Leave the kitchen, go to
+      the cabinet in the bathroom, pick up the jar of sugar on it. Then put it in
+      the cabinet in the living room.
+  L2: Put the jar of sugar in the cabinet in the living room.
+  L3: I'm storing food, and the jar of sugar belongs in the cabinet in the living
+    room. Could you put it away?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

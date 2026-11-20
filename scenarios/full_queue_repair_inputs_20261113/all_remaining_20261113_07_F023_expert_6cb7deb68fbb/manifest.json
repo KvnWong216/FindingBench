@@ -1,0 +1,154 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F023_02",
+      "family": "semantic_F023",
+      "scene": "Ihlen_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_07_F023_expert_6cb7deb68fbb/asset_F023_02/scenario.yaml",
+      "scenario_sha256": "2c5e4e3e2997e75cfeb6d73fb8f5b5b8584a190d7d5c2e3036dffd2c9dbe69cf",
+      "instruction": "I need the wooden spoon for cooking. Find it among the kitchen utensils and leave it on the counter in front of you in the kitchen.",
+      "target_key": "wooden_spoon/gpiftn",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "kitchen_0",
+      "destination_room": "kitchen_0",
+      "source_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+      "destination_receptacle": "countertop_tpuwys_3",
+      "object_count": 9,
+      "distractor_count": 8,
+      "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+      "route": {
+        "start": [
+          -3.9000000000000004,
+          4.7,
+          -1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            -3.9000000000000004,
+            4.7
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 37,
+        "destination_approach_count": 37,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "bottom_cabinet_slgzfc_1",
+        "bottom_cabinet_no_top_qohxjq_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "parent_task_id": "F023",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F023_02",
+        "parent_task_id": "F023",
+        "before_instruction": "I need the wooden spoon for the pot later. Find it in the crowded kitchen utensil storage and leave it on the counter beside the pot.",
+        "after_instruction": "I need the wooden spoon for cooking. Find it among the kitchen utensils and leave it on the counter in front of you in the kitchen.",
+        "reason": "The identified delivery surface is grounded by the initial facing direction; decorative destination landmarks are omitted. Target identity, requested cardinality and source/destination room types are retained.",
+        "target_asset": "wooden_spoon/gpiftn",
+        "target_assets": [
+          "wooden_spoon/gpiftn"
+        ]
+      },
+      "binding_sha256": "debf445a66b840bccf39703f1fba4e65ed75848a2666e5293f12d28bdd40157b",
+      "surface_binding_revision": {
+        "status": "surface_body_binding_corrected_physics_pending",
+        "changes": [
+          {
+            "field": "goal",
+            "entity": "item_00",
+            "before": "bottom_cabinet_no_top_qohxjq_0",
+            "after": "countertop_tpuwys_3"
+          }
+        ],
+        "destination_approach_patch": {
+          "contact_body": "countertop_tpuwys_3",
+          "above_fixture": "bottom_cabinet_no_top_qohxjq_0",
+          "aabb": [
+            [
+              -4.469,
+              3.565,
+              0.901
+            ],
+            [
+              -3.97,
+              4.148,
+              0.92
+            ]
+          ],
+          "scope": "private route proposal to a subset of the actual slab; no synthetic body"
+        },
+        "geometry": {
+          "bottom_cabinet_no_top_qohxjq_0": {
+            "before": [
+              [
+                -4.469,
+                3.565,
+                0.002
+              ],
+              [
+                -3.97,
+                4.152,
+                0.898
+              ]
+            ],
+            "after": [
+              [
+                -5.058,
+                3.561,
+                0.901
+              ],
+              [
+                -3.501,
+                4.148,
+                0.92
+              ]
+            ]
+          }
+        },
+        "source_survey": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/vla_difficulty_v2/_survey/Ihlen_1_int.json",
+        "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+        "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_F023_02/scenario.yaml",
+        "original_scenario_sha256": "71b8d068c6f454ee72889288595d3feeb7e75699c4c98ea26bf850de789abbd1",
+        "reason": "Native OnTop requires touching the named body; a separate measured slab covers the named cabinet.",
+        "preserved": [
+          "instruction",
+          "all object models and counts",
+          "target identities",
+          "relation kinds",
+          "spawn",
+          "robot and skills",
+          "physical delivery location"
+        ],
+        "physical_validation_required": true
+      }
+    }
+  ]
+}

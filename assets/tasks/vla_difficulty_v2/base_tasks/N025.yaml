@@ -1,0 +1,94 @@
+task_id: N025
+family: place_on
+scene: Merom_1_int
+source:
+  official_activity: installing_a_modem#0
+  official_activities_with_same_subgoal:
+  - installing_a_modem#0
+  official_subgoal: (ontop modem.n.01 cabinet.n.01)
+  reuse: official sub-goal re-used as the task goal
+  scene: BEHAVIOR-1K Merom_1_int
+  object: BEHAVIOR-1K modem/axqxsv
+start:
+  name: start_living_room_0_0
+  room: living_room_0
+  x: 2.06
+  y: 7.5
+  yaw: 2.98
+target:
+  entity: target_obj
+  category: modem
+  model: axqxsv
+  noun: modem
+  colour_estimate: blue
+goal:
+- kind: on_top
+  entity: target_obj
+  receptacle: bottom_cabinet_jhymlr_0
+place_hints:
+- - 1.075
+  - 9.349
+  - 1.571
+- - 1.226
+  - 9.299
+  - 1.571
+- - 0.569
+  - 9.249
+  - 1.571
+- - 1.074
+  - 9.149
+  - 1.571
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S2
+missing_spatial_levels:
+- S1
+- S3
+initial_states: {}
+spatial:
+  S2:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: coffee_table_fqluyq_0
+    room: living_room_0
+    location_phrase: the coffee table in the living room
+    grasp_hints:
+    - - 2.84
+      - 7.551
+      - 0.0
+    - - 2.79
+      - 7.5
+      - 0.072
+    - - 2.79
+      - 6.897
+      - 0.785
+    - - 2.74
+      - 7.651
+      - -0.014
+    extra_ops_vs_S1:
+    - search behind occluders
+    s2_kind: occluded
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    task_scope: single_room
+language:
+  L1:
+    S2: Go to the coffee table in the living room, pick up the modem on it. Then put
+      it on the cabinet in the living room.
+  L2: Put the modem on the cabinet in the living room.
+  L3: I'm installing a modem, so could you make sure the modem is on the cabinet in
+    the living room?
+available_language_levels:
+  S2:
+  - L1
+  - L2
+  - L3
+description_provenance:
+  missing_L1_reason: source location lacks an unambiguous description
+  missing_L1_spatial_levels: []
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

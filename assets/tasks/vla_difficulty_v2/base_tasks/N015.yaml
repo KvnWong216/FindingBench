@@ -1,0 +1,78 @@
+task_id: N015
+family: fetch
+scene: Pomaria_1_int
+source:
+  official_activity: make_a_car_emergency_kit#0
+  official_activities_with_same_subgoal:
+  - make_a_car_emergency_kit#0
+  official_subgoal: (ontop insectifuge__atomizer.n.01 backpack.n.01)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K Pomaria_1_int (+ clearance manifest)
+  object: BEHAVIOR-1K insectifuge_atomizer/qnroki
+start:
+  name: start_pantry_room_0_0
+  room: pantry_room_0
+  x: -0.32
+  y: 1.72
+  yaw: 0.0
+target:
+  entity: target_obj
+  category: insectifuge_atomizer
+  model: qnroki
+  noun: insectifuge atomizer
+  colour_estimate: green
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S3
+missing_spatial_levels:
+- S1
+- S2
+initial_states: {}
+spatial:
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bookcase_owvfik_0
+    room: living_room_0
+    location_phrase: null
+    grasp_hints:
+    - - -11.786
+      - -1.78
+      - 2.609
+    - - -11.736
+      - -1.931
+      - 2.498
+    - - -11.75
+      - -2.118
+      - 2.347
+    - - -11.686
+      - -1.88
+      - 2.572
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start: null
+    task_scope: cross_room
+    route_from_start_steps: 18
+language:
+  L1: {}
+  L2: Get the insectifuge atomizer and hold on to it.
+  L3: I'm working on make a car emergency kit. Can you find the insectifuge atomizer
+    and hold it for me?
+available_language_levels:
+  S3:
+  - L2
+  - L3
+description_provenance:
+  missing_L1_reason: source location lacks an unambiguous description
+  missing_L1_spatial_levels:
+  - S3
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

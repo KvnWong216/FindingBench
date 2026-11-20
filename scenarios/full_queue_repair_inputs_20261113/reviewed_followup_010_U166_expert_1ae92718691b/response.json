@@ -1,0 +1,536 @@
+{
+  "status": "proposed",
+  "record": {
+    "id": "asset_U166_01",
+    "family": "semantic_U166",
+    "scene": "Beechwood_0_int",
+    "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_010_U166_expert_1ae92718691b/asset_U166_01/scenario.yaml",
+    "scenario_sha256": "32eb519ad3d7c70b44dd916d3a4bcc73807e41b04db924252864d5c40e34afe6",
+    "instruction": "I am arranging power for the study equipment. Bring the power strip from the study storage electrical supplies to the desk in front of you in the study in the study.",
+    "target_key": "power_strip/czvrku",
+    "target_entities": [
+      "item_00"
+    ],
+    "target_count": 1,
+    "source_room": "private_office_0",
+    "destination_room": "private_office_0",
+    "source_receptacle": "expert_storage_93",
+    "destination_receptacle": "desk_rzyfxk_1",
+    "object_count": 10,
+    "distractor_count": 8,
+    "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+    "route": {
+      "start": [
+        5.3500000000000005,
+        -3.95,
+        0.0
+      ],
+      "path_xy": [
+        [
+          5.3500000000000005,
+          -3.95
+        ]
+      ],
+      "length_m": 0.0,
+      "grid_m": 0.1,
+      "base_radius_m": 0.38355339059327376,
+      "endpoint_free_patch_radius_m": 0.2,
+      "source_approach_count": 11,
+      "destination_approach_count": 4,
+      "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+    },
+    "status": "static_screened_physics_pending",
+    "human_reference_steps": null,
+    "required_gates": [
+      "fresh_native_initialization",
+      "stable_dense_layout",
+      "target_CHECK_identifiability",
+      "all_yaw_live_navigation_and_tolerant_endpoints",
+      "reachable_open_grasp_place",
+      "initial_goal_false",
+      "human_completion"
+    ],
+    "restoration_entities": [
+      "item_01",
+      "item_02",
+      "item_03",
+      "item_04",
+      "item_05",
+      "item_06",
+      "item_07",
+      "item_08",
+      "bottom_cabinet_immwzb_0",
+      "bottom_cabinet_nddvba_0",
+      "expert_storage_93"
+    ],
+    "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+    "inserted_furniture": [
+      {
+        "name": "expert_storage_93",
+        "category": "bottom_cabinet_no_top",
+        "model": "gjrero",
+        "floor": "floors_jniagb_0",
+        "position_xy": [
+          4.3500000000000005,
+          -3.5500000000000003
+        ],
+        "aabb": [
+          [
+            4.021330230712891,
+            -3.903791458129883,
+            -0.0
+          ],
+          [
+            4.67866976928711,
+            -3.1962085418701176,
+            0.7304405517578125
+          ]
+        ],
+        "room": "private_office_0"
+      }
+    ],
+    "layout_preflight": {
+      "status": "heuristic_fit",
+      "findings": [
+        {
+          "receptacle": "expert_storage_93",
+          "volume_extents_m": {
+            "meta__base_link_fillable_0_0_link#component:0": [
+              0.5637695450782776,
+              0.6691396096688387,
+              0.13886633784375513
+            ],
+            "meta__base_link_fillable_0_0_link#component:1": [
+              0.5686230320930481,
+              0.669723099359181,
+              0.17793304812908173
+            ],
+            "meta__base_link_fillable_0_0_link#component:2": [
+              0.5593095679283142,
+              0.6696436265600803,
+              0.1610253812365119
+            ]
+          },
+          "native_links": {
+            "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+            "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+            "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+          },
+          "geometry_source": "offline_asset_hint",
+          "geometry_provenance": {
+            "asset": "bottom_cabinet_no_top/gjrero",
+            "scale": [
+              1,
+              1,
+              1
+            ],
+            "encrypted_asset_sha256": "eff2f116b48646b82ec2cb2e0c40afadb4aa40f15678fc050073ffe746e79e9a",
+            "metadata_sha256": "b154d4c6948e15006310ed12b10c97d8f9ac7bb64b3b922a6737e4ece3396db8",
+            "root_orientation": [
+              0,
+              0,
+              0,
+              1
+            ],
+            "coordinates": "size_only_not_world_positions",
+            "physical_validation_required": true
+          },
+          "status": "heuristic_fit",
+          "solver": {
+            "status": "feasible_model",
+            "device": "cuda",
+            "backend": "torch_cuda_finite_csp",
+            "solve_seconds": 0.0014839638024568558,
+            "nodes": 0,
+            "candidate_tests": 0,
+            "search_orders_tried": 0,
+            "grid_m": 0.001,
+            "margin_m": 0.005,
+            "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+            "physical_validation_required": true,
+            "assignment": {
+              "item_00": "meta__base_link_fillable_0_0_link#component:0",
+              "item_01": "meta__base_link_fillable_0_0_link#component:0",
+              "item_02": "meta__base_link_fillable_0_0_link#component:0",
+              "item_03": "meta__base_link_fillable_0_0_link#component:0",
+              "item_04": "meta__base_link_fillable_0_0_link#component:0",
+              "item_05": "meta__base_link_fillable_0_0_link#component:0"
+            },
+            "poses": {
+              "item_00": {
+                "bin": "meta__base_link_fillable_0_0_link#component:0",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.005
+                ],
+                "footprint_m": [
+                  0.551,
+                  0.217
+                ],
+                "center_xy_m": [
+                  0.2805,
+                  0.1135
+                ]
+              },
+              "item_01": {
+                "bin": "meta__base_link_fillable_0_0_link#component:0",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.227
+                ],
+                "footprint_m": [
+                  0.051000000000000004,
+                  0.021
+                ],
+                "center_xy_m": [
+                  0.030500000000000003,
+                  0.23750000000000002
+                ]
+              },
+              "item_02": {
+                "bin": "meta__base_link_fillable_0_0_link#component:0",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.253
+                ],
+                "footprint_m": [
+                  0.035,
+                  0.035
+                ],
+                "center_xy_m": [
+                  0.022500000000000003,
+                  0.2705
+                ]
+              },
+              "item_03": {
+                "bin": "meta__base_link_fillable_0_0_link#component:0",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.293
+                ],
+                "footprint_m": [
+                  0.027,
+                  0.027
+                ],
+                "center_xy_m": [
+                  0.0185,
+                  0.3065
+                ]
+              },
+              "item_04": {
+                "bin": "meta__base_link_fillable_0_0_link#component:0",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.325
+                ],
+                "footprint_m": [
+                  0.051000000000000004,
+                  0.021
+                ],
+                "center_xy_m": [
+                  0.030500000000000003,
+                  0.3355
+                ]
+              },
+              "item_05": {
+                "bin": "meta__base_link_fillable_0_0_link#component:0",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.35100000000000003
+                ],
+                "footprint_m": [
+                  0.035,
+                  0.035
+                ],
+                "center_xy_m": [
+                  0.022500000000000003,
+                  0.36850000000000005
+                ]
+              }
+            },
+            "constructive_witness": "single strip; exact quantized box and clearance checks"
+          },
+          "assignment": {
+            "item_00": "meta__base_link_fillable_0_0_link",
+            "item_01": "meta__base_link_fillable_0_0_link",
+            "item_02": "meta__base_link_fillable_0_0_link",
+            "item_03": "meta__base_link_fillable_0_0_link",
+            "item_04": "meta__base_link_fillable_0_0_link",
+            "item_05": "meta__base_link_fillable_0_0_link"
+          },
+          "component_allocation": {
+            "item_00": "meta__base_link_fillable_0_0_link#component:0",
+            "item_01": "meta__base_link_fillable_0_0_link#component:0",
+            "item_02": "meta__base_link_fillable_0_0_link#component:0",
+            "item_03": "meta__base_link_fillable_0_0_link#component:0",
+            "item_04": "meta__base_link_fillable_0_0_link#component:0",
+            "item_05": "meta__base_link_fillable_0_0_link#component:0"
+          }
+        },
+        {
+          "receptacle": "bottom_cabinet_nddvba_0",
+          "volume_extents_m": {
+            "link_1": [
+              0.4922184944152832,
+              0.6675968170166016,
+              0.11884426325559616
+            ],
+            "link_2": [
+              0.4922189712524414,
+              0.6675968170166016,
+              0.11884427070617676
+            ],
+            "link_3": [
+              0.492215633392334,
+              0.6675968170166016,
+              0.042536258697509766
+            ],
+            "link_4": [
+              0.492215633392334,
+              0.6675968170166016,
+              0.042536258697509766
+            ]
+          },
+          "native_links": {
+            "link_1": "link_1",
+            "link_2": "link_2",
+            "link_3": "link_3",
+            "link_4": "link_4"
+          },
+          "geometry_source": "survey",
+          "geometry_provenance": {},
+          "status": "heuristic_fit",
+          "solver": {
+            "status": "feasible_model",
+            "device": "cuda",
+            "backend": "torch_cuda_finite_csp",
+            "solve_seconds": 0.0013206340372562408,
+            "nodes": 0,
+            "candidate_tests": 0,
+            "search_orders_tried": 0,
+            "grid_m": 0.001,
+            "margin_m": 0.005,
+            "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+            "physical_validation_required": true,
+            "assignment": {
+              "item_06": "link_1",
+              "item_07": "link_1",
+              "item_08": "link_1"
+            },
+            "poses": {
+              "item_06": {
+                "bin": "link_1",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.005
+                ],
+                "footprint_m": [
+                  0.027,
+                  0.027
+                ],
+                "center_xy_m": [
+                  0.0185,
+                  0.0185
+                ]
+              },
+              "item_07": {
+                "bin": "link_1",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.037
+                ],
+                "footprint_m": [
+                  0.051000000000000004,
+                  0.021
+                ],
+                "center_xy_m": [
+                  0.030500000000000003,
+                  0.0475
+                ]
+              },
+              "item_08": {
+                "bin": "link_1",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.063
+                ],
+                "footprint_m": [
+                  0.035,
+                  0.035
+                ],
+                "center_xy_m": [
+                  0.022500000000000003,
+                  0.0805
+                ]
+              }
+            },
+            "constructive_witness": "single strip; exact quantized box and clearance checks"
+          },
+          "assignment": {
+            "item_06": "link_1",
+            "item_07": "link_1",
+            "item_08": "link_1"
+          },
+          "component_allocation": {
+            "item_06": "link_1",
+            "item_07": "link_1",
+            "item_08": "link_1"
+          }
+        }
+      ],
+      "prefer_alternative_layout": false,
+      "assignments": {
+        "item_00": "meta__base_link_fillable_0_0_link",
+        "item_01": "meta__base_link_fillable_0_0_link",
+        "item_02": "meta__base_link_fillable_0_0_link",
+        "item_03": "meta__base_link_fillable_0_0_link",
+        "item_04": "meta__base_link_fillable_0_0_link",
+        "item_05": "meta__base_link_fillable_0_0_link",
+        "item_06": "link_1",
+        "item_07": "link_1",
+        "item_08": "link_1"
+      },
+      "physical_validation_required": true
+    },
+    "rejected_layout_candidates": [],
+    "parent_task_id": "U166",
+    "tier": "short",
+    "physics_status": "pending",
+    "adaptation": {
+      "id": "asset_U166_01",
+      "parent_task_id": "U166",
+      "before_instruction": "I need power for four study devices. Find a power strip with at least four sockets among the storage room's electrical supplies and put it on the floor beside the study desk.",
+      "after_instruction": "I am arranging power for the study equipment. Bring the power strip from the study storage electrical supplies to the desk in front of you in the study in the study.",
+      "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; The stated destination is a floor/ground region; the compiler has no grounded floor-region goal for this task. Preserve the original destination. Additional requirement: Socket count variant and rigid disconnected representation required Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: storage_room/cabinet -> private_office/desk becomes private_office/cabinet -> private_office/desk. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+      "target_asset": "power_strip/czvrku",
+      "target_assets": [
+        "power_strip/czvrku"
+      ]
+    },
+    "binding_sha256": "06fdbd9e63090c7ba75130d26d6aaa6a1bd40a1553fbae35a61413014a468471",
+    "storage_model_experience": []
+  },
+  "evidence": {
+    "status": "static_screened_physics_pending",
+    "old_storage": "bottom_cabinet_immwzb_0",
+    "reused_native_storage": "bottom_cabinet_nddvba_0",
+    "released_compiler_links": [
+      {
+        "entity": "item_06",
+        "previous_link": "link_1"
+      },
+      {
+        "entity": "item_07",
+        "previous_link": "link_1"
+      },
+      {
+        "entity": "item_08",
+        "previous_link": "link_1"
+      }
+    ],
+    "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/all_remaining_20261113_06_U166/asset_U166_01/scenario.yaml",
+    "diagnosis_directory": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_lane2_20261111/all_remaining_20261113_06_U166/asset_U166_01",
+    "solver": {
+      "status": "feasible_model",
+      "device": "cuda",
+      "backend": "torch_cuda_finite_csp",
+      "solve_seconds": 0.0016867080703377724,
+      "nodes": 0,
+      "candidate_tests": 0,
+      "search_orders_tried": 0,
+      "grid_m": 0.001,
+      "margin_m": 0.015,
+      "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+      "physical_validation_required": true,
+      "assignment": {
+        "item_06": "link_1",
+        "item_07": "link_1",
+        "item_08": "link_1"
+      },
+      "poses": {
+        "item_06": {
+          "bin": "link_1",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.015,
+            0.015
+          ],
+          "footprint_m": [
+            0.027,
+            0.027
+          ],
+          "center_xy_m": [
+            0.028499999999999998,
+            0.028499999999999998
+          ]
+        },
+        "item_07": {
+          "bin": "link_1",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.015,
+            0.057
+          ],
+          "footprint_m": [
+            0.051000000000000004,
+            0.021
+          ],
+          "center_xy_m": [
+            0.0405,
+            0.0675
+          ]
+        },
+        "item_08": {
+          "bin": "link_1",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.015,
+            0.093
+          ],
+          "footprint_m": [
+            0.035,
+            0.035
+          ],
+          "center_xy_m": [
+            0.0325,
+            0.1105
+          ]
+        }
+      },
+      "constructive_witness": "single strip; exact quantized box and clearance checks"
+    },
+    "preserved": [
+      "instruction",
+      "goal",
+      "target",
+      "robot",
+      "spawn",
+      "all original assets",
+      "furniture geometry",
+      "relation types"
+    ],
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "joint_interference",
+      "reason": "EXPERT_CONTAINER_JOINTS_NOT_SETTLED"
+    }
+  }
+}

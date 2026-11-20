@@ -1,0 +1,63 @@
+Traceback (most recent call last):
+  File "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scripts/v2/expert_storage_repair.py", line 2228, in handle
+    return request(payload)
+           ^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scripts/v2/expert_storage_repair.py", line 2183, in request
+    result,info=expert_proposal(row,case['evidence'],out,policy=case['expert_policy'],variant=payload.get('variant',10))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scripts/v2/expert_storage_repair.py", line 2081, in expert_proposal
+    result,info=curate(row,evidence,out,variant=variant,allow_patch_support=True,prefer_constructed=True)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scripts/v2/expert_storage_repair.py", line 961, in curate
+    path.write_text(yaml.safe_dump(spec,sort_keys=False));g.load_scenario(path)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/ygbench/lib/python3.11/site-packages/yaml/__init__.py", line 269, in safe_dump
+    return dump_all([data], stream, Dumper=SafeDumper, **kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/ygbench/lib/python3.11/site-packages/yaml/__init__.py", line 241, in dump_all
+    dumper.represent(data)
+  File "/home/ubuntu/miniforge3/envs/ygbench/lib/python3.11/site-packages/yaml/representer.py", line 27, in represent
+    node = self.represent_data(data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/ygbench/lib/python3.11/site-packages/yaml/representer.py", line 48, in represent_data
+    node = self.yaml_representers[data_types[0]](self, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/ygbench/lib/python3.11/site-packages/yaml/representer.py", line 207, in represent_dict
+    return self.represent_mapping('tag:yaml.org,2002:map', data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/ygbench/lib/python3.11/site-packages/yaml/representer.py", line 118, in represent_mapping
+    node_value = self.represent_data(item_value)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/ygbench/lib/python3.11/site-packages/yaml/representer.py", line 48, in represent_data
+    node = self.yaml_representers[data_types[0]](self, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/ygbench/lib/python3.11/site-packages/yaml/representer.py", line 199, in represent_list
+    return self.represent_sequence('tag:yaml.org,2002:seq', data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/ygbench/lib/python3.11/site-packages/yaml/representer.py", line 92, in represent_sequence
+    node_item = self.represent_data(item)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/ygbench/lib/python3.11/site-packages/yaml/representer.py", line 48, in represent_data
+    node = self.yaml_representers[data_types[0]](self, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/ygbench/lib/python3.11/site-packages/yaml/representer.py", line 207, in represent_dict
+    return self.represent_mapping('tag:yaml.org,2002:map', data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/ygbench/lib/python3.11/site-packages/yaml/representer.py", line 118, in represent_mapping
+    node_value = self.represent_data(item_value)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/ygbench/lib/python3.11/site-packages/yaml/representer.py", line 48, in represent_data
+    node = self.yaml_representers[data_types[0]](self, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/ygbench/lib/python3.11/site-packages/yaml/representer.py", line 199, in represent_list
+    return self.represent_sequence('tag:yaml.org,2002:seq', data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/ygbench/lib/python3.11/site-packages/yaml/representer.py", line 92, in represent_sequence
+    node_item = self.represent_data(item)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/ygbench/lib/python3.11/site-packages/yaml/representer.py", line 58, in represent_data
+    node = self.yaml_representers[None](self, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/miniforge3/envs/ygbench/lib/python3.11/site-packages/yaml/representer.py", line 231, in represent_undefined
+    raise RepresenterError("cannot represent an object", data)
+yaml.representer.RepresenterError: ('cannot represent an object', 18.05)

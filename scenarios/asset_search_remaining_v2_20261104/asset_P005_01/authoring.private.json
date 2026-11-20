@@ -1,0 +1,79 @@
+{
+  "id": "asset_P005_01",
+  "family": "semantic_P005",
+  "scene": "Pomaria_2_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P005_01/scenario.yaml",
+  "scenario_sha256": "a51a782e19b7baef57cfafc04c03800e8835183feb1ae5820463be60c210a52c",
+  "instruction": "Find the razor in the bathroom vanity storage and leave it on the counter in front of you in the bathroom for shaving.",
+  "target_key": "razor/jocsgp",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bathroom_0",
+  "destination_room": "bathroom_0",
+  "source_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+  "destination_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "62e51428546de3c0a833496f29b3c3303a5b7156fd7ac39a8975412318ea7e2d",
+  "route": {
+    "start": [
+      -0.30000000000000004,
+      2.6,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -0.30000000000000004,
+        2.6
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 35,
+    "destination_approach_count": 35,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_no_top_qohxjq_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "parent_task_id": "P005",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P005_01",
+    "parent_task_id": "P005",
+    "before_instruction": "Find the razor in the bathroom vanity storage and place it in the empty dish to the right of the sink.",
+    "after_instruction": "Find the razor in the bathroom vanity storage and leave it on the counter in front of you in the bathroom for shaving.",
+    "reason": "Changes unsupported empty-dish containment into grounded bathroom counter delivery. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "razor/jocsgp",
+    "target_assets": [
+      "razor/jocsgp"
+    ]
+  },
+  "binding_sha256": "57b84d4fcfe79b79af0cd836d8e36235b54a2d2c92ca61ea79b9bbfe938ddf51"
+}

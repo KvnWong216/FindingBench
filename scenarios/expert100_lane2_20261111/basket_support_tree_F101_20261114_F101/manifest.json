@@ -1,0 +1,174 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F101_02",
+      "family": "semantic_F101",
+      "scene": "Beechwood_0_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/basket_support_tree_F101_20261114_F101/asset_F101_02/scenario.yaml",
+      "scenario_sha256": "1a05f04d33559274d8d717d4c7696729c5989bac2b47f7d4517cd8b0c3d5d2ff",
+      "instruction": "Find a whole potato and a whole onion among the kitchen produce and put both on the table in front of you in the kitchen for the lesson.",
+      "target_key": "potato/ljfitc",
+      "target_entities": [
+        "item_01",
+        "item_02"
+      ],
+      "target_count": 2,
+      "source_room": "kitchen_0",
+      "destination_room": "kitchen_0",
+      "source_receptacle": "item_00",
+      "destination_receptacle": "breakfast_table_uhrsex_0",
+      "object_count": 11,
+      "distractor_count": 8,
+      "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+      "route": {
+        "start": [
+          0.25,
+          -8.55,
+          0.0
+        ],
+        "path_xy": [
+          [
+            0.25,
+            -8.55
+          ],
+          [
+            0.15000000000000002,
+            -8.55
+          ],
+          [
+            0.15000000000000002,
+            -8.450000000000001
+          ],
+          [
+            0.15000000000000002,
+            -8.35
+          ],
+          [
+            0.15000000000000002,
+            -8.25
+          ],
+          [
+            0.15000000000000002,
+            -8.15
+          ],
+          [
+            0.15000000000000002,
+            -8.05
+          ],
+          [
+            0.15000000000000002,
+            -7.95
+          ],
+          [
+            0.15000000000000002,
+            -7.8500000000000005
+          ],
+          [
+            0.15000000000000002,
+            -7.75
+          ]
+        ],
+        "length_m": 0.9,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_00",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "item_09",
+        "item_10"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "parent_task_id": "F101",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F101_02",
+        "parent_task_id": "F101",
+        "before_instruction": "Find a whole potato and a whole onion among the kitchen produce storage and put both beside the lesson book on the kitchen table.",
+        "after_instruction": "Find a whole potato and a whole onion among the kitchen produce and put both on the table in front of you in the kitchen for the lesson.",
+        "reason": "Explicit first-tranche grounding: native storage and initial-facing destination replace uninstantiated decorative reference props; no new semantic-task count.",
+        "target_asset": "potato/ljfitc",
+        "target_assets": [
+          "potato/ljfitc",
+          "vidalia_onion/dejqhf"
+        ]
+      },
+      "surface_binding_revision": {
+        "status": "surface_body_binding_corrected_physics_pending",
+        "changes": [
+          {
+            "field": "placements",
+            "entity": "item_00",
+            "before": "bottom_cabinet_no_top_qohxjq_0",
+            "after": "countertop_tpuwys_0"
+          }
+        ],
+        "destination_approach_patch": null,
+        "geometry": {
+          "bottom_cabinet_no_top_qohxjq_0": {
+            "before": [
+              [
+                0.869,
+                -7.094,
+                0.001
+              ],
+              [
+                1.368,
+                -6.509,
+                0.848
+              ]
+            ],
+            "after": [
+              [
+                -0.169,
+                -7.091,
+                0.851
+              ],
+              [
+                1.407,
+                -6.494,
+                0.87
+              ]
+            ]
+          }
+        },
+        "source_survey": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/vla_difficulty_v2/_survey/Beechwood_0_int.json",
+        "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+        "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_v1/asset_F101_02/scenario.yaml",
+        "original_scenario_sha256": "d65b2234450416977fb376cd4e060c00be04c3557a283f23d4791c91ac5d9205",
+        "reason": "Native OnTop requires touching the named body; a separate measured slab covers the named cabinet.",
+        "preserved": [
+          "instruction",
+          "all object models and counts",
+          "target identities",
+          "relation kinds",
+          "spawn",
+          "robot and skills",
+          "physical delivery location"
+        ],
+        "physical_validation_required": true
+      }
+    }
+  ]
+}

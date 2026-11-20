@@ -1,0 +1,72 @@
+task_id: X02012
+family: fetch
+scene: Pomaria_2_int
+source:
+  official_activity: setup_a_garden_party#0
+  official_activities_with_same_subgoal:
+  - setup_a_garden_party#0
+  official_subgoal: (ontop goblet.n.01 coffee_table.n.01)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K Pomaria_2_int
+  object: BEHAVIOR-1K cocktail_glass/xevdnl
+start:
+  name: start_bathroom_0_1
+  room: bathroom_0
+  x: -1.77
+  y: 1.5
+  yaw: 0.922
+target:
+  entity: target_obj
+  category: cocktail_glass
+  model: xevdnl
+  noun: cocktail glass
+  colour_estimate: yellow
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S1
+missing_spatial_levels:
+- S2
+- S3
+initial_states: {}
+spatial:
+  S1:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bottom_cabinet_no_top_qohxjq_0
+    room: bathroom_0
+    location_phrase: the corner cabinet next to the sinks in the bathroom
+    grasp_hints:
+    - - -0.142
+      - 2.658
+      - -1.199
+    - - -0.293
+      - 2.708
+      - -1.073
+    - - -0.494
+      - 2.708
+      - -0.908
+    - - -0.092
+      - 2.708
+      - -1.272
+    extra_ops_vs_S1: []
+    probe_visibility_from_start:
+      px: 99
+      delta_e: 21.7
+    task_scope: single_room
+language:
+  L1:
+    S1: Go to the corner cabinet next to the sinks in the bathroom, pick up the cocktail
+      glass on it and hold it.
+  L2: Get the cocktail glass and hold on to it.
+  L3: I'm working on setup a garden party and I need the cocktail glass. Could you
+    get it for me?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

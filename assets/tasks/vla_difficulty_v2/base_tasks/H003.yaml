@@ -1,0 +1,134 @@
+task_id: H003
+family: place_on
+scene: hotel_suite_large
+source:
+  official_activity: stock_a_bar#0
+  official_activities_with_same_subgoal:
+  - stock_a_bar#0
+  official_subgoal: (ontop bottle__of__rum.n.01 shelf.n.01)
+  reuse: official sub-goal re-used as the task goal
+  scene: BEHAVIOR-1K hotel_suite_large
+  object: BEHAVIOR-1K bottle_of_rum/bnvoux
+start:
+  name: start_bathroom_0_1
+  room: bathroom_0
+  x: 0.65
+  y: 3.82
+  yaw: -3.128
+target:
+  entity: target_obj
+  category: bottle_of_rum
+  model: bnvoux
+  noun: bottle of rum
+  colour_estimate: black
+goal:
+- kind: on_top
+  entity: target_obj
+  receptacle: shelf_aqtmhm_0
+place_hints:
+- - 1.279
+  - 0.149
+  - 0.0
+- - 1.229
+  - 0.907
+  - 0.0
+- - 1.229
+  - 0.301
+  - 0.0
+- - 1.079
+  - -0.254
+  - 0.239
+background_objects: []
+background_placements: []
+initial_states: {}
+spatial:
+  S1:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: shelf_rglkkf_0
+    room: bathroom_0
+    location_phrase: the long low shelf next to the sink in the bathroom
+    grasp_hints:
+    - - 0.612
+      - 3.193
+      - -1.485
+    - - 1.214
+      - 3.193
+      - -2.356
+    - - 0.662
+      - 3.243
+      - -1.571
+    - - 1.113
+      - 3.293
+      - -2.137
+    extra_ops_vs_S1: []
+    probe_visibility_from_start:
+      px: 409
+      delta_e: 4.1
+  S2:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: shelf_xogqqm_2
+    room: bathroom_0
+    location_phrase: the third shelf from the top of the four-level shelf rack in
+      the bathroom
+    grasp_hints:
+    - - -1.016
+      - 1.754
+      - 2.348
+    - - -1.067
+      - 1.704
+      - 2.257
+    - - -1.117
+      - 1.654
+      - 2.167
+    - - -0.858
+      - 1.896
+      - 2.614
+    extra_ops_vs_S1:
+    - search behind occluders
+    s2_kind: occluded
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: shelf_nbmidu_0
+    room: bedroom_0
+    location_phrase: the upper shelf next to the TV in the bedroom
+    grasp_hints:
+    - - 1.286
+      - 1.261
+      - 0.0
+    - - 1.236
+      - 1.21
+      - 0.034
+    - - 1.186
+      - 1.364
+      - -0.035
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    route_from_start_steps: 9
+language:
+  L1:
+    S1: Go to the long low shelf next to the sink in the bathroom, pick up the bottle
+      of rum on it. Then put it on the lower shelf next to the TV in the bedroom.
+    S2: Go to the third shelf from the top of the four-level shelf rack in the bathroom,
+      pick up the bottle of rum on it. Then put it on the lower shelf next to the
+      TV in the bedroom.
+    S3: Leave the bathroom, go to the upper shelf next to the TV in the bedroom, pick
+      up the bottle of rum on it. Then put it on the lower shelf next to the TV in
+      the bedroom.
+  L2: Place the bottle of rum on the lower shelf next to the TV in the bedroom.
+  L3: I'm working on stock a bar, so could you make sure the bottle of rum is on the
+    lower shelf next to the TV in the bedroom?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

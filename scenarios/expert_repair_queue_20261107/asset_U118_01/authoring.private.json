@@ -1,0 +1,59 @@
+{
+  "id": "asset_U118_01",
+  "family": "semantic_U118",
+  "scene": "Merom_0_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_U118_01/scenario.yaml",
+  "scenario_sha256": "0f13aa9fa3e4bc3c6af9184c9c69af7595732944cc7d5f9a4674e773ee64a5b9",
+  "instruction": "Find the lid in the cupboards in this storage room and put it on the table in front of you.",
+  "target_key": "lid/lryrtt",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "storage_room_0",
+  "destination_room": "storage_room_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 1,
+  "distractor_count": 0,
+  "source_survey_sha256": "432c3be0b4dd33aa136873f8d072cfc232afe601bfa0f68e3b7489a89af8f0f5",
+  "route": {
+    "start": [
+      -0.55,
+      9.35,
+      0.0
+    ],
+    "path_xy": [
+      [
+        -0.55,
+        9.35
+      ],
+      [
+        -0.65,
+        9.35
+      ]
+    ],
+    "length_m": 0.1,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 15,
+    "destination_approach_count": 15,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate"
+}

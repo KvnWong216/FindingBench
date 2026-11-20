@@ -1,0 +1,572 @@
+{
+  "action": "expert",
+  "case": {
+    "id": "U256",
+    "record": {
+      "id": "asset_U256_01",
+      "family": "semantic_U256",
+      "scene": "Ihlen_0_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/full_queue_565ddf0abdcd_U256/asset_U256_01/scenario.yaml",
+      "scenario_sha256": "3064d6fec2ad2f5c21af3ac342cab1134ede22505e5266fb9830906698f2f35d",
+      "instruction": "Retrieve the mousetrap from the garage pest supplies and put it on the table in front of you in the garage in the garage for the maintenance kit.",
+      "target_key": "mousetrap/mwfwsv",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "garage_0",
+      "destination_room": "garage_0",
+      "source_receptacle": "expert_storage_0",
+      "destination_receptacle": "delivery_surface",
+      "object_count": 12,
+      "distractor_count": 8,
+      "source_survey_sha256": "4e67f717bc639fa8251f9cbf52bc0b8a96e19f8594526a196ad4548a95e97acd",
+      "route": {
+        "start": [
+          2.2,
+          1.8,
+          0.0
+        ],
+        "path_xy": [
+          [
+            2.2,
+            1.8
+          ],
+          [
+            2.2,
+            1.9000000000000001
+          ],
+          [
+            2.2,
+            2.0
+          ],
+          [
+            2.2,
+            2.1
+          ],
+          [
+            2.2,
+            2.2
+          ],
+          [
+            2.2,
+            2.3000000000000003
+          ],
+          [
+            2.2,
+            2.4000000000000004
+          ],
+          [
+            2.2,
+            2.5
+          ],
+          [
+            2.2,
+            2.6
+          ]
+        ],
+        "length_m": 0.8,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "search_storage",
+        "expert_storage_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "search_storage",
+          "category": "bottom_cabinet",
+          "model": "jrhgeu",
+          "floor": "floors_bryjan_0",
+          "position_xy": [
+            3.1,
+            0.2
+          ],
+          "aabb": [
+            [
+              2.932855239868164,
+              -0.14228797912597657,
+              0.0
+            ],
+            [
+              3.267144760131836,
+              0.5422879791259766,
+              0.6846599731445313
+            ]
+          ],
+          "room": "garage_0"
+        },
+        {
+          "name": "delivery_surface",
+          "category": "breakfast_table",
+          "model": "iaritq",
+          "floor": "floors_bryjan_0",
+          "position_xy": [
+            3.1,
+            2.2
+          ],
+          "aabb": [
+            [
+              2.748999710083008,
+              1.8494537658691408,
+              0.0
+            ],
+            [
+              3.4510002899169923,
+              2.5505462341308593,
+              0.7490009155273437
+            ]
+          ],
+          "room": "garage_0"
+        },
+        {
+          "name": "expert_storage_0",
+          "category": "bottom_cabinet",
+          "model": "jrhgeu",
+          "floor": "floors_bryjan_0",
+          "position_xy": [
+            2.6,
+            3.7
+          ],
+          "aabb": [
+            [
+              2.432855239868164,
+              3.3577120208740237,
+              0.0
+            ],
+            [
+              2.767144760131836,
+              4.042287979125977,
+              0.6846599731445313
+            ]
+          ],
+          "room": "garage_0"
+        }
+      ],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "expert_storage_0",
+            "volume_extents_m": {
+              "meta__base_link_fillable_0_0_link#component:0": [
+                0.23922629249095917,
+                0.18965983357072802,
+                0.5851681912193236
+              ],
+              "meta__base_link_fillable_0_0_link#component:1": [
+                0.23877585313392102,
+                0.19861903381347656,
+                0.5853487684532628
+              ],
+              "meta__base_link_fillable_0_0_link#component:2": [
+                0.23817441952228546,
+                0.189000270903126,
+                0.5853966732025147
+              ]
+            },
+            "native_links": {
+              "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet/jrhgeu",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "70d166224352a46e63c008e4d1b5af6bec5bfdfc27f6b21dad220cca350bc871",
+              "metadata_sha256": "838fad16a0dc49e7be965c08b9de0d54b477a05592b32eb05d6519a940331708",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.01151131303049624,
+              "nodes": 9,
+              "candidate_tests": 574938,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_03": "meta__base_link_fillable_0_0_link#component:1",
+                "item_07": "meta__base_link_fillable_0_0_link#component:0",
+                "item_01": "meta__base_link_fillable_0_0_link#component:2",
+                "item_05": "meta__base_link_fillable_0_0_link#component:2",
+                "item_00": "meta__base_link_fillable_0_0_link#component:2",
+                "item_02": "meta__base_link_fillable_0_0_link#component:1",
+                "item_04": "meta__base_link_fillable_0_0_link#component:0",
+                "item_06": "meta__base_link_fillable_0_0_link#component:1",
+                "item_08": "meta__base_link_fillable_0_0_link#component:0"
+              },
+              "poses": {
+                "item_03": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.047,
+                    0.047
+                  ],
+                  "center_xy_m": [
+                    0.0285,
+                    0.0285
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.047,
+                    0.047
+                  ],
+                  "center_xy_m": [
+                    0.0285,
+                    0.0285
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:2",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.004,
+                    0.004
+                  ],
+                  "center_xy_m": [
+                    0.007,
+                    0.007
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:2",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.014,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.004,
+                    0.004
+                  ],
+                  "center_xy_m": [
+                    0.016,
+                    0.007
+                  ]
+                },
+                "item_00": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:2",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.023,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.109,
+                    0.05
+                  ],
+                  "center_xy_m": [
+                    0.0775,
+                    0.03
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.057,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.042,
+                    0.041
+                  ],
+                  "center_xy_m": [
+                    0.078,
+                    0.025500000000000002
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.057,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.042,
+                    0.041
+                  ],
+                  "center_xy_m": [
+                    0.078,
+                    0.025500000000000002
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.10400000000000001,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.042,
+                    0.041
+                  ],
+                  "center_xy_m": [
+                    0.125,
+                    0.025500000000000002
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.10400000000000001,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.042,
+                    0.041
+                  ],
+                  "center_xy_m": [
+                    0.125,
+                    0.025500000000000002
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link",
+              "item_01": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_00": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_03": "meta__base_link_fillable_0_0_link#component:1",
+              "item_07": "meta__base_link_fillable_0_0_link#component:0",
+              "item_01": "meta__base_link_fillable_0_0_link#component:2",
+              "item_05": "meta__base_link_fillable_0_0_link#component:2",
+              "item_00": "meta__base_link_fillable_0_0_link#component:2",
+              "item_02": "meta__base_link_fillable_0_0_link#component:1",
+              "item_04": "meta__base_link_fillable_0_0_link#component:0",
+              "item_06": "meta__base_link_fillable_0_0_link#component:1",
+              "item_08": "meta__base_link_fillable_0_0_link#component:0"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [],
+      "parent_task_id": "U256",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_U256_01",
+        "parent_task_id": "U256",
+        "before_instruction": "The protective trap housing is on the garage worktable. Find the mousetrap in the utility room that fits inside it and bring it to the worktable beside the housing.",
+        "after_instruction": "Retrieve the mousetrap from the garage pest supplies and put it on the table in front of you in the garage in the garage for the maintenance kit.",
+        "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Missing explicit reference entity and validated target-reference correspondence for mousetrap fitting housing on worktable. Unarmed trap and matching rigid housing required Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: utility_room/cabinet -> garage/table becomes garage/cabinet -> garage/table. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+        "target_asset": "mousetrap/mwfwsv",
+        "target_assets": [
+          "mousetrap/mwfwsv"
+        ]
+      },
+      "binding_sha256": "4a8610710b21109e4ec82f857a2cc0e9ff6295d8549a512ea40d172644e98517",
+      "proposal_native_policy_signature": "638901e57b44747045bd55ed10084fe82451f1075c4c28aa6f0af555449b389c"
+    },
+    "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/full_queue_565ddf0abdcd_U256/asset_U256_01",
+    "error": "placement failed verification after physics settled: ['item_01 inside expert_storage_0', 'item_05 inside expert_storage_0']",
+    "source_sha256": "6cb1da3b67b9b548ec5b65424b5adc23834d109f6a1746527159bb5862b8e36e",
+    "expert_diagnosis": {
+      "category": "native_placement",
+      "error": "placement failed verification after physics settled: ['item_01 inside expert_storage_0', 'item_05 inside expert_storage_0']",
+      "native_rejections_in_current_queue": 0,
+      "first_blocker": {
+        "entity": "item_01",
+        "receptacle": "expert_storage_0",
+        "relation": "inside",
+        "link": "meta__base_link_fillable_0_0_link",
+        "attempt": 1
+      },
+      "solver": {
+        "receptacle": "expert_storage_0",
+        "deferred_thin_entities": [],
+        "status": "feasible_model",
+        "device": "cuda",
+        "backend": "torch_cuda_finite_csp",
+        "solve_seconds": 0.048668272793293,
+        "nodes": 2,
+        "candidate_tests": 46594,
+        "search_orders_tried": 1,
+        "grid_m": 0.001,
+        "margin_m": 0.015,
+        "model": "upright boxes; yaw 0/90; single-layer shared physical cavity groups; integer grid with convex centre halfspaces / fixed obstacles",
+        "physical_validation_required": true,
+        "assignment": {
+          "item_01": "meta__base_link_fillable_0_0_link#mesh:1#support_hull",
+          "item_05": "meta__base_link_fillable_0_0_link#mesh:2#support_hull"
+        },
+        "poses": {
+          "item_01": {
+            "bin": "meta__base_link_fillable_0_0_link#mesh:1#support_hull",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.02,
+              0.081
+            ],
+            "footprint_m": [
+              0.004,
+              0.004
+            ],
+            "center_xy_m": [
+              0.022,
+              0.083
+            ]
+          },
+          "item_05": {
+            "bin": "meta__base_link_fillable_0_0_link#mesh:2#support_hull",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.02,
+              0.016
+            ],
+            "footprint_m": [
+              0.004,
+              0.004
+            ],
+            "center_xy_m": [
+              0.022,
+              0.018000000000000002
+            ]
+          }
+        }
+      },
+      "support_measurements": {
+        "total": 3,
+        "planar": 0,
+        "reasons": {
+          "Collision support is not a single plane": 3
+        }
+      },
+      "first_contact": {
+        "object": "item_01",
+        "receptacle": "expert_storage_0",
+        "volume": "meta__base_link_fillable_0_0_link",
+        "attempt": 1,
+        "rejection": "final_membership_or_reachability_failed",
+        "contact_pairs": [
+          [
+            "/World/scene_0/item_01/base_link",
+            "/World/scene_0/articulated__expert_storage_0/base_link"
+          ]
+        ],
+        "position": [
+          2.4885756969451904,
+          3.684309482574463,
+          0.01384578924626112
+        ],
+        "orientation": [
+          0.038387950509786606,
+          -0.010751286521553993,
+          -0.004587107803672552,
+          0.9991945624351501
+        ],
+        "aabb": [
+          [
+            2.48709774017334,
+            3.6829075813293457,
+            0.026744866743683815
+          ],
+          [
+            2.490152359008789,
+            3.685962677001953,
+            0.02981378696858883
+          ]
+        ],
+        "initial_container_joints": [
+          0.22690710425376892
+        ],
+        "current_container_joints": [
+          0.22568418085575104
+        ],
+        "container_joint_velocities": [
+          2.3269408622184073e-09
+        ]
+      },
+      "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/full_queue_565ddf0abdcd_U256/asset_U256_01/native_validation.log",
+      "inference_scope": "proposal/model diagnosis; native physics acceptance unchanged"
+    },
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "native_placement",
+      "reason": "placement failed verification after physics settled: ['item_01 inside expert_storage_0', 'item_05 inside expert_storage_0']"
+    }
+  },
+  "out": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_31_U256_expert_f86172c17f2f",
+  "variant": 93
+}

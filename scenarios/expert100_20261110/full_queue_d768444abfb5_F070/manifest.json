@@ -1,0 +1,1648 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F070_01",
+      "family": "semantic_F070",
+      "scene": "Merom_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/full_queue_d768444abfb5_F070/asset_F070_01/scenario.yaml",
+      "scenario_sha256": "f895a2099653b3e176c07af52eee2136340642af009106d98b0e6da1e2d4f583",
+      "instruction": "There is a sample on the table in front of you in the kitchen. Find a food-container lid in the kitchen drawers matching that sample, and put it on the table in front of you in the kitchen.",
+      "target_key": "lid/wjrwer",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "kitchen_0",
+      "destination_room": "kitchen_0",
+      "source_receptacle": "search_storage",
+      "destination_receptacle": "delivery_surface",
+      "object_count": 14,
+      "distractor_count": 10,
+      "source_survey_sha256": "1bcd77f7369c09f3ee939635132fc064795bb448af326a0f941bcbe3dbe0fd22",
+      "route": {
+        "start": [
+          -1.4500000000000002,
+          4.15,
+          -1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            -1.4500000000000002,
+            4.15
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 15,
+        "destination_approach_count": 15,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "comparison_sample",
+        "comparison_negative_0",
+        "comparison_negative_1",
+        "search_storage"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [
+        {
+          "name": "delivery_surface",
+          "category": "breakfast_table",
+          "model": "iaritq",
+          "floor": "floors_hcqtge_0",
+          "position_xy": [
+            -1.35,
+            3.1500000000000004
+          ],
+          "aabb": [
+            [
+              -1.7010002899169923,
+              2.799453765869141,
+              0.0
+            ],
+            [
+              -0.9989997100830079,
+              3.5005462341308595,
+              0.7490009155273437
+            ]
+          ],
+          "room": "kitchen_0"
+        },
+        {
+          "name": "search_storage",
+          "category": "bottom_cabinet",
+          "model": "songes",
+          "floor": "floors_hcqtge_0",
+          "position_xy": [
+            -1.35,
+            5.550000000000001
+          ],
+          "aabb": [
+            [
+              -1.6136192626953125,
+              5.130784881591797,
+              0.0
+            ],
+            [
+              -1.0863807373046876,
+              5.969215118408204,
+              0.82936767578125
+            ]
+          ],
+          "room": "kitchen_0"
+        }
+      ],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "search_storage",
+            "volume_extents_m": {
+              "meta__bottomdrawer_fillable_0_0_link": [
+                0.4145968813896179,
+                0.7287898321151733,
+                0.1219994832277298
+              ],
+              "meta__middledrawer_fillable_0_0_link": [
+                0.4145968936859632,
+                0.7287898321151733,
+                0.12199948680399308
+              ],
+              "meta__topdrawer_fillable_0_0_link": [
+                0.41459686909327265,
+                0.7287897941705517,
+                0.12199950945378801
+              ]
+            },
+            "native_links": {
+              "meta__bottomdrawer_fillable_0_0_link": "meta__bottomdrawer_fillable_0_0_link",
+              "meta__middledrawer_fillable_0_0_link": "meta__middledrawer_fillable_0_0_link",
+              "meta__topdrawer_fillable_0_0_link": "meta__topdrawer_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet/songes",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "312e57f5d080b07aabb2c265225c0e3e30fb6321ed7182ff85920f0a3af7d872",
+              "metadata_sha256": "21e39c29fae8be47f00c4d3a6fd2d240ca8cf209fb1857b595379cae19d4580a",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.05427790014073253,
+              "nodes": 11,
+              "candidate_tests": 38583,
+              "search_orders_tried": 1,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_03": "meta__bottomdrawer_fillable_0_0_link",
+                "item_08": "meta__middledrawer_fillable_0_0_link",
+                "item_05": "meta__topdrawer_fillable_0_0_link",
+                "item_01": "meta__topdrawer_fillable_0_0_link",
+                "item_06": "meta__bottomdrawer_fillable_0_0_link",
+                "item_00": "meta__middledrawer_fillable_0_0_link",
+                "item_02": "meta__topdrawer_fillable_0_0_link",
+                "item_07": "meta__bottomdrawer_fillable_0_0_link",
+                "item_04": "meta__middledrawer_fillable_0_0_link",
+                "comparison_negative_0": "meta__topdrawer_fillable_0_0_link",
+                "comparison_negative_1": "meta__bottomdrawer_fillable_0_0_link"
+              },
+              "poses": {
+                "item_03": {
+                  "bin": "meta__bottomdrawer_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.165,
+                    0.307
+                  ],
+                  "center_xy_m": [
+                    0.08750000000000001,
+                    0.1585
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__middledrawer_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.165,
+                    0.307
+                  ],
+                  "center_xy_m": [
+                    0.08750000000000001,
+                    0.1585
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__topdrawer_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.166,
+                    0.302
+                  ],
+                  "center_xy_m": [
+                    0.088,
+                    0.156
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__topdrawer_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.176,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.126,
+                    0.277
+                  ],
+                  "center_xy_m": [
+                    0.23900000000000002,
+                    0.14350000000000002
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__bottomdrawer_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.17500000000000002,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.126,
+                    0.277
+                  ],
+                  "center_xy_m": [
+                    0.23800000000000002,
+                    0.14350000000000002
+                  ]
+                },
+                "item_00": {
+                  "bin": "meta__middledrawer_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.17500000000000002,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.201,
+                    0.201
+                  ],
+                  "center_xy_m": [
+                    0.2755,
+                    0.1055
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__topdrawer_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.176,
+                    0.28700000000000003
+                  ],
+                  "footprint_m": [
+                    0.153,
+                    0.153
+                  ],
+                  "center_xy_m": [
+                    0.2525,
+                    0.3635
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__bottomdrawer_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.17500000000000002,
+                    0.28700000000000003
+                  ],
+                  "footprint_m": [
+                    0.153,
+                    0.153
+                  ],
+                  "center_xy_m": [
+                    0.2515,
+                    0.3635
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__middledrawer_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.17500000000000002,
+                    0.211
+                  ],
+                  "footprint_m": [
+                    0.145,
+                    0.145
+                  ],
+                  "center_xy_m": [
+                    0.2475,
+                    0.28350000000000003
+                  ]
+                },
+                "comparison_negative_0": {
+                  "bin": "meta__topdrawer_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.445
+                  ],
+                  "footprint_m": [
+                    0.195,
+                    0.2
+                  ],
+                  "center_xy_m": [
+                    0.10250000000000001,
+                    0.545
+                  ]
+                },
+                "comparison_negative_1": {
+                  "bin": "meta__bottomdrawer_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.445
+                  ],
+                  "footprint_m": [
+                    0.2,
+                    0.183
+                  ],
+                  "center_xy_m": [
+                    0.105,
+                    0.5365
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_03": "meta__bottomdrawer_fillable_0_0_link",
+              "item_08": "meta__middledrawer_fillable_0_0_link",
+              "item_05": "meta__topdrawer_fillable_0_0_link",
+              "item_01": "meta__topdrawer_fillable_0_0_link",
+              "item_06": "meta__bottomdrawer_fillable_0_0_link",
+              "item_00": "meta__middledrawer_fillable_0_0_link",
+              "item_02": "meta__topdrawer_fillable_0_0_link",
+              "item_07": "meta__bottomdrawer_fillable_0_0_link",
+              "item_04": "meta__middledrawer_fillable_0_0_link",
+              "comparison_negative_0": "meta__topdrawer_fillable_0_0_link",
+              "comparison_negative_1": "meta__bottomdrawer_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_03": "meta__bottomdrawer_fillable_0_0_link",
+              "item_08": "meta__middledrawer_fillable_0_0_link",
+              "item_05": "meta__topdrawer_fillable_0_0_link",
+              "item_01": "meta__topdrawer_fillable_0_0_link",
+              "item_06": "meta__bottomdrawer_fillable_0_0_link",
+              "item_00": "meta__middledrawer_fillable_0_0_link",
+              "item_02": "meta__topdrawer_fillable_0_0_link",
+              "item_07": "meta__bottomdrawer_fillable_0_0_link",
+              "item_04": "meta__middledrawer_fillable_0_0_link",
+              "comparison_negative_0": "meta__topdrawer_fillable_0_0_link",
+              "comparison_negative_1": "meta__bottomdrawer_fillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_03": "meta__bottomdrawer_fillable_0_0_link",
+          "item_08": "meta__middledrawer_fillable_0_0_link",
+          "item_05": "meta__topdrawer_fillable_0_0_link",
+          "item_01": "meta__topdrawer_fillable_0_0_link",
+          "item_06": "meta__bottomdrawer_fillable_0_0_link",
+          "item_00": "meta__middledrawer_fillable_0_0_link",
+          "item_02": "meta__topdrawer_fillable_0_0_link",
+          "item_07": "meta__bottomdrawer_fillable_0_0_link",
+          "item_04": "meta__middledrawer_fillable_0_0_link",
+          "comparison_negative_0": "meta__topdrawer_fillable_0_0_link",
+          "comparison_negative_1": "meta__bottomdrawer_fillable_0_0_link"
+        },
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [
+        {
+          "scene": "Wainscott_0_int",
+          "source": "bottom_cabinet_no_top_qohxjq_1",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_1",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.4585704803466797,
+                    0.5183773040771484,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.4467930793762207,
+                    0.5101900100708008,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.43901729583740234,
+                    0.5125274658203125,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "item_04",
+                  "comparison_negative_0",
+                  "comparison_negative_1"
+                ]
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Wainscott_0_int",
+          "source": "bottom_cabinet_no_top_qohxjq_1",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_1",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.4585704803466797,
+                    0.5183773040771484,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.4467930793762207,
+                    0.5101900100708008,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.43901729583740234,
+                    0.5125274658203125,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "comparison_negative_0",
+                  "comparison_negative_1"
+                ]
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Wainscott_0_int",
+          "source": "bottom_cabinet_no_top_qohxjq_1",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_1",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.4585704803466797,
+                    0.5183773040771484,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.4467930793762207,
+                    0.5101900100708008,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.43901729583740234,
+                    0.5125274658203125,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "reason": "Pre-sampling dimension gate: no allowed compartment fits the upright object with clearance",
+                "entities": [
+                  "comparison_negative_1"
+                ],
+                "object_extents_m": {
+                  "comparison_negative_1": [
+                    0.2,
+                    0.18256663513183594,
+                    0.039219802856445315
+                  ]
+                }
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Wainscott_0_int",
+          "source": "bottom_cabinet_no_top_pluwfl_2",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_pluwfl_2",
+                "volume_extents_m": {
+                  "link_1": [
+                    0.3253464698791504,
+                    0.3058605194091797,
+                    0.04425930976867676
+                  ]
+                },
+                "native_links": {
+                  "link_1": "link_1"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "comparison_negative_0",
+                  "comparison_negative_1"
+                ]
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Wainscott_0_int",
+          "source": "bottom_cabinet_no_top_qohxjq_2",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_2",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.37261056900024414,
+                    0.3023567199707031,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.36304140090942383,
+                    0.2975807189941406,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.3567233085632324,
+                    0.29894447326660156,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "comparison_negative_0",
+                  "comparison_negative_1"
+                ]
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Wainscott_0_int",
+          "source": "bottom_cabinet_no_top_qohxjq_2",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_2",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.37261056900024414,
+                    0.3023567199707031,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.36304140090942383,
+                    0.2975807189941406,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.3567233085632324,
+                    0.29894447326660156,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "comparison_negative_0",
+                  "comparison_negative_1"
+                ]
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Wainscott_0_int",
+          "source": "bottom_cabinet_no_top_qohxjq_2",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_2",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.37261056900024414,
+                    0.3023567199707031,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.36304140090942383,
+                    0.2975807189941406,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.3567233085632324,
+                    0.29894447326660156,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "reason": "Pre-sampling dimension gate: no allowed compartment fits the upright object with clearance",
+                "entities": [
+                  "comparison_negative_1"
+                ],
+                "object_extents_m": {
+                  "comparison_negative_1": [
+                    0.2,
+                    0.18256663513183594,
+                    0.039219802856445315
+                  ]
+                }
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Wainscott_0_int",
+          "source": "bottom_cabinet_bamfsz_0",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_bamfsz_0",
+                "volume_extents_m": {
+                  "link_1": [
+                    0.7086267471313477,
+                    0.5976886749267578,
+                    0.3580216318368912
+                  ],
+                  "link_2": [
+                    0.7207221984863281,
+                    0.5930309295654297,
+                    0.15297281742095947
+                  ],
+                  "link_3": [
+                    0.7193360328674316,
+                    0.5892429351806641,
+                    0.05471789836883545
+                  ],
+                  "link_4": [
+                    0.7196598052978516,
+                    0.5882902145385742,
+                    0.05471789836883545
+                  ]
+                },
+                "native_links": {
+                  "link_1": "link_1",
+                  "link_2": "link_2",
+                  "link_3": "link_3",
+                  "link_4": "link_4"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "item_04",
+                  "comparison_negative_0",
+                  "comparison_negative_1"
+                ]
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Wainscott_0_int",
+          "source": "bottom_cabinet_bamfsz_0",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_bamfsz_0",
+                "volume_extents_m": {
+                  "link_1": [
+                    0.7086267471313477,
+                    0.5976886749267578,
+                    0.3580216318368912
+                  ],
+                  "link_2": [
+                    0.7207221984863281,
+                    0.5930309295654297,
+                    0.15297281742095947
+                  ],
+                  "link_3": [
+                    0.7193360328674316,
+                    0.5892429351806641,
+                    0.05471789836883545
+                  ],
+                  "link_4": [
+                    0.7196598052978516,
+                    0.5882902145385742,
+                    0.05471789836883545
+                  ]
+                },
+                "native_links": {
+                  "link_1": "link_1",
+                  "link_2": "link_2",
+                  "link_3": "link_3",
+                  "link_4": "link_4"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "item_04",
+                  "comparison_negative_0",
+                  "comparison_negative_1"
+                ]
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Wainscott_0_int",
+          "source": "bottom_cabinet_bamfsz_0",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_bamfsz_0",
+                "volume_extents_m": {
+                  "link_1": [
+                    0.7086267471313477,
+                    0.5976886749267578,
+                    0.3580216318368912
+                  ],
+                  "link_2": [
+                    0.7207221984863281,
+                    0.5930309295654297,
+                    0.15297281742095947
+                  ],
+                  "link_3": [
+                    0.7193360328674316,
+                    0.5892429351806641,
+                    0.05471789836883545
+                  ],
+                  "link_4": [
+                    0.7196598052978516,
+                    0.5882902145385742,
+                    0.05471789836883545
+                  ]
+                },
+                "native_links": {
+                  "link_1": "link_1",
+                  "link_2": "link_2",
+                  "link_3": "link_3",
+                  "link_4": "link_4"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "item_04",
+                  "comparison_negative_0",
+                  "comparison_negative_1"
+                ]
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Wainscott_0_int",
+          "source": "bottom_cabinet_bamfsz_0",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_bamfsz_0",
+                "volume_extents_m": {
+                  "link_1": [
+                    0.7086267471313477,
+                    0.5976886749267578,
+                    0.3580216318368912
+                  ],
+                  "link_2": [
+                    0.7207221984863281,
+                    0.5930309295654297,
+                    0.15297281742095947
+                  ],
+                  "link_3": [
+                    0.7193360328674316,
+                    0.5892429351806641,
+                    0.05471789836883545
+                  ],
+                  "link_4": [
+                    0.7196598052978516,
+                    0.5882902145385742,
+                    0.05471789836883545
+                  ]
+                },
+                "native_links": {
+                  "link_1": "link_1",
+                  "link_2": "link_2",
+                  "link_3": "link_3",
+                  "link_4": "link_4"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "item_04",
+                  "comparison_negative_0",
+                  "comparison_negative_1"
+                ]
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Wainscott_0_int",
+          "source": "bottom_cabinet_no_top_qohxjq_0",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.32245540618896484,
+                    0.5256023406982422,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.31417417526245117,
+                    0.5173006057739258,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.30870676040649414,
+                    0.5196714401245117,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "comparison_negative_0",
+                  "comparison_negative_1"
+                ]
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Wainscott_0_int",
+          "source": "bottom_cabinet_no_top_qohxjq_0",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.32245540618896484,
+                    0.5256023406982422,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.31417417526245117,
+                    0.5173006057739258,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.30870676040649414,
+                    0.5196714401245117,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "comparison_negative_0",
+                  "comparison_negative_1"
+                ]
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Wainscott_0_int",
+          "source": "bottom_cabinet_no_top_qohxjq_0",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.32245540618896484,
+                    0.5256023406982422,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.31417417526245117,
+                    0.5173006057739258,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.30870676040649414,
+                    0.5196714401245117,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "reason": "Pre-sampling dimension gate: no allowed compartment fits the upright object with clearance",
+                "entities": [
+                  "comparison_negative_1"
+                ],
+                "object_extents_m": {
+                  "comparison_negative_1": [
+                    0.2,
+                    0.18256663513183594,
+                    0.039219802856445315
+                  ]
+                }
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Wainscott_0_int",
+          "source": "bottom_cabinet_no_top_pluwfl_1",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_pluwfl_1",
+                "volume_extents_m": {
+                  "link_1": [
+                    0.4007573127746582,
+                    0.28751087188720703,
+                    0.04425930976867676
+                  ]
+                },
+                "native_links": {
+                  "link_1": "link_1"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "comparison_negative_0",
+                  "comparison_negative_1"
+                ]
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Wainscott_0_int",
+          "source": "bottom_cabinet_no_top_pluwfl_0",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_pluwfl_0",
+                "volume_extents_m": {
+                  "link_1": [
+                    0.4007573127746582,
+                    0.28751087188720703,
+                    0.04425930976867676
+                  ]
+                },
+                "native_links": {
+                  "link_1": "link_1"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "comparison_negative_0",
+                  "comparison_negative_1"
+                ]
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Pomaria_1_int",
+          "source": "bottom_cabinet_no_top_pluwfl_0",
+          "reason": "Previously failed source layout"
+        },
+        {
+          "scene": "Beechwood_0_int",
+          "source": "bottom_cabinet_no_top_qohxjq_0",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.35826021432876587,
+                    0.41759204864501953,
+                    0.16683420538902283
+                  ],
+                  "link_1": [
+                    0.3490593433380127,
+                    0.4109954833984375,
+                    0.15118098258972168
+                  ],
+                  "link_2": [
+                    0.3429843783378601,
+                    0.41287994384765625,
+                    0.040989458560943604
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "comparison_negative_0",
+                  "comparison_negative_1"
+                ]
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Beechwood_0_int",
+          "source": "bottom_cabinet_no_top_qohxjq_0",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.35826021432876587,
+                    0.41759204864501953,
+                    0.16683420538902283
+                  ],
+                  "link_1": [
+                    0.3490593433380127,
+                    0.4109954833984375,
+                    0.15118098258972168
+                  ],
+                  "link_2": [
+                    0.3429843783378601,
+                    0.41287994384765625,
+                    0.040989458560943604
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "comparison_negative_0",
+                  "comparison_negative_1"
+                ]
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Beechwood_0_int",
+          "source": "bottom_cabinet_no_top_qohxjq_0",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.35826021432876587,
+                    0.41759204864501953,
+                    0.16683420538902283
+                  ],
+                  "link_1": [
+                    0.3490593433380127,
+                    0.4109954833984375,
+                    0.15118098258972168
+                  ],
+                  "link_2": [
+                    0.3429843783378601,
+                    0.41287994384765625,
+                    0.040989458560943604
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "reason": "Pre-sampling dimension gate: no allowed compartment fits the upright object with clearance",
+                "entities": [
+                  "comparison_negative_1"
+                ],
+                "object_extents_m": {
+                  "comparison_negative_1": [
+                    0.2,
+                    0.18256663513183594,
+                    0.039219802856445315
+                  ]
+                }
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Beechwood_0_int",
+          "source": "bottom_cabinet_no_top_pluwfl_0",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_pluwfl_0",
+                "volume_extents_m": {
+                  "link_1": [
+                    0.29326508939266205,
+                    0.41143274307250977,
+                    0.04179656505584717
+                  ]
+                },
+                "native_links": {
+                  "link_1": "link_1"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "reason": "Pre-sampling dimension gate: no allowed compartment fits the upright object with clearance",
+                "entities": [
+                  "comparison_negative_1"
+                ],
+                "object_extents_m": {
+                  "comparison_negative_1": [
+                    0.2,
+                    0.18256663513183594,
+                    0.039219802856445315
+                  ]
+                }
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Pomaria_1_int",
+          "source": "bottom_cabinet_no_top_qohxjq_0",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.4118990898132324,
+                    0.4385376572608948,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.4053926467895508,
+                    0.42620396614074707,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.4058542251586914,
+                    0.41711151599884033,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "comparison_negative_0",
+                  "comparison_negative_1"
+                ]
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Pomaria_1_int",
+          "source": "bottom_cabinet_no_top_qohxjq_0",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.4118990898132324,
+                    0.4385376572608948,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.4053926467895508,
+                    0.42620396614074707,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.4058542251586914,
+                    0.41711151599884033,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "comparison_negative_0",
+                  "comparison_negative_1"
+                ]
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Pomaria_1_int",
+          "source": "bottom_cabinet_no_top_qohxjq_0",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.4118990898132324,
+                    0.4385376572608948,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.4053926467895508,
+                    0.42620396614074707,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.4058542251586914,
+                    0.41711151599884033,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "reason": "Pre-sampling dimension gate: no allowed compartment fits the upright object with clearance",
+                "entities": [
+                  "comparison_negative_1"
+                ],
+                "object_extents_m": {
+                  "comparison_negative_1": [
+                    0.2,
+                    0.18256663513183594,
+                    0.039219802856445315
+                  ]
+                }
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Beechwood_0_int",
+          "source": "bottom_cabinet_rvpunw_0",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_rvpunw_0",
+                "volume_extents_m": {
+                  "dof_rootd_aa001_t": [
+                    0.7681076526641846,
+                    0.5010104179382324,
+                    0.10263729095458984
+                  ],
+                  "dof_rootd_aa002_t": [
+                    0.7681077122688293,
+                    0.5010099411010742,
+                    0.09858177974820137
+                  ]
+                },
+                "native_links": {
+                  "dof_rootd_aa001_t": "dof_rootd_aa001_t",
+                  "dof_rootd_aa002_t": "dof_rootd_aa002_t"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "item_04",
+                  "comparison_negative_0",
+                  "comparison_negative_1"
+                ]
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Beechwood_0_int",
+          "source": "bottom_cabinet_rvpunw_0",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_rvpunw_0",
+                "volume_extents_m": {
+                  "dof_rootd_aa001_t": [
+                    0.7681076526641846,
+                    0.5010104179382324,
+                    0.10263729095458984
+                  ],
+                  "dof_rootd_aa002_t": [
+                    0.7681077122688293,
+                    0.5010099411010742,
+                    0.09858177974820137
+                  ]
+                },
+                "native_links": {
+                  "dof_rootd_aa001_t": "dof_rootd_aa001_t",
+                  "dof_rootd_aa002_t": "dof_rootd_aa002_t"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "item_04",
+                  "comparison_negative_0",
+                  "comparison_negative_1"
+                ]
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        }
+      ],
+      "parent_task_id": "F070",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F070_01",
+        "parent_task_id": "F070",
+        "before_instruction": "The open round food container is on the kitchen table. Find its fitting lid among the kitchen container drawers and set the lid beside the container.",
+        "after_instruction": "There is a sample on the table in front of you in the kitchen. Find a food-container lid in the kitchen drawers matching that sample, and put it on the table in front of you in the kitchen.",
+        "reason": "Same-part visual matching replaces unverified fitting to a container base, which requires complementary geometry evidence. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "lid/wjrwer",
+        "target_assets": [
+          "lid/wjrwer"
+        ]
+      },
+      "binding_sha256": "c6d60d33030c7f1792a699934cbe24a7c6c16b5f51cdfb80529297740144b259",
+      "proposal_native_policy_signature": "6c4266e64ffd30b1a828c886f2830a8a79323e854e71943f0be97738bd8ae2b3",
+      "storage_model_experience": []
+    }
+  ]
+}

@@ -1,0 +1,235 @@
+{
+  "id": "asset_F001_01",
+  "family": "semantic_F001",
+  "scene": "Pomaria_1_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_F001_01/scenario.yaml",
+  "scenario_sha256": "715d1974b28781584786e0950fbcb0af5982c638230ecf0e3a330e1112381875",
+  "instruction": "I need a soup spoon for the place setting. Find one among the kitchen utensils and bring it to the table in front of you in the kitchen.",
+  "target_key": "soupspoon/wrctgd",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "bottom_cabinet_no_top_vzzafs_0",
+  "destination_receptacle": "breakfast_table_uhrsex_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "05d404c89ade70d34c89459d2b340c53ef49d49041a6624fcc9a997b8b7322b3",
+  "route": {
+    "start": [
+      -1.05,
+      -0.8500000000000001,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -1.05,
+        -0.8500000000000001
+      ],
+      [
+        -1.1500000000000001,
+        -0.8500000000000001
+      ],
+      [
+        -1.1500000000000001,
+        -0.75
+      ],
+      [
+        -1.1500000000000001,
+        -0.65
+      ],
+      [
+        -1.1500000000000001,
+        -0.55
+      ],
+      [
+        -1.1500000000000001,
+        -0.45
+      ],
+      [
+        -1.25,
+        -0.45
+      ],
+      [
+        -1.25,
+        -0.35000000000000003
+      ],
+      [
+        -1.25,
+        -0.25
+      ]
+    ],
+    "length_m": 0.8,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 51,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_no_top_bmsclc_0",
+    "bottom_cabinet_no_top_vzzafs_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_no_top_vzzafs_0",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link": [
+            0.4682353269382784,
+            0.35746334360017995,
+            0.6820272216287624
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet_no_top/vzzafs",
+          "scale": [
+            0.880458414554596,
+            0.9137324690818787,
+            1.0244098901748657
+          ],
+          "encrypted_asset_sha256": "b4daa08616feaef1a73fc5cb01bcd60c278fad77ff3d5bda42d007a631e01515",
+          "metadata_sha256": "f0ba45ae134ef2c37866c9bb0186200606042fb03eafed9783116a94253ac4bf",
+          "root_orientation": [
+            0.0,
+            0.0,
+            0.9999911785125732,
+            -0.004201833158731461
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link"
+        }
+      },
+      {
+        "receptacle": "bottom_cabinet_no_top_bmsclc_0",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.520115073862873,
+            0.14237283485620833,
+            0.16951489316406687
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.5118629497335321,
+            0.1412213595048821,
+            0.15654393858310867
+          ],
+          "meta__base_link_openfillable_0_0_link": [
+            0.5237140375667668,
+            0.14237620746844576,
+            0.27361854362452687
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_openfillable_0_0_link": "meta__base_link_openfillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet_no_top/bmsclc",
+          "scale": [
+            1.3640861511230469,
+            1.0842723846435547,
+            1.4873191118240356
+          ],
+          "encrypted_asset_sha256": "ff61b79a8ab91412ce4398d35b742b6d16ec744c7e191346ce87791a7837b7df",
+          "metadata_sha256": "fd75a078189bd8689ecc8e2a8c54db2923f73ca9431b6783db4e1d37b91855c5",
+          "root_orientation": [
+            -3.7252891882388894e-09,
+            1.1641533959050321e-08,
+            0.707106351852417,
+            0.7071071863174438
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_06": "meta__base_link_fillable_0_0_link",
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_openfillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_06": "meta__base_link_fillable_0_0_link#component:0",
+          "item_07": "meta__base_link_fillable_0_0_link#component:1",
+          "item_08": "meta__base_link_openfillable_0_0_link"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_00": "meta__base_link_fillable_0_0_link",
+      "item_03": "meta__base_link_fillable_0_0_link",
+      "item_04": "meta__base_link_fillable_0_0_link",
+      "item_05": "meta__base_link_fillable_0_0_link",
+      "item_01": "meta__base_link_fillable_0_0_link",
+      "item_02": "meta__base_link_fillable_0_0_link",
+      "item_06": "meta__base_link_fillable_0_0_link",
+      "item_07": "meta__base_link_fillable_0_0_link",
+      "item_08": "meta__base_link_openfillable_0_0_link"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "F001",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F001_01",
+    "parent_task_id": "F001",
+    "before_instruction": "I have a bowl ready on the kitchen table but nothing suitable for soup. Find a soup spoon in the crowded kitchen utensil storage and put it beside that bowl.",
+    "after_instruction": "I need a soup spoon for the place setting. Find one among the kitchen utensils and bring it to the table in front of you in the kitchen.",
+    "reason": "The identified delivery surface is grounded by the initial facing direction; decorative destination landmarks are omitted. Target identity, requested cardinality and source/destination room types are retained.",
+    "target_asset": "soupspoon/wrctgd",
+    "target_assets": [
+      "soupspoon/wrctgd"
+    ]
+  },
+  "binding_sha256": "fa6a3f1594e949a9fe96ec21009e39baa66d4186025dee9b10dc61e3d4d38f49"
+}

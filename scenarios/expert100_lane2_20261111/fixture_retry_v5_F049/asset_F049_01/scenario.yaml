@@ -1,0 +1,183 @@
+id: asset_F049_01
+instruction: There is a sample on the counter in front of you in the grocery store.
+  Find a chocolate box matching that sample among the grocery store sweets and place
+  it on the counter in front of you in the grocery store.
+scene:
+  model: grocery_store_convenience
+  source: behavior
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - 0.0
+    - 0.2
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - 0.0
+    - 1.0
+target:
+  entity: item_00
+  category: box_of_chocolates
+objects:
+- name: item_00
+  category: box_of_chocolates
+  model: bdvkbh
+- name: item_01
+  category: cookie_stick
+  model: zlhayf
+- name: item_02
+  category: granola_bar
+  model: iurfsq
+- name: item_03
+  category: hard_candy
+  model: vyxhmv
+- name: item_04
+  category: lollipop
+  model: bhjyff
+- name: item_05
+  category: pack_of_chocolate_bar
+  model: tidcst
+- name: item_06
+  category: popcorn_bag
+  model: hdcpqg
+- name: item_07
+  category: raisin_box
+  model: yowyst
+- name: item_08
+  category: tortilla_chips
+  model: herjym
+- name: comparison_sample
+  category: box_of_chocolates
+  model: bdvkbh
+- name: search_storage
+  category: shelf
+  model: vanltx
+  fixed_base: true
+- name: delivery_surface
+  category: bottom_cabinet
+  model: jrhgeu
+  fixed_base: true
+placements:
+- entity: item_00
+  relation: on_top
+  receptacle: search_storage
+  position_xy:
+  - 0.4489262390136719
+  - -1.424014587402344
+- entity: item_01
+  relation: on_top
+  receptacle: search_storage
+  position_xy:
+  - 0.577426239013672
+  - -1.443014587402344
+- entity: item_02
+  relation: on_top
+  receptacle: search_storage
+  position_xy:
+  - 0.5849262390136719
+  - -1.221514587402344
+- entity: item_03
+  relation: on_top
+  receptacle: search_storage
+  position_xy:
+  - 0.6204262390136719
+  - -1.460014587402344
+- entity: item_04
+  relation: on_top
+  receptacle: search_storage
+  position_xy:
+  - 0.4259262390136719
+  - -1.0600145874023439
+- entity: item_05
+  relation: on_top
+  receptacle: search_storage
+  position_xy:
+  - 0.5809262390136719
+  - -1.1450145874023439
+- entity: item_06
+  relation: on_top
+  receptacle: search_storage
+  position_xy:
+  - 0.4874262390136719
+  - -1.783514587402344
+- entity: item_07
+  relation: on_top
+  receptacle: search_storage
+  position_xy:
+  - 0.42942623901367194
+  - -1.184514587402344
+- entity: item_08
+  relation: on_top
+  receptacle: search_storage
+  position_xy:
+  - 0.6084262390136719
+  - -1.543514587402344
+- entity: comparison_sample
+  relation: on_top
+  receptacle: delivery_surface
+- entity: search_storage
+  relation: on_top
+  receptacle: floors_rojznj_0
+  position_xy:
+  - 0.5
+  - -1.4000000000000001
+- entity: delivery_surface
+  relation: on_top
+  receptacle: floors_rojznj_0
+  position_xy:
+  - 0.7000000000000001
+  - 0.7000000000000001
+initial_states: {}
+goal:
+- kind: on_top
+  entity: item_00
+  receptacle: delivery_surface
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

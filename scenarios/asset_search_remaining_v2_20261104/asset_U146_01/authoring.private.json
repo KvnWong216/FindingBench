@@ -1,0 +1,103 @@
+{
+  "id": "asset_U146_01",
+  "family": "semantic_U146",
+  "scene": "Ihlen_0_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_U146_01/scenario.yaml",
+  "scenario_sha256": "41aa9f4c97623854386801692c6753378cb8077e4681135b803629aa8605250b",
+  "instruction": "We are sketching the dining room layout. Fetch the ruler from the dining room workspace drafting supplies and put it on the table in front of you in the dining room in the dining room.",
+  "target_key": "ruler/rutqab",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "dining_room_0",
+  "destination_room": "dining_room_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "breakfast_table_uhrsex_0",
+  "object_count": 10,
+  "distractor_count": 8,
+  "source_survey_sha256": "4e67f717bc639fa8251f9cbf52bc0b8a96e19f8594526a196ad4548a95e97acd",
+  "route": {
+    "start": [
+      -3.0,
+      3.4000000000000004,
+      -3.141592653589793
+    ],
+    "path_xy": [
+      [
+        -3.0,
+        3.4000000000000004
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_kwnype_0",
+      "position_xy": [
+        -2.2,
+        3.5
+      ],
+      "aabb": [
+        [
+          -2.3671447601318363,
+          3.1577120208740235,
+          0.0
+        ],
+        [
+          -2.032855239868164,
+          3.8422879791259765,
+          0.6846599731445313
+        ]
+      ],
+      "room": "dining_room_0"
+    }
+  ],
+  "parent_task_id": "U146",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_U146_01",
+    "parent_task_id": "U146",
+    "before_instruction": "We're drawing the dining room layout at the dining table. Find the longest ruler in the study's drafting supplies and put it beside the plan on the table.",
+    "after_instruction": "We are sketching the dining room layout. Fetch the ruler from the dining room workspace drafting supplies and put it on the table in front of you in the dining room in the dining room.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Missing constructed comparison/count evidence and distractor set for long ruler. Multiple ruler lengths required; rigid plan can be staged Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: private_office/cabinet -> dining_room/table becomes dining_room/cabinet -> dining_room/table. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+    "target_asset": "ruler/rutqab",
+    "target_assets": [
+      "ruler/rutqab"
+    ]
+  },
+  "binding_sha256": "d1f14dafd239c0a77569ddef01d992d1029ce55407af0e6b49f09b63f9150ddf"
+}

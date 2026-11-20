@@ -1,0 +1,101 @@
+task_id: X03009
+family: fetch
+scene: house_double_floor_lower
+source:
+  official_activity: buying_groceries_for_a_feast#0
+  official_activities_with_same_subgoal:
+  - buying_groceries_for_a_feast#0
+  official_subgoal: (inside grocery.n.02 shopping_cart.n.01)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K house_double_floor_lower (+ clearance manifest)
+  object: BEHAVIOR-1K bottle_of_tomato_paste/kkqtjv
+start:
+  name: start_living_room_0_0
+  room: living_room_0
+  x: 4.74
+  y: 3.56
+  yaw: 1.701
+target:
+  entity: target_obj
+  category: bottle_of_tomato_paste
+  model: kkqtjv
+  noun: bottle of tomato paste
+  colour_estimate: red
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S1
+- S3
+missing_spatial_levels:
+- S2
+initial_states: {}
+spatial:
+  S1:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bottom_cabinet_rhdbzv_0
+    room: living_room_0
+    location_phrase: the cabinet in the living room
+    grasp_hints:
+    - - 5.537
+      - 4.561
+      - 0.0
+    - - 5.437
+      - 4.252
+      - 0.389
+    - - 5.437
+      - 4.871
+      - -0.328
+    - - 5.387
+      - 4.201
+      - 0.423
+    extra_ops_vs_S1: []
+    probe_visibility_from_start:
+      px: 163
+      delta_e: 43.0
+    task_scope: single_room
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bottom_cabinet_qacthv_0
+    room: bathroom_0
+    location_phrase: the cabinet in the bathroom
+    grasp_hints:
+    - - -2.478
+      - -0.225
+      - -2.356
+    - - -2.378
+      - -0.125
+      - -2.356
+    - - -2.378
+      - -0.325
+      - -2.537
+    - - -2.529
+      - -0.075
+      - -2.191
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    task_scope: cross_room
+    route_from_start_steps: 14
+language:
+  L1:
+    S1: Go to the cabinet in the living room, pick up the bottle of tomato paste on
+      it and hold it.
+    S3: Leave the living room, go to the cabinet in the bathroom, pick up the bottle
+      of tomato paste on it and hold it.
+  L2: Get the bottle of tomato paste and hold on to it.
+  L3: I'm buying groceries for a feast. Can you find the bottle of tomato paste and
+    hold it for me?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

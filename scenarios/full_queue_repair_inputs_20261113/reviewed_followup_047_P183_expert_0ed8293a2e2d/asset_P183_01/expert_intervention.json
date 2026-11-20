@@ -1,0 +1,58 @@
+{
+  "status": "static_screened_physics_pending",
+  "old_storage": "expert_storage_80",
+  "reused_native_storage": "bottom_cabinet_dajebq_0",
+  "released_compiler_links": [
+    {
+      "entity": "item_02",
+      "previous_link": "meta__base_link_fillable_0_0_link"
+    }
+  ],
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/reviewed_followup_008_P183/asset_P183_01/scenario.yaml",
+  "diagnosis_directory": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_lane2_20261111/reviewed_followup_008_P183/asset_P183_01",
+  "solver": {
+    "status": "feasible_model",
+    "device": "cuda",
+    "backend": "torch_cuda_finite_csp",
+    "solve_seconds": 0.001791610848158598,
+    "nodes": 0,
+    "candidate_tests": 0,
+    "search_orders_tried": 0,
+    "grid_m": 0.001,
+    "margin_m": 0.015,
+    "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+    "physical_validation_required": true,
+    "assignment": {
+      "item_02": "meta__base_link_fillable_0_0_link#component:0"
+    },
+    "poses": {
+      "item_02": {
+        "bin": "meta__base_link_fillable_0_0_link#component:0",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.015
+        ],
+        "footprint_m": [
+          0.298,
+          0.212
+        ],
+        "center_xy_m": [
+          0.16399999999999998,
+          0.121
+        ]
+      }
+    },
+    "constructive_witness": "single strip; exact quantized box and clearance checks"
+  },
+  "preserved": [
+    "instruction",
+    "goal",
+    "target",
+    "robot",
+    "spawn",
+    "all original assets",
+    "furniture geometry",
+    "relation types"
+  ]
+}

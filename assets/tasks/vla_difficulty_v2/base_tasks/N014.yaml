@@ -1,0 +1,109 @@
+task_id: N014
+family: fetch
+scene: Wainscott_0_int
+source:
+  official_activity: prepare_a_filling_breakfast#0
+  official_activities_with_same_subgoal:
+  - prepare_a_filling_breakfast#0
+  official_subgoal: (ontop egg.n.02 plate.n.04)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K Wainscott_0_int (+ clearance manifest)
+  object: BEHAVIOR-1K egg/brkitw
+start:
+  name: start_living_room_2_1
+  room: living_room_2
+  x: -2.09
+  y: -1.1
+  yaw: -1.702
+target:
+  entity: target_obj
+  category: egg
+  model: brkitw
+  noun: egg
+  colour_estimate: orange
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S1
+- S2
+missing_spatial_levels:
+- S3
+initial_states: {}
+spatial:
+  S1:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: coffee_table_dnsjnv_0
+    room: living_room_2
+    location_phrase: null
+    grasp_hints:
+    - - -3.193
+      - -2.832
+      - 3.142
+    - - -3.76
+      - -3.507
+      - 1.699
+    - - -3.143
+      - -2.781
+      - 3.142
+    - - -3.812
+      - -3.557
+      - 1.616
+    extra_ops_vs_S1: []
+    probe_visibility_from_start:
+      px: 88
+      delta_e: 55.0
+    task_scope: single_room
+  S2:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: console_table_emeeke_1
+    room: living_room_2
+    location_phrase: null
+    grasp_hints:
+    - - -3.157
+      - -0.742
+      - 0.785
+    - - -3.207
+      - -0.792
+      - 0.785
+    - - -1.939
+      - -0.753
+      - 2.436
+    - - -3.257
+      - -0.641
+      - 0.587
+    extra_ops_vs_S1:
+    - search behind occluders
+    s2_kind: occluded
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    task_scope: single_room
+language:
+  L1: {}
+  L2: Get the egg and hold on to it.
+  L3: I'm working on prepare a filling breakfast and I need the egg. Could you get
+    it for me?
+available_language_levels:
+  S1:
+  - L2
+  - L3
+  S2:
+  - L2
+  - L3
+description_provenance:
+  missing_L1_reason: source location lacks an unambiguous description
+  missing_L1_spatial_levels:
+  - S1
+  - S2
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

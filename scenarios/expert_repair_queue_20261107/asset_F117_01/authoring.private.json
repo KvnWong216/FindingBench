@@ -1,0 +1,215 @@
+{
+  "id": "asset_F117_01",
+  "family": "semantic_F117",
+  "scene": "Beechwood_0_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_F117_01/scenario.yaml",
+  "scenario_sha256": "077f27ac86e902b6bc7c0b2c128016e69d19ded47888633bf8fb16d1202881ea",
+  "instruction": "Find a frying pan in the kitchen cookware storage and bring it to the counter in front of you in the kitchen for cooking.",
+  "target_key": "frying_pan/mhndon",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "bottom_cabinet_no_top_spojpj_1",
+  "destination_receptacle": "bottom_cabinet_no_top_spojpj_1",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+  "route": {
+    "start": [
+      -2.0500000000000003,
+      -7.8500000000000005,
+      -3.141592653589793
+    ],
+    "path_xy": [
+      [
+        -2.0500000000000003,
+        -7.8500000000000005
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 45,
+    "destination_approach_count": 45,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_no_top_spojpj_0",
+    "bottom_cabinet_no_top_spojpj_1"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_no_top_spojpj_1",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.5204984199165115,
+            0.7531039860750895,
+            0.17911914148513677
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.5224450731881762,
+            0.7549179755867688,
+            0.20087095049054082
+          ],
+          "meta__base_link_fillable_0_0_link#component:2": [
+            0.5274382344074289,
+            0.7559645053598338,
+            0.20778712613745862
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet_no_top/spojpj",
+          "scale": [
+            1.342672348022461,
+            1.2757941484451294,
+            1.4180110692977905
+          ],
+          "encrypted_asset_sha256": "b1a8387eba4405101e82da8fc1a934432b2f15dfaf23df29ca85b10f676830d9",
+          "metadata_sha256": "821af7f29773bfc2aa846ad7360069c7f643f3d0cf7d09e47400953b401bb4e3",
+          "root_orientation": [
+            0.0,
+            0.0,
+            -0.0003452669770922512,
+            0.9999999403953552
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_00": "meta__base_link_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_03": "meta__base_link_fillable_0_0_link#component:1",
+          "item_05": "meta__base_link_fillable_0_0_link#component:0",
+          "item_01": "meta__base_link_fillable_0_0_link#component:2",
+          "item_02": "meta__base_link_fillable_0_0_link#component:0",
+          "item_04": "meta__base_link_fillable_0_0_link#component:2",
+          "item_00": "meta__base_link_fillable_0_0_link#component:1"
+        }
+      },
+      {
+        "receptacle": "bottom_cabinet_no_top_spojpj_0",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.5207541439556291,
+            0.7053030264824561,
+            0.17911914148513677
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.5227017573190094,
+            0.7070015720064096,
+            0.20087095049054082
+          ],
+          "meta__base_link_fillable_0_0_link#component:2": [
+            0.5276973811713306,
+            0.7079814996467177,
+            0.20778712613745862
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet_no_top/spojpj",
+          "scale": [
+            1.3433345556259155,
+            1.1946014165878296,
+            1.4180110692977905
+          ],
+          "encrypted_asset_sha256": "b1a8387eba4405101e82da8fc1a934432b2f15dfaf23df29ca85b10f676830d9",
+          "metadata_sha256": "821af7f29773bfc2aa846ad7360069c7f643f3d0cf7d09e47400953b401bb4e3",
+          "root_orientation": [
+            0.0,
+            0.0,
+            -0.0003452669770922512,
+            0.9999999403953552
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_08": "meta__base_link_fillable_0_0_link",
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_08": "meta__base_link_fillable_0_0_link#component:0",
+          "item_07": "meta__base_link_fillable_0_0_link#component:1",
+          "item_06": "meta__base_link_fillable_0_0_link#component:2"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_03": "meta__base_link_fillable_0_0_link",
+      "item_05": "meta__base_link_fillable_0_0_link",
+      "item_01": "meta__base_link_fillable_0_0_link",
+      "item_02": "meta__base_link_fillable_0_0_link",
+      "item_04": "meta__base_link_fillable_0_0_link",
+      "item_00": "meta__base_link_fillable_0_0_link",
+      "item_08": "meta__base_link_fillable_0_0_link",
+      "item_07": "meta__base_link_fillable_0_0_link",
+      "item_06": "meta__base_link_fillable_0_0_link"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "F117",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F117_01",
+    "parent_task_id": "F117",
+    "before_instruction": "Find the frying pan in the kitchen pan storage that fits inside the large roasting pan on the counter, and put it beside the roasting pan.",
+    "after_instruction": "Find a frying pan in the kitchen cookware storage and bring it to the counter in front of you in the kitchen for cooking.",
+    "reason": "Removes unverified nesting compatibility with an unconstructed roasting pan; retains cookware selection. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "frying_pan/mhndon",
+    "target_assets": [
+      "frying_pan/mhndon"
+    ]
+  },
+  "binding_sha256": "12eb9262fc9e3c467955e3fd2a09644ddd3c480b68fe629c73f5121b970a31dd"
+}

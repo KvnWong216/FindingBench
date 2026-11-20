@@ -1,0 +1,75 @@
+{
+  "status": "editorial_revision_physics_pending",
+  "revision_id": "expert_editorial_20261110_P071",
+  "authorization": "user_approved_find_and_deliver_rewrite",
+  "reason": "The only native makeup mirror is 89 cm tall. The fitting wardrobe alternative is not openable; the openable wardrobe has no supporting floor in its only tall fillable component. Rebind this everyday grooming retrieval to a compact native hair dryer, keeping clutter, delivery goal, rooms and count.",
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_P071_01/scenario.yaml",
+  "original_archive": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/editorial_v23_P071/_editorial/asset_P071_01/original_scenario.yaml",
+  "original_scenario_sha256": "9490e60d556c21554f275a2df43ec20e92c1d9bf8c40289a9afe68b31f6fe5f4",
+  "revised_scenario_sha256": "4a7cdf3852a53c85ab56440cc21e661763fd7cba875aa82bb23c8c3d598219e9",
+  "before_instruction": "Find the makeup mirror among the bedroom dresser accessories and bring it to the counter in front of you in the bathroom in the bathroom.",
+  "after_instruction": "Find the hair dryer among the bedroom dresser accessories and bring it to the counter in front of you in the bathroom.",
+  "object_changes": [
+    {
+      "before": {
+        "name": "item_00",
+        "category": "makeup_mirror",
+        "model": "vtccbu"
+      },
+      "after": {
+        "name": "item_00",
+        "category": "hair_dryer",
+        "model": "qacdxx"
+      },
+      "native_bbox_m": [
+        0.17756060028076173,
+        0.18406785583496094,
+        0.06327257537841798
+      ],
+      "metadata_sha256": "dc03286f9ad4079d8291a5c6aeaaee3918cf6bfff35aafdbf621868cbb1e4819",
+      "encrypted_asset_sha256": "e24341065a7b97cb7a5e50036b2e80f3b673559499f3a7002c2aa57c6401e94b"
+    },
+    {
+      "before": {
+        "name": "search_storage",
+        "category": "nightstand",
+        "model": "roxnbe",
+        "fixed_base": true
+      },
+      "after": {
+        "name": "search_storage",
+        "category": "bottom_cabinet_no_top",
+        "model": "ncgmqr",
+        "fixed_base": true
+      },
+      "native_bbox_m": [
+        0.6237394104003906,
+        0.41669439697265626,
+        0.6957286682128906
+      ],
+      "metadata_sha256": "4f69836ec4373a572ddb8592f3f5f5e84e399b02a8b6553a4147db5c12cdb121",
+      "encrypted_asset_sha256": "654ec43b4fbdc16ab935e47e394df2e4452ea2ef8e5df804fc94faba3196f5a7"
+    }
+  ],
+  "before_target": {
+    "entity": "item_00",
+    "category": "makeup_mirror"
+  },
+  "after_target": {
+    "entity": "item_00",
+    "category": "hair_dryer"
+  },
+  "preserved": [
+    "find-and-deliver paradigm",
+    "goal entity and destination",
+    "scene",
+    "spawn",
+    "robot",
+    "skills",
+    "entity names and count",
+    "placement relations",
+    "target cardinality"
+  ],
+  "physical_validation_required": true,
+  "human_completion_verified": false
+}

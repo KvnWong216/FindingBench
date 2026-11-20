@@ -1,0 +1,311 @@
+{
+  "tasks": [
+    {
+      "id": "asset_U283_01",
+      "family": "semantic_U283",
+      "scene": "house_double_floor_lower",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/household_component_U283_20261114_U283_expert_43651aa17349/asset_U283_01/scenario.yaml",
+      "scenario_sha256": "b656faee15ef9b31cd06293b4e6ce0e5fbeda0826abb0f6c44a7611f3815915a",
+      "instruction": "Find a spare light bulb among the garden supply storage matching the sample on the table in front of you in the garden, and bring it to the same surface.",
+      "target_key": "light_bulb/sxkjea",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "garden_0",
+      "destination_room": "garden_0",
+      "source_receptacle": "search_storage",
+      "destination_receptacle": "delivery_surface",
+      "object_count": 13,
+      "distractor_count": 9,
+      "source_survey_sha256": "0a3f401e7605a056f40f88d913d8c052476ef760acf457ac11cb1f76abbe581f",
+      "route": {
+        "start": [
+          16.45,
+          3.5500000000000003,
+          3.141592653589793
+        ],
+        "path_xy": [
+          [
+            16.45,
+            3.5500000000000003
+          ],
+          [
+            16.55,
+            3.5500000000000003
+          ],
+          [
+            16.650000000000002,
+            3.5500000000000003
+          ],
+          [
+            16.75,
+            3.5500000000000003
+          ],
+          [
+            16.85,
+            3.5500000000000003
+          ],
+          [
+            16.95,
+            3.5500000000000003
+          ],
+          [
+            17.05,
+            3.5500000000000003
+          ],
+          [
+            17.150000000000002,
+            3.5500000000000003
+          ],
+          [
+            17.25,
+            3.5500000000000003
+          ],
+          [
+            17.35,
+            3.5500000000000003
+          ],
+          [
+            17.45,
+            3.5500000000000003
+          ],
+          [
+            17.55,
+            3.5500000000000003
+          ],
+          [
+            17.650000000000002,
+            3.5500000000000003
+          ],
+          [
+            17.75,
+            3.5500000000000003
+          ],
+          [
+            17.85,
+            3.5500000000000003
+          ],
+          [
+            17.95,
+            3.5500000000000003
+          ]
+        ],
+        "length_m": 1.5,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "editorial_revision_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "comparison_sample",
+        "comparison_negative_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [
+        {
+          "name": "search_storage",
+          "category": "shelf",
+          "model": "vanltx",
+          "floor": "floors_ghetev_0",
+          "position_xy": [
+            18.75,
+            3.6500000000000004
+          ],
+          "aabb": [
+            [
+              18.576926239013673,
+              3.0574854125976567,
+              0.014
+            ],
+            [
+              18.923073760986327,
+              4.242514587402344,
+              0.44211041259765627
+            ]
+          ],
+          "room": "garden_0"
+        },
+        {
+          "name": "delivery_surface",
+          "category": "breakfast_table",
+          "model": "iaritq",
+          "floor": "floors_ghetev_0",
+          "position_xy": [
+            15.55,
+            3.95
+          ],
+          "aabb": [
+            [
+              15.198999710083008,
+              3.599453765869141,
+              0.014
+            ],
+            [
+              15.901000289916993,
+              4.300546234130859,
+              0.7630009155273437
+            ]
+          ],
+          "room": "garden_0"
+        }
+      ],
+      "parent_task_id": "U283",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_U283_01",
+        "parent_task_id": "U283",
+        "before_instruction": "One spare garden light should match the light beside the garden table. Find it among the storage room's outdoor equipment and put it on the table beside that light.",
+        "after_instruction": "Find a spare light bulb among the garden supply storage matching the sample on the table in front of you in the garden, and bring it to the same surface.",
+        "reason": "Preserves the source/destination room types and the single-source-object matching requirement. Grounds the comparison sample on the uniquely initial-facing handoff surface; reference is not a goal target. Delivery is onto the reference-bearing surface; no unimplemented beside-distance predicate is claimed. Exact same-model sample and different-model negatives are explicitly instantiated. Source stock relocated to the garage because native house layouts provide garage-garden pairs, not storage-room-garden pairs; purpose and native objects retained. Layout revision uses a surveyed feasible geometry pair: garage/shelf -> garden/table becomes garden/shelf -> garden/table. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+        "target_asset": "light_bulb/sxkjea",
+        "target_assets": [
+          "light_bulb/sxkjea"
+        ],
+        "editorial_revision_id": "expert_household_component_rebinding_20261114_U283"
+      },
+      "binding_sha256": "ea7c783808f190a001401a73706aef0c9a64cb96f6386c2d0e3e728f85e413e8",
+      "proposal_native_policy_signature": "638901e57b44747045bd55ed10084fe82451f1075c4c28aa6f0af555449b389c",
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      },
+      "previous_binding_sha256": "c48a9f8a6c93a35a084287d4dd8244df4577e4b50b309122ec44c75b8b5c293a",
+      "editorial_revisions": [
+        {
+          "status": "editorial_revision_physics_pending",
+          "revision_id": "expert_household_component_rebinding_20261114_U283",
+          "authorization": "user_approved_find_and_deliver_rewrite",
+          "reason": "Both native garden_light assets are 58 to 80 cm complete stake-mounted outdoor lights, unstable as upright loose stock on the selected small shelf. Keep garden lighting maintenance and sample matching, but use an actual native spare light bulb with an exact matching sample and a distinct-model bulb distractor. Preserve all clutter, count, delivery surface, scene, spawn and matching relation. Native physics, uniqueness and independent reload are still required.",
+          "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/reviewed_followup_253_U283/asset_U283_01/scenario.yaml",
+          "original_archive": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/pinpoint_20261114/U283/household_component_v37/asset_U283_01/original_scenario.yaml",
+          "original_scenario_sha256": "1a6ef6ca784884ae23c392ff9f8c45fc14b5031c54b02db7fe08871e6507c425",
+          "revised_scenario_sha256": "d0f77020b14b8e0709039c322aed738c2c81236d97d32fde6b34b4019382dd3c",
+          "before_instruction": "Find a spare garden light among the garden supply storage matching the sample on the table in front of you in the garden, and bring it to the same surface.",
+          "after_instruction": "Find a spare light bulb among the garden supply storage matching the sample on the table in front of you in the garden, and bring it to the same surface.",
+          "object_changes": [
+            {
+              "before": {
+                "name": "item_00",
+                "category": "garden_light",
+                "model": "xqmqmi"
+              },
+              "after": {
+                "name": "item_00",
+                "category": "light_bulb",
+                "model": "sxkjea"
+              },
+              "native_bbox_m": [
+                0.10724404907226563,
+                0.06141041564941407,
+                0.061603235244750976
+              ],
+              "metadata_sha256": "7ef3457dfb454fcbf67d3979dd8ebad629c8b6f949e2fbf6264d0e8a264c7963",
+              "encrypted_asset_sha256": "5b9baf1abba0db78bfc8d141dbe2bde130b34cf356ed7d3fbb3902b5d1aa1ca6"
+            },
+            {
+              "before": {
+                "name": "comparison_sample",
+                "category": "garden_light",
+                "model": "xqmqmi"
+              },
+              "after": {
+                "name": "comparison_sample",
+                "category": "light_bulb",
+                "model": "sxkjea"
+              },
+              "native_bbox_m": [
+                0.10724404907226563,
+                0.06141041564941407,
+                0.061603235244750976
+              ],
+              "metadata_sha256": "7ef3457dfb454fcbf67d3979dd8ebad629c8b6f949e2fbf6264d0e8a264c7963",
+              "encrypted_asset_sha256": "5b9baf1abba0db78bfc8d141dbe2bde130b34cf356ed7d3fbb3902b5d1aa1ca6"
+            },
+            {
+              "before": {
+                "name": "comparison_negative_0",
+                "category": "garden_light",
+                "model": "qyfrwj"
+              },
+              "after": {
+                "name": "comparison_negative_0",
+                "category": "light_bulb",
+                "model": "kfmkwd"
+              },
+              "native_bbox_m": [
+                0.11297541809082032,
+                0.0701750602722168,
+                0.06897804832458496
+              ],
+              "metadata_sha256": "1cdd48b5994bc37ddea25f4694b2ee4bd9352a3f3c00ee94a4b2386fc048b1fe",
+              "encrypted_asset_sha256": "e2fcd2fbd519407e50d84f0ddaa1b3409d891c07952089b5979663fd1d446c13"
+            }
+          ],
+          "surface_binding_changes": [],
+          "before_goal": [
+            {
+              "kind": "on_top",
+              "entity": "item_00",
+              "receptacle": "delivery_surface"
+            }
+          ],
+          "after_goal": [
+            {
+              "kind": "on_top",
+              "entity": "item_00",
+              "receptacle": "delivery_surface"
+            }
+          ],
+          "before_target": {
+            "entity": "item_00",
+            "category": "garden_light"
+          },
+          "after_target": {
+            "entity": "item_00",
+            "category": "light_bulb"
+          },
+          "preserved": [
+            "find-and-deliver paradigm",
+            "goal entity and relation",
+            "scene",
+            "spawn",
+            "robot",
+            "skills",
+            "entity names and count",
+            "placement relations",
+            "target cardinality"
+          ],
+          "physical_validation_required": true,
+          "human_completion_verified": false
+        }
+      ]
+    }
+  ]
+}

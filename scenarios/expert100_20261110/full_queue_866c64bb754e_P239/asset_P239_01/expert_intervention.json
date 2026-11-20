@@ -1,0 +1,315 @@
+{
+  "status": "static_screened_physics_pending",
+  "expert_policy": {
+    "method": "relocate_storage",
+    "clear_unstated_links": false,
+    "plan_surfaces": true,
+    "runtime_changes": [
+      "closed_native_bbox_XY",
+      "disjoint_measured_support_patches",
+      "bounded_CUDA_candidate_domains"
+    ],
+    "original_instruction_retained": true,
+    "explicit_location_scope_retained": true,
+    "diagnosis": "native_placement",
+    "reason": "placement failed verification after physics settled: ['item_00 inside bottom_cabinet_nnvyol_1', 'item_01 inside bottom_cabinet_nnvyol_1', 'item_02 inside bottom_cabinet_nnvyol_1', 'item_03 inside bottom_cabinet_nnvyol_1', 'item_04 inside bottom_cabinet_nnvyol_1', 'item_07 inside bottom_cabinet_nnvyol_2', 'item_08 inside bottom_cabinet_nnvyol_2', 'item_09 inside bottom_cabinet_nnvyol_2']"
+  },
+  "partial_authoring_steps": [
+    {
+      "status": "static_partial_not_native_ready",
+      "old_storage": "bottom_cabinet_nnvyol_1",
+      "new_storage": {
+        "name": "expert_storage_80",
+        "category": "bottom_cabinet_no_top",
+        "model": "vzzafs",
+        "floor": "floors_kjptjl_0",
+        "position_xy": [
+          4.05,
+          9.55
+        ],
+        "aabb": [
+          [
+            3.7236359405517576,
+            9.32351139831543,
+            0.0
+          ],
+          [
+            4.3763640594482425,
+            9.776488601684571,
+            0.8682071838378906
+          ]
+        ],
+        "room": "bathroom_0"
+      },
+      "released_compiler_links": [],
+      "replaced_failed_auxiliary_fixture": false,
+      "previous_auxiliary_asset": null,
+      "conservative_opening_clearance_m": 0.0,
+      "opening_sweep_requires_native_measurement": true,
+      "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/full_queue_866c64bb754e_P239/_working/step_0/asset_P239_01/scenario.yaml",
+      "original_sha256": "7471a238dccfd3e4f38bb67b898ff6900d3159e4b6c363fdd57dfb9cbfdfc44e",
+      "diagnosis_directory": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_gpu_new_20261106/asset_P239_01",
+      "solver": {
+        "status": "feasible_model",
+        "device": "cuda",
+        "backend": "torch_cuda_finite_csp",
+        "solve_seconds": 0.016988004557788372,
+        "nodes": 7,
+        "candidate_tests": 463525,
+        "grid_m": 0.001,
+        "margin_m": 0.015,
+        "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+        "physical_validation_required": true,
+        "assignment": {
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link"
+        },
+        "poses": {
+          "item_01": {
+            "bin": "meta__base_link_fillable_0_0_link",
+            "yaw_degrees": 90,
+            "lower_xy_m": [
+              0.015,
+              0.015
+            ],
+            "footprint_m": [
+              0.366,
+              0.01
+            ],
+            "center_xy_m": [
+              0.198,
+              0.02
+            ]
+          },
+          "item_04": {
+            "bin": "meta__base_link_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.396,
+              0.015
+            ],
+            "footprint_m": [
+              0.065,
+              0.065
+            ],
+            "center_xy_m": [
+              0.4285,
+              0.0475
+            ]
+          },
+          "item_05": {
+            "bin": "meta__base_link_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.04
+            ],
+            "footprint_m": [
+              0.265,
+              0.249
+            ],
+            "center_xy_m": [
+              0.1475,
+              0.1645
+            ]
+          },
+          "item_06": {
+            "bin": "meta__base_link_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.295,
+              0.04
+            ],
+            "footprint_m": [
+              0.08600000000000001,
+              0.085
+            ],
+            "center_xy_m": [
+              0.338,
+              0.0825
+            ]
+          },
+          "item_03": {
+            "bin": "meta__base_link_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.396,
+              0.095
+            ],
+            "footprint_m": [
+              0.091,
+              0.015
+            ],
+            "center_xy_m": [
+              0.4415,
+              0.10250000000000001
+            ]
+          },
+          "item_00": {
+            "bin": "meta__base_link_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.396,
+              0.125
+            ],
+            "footprint_m": [
+              0.068,
+              0.021
+            ],
+            "center_xy_m": [
+              0.43,
+              0.1355
+            ]
+          },
+          "item_02": {
+            "bin": "meta__base_link_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.47600000000000003,
+              0.015
+            ],
+            "footprint_m": [
+              0.005,
+              0.033
+            ],
+            "center_xy_m": [
+              0.47850000000000004,
+              0.0315
+            ]
+          }
+        }
+      },
+      "variant": 80,
+      "preserved": [
+        "instruction",
+        "goal",
+        "target",
+        "robot",
+        "spawn",
+        "all task items and counts",
+        "relation types"
+      ]
+    },
+    {
+      "status": "static_screened_physics_pending",
+      "old_storage": "bottom_cabinet_nnvyol_2",
+      "new_storage": {
+        "name": "expert_storage_81",
+        "category": "bottom_cabinet_no_top",
+        "model": "vzzafs",
+        "floor": "floors_kjptjl_0",
+        "position_xy": [
+          1.05,
+          9.65
+        ],
+        "aabb": [
+          [
+            0.7236359405517578,
+            9.42351139831543,
+            0.0
+          ],
+          [
+            1.3763640594482422,
+            9.87648860168457,
+            0.8682071838378906
+          ]
+        ],
+        "room": "bathroom_0"
+      },
+      "released_compiler_links": [],
+      "replaced_failed_auxiliary_fixture": false,
+      "previous_auxiliary_asset": null,
+      "conservative_opening_clearance_m": 0.0,
+      "opening_sweep_requires_native_measurement": true,
+      "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/full_queue_866c64bb754e_P239/_working/step_1/asset_P239_01/scenario.yaml",
+      "original_sha256": "d13a43dd8aee0efc9b645c8ca84d11763470455eb49f5324e35d462b23e07e62",
+      "diagnosis_directory": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_gpu_new_20261106/asset_P239_01",
+      "solver": {
+        "status": "feasible_model",
+        "device": "cuda",
+        "backend": "torch_cuda_finite_csp",
+        "solve_seconds": 0.0012772311456501484,
+        "nodes": 0,
+        "candidate_tests": 0,
+        "grid_m": 0.001,
+        "margin_m": 0.015,
+        "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+        "physical_validation_required": true,
+        "assignment": {
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link",
+          "item_09": "meta__base_link_fillable_0_0_link"
+        },
+        "poses": {
+          "item_07": {
+            "bin": "meta__base_link_fillable_0_0_link",
+            "yaw_degrees": 90,
+            "lower_xy_m": [
+              0.015,
+              0.015
+            ],
+            "footprint_m": [
+              0.07100000000000001,
+              0.01
+            ],
+            "center_xy_m": [
+              0.0505,
+              0.02
+            ]
+          },
+          "item_08": {
+            "bin": "meta__base_link_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.04
+            ],
+            "footprint_m": [
+              0.17500000000000002,
+              0.07100000000000001
+            ],
+            "center_xy_m": [
+              0.10250000000000001,
+              0.07550000000000001
+            ]
+          },
+          "item_09": {
+            "bin": "meta__base_link_fillable_0_0_link",
+            "yaw_degrees": 90,
+            "lower_xy_m": [
+              0.015,
+              0.126
+            ],
+            "footprint_m": [
+              0.088,
+              0.057
+            ],
+            "center_xy_m": [
+              0.059,
+              0.1545
+            ]
+          }
+        },
+        "constructive_witness": "single strip; exact quantized box and clearance checks"
+      },
+      "variant": 81,
+      "preserved": [
+        "instruction",
+        "goal",
+        "target",
+        "robot",
+        "spawn",
+        "all task items and counts",
+        "relation types"
+      ]
+    }
+  ],
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_P239_01/scenario.yaml",
+  "removed_compiler_links": [],
+  "physical_validation_required": true
+}

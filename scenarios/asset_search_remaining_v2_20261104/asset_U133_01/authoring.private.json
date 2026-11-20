@@ -1,0 +1,186 @@
+{
+  "id": "asset_U133_01",
+  "family": "semantic_U133",
+  "scene": "house_double_floor_lower",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_U133_01/scenario.yaml",
+  "scenario_sha256": "0fd4ad539ec7b4800884f55790f4310faea2b32734edb871d440bfedb10e3118",
+  "instruction": "Bring the wind chime from the garden storage to the table in front of you in the garden; I am preparing the seasonal decorations.",
+  "target_key": "wind_chime/tghelo",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "garden_0",
+  "destination_room": "garden_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 11,
+  "distractor_count": 8,
+  "source_survey_sha256": "0a3f401e7605a056f40f88d913d8c052476ef760acf457ac11cb1f76abbe581f",
+  "route": {
+    "start": [
+      16.45,
+      3.5500000000000003,
+      3.141592653589793
+    ],
+    "path_xy": [
+      [
+        16.45,
+        3.5500000000000003
+      ],
+      [
+        16.55,
+        3.5500000000000003
+      ],
+      [
+        16.650000000000002,
+        3.5500000000000003
+      ],
+      [
+        16.75,
+        3.5500000000000003
+      ],
+      [
+        16.85,
+        3.5500000000000003
+      ],
+      [
+        16.95,
+        3.5500000000000003
+      ],
+      [
+        17.05,
+        3.5500000000000003
+      ],
+      [
+        17.150000000000002,
+        3.5500000000000003
+      ],
+      [
+        17.25,
+        3.5500000000000003
+      ],
+      [
+        17.35,
+        3.5500000000000003
+      ],
+      [
+        17.45,
+        3.5500000000000003
+      ],
+      [
+        17.55,
+        3.5500000000000003
+      ],
+      [
+        17.650000000000002,
+        3.5500000000000003
+      ],
+      [
+        17.75,
+        3.5500000000000003
+      ],
+      [
+        17.85,
+        3.5500000000000003
+      ],
+      [
+        17.95,
+        3.5500000000000003
+      ]
+    ],
+    "length_m": 1.5,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_ghetev_0",
+      "position_xy": [
+        18.75,
+        3.45
+      ],
+      "aabb": [
+        [
+          18.582855239868163,
+          3.1077120208740237,
+          0.014
+        ],
+        [
+          18.917144760131837,
+          3.7922879791259767,
+          0.6986599731445313
+        ]
+      ],
+      "room": "garden_0"
+    },
+    {
+      "name": "delivery_surface",
+      "category": "breakfast_table",
+      "model": "iaritq",
+      "floor": "floors_ghetev_0",
+      "position_xy": [
+        15.55,
+        3.95
+      ],
+      "aabb": [
+        [
+          15.198999710083008,
+          3.599453765869141,
+          0.014
+        ],
+        [
+          15.901000289916993,
+          4.300546234130859,
+          0.7630009155273437
+        ]
+      ],
+      "room": "garden_0"
+    }
+  ],
+  "parent_task_id": "U133",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_U133_01",
+    "parent_task_id": "U133",
+    "before_instruction": "I want to put the wind chime back up for the season. Find it among the garden's stored accessories and put it on the garden table beside the door.",
+    "after_instruction": "Bring the wind chime from the garden storage to the table in front of you in the garden; I am preparing the seasonal decorations.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; A wind chime can contain multiple hanging articulated pieces; rigid graspable subtype and stable movable-object eligibility have not been certified. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+    "target_asset": "wind_chime/tghelo",
+    "target_assets": [
+      "wind_chime/tghelo"
+    ]
+  },
+  "binding_sha256": "499b93eaa962d4584eedb7f47be62a90810d3ad0e62afe6cd74a3236abed4520"
+}

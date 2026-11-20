@@ -1,0 +1,174 @@
+{
+  "id": "asset_F054_01",
+  "family": "semantic_F054",
+  "scene": "house_double_floor_lower",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_F054_01/scenario.yaml",
+  "scenario_sha256": "cdf74fe3e2633d49ccdfa3a4c6ee6784e85ae430dd1e20fbb3014ea514905eec",
+  "instruction": "Find the takeout box among the containers in the kitchen refrigerator and put it on the table in front of you in the kitchen.",
+  "target_key": "box_of_takeout/bvcopi",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "fridge_petcxr_0",
+  "destination_receptacle": "breakfast_table_xftrki_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "0a3f401e7605a056f40f88d913d8c052476ef760acf457ac11cb1f76abbe581f",
+  "route": {
+    "start": [
+      5.050000000000001,
+      2.6500000000000004,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        5.050000000000001,
+        2.6500000000000004
+      ],
+      [
+        5.050000000000001,
+        2.5500000000000003
+      ],
+      [
+        5.050000000000001,
+        2.45
+      ],
+      [
+        5.15,
+        2.45
+      ],
+      [
+        5.25,
+        2.45
+      ],
+      [
+        5.3500000000000005,
+        2.45
+      ],
+      [
+        5.45,
+        2.45
+      ],
+      [
+        5.45,
+        2.35
+      ],
+      [
+        5.550000000000001,
+        2.35
+      ],
+      [
+        5.550000000000001,
+        2.25
+      ],
+      [
+        5.550000000000001,
+        2.15
+      ],
+      [
+        5.550000000000001,
+        2.0500000000000003
+      ],
+      [
+        5.550000000000001,
+        1.9500000000000002
+      ],
+      [
+        5.550000000000001,
+        1.85
+      ],
+      [
+        5.550000000000001,
+        1.75
+      ],
+      [
+        5.550000000000001,
+        1.6500000000000001
+      ],
+      [
+        5.550000000000001,
+        1.55
+      ],
+      [
+        5.550000000000001,
+        1.4500000000000002
+      ],
+      [
+        5.550000000000001,
+        1.35
+      ],
+      [
+        5.550000000000001,
+        1.25
+      ],
+      [
+        5.550000000000001,
+        1.1500000000000001
+      ],
+      [
+        5.550000000000001,
+        1.05
+      ],
+      [
+        5.550000000000001,
+        0.9500000000000001
+      ],
+      [
+        5.550000000000001,
+        0.8500000000000001
+      ],
+      [
+        5.65,
+        0.8500000000000001
+      ]
+    ],
+    "length_m": 2.4,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "fridge_petcxr_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "parent_task_id": "F054",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F054_01",
+    "parent_task_id": "F054",
+    "before_instruction": "Find the takeout box among the containers in the kitchen refrigerator and put it on the kitchen table beside the empty plate.",
+    "after_instruction": "Find the takeout box among the containers in the kitchen refrigerator and put it on the table in front of you in the kitchen.",
+    "reason": "The identified delivery surface is grounded by the initial facing direction; decorative destination landmarks are omitted. Target identity, requested cardinality and source/destination room types are retained.",
+    "target_asset": "box_of_takeout/bvcopi",
+    "target_assets": [
+      "box_of_takeout/bvcopi"
+    ]
+  },
+  "binding_sha256": "bfd92504da997308c63279b594f2ad77d882897b5e98a1d708dc10ef700bf9e8"
+}

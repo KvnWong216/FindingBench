@@ -1,0 +1,206 @@
+{
+  "method": "remove_conflicting_non_task_background_fixture",
+  "reason": "The previous passage-clearance translation puts the empty bottom_cabinet_slgzfc_0 through bottom_cabinet_jhymlr_0; native contact audits confirm inter-cabinet collisions. Remove that non-task cabinet together with its non-task speaker to avoid leaving an unsupported background object. Keep the contacted declared-closed cabinet, every original task object, goals, instruction, initial-state requirements and spawn. The removed cabinet has no task contents and is not used as any target/reference/source/destination.",
+  "removed_objects": [
+    "bottom_cabinet_slgzfc_0",
+    "loudspeaker_bmpdyv_0"
+  ],
+  "removed_body_geometry": {
+    "bottom_cabinet_slgzfc_0": {
+      "category": "bottom_cabinet",
+      "model": "slgzfc",
+      "fixed_base": true,
+      "openable": true,
+      "graspable": false,
+      "in_rooms": [
+        "entryway_0"
+      ],
+      "aabb": [
+        [
+          1.135,
+          -1.248,
+          0.006
+        ],
+        [
+          1.683,
+          -0.162,
+          0.845
+        ]
+      ],
+      "room_at_center": "living_room_0",
+      "support": {
+        "kind": "inside_volume",
+        "lo": [
+          1.2124104499816895,
+          -1.1673579216003418,
+          0.6911680698394775
+        ],
+        "hi": [
+          1.6360819339752197,
+          -0.2424665093421936,
+          0.7994412183761597
+        ]
+      },
+      "interiors": [
+        {
+          "link": "link_1",
+          "lo": [
+            1.2176003456115723,
+            -1.1673578023910522,
+            0.06191416457295418
+          ],
+          "hi": [
+            1.6412718296051025,
+            -0.24246644973754883,
+            0.17018724977970123
+          ]
+        },
+        {
+          "link": "link_2",
+          "lo": [
+            1.2176004648208618,
+            -1.1673579216003418,
+            0.27166563272476196
+          ],
+          "hi": [
+            1.6412718296051025,
+            -0.2424665093421936,
+            0.3799387216567993
+          ]
+        },
+        {
+          "link": "link_3",
+          "lo": [
+            1.192790150642395,
+            -1.1673579216003418,
+            0.4814165234565735
+          ],
+          "hi": [
+            1.6164615154266357,
+            -0.2424665093421936,
+            0.5896896123886108
+          ]
+        },
+        {
+          "link": "link_4",
+          "lo": [
+            1.2124104499816895,
+            -1.1673579216003418,
+            0.6911680698394775
+          ],
+          "hi": [
+            1.6360819339752197,
+            -0.2424665093421936,
+            0.7994412183761597
+          ]
+        }
+      ],
+      "articulated": true
+    },
+    "loudspeaker_bmpdyv_0": {
+      "category": "loudspeaker",
+      "model": "bmpdyv",
+      "fixed_base": false,
+      "openable": false,
+      "graspable": true,
+      "in_rooms": [
+        "living_room_0"
+      ],
+      "aabb": [
+        [
+          1.401,
+          -1.134,
+          0.844
+        ],
+        [
+          1.87,
+          -0.642,
+          1.119
+        ]
+      ],
+      "room_at_center": "living_room_0"
+    }
+  },
+  "source_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/reviewed_followup_010_U135/asset_U135_01/scenario.yaml",
+  "source_sha256": "de65a04f6bf4baff81a95c9161f68b49b95d4c873ba5cb0c9eaaa38b23cb2a18",
+  "failure_evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_lane2_20261111/reviewed_followup_010_U135/asset_U135_01",
+  "native_log_sha256": "58353e6c2b0e7fb695adf4ae2a97a8623b1b7217d781fa73a65c9fa1238b7a5d",
+  "original_manifest": {
+    "scene_model": "Rs_int",
+    "status": "kitchen_route_replayed",
+    "wall_warps": [
+      {
+        "entity": "walls_exiopd_0",
+        "axis": 0,
+        "source": [
+          0.44983063494079834,
+          1.3202400272885222,
+          2.1000101345713347
+        ],
+        "target": [
+          0.44983063494079834,
+          1.85,
+          2.1000101345713347
+        ]
+      }
+    ],
+    "translations": [
+      {
+        "entity": "bottom_cabinet_slgzfc_0",
+        "delta": [
+          -0.17,
+          -2.9,
+          0
+        ]
+      }
+    ],
+    "purpose": "Widen kitchen entrance to approximately 1.4m; relocate the intact empty target cabinet to cleared living-room space. | vla_difficulty_v2: plus the six non-task living-room removals of the store_honey_open_route derivation (runs/clearance_honey_validation), so the start area is not enclosed by chairs.",
+    "validation_report": "runs/clearance_honey_validation/report.json",
+    "removed_objects": [
+      "straight_chair_amgwaw_0",
+      "straight_chair_amgwaw_1",
+      "straight_chair_amgwaw_2",
+      "straight_chair_eospnr_0",
+      "straight_chair_eospnr_1",
+      "breakfast_table_skczfi_0"
+    ],
+    "derived_from": "build/behavior/clearance/Rs_int.json"
+  },
+  "new_manifest": {
+    "scene_model": "Rs_int",
+    "status": "expert_background_contact_repair_physics_pending",
+    "wall_warps": [
+      {
+        "entity": "walls_exiopd_0",
+        "axis": 0,
+        "source": [
+          0.44983063494079834,
+          1.3202400272885222,
+          2.1000101345713347
+        ],
+        "target": [
+          0.44983063494079834,
+          1.85,
+          2.1000101345713347
+        ]
+      }
+    ],
+    "translations": [],
+    "purpose": "Widen kitchen entrance to approximately 1.4m; relocate the intact empty target cabinet to cleared living-room space. | vla_difficulty_v2: plus the six non-task living-room removals of the store_honey_open_route derivation (runs/clearance_honey_validation), so the start area is not enclosed by chairs.",
+    "validation_report": "runs/clearance_honey_validation/report.json",
+    "removed_objects": [
+      "bottom_cabinet_slgzfc_0",
+      "breakfast_table_skczfi_0",
+      "loudspeaker_bmpdyv_0",
+      "straight_chair_amgwaw_0",
+      "straight_chair_amgwaw_1",
+      "straight_chair_amgwaw_2",
+      "straight_chair_eospnr_0",
+      "straight_chair_eospnr_1"
+    ],
+    "derived_from": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/build/vla_difficulty_v2/clearance/Rs_int.json",
+    "expert_scene_translations": []
+  },
+  "physical_validation_required": true,
+  "full_skill_completion": "unverified"
+}

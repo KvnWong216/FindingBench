@@ -1,0 +1,23 @@
+Traceback (most recent call last):
+  File "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scripts/v2/expert_storage_repair.py", line 1737, in handle
+    return request(payload)
+           ^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scripts/v2/expert_storage_repair.py", line 1692, in request
+    result,info=expert_proposal(row,case['evidence'],out,policy=case['expert_policy'],variant=payload.get('variant',10))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scripts/v2/expert_storage_repair.py", line 1590, in expert_proposal
+    result,info=curate(row,evidence,out,variant=variant,allow_patch_support=True,prefer_constructed=True)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scripts/v2/expert_storage_repair.py", line 775, in curate
+    packed=compartment_assignment(entity,items,kind,native_size=True,allow_patch_support=allow_patch_support,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scripts/v2/expert_storage_repair.py", line 579, in compartment_assignment
+    solved=solve_layout(items,allowed,fixed,margin_m=.015,time_limit_s=1.)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/src/rummagebench/sim/omnigibson/inside_volume.py", line 1321, in solve_layout
+    return copy.deepcopy(_solve_layout_gpu_cached(tuple((n,tuple(v)) for n,v in sorted(items.items())),
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/src/rummagebench/sim/omnigibson/inside_volume.py", line 1197, in _solve_layout_gpu_cached
+    candidates=th.stack([b,x,y,widths,heights,rot],-1)[valid]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.00 MiB. GPU 0 has a total capacity of 23.55 GiB of which 1.19 MiB is free. Process 1677208 has 302.00 MiB memory in use. Process 1677225 has 300.00 MiB memory in use. Process 2149148 has 18.73 GiB memory in use. Process 2149880 has 3.43 GiB memory in use. Including non-PyTorch memory, this process has 300.00 MiB memory in use. Of the allocated memory 1.59 MiB is allocated by PyTorch, and 416.00 KiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

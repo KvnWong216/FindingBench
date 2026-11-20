@@ -1,0 +1,424 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F062_01",
+      "family": "semantic_F062",
+      "scene": "house_single_floor",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_10_F062_expert_af780492c411/asset_F062_01/scenario.yaml",
+      "scenario_sha256": "9324459da9e7ba26634b8198255dd7dd6ab036cc6d12a9098f192c2269fc2b95",
+      "instruction": "Find the beef broth carton among the kitchen cartons and put it on the counter in front of you in the kitchen for cooking.",
+      "target_key": "beef_broth_carton/ecqxgd",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "kitchen_0",
+      "destination_room": "kitchen_0",
+      "source_receptacle": "bottom_cabinet_no_top_gjeoer_0",
+      "destination_receptacle": "countertop_kelker_0",
+      "object_count": 9,
+      "distractor_count": 8,
+      "source_survey_sha256": "14714104a089f0a43cdebe256d01d697215fe5627c0e2fcb55a030a71a1fb2a5",
+      "route": {
+        "start": [
+          5.0,
+          1.4000000000000001,
+          -1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            5.0,
+            1.4000000000000001
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "bottom_cabinet_no_top_rkgjer_0",
+        "bottom_cabinet_no_top_gjeoer_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_no_top_gjeoer_0",
+            "volume_extents_m": {
+              "meta__base_link_fillable_0_0_link#component:0": [
+                0.5612621141256355,
+                1.392786301860543,
+                0.31808635890158254
+              ],
+              "meta__base_link_fillable_0_0_link#component:1": [
+                0.5612609054223452,
+                1.3927860868369875,
+                0.29428167702715446
+              ],
+              "meta__base_link_fillable_0_0_link#component:2": [
+                0.5579978261278609,
+                1.3855120469089781,
+                0.29428168573782737
+              ],
+              "meta__base_link_fillable_0_0_link#component:3": [
+                0.5579995380099554,
+                1.3855139291145446,
+                0.31808653770956963
+              ]
+            },
+            "native_links": {
+              "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:3": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet_no_top/gjeoer",
+              "scale": [
+                0.9999522566795349,
+                1.0000033378601074,
+                0.9999667406082153
+              ],
+              "encrypted_asset_sha256": "f8f1816ad2fa5bbf1c4af20033ddfb0f15b8b9220c1d54bbe811d3b38e51819a",
+              "metadata_sha256": "11f3ae3677938b0a8e371605884720d59276a24f4122fd868c3155599a16819e",
+              "root_orientation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "assignment": {
+              "item_00": "meta__base_link_fillable_0_0_link",
+              "item_01": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_03": "meta__base_link_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_00": "meta__base_link_fillable_0_0_link#component:0",
+              "item_01": "meta__base_link_fillable_0_0_link#component:3",
+              "item_02": "meta__base_link_fillable_0_0_link#component:0",
+              "item_05": "meta__base_link_fillable_0_0_link#component:3",
+              "item_04": "meta__base_link_fillable_0_0_link#component:1",
+              "item_03": "meta__base_link_fillable_0_0_link#component:2"
+            }
+          },
+          {
+            "receptacle": "bottom_cabinet_no_top_rkgjer_0",
+            "volume_extents_m": {
+              "meta__base_link_fillable_0_0_link#component:0": [
+                1.197059004458582,
+                0.6536733792825575,
+                0.29427582829195353
+              ],
+              "meta__base_link_fillable_0_0_link#component:1": [
+                1.1970595169173073,
+                0.6536768959093322,
+                0.31807402030939713
+              ],
+              "meta__base_link_fillable_0_0_link#component:2": [
+                1.2024834890008476,
+                0.6533580749497101,
+                0.3180744876977688
+              ],
+              "meta__base_link_fillable_0_0_link#component:3": [
+                1.2024829227147038,
+                0.6533553733648436,
+                0.29427583482482744
+              ]
+            },
+            "native_links": {
+              "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:3": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet_no_top/rkgjer",
+              "scale": [
+                1.0000126361846924,
+                0.9999865293502808,
+                0.9999390840530396
+              ],
+              "encrypted_asset_sha256": "5ac73a7ed77f580b81ca5433145544c59507bdc6b94aae93554a7f4bdda0e15d",
+              "metadata_sha256": "a4c12df7d7ef3ba98c0a2e18a7f42f57fe0944915992648562b6ca478f0cc612",
+              "root_orientation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "assignment": {
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_06": "meta__base_link_fillable_0_0_link#component:2",
+              "item_07": "meta__base_link_fillable_0_0_link#component:3",
+              "item_08": "meta__base_link_fillable_0_0_link#component:0"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link",
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link"
+        },
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [
+        {
+          "scene": "Ihlen_1_int",
+          "source": "bottom_cabinet_no_top_ufhpbn_0",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_ufhpbn_0",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.45320796966552734,
+                    0.18560361862182617,
+                    0.6547667682170868
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "item_04",
+                  "item_05",
+                  "item_06",
+                  "item_07",
+                  "item_08"
+                ]
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Pomaria_1_int",
+          "source": "bottom_cabinet_no_top_ufhpbn_0",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_ufhpbn_0",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.2084658145904541,
+                    0.47002530097961426,
+                    0.6547667682170868
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "item_04",
+                  "item_05"
+                ]
+              },
+              {
+                "receptacle": "bottom_cabinet_no_top_vzzafs_0",
+                "volume_extents_m": {
+                  "meta__base_link_fillable_0_0_link": [
+                    0.4682353269382784,
+                    0.35746334360017995,
+                    0.6820272216287624
+                  ]
+                },
+                "native_links": {
+                  "meta__base_link_fillable_0_0_link": "meta__base_link_fillable_0_0_link"
+                },
+                "geometry_source": "offline_asset_hint",
+                "geometry_provenance": {
+                  "asset": "bottom_cabinet_no_top/vzzafs",
+                  "scale": [
+                    0.880458414554596,
+                    0.9137324690818787,
+                    1.0244098901748657
+                  ],
+                  "encrypted_asset_sha256": "b4daa08616feaef1a73fc5cb01bcd60c278fad77ff3d5bda42d007a631e01515",
+                  "metadata_sha256": "f0ba45ae134ef2c37866c9bb0186200606042fb03eafed9783116a94253ac4bf",
+                  "root_orientation": [
+                    0.0,
+                    0.0,
+                    0.9999911785125732,
+                    -0.004201833158731461
+                  ],
+                  "coordinates": "size_only_not_world_positions",
+                  "physical_validation_required": true
+                },
+                "status": "heuristic_fit",
+                "assignment": {
+                  "item_06": "meta__base_link_fillable_0_0_link",
+                  "item_07": "meta__base_link_fillable_0_0_link",
+                  "item_08": "meta__base_link_fillable_0_0_link"
+                },
+                "component_allocation": {
+                  "item_06": "meta__base_link_fillable_0_0_link",
+                  "item_07": "meta__base_link_fillable_0_0_link",
+                  "item_08": "meta__base_link_fillable_0_0_link"
+                }
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        }
+      ],
+      "parent_task_id": "F062",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F062_01",
+        "parent_task_id": "F062",
+        "before_instruction": "Find the beef broth carton among the kitchen cartons and put it beside the empty saucepan on the counter.",
+        "after_instruction": "Find the beef broth carton among the kitchen cartons and put it on the counter in front of you in the kitchen for cooking.",
+        "reason": "Explicit first-tranche grounding: native storage and initial-facing destination replace uninstantiated decorative reference props; no new semantic-task count.",
+        "target_asset": "beef_broth_carton/ecqxgd",
+        "target_assets": [
+          "beef_broth_carton/ecqxgd"
+        ]
+      },
+      "surface_binding_revision": {
+        "status": "surface_body_binding_corrected_physics_pending",
+        "changes": [
+          {
+            "field": "goal",
+            "entity": "item_00",
+            "before": "bottom_cabinet_no_top_gjeoer_0",
+            "after": "countertop_kelker_0"
+          }
+        ],
+        "destination_approach_patch": {
+          "contact_body": "countertop_kelker_0",
+          "above_fixture": "bottom_cabinet_no_top_gjeoer_0",
+          "aabb": [
+            [
+              3.868,
+              -1.613,
+              0.851
+            ],
+            [
+              4.485,
+              1.201,
+              0.888
+            ]
+          ],
+          "scope": "private route proposal to a subset of the actual slab; no synthetic body"
+        },
+        "geometry": {
+          "bottom_cabinet_no_top_gjeoer_0": {
+            "before": [
+              [
+                3.868,
+                -1.613,
+                0.12
+              ],
+              [
+                4.485,
+                1.201,
+                0.851
+              ]
+            ],
+            "after": [
+              [
+                3.868,
+                -2.201,
+                0.851
+              ],
+              [
+                4.494,
+                1.211,
+                0.888
+              ]
+            ]
+          }
+        },
+        "source_survey": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/vla_difficulty_v2/_survey/house_single_floor.json",
+        "source_survey_sha256": "14714104a089f0a43cdebe256d01d697215fe5627c0e2fcb55a030a71a1fb2a5",
+        "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert_profile_repairs_20261108/asset_F062_01/scenario.yaml",
+        "original_scenario_sha256": "d79f6a11faec9128641e86b33eeef1c3539e7ff10c5c9978708c27a9a8a5be2d",
+        "reason": "Native OnTop requires touching the named body; a separate measured slab covers the named cabinet.",
+        "preserved": [
+          "instruction",
+          "all object models and counts",
+          "target identities",
+          "relation kinds",
+          "spawn",
+          "robot and skills",
+          "physical delivery location"
+        ],
+        "physical_validation_required": true
+      }
+    }
+  ]
+}

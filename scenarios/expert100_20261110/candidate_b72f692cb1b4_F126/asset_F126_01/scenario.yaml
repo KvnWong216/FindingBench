@@ -1,0 +1,169 @@
+id: asset_F126_01
+instruction: Find maple syrup and honey in the kitchen food-storage area and bring
+  both to the table in front of you in the kitchen for choosing a pancake topping.
+scene:
+  model: Beechwood_0_int
+  source: behavior
+  clearance_manifest: /home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/build/vla_difficulty_v2/clearance/Beechwood_0_int.json
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - 0.25
+    - -8.55
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - 0.0
+    - 1.0
+target:
+  entity: item_00
+  category: maple_syrup_jar
+objects:
+- name: item_00
+  category: maple_syrup_jar
+  model: wigtue
+- name: item_01
+  category: honey_jar
+  model: dhgtvg
+- name: item_02
+  category: jelly_jar
+  model: lrjoro
+- name: item_03
+  category: peanut_butter_jar
+  model: xdxqxj
+- name: item_04
+  category: sugar_syrup_bottle
+  model: kdlbbq
+- name: item_05
+  category: bottle_of_chocolate_sauce
+  model: tsyldw
+- name: item_06
+  category: bottle_of_maple_syrup
+  model: qfgewi
+- name: item_07
+  category: bottle_of_molasses
+  model: jvsjop
+- name: item_08
+  category: bottle_of_peanut_butter
+  model: edcvwr
+- name: item_09
+  category: chocolate_sauce_bottle
+  model: yegrkf
+placements:
+- entity: item_00
+  relation: on_top
+  receptacle: countertop_tpuwys_0
+  position_xy:
+  - -0.04300000000000001
+  - -6.965
+- entity: item_01
+  relation: on_top
+  receptacle: countertop_tpuwys_0
+  position_xy:
+  - 0.1605
+  - -6.9885
+- entity: item_02
+  relation: on_top
+  receptacle: countertop_tpuwys_0
+  position_xy:
+  - 0.3404999999999999
+  - -6.9885
+- entity: item_03
+  relation: on_top
+  receptacle: countertop_tpuwys_0
+  position_xy:
+  - 0.5205
+  - -6.9885
+- entity: item_04
+  relation: on_top
+  receptacle: countertop_tpuwys_0
+  position_xy:
+  - 0.661
+  - -7.0280000000000005
+- entity: item_05
+  relation: on_top
+  receptacle: countertop_tpuwys_0
+  position_xy:
+  - 0.774
+  - -7.016
+- entity: item_06
+  relation: on_top
+  receptacle: countertop_tpuwys_0
+  position_xy:
+  - 0.9139999999999999
+  - -7.001
+- entity: item_07
+  relation: on_top
+  receptacle: countertop_tpuwys_0
+  position_xy:
+  - 1.0445
+  - -7.0255
+- entity: item_08
+  relation: on_top
+  receptacle: countertop_tpuwys_0
+  position_xy:
+  - 1.1500000000000001
+  - -7.026
+- entity: item_09
+  relation: on_top
+  receptacle: countertop_tpuwys_0
+  position_xy:
+  - 1.2530000000000001
+  - -7.0280000000000005
+initial_states: {}
+goal:
+- kind: on_top
+  entity: item_00
+  receptacle: breakfast_table_uhrsex_0
+- kind: on_top
+  entity: item_01
+  receptacle: breakfast_table_uhrsex_0
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

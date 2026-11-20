@@ -1,0 +1,924 @@
+{
+  "tasks": [
+    {
+      "id": "asset_P069_01",
+      "family": "semantic_P069",
+      "scene": "Rs_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/oriented_stock_v95_P069_20261115_P069/asset_P069_01/scenario.yaml",
+      "scenario_sha256": "0ed6c2af8634eefd959f68499efcce3ad82aaf4fd2748cbd44246598caa1c279",
+      "instruction": "There is a sample on the table in front of you in the living room. Find the toy figure matching that sample in the entryway storage and bring it to the table in front of you in the living room in the living room.",
+      "target_key": "toy_figure/issvzv",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "entryway_0",
+      "destination_room": "living_room_0",
+      "source_receptacle": "search_work_surface",
+      "destination_receptacle": "breakfast_table_skczfi_1",
+      "object_count": 13,
+      "distractor_count": 10,
+      "source_survey_sha256": "24bd47925e994c3defe707f3d8a919b355cd46a7128d2b59d373bc2697d8185e",
+      "route": {
+        "start": [
+          1.1,
+          -3.0,
+          -3.141592653589793
+        ],
+        "path_xy": [
+          [
+            1.1,
+            -3.0
+          ],
+          [
+            1.1,
+            -2.9000000000000004
+          ],
+          [
+            1.1,
+            -2.8000000000000003
+          ],
+          [
+            1.1,
+            -2.7
+          ],
+          [
+            1.0,
+            -2.7
+          ],
+          [
+            0.9,
+            -2.7
+          ],
+          [
+            0.9,
+            -2.6
+          ],
+          [
+            0.9,
+            -2.5
+          ],
+          [
+            0.8,
+            -2.5
+          ],
+          [
+            0.8,
+            -2.4000000000000004
+          ],
+          [
+            0.8,
+            -2.3000000000000003
+          ],
+          [
+            0.8,
+            -2.2
+          ],
+          [
+            0.8,
+            -2.1
+          ],
+          [
+            0.8,
+            -2.0
+          ],
+          [
+            0.8,
+            -1.9000000000000001
+          ],
+          [
+            0.8,
+            -1.8
+          ],
+          [
+            0.7000000000000001,
+            -1.8
+          ],
+          [
+            0.7000000000000001,
+            -1.7000000000000002
+          ],
+          [
+            0.7000000000000001,
+            -1.6
+          ],
+          [
+            0.7000000000000001,
+            -1.5
+          ],
+          [
+            0.7000000000000001,
+            -1.4000000000000001
+          ],
+          [
+            0.7000000000000001,
+            -1.3
+          ],
+          [
+            0.7000000000000001,
+            -1.2000000000000002
+          ],
+          [
+            0.7000000000000001,
+            -1.1
+          ],
+          [
+            0.7000000000000001,
+            -1.0
+          ],
+          [
+            0.7000000000000001,
+            -0.9
+          ],
+          [
+            0.7000000000000001,
+            -0.8
+          ],
+          [
+            0.7000000000000001,
+            -0.7000000000000001
+          ],
+          [
+            0.7000000000000001,
+            -0.6000000000000001
+          ],
+          [
+            0.7000000000000001,
+            -0.5
+          ],
+          [
+            0.7000000000000001,
+            -0.4
+          ],
+          [
+            0.7000000000000001,
+            -0.30000000000000004
+          ],
+          [
+            0.7000000000000001,
+            -0.2
+          ],
+          [
+            0.7000000000000001,
+            -0.1
+          ],
+          [
+            0.7000000000000001,
+            0.0
+          ],
+          [
+            0.7000000000000001,
+            0.1
+          ],
+          [
+            0.8,
+            0.1
+          ],
+          [
+            0.8,
+            0.2
+          ],
+          [
+            0.9,
+            0.2
+          ],
+          [
+            0.9,
+            0.30000000000000004
+          ],
+          [
+            1.0,
+            0.30000000000000004
+          ],
+          [
+            1.1,
+            0.30000000000000004
+          ],
+          [
+            1.1,
+            0.4
+          ],
+          [
+            1.1,
+            0.5
+          ],
+          [
+            1.1,
+            0.6000000000000001
+          ],
+          [
+            1.1,
+            0.7000000000000001
+          ],
+          [
+            1.1,
+            0.8
+          ],
+          [
+            1.1,
+            0.9
+          ],
+          [
+            1.1,
+            1.0
+          ],
+          [
+            1.1,
+            1.1
+          ],
+          [
+            1.1,
+            1.2000000000000002
+          ],
+          [
+            1.1,
+            1.3
+          ],
+          [
+            1.1,
+            1.4000000000000001
+          ],
+          [
+            1.1,
+            1.5
+          ],
+          [
+            1.1,
+            1.6
+          ]
+        ],
+        "length_m": 5.4,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 12,
+        "destination_approach_count": 24,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "editorial_revision_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "comparison_sample",
+        "comparison_negative_0",
+        "comparison_negative_1"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [
+        {
+          "name": "search_work_surface",
+          "category": "desk",
+          "model": "ztsyqx",
+          "floor": "floors_gjemfr_0",
+          "position_xy": [
+            1.2000000000000002,
+            2.8000000000000003
+          ],
+          "aabb": [
+            [
+              0.899952117919922,
+              2.4279883422851567,
+              -0.0
+            ],
+            [
+              1.5000478820800782,
+              3.172011657714844,
+              0.7847920227050782
+            ]
+          ],
+          "room": "entryway_0"
+        }
+      ],
+      "parent_task_id": "P069",
+      "tier": "long",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_P069_01",
+        "parent_task_id": "P069",
+        "before_instruction": "Find the toy car with the number 7 on its roof among the entryway bench compartments and place it on the living-room play mat next to the toy garage.",
+        "after_instruction": "There is a sample on the table in front of you in the living room. Find the toy figure matching that sample in the entryway storage and bring it to the table in front of you in the living room in the living room.",
+        "reason": "Replaces unverified roof number 7 and toy-garage landmark with direct model selection. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "toy_figure/issvzv",
+        "target_assets": [
+          "toy_figure/issvzv"
+        ],
+        "editorial_revision_id": "expert_native_household_size_20261114_P069"
+      },
+      "binding_sha256": "11f0f908974b95e274575a0dfbec5b6353a429df0a3103b71bfba34a02f9abf9",
+      "previous_binding_sha256": "df6cc6ca95e1792529b1a5e61a498d10a6d67fed61653441ad632e278de03811",
+      "editorial_revisions": [
+        {
+          "status": "editorial_revision_physics_pending",
+          "revision_id": "expert_native_household_size_20261114_P069",
+          "authorization": "user_approved_find_and_deliver_rewrite",
+          "reason": "All four native toy cars are 45\u201389 cm long; use three distinct native handheld toy figures while retaining exact sample matching, clutter, entity counts, rooms and delivery.",
+          "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_P069_01/scenario.yaml",
+          "original_archive": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/pinpoint_20261115/P069/reviewed_stock_v75_editorial/asset_P069_01/original_scenario.yaml",
+          "original_scenario_sha256": "d9f30bf66a5fc65b24a392c6734b66c44a80a914e5c2450be5783448962220fe",
+          "revised_scenario_sha256": "c9481f339f15514b6047dbca40f2ac31ede5e4a8073fd0127ef7529b6be926fe",
+          "before_instruction": "There is a sample on the table in front of you in the living room. Find the toy car matching that sample in the entryway storage and bring it to the table in front of you in the living room in the living room.",
+          "after_instruction": "There is a sample on the table in front of you in the living room. Find the toy figure matching that sample in the entryway storage and bring it to the table in front of you in the living room in the living room.",
+          "object_changes": [
+            {
+              "before": {
+                "name": "item_00",
+                "category": "toy_car",
+                "model": "ksijjl"
+              },
+              "after": {
+                "name": "item_00",
+                "category": "toy_figure",
+                "model": "issvzv"
+              },
+              "native_bbox_m": [
+                0.14876868438720703,
+                0.1061657485961914,
+                0.14032323986291886
+              ],
+              "metadata_sha256": "e996251a9110e82552cbf297b000805b8ab1fc1a09e21cb1c679daefbb0fe809",
+              "encrypted_asset_sha256": "38c189e0cca398ef25b8d5df781446b22ff7ebf3577c236a171d198d3b24138a"
+            },
+            {
+              "before": {
+                "name": "comparison_sample",
+                "category": "toy_car",
+                "model": "ksijjl"
+              },
+              "after": {
+                "name": "comparison_sample",
+                "category": "toy_figure",
+                "model": "issvzv"
+              },
+              "native_bbox_m": [
+                0.14876868438720703,
+                0.1061657485961914,
+                0.14032323986291886
+              ],
+              "metadata_sha256": "e996251a9110e82552cbf297b000805b8ab1fc1a09e21cb1c679daefbb0fe809",
+              "encrypted_asset_sha256": "38c189e0cca398ef25b8d5df781446b22ff7ebf3577c236a171d198d3b24138a"
+            },
+            {
+              "before": {
+                "name": "comparison_negative_0",
+                "category": "toy_car",
+                "model": "dgnnin"
+              },
+              "after": {
+                "name": "comparison_negative_0",
+                "category": "toy_figure",
+                "model": "fekpjq"
+              },
+              "native_bbox_m": [
+                0.103241455078125,
+                0.11427047729492187,
+                0.08317471694946289
+              ],
+              "metadata_sha256": "996b4e092ecb1f299a8fa8c0a2fcf5c88f3afdb994b400194ca45226270c5290",
+              "encrypted_asset_sha256": "5df40943f4fddb6d9e95e7c9ac92504cb4a2091c9b5d8dee0427978f08d9b961"
+            },
+            {
+              "before": {
+                "name": "comparison_negative_1",
+                "category": "toy_car",
+                "model": "nhtywr"
+              },
+              "after": {
+                "name": "comparison_negative_1",
+                "category": "toy_figure",
+                "model": "cqeowc"
+              },
+              "native_bbox_m": [
+                0.11246259212493896,
+                0.1539401626586914,
+                0.07903120422363281
+              ],
+              "metadata_sha256": "9446e7c5c3ef25798c55cfa0838208a1d18f07ddc8090e5058ba9ebd17950915",
+              "encrypted_asset_sha256": "dacd3948acd72958ce03cb7d1f9a3328ec833ed1287883bf6927d0b3e367c6e6"
+            }
+          ],
+          "surface_binding_changes": [],
+          "before_goal": [
+            {
+              "kind": "on_top",
+              "entity": "item_00",
+              "receptacle": "breakfast_table_skczfi_1"
+            }
+          ],
+          "after_goal": [
+            {
+              "kind": "on_top",
+              "entity": "item_00",
+              "receptacle": "breakfast_table_skczfi_1"
+            }
+          ],
+          "before_target": {
+            "entity": "item_00",
+            "category": "toy_car"
+          },
+          "after_target": {
+            "entity": "item_00",
+            "category": "toy_figure"
+          },
+          "preserved": [
+            "find-and-deliver paradigm",
+            "goal entity and relation",
+            "scene",
+            "spawn",
+            "robot",
+            "skills",
+            "entity names and count",
+            "placement relations",
+            "target cardinality"
+          ],
+          "physical_validation_required": true,
+          "human_completion_verified": false
+        }
+      ],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      },
+      "source_layout_revisions": [
+        {
+          "method": "expert_reauthored_generic_storage_on_open_work_surface",
+          "source_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/pinpoint_20261115/P069/reviewed_stock_v75_editorial/asset_P069_01/scenario.yaml",
+          "source_sha256": "c9481f339f15514b6047dbca40f2ac31ede5e4a8073fd0127ef7529b6be926fe",
+          "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_full_20261105/asset_P069_01",
+          "relation_changes": [
+            {
+              "before": {
+                "entity": "item_00",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_00",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  0.9994521179199221,
+                  3.0694883422851564
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_01",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_01",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  1.434452117919922,
+                  2.4914883422851566
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_02",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_02",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  1.276952117919922,
+                  3.0649883422851567
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_03",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_03",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  1.429452117919922,
+                  2.7889883422851565
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_04",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_04",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  1.378952117919922,
+                  3.0434883422851566
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_05",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_05",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  1.432952117919922,
+                  2.6939883422851567
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_06",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_06",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  1.129452117919922,
+                  2.9199883422851567
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_07",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_07",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  1.147952117919922,
+                  2.638488342285157
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_08",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_08",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  1.434452117919922,
+                  2.593488342285157
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "comparison_negative_0",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "comparison_negative_0",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  1.150952117919922,
+                  3.073488342285157
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "comparison_negative_1",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "comparison_negative_1",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  1.415452117919922,
+                  2.925988342285157
+                ]
+              }
+            }
+          ],
+          "removed_unused_authored_fixtures": [
+            "search_storage"
+          ],
+          "flat_stock_stacks": [],
+          "stack_footprint_envelopes_m": {},
+          "source_surface": "search_work_surface",
+          "plans": [
+            {
+              "receptacle": "search_work_surface",
+              "entities": [
+                "item_00",
+                "item_01",
+                "item_02",
+                "item_03",
+                "item_04",
+                "item_05",
+                "item_06",
+                "item_07",
+                "item_08",
+                "comparison_negative_0",
+                "comparison_negative_1"
+              ],
+              "solver": {
+                "status": "feasible_model",
+                "device": "cuda",
+                "backend": "torch_cuda_finite_csp",
+                "solve_seconds": 0.04399497201666236,
+                "nodes": 11,
+                "candidate_tests": 915788,
+                "search_orders_tried": 1,
+                "grid_m": 0.001,
+                "margin_m": 0.025,
+                "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+                "physical_validation_required": true,
+                "assignment": {
+                  "item_07": "surface",
+                  "item_06": "surface",
+                  "comparison_negative_1": "surface",
+                  "item_00": "surface",
+                  "comparison_negative_0": "surface",
+                  "item_02": "surface",
+                  "item_01": "surface",
+                  "item_08": "surface",
+                  "item_05": "surface",
+                  "item_03": "surface",
+                  "item_04": "surface"
+                },
+                "poses": {
+                  "item_07": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.025,
+                      0.025
+                    ],
+                    "footprint_m": [
+                      0.446,
+                      0.371
+                    ],
+                    "center_xy_m": [
+                      0.248,
+                      0.2105
+                    ]
+                  },
+                  "item_06": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.025,
+                      0.421
+                    ],
+                    "footprint_m": [
+                      0.40900000000000003,
+                      0.14200000000000002
+                    ],
+                    "center_xy_m": [
+                      0.2295,
+                      0.492
+                    ]
+                  },
+                  "comparison_negative_1": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.459,
+                      0.421
+                    ],
+                    "footprint_m": [
+                      0.113,
+                      0.154
+                    ],
+                    "center_xy_m": [
+                      0.5155,
+                      0.498
+                    ]
+                  },
+                  "item_00": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.025,
+                      0.588
+                    ],
+                    "footprint_m": [
+                      0.149,
+                      0.107
+                    ],
+                    "center_xy_m": [
+                      0.0995,
+                      0.6415
+                    ]
+                  },
+                  "comparison_negative_0": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.199,
+                      0.588
+                    ],
+                    "footprint_m": [
+                      0.10400000000000001,
+                      0.115
+                    ],
+                    "center_xy_m": [
+                      0.251,
+                      0.6455
+                    ]
+                  },
+                  "item_02": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.328,
+                      0.588
+                    ],
+                    "footprint_m": [
+                      0.098,
+                      0.098
+                    ],
+                    "center_xy_m": [
+                      0.377,
+                      0.637
+                    ]
+                  },
+                  "item_01": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.496,
+                      0.025
+                    ],
+                    "footprint_m": [
+                      0.077,
+                      0.077
+                    ],
+                    "center_xy_m": [
+                      0.5345,
+                      0.0635
+                    ]
+                  },
+                  "item_08": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.496,
+                      0.127
+                    ],
+                    "footprint_m": [
+                      0.077,
+                      0.077
+                    ],
+                    "center_xy_m": [
+                      0.5345,
+                      0.1655
+                    ]
+                  },
+                  "item_05": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.496,
+                      0.229
+                    ],
+                    "footprint_m": [
+                      0.074,
+                      0.074
+                    ],
+                    "center_xy_m": [
+                      0.533,
+                      0.266
+                    ]
+                  },
+                  "item_03": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.496,
+                      0.328
+                    ],
+                    "footprint_m": [
+                      0.067,
+                      0.066
+                    ],
+                    "center_xy_m": [
+                      0.5295,
+                      0.361
+                    ]
+                  },
+                  "item_04": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.451,
+                      0.6
+                    ],
+                    "footprint_m": [
+                      0.056,
+                      0.031
+                    ],
+                    "center_xy_m": [
+                      0.47900000000000004,
+                      0.6155
+                    ]
+                  }
+                },
+                "authoring_spacing_attempts": [
+                  {
+                    "margin_m": 0.025,
+                    "grid_m": 0.001,
+                    "status": "feasible_model",
+                    "reason": null
+                  }
+                ]
+              },
+              "measured_scene_obstacles": [],
+              "physical_validation_required": true
+            }
+          ],
+          "source_room": "entryway_0",
+          "reviewed_initial_placement": {
+            "before": {
+              "position": [
+                1.1,
+                -3.0,
+                0.0053
+              ],
+              "orientation": [
+                0,
+                0,
+                -1.0,
+                6.123233995736766e-17
+              ]
+            },
+            "after": {
+              "position": [
+                1.1,
+                -3.0,
+                0.0053
+              ],
+              "orientation": [
+                0.0,
+                0.0,
+                -1.0,
+                6.123233995736766e-17
+              ]
+            },
+            "reason": "Keep a unique forward delivery table after explicitly reauthoring generic source storage on a work surface.",
+            "displacement_m": 0.0,
+            "same_initial_room": true,
+            "physical_validation_required": true
+          },
+          "reviewed_source_scope": "Find the  matching that sample in the entryway storage ",
+          "reason": "Task names generic storage rather than an enclosed receptacle. Large household equipment and containers are stored on a real work surface among the same unchanged clutter; retain task meaning and all native physical checks.",
+          "physical_validation_required": true,
+          "human_completion_verified": false
+        }
+      ]
+    }
+  ]
+}

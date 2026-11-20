@@ -1,0 +1,118 @@
+task_id: X02006
+family: place_in
+scene: Pomaria_2_int
+source:
+  official_activity: store_baking_soda#0
+  official_activities_with_same_subgoal:
+  - store_baking_soda#0
+  official_subgoal: (inside box__of__baking_soda.n.01 cabinet.n.01)
+  reuse: official sub-goal re-used as the task goal
+  scene: BEHAVIOR-1K Pomaria_2_int
+  object: BEHAVIOR-1K box_of_baking_soda/pskrgy
+start:
+  name: start_bedroom_0_0
+  room: bedroom_0
+  x: -1.87
+  y: 1.2
+  yaw: -1.758
+target:
+  entity: target_obj
+  category: box_of_baking_soda
+  model: pskrgy
+  noun: box of baking soda
+  colour_estimate: orange
+goal:
+- kind: inside
+  entity: target_obj
+  receptacle: bottom_cabinet_no_top_qohxjq_1
+place_hints:
+- - -0.257
+  - 3.659
+  - -0.571
+- - -0.307
+  - 3.405
+  - -0.07
+- - -0.357
+  - 3.151
+  - 0.0
+- - -0.407
+  - 2.695
+  - 0.314
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S1
+- S3
+missing_spatial_levels:
+- S2
+initial_states:
+  bottom_cabinet_no_top_qohxjq_1:
+    open: false
+spatial:
+  S1:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bookcase_vgzdul_0
+    room: bedroom_0
+    location_phrase: the bookcase next to the bed in the bedroom
+    grasp_hints:
+    - - -1.985
+      - -1.169
+      - -1.571
+    - - -1.935
+      - -1.119
+      - -1.571
+    - - -2.136
+      - -1.119
+      - -1.387
+    - - -1.885
+      - -1.069
+      - -1.642
+    extra_ops_vs_S1: []
+    probe_visibility_from_start:
+      px: 62
+      delta_e: 42.0
+    task_scope: cross_room
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bottom_cabinet_no_top_qohxjq_0
+    room: bathroom_0
+    location_phrase: the corner cabinet next to the sinks in the bathroom
+    grasp_hints:
+    - - -0.142
+      - 2.658
+      - -1.199
+    - - -0.293
+      - 2.708
+      - -1.073
+    - - -0.494
+      - 2.708
+      - -0.908
+    - - -0.092
+      - 2.708
+      - -1.272
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    task_scope: cross_room
+    route_from_start_steps: 6
+language:
+  L1:
+    S1: First go and open the cabinet between the two sinks in the bathroom. Go to
+      the bookcase next to the bed in the bedroom, pick up the box of baking soda
+      on it. Then put it in the cabinet between the two sinks in the bathroom.
+    S3: First go and open the cabinet between the two sinks in the bathroom. Leave
+      the bedroom, go to the corner cabinet next to the sinks in the bathroom, pick
+      up the box of baking soda on it. Then put it in the cabinet between the two
+      sinks in the bathroom.
+  L2: Place the box of baking soda in the cabinet between the two sinks in the bathroom.
+  L3: I'm working on store baking soda. Could you store the box of baking soda in
+    the cabinet between the two sinks in the bathroom for me?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

@@ -1,0 +1,421 @@
+{
+  "tasks": [
+    {
+      "id": "asset_P106_01",
+      "family": "semantic_P106",
+      "scene": "house_double_floor_upper",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/staged_v31_P106/asset_P106_01/scenario.yaml",
+      "scenario_sha256": "0726619b079b11290c322a2c318d60ec347c9d45835e70d29fdc740d82fe6209",
+      "instruction": "Find the phone, keys and wallet in the bedroom dresser drawers and put all three on the cabinet top in front of you in the bedroom before I go out.",
+      "target_key": "cell_phone/dbhfuh",
+      "target_entities": [
+        "item_00",
+        "item_01",
+        "item_02"
+      ],
+      "target_count": 3,
+      "source_room": "bedroom_2",
+      "destination_room": "bedroom_2",
+      "source_receptacle": "expert_storage_11",
+      "destination_receptacle": "bottom_cabinet_nddvba_0",
+      "object_count": 12,
+      "distractor_count": 8,
+      "source_survey_sha256": "bad4111136351f4ccb189cc8da21449e65bb285de15b8c94024c1d045abd820a",
+      "route": {
+        "start": [
+          5.300000000000001,
+          -3.8000000000000003,
+          -3.141592653589793
+        ],
+        "path_xy": [
+          [
+            5.300000000000001,
+            -3.8000000000000003
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 34,
+        "destination_approach_count": 14,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "item_09",
+        "item_10",
+        "bottom_cabinet_nddvba_0",
+        "expert_storage_11"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "expert_storage_11",
+          "category": "bottom_cabinet",
+          "model": "bamfsz",
+          "floor": "floors_dcxicr_0",
+          "position_xy": [
+            4.5,
+            -3.4000000000000004
+          ],
+          "aabb": [
+            [
+              4.273457824707031,
+              -3.615280570983887,
+              0.0
+            ],
+            [
+              4.726542175292969,
+              -3.1847194290161136,
+              0.5425187683105469
+            ]
+          ],
+          "room": "bedroom_2"
+        }
+      ],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "expert_storage_11",
+            "volume_extents_m": {
+              "meta__link_1_fillable_0_0_link": [
+                0.3636389226425012,
+                0.35760286045074463,
+                0.16590549134926458
+              ],
+              "meta__link_2_fillable_0_0_link": [
+                0.36083231040335595,
+                0.36367266964912415,
+                0.07200003650784437
+              ],
+              "meta__link_3_fillable_0_0_link": [
+                0.35854086937132057,
+                0.36297681522369385,
+                0.02700003399327411
+              ],
+              "meta__link_4_fillable_0_0_link": [
+                0.3579644626368419,
+                0.3631394166946411,
+                0.02700004433095321
+              ]
+            },
+            "native_links": {
+              "meta__link_1_fillable_0_0_link": "meta__link_1_fillable_0_0_link",
+              "meta__link_2_fillable_0_0_link": "meta__link_2_fillable_0_0_link",
+              "meta__link_3_fillable_0_0_link": "meta__link_3_fillable_0_0_link",
+              "meta__link_4_fillable_0_0_link": "meta__link_4_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet/bamfsz",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "a98da154c304668361e5daeed5844eaa1be5f88f30decc62c51ab146be91c60a",
+              "metadata_sha256": "799c29283726b3515c27196518d33b0888e653b894de2626a32ddd77cbc461a1",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.061259740963578224,
+              "nodes": 11,
+              "candidate_tests": 517485,
+              "search_orders_tried": 1,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_06": "meta__link_2_fillable_0_0_link",
+                "item_07": "meta__link_1_fillable_0_0_link",
+                "item_04": "meta__link_1_fillable_0_0_link",
+                "item_10": "meta__link_2_fillable_0_0_link",
+                "item_02": "meta__link_1_fillable_0_0_link",
+                "item_05": "meta__link_3_fillable_0_0_link",
+                "item_08": "meta__link_4_fillable_0_0_link",
+                "item_00": "meta__link_3_fillable_0_0_link",
+                "item_01": "meta__link_2_fillable_0_0_link",
+                "item_03": "meta__link_4_fillable_0_0_link",
+                "item_09": "meta__link_4_fillable_0_0_link"
+              },
+              "poses": {
+                "item_06": {
+                  "bin": "meta__link_2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.126,
+                    0.277
+                  ],
+                  "center_xy_m": [
+                    0.068,
+                    0.14350000000000002
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__link_1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.167,
+                    0.192
+                  ],
+                  "center_xy_m": [
+                    0.0885,
+                    0.101
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__link_1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.177,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.059000000000000004,
+                    0.156
+                  ],
+                  "center_xy_m": [
+                    0.20650000000000002,
+                    0.083
+                  ]
+                },
+                "item_10": {
+                  "bin": "meta__link_2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.136,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.059000000000000004,
+                    0.156
+                  ],
+                  "center_xy_m": [
+                    0.1655,
+                    0.083
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__link_1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.177,
+                    0.166
+                  ],
+                  "footprint_m": [
+                    0.129,
+                    0.089
+                  ],
+                  "center_xy_m": [
+                    0.2415,
+                    0.2105
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__link_3_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.081,
+                    0.154
+                  ],
+                  "center_xy_m": [
+                    0.0455,
+                    0.082
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__link_4_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.081,
+                    0.154
+                  ],
+                  "center_xy_m": [
+                    0.0455,
+                    0.082
+                  ]
+                },
+                "item_00": {
+                  "bin": "meta__link_3_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.091,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.14100000000000001,
+                    0.083
+                  ],
+                  "center_xy_m": [
+                    0.1615,
+                    0.0465
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__link_2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.2,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.049,
+                    0.065
+                  ],
+                  "center_xy_m": [
+                    0.2245,
+                    0.0375
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__link_4_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.091,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.031,
+                    0.031
+                  ],
+                  "center_xy_m": [
+                    0.1065,
+                    0.0205
+                  ]
+                },
+                "item_09": {
+                  "bin": "meta__link_4_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.127,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.031,
+                    0.031
+                  ],
+                  "center_xy_m": [
+                    0.14250000000000002,
+                    0.0205
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_06": "meta__link_2_fillable_0_0_link",
+              "item_07": "meta__link_1_fillable_0_0_link",
+              "item_04": "meta__link_1_fillable_0_0_link",
+              "item_10": "meta__link_2_fillable_0_0_link",
+              "item_02": "meta__link_1_fillable_0_0_link",
+              "item_05": "meta__link_3_fillable_0_0_link",
+              "item_08": "meta__link_4_fillable_0_0_link",
+              "item_00": "meta__link_3_fillable_0_0_link",
+              "item_01": "meta__link_2_fillable_0_0_link",
+              "item_03": "meta__link_4_fillable_0_0_link",
+              "item_09": "meta__link_4_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_06": "meta__link_2_fillable_0_0_link",
+              "item_07": "meta__link_1_fillable_0_0_link",
+              "item_04": "meta__link_1_fillable_0_0_link",
+              "item_10": "meta__link_2_fillable_0_0_link",
+              "item_02": "meta__link_1_fillable_0_0_link",
+              "item_05": "meta__link_3_fillable_0_0_link",
+              "item_08": "meta__link_4_fillable_0_0_link",
+              "item_00": "meta__link_3_fillable_0_0_link",
+              "item_01": "meta__link_2_fillable_0_0_link",
+              "item_03": "meta__link_4_fillable_0_0_link",
+              "item_09": "meta__link_4_fillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_06": "meta__link_2_fillable_0_0_link",
+          "item_07": "meta__link_1_fillable_0_0_link",
+          "item_04": "meta__link_1_fillable_0_0_link",
+          "item_10": "meta__link_2_fillable_0_0_link",
+          "item_02": "meta__link_1_fillable_0_0_link",
+          "item_05": "meta__link_3_fillable_0_0_link",
+          "item_08": "meta__link_4_fillable_0_0_link",
+          "item_00": "meta__link_3_fillable_0_0_link",
+          "item_01": "meta__link_2_fillable_0_0_link",
+          "item_03": "meta__link_4_fillable_0_0_link",
+          "item_09": "meta__link_4_fillable_0_0_link"
+        },
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [
+        {
+          "scene": "Pomaria_2_int",
+          "source": "bottom_cabinet_rntwkg_0",
+          "reason": "Previously failed source layout"
+        }
+      ],
+      "parent_task_id": "P106",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_P106_01",
+        "parent_task_id": "P106",
+        "before_instruction": "Find the cell phone, rigid wallet, and house-tagged keys among the bedroom dresser and nightstand storage; put all three on the bed-foot bench.",
+        "after_instruction": "Find the phone, keys and wallet in the bedroom dresser drawers and put all three on the cabinet top in front of you in the bedroom before I go out.",
+        "reason": "Preserves the three-item packing list; removes unverified rigid wallet, house tag and a second hypothetical source. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "cell_phone/dbhfuh",
+        "target_assets": [
+          "cell_phone/dbhfuh",
+          "keys/olymng",
+          "wallet/lagjae"
+        ]
+      },
+      "proposal_native_policy_signature": "54e310d67c2709059af81bec4ab688b7e5ef712bf1dd6e618e9868e567523d10",
+      "storage_model_experience": []
+    }
+  ]
+}

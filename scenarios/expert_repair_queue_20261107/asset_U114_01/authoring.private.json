@@ -1,0 +1,75 @@
+{
+  "id": "asset_U114_01",
+  "family": "semantic_U114",
+  "scene": "Pomaria_0_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_U114_01/scenario.yaml",
+  "scenario_sha256": "a62e669be0b7b2c549b425fcc6fa0764e8bd76a9624c5776334d7c53db654525",
+  "instruction": "Find the geode in the cupboards in this private office and put it on the desk in front of you.",
+  "target_key": "geode/shxbue",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "private_office_0",
+  "destination_room": "private_office_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 1,
+  "distractor_count": 0,
+  "source_survey_sha256": "5f126672121f241779c0ea9705424fa8ac90469f422772fc224ad7184f7883fc",
+  "route": {
+    "start": [
+      -6.7,
+      -0.2,
+      0.0
+    ],
+    "path_xy": [
+      [
+        -6.7,
+        -0.2
+      ],
+      [
+        -6.7,
+        -0.30000000000000004
+      ],
+      [
+        -6.7,
+        -0.4
+      ],
+      [
+        -6.7,
+        -0.5
+      ],
+      [
+        -6.7,
+        -0.6000000000000001
+      ],
+      [
+        -6.800000000000001,
+        -0.6000000000000001
+      ]
+    ],
+    "length_m": 0.5,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 13,
+    "destination_approach_count": 40,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate"
+}

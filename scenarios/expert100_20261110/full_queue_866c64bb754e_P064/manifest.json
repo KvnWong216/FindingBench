@@ -1,0 +1,502 @@
+{
+  "tasks": [
+    {
+      "id": "asset_P064_01",
+      "family": "semantic_P064",
+      "scene": "house_double_floor_upper",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/full_queue_866c64bb754e_P064/asset_P064_01/scenario.yaml",
+      "scenario_sha256": "001ffda45ccc849119525acea1422e5e2572830a91f3cc20b89ee9b2578b291f",
+      "instruction": "There is a sample on the cabinet top in front of you in the bedroom. Find the trophy matching that sample in the living-room display cabinet and bring it to the cabinet top in front of you in the bedroom in the bedroom.",
+      "target_key": "trophy/hlktkb",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "living_room_0",
+      "destination_room": "bedroom_0",
+      "source_receptacle": "expert_storage_80",
+      "destination_receptacle": "delivery_surface",
+      "object_count": 15,
+      "distractor_count": 10,
+      "source_survey_sha256": "bad4111136351f4ccb189cc8da21449e65bb285de15b8c94024c1d045abd820a",
+      "route": {
+        "start": [
+          -3.4000000000000004,
+          0.8,
+          3.141592653589793
+        ],
+        "path_xy": [
+          [
+            -3.4000000000000004,
+            0.8
+          ],
+          [
+            -3.4000000000000004,
+            0.7000000000000001
+          ],
+          [
+            -3.4000000000000004,
+            0.6000000000000001
+          ],
+          [
+            -3.3000000000000003,
+            0.6000000000000001
+          ],
+          [
+            -3.2,
+            0.6000000000000001
+          ],
+          [
+            -3.1,
+            0.6000000000000001
+          ],
+          [
+            -3.0,
+            0.6000000000000001
+          ],
+          [
+            -2.9000000000000004,
+            0.6000000000000001
+          ],
+          [
+            -2.8000000000000003,
+            0.6000000000000001
+          ],
+          [
+            -2.7,
+            0.6000000000000001
+          ],
+          [
+            -2.6,
+            0.6000000000000001
+          ],
+          [
+            -2.5,
+            0.6000000000000001
+          ]
+        ],
+        "length_m": 1.1,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "comparison_sample",
+        "comparison_negative_0",
+        "comparison_negative_1",
+        "search_storage",
+        "expert_storage_80"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [
+        {
+          "name": "search_storage",
+          "category": "bottom_cabinet",
+          "model": "jrhgeu",
+          "floor": "floors_rfqizg_0",
+          "position_xy": [
+            -0.30000000000000004,
+            0.1
+          ],
+          "aabb": [
+            [
+              -0.467144760131836,
+              -0.24228797912597658,
+              0.0
+            ],
+            [
+              -0.1328552398681641,
+              0.4422879791259766,
+              0.6846599731445313
+            ]
+          ],
+          "room": "living_room_0"
+        },
+        {
+          "name": "delivery_surface",
+          "category": "bottom_cabinet",
+          "model": "jrhgeu",
+          "floor": "floors_nlswvt_0",
+          "position_xy": [
+            -4.1000000000000005,
+            1.3
+          ],
+          "aabb": [
+            [
+              -4.267144760131837,
+              0.9577120208740235,
+              0.0
+            ],
+            [
+              -3.9328552398681644,
+              1.6422879791259766,
+              0.6846599731445313
+            ]
+          ],
+          "room": "bedroom_0"
+        },
+        {
+          "name": "expert_storage_80",
+          "category": "bottom_cabinet",
+          "model": "qbdweu",
+          "floor": "floors_rfqizg_0",
+          "position_xy": [
+            -1.4000000000000001,
+            -0.1
+          ],
+          "aabb": [
+            [
+              -1.812074142456055,
+              -0.7870653076171875,
+              0.0
+            ],
+            [
+              -0.9879258575439455,
+              0.5870653076171876,
+              0.8999951782226563
+            ]
+          ],
+          "room": "living_room_0"
+        }
+      ],
+      "parent_task_id": "P064",
+      "tier": "long",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_P064_01",
+        "parent_task_id": "P064",
+        "before_instruction": "Find the trophy with a star on top among the living-room display cabinet pieces and place it on the bedroom dresser beside the picture frame.",
+        "after_instruction": "There is a sample on the cabinet top in front of you in the bedroom. Find the trophy matching that sample in the living-room display cabinet and bring it to the cabinet top in front of you in the bedroom in the bedroom.",
+        "reason": "Replaces unverified star-on-top shape with native trophy matching. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "trophy/hlktkb",
+        "target_assets": [
+          "trophy/hlktkb"
+        ]
+      },
+      "binding_sha256": "cfbcadceaab42e92bf80b99519b7d23c2166c7ba136f5f8eb15d80b297b635c8",
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "expert_storage_80",
+            "volume_extents_m": {
+              "meta__base_link_fillable_0_0_link#component:0": [
+                0.6943576593399048,
+                0.40972851086471906,
+                0.4625519908831113
+              ],
+              "meta__base_link_fillable_0_0_link#component:1": [
+                0.686539100066992,
+                0.3981894630250171,
+                0.15136254918575287
+              ],
+              "meta__base_link_fillable_0_0_link#component:2": [
+                0.687064435005188,
+                0.40826468695787566,
+                0.1570117319836275
+              ],
+              "meta__base_link_fillable_0_0_link#component:3": [
+                0.6881176490783691,
+                0.39481347393989563,
+                0.1512648869752884
+              ],
+              "meta__base_link_fillable_0_0_link#component:4": [
+                0.6939692158699036,
+                0.3898749675825244,
+                0.46566430019832095
+              ],
+              "meta__base_link_fillable_0_0_link#component:5": [
+                0.6943613548278809,
+                0.4192168324718957,
+                0.46255527835256927
+              ]
+            },
+            "native_links": {
+              "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:3": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:4": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:5": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet/qbdweu",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "5854748fc89c4c402086bc4674a002702bb6576a99e89bded7111152262e5edb",
+              "metadata_sha256": "9fb62a3cf2ebe63c2511bfe2c4104815fc31d2de67620664e4e0807eafac6511",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.05322607606649399,
+              "nodes": 11,
+              "candidate_tests": 2227745,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "comparison_negative_0": "meta__base_link_fillable_0_0_link#component:5",
+                "item_03": "meta__base_link_fillable_0_0_link#component:0",
+                "item_07": "meta__base_link_fillable_0_0_link#component:0",
+                "comparison_negative_1": "meta__base_link_fillable_0_0_link#component:4",
+                "item_08": "meta__base_link_fillable_0_0_link#component:4",
+                "item_01": "meta__base_link_fillable_0_0_link#component:2",
+                "item_00": "meta__base_link_fillable_0_0_link#component:5",
+                "item_02": "meta__base_link_fillable_0_0_link#component:1",
+                "item_04": "meta__base_link_fillable_0_0_link#component:3",
+                "item_05": "meta__base_link_fillable_0_0_link#component:1",
+                "item_06": "meta__base_link_fillable_0_0_link#component:2"
+              },
+              "poses": {
+                "comparison_negative_0": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:5",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.216,
+                    0.216
+                  ],
+                  "center_xy_m": [
+                    0.113,
+                    0.113
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.093,
+                    0.093
+                  ],
+                  "center_xy_m": [
+                    0.051500000000000004,
+                    0.051500000000000004
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.10300000000000001,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.381,
+                    0.382
+                  ],
+                  "center_xy_m": [
+                    0.2935,
+                    0.196
+                  ]
+                },
+                "comparison_negative_1": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:4",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.129,
+                    0.21
+                  ],
+                  "center_xy_m": [
+                    0.0695,
+                    0.11
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:4",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.139,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.094,
+                    0.23700000000000002
+                  ],
+                  "center_xy_m": [
+                    0.186,
+                    0.1235
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:2",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.10200000000000001,
+                    0.10200000000000001
+                  ],
+                  "center_xy_m": [
+                    0.056,
+                    0.056
+                  ]
+                },
+                "item_00": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:5",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.226,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.082,
+                    0.093
+                  ],
+                  "center_xy_m": [
+                    0.267,
+                    0.051500000000000004
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.037,
+                    0.037
+                  ],
+                  "center_xy_m": [
+                    0.0235,
+                    0.0235
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:3",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.137,
+                    0.14
+                  ],
+                  "center_xy_m": [
+                    0.0735,
+                    0.075
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.047,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.151,
+                    0.10300000000000001
+                  ],
+                  "center_xy_m": [
+                    0.1225,
+                    0.0565
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:2",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.112,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.024,
+                    0.334
+                  ],
+                  "center_xy_m": [
+                    0.124,
+                    0.17200000000000001
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "comparison_negative_0": "meta__base_link_fillable_0_0_link",
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link",
+              "comparison_negative_1": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link",
+              "item_01": "meta__base_link_fillable_0_0_link",
+              "item_00": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_06": "meta__base_link_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "comparison_negative_0": "meta__base_link_fillable_0_0_link#component:5",
+              "item_03": "meta__base_link_fillable_0_0_link#component:0",
+              "item_07": "meta__base_link_fillable_0_0_link#component:0",
+              "comparison_negative_1": "meta__base_link_fillable_0_0_link#component:4",
+              "item_08": "meta__base_link_fillable_0_0_link#component:4",
+              "item_01": "meta__base_link_fillable_0_0_link#component:2",
+              "item_00": "meta__base_link_fillable_0_0_link#component:5",
+              "item_02": "meta__base_link_fillable_0_0_link#component:1",
+              "item_04": "meta__base_link_fillable_0_0_link#component:3",
+              "item_05": "meta__base_link_fillable_0_0_link#component:1",
+              "item_06": "meta__base_link_fillable_0_0_link#component:2"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    }
+  ]
+}

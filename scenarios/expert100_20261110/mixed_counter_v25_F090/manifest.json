@@ -1,0 +1,339 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F090_01",
+      "family": "semantic_F090",
+      "scene": "Ihlen_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/mixed_counter_v25_F090/asset_F090_01/scenario.yaml",
+      "scenario_sha256": "3d2be3538cd2c5f2d7f654f386254c9b3fa91d720d175c181ac353b515bc6a04",
+      "instruction": "Find the vegetable peeler in the kitchen tool drawer and bring it to the counter in front of you in the kitchen for preparing vegetables.",
+      "target_key": "vegetable_peeler/njgqao",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "kitchen_0",
+      "destination_room": "kitchen_0",
+      "source_receptacle": "expert_storage",
+      "destination_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+      "object_count": 9,
+      "distractor_count": 7,
+      "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+      "route": {
+        "start": [
+          -3.9000000000000004,
+          4.7,
+          -1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            -3.9000000000000004,
+            4.7
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 40,
+        "destination_approach_count": 28,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "bottom_cabinet_no_top_qohxjq_0",
+        "expert_storage"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "expert_storage",
+          "category": "bottom_cabinet_no_top",
+          "model": "ncgmqr",
+          "floor": "floors_btfqvw_0",
+          "position_xy": [
+            -2.6,
+            4.6000000000000005
+          ],
+          "aabb": [
+            [
+              -2.9118697052001954,
+              4.391652801513672,
+              0.0
+            ],
+            [
+              -2.288130294799805,
+              4.808347198486329,
+              0.6957286682128906
+            ]
+          ],
+          "room": "kitchen_0"
+        }
+      ],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "expert_storage",
+            "volume_extents_m": {
+              "meta__drawer0_fillable_0_0_link": [
+                0.5233886344018981,
+                0.39358985018730164,
+                0.14444891703128815
+              ],
+              "meta__drawer1_fillable_0_0_link": [
+                0.5237021703720093,
+                0.39821761441230774,
+                0.14396608537536593
+              ],
+              "meta__drawer2_fillable_0_0_link": [
+                0.5186685735186505,
+                0.3985025246143341,
+                0.28758682544270653
+              ]
+            },
+            "native_links": {
+              "meta__drawer0_fillable_0_0_link": "meta__drawer0_fillable_0_0_link",
+              "meta__drawer1_fillable_0_0_link": "meta__drawer1_fillable_0_0_link",
+              "meta__drawer2_fillable_0_0_link": "meta__drawer2_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet_no_top/ncgmqr",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "654ec43b4fbdc16ab935e47e394df2e4452ea2ef8e5df804fc94faba3196f5a7",
+              "metadata_sha256": "4f69836ec4373a572ddb8592f3f5f5e84e399b02a8b6553a4147db5c12cdb121",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.574700215831399,
+              "nodes": 8,
+              "candidate_tests": 1420864,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_04": "meta__drawer2_fillable_0_0_link",
+                "item_00": "meta__drawer2_fillable_0_0_link",
+                "item_01": "meta__drawer2_fillable_0_0_link",
+                "item_06": "meta__drawer2_fillable_0_0_link",
+                "item_03": "meta__drawer2_fillable_0_0_link",
+                "item_02": "meta__drawer2_fillable_0_0_link",
+                "item_07": "meta__drawer2_fillable_0_0_link",
+                "item_05": "meta__drawer2_fillable_0_0_link"
+              },
+              "poses": {
+                "item_04": {
+                  "bin": "meta__drawer2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.333,
+                    0.062
+                  ],
+                  "center_xy_m": [
+                    0.1715,
+                    0.036000000000000004
+                  ]
+                },
+                "item_00": {
+                  "bin": "meta__drawer2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.07200000000000001
+                  ],
+                  "footprint_m": [
+                    0.182,
+                    0.084
+                  ],
+                  "center_xy_m": [
+                    0.096,
+                    0.114
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__drawer2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.192,
+                    0.07200000000000001
+                  ],
+                  "footprint_m": [
+                    0.29,
+                    0.051000000000000004
+                  ],
+                  "center_xy_m": [
+                    0.337,
+                    0.0975
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__drawer2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.192,
+                    0.128
+                  ],
+                  "footprint_m": [
+                    0.29,
+                    0.051000000000000004
+                  ],
+                  "center_xy_m": [
+                    0.337,
+                    0.1535
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__drawer2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.184
+                  ],
+                  "footprint_m": [
+                    0.269,
+                    0.032
+                  ],
+                  "center_xy_m": [
+                    0.1395,
+                    0.2
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__drawer2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.221
+                  ],
+                  "footprint_m": [
+                    0.243,
+                    0.034
+                  ],
+                  "center_xy_m": [
+                    0.1265,
+                    0.23800000000000002
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__drawer2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.253,
+                    0.221
+                  ],
+                  "footprint_m": [
+                    0.243,
+                    0.034
+                  ],
+                  "center_xy_m": [
+                    0.3745,
+                    0.23800000000000002
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__drawer2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.343,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.162,
+                    0.02
+                  ],
+                  "center_xy_m": [
+                    0.424,
+                    0.015
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_04": "meta__drawer2_fillable_0_0_link",
+              "item_00": "meta__drawer2_fillable_0_0_link",
+              "item_01": "meta__drawer2_fillable_0_0_link",
+              "item_06": "meta__drawer2_fillable_0_0_link",
+              "item_03": "meta__drawer2_fillable_0_0_link",
+              "item_02": "meta__drawer2_fillable_0_0_link",
+              "item_07": "meta__drawer2_fillable_0_0_link",
+              "item_05": "meta__drawer2_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_04": "meta__drawer2_fillable_0_0_link",
+              "item_00": "meta__drawer2_fillable_0_0_link",
+              "item_01": "meta__drawer2_fillable_0_0_link",
+              "item_06": "meta__drawer2_fillable_0_0_link",
+              "item_03": "meta__drawer2_fillable_0_0_link",
+              "item_02": "meta__drawer2_fillable_0_0_link",
+              "item_07": "meta__drawer2_fillable_0_0_link",
+              "item_05": "meta__drawer2_fillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [
+        {
+          "scene": "Ihlen_1_int",
+          "source": "bottom_cabinet_no_top_qohxjq_0",
+          "reason": "Previously failed source layout"
+        }
+      ],
+      "parent_task_id": "F090",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F090_01",
+        "parent_task_id": "F090",
+        "before_instruction": "The peeler might be in the cutlery drawer or the baking-tool cupboard. Find it in the kitchen and put it on the cutting board beside the sink.",
+        "after_instruction": "Find the vegetable peeler in the kitchen tool drawer and bring it to the counter in front of you in the kitchen for preparing vegetables.",
+        "reason": "Narrows the two hypothetical storage locations to one constructed drawer; no unsupported cutting-board landmark is required. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "vegetable_peeler/njgqao",
+        "target_assets": [
+          "vegetable_peeler/njgqao"
+        ]
+      },
+      "binding_sha256": "384076a148b3a81d62b6a2083e216c9cbd931f1de7cfb5778eafc639b1808cae"
+    }
+  ]
+}

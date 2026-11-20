@@ -1,0 +1,126 @@
+{
+  "status": "static_screened_physics_pending",
+  "old_storage": "bottom_cabinet_no_top_bmsclc_0",
+  "new_storage": {
+    "name": "expert_storage_11",
+    "category": "bottom_cabinet_no_top",
+    "model": "vzzafs",
+    "floor": "floors_abekig_0",
+    "position_xy": [
+      -3.45,
+      -1.55
+    ],
+    "aabb": [
+      [
+        -3.7763640594482424,
+        -1.7764886016845705,
+        0.0
+      ],
+      [
+        -3.123635940551758,
+        -1.3235113983154296,
+        0.8682071838378906
+      ]
+    ],
+    "room": "kitchen_0"
+  },
+  "released_compiler_links": [
+    {
+      "entity": "item_06",
+      "previous_link": "meta__base_link_fillable_0_0_link"
+    },
+    {
+      "entity": "item_07",
+      "previous_link": "meta__base_link_fillable_0_0_link"
+    },
+    {
+      "entity": "item_08",
+      "previous_link": "meta__base_link_fillable_0_0_link"
+    }
+  ],
+  "replaced_failed_auxiliary_fixture": false,
+  "previous_auxiliary_asset": null,
+  "conservative_opening_clearance_m": 0.0,
+  "opening_sweep_requires_native_measurement": true,
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/initial_F120/asset_F120_01/scenario.yaml",
+  "original_sha256": "fa9a2500048673706b4843bbebc1de1445fd607f9ac4e1a3062c8aa6e5a7a1d4",
+  "diagnosis_directory": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/initial_F120/asset_F120_01",
+  "solver": {
+    "status": "feasible_model",
+    "device": "cuda",
+    "backend": "torch_cuda_finite_csp",
+    "solve_seconds": 0.0012244656682014465,
+    "nodes": 0,
+    "candidate_tests": 0,
+    "grid_m": 0.001,
+    "margin_m": 0.015,
+    "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+    "physical_validation_required": true,
+    "assignment": {
+      "item_06": "meta__base_link_fillable_0_0_link",
+      "item_07": "meta__base_link_fillable_0_0_link",
+      "item_08": "meta__base_link_fillable_0_0_link"
+    },
+    "poses": {
+      "item_06": {
+        "bin": "meta__base_link_fillable_0_0_link",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.015
+        ],
+        "footprint_m": [
+          0.076,
+          0.075
+        ],
+        "center_xy_m": [
+          0.053,
+          0.0525
+        ]
+      },
+      "item_07": {
+        "bin": "meta__base_link_fillable_0_0_link",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.105
+        ],
+        "footprint_m": [
+          0.076,
+          0.075
+        ],
+        "center_xy_m": [
+          0.053,
+          0.1425
+        ]
+      },
+      "item_08": {
+        "bin": "meta__base_link_fillable_0_0_link",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.195
+        ],
+        "footprint_m": [
+          0.155,
+          0.128
+        ],
+        "center_xy_m": [
+          0.0925,
+          0.259
+        ]
+      }
+    },
+    "constructive_witness": "single strip; exact quantized box and clearance checks"
+  },
+  "variant": 11,
+  "preserved": [
+    "instruction",
+    "goal",
+    "target",
+    "robot",
+    "spawn",
+    "all task items and counts",
+    "relation types"
+  ]
+}

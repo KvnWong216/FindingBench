@@ -1,0 +1,330 @@
+{
+  "tasks": [
+    {
+      "id": "asset_P017_01",
+      "family": "semantic_P017",
+      "scene": "house_double_floor_upper",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/initial_P017/asset_P017_01/scenario.yaml",
+      "scenario_sha256": "61587b977fc813025251b1b3d9199c688161e12a2aa3ae814b9f79b635d6f50a",
+      "instruction": "There is a sample on the cabinet top in front of you in the bedroom. Find the wristwatch matching that sample in the bedroom nightstand storage and put it on the cabinet top in front of you in the bedroom.",
+      "target_key": "watch/ghobzn",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "bedroom_2",
+      "destination_room": "bedroom_2",
+      "source_receptacle": "bottom_cabinet_nddvba_0",
+      "destination_receptacle": "bottom_cabinet_nddvba_0",
+      "object_count": 10,
+      "distractor_count": 8,
+      "source_survey_sha256": "bad4111136351f4ccb189cc8da21449e65bb285de15b8c94024c1d045abd820a",
+      "route": {
+        "start": [
+          5.2,
+          -3.8000000000000003,
+          -1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            5.2,
+            -3.8000000000000003
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 61,
+        "destination_approach_count": 61,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "comparison_sample",
+        "bottom_cabinet_nddvba_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_nddvba_0",
+            "volume_extents_m": {
+              "link_1": [
+                0.6578431129455566,
+                0.33721208572387695,
+                0.12310384213924408
+              ],
+              "link_2": [
+                0.6578364372253418,
+                0.33721208572387695,
+                0.12310367822647095
+              ],
+              "link_3": [
+                0.6578364372253418,
+                0.3372039794921875,
+                0.04411935806274414
+              ],
+              "link_4": [
+                0.6578364372253418,
+                0.3372044563293457,
+                0.04411935806274414
+              ]
+            },
+            "native_links": {
+              "link_1": "link_1",
+              "link_2": "link_2",
+              "link_3": "link_3",
+              "link_4": "link_4"
+            },
+            "geometry_source": "survey",
+            "geometry_provenance": {},
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.013452100101858377,
+              "nodes": 9,
+              "candidate_tests": 724048,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_06": "link_2",
+                "item_03": "link_2",
+                "item_02": "link_2",
+                "item_01": "link_2",
+                "item_08": "link_2",
+                "item_00": "link_2",
+                "item_07": "link_2",
+                "item_04": "link_2",
+                "item_05": "link_2"
+              },
+              "poses": {
+                "item_06": {
+                  "bin": "link_2",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.03,
+                    0.03
+                  ],
+                  "center_xy_m": [
+                    0.02,
+                    0.02
+                  ]
+                },
+                "item_03": {
+                  "bin": "link_2",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.04,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.024,
+                    0.024
+                  ],
+                  "center_xy_m": [
+                    0.052000000000000005,
+                    0.017
+                  ]
+                },
+                "item_02": {
+                  "bin": "link_2",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.069,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.019,
+                    0.019
+                  ],
+                  "center_xy_m": [
+                    0.0785,
+                    0.0145
+                  ]
+                },
+                "item_01": {
+                  "bin": "link_2",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.093,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.012,
+                    0.012
+                  ],
+                  "center_xy_m": [
+                    0.099,
+                    0.011
+                  ]
+                },
+                "item_08": {
+                  "bin": "link_2",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.11,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.011,
+                    0.011
+                  ],
+                  "center_xy_m": [
+                    0.1155,
+                    0.0105
+                  ]
+                },
+                "item_00": {
+                  "bin": "link_2",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.126,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.05,
+                    0.039
+                  ],
+                  "center_xy_m": [
+                    0.151,
+                    0.0245
+                  ]
+                },
+                "item_07": {
+                  "bin": "link_2",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.181,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.053,
+                    0.015
+                  ],
+                  "center_xy_m": [
+                    0.20750000000000002,
+                    0.0125
+                  ]
+                },
+                "item_04": {
+                  "bin": "link_2",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.23900000000000002,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.016,
+                    0.015
+                  ],
+                  "center_xy_m": [
+                    0.247,
+                    0.0125
+                  ]
+                },
+                "item_05": {
+                  "bin": "link_2",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.26,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.005,
+                    0.004
+                  ],
+                  "center_xy_m": [
+                    0.2625,
+                    0.007
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_06": "link_2",
+              "item_03": "link_2",
+              "item_02": "link_2",
+              "item_01": "link_2",
+              "item_08": "link_2",
+              "item_00": "link_2",
+              "item_07": "link_2",
+              "item_04": "link_2",
+              "item_05": "link_2"
+            },
+            "component_allocation": {
+              "item_06": "link_2",
+              "item_03": "link_2",
+              "item_02": "link_2",
+              "item_01": "link_2",
+              "item_08": "link_2",
+              "item_00": "link_2",
+              "item_07": "link_2",
+              "item_04": "link_2",
+              "item_05": "link_2"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [
+        {
+          "scene": "Pomaria_2_int",
+          "source": "bottom_cabinet_rntwkg_0",
+          "reason": "Previously failed source layout"
+        },
+        {
+          "scene": "house_double_floor_upper",
+          "source": "bottom_cabinet_nddvba_0",
+          "reason": "Previously failed source layout"
+        }
+      ],
+      "parent_task_id": "P017",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_P017_01",
+        "parent_task_id": "P017",
+        "before_instruction": "Find the wristwatch with a round face in the bedroom nightstand storage and put it on top of the dresser.",
+        "after_instruction": "There is a sample on the cabinet top in front of you in the bedroom. Find the wristwatch matching that sample in the bedroom nightstand storage and put it on the cabinet top in front of you in the bedroom.",
+        "reason": "Replaces unverified round-face shape with native-model matching. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "watch/ghobzn",
+        "target_assets": [
+          "watch/ghobzn"
+        ]
+      },
+      "binding_sha256": "9112ff8707bf064e60cf0ad9f04d8d407398fe36377f7bda9237b8647557d6b1"
+    }
+  ]
+}

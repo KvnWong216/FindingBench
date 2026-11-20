@@ -1,0 +1,78 @@
+{
+  "id": "asset_F099_02",
+  "family": "semantic_F099",
+  "scene": "Ihlen_1_int",
+  "scenario": "scenarios/asset_search_v1/asset_F099_02/scenario.yaml",
+  "scenario_sha256": "b40049c80089b669b8b54cf0195439c8a272c12699d17b200d268fc206b3eeca",
+  "instruction": "The coffee jar was put away with the kitchen dishes. Find it and bring it to the counter in front of you in the kitchen.",
+  "target_key": "jar_of_coffee/bnrvcs",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "bottom_cabinet_no_top_ufhpbn_0",
+  "destination_receptacle": "bottom_cabinet_no_top_ufhpbn_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+  "route": {
+    "start": [
+      -4.4,
+      6.7,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -4.4,
+        6.7
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 45,
+    "destination_approach_count": 45,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_no_top_bmsclc_0",
+    "bottom_cabinet_no_top_ufhpbn_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "parent_task_id": "F099",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F099_02",
+    "parent_task_id": "F099",
+    "before_instruction": "The coffee jar was put away with the kitchen dishes. Find it there and place it beside the kettle on the kitchen counter.",
+    "after_instruction": "The coffee jar was put away with the kitchen dishes. Find it and bring it to the counter in front of you in the kitchen.",
+    "reason": "Explicit first-tranche grounding: native storage and initial-facing destination replace uninstantiated decorative reference props; no new semantic-task count.",
+    "target_asset": "jar_of_coffee/bnrvcs",
+    "target_assets": [
+      "jar_of_coffee/bnrvcs"
+    ]
+  }
+}

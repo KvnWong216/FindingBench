@@ -1,0 +1,135 @@
+id: dense_search_057
+instruction: Find the bottle of apple juice in the shelves in this grocery store and
+  put it in the shopping basket on the table in front of you.
+scene:
+  model: grocery_store_convenience
+  source: behavior
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  init_anchor: start
+  base_half_extent: 0.25
+  include_sensor_names: null
+anchors:
+  start:
+    position:
+    - 3.1
+    - -2.4000000000000004
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - -0.5959397224379542
+    - 0.8030291695950864
+target:
+  entity: item_01
+  category: bottle_of_apple_juice
+objects:
+- name: item_00
+  category: shopping_basket
+  model: vsxhsv
+- name: item_01
+  category: bottle_of_apple_juice
+  model: xvrbdy
+- name: item_02
+  category: cola_bottle
+  model: oyqdtz
+- name: item_03
+  category: bottle_of_orange_juice
+  model: edltwh
+- name: item_04
+  category: bottle_of_water
+  model: atvnqy
+- name: item_05
+  category: bottle_of_tea
+  model: iladfg
+- name: item_06
+  category: carton_of_milk
+  model: atyqub
+- name: item_07
+  category: box_of_cookies
+  model: qkzrdd
+- name: item_08
+  category: cola_bottle
+  model: oyqdtz
+- name: item_09
+  category: bottle_of_orange_juice
+  model: edltwh
+placements:
+- entity: item_00
+  relation: on_top
+  receptacle: pedestal_table_tdpuit_0
+- entity: item_01
+  relation: on_top
+  receptacle: grocery_shelf_pbjodr_3
+- entity: item_02
+  relation: on_top
+  receptacle: grocery_shelf_pbjodr_3
+- entity: item_03
+  relation: on_top
+  receptacle: grocery_shelf_pbjodr_3
+- entity: item_04
+  relation: on_top
+  receptacle: grocery_shelf_pbjodr_3
+- entity: item_05
+  relation: on_top
+  receptacle: grocery_shelf_pbjodr_3
+- entity: item_06
+  relation: on_top
+  receptacle: grocery_shelf_pbjodr_3
+- entity: item_07
+  relation: on_top
+  receptacle: grocery_shelf_pbjodr_3
+- entity: item_08
+  relation: on_top
+  receptacle: grocery_shelf_pbjodr_3
+- entity: item_09
+  relation: on_top
+  receptacle: grocery_shelf_pbjodr_3
+initial_states: {}
+goal:
+- kind: inside
+  entity: item_01
+  receptacle: item_00
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

@@ -1,0 +1,171 @@
+{
+  "action": "direct",
+  "case": {
+    "id": "U036",
+    "record": {
+      "id": "asset_U036_01",
+      "family": "semantic_U036",
+      "scene": "Pomaria_0_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_U036_01/scenario.yaml",
+      "scenario_sha256": "111d5da932b08bcb6f405c4b2134a07bb6527a1c431278be6556b42ec0dba073",
+      "instruction": "The boxed router needs to go back to the shop. Collect it from the study purchases and put it on the desk in front of you in the study for packing.",
+      "target_key": "boxed_router/dsgtpk",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "private_office_0",
+      "destination_room": "private_office_0",
+      "source_receptacle": "search_storage",
+      "destination_receptacle": "delivery_surface",
+      "object_count": 11,
+      "distractor_count": 8,
+      "source_survey_sha256": "5f126672121f241779c0ea9705424fa8ac90469f422772fc224ad7184f7883fc",
+      "route": {
+        "start": [
+          -5.9,
+          -1.0,
+          3.141592653589793
+        ],
+        "path_xy": [
+          [
+            -5.9,
+            -1.0
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 8,
+        "destination_approach_count": 6,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "bottom_cabinet_no_top_spojpj_0",
+        "search_storage"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "search_storage",
+          "category": "bottom_cabinet",
+          "model": "jrhgeu",
+          "floor": "floors_elvhyh_0",
+          "position_xy": [
+            -6.4,
+            -1.8
+          ],
+          "aabb": [
+            [
+              -6.5671447601318365,
+              -2.142287979125977,
+              0.0
+            ],
+            [
+              -6.232855239868164,
+              -1.4577120208740235,
+              0.6846599731445313
+            ]
+          ],
+          "room": "private_office_0"
+        },
+        {
+          "name": "delivery_surface",
+          "category": "desk",
+          "model": "tmluxa",
+          "floor": "floors_elvhyh_0",
+          "position_xy": [
+            -6.7,
+            -0.5
+          ],
+          "aabb": [
+            [
+              -6.95371273803711,
+              -0.8538818969726563,
+              0.0
+            ],
+            [
+              -6.44628726196289,
+              -0.14611810302734374,
+              0.7001053161621094
+            ]
+          ],
+          "room": "private_office_0"
+        }
+      ],
+      "parent_task_id": "U036",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_U036_01",
+        "parent_task_id": "U036",
+        "before_instruction": "I'm returning the router we never installed. Find the boxed router in the study's stored purchases and put it beside the office door.",
+        "after_instruction": "The boxed router needs to go back to the shop. Collect it from the study purchases and put it on the desk in front of you in the study for packing.",
+        "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Uninstalled/boxed-return identity and the door-side handoff region are not grounded; a generic router category is insufficient. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+        "target_asset": "boxed_router/dsgtpk",
+        "target_assets": [
+          "boxed_router/dsgtpk"
+        ]
+      },
+      "binding_sha256": "9433e108f8370485e848e22d70e07eedb49eeac31d596eb7389edf9f4efbfaef"
+    },
+    "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_gpu_new_20261106/asset_U036_01",
+    "error": "placement failed verification after physics settled: ['item_00 inside search_storage', 'item_01 inside search_storage', 'item_02 inside search_storage', 'item_03 inside search_storage', 'item_04 inside search_storage', 'item_05 inside search_storage']",
+    "source_sha256": "111d5da932b08bcb6f405c4b2134a07bb6527a1c431278be6556b42ec0dba073",
+    "expert_diagnosis": {
+      "category": "native_placement",
+      "error": "placement failed verification after physics settled: ['item_00 inside search_storage', 'item_01 inside search_storage', 'item_02 inside search_storage', 'item_03 inside search_storage', 'item_04 inside search_storage', 'item_05 inside search_storage']",
+      "native_rejections_in_current_queue": 0,
+      "first_blocker": {
+        "entity": "item_00",
+        "relation": "inside",
+        "receptacle": "search_storage"
+      },
+      "solver": null,
+      "support_measurements": {
+        "total": 0,
+        "planar": 0,
+        "reasons": {}
+      },
+      "first_contact": null,
+      "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_gpu_new_20261106/asset_U036_01/native_validation.log",
+      "inference_scope": "proposal/model diagnosis; native physics acceptance unchanged"
+    },
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "native_placement",
+      "reason": "placement failed verification after physics settled: ['item_00 inside search_storage', 'item_01 inside search_storage', 'item_02 inside search_storage', 'item_03 inside search_storage', 'item_04 inside search_storage', 'item_05 inside search_storage']"
+    }
+  },
+  "out": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_205_U036_direct_190d1412c40c",
+  "variant": 93
+}

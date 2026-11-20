@@ -1,0 +1,188 @@
+{
+  "id": "asset_U275_01",
+  "family": "semantic_U275",
+  "scene": "house_double_floor_lower",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_U275_01/scenario.yaml",
+  "scenario_sha256": "de839bc80dcedf41b472d4ba2468f8fe995f93d8bdc87c3ab918bc3b6f85e1aa",
+  "instruction": "Bring two plant pots from the garden accessory storage to the table in front of you in the garden in the garden for the two new cuttings.",
+  "target_key": "plant_pot/skbcqq",
+  "target_entities": [
+    "item_00",
+    "item_01"
+  ],
+  "target_count": 2,
+  "source_room": "garden_0",
+  "destination_room": "garden_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 12,
+  "distractor_count": 8,
+  "source_survey_sha256": "0a3f401e7605a056f40f88d913d8c052476ef760acf457ac11cb1f76abbe581f",
+  "route": {
+    "start": [
+      16.45,
+      3.5500000000000003,
+      3.141592653589793
+    ],
+    "path_xy": [
+      [
+        16.45,
+        3.5500000000000003
+      ],
+      [
+        16.55,
+        3.5500000000000003
+      ],
+      [
+        16.650000000000002,
+        3.5500000000000003
+      ],
+      [
+        16.75,
+        3.5500000000000003
+      ],
+      [
+        16.85,
+        3.5500000000000003
+      ],
+      [
+        16.95,
+        3.5500000000000003
+      ],
+      [
+        17.05,
+        3.5500000000000003
+      ],
+      [
+        17.150000000000002,
+        3.5500000000000003
+      ],
+      [
+        17.25,
+        3.5500000000000003
+      ],
+      [
+        17.35,
+        3.5500000000000003
+      ],
+      [
+        17.45,
+        3.5500000000000003
+      ],
+      [
+        17.55,
+        3.5500000000000003
+      ],
+      [
+        17.650000000000002,
+        3.5500000000000003
+      ],
+      [
+        17.75,
+        3.5500000000000003
+      ],
+      [
+        17.85,
+        3.5500000000000003
+      ],
+      [
+        17.95,
+        3.5500000000000003
+      ]
+    ],
+    "length_m": 1.5,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_ghetev_0",
+      "position_xy": [
+        18.75,
+        3.45
+      ],
+      "aabb": [
+        [
+          18.582855239868163,
+          3.1077120208740237,
+          0.014
+        ],
+        [
+          18.917144760131837,
+          3.7922879791259767,
+          0.6986599731445313
+        ]
+      ],
+      "room": "garden_0"
+    },
+    {
+      "name": "delivery_surface",
+      "category": "breakfast_table",
+      "model": "iaritq",
+      "floor": "floors_ghetev_0",
+      "position_xy": [
+        15.55,
+        3.95
+      ],
+      "aabb": [
+        [
+          15.198999710083008,
+          3.599453765869141,
+          0.014
+        ],
+        [
+          15.901000289916993,
+          4.300546234130859,
+          0.7630009155273437
+        ]
+      ],
+      "room": "garden_0"
+    }
+  ],
+  "parent_task_id": "U275",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_U275_01",
+    "parent_task_id": "U275",
+    "before_instruction": "I need the pair of pot stands that fit one inside the other. Find them among the garage's garden accessories and bring both to the ground beside the garden table.",
+    "after_instruction": "Bring two plant pots from the garden accessory storage to the table in front of you in the garden in the garden for the two new cuttings.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Missing complete set membership, quantities and/or attribute-specific native models for two nesting plant stands. Two portable nesting stand variants required; plant_pot_stand: every surveyed model exceeds 0.60 m in at least one dimension; no default portable fetch model established and no automatic shrinking; plant_pot_stand: only one native model; requested within-category size alternatives are not established Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: garage/cabinet -> garden/table becomes garden/cabinet -> garden/table. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+    "target_asset": "plant_pot/skbcqq",
+    "target_assets": [
+      "plant_pot/skbcqq",
+      "plant_pot/ihnfbi"
+    ]
+  },
+  "binding_sha256": "6c3100dafd5b82cf556c0f11946214c111bd00612754a323a20bfd4a35e695a2"
+}

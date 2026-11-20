@@ -1,0 +1,89 @@
+task_id: X03017
+family: place_in
+scene: house_double_floor_lower
+source:
+  official_activity: putting_away_Halloween_decorations#0
+  official_activities_with_same_subgoal:
+  - putting_away_Halloween_decorations#0
+  official_subgoal: (inside candle.n.01 cabinet.n.01)
+  reuse: official sub-goal re-used as the task goal
+  scene: BEHAVIOR-1K house_double_floor_lower (+ clearance manifest)
+  object: BEHAVIOR-1K beeswax_candle/ouzkdj
+start:
+  name: start_garage_0_1
+  room: garage_0
+  x: -7.06
+  y: 4.16
+  yaw: 0.176
+target:
+  entity: target_obj
+  category: beeswax_candle
+  model: ouzkdj
+  noun: beeswax candle
+  colour_estimate: orange
+goal:
+- kind: inside
+  entity: target_obj
+  receptacle: bottom_cabinet_rhdbzv_0
+place_hints:
+- - 5.267
+  - 2.871
+  - 0.785
+- - 5.419
+  - 2.821
+  - 1.033
+- - 5.217
+  - 5.039
+  - 0.0
+- - 5.167
+  - 3.981
+  - 0.0
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S3
+missing_spatial_levels:
+- S1
+- S2
+initial_states:
+  bottom_cabinet_rhdbzv_0:
+    open: false
+spatial:
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: shelf_vanltx_0
+    room: living_room_0
+    location_phrase: the shelf in the living room
+    grasp_hints:
+    - - 3.738
+      - 6.829
+      - 2.369
+    - - 3.698
+      - 6.768
+      - 2.259
+    - - 3.838
+      - 6.93
+      - 2.591
+    - - 3.888
+      - 6.98
+      - 2.695
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    task_scope: cross_room
+    route_from_start_steps: 23
+language:
+  L1:
+    S3: First go and open the cabinet in the living room. Leave the garage, go to
+      the shelf in the living room, pick up the beeswax candle on it. Then put it
+      in the cabinet in the living room.
+  L2: Put the beeswax candle in the cabinet in the living room.
+  L3: I'm putting away Halloween decorations. Could you store the beeswax candle in
+    the cabinet in the living room for me?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

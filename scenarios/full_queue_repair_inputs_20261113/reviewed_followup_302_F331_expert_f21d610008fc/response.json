@@ -1,0 +1,782 @@
+{
+  "status": "deferred",
+  "reason": "Per-case multi-source repair remains unresolved; no native launch",
+  "preflight": {
+    "status": "rejected_candidate",
+    "findings": [
+      {
+        "receptacle": "search_storage",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link": [
+            0.5345392922002283,
+            1.194346012364208,
+            0.6993660200049281
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "metal_bottom_cabinet/jqyhjy",
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "encrypted_asset_sha256": "00c41914a3067345f1b6416f147eca7f33731a4bb7bcf4f509c0a07e78951f51",
+          "metadata_sha256": "0e1b5b1c7097d8c2938da721677c4e4c98baee8e4cebcfbf58c29364731888a6",
+          "root_orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "rejected_candidate",
+        "native_sampling_required": false,
+        "solver": {
+          "status": "infeasible_model",
+          "device": "cuda",
+          "backend": "torch_cuda_finite_csp",
+          "solve_seconds": 0.001994210761040449,
+          "nodes": 0,
+          "candidate_tests": 0,
+          "search_orders_tried": 0,
+          "grid_m": 0.001,
+          "margin_m": 0.005,
+          "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+          "physical_validation_required": true,
+          "reason": "Total inflated footprint exceeds total bin area"
+        },
+        "reason": "Finite layout model infeasible",
+        "entities": [
+          "item_00",
+          "item_01",
+          "item_02",
+          "item_03",
+          "item_04",
+          "item_05",
+          "item_06",
+          "item_07",
+          "item_08",
+          "comparison_negative_0",
+          "comparison_negative_1"
+        ]
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {},
+    "physical_validation_required": true
+  },
+  "fixture_repair": {
+    "status": "deferred",
+    "reason": "No connected, spawn-clear local site with whole-scene packing",
+    "storage": "search_storage",
+    "candidate_models": [
+      {
+        "category": "bottom_cabinet",
+        "model": "qbdweu"
+      },
+      {
+        "category": "metal_bottom_cabinet",
+        "model": "jqyhjy"
+      }
+    ],
+    "rejection_counts": {
+      "no_native_fixture_site": 41,
+      "other_group_static_rejection": 4,
+      "source_too_far": 3
+    }
+  },
+  "partial_authoring_steps": [
+    {
+      "status": "static_partial_not_native_ready",
+      "old_storage": "search_storage",
+      "new_storage": {
+        "name": "search_storage",
+        "category": "metal_bottom_cabinet",
+        "model": "jqyhjy",
+        "floor": "floors_khjmrr_0",
+        "position_xy": [
+          9.200000000000001,
+          1.8
+        ],
+        "aabb": [
+          [
+            8.864299804687501,
+            1.1739677124023438,
+            -0.0
+          ],
+          [
+            9.5357001953125,
+            2.426032287597656,
+            0.9464012756347656
+          ]
+        ],
+        "room": "kitchen_0"
+      },
+      "released_compiler_links": [
+        {
+          "entity": "item_00",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_01",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_02",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_03",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_04",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_05",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_06",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_07",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_08",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "comparison_negative_0",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "comparison_negative_1",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        }
+      ],
+      "replaced_failed_auxiliary_fixture": true,
+      "previous_auxiliary_asset": {
+        "category": "bottom_cabinet",
+        "model": "rvpunw"
+      },
+      "conservative_opening_clearance_m": 0.0,
+      "opening_sweep_requires_native_measurement": true,
+      "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_302_F331_expert_f21d610008fc/_working/step_0/asset_F331_01/scenario.yaml",
+      "original_sha256": "b1f66fce5907c4709448c9b1c1a1c4df571f098343043115c541577f8b95afae",
+      "diagnosis_directory": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert_repair_queue_20261107/asset_F331_01",
+      "solver": {
+        "status": "feasible_model",
+        "device": "cuda",
+        "backend": "torch_cuda_finite_csp",
+        "solve_seconds": 0.017273644916713238,
+        "nodes": 2,
+        "candidate_tests": 32454,
+        "search_orders_tried": 1,
+        "grid_m": 0.005,
+        "margin_m": 0.015,
+        "model": "upright boxes; yaw 0/90; single-layer independent bins; integer grid with convex centre halfspaces / fixed obstacles",
+        "physical_validation_required": true,
+        "assignment": {
+          "item_04": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_01": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_00": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_02": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_03": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_05": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_06": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_07": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_08": "meta__base_link_fillable_0_0_link#mesh:0",
+          "comparison_negative_0": "meta__base_link_fillable_0_0_link#mesh:0",
+          "comparison_negative_1": "meta__base_link_fillable_0_0_link#mesh:0"
+        },
+        "poses": {
+          "item_04": {
+            "bin": "meta__base_link_fillable_0_0_link#mesh:0",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.015
+            ],
+            "footprint_m": [
+              0.295,
+              0.405
+            ],
+            "center_xy_m": [
+              0.1625,
+              0.2175
+            ]
+          },
+          "item_01": {
+            "bin": "meta__base_link_fillable_0_0_link#mesh:0",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.325,
+              0.015
+            ],
+            "footprint_m": [
+              0.13,
+              0.28
+            ],
+            "center_xy_m": [
+              0.39,
+              0.155
+            ]
+          }
+        },
+        "deferred_native_stacking": {
+          "item_00": "item_04",
+          "item_02": "item_04",
+          "item_03": "item_04",
+          "item_05": "item_04",
+          "item_06": "item_04",
+          "item_07": "item_04",
+          "item_08": "item_04",
+          "comparison_negative_0": "item_04",
+          "comparison_negative_1": "item_04"
+        },
+        "model_scope": "Base-layer box witness only; deferred props require actual measured native support and fresh physical validation"
+      },
+      "variant": 93,
+      "task_local_model_experience": [],
+      "removed_uninstantiated_open_state": null,
+      "initial_spawn_change": null,
+      "preserved": [
+        "instruction",
+        "goal",
+        "target",
+        "robot",
+        "spawn height and heading",
+        "all task items and counts",
+        "relation types"
+      ]
+    },
+    {
+      "status": "static_partial_not_native_ready",
+      "old_storage": "search_storage",
+      "new_storage": {
+        "name": "search_storage",
+        "category": "metal_bottom_cabinet",
+        "model": "jqyhjy",
+        "floor": "floors_khjmrr_0",
+        "position_xy": [
+          9.200000000000001,
+          1.8
+        ],
+        "aabb": [
+          [
+            8.864299804687501,
+            1.1739677124023438,
+            -0.0
+          ],
+          [
+            9.5357001953125,
+            2.426032287597656,
+            0.9464012756347656
+          ]
+        ],
+        "room": "kitchen_0"
+      },
+      "released_compiler_links": [
+        {
+          "entity": "item_00",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_01",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_02",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_03",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_04",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_05",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_06",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_07",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_08",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "comparison_negative_0",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "comparison_negative_1",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        }
+      ],
+      "replaced_failed_auxiliary_fixture": true,
+      "previous_auxiliary_asset": {
+        "category": "metal_bottom_cabinet",
+        "model": "jqyhjy"
+      },
+      "conservative_opening_clearance_m": 0.0,
+      "opening_sweep_requires_native_measurement": true,
+      "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_302_F331_expert_f21d610008fc/_working/step_1/asset_F331_01/scenario.yaml",
+      "original_sha256": "9be324d68bb288474f07a91b2407963baedec178b8b84b14d3cf8fb2fed5cf7d",
+      "diagnosis_directory": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert_repair_queue_20261107/asset_F331_01",
+      "solver": {
+        "status": "feasible_model",
+        "device": "cuda",
+        "backend": "torch_cuda_finite_csp",
+        "solve_seconds": 0.017273644916713238,
+        "nodes": 2,
+        "candidate_tests": 32454,
+        "search_orders_tried": 1,
+        "grid_m": 0.005,
+        "margin_m": 0.015,
+        "model": "upright boxes; yaw 0/90; single-layer independent bins; integer grid with convex centre halfspaces / fixed obstacles",
+        "physical_validation_required": true,
+        "assignment": {
+          "item_04": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_01": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_00": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_02": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_03": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_05": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_06": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_07": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_08": "meta__base_link_fillable_0_0_link#mesh:0",
+          "comparison_negative_0": "meta__base_link_fillable_0_0_link#mesh:0",
+          "comparison_negative_1": "meta__base_link_fillable_0_0_link#mesh:0"
+        },
+        "poses": {
+          "item_04": {
+            "bin": "meta__base_link_fillable_0_0_link#mesh:0",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.015
+            ],
+            "footprint_m": [
+              0.295,
+              0.405
+            ],
+            "center_xy_m": [
+              0.1625,
+              0.2175
+            ]
+          },
+          "item_01": {
+            "bin": "meta__base_link_fillable_0_0_link#mesh:0",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.325,
+              0.015
+            ],
+            "footprint_m": [
+              0.13,
+              0.28
+            ],
+            "center_xy_m": [
+              0.39,
+              0.155
+            ]
+          }
+        },
+        "deferred_native_stacking": {
+          "item_00": "item_04",
+          "item_02": "item_04",
+          "item_03": "item_04",
+          "item_05": "item_04",
+          "item_06": "item_04",
+          "item_07": "item_04",
+          "item_08": "item_04",
+          "comparison_negative_0": "item_04",
+          "comparison_negative_1": "item_04"
+        },
+        "model_scope": "Base-layer box witness only; deferred props require actual measured native support and fresh physical validation"
+      },
+      "variant": 94,
+      "task_local_model_experience": [],
+      "removed_uninstantiated_open_state": null,
+      "initial_spawn_change": null,
+      "preserved": [
+        "instruction",
+        "goal",
+        "target",
+        "robot",
+        "spawn height and heading",
+        "all task items and counts",
+        "relation types"
+      ]
+    },
+    {
+      "status": "static_partial_not_native_ready",
+      "old_storage": "search_storage",
+      "new_storage": {
+        "name": "search_storage",
+        "category": "metal_bottom_cabinet",
+        "model": "jqyhjy",
+        "floor": "floors_khjmrr_0",
+        "position_xy": [
+          9.200000000000001,
+          1.8
+        ],
+        "aabb": [
+          [
+            8.864299804687501,
+            1.1739677124023438,
+            -0.0
+          ],
+          [
+            9.5357001953125,
+            2.426032287597656,
+            0.9464012756347656
+          ]
+        ],
+        "room": "kitchen_0"
+      },
+      "released_compiler_links": [
+        {
+          "entity": "item_00",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_01",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_02",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_03",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_04",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_05",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_06",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_07",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_08",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "comparison_negative_0",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "comparison_negative_1",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        }
+      ],
+      "replaced_failed_auxiliary_fixture": true,
+      "previous_auxiliary_asset": {
+        "category": "metal_bottom_cabinet",
+        "model": "jqyhjy"
+      },
+      "conservative_opening_clearance_m": 0.0,
+      "opening_sweep_requires_native_measurement": true,
+      "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_302_F331_expert_f21d610008fc/_working/step_2/asset_F331_01/scenario.yaml",
+      "original_sha256": "9be324d68bb288474f07a91b2407963baedec178b8b84b14d3cf8fb2fed5cf7d",
+      "diagnosis_directory": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert_repair_queue_20261107/asset_F331_01",
+      "solver": {
+        "status": "feasible_model",
+        "device": "cuda",
+        "backend": "torch_cuda_finite_csp",
+        "solve_seconds": 0.017273644916713238,
+        "nodes": 2,
+        "candidate_tests": 32454,
+        "search_orders_tried": 1,
+        "grid_m": 0.005,
+        "margin_m": 0.015,
+        "model": "upright boxes; yaw 0/90; single-layer independent bins; integer grid with convex centre halfspaces / fixed obstacles",
+        "physical_validation_required": true,
+        "assignment": {
+          "item_04": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_01": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_00": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_02": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_03": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_05": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_06": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_07": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_08": "meta__base_link_fillable_0_0_link#mesh:0",
+          "comparison_negative_0": "meta__base_link_fillable_0_0_link#mesh:0",
+          "comparison_negative_1": "meta__base_link_fillable_0_0_link#mesh:0"
+        },
+        "poses": {
+          "item_04": {
+            "bin": "meta__base_link_fillable_0_0_link#mesh:0",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.015
+            ],
+            "footprint_m": [
+              0.295,
+              0.405
+            ],
+            "center_xy_m": [
+              0.1625,
+              0.2175
+            ]
+          },
+          "item_01": {
+            "bin": "meta__base_link_fillable_0_0_link#mesh:0",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.325,
+              0.015
+            ],
+            "footprint_m": [
+              0.13,
+              0.28
+            ],
+            "center_xy_m": [
+              0.39,
+              0.155
+            ]
+          }
+        },
+        "deferred_native_stacking": {
+          "item_00": "item_04",
+          "item_02": "item_04",
+          "item_03": "item_04",
+          "item_05": "item_04",
+          "item_06": "item_04",
+          "item_07": "item_04",
+          "item_08": "item_04",
+          "comparison_negative_0": "item_04",
+          "comparison_negative_1": "item_04"
+        },
+        "model_scope": "Base-layer box witness only; deferred props require actual measured native support and fresh physical validation"
+      },
+      "variant": 95,
+      "task_local_model_experience": [],
+      "removed_uninstantiated_open_state": null,
+      "initial_spawn_change": null,
+      "preserved": [
+        "instruction",
+        "goal",
+        "target",
+        "robot",
+        "spawn height and heading",
+        "all task items and counts",
+        "relation types"
+      ]
+    },
+    {
+      "status": "static_partial_not_native_ready",
+      "old_storage": "search_storage",
+      "new_storage": {
+        "name": "search_storage",
+        "category": "metal_bottom_cabinet",
+        "model": "jqyhjy",
+        "floor": "floors_khjmrr_0",
+        "position_xy": [
+          9.200000000000001,
+          1.8
+        ],
+        "aabb": [
+          [
+            8.864299804687501,
+            1.1739677124023438,
+            -0.0
+          ],
+          [
+            9.5357001953125,
+            2.426032287597656,
+            0.9464012756347656
+          ]
+        ],
+        "room": "kitchen_0"
+      },
+      "released_compiler_links": [
+        {
+          "entity": "item_00",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_01",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_02",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_03",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_04",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_05",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_06",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_07",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_08",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "comparison_negative_0",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "comparison_negative_1",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        }
+      ],
+      "replaced_failed_auxiliary_fixture": true,
+      "previous_auxiliary_asset": {
+        "category": "metal_bottom_cabinet",
+        "model": "jqyhjy"
+      },
+      "conservative_opening_clearance_m": 0.0,
+      "opening_sweep_requires_native_measurement": true,
+      "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_302_F331_expert_f21d610008fc/_working/step_3/asset_F331_01/scenario.yaml",
+      "original_sha256": "9be324d68bb288474f07a91b2407963baedec178b8b84b14d3cf8fb2fed5cf7d",
+      "diagnosis_directory": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert_repair_queue_20261107/asset_F331_01",
+      "solver": {
+        "status": "feasible_model",
+        "device": "cuda",
+        "backend": "torch_cuda_finite_csp",
+        "solve_seconds": 0.017273644916713238,
+        "nodes": 2,
+        "candidate_tests": 32454,
+        "search_orders_tried": 1,
+        "grid_m": 0.005,
+        "margin_m": 0.015,
+        "model": "upright boxes; yaw 0/90; single-layer independent bins; integer grid with convex centre halfspaces / fixed obstacles",
+        "physical_validation_required": true,
+        "assignment": {
+          "item_04": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_01": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_00": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_02": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_03": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_05": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_06": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_07": "meta__base_link_fillable_0_0_link#mesh:0",
+          "item_08": "meta__base_link_fillable_0_0_link#mesh:0",
+          "comparison_negative_0": "meta__base_link_fillable_0_0_link#mesh:0",
+          "comparison_negative_1": "meta__base_link_fillable_0_0_link#mesh:0"
+        },
+        "poses": {
+          "item_04": {
+            "bin": "meta__base_link_fillable_0_0_link#mesh:0",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.015
+            ],
+            "footprint_m": [
+              0.295,
+              0.405
+            ],
+            "center_xy_m": [
+              0.1625,
+              0.2175
+            ]
+          },
+          "item_01": {
+            "bin": "meta__base_link_fillable_0_0_link#mesh:0",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.325,
+              0.015
+            ],
+            "footprint_m": [
+              0.13,
+              0.28
+            ],
+            "center_xy_m": [
+              0.39,
+              0.155
+            ]
+          }
+        },
+        "deferred_native_stacking": {
+          "item_00": "item_04",
+          "item_02": "item_04",
+          "item_03": "item_04",
+          "item_05": "item_04",
+          "item_06": "item_04",
+          "item_07": "item_04",
+          "item_08": "item_04",
+          "comparison_negative_0": "item_04",
+          "comparison_negative_1": "item_04"
+        },
+        "model_scope": "Base-layer box witness only; deferred props require actual measured native support and fresh physical validation"
+      },
+      "variant": 96,
+      "task_local_model_experience": [],
+      "removed_uninstantiated_open_state": null,
+      "initial_spawn_change": null,
+      "preserved": [
+        "instruction",
+        "goal",
+        "target",
+        "robot",
+        "spawn height and heading",
+        "all task items and counts",
+        "relation types"
+      ]
+    }
+  ],
+  "expert_policy": {
+    "method": "relocate_storage",
+    "clear_unstated_links": true,
+    "plan_surfaces": true,
+    "runtime_changes": [
+      "closed_native_bbox_XY",
+      "disjoint_measured_support_patches",
+      "bounded_CUDA_candidate_domains"
+    ],
+    "original_instruction_retained": true,
+    "explicit_location_scope_retained": true,
+    "diagnosis": "surface_or_timeout",
+    "reason": "native_timeout"
+  }
+}

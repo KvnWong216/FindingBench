@@ -1,0 +1,822 @@
+{
+  "tasks": [
+    {
+      "id": "asset_P007_01",
+      "family": "semantic_P007",
+      "scene": "Beechwood_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/native_axis_resting_v93_P007_20261115_P007/asset_P007_01/scenario.yaml",
+      "scenario_sha256": "d688cc6e59a91e7fc3bb1754f09e67b815dd289ee48a9fabf2dcc48a39e3e4cf",
+      "instruction": "Find a bottle matching the sample on the counter in front of you among the bathroom toiletries, and put it on that counter.",
+      "target_key": "bottle_of_lotion/tkryrh",
+      "target_entities": [
+        "item_01"
+      ],
+      "target_count": 1,
+      "source_room": "bathroom_1",
+      "destination_room": "bathroom_1",
+      "source_receptacle": "item_00",
+      "destination_receptacle": "countertop_tpuwys_1",
+      "object_count": 13,
+      "distractor_count": 10,
+      "source_survey_sha256": "e6788ca8219b4da8643d87d4deebe4595aa9d5f15520af27b74393574b33a410",
+      "route": {
+        "start": [
+          -6.9,
+          -2.9000000000000004,
+          -1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            -6.9,
+            -2.9000000000000004
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 12,
+        "destination_approach_count": 15,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "editorial_revision_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_00",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "item_09",
+        "comparison_sample",
+        "comparison_negative_0",
+        "comparison_negative_1"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [],
+      "parent_task_id": "P007",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_P007_01",
+        "parent_task_id": "P007",
+        "before_instruction": "Find the rigid toy boat among the bathroom bath supplies and place it on the dry bathtub rim beside the tap.",
+        "after_instruction": "Find a bottle matching the sample on the counter in front of you among the bathroom toiletries, and put it on that counter.",
+        "reason": "Replaces unverified boat shape with real model matching and unsupported bathtub-rim placement with a grounded surface. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "bottle_of_lotion/tkryrh",
+        "target_assets": [
+          "bottle_of_lotion/tkryrh"
+        ],
+        "editorial_revision_id": "expert_bathroom_matching_toiletries_20261115_P007"
+      },
+      "binding_sha256": "e344cb555ee5956530c10be834b7600b1663d563286e045ab026e1cbfb49d8a0",
+      "surface_binding_revision": {
+        "status": "surface_body_binding_corrected_physics_pending",
+        "changes": [
+          {
+            "field": "placements",
+            "entity": "item_00",
+            "before": "bottom_cabinet_no_top_pluwfl_0",
+            "after": "countertop_tpuwys_1"
+          }
+        ],
+        "destination_approach_patch": null,
+        "geometry": {
+          "bottom_cabinet_no_top_pluwfl_0": {
+            "before": [
+              [
+                -7.635,
+                -3.999,
+                0.005
+              ],
+              [
+                -6.646,
+                -3.471,
+                0.549
+              ]
+            ],
+            "after": [
+              [
+                -7.675,
+                -4.01,
+                0.553
+              ],
+              [
+                -6.647,
+                -3.483,
+                0.572
+              ]
+            ]
+          }
+        },
+        "source_survey": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/vla_difficulty_v2/_survey/Beechwood_1_int.json",
+        "source_survey_sha256": "e6788ca8219b4da8643d87d4deebe4595aa9d5f15520af27b74393574b33a410",
+        "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/open_axis_coverage_v92_20261115_P007/asset_P007_01/scenario.yaml",
+        "original_scenario_sha256": "d86926fe5540683aef88998ac117fb80948e0c6eec3fc0669d03b642f16fc0a5",
+        "reason": "Native OnTop requires touching the named body; a separate measured slab covers the named cabinet.",
+        "preserved": [
+          "instruction",
+          "all object models and counts",
+          "target identities",
+          "relation kinds",
+          "spawn",
+          "robot and skills",
+          "physical delivery location"
+        ],
+        "physical_validation_required": true
+      },
+      "previous_binding_sha256": "74f59de912fb0bbf69283235fc019edd9f5c775343ab0342cb766c872d8c1a8c",
+      "editorial_revisions": [
+        {
+          "status": "editorial_revision_physics_pending",
+          "revision_id": "expert_bathroom_matching_toiletries_20261115_P007",
+          "authorization": "user_approved_find_and_deliver_rewrite",
+          "reason": "Preserve the visual sample-matching, bathroom search and exact delivery goal. Replace flat beach moulds and a 41-cm sand shovel that overload the native basket with realistic upright toiletries, and use the larger native basket. Retain every entity and all original relation kinds; archive all before/after native assets. The actual supporting countertop binding is retained.",
+          "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/targeted_family_v77_P007_20261115_P007/asset_P007_01/scenario.yaml",
+          "original_archive": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/pinpoint_20261115/P007/bathroom_matching_v82/asset_P007_01/original_scenario.yaml",
+          "original_scenario_sha256": "33165d652a27cc1b5d6ffc8adc7d084bedb3b76342e0b15e32a682b4c0225359",
+          "revised_scenario_sha256": "fb8ac87854ea2a39b423caeaa0cfe8e38503232a06e4fddc15c6dd6b93a81de8",
+          "before_instruction": "There is a sample on the counter in front of you in the bathroom. Find the bath toy matching that sample among the bathroom bath supplies and put it on the counter in front of you in the bathroom.",
+          "after_instruction": "Find a bottle matching the sample on the counter in front of you among the bathroom toiletries, and put it on that counter.",
+          "object_changes": [
+            {
+              "before": {
+                "name": "item_00",
+                "category": "shopping_basket",
+                "model": "vsxhsv"
+              },
+              "after": {
+                "name": "item_00",
+                "category": "shopping_basket",
+                "model": "nedrsh"
+              },
+              "native_bbox_m": [
+                0.61423779296875,
+                0.39700820922851565,
+                0.32823193359375
+              ],
+              "metadata_sha256": "81ae6e4fb6c17c9417ff94217d33fe634b26672c84b92d201a03b0b6a68a631e",
+              "encrypted_asset_sha256": "bb340aa2669a7e5476003c73dc5b0344d8ce34de8eeb4db7abf79d903d92f65a"
+            },
+            {
+              "before": {
+                "name": "item_01",
+                "category": "beach_toy",
+                "model": "kjoafi"
+              },
+              "after": {
+                "name": "item_01",
+                "category": "bottle_of_lotion",
+                "model": "tkryrh"
+              },
+              "native_bbox_m": [
+                0.07292745208740234,
+                0.07292752075195312,
+                0.18089974975585937
+              ],
+              "metadata_sha256": "8cbbcd59d3ee5be48f60c9e4971c5fc3dede5fc2515548a943daac793d92df6a",
+              "encrypted_asset_sha256": "d1df3b43ac232ed50e5b1c9b0efeca0970e36dde6a5925b6c0060de34aa92146"
+            },
+            {
+              "before": {
+                "name": "comparison_sample",
+                "category": "beach_toy",
+                "model": "kjoafi"
+              },
+              "after": {
+                "name": "comparison_sample",
+                "category": "bottle_of_lotion",
+                "model": "tkryrh"
+              },
+              "native_bbox_m": [
+                0.07292745208740234,
+                0.07292752075195312,
+                0.18089974975585937
+              ],
+              "metadata_sha256": "8cbbcd59d3ee5be48f60c9e4971c5fc3dede5fc2515548a943daac793d92df6a",
+              "encrypted_asset_sha256": "d1df3b43ac232ed50e5b1c9b0efeca0970e36dde6a5925b6c0060de34aa92146"
+            },
+            {
+              "before": {
+                "name": "comparison_negative_0",
+                "category": "beach_toy",
+                "model": "wonucj"
+              },
+              "after": {
+                "name": "comparison_negative_0",
+                "category": "bottle_of_powder",
+                "model": "vfabau"
+              },
+              "native_bbox_m": [
+                0.08228421211242676,
+                0.06173201751708984,
+                0.21113330078125
+              ],
+              "metadata_sha256": "59737637993a926083a9eb4cbcc682235eda4ff6786964ad62a82ebd74e1f71d",
+              "encrypted_asset_sha256": "1da425790df945e14235cb27d8de42fc6cdc50937d0e88f73ab3e6bb1ef62259"
+            },
+            {
+              "before": {
+                "name": "comparison_negative_1",
+                "category": "beach_toy",
+                "model": "zsljeg"
+              },
+              "after": {
+                "name": "comparison_negative_1",
+                "category": "bottle_of_perfume",
+                "model": "ipurzb"
+              },
+              "native_bbox_m": [
+                0.06637122249603272,
+                0.06637113571166993,
+                0.1524000244140625
+              ],
+              "metadata_sha256": "d5156434368f522b326e8f51c4d282101be1d8c39a6372e79e0c0d3d65f421ac",
+              "encrypted_asset_sha256": "8cd02de259dc3633673e4fbac3f8e273f443c4f45de5b54c10d6510cc83342e7"
+            }
+          ],
+          "surface_binding_changes": [],
+          "before_goal": [
+            {
+              "kind": "on_top",
+              "entity": "item_01",
+              "receptacle": "countertop_tpuwys_1"
+            }
+          ],
+          "after_goal": [
+            {
+              "kind": "on_top",
+              "entity": "item_01",
+              "receptacle": "countertop_tpuwys_1"
+            }
+          ],
+          "before_target": {
+            "entity": "item_01",
+            "category": "beach_toy"
+          },
+          "after_target": {
+            "entity": "item_01",
+            "category": "bottle_of_lotion"
+          },
+          "preserved": [
+            "find-and-deliver paradigm",
+            "goal entity and relation",
+            "scene",
+            "spawn",
+            "robot",
+            "skills",
+            "entity names and count",
+            "placement relations",
+            "target cardinality"
+          ],
+          "physical_validation_required": true,
+          "human_completion_verified": false
+        }
+      ],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "item_00",
+            "volume_extents_m": {
+              "meta__base_link_openfillable_0_0_link": [
+                0.54239067029953,
+                0.3574627299308777,
+                0.5728350430478137
+              ]
+            },
+            "native_links": {
+              "meta__base_link_openfillable_0_0_link": "meta__base_link_openfillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "shopping_basket/nedrsh",
+              "scale": [
+                1.0,
+                1.0,
+                1.0
+              ],
+              "open_top_centroid_height": true,
+              "metadata_sha256": "81ae6e4fb6c17c9417ff94217d33fe634b26672c84b92d201a03b0b6a68a631e",
+              "encrypted_asset_sha256": "bb340aa2669a7e5476003c73dc5b0344d8ce34de8eeb4db7abf79d903d92f65a",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.4283674848265946,
+              "nodes": 11,
+              "candidate_tests": 741709,
+              "search_orders_tried": 1,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_04": "meta__base_link_openfillable_0_0_link",
+                "item_05": "meta__base_link_openfillable_0_0_link",
+                "item_02": "meta__base_link_openfillable_0_0_link",
+                "item_07": "meta__base_link_openfillable_0_0_link",
+                "item_08": "meta__base_link_openfillable_0_0_link",
+                "item_01": "meta__base_link_openfillable_0_0_link",
+                "comparison_negative_0": "meta__base_link_openfillable_0_0_link",
+                "item_06": "meta__base_link_openfillable_0_0_link",
+                "item_09": "meta__base_link_openfillable_0_0_link",
+                "comparison_negative_1": "meta__base_link_openfillable_0_0_link",
+                "item_03": "meta__base_link_openfillable_0_0_link"
+              },
+              "poses": {
+                "item_04": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.168,
+                    0.07200000000000001
+                  ],
+                  "center_xy_m": [
+                    0.089,
+                    0.041
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.178,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.105,
+                    0.077
+                  ],
+                  "center_xy_m": [
+                    0.2305,
+                    0.043500000000000004
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.28800000000000003,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.08600000000000001,
+                    0.085
+                  ],
+                  "center_xy_m": [
+                    0.331,
+                    0.0475
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.379,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.08600000000000001,
+                    0.085
+                  ],
+                  "center_xy_m": [
+                    0.422,
+                    0.0475
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.082
+                  ],
+                  "footprint_m": [
+                    0.08600000000000001,
+                    0.085
+                  ],
+                  "center_xy_m": [
+                    0.048,
+                    0.1245
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.096,
+                    0.082
+                  ],
+                  "footprint_m": [
+                    0.073,
+                    0.073
+                  ],
+                  "center_xy_m": [
+                    0.1325,
+                    0.11850000000000001
+                  ]
+                },
+                "comparison_negative_0": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.17400000000000002,
+                    0.08700000000000001
+                  ],
+                  "footprint_m": [
+                    0.083,
+                    0.062
+                  ],
+                  "center_xy_m": [
+                    0.2155,
+                    0.11800000000000001
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.262,
+                    0.095
+                  ],
+                  "footprint_m": [
+                    0.069,
+                    0.069
+                  ],
+                  "center_xy_m": [
+                    0.2965,
+                    0.1295
+                  ]
+                },
+                "item_09": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.336,
+                    0.095
+                  ],
+                  "footprint_m": [
+                    0.075,
+                    0.062
+                  ],
+                  "center_xy_m": [
+                    0.3735,
+                    0.126
+                  ]
+                },
+                "comparison_negative_1": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.47000000000000003,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.067,
+                    0.067
+                  ],
+                  "center_xy_m": [
+                    0.5035000000000001,
+                    0.0385
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.41600000000000004,
+                    0.095
+                  ],
+                  "footprint_m": [
+                    0.078,
+                    0.056
+                  ],
+                  "center_xy_m": [
+                    0.455,
+                    0.123
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_04": "meta__base_link_openfillable_0_0_link",
+              "item_05": "meta__base_link_openfillable_0_0_link",
+              "item_02": "meta__base_link_openfillable_0_0_link",
+              "item_07": "meta__base_link_openfillable_0_0_link",
+              "item_08": "meta__base_link_openfillable_0_0_link",
+              "item_01": "meta__base_link_openfillable_0_0_link",
+              "comparison_negative_0": "meta__base_link_openfillable_0_0_link",
+              "item_06": "meta__base_link_openfillable_0_0_link",
+              "item_09": "meta__base_link_openfillable_0_0_link",
+              "comparison_negative_1": "meta__base_link_openfillable_0_0_link",
+              "item_03": "meta__base_link_openfillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_04": "meta__base_link_openfillable_0_0_link",
+              "item_05": "meta__base_link_openfillable_0_0_link",
+              "item_02": "meta__base_link_openfillable_0_0_link",
+              "item_07": "meta__base_link_openfillable_0_0_link",
+              "item_08": "meta__base_link_openfillable_0_0_link",
+              "item_01": "meta__base_link_openfillable_0_0_link",
+              "comparison_negative_0": "meta__base_link_openfillable_0_0_link",
+              "item_06": "meta__base_link_openfillable_0_0_link",
+              "item_09": "meta__base_link_openfillable_0_0_link",
+              "comparison_negative_1": "meta__base_link_openfillable_0_0_link",
+              "item_03": "meta__base_link_openfillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_04": "meta__base_link_openfillable_0_0_link",
+          "item_05": "meta__base_link_openfillable_0_0_link",
+          "item_02": "meta__base_link_openfillable_0_0_link",
+          "item_07": "meta__base_link_openfillable_0_0_link",
+          "item_08": "meta__base_link_openfillable_0_0_link",
+          "item_01": "meta__base_link_openfillable_0_0_link",
+          "comparison_negative_0": "meta__base_link_openfillable_0_0_link",
+          "item_06": "meta__base_link_openfillable_0_0_link",
+          "item_09": "meta__base_link_openfillable_0_0_link",
+          "comparison_negative_1": "meta__base_link_openfillable_0_0_link",
+          "item_03": "meta__base_link_openfillable_0_0_link"
+        },
+        "physical_validation_required": true
+      },
+      "expert_interventions": [
+        {
+          "method": "reviewed_floor_supported_source_basket",
+          "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/pinpoint_20261115/P007/separate_search_and_delivery_v88/asset_P007_01/scenario.yaml",
+          "before": {
+            "entity": "item_00",
+            "relation": "on_top",
+            "receptacle": "expert_surface_88",
+            "position_xy": [
+              -5.518500289916993,
+              -3.0265462341308593
+            ]
+          },
+          "after": {
+            "entity": "item_00",
+            "relation": "on_top",
+            "receptacle": "floors_igemfx_0",
+            "position_xy": [
+              -5.518500289916993,
+              -3.0265462341308593
+            ]
+          },
+          "removed_empty_auxiliary_fixture": "expert_surface_88",
+          "reason": "Test direct native floor support for the same movable basket and complete nested inventory; avoid the elevated basket-table contact chain. No object is frozen and every original Inside relation is preserved.",
+          "preserved": [
+            "instruction",
+            "goal",
+            "target",
+            "all native movable props and counts",
+            "reference sample",
+            "spawn",
+            "all Inside relations"
+          ],
+          "physical_validation_required": true,
+          "human_completion_verified": false
+        },
+        {
+          "method": "reviewed_native_axis_resting_poses",
+          "reason": "The default Inside orientation bank tilts nominally upright toiletries and rotates the already-horizontal liquid-soap asset. Propose actual native model-axis resting poses for the complete stock, then keep all ordinary native sampling, support, membership, convergence and reload checks.",
+          "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/pinpoint_20261115/P007/floor_basket_v90/scenario.yaml",
+          "changes": [
+            {
+              "before": {
+                "entity": "item_01",
+                "relation": "inside",
+                "receptacle": "item_00"
+              },
+              "after": {
+                "entity": "item_01",
+                "relation": "inside",
+                "receptacle": "item_00",
+                "orientation_hint_xyzw": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_02",
+                "relation": "inside",
+                "receptacle": "item_00"
+              },
+              "after": {
+                "entity": "item_02",
+                "relation": "inside",
+                "receptacle": "item_00",
+                "orientation_hint_xyzw": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_03",
+                "relation": "inside",
+                "receptacle": "item_00"
+              },
+              "after": {
+                "entity": "item_03",
+                "relation": "inside",
+                "receptacle": "item_00",
+                "orientation_hint_xyzw": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_04",
+                "relation": "inside",
+                "receptacle": "item_00"
+              },
+              "after": {
+                "entity": "item_04",
+                "relation": "inside",
+                "receptacle": "item_00",
+                "orientation_hint_xyzw": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_05",
+                "relation": "inside",
+                "receptacle": "item_00"
+              },
+              "after": {
+                "entity": "item_05",
+                "relation": "inside",
+                "receptacle": "item_00",
+                "orientation_hint_xyzw": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_06",
+                "relation": "inside",
+                "receptacle": "item_00"
+              },
+              "after": {
+                "entity": "item_06",
+                "relation": "inside",
+                "receptacle": "item_00",
+                "orientation_hint_xyzw": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_07",
+                "relation": "inside",
+                "receptacle": "item_00"
+              },
+              "after": {
+                "entity": "item_07",
+                "relation": "inside",
+                "receptacle": "item_00",
+                "orientation_hint_xyzw": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_08",
+                "relation": "inside",
+                "receptacle": "item_00"
+              },
+              "after": {
+                "entity": "item_08",
+                "relation": "inside",
+                "receptacle": "item_00",
+                "orientation_hint_xyzw": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_09",
+                "relation": "inside",
+                "receptacle": "item_00"
+              },
+              "after": {
+                "entity": "item_09",
+                "relation": "inside",
+                "receptacle": "item_00",
+                "orientation_hint_xyzw": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "comparison_negative_0",
+                "relation": "inside",
+                "receptacle": "item_00"
+              },
+              "after": {
+                "entity": "comparison_negative_0",
+                "relation": "inside",
+                "receptacle": "item_00",
+                "orientation_hint_xyzw": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "comparison_negative_1",
+                "relation": "inside",
+                "receptacle": "item_00"
+              },
+              "after": {
+                "entity": "comparison_negative_1",
+                "relation": "inside",
+                "receptacle": "item_00",
+                "orientation_hint_xyzw": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              }
+            }
+          ],
+          "preserved": [
+            "all original props and counts",
+            "instruction",
+            "target",
+            "goal",
+            "sample",
+            "floor basket",
+            "Inside relations",
+            "spawn"
+          ],
+          "physical_validation_required": true,
+          "human_completion_verified": false
+        }
+      ]
+    }
+  ]
+}

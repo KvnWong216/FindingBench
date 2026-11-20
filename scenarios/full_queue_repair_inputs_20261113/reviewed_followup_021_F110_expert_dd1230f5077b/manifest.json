@@ -1,0 +1,346 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F110_01",
+      "family": "semantic_F110",
+      "scene": "Ihlen_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_021_F110_expert_dd1230f5077b/asset_F110_01/scenario.yaml",
+      "scenario_sha256": "c09b7267bd3fee1210083d9bb1fb8e4cf0c60b213d31a207685dffe35f77440f",
+      "instruction": "Find the spatula in the kitchen utensil drawer and bring it to the counter in front of you in the kitchen for cooking pancakes.",
+      "target_key": "spatula/vnymjm",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "kitchen_0",
+      "destination_room": "kitchen_0",
+      "source_receptacle": "expert_storage_93",
+      "destination_receptacle": "countertop_tpuwys_3",
+      "object_count": 6,
+      "distractor_count": 4,
+      "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+      "route": {
+        "start": [
+          -3.9000000000000004,
+          4.7,
+          -1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            -3.9000000000000004,
+            4.7
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 40,
+        "destination_approach_count": 30,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "bottom_cabinet_no_top_qohxjq_0",
+        "expert_storage_93"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "expert_storage_93",
+          "category": "bottom_cabinet_no_top",
+          "model": "ncgmqr",
+          "floor": "floors_btfqvw_0",
+          "position_xy": [
+            -2.6,
+            4.6000000000000005
+          ],
+          "aabb": [
+            [
+              -2.9118697052001954,
+              4.391652801513672,
+              0.0
+            ],
+            [
+              -2.288130294799805,
+              4.808347198486329,
+              0.6957286682128906
+            ]
+          ],
+          "room": "kitchen_0"
+        }
+      ],
+      "parent_task_id": "F110",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F110_01",
+        "parent_task_id": "F110",
+        "before_instruction": "Find the kitchen utensil with a broad flat blade used for lifting pancakes and put it beside the frying pan on the counter.",
+        "after_instruction": "Find the spatula in the kitchen utensil drawer and bring it to the counter in front of you in the kitchen for cooking pancakes.",
+        "reason": "Uses the native utensil category instead of asserting a specific broad-blade geometry absent from metadata. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "spatula/vnymjm",
+        "target_assets": [
+          "spatula/vnymjm"
+        ]
+      },
+      "binding_sha256": "0516cbf0af32f176412850c0d9be888f359ce436b1acdbd8a394b7edfed1720e",
+      "surface_binding_revision": {
+        "status": "surface_body_binding_corrected_physics_pending",
+        "changes": [
+          {
+            "field": "goal",
+            "entity": "item_00",
+            "before": "bottom_cabinet_no_top_qohxjq_0",
+            "after": "countertop_tpuwys_3"
+          }
+        ],
+        "destination_approach_patch": {
+          "contact_body": "countertop_tpuwys_3",
+          "above_fixture": "bottom_cabinet_no_top_qohxjq_0",
+          "aabb": [
+            [
+              -4.469,
+              3.565,
+              0.901
+            ],
+            [
+              -3.97,
+              4.148,
+              0.92
+            ]
+          ],
+          "scope": "private route proposal to a subset of the actual slab; no synthetic body"
+        },
+        "geometry": {
+          "bottom_cabinet_no_top_qohxjq_0": {
+            "before": [
+              [
+                -4.469,
+                3.565,
+                0.002
+              ],
+              [
+                -3.97,
+                4.152,
+                0.898
+              ]
+            ],
+            "after": [
+              [
+                -5.058,
+                3.561,
+                0.901
+              ],
+              [
+                -3.501,
+                4.148,
+                0.92
+              ]
+            ]
+          }
+        },
+        "source_survey": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/vla_difficulty_v2/_survey/Ihlen_1_int.json",
+        "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+        "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_F110_01/scenario.yaml",
+        "original_scenario_sha256": "8108a90bfacc0bce77b7781cd57bc72f173488fd19923d117a0a5ad7aeae08a3",
+        "reason": "Native OnTop requires touching the named body; a separate measured slab covers the named cabinet.",
+        "preserved": [
+          "instruction",
+          "all object models and counts",
+          "target identities",
+          "relation kinds",
+          "spawn",
+          "robot and skills",
+          "physical delivery location"
+        ],
+        "physical_validation_required": true
+      },
+      "storage_model_experience": [],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "expert_storage_93",
+            "volume_extents_m": {
+              "meta__drawer0_fillable_0_0_link": [
+                0.5233886344018981,
+                0.39358985018730164,
+                0.14444891703128815
+              ],
+              "meta__drawer1_fillable_0_0_link": [
+                0.5237021703720093,
+                0.39821761441230774,
+                0.14396608537536593
+              ],
+              "meta__drawer2_fillable_0_0_link": [
+                0.5186685735186505,
+                0.3985025246143341,
+                0.28758682544270653
+              ]
+            },
+            "native_links": {
+              "meta__drawer0_fillable_0_0_link": "meta__drawer0_fillable_0_0_link",
+              "meta__drawer1_fillable_0_0_link": "meta__drawer1_fillable_0_0_link",
+              "meta__drawer2_fillable_0_0_link": "meta__drawer2_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet_no_top/ncgmqr",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "654ec43b4fbdc16ab935e47e394df2e4452ea2ef8e5df804fc94faba3196f5a7",
+              "metadata_sha256": "4f69836ec4373a572ddb8592f3f5f5e84e399b02a8b6553a4147db5c12cdb121",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.0013063037768006325,
+              "nodes": 0,
+              "candidate_tests": 0,
+              "search_orders_tried": 0,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_00": "meta__drawer0_fillable_0_0_link",
+                "item_01": "meta__drawer0_fillable_0_0_link",
+                "item_02": "meta__drawer0_fillable_0_0_link",
+                "item_03": "meta__drawer0_fillable_0_0_link",
+                "item_04": "meta__drawer0_fillable_0_0_link"
+              },
+              "poses": {
+                "item_00": {
+                  "bin": "meta__drawer0_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.321,
+                    0.11800000000000001
+                  ],
+                  "center_xy_m": [
+                    0.1655,
+                    0.064
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__drawer0_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.128
+                  ],
+                  "footprint_m": [
+                    0.266,
+                    0.064
+                  ],
+                  "center_xy_m": [
+                    0.138,
+                    0.16
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__drawer0_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.197
+                  ],
+                  "footprint_m": [
+                    0.311,
+                    0.042
+                  ],
+                  "center_xy_m": [
+                    0.1605,
+                    0.218
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__drawer0_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.244
+                  ],
+                  "footprint_m": [
+                    0.302,
+                    0.082
+                  ],
+                  "center_xy_m": [
+                    0.156,
+                    0.285
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__drawer0_fillable_0_0_link",
+                  "yaw_degrees": 90,
+                  "lower_xy_m": [
+                    0.005,
+                    0.331
+                  ],
+                  "footprint_m": [
+                    0.058,
+                    0.055
+                  ],
+                  "center_xy_m": [
+                    0.034,
+                    0.35850000000000004
+                  ]
+                }
+              },
+              "constructive_witness": "single strip; exact quantized box and clearance checks"
+            },
+            "assignment": {
+              "item_00": "meta__drawer0_fillable_0_0_link",
+              "item_01": "meta__drawer0_fillable_0_0_link",
+              "item_02": "meta__drawer0_fillable_0_0_link",
+              "item_03": "meta__drawer0_fillable_0_0_link",
+              "item_04": "meta__drawer0_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_00": "meta__drawer0_fillable_0_0_link",
+              "item_01": "meta__drawer0_fillable_0_0_link",
+              "item_02": "meta__drawer0_fillable_0_0_link",
+              "item_03": "meta__drawer0_fillable_0_0_link",
+              "item_04": "meta__drawer0_fillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    }
+  ]
+}

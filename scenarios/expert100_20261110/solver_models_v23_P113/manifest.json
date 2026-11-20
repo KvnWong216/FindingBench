@@ -1,0 +1,490 @@
+{
+  "tasks": [
+    {
+      "id": "asset_P113_01",
+      "family": "semantic_P113",
+      "scene": "house_double_floor_upper",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/solver_models_v23_P113/asset_P113_01/scenario.yaml",
+      "scenario_sha256": "9ca620269abf879482fcfa10a25732514032f63393679b0cb58b79b813274ac1",
+      "instruction": "Find a hardback and a paperback in the living-room book cabinet and bring both to the cabinet top in front of you in the bedroom in the bedroom for reading.",
+      "target_key": "hardback/ipkwys",
+      "target_entities": [
+        "item_00",
+        "item_01"
+      ],
+      "target_count": 2,
+      "source_room": "living_room_0",
+      "destination_room": "bedroom_0",
+      "source_receptacle": "expert_storage_0",
+      "destination_receptacle": "delivery_surface",
+      "object_count": 13,
+      "distractor_count": 8,
+      "source_survey_sha256": "bad4111136351f4ccb189cc8da21449e65bb285de15b8c94024c1d045abd820a",
+      "route": {
+        "start": [
+          -3.4000000000000004,
+          0.8,
+          3.141592653589793
+        ],
+        "path_xy": [
+          [
+            -3.4000000000000004,
+            0.8
+          ],
+          [
+            -3.4000000000000004,
+            0.7000000000000001
+          ],
+          [
+            -3.4000000000000004,
+            0.6000000000000001
+          ],
+          [
+            -3.3000000000000003,
+            0.6000000000000001
+          ],
+          [
+            -3.2,
+            0.6000000000000001
+          ],
+          [
+            -3.1,
+            0.6000000000000001
+          ],
+          [
+            -3.0,
+            0.6000000000000001
+          ],
+          [
+            -2.9000000000000004,
+            0.6000000000000001
+          ],
+          [
+            -2.8000000000000003,
+            0.6000000000000001
+          ],
+          [
+            -2.7,
+            0.6000000000000001
+          ],
+          [
+            -2.6,
+            0.6000000000000001
+          ],
+          [
+            -2.5,
+            0.6000000000000001
+          ]
+        ],
+        "length_m": 1.1,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 57,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "item_09",
+        "search_storage",
+        "expert_storage_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "search_storage",
+          "category": "bottom_cabinet",
+          "model": "jrhgeu",
+          "floor": "floors_rfqizg_0",
+          "position_xy": [
+            -0.30000000000000004,
+            0.1
+          ],
+          "aabb": [
+            [
+              -0.467144760131836,
+              -0.24228797912597658,
+              0.0
+            ],
+            [
+              -0.1328552398681641,
+              0.4422879791259766,
+              0.6846599731445313
+            ]
+          ],
+          "room": "living_room_0"
+        },
+        {
+          "name": "delivery_surface",
+          "category": "bottom_cabinet",
+          "model": "jrhgeu",
+          "floor": "floors_nlswvt_0",
+          "position_xy": [
+            -4.1000000000000005,
+            1.3
+          ],
+          "aabb": [
+            [
+              -4.267144760131837,
+              0.9577120208740235,
+              0.0
+            ],
+            [
+              -3.9328552398681644,
+              1.6422879791259766,
+              0.6846599731445313
+            ]
+          ],
+          "room": "bedroom_0"
+        },
+        {
+          "name": "expert_storage_0",
+          "category": "bottom_cabinet",
+          "model": "bamfsz",
+          "floor": "floors_rfqizg_0",
+          "position_xy": [
+            -1.4000000000000001,
+            -0.1
+          ],
+          "aabb": [
+            [
+              -1.626542175292969,
+              -0.31528057098388673,
+              0.0
+            ],
+            [
+              -1.1734578247070313,
+              0.11528057098388672,
+              0.5425187683105469
+            ]
+          ],
+          "room": "living_room_0"
+        }
+      ],
+      "parent_task_id": "P113",
+      "tier": "long",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_P113_01",
+        "parent_task_id": "P113",
+        "before_instruction": "Find the books bearing the name Robin among the living-room book cabinet contents and put them on the bedroom shelf beside the bed.",
+        "after_instruction": "Find a hardback and a paperback in the living-room book cabinet and bring both to the cabinet top in front of you in the bedroom in the bedroom for reading.",
+        "reason": "Replaces fictional Robin ownership labels with an explicit two-format reading selection; both native book categories required. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "hardback/ipkwys",
+        "target_assets": [
+          "hardback/ipkwys",
+          "paperback_book/yxujzs"
+        ]
+      },
+      "binding_sha256": "a49cb5ae334f5de99a414b5566840f62eb8f4e320b4561d59250a967518663c7",
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "expert_storage_0",
+            "volume_extents_m": {
+              "meta__link_1_fillable_0_0_link": [
+                0.3636389226425012,
+                0.35760286045074463,
+                0.16590549134926458
+              ],
+              "meta__link_2_fillable_0_0_link": [
+                0.36083231040335595,
+                0.36367266964912415,
+                0.07200003650784437
+              ],
+              "meta__link_3_fillable_0_0_link": [
+                0.35854086937132057,
+                0.36297681522369385,
+                0.02700003399327411
+              ],
+              "meta__link_4_fillable_0_0_link": [
+                0.3579644626368419,
+                0.3631394166946411,
+                0.02700004433095321
+              ]
+            },
+            "native_links": {
+              "meta__link_1_fillable_0_0_link": "meta__link_1_fillable_0_0_link",
+              "meta__link_2_fillable_0_0_link": "meta__link_2_fillable_0_0_link",
+              "meta__link_3_fillable_0_0_link": "meta__link_3_fillable_0_0_link",
+              "meta__link_4_fillable_0_0_link": "meta__link_4_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet/bamfsz",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "a98da154c304668361e5daeed5844eaa1be5f88f30decc62c51ab146be91c60a",
+              "metadata_sha256": "799c29283726b3515c27196518d33b0888e653b894de2626a32ddd77cbc461a1",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.051793340127915144,
+              "nodes": 10,
+              "candidate_tests": 481801,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_01": "meta__link_2_fillable_0_0_link",
+                "item_03": "meta__link_3_fillable_0_0_link",
+                "item_09": "meta__link_1_fillable_0_0_link",
+                "item_02": "meta__link_1_fillable_0_0_link",
+                "item_00": "meta__link_1_fillable_0_0_link",
+                "item_04": "meta__link_2_fillable_0_0_link",
+                "item_06": "meta__link_1_fillable_0_0_link",
+                "item_07": "meta__link_1_fillable_0_0_link",
+                "item_05": "meta__link_1_fillable_0_0_link",
+                "item_08": "meta__link_4_fillable_0_0_link"
+              },
+              "poses": {
+                "item_01": {
+                  "bin": "meta__link_2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.253,
+                    0.186
+                  ],
+                  "center_xy_m": [
+                    0.1315,
+                    0.098
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__link_3_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.249,
+                    0.179
+                  ],
+                  "center_xy_m": [
+                    0.1295,
+                    0.0945
+                  ]
+                },
+                "item_09": {
+                  "bin": "meta__link_1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.077,
+                    0.138
+                  ],
+                  "center_xy_m": [
+                    0.043500000000000004,
+                    0.074
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__link_1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.08700000000000001,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.14200000000000002,
+                    0.14
+                  ],
+                  "center_xy_m": [
+                    0.158,
+                    0.075
+                  ]
+                },
+                "item_00": {
+                  "bin": "meta__link_1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.15
+                  ],
+                  "footprint_m": [
+                    0.14200000000000002,
+                    0.124
+                  ],
+                  "center_xy_m": [
+                    0.076,
+                    0.212
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__link_2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.196
+                  ],
+                  "footprint_m": [
+                    0.129,
+                    0.089
+                  ],
+                  "center_xy_m": [
+                    0.0695,
+                    0.2405
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__link_1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.234,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.035,
+                    0.035
+                  ],
+                  "center_xy_m": [
+                    0.2515,
+                    0.0225
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__link_1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.274,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.027,
+                    0.027
+                  ],
+                  "center_xy_m": [
+                    0.28750000000000003,
+                    0.0185
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__link_1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.306,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.05,
+                    0.039
+                  ],
+                  "center_xy_m": [
+                    0.331,
+                    0.0245
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__link_4_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.05,
+                    0.079
+                  ],
+                  "center_xy_m": [
+                    0.03,
+                    0.0445
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_01": "meta__link_2_fillable_0_0_link",
+              "item_03": "meta__link_3_fillable_0_0_link",
+              "item_09": "meta__link_1_fillable_0_0_link",
+              "item_02": "meta__link_1_fillable_0_0_link",
+              "item_00": "meta__link_1_fillable_0_0_link",
+              "item_04": "meta__link_2_fillable_0_0_link",
+              "item_06": "meta__link_1_fillable_0_0_link",
+              "item_07": "meta__link_1_fillable_0_0_link",
+              "item_05": "meta__link_1_fillable_0_0_link",
+              "item_08": "meta__link_4_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_01": "meta__link_2_fillable_0_0_link",
+              "item_03": "meta__link_3_fillable_0_0_link",
+              "item_09": "meta__link_1_fillable_0_0_link",
+              "item_02": "meta__link_1_fillable_0_0_link",
+              "item_00": "meta__link_1_fillable_0_0_link",
+              "item_04": "meta__link_2_fillable_0_0_link",
+              "item_06": "meta__link_1_fillable_0_0_link",
+              "item_07": "meta__link_1_fillable_0_0_link",
+              "item_05": "meta__link_1_fillable_0_0_link",
+              "item_08": "meta__link_4_fillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_01": "meta__link_2_fillable_0_0_link",
+          "item_03": "meta__link_3_fillable_0_0_link",
+          "item_09": "meta__link_1_fillable_0_0_link",
+          "item_02": "meta__link_1_fillable_0_0_link",
+          "item_00": "meta__link_1_fillable_0_0_link",
+          "item_04": "meta__link_2_fillable_0_0_link",
+          "item_06": "meta__link_1_fillable_0_0_link",
+          "item_07": "meta__link_1_fillable_0_0_link",
+          "item_05": "meta__link_1_fillable_0_0_link",
+          "item_08": "meta__link_4_fillable_0_0_link"
+        },
+        "physical_validation_required": true
+      },
+      "storage_model_experience": [
+        {
+          "inventory_sha256": "8d587056b1d85522b96ab783ea239f4d93f41f803dbd3f8e7bcd90eb5e364825",
+          "asset": "bottom_cabinet_no_top/ncgmqr",
+          "reason": "No allowed bin/orientation fits an item",
+          "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/source_scope_v21_P113/asset_P113_01/native_validation.log",
+          "scenario_sha256": "e0e8998e8b0b92f960d912c5ef700bee00516c84a16d9436ba4b0086949cc09a",
+          "scope": "same task and unchanged inventory; try another model first, never exclude the asset globally"
+        }
+      ]
+    }
+  ]
+}

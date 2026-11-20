@@ -1,0 +1,76 @@
+{
+  "id": "asset_U308_01",
+  "family": "semantic_U308",
+  "scene": "Beechwood_0_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_U308_01/scenario.yaml",
+  "scenario_sha256": "70dbd574d50b45d2029b05347fbe7324607e70a5476939cd90d210c65cd4db9b",
+  "instruction": "Find an empty storage box among the study cupboard supplies and bring it to the desk in front of you in the study for organizing the desk supplies.",
+  "target_key": "storage_box/eicujj",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "private_office_0",
+  "destination_room": "private_office_0",
+  "source_receptacle": "bottom_cabinet_nddvba_0",
+  "destination_receptacle": "desk_rzyfxk_1",
+  "object_count": 6,
+  "distractor_count": 5,
+  "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+  "route": {
+    "start": [
+      5.3500000000000005,
+      -3.95,
+      0.0
+    ],
+    "path_xy": [
+      [
+        5.3500000000000005,
+        -3.95
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 12,
+    "destination_approach_count": 13,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "bottom_cabinet_nddvba_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "parent_task_id": "U308",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_U308_01",
+    "parent_task_id": "U308",
+    "before_instruction": "I need a shallow box to organize the study desk drawer. Find one among the storage room containers that fits the drawer's width and depth and put it on the desk beside the drawer.",
+    "after_instruction": "Find an empty storage box among the study cupboard supplies and bring it to the desk in front of you in the study for organizing the desk supplies.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Missing explicit reference entity and validated target-reference correspondence for box fitting desk drawer footprint. Visible drawer dimensions and varied box sizes required Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: storage_room/drawer -> private_office/desk becomes private_office/drawer -> private_office/desk. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory. Final fit repair: cupboard storage replaces an undersized drawer; original native box size is unchanged.",
+    "target_asset": "storage_box/eicujj",
+    "target_assets": [
+      "storage_box/eicujj"
+    ]
+  },
+  "binding_sha256": "efef60850fefc517c221479b50ef4c95de460700c3ff13c0c4d881435eb5aa45"
+}

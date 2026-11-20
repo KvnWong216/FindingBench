@@ -1,0 +1,214 @@
+{
+  "action": "direct",
+  "case": {
+    "id": "F139",
+    "record": {
+      "id": "asset_F139_01",
+      "family": "semantic_F139",
+      "scene": "Ihlen_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/all_remaining_20261113_04_F139/asset_F139_01/scenario.yaml",
+      "scenario_sha256": "3f6847ed9410758f52360ecac28f3da43632018195316e38f55a922e587b7281",
+      "instruction": "There is a sample on the cabinet top in front of you in the kitchen. Find the cereal box matching that sample in the kitchen food-storage area and bring it to the cabinet top in front of you in the kitchen in the kitchen.",
+      "target_key": "box_of_cereal/hosfhj",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "kitchen_0",
+      "destination_room": "kitchen_0",
+      "source_receptacle": "countertop_tpuwys_3",
+      "destination_receptacle": "countertop_tpuwys_3",
+      "object_count": 12,
+      "distractor_count": 10,
+      "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+      "route": {
+        "start": [
+          -3.9000000000000004,
+          4.7,
+          -1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            -3.9000000000000004,
+            4.7
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 37,
+        "destination_approach_count": 37,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "comparison_sample",
+        "comparison_negative_0",
+        "comparison_negative_1"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [
+        {
+          "scene": "Merom_1_int",
+          "source": "bookcase_owvfik_0",
+          "reason": "Previously failed source layout"
+        },
+        {
+          "scene": "Merom_1_int",
+          "source": "bookcase_owvfik_0",
+          "reason": "Previously failed source layout"
+        },
+        {
+          "scene": "Merom_1_int",
+          "source": "bookcase_owvfik_0",
+          "reason": "Previously failed source layout"
+        },
+        {
+          "scene": "house_single_floor",
+          "source": "countertop_kelzer_0",
+          "reason": "Previously failed source layout"
+        }
+      ],
+      "parent_task_id": "F139",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F139_01",
+        "parent_task_id": "F139",
+        "before_instruction": "Find a cereal box in the pantry narrow enough to fit the empty gap between the coffee jar and the flour box on the kitchen shelf, and put it in that gap.",
+        "after_instruction": "There is a sample on the cabinet top in front of you in the kitchen. Find the cereal box matching that sample in the kitchen food-storage area and bring it to the cabinet top in front of you in the kitchen in the kitchen.",
+        "reason": "Replaces unconstructed gap-fit selection with exact native-package matching and shared-surface delivery. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Layout revision: the unbuilt pantry-room task is explicitly relocated to the kitchen food-storage area because surveyed pantry rooms lack two robot-accessible storage/delivery positions. Target models, counts, reference matching, destination inventory and goals are unchanged; this changes room scope and may shorten transport.",
+        "target_asset": "box_of_cereal/hosfhj",
+        "target_assets": [
+          "box_of_cereal/hosfhj"
+        ]
+      },
+      "proposal_native_policy_signature": "638901e57b44747045bd55ed10084fe82451f1075c4c28aa6f0af555449b389c",
+      "surface_binding_revision": {
+        "status": "surface_body_binding_corrected_physics_pending",
+        "changes": [
+          {
+            "field": "placements",
+            "entity": "comparison_sample",
+            "before": "bottom_cabinet_no_top_qohxjq_0",
+            "after": "countertop_tpuwys_3"
+          },
+          {
+            "field": "goal",
+            "entity": "item_00",
+            "before": "bottom_cabinet_no_top_qohxjq_0",
+            "after": "countertop_tpuwys_3"
+          }
+        ],
+        "destination_approach_patch": {
+          "contact_body": "countertop_tpuwys_3",
+          "above_fixture": "bottom_cabinet_no_top_qohxjq_0",
+          "aabb": [
+            [
+              -4.469,
+              3.565,
+              0.901
+            ],
+            [
+              -3.97,
+              4.148,
+              0.92
+            ]
+          ],
+          "scope": "private route proposal to a subset of the actual slab; no synthetic body"
+        },
+        "geometry": {
+          "bottom_cabinet_no_top_qohxjq_0": {
+            "before": [
+              [
+                -4.469,
+                3.565,
+                0.002
+              ],
+              [
+                -3.97,
+                4.152,
+                0.898
+              ]
+            ],
+            "after": [
+              [
+                -5.058,
+                3.561,
+                0.901
+              ],
+              [
+                -3.501,
+                4.148,
+                0.92
+              ]
+            ]
+          }
+        },
+        "source_survey": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/vla_difficulty_v2/_survey/Ihlen_1_int.json",
+        "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+        "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/full_queue_d768444abfb5_F139/asset_F139_01/scenario.yaml",
+        "original_scenario_sha256": "3753a549dba164765e1635a4b3ab16f1848dd2c3a52d55c97b026f37007b81d5",
+        "reason": "Native OnTop requires touching the named body; a separate measured slab covers the named cabinet.",
+        "preserved": [
+          "instruction",
+          "all object models and counts",
+          "target identities",
+          "relation kinds",
+          "spawn",
+          "robot and skills",
+          "physical delivery location"
+        ],
+        "physical_validation_required": true
+      }
+    },
+    "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_lane2_20261111/all_remaining_20261113_04_F139/asset_F139_01",
+    "accepted": false,
+    "error": "placement failed verification after physics settled: ['item_02 on_top countertop_tpuwys_3', 'item_07 on_top countertop_tpuwys_3', 'item_08 on_top countertop_tpuwys_3', 'comparison_negative_0 on_top countertop_tpuwys_3']",
+    "source": "reviewed_polling_probe_all_remaining_20261113_04",
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "surface_or_timeout",
+      "reason": "placement failed verification after physics settled: ['item_02 on_top countertop_tpuwys_3', 'item_07 on_top countertop_tpuwys_3', 'item_08 on_top countertop_tpuwys_3', 'comparison_negative_0 on_top countertop_tpuwys_3']"
+    }
+  },
+  "out": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_004_F139_direct_1ae92718691b",
+  "variant": 93
+}

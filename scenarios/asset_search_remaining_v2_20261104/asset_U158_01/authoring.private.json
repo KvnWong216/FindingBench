@@ -1,0 +1,151 @@
+{
+  "id": "asset_U158_01",
+  "family": "semantic_U158",
+  "scene": "Wainscott_0_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_U158_01/scenario.yaml",
+  "scenario_sha256": "d81e0febc3a19ed24467f717580ca07e2ac2b328add1974128bb8682f60a1c7b",
+  "instruction": "Bring the keyboard from the bedroom workspace spares to the table in front of you in the living room in the living room; I am preparing to work on the household accounts.",
+  "target_key": "keyboard/injrgc",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bedroom_0",
+  "destination_room": "living_room_2",
+  "source_receptacle": "bottom_cabinet_dajebq_0",
+  "destination_receptacle": "coffee_table_dnsjnv_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "bfc3f55c9661a7a599b91007a0d13bfe6624ef15110725894b31404980af12ee",
+  "route": {
+    "start": [
+      -3.2,
+      -2.9000000000000004,
+      3.141592653589793
+    ],
+    "path_xy": [
+      [
+        -3.2,
+        -2.9000000000000004
+      ],
+      [
+        -3.1,
+        -2.9000000000000004
+      ],
+      [
+        -3.0,
+        -2.9000000000000004
+      ],
+      [
+        -2.9000000000000004,
+        -2.9000000000000004
+      ],
+      [
+        -2.8000000000000003,
+        -2.9000000000000004
+      ],
+      [
+        -2.7,
+        -2.9000000000000004
+      ],
+      [
+        -2.6,
+        -2.9000000000000004
+      ],
+      [
+        -2.5,
+        -2.9000000000000004
+      ],
+      [
+        -2.4000000000000004,
+        -2.9000000000000004
+      ],
+      [
+        -2.4000000000000004,
+        -3.0
+      ],
+      [
+        -2.3000000000000003,
+        -3.0
+      ],
+      [
+        -2.2,
+        -3.0
+      ],
+      [
+        -2.2,
+        -3.1
+      ],
+      [
+        -2.1,
+        -3.1
+      ],
+      [
+        -2.1,
+        -3.2
+      ],
+      [
+        -2.1,
+        -3.3000000000000003
+      ],
+      [
+        -2.1,
+        -3.4000000000000004
+      ],
+      [
+        -2.1,
+        -3.5
+      ],
+      [
+        -2.0,
+        -3.5
+      ]
+    ],
+    "length_m": 1.8,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 14,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_dajebq_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "parent_task_id": "U158",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_U158_01",
+    "parent_task_id": "U158",
+    "before_instruction": "I'm doing the household accounts on the living room computer. Find the keyboard with a separate numeric keypad area among the study spares and place it on the coffee table in front of the computer.",
+    "after_instruction": "Bring the keyboard from the bedroom workspace spares to the table in front of you in the living room in the living room; I am preparing to work on the household accounts.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Native category metadata does not certify the stated target predicate: keyboard with numeric keypad. Visible numeric keypad keyboard variant required Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: private_office/cabinet -> living_room/table becomes bedroom/cabinet -> living_room/table. Native target models, quantities, reference criteria and distractors are unchanged. Cross-room transport remains explicit. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+    "target_asset": "keyboard/injrgc",
+    "target_assets": [
+      "keyboard/injrgc"
+    ]
+  },
+  "binding_sha256": "7d6413373edb27a9ed1f2651b67c81461d986896f5511b872ba8471ab8bbfee0"
+}

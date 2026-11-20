@@ -1,0 +1,215 @@
+{
+  "id": "asset_U085_01",
+  "family": "semantic_U085",
+  "scene": "house_single_floor",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_U085_01/scenario.yaml",
+  "scenario_sha256": "1319a13a07ee9a921e120e8fbee80a93c08dfd93672cc3cad398832a35fa5285",
+  "instruction": "Retrieve a bucket from the utility containers and set it on the counter in front of you in the utility room for the cleaning supplies.",
+  "target_key": "bucket/lsmlzi",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "utility_room_0",
+  "destination_room": "utility_room_0",
+  "source_receptacle": "bottom_cabinet_no_top_gjrero_0",
+  "destination_receptacle": "bottom_cabinet_no_top_gjrero_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "14714104a089f0a43cdebe256d01d697215fe5627c0e2fcb55a030a71a1fb2a5",
+  "route": {
+    "start": [
+      23.6,
+      1.2000000000000002,
+      0.0
+    ],
+    "path_xy": [
+      [
+        23.6,
+        1.2000000000000002
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 56,
+    "destination_approach_count": 56,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_no_top_gjrero_1",
+    "bottom_cabinet_no_top_gjrero_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_no_top_gjrero_0",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.5636503082901225,
+            0.9323032131853639,
+            0.16672141570845292
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.5685027651418875,
+            0.9331168694664764,
+            0.213738994513091
+          ],
+          "meta__base_link_fillable_0_0_link#component:2": [
+            0.5591912777798538,
+            0.9330060473847221,
+            0.19339027421599042
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet_no_top/gjrero",
+          "scale": [
+            0.9997877478599548,
+            1.3944655656814575,
+            1.2035202980041504
+          ],
+          "encrypted_asset_sha256": "eff2f116b48646b82ec2cb2e0c40afadb4aa40f15678fc050073ffe746e79e9a",
+          "metadata_sha256": "b154d4c6948e15006310ed12b10c97d8f9ac7bb64b3b922a6737e4ece3396db8",
+          "root_orientation": [
+            0.0,
+            0.0,
+            1.0,
+            -4.331257628109597e-07
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_00": "meta__base_link_fillable_0_0_link#component:2",
+          "item_01": "meta__base_link_fillable_0_0_link#component:0",
+          "item_02": "meta__base_link_fillable_0_0_link#component:1",
+          "item_03": "meta__base_link_fillable_0_0_link#component:0",
+          "item_04": "meta__base_link_fillable_0_0_link#component:1",
+          "item_05": "meta__base_link_fillable_0_0_link#component:0"
+        }
+      },
+      {
+        "receptacle": "bottom_cabinet_no_top_gjrero_1",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.5636503082901225,
+            0.9323032131853639,
+            0.16672141570845292
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.5685027651418875,
+            0.9331168694664764,
+            0.213738994513091
+          ],
+          "meta__base_link_fillable_0_0_link#component:2": [
+            0.5591912777798538,
+            0.9330060473847221,
+            0.19339027421599042
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet_no_top/gjrero",
+          "scale": [
+            0.9997877478599548,
+            1.3944655656814575,
+            1.2035202980041504
+          ],
+          "encrypted_asset_sha256": "eff2f116b48646b82ec2cb2e0c40afadb4aa40f15678fc050073ffe746e79e9a",
+          "metadata_sha256": "b154d4c6948e15006310ed12b10c97d8f9ac7bb64b3b922a6737e4ece3396db8",
+          "root_orientation": [
+            0.0,
+            0.0,
+            1.0,
+            -4.331257628109597e-07
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_06": "meta__base_link_fillable_0_0_link",
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_06": "meta__base_link_fillable_0_0_link#component:0",
+          "item_07": "meta__base_link_fillable_0_0_link#component:2",
+          "item_08": "meta__base_link_fillable_0_0_link#component:1"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_00": "meta__base_link_fillable_0_0_link",
+      "item_01": "meta__base_link_fillable_0_0_link",
+      "item_02": "meta__base_link_fillable_0_0_link",
+      "item_03": "meta__base_link_fillable_0_0_link",
+      "item_04": "meta__base_link_fillable_0_0_link",
+      "item_05": "meta__base_link_fillable_0_0_link",
+      "item_06": "meta__base_link_fillable_0_0_link",
+      "item_07": "meta__base_link_fillable_0_0_link",
+      "item_08": "meta__base_link_fillable_0_0_link"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "U085",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_U085_01",
+    "parent_task_id": "U085",
+    "before_instruction": "I need an empty bucket for cleaning. Search the utility room's stored containers and put the bucket on the floor in front of the sink.",
+    "after_instruction": "Retrieve a bucket from the utility containers and set it on the counter in front of you in the utility room for the cleaning supplies.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; The stated destination is a floor/ground region; the compiler has no grounded floor-region goal for this task. Preserve the original destination. Additional requirement: Empty rigid bucket instance required Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+    "target_asset": "bucket/lsmlzi",
+    "target_assets": [
+      "bucket/lsmlzi"
+    ]
+  },
+  "binding_sha256": "4238eb29dc39b25b6c83d02bfd41f249139ce33371b5b4034a011d4baf889133"
+}

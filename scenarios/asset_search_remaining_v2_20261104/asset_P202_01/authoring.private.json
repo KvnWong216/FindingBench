@@ -1,0 +1,121 @@
+{
+  "id": "asset_P202_01",
+  "family": "semantic_P202",
+  "scene": "Beechwood_0_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P202_01/scenario.yaml",
+  "scenario_sha256": "af19ef5cbfd72b1eb7719743acdd6932bb50df9bc7424bfe0fa31b09cac6be63",
+  "instruction": "Collect two toy dice from the living room games and put them on the table in front of you in the living room for sorting the game pieces.",
+  "target_key": "toy_dice/cmqtch",
+  "target_entities": [
+    "item_00",
+    "item_01"
+  ],
+  "target_count": 2,
+  "source_room": "living_room_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "bottom_cabinet_immwzb_1",
+  "destination_receptacle": "coffee_table_qlmqyy_0",
+  "object_count": 10,
+  "distractor_count": 8,
+  "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+  "route": {
+    "start": [
+      4.8500000000000005,
+      -7.550000000000001,
+      -3.141592653589793
+    ],
+    "path_xy": [
+      [
+        4.8500000000000005,
+        -7.550000000000001
+      ],
+      [
+        4.8500000000000005,
+        -7.45
+      ],
+      [
+        4.8500000000000005,
+        -7.3500000000000005
+      ],
+      [
+        4.8500000000000005,
+        -7.25
+      ],
+      [
+        4.8500000000000005,
+        -7.15
+      ],
+      [
+        4.8500000000000005,
+        -7.050000000000001
+      ],
+      [
+        4.95,
+        -7.050000000000001
+      ],
+      [
+        5.050000000000001,
+        -7.050000000000001
+      ],
+      [
+        5.15,
+        -7.050000000000001
+      ],
+      [
+        5.25,
+        -7.050000000000001
+      ],
+      [
+        5.3500000000000005,
+        -7.050000000000001
+      ]
+    ],
+    "length_m": 1.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09",
+    "bottom_cabinet_immwzb_1"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "parent_task_id": "P202",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P202_01",
+    "parent_task_id": "P202",
+    "before_instruction": "Find all rigid game tiles marked Orchard among living-room game drawers and put them in the empty tray on the coffee table.",
+    "after_instruction": "Collect two toy dice from the living room games and put them on the table in front of you in the living room for sorting the game pieces.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; No target model allocated for Orchard game tiles. No standalone Orchard game tiles were identified. Ordinary architectural tile is not a game-tile alias. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+    "target_asset": "toy_dice/cmqtch",
+    "target_assets": [
+      "toy_dice/cmqtch",
+      "toy_dice/cmqtch"
+    ]
+  },
+  "binding_sha256": "652eb507a80f55bd629e4050fee971836a19b7717809fe37fb0cb7006216095c"
+}

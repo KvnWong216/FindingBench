@@ -1,0 +1,103 @@
+task_id: X02005
+family: fetch
+scene: Pomaria_2_int
+source:
+  official_activity: unloading_shopping_from_car#0
+  official_activities_with_same_subgoal:
+  - unloading_shopping_from_car#0
+  official_subgoal: (ontop grocery.n.02 floor.n.01)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K Pomaria_2_int
+  object: BEHAVIOR-1K bottle_of_tea_leaves/pfbtus
+start:
+  name: start_bedroom_0_1
+  room: bedroom_0
+  x: -2.07
+  y: -0.9
+  yaw: 1.528
+target:
+  entity: target_obj
+  category: bottle_of_tea_leaves
+  model: pfbtus
+  noun: bottle of tea leaves
+  colour_estimate: brown
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S2
+- S3
+missing_spatial_levels:
+- S1
+initial_states: {}
+spatial:
+  S2:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bookcase_vgzdul_0
+    room: bedroom_0
+    location_phrase: the bookcase next to the bed in the bedroom
+    grasp_hints:
+    - - -1.985
+      - -1.169
+      - -1.571
+    - - -1.935
+      - -1.119
+      - -1.571
+    - - -2.136
+      - -1.119
+      - -1.387
+    - - -1.885
+      - -1.069
+      - -1.642
+    extra_ops_vs_S1:
+    - search behind occluders
+    s2_kind: occluded
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    task_scope: single_room
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bottom_cabinet_no_top_qohxjq_1
+    room: bathroom_0
+    location_phrase: the cabinet between the two sinks in the bathroom
+    grasp_hints:
+    - - 0.01
+      - 3.101
+      - 0.0
+    - - -0.04
+      - 3.051
+      - 0.0
+    - - -0.09
+      - 3.001
+      - 0.0
+    - - -0.14
+      - 3.152
+      - -0.038
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    task_scope: cross_room
+    route_from_start_steps: 9
+language:
+  L1:
+    S2: Go to the bookcase next to the bed in the bedroom, pick up the bottle of tea
+      leaves on it and hold it.
+    S3: Leave the bedroom, go to the cabinet between the two sinks in the bathroom,
+      pick up the bottle of tea leaves on it and hold it.
+  L2: Pick up the bottle of tea leaves and keep holding it.
+  L3: I'm unloading shopping from car and I need the bottle of tea leaves. Could you
+    get it for me?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

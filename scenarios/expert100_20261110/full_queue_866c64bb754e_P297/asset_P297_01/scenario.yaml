@@ -1,0 +1,143 @@
+id: asset_P297_01
+instruction: Retrieve the radio from the living room electronics and put it on the
+  table in front of you in the living room for listening during the afternoon.
+scene:
+  model: Ihlen_1_int
+  source: behavior
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - 1.9000000000000001
+    - 0.2
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - 0.0
+    - 1.0
+target:
+  entity: item_00
+  category: radio
+objects:
+- name: item_00
+  category: radio
+  model: wxnicr
+- name: item_01
+  category: headset
+  model: oytuam
+- name: item_02
+  category: phonograph_record
+  model: reunea
+- name: item_03
+  category: cd
+  model: xkfnrj
+- name: item_04
+  category: game_console
+  model: anslwz
+- name: item_05
+  category: portable_game_console
+  model: muwcnf
+- name: item_06
+  category: dvd
+  model: lggrfa
+- name: item_07
+  category: tablet
+  model: kywsta
+- name: item_08
+  category: battery
+  model: dcjyzg
+- name: expert_storage_0
+  category: bottom_cabinet_no_top
+  model: ncgmqr
+  fixed_base: true
+placements:
+- entity: item_00
+  relation: inside
+  receptacle: expert_storage_0
+- entity: item_01
+  relation: inside
+  receptacle: expert_storage_0
+- entity: item_02
+  relation: inside
+  receptacle: expert_storage_0
+- entity: item_03
+  relation: inside
+  receptacle: expert_storage_0
+- entity: item_04
+  relation: inside
+  receptacle: expert_storage_0
+- entity: item_05
+  relation: inside
+  receptacle: expert_storage_0
+- entity: item_06
+  relation: inside
+  receptacle: expert_storage_0
+- entity: item_07
+  relation: inside
+  receptacle: expert_storage_0
+- entity: item_08
+  relation: inside
+  receptacle: expert_storage_0
+- entity: expert_storage_0
+  relation: on_top
+  receptacle: floors_mcivwr_0
+  position_xy:
+  - 0.30000000000000004
+  - 0.30000000000000004
+initial_states:
+  bottom_cabinet_jrhgeu_2:
+    open: false
+  expert_storage_0:
+    open: false
+goal:
+- kind: on_top
+  entity: item_00
+  receptacle: coffee_table_gcollb_0
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

@@ -1,0 +1,80 @@
+task_id: N047
+family: fetch
+scene: Wainscott_0_int
+source:
+  official_activity: sorting_items_for_garage_sale#0
+  official_activities_with_same_subgoal:
+  - sorting_items_for_garage_sale#0
+  official_subgoal: (inside cooking_utensil.n.01 packing_box.n.02)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K Wainscott_0_int (+ clearance manifest)
+  object: BEHAVIOR-1K steamer_basket/lageli
+start:
+  name: start_living_room_0_0
+  room: living_room_0
+  x: 0.21
+  y: 9.7
+  yaw: 1.305
+target:
+  entity: target_obj
+  category: steamer_basket
+  model: lageli
+  noun: steamer basket
+  colour_estimate: orange
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S3
+missing_spatial_levels:
+- S1
+- S2
+initial_states: {}
+spatial:
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: coffee_table_dnsjnv_0
+    room: living_room_2
+    location_phrase: null
+    grasp_hints:
+    - - -3.193
+      - -2.832
+      - 3.142
+    - - -3.76
+      - -3.507
+      - 1.699
+    - - -3.143
+      - -2.781
+      - 3.142
+    - - -3.812
+      - -3.557
+      - 1.616
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    task_scope: cross_room
+    route_from_start_steps: 19
+language:
+  L1: {}
+  L2: Get the steamer basket and hold on to it.
+  L3: I'm sorting items for garage sale and I need the steamer basket. Could you get
+    it for me?
+available_language_levels:
+  S3:
+  - L2
+  - L3
+description_provenance:
+  missing_L1_reason: source location lacks an unambiguous description
+  missing_L1_spatial_levels:
+  - S3
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

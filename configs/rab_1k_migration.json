@@ -1,0 +1,39 @@
+{
+  "version": "rab_only_search_1k_v1",
+  "expected_tasks": 1000,
+  "asset_provider": "robotagentbench",
+  "code_commit": "fa207f52d8da139f591f9dc590eb002c58f72383",
+  "asset_release": "0.1.7",
+  "asset_revision": "8c0c1c95f29dd658476e1ad8572ebf960ba98aa2",
+  "behavior_fallback": false,
+  "native_admission_required": true,
+  "source_recipe_backup": "runs/rab_migration_20261118/behavior_recipe_backup/migration_source.jsonl",
+  "diversity": {
+    "published_layouts_expected": 50,
+    "target_tasks_per_layout": 20,
+    "layout_id_is_not_a_house_type": true,
+    "report_architectural_geometry_signatures": true,
+    "report_furniture_layout_signatures": true,
+    "report_material_and_texture_signatures": true,
+    "report_native_asset_geometry_families": true,
+    "report_target_asset_and_distractor_coverage": true,
+    "all_eligible_movable_assets_should_be_considered": true,
+    "reject_duplicate_layout_target_source_destination_combinations": true,
+    "unavailable_room_types_and_assets_must_be_reported": true
+  },
+  "task_contract": {
+    "paradigm": "find_then_deliver",
+    "instruction": "natural human request with unambiguous source region and destination",
+    "do_not_explicitly_prompt_restore_in_main_condition": true,
+    "preserve_or_rewrite_semantics_with_a_ledger": true,
+    "check_must_resolve_target_identity": true,
+    "restore_score": "continuous_similarity",
+    "short_range_target": 400,
+    "cross_zone_or_composite_target": 600
+  },
+  "publication": {
+    "drafts_are_not_generated_data": true,
+    "do_not_publish_unsupported_articulations": true,
+    "require_native_snapshot_and_render_cache": true
+  }
+}

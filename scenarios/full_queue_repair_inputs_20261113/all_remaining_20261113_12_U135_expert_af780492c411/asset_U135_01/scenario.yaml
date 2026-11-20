@@ -1,0 +1,145 @@
+id: asset_U135_01
+instruction: I need a firm writing surface for the appliance inventory. Bring the
+  clipboard from the living room workspace to the counter in front of you in the kitchen
+  in the kitchen.
+scene:
+  model: Rs_int
+  source: behavior
+  clearance_manifest: /home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/build/vla_difficulty_v2/clearance/Rs_int.json
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - -0.8
+    - 2.2
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - 0.7071067811865475
+    - 0.7071067811865476
+target:
+  entity: item_00
+  category: clipboard
+objects:
+- name: item_00
+  category: clipboard
+  model: envjqe
+- name: item_01
+  category: notepad
+  model: hirdfd
+- name: item_02
+  category: legal_document
+  model: uchhwn
+- name: item_03
+  category: folder
+  model: poqpux
+- name: item_04
+  category: catalog
+  model: zmidof
+- name: item_05
+  category: notebook
+  model: ugpged
+- name: item_06
+  category: notepad
+  model: hirdfd
+- name: item_07
+  category: legal_document
+  model: uchhwn
+- name: item_08
+  category: folder
+  model: poqpux
+- name: expert_storage_0
+  category: bottom_cabinet_no_top
+  model: gjrero
+  fixed_base: true
+placements:
+- entity: item_00
+  relation: inside
+  receptacle: expert_storage_0
+- entity: item_01
+  relation: inside
+  receptacle: expert_storage_0
+- entity: item_02
+  relation: inside
+  receptacle: expert_storage_0
+- entity: item_03
+  relation: inside
+  receptacle: expert_storage_0
+- entity: item_04
+  relation: inside
+  receptacle: expert_storage_0
+- entity: item_05
+  relation: inside
+  receptacle: expert_storage_0
+- entity: item_06
+  relation: inside
+  receptacle: expert_storage_0
+- entity: item_07
+  relation: inside
+  receptacle: expert_storage_0
+- entity: item_08
+  relation: inside
+  receptacle: expert_storage_0
+- entity: expert_storage_0
+  relation: on_top
+  receptacle: floors_ptwlei_0
+  position_xy:
+  - 0.2
+  - 0.4
+initial_states:
+  bottom_cabinet_jhymlr_0:
+    open: false
+  expert_storage_0:
+    open: false
+goal:
+- kind: on_top
+  entity: item_00
+  receptacle: bottom_cabinet_bamfsz_0
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

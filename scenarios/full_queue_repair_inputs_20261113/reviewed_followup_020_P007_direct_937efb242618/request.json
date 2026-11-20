@@ -1,0 +1,127 @@
+{
+  "action": "direct",
+  "case": {
+    "id": "P007",
+    "record": {
+      "id": "asset_P007_01",
+      "family": "semantic_P007",
+      "scene": "Beechwood_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_P007_01/scenario.yaml",
+      "scenario_sha256": "d86926fe5540683aef88998ac117fb80948e0c6eec3fc0669d03b642f16fc0a5",
+      "instruction": "There is a sample on the counter in front of you in the bathroom. Find the bath toy matching that sample among the bathroom bath supplies and put it on the counter in front of you in the bathroom.",
+      "target_key": "beach_toy/kjoafi",
+      "target_entities": [
+        "item_01"
+      ],
+      "target_count": 1,
+      "source_room": "bathroom_1",
+      "destination_room": "bathroom_1",
+      "source_receptacle": "item_00",
+      "destination_receptacle": "countertop_tpuwys_1",
+      "object_count": 13,
+      "distractor_count": 10,
+      "source_survey_sha256": "e6788ca8219b4da8643d87d4deebe4595aa9d5f15520af27b74393574b33a410",
+      "route": {
+        "start": [
+          -6.9,
+          -2.9000000000000004,
+          -1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            -6.9,
+            -2.9000000000000004
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 36,
+        "destination_approach_count": 36,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_00",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "item_09",
+        "comparison_sample",
+        "comparison_negative_0",
+        "comparison_negative_1"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [],
+      "parent_task_id": "P007",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_P007_01",
+        "parent_task_id": "P007",
+        "before_instruction": "Find the rigid toy boat among the bathroom bath supplies and place it on the dry bathtub rim beside the tap.",
+        "after_instruction": "There is a sample on the counter in front of you in the bathroom. Find the bath toy matching that sample among the bathroom bath supplies and put it on the counter in front of you in the bathroom.",
+        "reason": "Replaces unverified boat shape with real model matching and unsupported bathtub-rim placement with a grounded surface. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "beach_toy/kjoafi",
+        "target_assets": [
+          "beach_toy/kjoafi"
+        ]
+      },
+      "binding_sha256": "74f59de912fb0bbf69283235fc019edd9f5c775343ab0342cb766c872d8c1a8c"
+    },
+    "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_full_20261105/asset_P007_01",
+    "error": "native_timeout",
+    "source_sha256": "d86926fe5540683aef88998ac117fb80948e0c6eec3fc0669d03b642f16fc0a5",
+    "expert_diagnosis": {
+      "category": "surface_or_timeout",
+      "error": "native_timeout",
+      "native_rejections_in_current_queue": 0,
+      "first_blocker": {
+        "entity": "item_00",
+        "relation": "on_top",
+        "receptacle": "bottom_cabinet_no_top_pluwfl_0"
+      },
+      "solver": null,
+      "support_measurements": {
+        "total": 0,
+        "planar": 0,
+        "reasons": {}
+      },
+      "first_contact": null,
+      "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_full_20261105/asset_P007_01/native_validation.log",
+      "inference_scope": "proposal/model diagnosis; native physics acceptance unchanged"
+    },
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "surface_or_timeout",
+      "reason": "native_timeout"
+    }
+  },
+  "out": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_020_P007_direct_937efb242618",
+  "variant": 93
+}

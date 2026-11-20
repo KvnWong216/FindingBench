@@ -1,0 +1,78 @@
+task_id: T03_apple_to_fridge
+task_name: 把苹果放进冰箱 (put the apple in the fridge)
+family: fetch_and_place_into_container
+source:
+  findingbench: scenarios/knife_search_001/scenario.yaml   # scene, apple model agveuv; fridge_dszchb_0 listed as future location in configs/task_priors/knife_search.yaml
+  official_behavior_analogue: >
+    clearing_food_from_table_into_fridge (house_double_floor_lower), freeze_fruit /
+    storing_food (house_single_floor), carrying_in_groceries (pilot): same
+    goal form inside(food, fridge) in other scenes — not a direct reuse
+
+target: {entity: target_apple, category: apple, model: agveuv}
+goal:
+  - {kind: inside, entity: target_apple, receptacle: fridge_dszchb_0}
+  # closing the fridge is NOT required (keeps L1/L2/L3 goal identical and short);
+  # official fridge tasks usually also require closed — record as a later variant
+
+background_objects:
+  - {name: bg_bowl,       category: bowl,          model: adciys}
+  - {name: bg_teacup,     category: teacup,        model: cpozxi}
+  - {name: bg_tablespoon, category: tablespoon,    model: huudhe}
+  - {name: bg_tablefork,  category: tablefork,     model: flexrc}
+  - {name: bg_mug,        category: mug,           model: dhnxww}
+  - {name: bg_cutting_board, category: cutting_board, model: aibvew}
+  - {name: bg_plate,      category: plate,         model: aewthq}
+background_placements:
+  - {entity: bg_bowl,          relation: inside, receptacle: bottom_cabinet_no_top_spojpj_0}
+  - {entity: bg_teacup,        relation: inside, receptacle: bottom_cabinet_no_top_spojpj_0}
+  - {entity: bg_tablespoon,    relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: bg_tablefork,     relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: bg_mug,           relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: bg_cutting_board, relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: bg_plate,         relation: on_top, receptacle: breakfast_table_uhrsex_0}
+initial_states:
+  bottom_cabinet_rvpunw_0: {open: false}
+  bottom_cabinet_no_top_spojpj_0: {open: false}
+  fridge_dszchb_0: {open: false}
+
+spatial:
+  S1:
+    placement: {entity: target_apple, relation: on_top, receptacle: countertop_tpuwys_4}
+    room: kitchen_0
+    location_phrase: the kitchen island
+    start_to_target_m: 1.70
+    target_to_goal_m: 2.38
+    extra_ops_vs_S1: []
+  S2:
+    placement: {entity: target_apple, relation: inside, receptacle: bottom_cabinet_rvpunw_0, link: dof_rootd_aa001_t}   # link_2 does not exist (sim 2026-10-18); drawers: dof_rootd_aa001_t, dof_rootd_aa002_t
+    room: kitchen_0
+    location_phrase: the drawer under the microwave
+    start_to_target_m: 3.32
+    target_to_goal_m: 0.90
+    extra_ops_vs_S1: [OPEN]
+    naturalness_note: an apple in a drawer is a counterfactual location; record when comparing L3
+  S3:
+    placement: {entity: target_apple, relation: on_top, receptacle: desk_rzyfxk_1}
+    room: private_office_0
+    location_phrase: one of the desks in the office
+    start_to_target_m: 7.33
+    target_to_goal_m: 8.52
+    extra_ops_vs_S1: [cross-room navigation, longer carry back]
+
+language:
+  L1:
+    S1: Go to the kitchen island and pick up the apple on it. Then go to the fridge, open it, place the apple inside, and report that you are done.
+    S2: Go to the drawer under the microwave and open it. Pick up the apple inside. Then go to the fridge, open it, place the apple inside, and report that you are done.
+    S3: Go to the office and pick up the apple on one of the desks there. Then bring it to the fridge in the kitchen, open the fridge, place the apple inside, and report that you are done.
+  L2: Put the apple in the fridge.
+  L3: I'd like this apple to be cold and crisp when I eat it later. Could you take care of it?
+
+l3_ambiguity_check:
+  competing_interpretations: [other fruit, other cold storage (freezer compartment), washing/cutting]
+  resolution: the apple is the only fruit; the kitchen has one fridge; washing/cutting are not in the skill library
+  residual_risk: the phrase "this apple" is deictic, but the apple is unique in the scene
+
+verification_needed:
+  - fridge_dszchb_0 OPEN and its inside_volume region (PLACE + inside goal) have never run in FindingBench
+  - the fridge door is an extra OPEN in every S (not a spatial confound, but raises the step floor)
+  - desk_rzyfxk_1 visibility from start must be 0; countertop_tpuwys_4, rvpunw_0/link_2 as in T01

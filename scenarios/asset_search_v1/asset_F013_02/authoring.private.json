@@ -1,0 +1,75 @@
+{
+  "id": "asset_F013_02",
+  "family": "semantic_F013",
+  "scene": "Ihlen_1_int",
+  "scenario": "scenarios/asset_search_v1/asset_F013_02/scenario.yaml",
+  "scenario_sha256": "149a714486f6018b74774fba94cd1412ba3a8b2c61b518c9cb417b5ade233b29",
+  "instruction": "Find the coffee bean jar in the kitchen drink cupboards and put it on the counter in front of you in the kitchen. I want the beans, not instant coffee.",
+  "target_key": "coffee_bean_jar/loduxu",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "bottom_cabinet_no_top_ufhpbn_0",
+  "destination_receptacle": "bottom_cabinet_no_top_ufhpbn_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+  "route": {
+    "start": [
+      -4.4,
+      6.7,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -4.4,
+        6.7
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 45,
+    "destination_approach_count": 45,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_no_top_bmsclc_0",
+    "bottom_cabinet_no_top_ufhpbn_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "parent_task_id": "F013",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F013_02",
+    "parent_task_id": "F013",
+    "before_instruction": "Find the coffee bean jar in the kitchen drink cupboard and put it beside the grinder on the counter. I want the beans, not the instant coffee.",
+    "after_instruction": "Find the coffee bean jar in the kitchen drink cupboards and put it on the counter in front of you in the kitchen. I want the beans, not instant coffee.",
+    "reason": "Explicit first-tranche grounding: native storage and initial-facing destination replace uninstantiated decorative reference props; no new semantic-task count.",
+    "target_asset": "coffee_bean_jar/loduxu"
+  }
+}

@@ -1,0 +1,124 @@
+task_id: U005
+family: fetch
+scene: house_double_floor_upper
+source:
+  official_activity: make_a_chia_breakfast_bowl#0
+  official_activities_with_same_subgoal:
+  - make_a_chia_breakfast_bowl#0
+  - setting_table_for_coffee#0
+  official_subgoal: (ontop bowl.n.01 breakfast_table.n.01)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K house_double_floor_upper (+ clearance manifest)
+  object: BEHAVIOR-1K bowl/sqqahm
+start:
+  name: start_bedroom_0_0
+  room: bedroom_0
+  x: -4.14
+  y: 1.33
+  yaw: 0.0
+target:
+  entity: target_obj
+  category: bowl
+  model: sqqahm
+  noun: bowl
+  colour_estimate: yellow
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+initial_states: {}
+spatial:
+  S1:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bookcase_kmuacd_0
+    room: bedroom_0
+    location_phrase: the bookcase next to the desk in the bedroom with the maps on
+      the wall
+    grasp_hints:
+    - - -3.858
+      - 0.443
+      - -2.356
+    - - -3.758
+      - 0.543
+      - -2.356
+    - - -3.96
+      - 0.543
+      - -2.157
+    - - -3.708
+      - 0.392
+      - -2.537
+    extra_ops_vs_S1: []
+    probe_visibility_from_start:
+      px: 239
+      delta_e: 6.1
+  S2:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: desk_aduafr_0
+    room: bedroom_0
+    location_phrase: the desk in the bedroom with the maps on the wall
+    grasp_hints:
+    - - -4.221
+      - 0.737
+      - -2.356
+    - - -4.371
+      - 0.787
+      - -2.137
+    - - -4.321
+      - 0.837
+      - -2.159
+    - - -4.071
+      - 0.687
+      - -2.536
+    extra_ops_vs_S1:
+    - search behind occluders
+    s2_kind: occluded
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bottom_cabinet_jhymlr_0
+    room: bathroom_0
+    location_phrase: the cabinet in the bathroom
+    grasp_hints:
+    - - 1.251
+      - 2.004
+      - -0.345
+    - - 1.201
+      - 2.356
+      - -0.696
+    - - 1.201
+      - 1.954
+      - -0.256
+    - - 1.151
+      - 2.306
+      - -0.62
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    route_from_start_steps: 11
+language:
+  L1:
+    S1: Go to the bookcase next to the desk in the bedroom with the maps on the wall,
+      pick up the bowl on it and hold it.
+    S2: Go to the desk in the bedroom with the maps on the wall, pick up the bowl
+      on it and hold it.
+    S3: Leave the bedroom with the maps on the wall, go to the cabinet in the bathroom,
+      pick up the bowl on it and hold it.
+  L2: Get the bowl and hold on to it.
+  L3: I'm working on make a chia breakfast bowl. Can you find the bowl and hold it
+    for me?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

@@ -1,0 +1,32 @@
+{
+  "status": "unavailable_in_installed_official_releases",
+  "task": "collecting_dishes_from_around_house",
+  "definition_id": 0,
+  "selected_scene": "Wainscott_0_int",
+  "scene_source": "https://behavior.stanford.edu/knowledgebase/tasks/index.html",
+  "scene_match_is_not_instance_certification": true,
+  "official_definition": "assets/behavior_official/bddl/activity_definitions/collecting_dishes_from_around_house/problem0.bddl",
+  "rigid_definition_audit": "passed",
+  "official_instance_template_installed": false,
+  "simulator_smoke": "not_run",
+  "panorama_mount_and_renderer_calibration": "not_run",
+  "model_evaluation": "not_run_user_will_integrate",
+  "blockers": [
+    "licensed BEHAVIOR scene/object assets",
+    "OmniGibson/Isaac Sim and robot kinematics runtime"
+  ],
+  "prepare_command": "PYTHONPATH=src python scripts/prepare_behavior_pilot.py --assets-root /path/to/behavior-1k-assets",
+  "cpu_validation": {
+    "targeted_passed": 97,
+    "full_suite_passed": 870,
+    "full_suite_skipped": 108,
+    "full_suite_failed": 9,
+    "remaining_failure_causes": [
+      "OpenUSD pxr not installed",
+      "git executable not installed"
+    ]
+  },
+  "schema_consistency": "passed",
+  "replacement": "behavior_groceries_pilot",
+  "reason": "No official cached task template in checked asset releases or 2026 task instance package."
+}

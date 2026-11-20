@@ -1,0 +1,87 @@
+task_id: X07012
+family: place_on
+scene: Ihlen_0_int
+source:
+  official_activity: set_a_fancy_table#0
+  official_activities_with_same_subgoal:
+  - set_a_fancy_table#0
+  official_subgoal: (ontop vase.n.01 breakfast_table.n.01)
+  reuse: official sub-goal re-used as the task goal
+  scene: BEHAVIOR-1K Ihlen_0_int (+ clearance manifest)
+  object: BEHAVIOR-1K vase/euqzpy
+start:
+  name: start_storage_room_0_1
+  room: storage_room_0
+  x: 1.57
+  y: 9.19
+  yaw: -2.877
+target:
+  entity: target_obj
+  category: vase
+  model: euqzpy
+  noun: vase
+  colour_estimate: green
+goal:
+- kind: on_top
+  entity: target_obj
+  receptacle: breakfast_table_skczfi_0
+place_hints:
+- - -1.178
+  - 9.645
+  - 2.359
+- - -3.58
+  - 9.643
+  - 1.571
+- - -2.227
+  - 9.593
+  - 1.571
+- - -1.476
+  - 9.543
+  - 1.84
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S3
+missing_spatial_levels:
+- S1
+- S2
+initial_states: {}
+spatial:
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bottom_cabinet_jrhgeu_0
+    room: garage_0
+    location_phrase: the cabinet in the garage
+    grasp_hints:
+    - - 3.812
+      - 4.311
+      - 1.623
+    - - 3.561
+      - 4.261
+      - 1.433
+    - - 3.963
+      - 4.261
+      - 1.829
+    - - 3.109
+      - 4.211
+      - 0.939
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    task_scope: cross_room
+    route_from_start_steps: 10
+language:
+  L1:
+    S3: Leave the storage room with the washing machine, go to the cabinet in the
+      garage, pick up the vase on it. Then put it on the table in the storage room
+      with the washing machine.
+  L2: Place the vase on the table in the storage room with the washing machine.
+  L3: I'm working on set a fancy table. The vase should end up on the table in the
+    storage room with the washing machine -- could you take care of it?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

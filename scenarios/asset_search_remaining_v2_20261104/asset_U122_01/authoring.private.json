@@ -1,0 +1,102 @@
+{
+  "id": "asset_U122_01",
+  "family": "semantic_U122",
+  "scene": "Ihlen_0_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_U122_01/scenario.yaml",
+  "scenario_sha256": "e8a0013a41a278e19a96f52e0a942764d5d571a9eb27e3093d7dce2dccf19e0f",
+  "instruction": "Before I buy another air filter, find the spare among the storage room household supplies and put it on the table in front of you in the storage room.",
+  "target_key": "air_filter/eguida",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "storage_room_0",
+  "destination_room": "storage_room_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "breakfast_table_skczfi_0",
+  "object_count": 10,
+  "distractor_count": 8,
+  "source_survey_sha256": "4e67f717bc639fa8251f9cbf52bc0b8a96e19f8594526a196ad4548a95e97acd",
+  "route": {
+    "start": [
+      -1.1,
+      9.9,
+      3.141592653589793
+    ],
+    "path_xy": [
+      [
+        -1.1,
+        9.9
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "shelf",
+      "model": "vanltx",
+      "floor": "floors_qrzmkt_0",
+      "position_xy": [
+        -0.4,
+        9.1
+      ],
+      "aabb": [
+        [
+          -0.5730737609863281,
+          8.507485412597656,
+          -0.0
+        ],
+        [
+          -0.2269262390136719,
+          9.692514587402343,
+          0.42811041259765625
+        ]
+      ],
+      "room": "storage_room_0"
+    }
+  ],
+  "parent_task_id": "U122",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_U122_01",
+    "parent_task_id": "U122",
+    "before_instruction": "Before I buy another air filter, find the spare among the storage room's household supplies and put it on the table by the door.",
+    "after_instruction": "Before I buy another air filter, find the spare among the storage room household supplies and put it on the table in front of you in the storage room.",
+    "reason": "Preserves object identity and purpose; explicitly grounds the destination as the initial-facing native surface instead of an uninstantiated decorative landmark.",
+    "target_asset": "air_filter/eguida",
+    "target_assets": [
+      "air_filter/eguida"
+    ]
+  },
+  "binding_sha256": "9a17d892ec9e12ef9a2d9caece31dc096f77adbb0fe4fbbb0f8e16b97a0d9463"
+}

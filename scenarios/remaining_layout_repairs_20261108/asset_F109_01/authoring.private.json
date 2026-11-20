@@ -1,0 +1,203 @@
+{
+  "id": "asset_F109_01",
+  "family": "semantic_F109",
+  "scene": "Ihlen_1_int",
+  "scenario": "scenarios/remaining_layout_repairs_20261108/asset_F109_01/scenario.yaml",
+  "scenario_sha256": "53912247b9e44fd4700fb0f4aeab06665fdbba5a28e7bd673d0395ddd57da080",
+  "instruction": "Find a jar of peppercorns and a bottle of black pepper in the kitchen spice storage and bring both to the counter in front of you in the kitchen.",
+  "target_key": "jar_of_peppercorns/gkakwk",
+  "target_entities": [
+    "item_00",
+    "item_01"
+  ],
+  "target_count": 2,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+  "destination_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+  "object_count": 10,
+  "distractor_count": 8,
+  "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+  "route": {
+    "start": [
+      -3.9000000000000004,
+      4.7,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -3.9000000000000004,
+        4.7
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 37,
+    "destination_approach_count": 37,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09",
+    "bottom_cabinet_no_top_bmsclc_0",
+    "bottom_cabinet_no_top_qohxjq_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+        "volume_extents_m": {
+          "link_0": [
+            0.35790157318115234,
+            0.41975927352905273,
+            0.17664214968681335
+          ],
+          "link_1": [
+            0.3487100601196289,
+            0.4131288528442383,
+            0.16006872057914734
+          ],
+          "link_2": [
+            0.34264087677001953,
+            0.415022611618042,
+            0.043399155139923096
+          ]
+        },
+        "native_links": {
+          "link_0": "link_0",
+          "link_1": "link_1",
+          "link_2": "link_2"
+        },
+        "geometry_source": "survey",
+        "geometry_provenance": {},
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_04": "link_1",
+          "item_00": "link_0",
+          "item_06": "link_1",
+          "item_01": "link_1",
+          "item_02": "link_0",
+          "item_03": "link_1",
+          "item_05": "link_0"
+        },
+        "component_allocation": {
+          "item_04": "link_1",
+          "item_00": "link_0",
+          "item_06": "link_1",
+          "item_01": "link_1",
+          "item_02": "link_0",
+          "item_03": "link_1",
+          "item_05": "link_0"
+        }
+      },
+      {
+        "receptacle": "bottom_cabinet_no_top_bmsclc_0",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.47927960887161203,
+            0.15108391054579973,
+            0.16951489316406687
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.4716778794962295,
+            0.14986097842756857,
+            0.15654393858310867
+          ],
+          "meta__base_link_openfillable_0_0_link": [
+            0.4825949186851848,
+            0.15108749245124195,
+            0.27361854362452687
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_openfillable_0_0_link": "meta__base_link_openfillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet_no_top/bmsclc",
+          "scale": [
+            1.256575107574463,
+            1.151558756828308,
+            1.4873191118240356
+          ],
+          "encrypted_asset_sha256": "ff61b79a8ab91412ce4398d35b742b6d16ec744c7e191346ce87791a7837b7df",
+          "metadata_sha256": "fd75a078189bd8689ecc8e2a8c54db2923f73ca9431b6783db4e1d37b91855c5",
+          "root_orientation": [
+            5.455373930374208e-09,
+            1.062177901189898e-08,
+            0.001196039724163711,
+            0.9999992847442627
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link",
+          "item_09": "meta__base_link_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_07": "meta__base_link_fillable_0_0_link#component:1",
+          "item_08": "meta__base_link_fillable_0_0_link#component:0",
+          "item_09": "meta__base_link_fillable_0_0_link#component:1"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_04": "link_1",
+      "item_00": "link_0",
+      "item_06": "link_1",
+      "item_01": "link_1",
+      "item_02": "link_0",
+      "item_03": "link_1",
+      "item_05": "link_0",
+      "item_07": "meta__base_link_fillable_0_0_link",
+      "item_08": "meta__base_link_fillable_0_0_link",
+      "item_09": "meta__base_link_fillable_0_0_link"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "F109",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F109_01",
+    "parent_task_id": "F109",
+    "before_instruction": "Find a jar of whole peppercorns and a bottle of ground black pepper in the kitchen spice storage and put both beside the mortar on the counter.",
+    "after_instruction": "Find a jar of peppercorns and a bottle of black pepper in the kitchen spice storage and bring both to the counter in front of you in the kitchen.",
+    "reason": "Preserves two distinct native ingredient categories but removes the unverified ground-versus-whole visual state claim. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "jar_of_peppercorns/gkakwk",
+    "target_assets": [
+      "jar_of_peppercorns/gkakwk",
+      "bottle_of_black_pepper/ydzzrv"
+    ]
+  },
+  "binding_sha256": "202cbbb54371d2051323e1e93ae3b7a1b617a12ea6f3a40ed1d5153c32143fbf"
+}

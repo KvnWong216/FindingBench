@@ -1,0 +1,75 @@
+task_id: T02_mug_to_table
+task_name: 把马克杯放到厨房餐桌上 (put the mug on the kitchen table)
+family: fetch_and_place
+source:
+  findingbench: scenarios/knife_search_001/scenario.yaml   # scene, mug model dhnxww, receptacle breakfast_table_uhrsex_0
+  official_behavior_analogue: >
+    set_up_a_coffee_station_in_your_kitchen / laying_out_snacks_at_work (ontop goals);
+    same goal form, different scenes — not a direct reuse
+
+target: {entity: target_mug, category: mug, model: dhnxww}
+goal:
+  - {kind: on_top, entity: target_mug, receptacle: breakfast_table_uhrsex_0}
+
+background_objects:
+  - {name: bg_bowl,       category: bowl,          model: adciys}
+  - {name: bg_tablespoon, category: tablespoon,    model: huudhe}
+  - {name: bg_tablefork,  category: tablefork,     model: flexrc}
+  - {name: bg_apple,      category: apple,         model: agveuv}
+  - {name: bg_cutting_board, category: cutting_board, model: aibvew}
+  - {name: bg_plate,      category: plate,         model: aewthq}
+background_placements:
+  - {entity: bg_bowl,          relation: inside, receptacle: bottom_cabinet_no_top_spojpj_0}
+  - {entity: bg_tablespoon,    relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: bg_tablefork,     relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: bg_apple,         relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: bg_cutting_board, relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: bg_plate,         relation: on_top, receptacle: breakfast_table_uhrsex_0}
+initial_states:
+  bottom_cabinet_rvpunw_0: {open: false}
+  bottom_cabinet_no_top_qohxjq_0: {open: false}
+  bottom_cabinet_no_top_spojpj_0: {open: false}
+
+spatial:
+  S1:
+    placement: {entity: target_mug, relation: on_top, receptacle: countertop_tpuwys_4}
+    room: kitchen_0
+    location_phrase: the kitchen island
+    extra_ops_vs_S1: []
+  S2:
+    # certified 2026-10-18 (runs/vla_difficulty_v1/_locations/round3_mug.json): 0 px at start,
+    # 0 px and GRASP infeasible from the interaction pose while closed, 496 px open.
+    # = knife_search_001's original target drawer. rvpunw_0 (old choice) has only
+    # floor-level drawers (z<0.31) that the arm cannot reach.
+    placement: {entity: target_mug, relation: inside, receptacle: bottom_cabinet_no_top_qohxjq_0, link: link_2}
+    room: kitchen_0
+    location_phrase: the top drawer of the cabinet next to the hallway door
+    extra_ops_vs_S1: [OPEN]
+  S3:
+    # certified 2026-10-18 (round1_mug.json): living_room_0, 0 px from the kitchen
+    # start, GRASP feasible, 7-step route. The office / dining room of the old design
+    # are behind ~0.75 m doors the 0.86 m R1Pro footprint cannot pass
+    # (docs/evidence/vla_difficulty_v1/beechwood_reachability.png).
+    placement: {entity: target_mug, relation: on_top, receptacle: bookcase_owvfik_1}
+    room: living_room_0
+    location_phrase: the low shelf under the TV in the living room
+    extra_ops_vs_S1: [cross-room navigation (open-plan kitchen -> living room)]
+
+language:
+  L1:
+    S1: Go to the kitchen island and pick up the mug on it. Then carry it to the small dining table in the kitchen, place it on the table, and report that you are done.
+    S2: Go to the top drawer of the cabinet next to the hallway door and open it. Pick up the mug inside. Then carry it to the small dining table in the kitchen, place it on the table, and report that you are done.
+    S3: Go to the dining room and pick up the mug on the low table there. Then bring it back to the small dining table in the kitchen, place it on the table, and report that you are done.
+  L2: Put the mug on the small dining table in the kitchen.
+  L3: I'm going to have my coffee at the little kitchen table soon. Could you get my mug set up there?
+
+l3_ambiguity_check:
+  competing_interpretations: [teacup, coffee_cup, other cups]
+  resolution: teacup removed from the scene in every variant; "my mug" = the only mug
+  residual_risk: the phrase "set up" might suggest filling coffee — not executable with the skill library; goal is on_top only
+
+verification_needed:
+  - PLACE onto breakfast_table_uhrsex_0 and the on_top goal predicate have never run in simulation (unit tests only)
+  - bg_plate on the same table must leave free support area for the mug
+  - coffee_table_dnsjnv_0 (dining_room_0) must not be visible from the start panorama (open-plan risk)
+  - countertop_tpuwys_4, rvpunw_0/link_2 as in T01

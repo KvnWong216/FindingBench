@@ -1,0 +1,657 @@
+{
+  "status": "proposed",
+  "record": {
+    "id": "asset_U150_01",
+    "family": "semantic_U150",
+    "scene": "Ihlen_0_int",
+    "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_13_U150_expert_af780492c411/asset_U150_01/scenario.yaml",
+    "scenario_sha256": "d34477cd91aead4b5a821ca3093d3891f0f99cd6c9a88e050c98968cddba1c43",
+    "instruction": "We are sorting household mail. Bring the desk organizer from the dining room workspace to the table in front of you in the dining room in the dining room.",
+    "target_key": "desk_organizer/yidrel",
+    "target_entities": [
+      "item_00"
+    ],
+    "target_count": 1,
+    "source_room": "dining_room_0",
+    "destination_room": "dining_room_0",
+    "source_receptacle": "expert_storage_0",
+    "destination_receptacle": "breakfast_table_uhrsex_0",
+    "object_count": 11,
+    "distractor_count": 8,
+    "source_survey_sha256": "4e67f717bc639fa8251f9cbf52bc0b8a96e19f8594526a196ad4548a95e97acd",
+    "route": {
+      "start": [
+        -3.0,
+        3.4000000000000004,
+        -3.141592653589793
+      ],
+      "path_xy": [
+        [
+          -3.0,
+          3.4000000000000004
+        ]
+      ],
+      "length_m": 0.0,
+      "grid_m": 0.1,
+      "base_radius_m": 0.38355339059327376,
+      "endpoint_free_patch_radius_m": 0.2,
+      "source_approach_count": 64,
+      "destination_approach_count": 64,
+      "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+    },
+    "status": "static_screened_physics_pending",
+    "human_reference_steps": null,
+    "required_gates": [
+      "fresh_native_initialization",
+      "stable_dense_layout",
+      "target_CHECK_identifiability",
+      "all_yaw_live_navigation_and_tolerant_endpoints",
+      "reachable_open_grasp_place",
+      "initial_goal_false",
+      "human_completion"
+    ],
+    "restoration_entities": [
+      "item_01",
+      "item_02",
+      "item_03",
+      "item_04",
+      "item_05",
+      "item_06",
+      "item_07",
+      "item_08",
+      "search_storage",
+      "expert_storage_0"
+    ],
+    "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+    "inserted_furniture": [
+      {
+        "name": "search_storage",
+        "category": "bottom_cabinet",
+        "model": "jrhgeu",
+        "floor": "floors_kwnype_0",
+        "position_xy": [
+          -2.2,
+          3.5
+        ],
+        "aabb": [
+          [
+            -2.3671447601318363,
+            3.1577120208740235,
+            0.0
+          ],
+          [
+            -2.032855239868164,
+            3.8422879791259765,
+            0.6846599731445313
+          ]
+        ],
+        "room": "dining_room_0"
+      },
+      {
+        "name": "expert_storage_0",
+        "category": "bottom_cabinet_no_top",
+        "model": "ncgmqr",
+        "floor": "floors_kwnype_0",
+        "position_xy": [
+          -2.4000000000000004,
+          2.5
+        ],
+        "aabb": [
+          [
+            -2.7118697052001957,
+            2.291652801513672,
+            0.0
+          ],
+          [
+            -2.088130294799805,
+            2.708347198486328,
+            0.6957286682128906
+          ]
+        ],
+        "room": "dining_room_0"
+      }
+    ],
+    "parent_task_id": "U150",
+    "tier": "short",
+    "physics_status": "pending",
+    "adaptation": {
+      "id": "asset_U150_01",
+      "parent_task_id": "U150",
+      "before_instruction": "We're sorting household mail at the dining table. Find an organizer with open compartments in the study supplies and place it in the middle of the dining table.",
+      "after_instruction": "We are sorting household mail. Bring the desk organizer from the dining room workspace to the table in front of you in the dining room in the dining room.",
+      "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; The organizer must have open compartments; no rendered open-compartment geometry or initial articulation condition is bound. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: private_office/cabinet -> dining_room/table becomes dining_room/cabinet -> dining_room/table. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+      "target_asset": "desk_organizer/yidrel",
+      "target_assets": [
+        "desk_organizer/yidrel"
+      ]
+    },
+    "binding_sha256": "fee14a1b212f3bee891d822637bca4de6cd436e74b1f8a0f43a5b68725ea6b85",
+    "layout_preflight": {
+      "status": "heuristic_fit",
+      "findings": [
+        {
+          "receptacle": "expert_storage_0",
+          "volume_extents_m": {
+            "meta__drawer0_fillable_0_0_link": [
+              0.5233886344018981,
+              0.39358985018730164,
+              0.14444891703128815
+            ],
+            "meta__drawer1_fillable_0_0_link": [
+              0.5237021703720093,
+              0.39821761441230774,
+              0.14396608537536593
+            ],
+            "meta__drawer2_fillable_0_0_link": [
+              0.5186685735186505,
+              0.3985025246143341,
+              0.28758682544270653
+            ]
+          },
+          "native_links": {
+            "meta__drawer0_fillable_0_0_link": "meta__drawer0_fillable_0_0_link",
+            "meta__drawer1_fillable_0_0_link": "meta__drawer1_fillable_0_0_link",
+            "meta__drawer2_fillable_0_0_link": "meta__drawer2_fillable_0_0_link"
+          },
+          "geometry_source": "offline_asset_hint",
+          "geometry_provenance": {
+            "asset": "bottom_cabinet_no_top/ncgmqr",
+            "scale": [
+              1,
+              1,
+              1
+            ],
+            "encrypted_asset_sha256": "654ec43b4fbdc16ab935e47e394df2e4452ea2ef8e5df804fc94faba3196f5a7",
+            "metadata_sha256": "4f69836ec4373a572ddb8592f3f5f5e84e399b02a8b6553a4147db5c12cdb121",
+            "root_orientation": [
+              0,
+              0,
+              0,
+              1
+            ],
+            "coordinates": "size_only_not_world_positions",
+            "physical_validation_required": true
+          },
+          "status": "heuristic_fit",
+          "solver": {
+            "status": "feasible_model",
+            "device": "cuda",
+            "backend": "torch_cuda_finite_csp",
+            "solve_seconds": 0.049636262003332376,
+            "nodes": 9,
+            "candidate_tests": 9053,
+            "search_orders_tried": 1,
+            "grid_m": 0.001,
+            "margin_m": 0.005,
+            "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+            "physical_validation_required": true,
+            "assignment": {
+              "item_04": "meta__drawer2_fillable_0_0_link",
+              "item_01": "meta__drawer2_fillable_0_0_link",
+              "item_06": "meta__drawer2_fillable_0_0_link",
+              "item_02": "meta__drawer1_fillable_0_0_link",
+              "item_07": "meta__drawer0_fillable_0_0_link",
+              "item_00": "meta__drawer2_fillable_0_0_link",
+              "item_03": "meta__drawer1_fillable_0_0_link",
+              "item_08": "meta__drawer0_fillable_0_0_link",
+              "item_05": "meta__drawer2_fillable_0_0_link"
+            },
+            "poses": {
+              "item_04": {
+                "bin": "meta__drawer2_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.005
+                ],
+                "footprint_m": [
+                  0.12,
+                  0.184
+                ],
+                "center_xy_m": [
+                  0.065,
+                  0.097
+                ]
+              },
+              "item_01": {
+                "bin": "meta__drawer2_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.13,
+                  0.005
+                ],
+                "footprint_m": [
+                  0.099,
+                  0.099
+                ],
+                "center_xy_m": [
+                  0.1795,
+                  0.0545
+                ]
+              },
+              "item_06": {
+                "bin": "meta__drawer2_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.234,
+                  0.005
+                ],
+                "footprint_m": [
+                  0.099,
+                  0.099
+                ],
+                "center_xy_m": [
+                  0.28350000000000003,
+                  0.0545
+                ]
+              },
+              "item_02": {
+                "bin": "meta__drawer1_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.005
+                ],
+                "footprint_m": [
+                  0.377,
+                  0.203
+                ],
+                "center_xy_m": [
+                  0.1935,
+                  0.1065
+                ]
+              },
+              "item_07": {
+                "bin": "meta__drawer0_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.005
+                ],
+                "footprint_m": [
+                  0.377,
+                  0.203
+                ],
+                "center_xy_m": [
+                  0.1935,
+                  0.1065
+                ]
+              },
+              "item_00": {
+                "bin": "meta__drawer2_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.13,
+                  0.109
+                ],
+                "footprint_m": [
+                  0.201,
+                  0.28
+                ],
+                "center_xy_m": [
+                  0.2305,
+                  0.249
+                ]
+              },
+              "item_03": {
+                "bin": "meta__drawer1_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.213
+                ],
+                "footprint_m": [
+                  0.191,
+                  0.167
+                ],
+                "center_xy_m": [
+                  0.1005,
+                  0.2965
+                ]
+              },
+              "item_08": {
+                "bin": "meta__drawer0_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.213
+                ],
+                "footprint_m": [
+                  0.191,
+                  0.167
+                ],
+                "center_xy_m": [
+                  0.1005,
+                  0.2965
+                ]
+              },
+              "item_05": {
+                "bin": "meta__drawer2_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.338,
+                  0.005
+                ],
+                "footprint_m": [
+                  0.063,
+                  0.194
+                ],
+                "center_xy_m": [
+                  0.3695,
+                  0.10200000000000001
+                ]
+              }
+            }
+          },
+          "assignment": {
+            "item_04": "meta__drawer2_fillable_0_0_link",
+            "item_01": "meta__drawer2_fillable_0_0_link",
+            "item_06": "meta__drawer2_fillable_0_0_link",
+            "item_02": "meta__drawer1_fillable_0_0_link",
+            "item_07": "meta__drawer0_fillable_0_0_link",
+            "item_00": "meta__drawer2_fillable_0_0_link",
+            "item_03": "meta__drawer1_fillable_0_0_link",
+            "item_08": "meta__drawer0_fillable_0_0_link",
+            "item_05": "meta__drawer2_fillable_0_0_link"
+          },
+          "component_allocation": {
+            "item_04": "meta__drawer2_fillable_0_0_link",
+            "item_01": "meta__drawer2_fillable_0_0_link",
+            "item_06": "meta__drawer2_fillable_0_0_link",
+            "item_02": "meta__drawer1_fillable_0_0_link",
+            "item_07": "meta__drawer0_fillable_0_0_link",
+            "item_00": "meta__drawer2_fillable_0_0_link",
+            "item_03": "meta__drawer1_fillable_0_0_link",
+            "item_08": "meta__drawer0_fillable_0_0_link",
+            "item_05": "meta__drawer2_fillable_0_0_link"
+          }
+        }
+      ],
+      "prefer_alternative_layout": false,
+      "assignments": {
+        "item_04": "meta__drawer2_fillable_0_0_link",
+        "item_01": "meta__drawer2_fillable_0_0_link",
+        "item_06": "meta__drawer2_fillable_0_0_link",
+        "item_02": "meta__drawer1_fillable_0_0_link",
+        "item_07": "meta__drawer0_fillable_0_0_link",
+        "item_00": "meta__drawer2_fillable_0_0_link",
+        "item_03": "meta__drawer1_fillable_0_0_link",
+        "item_08": "meta__drawer0_fillable_0_0_link",
+        "item_05": "meta__drawer2_fillable_0_0_link"
+      },
+      "physical_validation_required": true
+    },
+    "proposal_native_policy_signature": "638901e57b44747045bd55ed10084fe82451f1075c4c28aa6f0af555449b389c",
+    "storage_model_experience": []
+  },
+  "evidence": {
+    "status": "static_screened_physics_pending",
+    "old_storage": "expert_storage_0",
+    "new_storage": {
+      "name": "expert_storage_0",
+      "category": "bottom_cabinet_no_top",
+      "model": "ncgmqr",
+      "floor": "floors_kwnype_0",
+      "position_xy": [
+        -2.4000000000000004,
+        2.5
+      ],
+      "aabb": [
+        [
+          -2.7118697052001957,
+          2.291652801513672,
+          0.0
+        ],
+        [
+          -2.088130294799805,
+          2.708347198486328,
+          0.6957286682128906
+        ]
+      ],
+      "room": "dining_room_0"
+    },
+    "released_compiler_links": [
+      {
+        "entity": "item_00",
+        "previous_link": "meta__drawer0_fillable_0_0_link"
+      },
+      {
+        "entity": "item_01",
+        "previous_link": "meta__drawer2_fillable_0_0_link"
+      },
+      {
+        "entity": "item_02",
+        "previous_link": "meta__drawer1_fillable_0_0_link"
+      },
+      {
+        "entity": "item_03",
+        "previous_link": "meta__drawer0_fillable_0_0_link"
+      },
+      {
+        "entity": "item_04",
+        "previous_link": "meta__drawer2_fillable_0_0_link"
+      },
+      {
+        "entity": "item_05",
+        "previous_link": "meta__drawer1_fillable_0_0_link"
+      },
+      {
+        "entity": "item_06",
+        "previous_link": "meta__drawer2_fillable_0_0_link"
+      },
+      {
+        "entity": "item_07",
+        "previous_link": "meta__drawer2_fillable_0_0_link"
+      },
+      {
+        "entity": "item_08",
+        "previous_link": "meta__drawer0_fillable_0_0_link"
+      }
+    ],
+    "replaced_failed_auxiliary_fixture": true,
+    "previous_auxiliary_asset": {
+      "category": "bottom_cabinet_no_top",
+      "model": "pluwfl"
+    },
+    "conservative_opening_clearance_m": 0.3118697052001953,
+    "opening_sweep_requires_native_measurement": true,
+    "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/full_queue_565ddf0abdcd_U150/asset_U150_01/scenario.yaml",
+    "original_sha256": "dd29abec182f8cc885e60a02d8f552c748019ad6ca566ee214823a064ac71607",
+    "diagnosis_directory": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/full_queue_565ddf0abdcd_U150/asset_U150_01",
+    "solver": {
+      "status": "feasible_model",
+      "device": "cuda",
+      "backend": "torch_cuda_finite_csp",
+      "solve_seconds": 0.46058177296072245,
+      "nodes": 96,
+      "candidate_tests": 5072,
+      "search_orders_tried": 2,
+      "grid_m": 0.001,
+      "margin_m": 0.015,
+      "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+      "physical_validation_required": true,
+      "assignment": {
+        "item_02": "meta__drawer1_fillable_0_0_link",
+        "item_07": "meta__drawer2_fillable_0_0_link",
+        "item_00": "meta__drawer0_fillable_0_0_link",
+        "item_04": "meta__drawer2_fillable_0_0_link",
+        "item_01": "meta__drawer2_fillable_0_0_link",
+        "item_06": "meta__drawer2_fillable_0_0_link",
+        "item_03": "meta__drawer0_fillable_0_0_link",
+        "item_08": "meta__drawer0_fillable_0_0_link",
+        "item_05": "meta__drawer1_fillable_0_0_link"
+      },
+      "poses": {
+        "item_02": {
+          "bin": "meta__drawer1_fillable_0_0_link",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.015,
+            0.015
+          ],
+          "footprint_m": [
+            0.377,
+            0.203
+          ],
+          "center_xy_m": [
+            0.20350000000000001,
+            0.1165
+          ]
+        },
+        "item_07": {
+          "bin": "meta__drawer2_fillable_0_0_link",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.015,
+            0.015
+          ],
+          "footprint_m": [
+            0.377,
+            0.203
+          ],
+          "center_xy_m": [
+            0.20350000000000001,
+            0.1165
+          ]
+        },
+        "item_00": {
+          "bin": "meta__drawer0_fillable_0_0_link",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.015,
+            0.015
+          ],
+          "footprint_m": [
+            0.201,
+            0.28
+          ],
+          "center_xy_m": [
+            0.1155,
+            0.155
+          ]
+        },
+        "item_04": {
+          "bin": "meta__drawer2_fillable_0_0_link",
+          "yaw_degrees": 90,
+          "lower_xy_m": [
+            0.015,
+            0.233
+          ],
+          "footprint_m": [
+            0.184,
+            0.12
+          ],
+          "center_xy_m": [
+            0.107,
+            0.293
+          ]
+        },
+        "item_01": {
+          "bin": "meta__drawer2_fillable_0_0_link",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.214,
+            0.233
+          ],
+          "footprint_m": [
+            0.099,
+            0.099
+          ],
+          "center_xy_m": [
+            0.2635,
+            0.28250000000000003
+          ]
+        },
+        "item_06": {
+          "bin": "meta__drawer2_fillable_0_0_link",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.328,
+            0.233
+          ],
+          "footprint_m": [
+            0.099,
+            0.099
+          ],
+          "center_xy_m": [
+            0.3775,
+            0.28250000000000003
+          ]
+        },
+        "item_03": {
+          "bin": "meta__drawer0_fillable_0_0_link",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.231,
+            0.015
+          ],
+          "footprint_m": [
+            0.191,
+            0.167
+          ],
+          "center_xy_m": [
+            0.3265,
+            0.0985
+          ]
+        },
+        "item_08": {
+          "bin": "meta__drawer0_fillable_0_0_link",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.231,
+            0.197
+          ],
+          "footprint_m": [
+            0.191,
+            0.167
+          ],
+          "center_xy_m": [
+            0.3265,
+            0.2805
+          ]
+        },
+        "item_05": {
+          "bin": "meta__drawer1_fillable_0_0_link",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.40700000000000003,
+            0.015
+          ],
+          "footprint_m": [
+            0.063,
+            0.194
+          ],
+          "center_xy_m": [
+            0.4385,
+            0.112
+          ]
+        }
+      }
+    },
+    "variant": 93,
+    "task_local_model_experience": [],
+    "preserved": [
+      "instruction",
+      "goal",
+      "target",
+      "robot",
+      "spawn",
+      "all task items and counts",
+      "relation types"
+    ],
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "resting_state",
+      "reason": "LAYOUT_NOT_CONVERGED: see settling.private.json"
+    }
+  }
+}

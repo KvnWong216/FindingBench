@@ -1,0 +1,238 @@
+{
+  "id": "asset_F248_01",
+  "family": "semantic_F248",
+  "scene": "Beechwood_0_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_F248_01/scenario.yaml",
+  "scenario_sha256": "cce998be5f2e6f076970fa680ca33f449d1e04ead507dc78e38092a91eb299cf",
+  "instruction": "The coffee setup at the table in front of you in the living room in the living room needs a mug, coffee and sugar. Check what is there and fetch the missing item from the kitchen food storage.",
+  "target_key": "jar_of_sugar/rfzqei",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+  "destination_receptacle": "breakfast_table_skczfi_0",
+  "object_count": 11,
+  "distractor_count": 8,
+  "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+  "route": {
+    "start": [
+      3.5500000000000003,
+      -6.95,
+      -3.141592653589793
+    ],
+    "path_xy": [
+      [
+        3.5500000000000003,
+        -6.95
+      ],
+      [
+        3.45,
+        -6.95
+      ],
+      [
+        3.35,
+        -6.95
+      ],
+      [
+        3.35,
+        -6.8500000000000005
+      ],
+      [
+        3.25,
+        -6.8500000000000005
+      ],
+      [
+        3.25,
+        -6.75
+      ],
+      [
+        3.1500000000000004,
+        -6.75
+      ],
+      [
+        3.0500000000000003,
+        -6.75
+      ],
+      [
+        2.95,
+        -6.75
+      ],
+      [
+        2.85,
+        -6.75
+      ],
+      [
+        2.75,
+        -6.75
+      ],
+      [
+        2.75,
+        -6.65
+      ],
+      [
+        2.6500000000000004,
+        -6.65
+      ],
+      [
+        2.6500000000000004,
+        -6.550000000000001
+      ],
+      [
+        2.5500000000000003,
+        -6.550000000000001
+      ],
+      [
+        2.5500000000000003,
+        -6.45
+      ],
+      [
+        2.45,
+        -6.45
+      ],
+      [
+        2.45,
+        -6.3500000000000005
+      ],
+      [
+        2.35,
+        -6.3500000000000005
+      ],
+      [
+        2.25,
+        -6.3500000000000005
+      ],
+      [
+        2.15,
+        -6.3500000000000005
+      ],
+      [
+        2.0500000000000003,
+        -6.3500000000000005
+      ],
+      [
+        2.0500000000000003,
+        -6.25
+      ]
+    ],
+    "length_m": 2.2,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "initial_inventory_0",
+    "initial_inventory_1",
+    "bottom_cabinet_no_top_qohxjq_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+        "volume_extents_m": {
+          "link_0": [
+            0.35826021432876587,
+            0.41759204864501953,
+            0.16683420538902283
+          ],
+          "link_1": [
+            0.3490593433380127,
+            0.4109954833984375,
+            0.15118098258972168
+          ],
+          "link_2": [
+            0.3429843783378601,
+            0.41287994384765625,
+            0.040989458560943604
+          ]
+        },
+        "native_links": {
+          "link_0": "link_0",
+          "link_1": "link_1",
+          "link_2": "link_2"
+        },
+        "geometry_source": "survey",
+        "geometry_provenance": {},
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_02": "link_1",
+          "item_04": "link_0",
+          "item_06": "link_1",
+          "item_08": "link_0",
+          "item_00": "link_1",
+          "item_01": "link_0",
+          "item_03": "link_1",
+          "item_05": "link_0",
+          "item_07": "link_1"
+        },
+        "component_allocation": {
+          "item_02": "link_1",
+          "item_04": "link_0",
+          "item_06": "link_1",
+          "item_08": "link_0",
+          "item_00": "link_1",
+          "item_01": "link_0",
+          "item_03": "link_1",
+          "item_05": "link_0",
+          "item_07": "link_1"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_02": "link_1",
+      "item_04": "link_0",
+      "item_06": "link_1",
+      "item_08": "link_0",
+      "item_00": "link_1",
+      "item_01": "link_0",
+      "item_03": "link_1",
+      "item_05": "link_0",
+      "item_07": "link_1"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "F248",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F248_01",
+    "parent_task_id": "F248",
+    "before_instruction": "The living room coffee tray needs mugs, coffee and sugar. The mugs and coffee are there; find the sugar jar in the kitchen food storage and bring it beside the tray.",
+    "after_instruction": "The coffee setup at the table in front of you in the living room in the living room needs a mug, coffee and sugar. Check what is there and fetch the missing item from the kitchen food storage.",
+    "reason": "Constructs mug and coffee at the destination; sugar is the uniquely missing native category. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "jar_of_sugar/rfzqei",
+    "target_assets": [
+      "jar_of_sugar/rfzqei"
+    ]
+  },
+  "binding_sha256": "4a2627c35168f9cea702c44fd05ad79d5bfa08c43a2db78889302ef729b93ed5"
+}

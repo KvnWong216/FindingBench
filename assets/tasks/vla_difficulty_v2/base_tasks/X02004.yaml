@@ -1,0 +1,84 @@
+task_id: X02004
+family: place_on
+scene: Pomaria_2_int
+source:
+  official_activity: unpacking_hobby_equipment#0
+  official_activities_with_same_subgoal:
+  - unpacking_hobby_equipment#0
+  official_subgoal: (ontop book.n.02 bookcase.n.01)
+  reuse: official sub-goal re-used as the task goal
+  scene: BEHAVIOR-1K Pomaria_2_int
+  object: BEHAVIOR-1K hardback/wdnkpr
+start:
+  name: start_bathroom_0_1
+  room: bathroom_0
+  x: -1.77
+  y: 1.5
+  yaw: 0.922
+target:
+  entity: target_obj
+  category: hardback
+  model: wdnkpr
+  noun: hardback book
+  colour_estimate: teal
+goal:
+- kind: on_top
+  entity: target_obj
+  receptacle: bookcase_owvfik_0
+place_hints:
+- - -1.377
+  - 0.496
+  - 0.5
+- - -1.427
+  - 1.057
+  - 0.0
+- - -1.223
+  - 0.242
+  - 1.036
+- - -1.477
+  - 1.007
+  - 0.0
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S1
+missing_spatial_levels:
+- S2
+- S3
+initial_states: {}
+spatial:
+  S1:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bottom_cabinet_no_top_qohxjq_0
+    room: bathroom_0
+    location_phrase: the corner cabinet next to the sinks in the bathroom
+    grasp_hints:
+    - - -0.142
+      - 2.658
+      - -1.199
+    - - -0.293
+      - 2.708
+      - -1.073
+    - - -0.494
+      - 2.708
+      - -0.908
+    - - -0.092
+      - 2.708
+      - -1.272
+    extra_ops_vs_S1: []
+    probe_visibility_from_start:
+      px: 99
+      delta_e: 21.7
+    task_scope: cross_room
+language:
+  L1:
+    S1: Go to the corner cabinet next to the sinks in the bathroom, pick up the hardback
+      book on it. Then put it on the bookcase next to the TV in the bedroom.
+  L2: Place the hardback book on the bookcase next to the TV in the bedroom.
+  L3: I'm unpacking hobby equipment, so could you make sure the hardback book is on
+    the bookcase next to the TV in the bedroom?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

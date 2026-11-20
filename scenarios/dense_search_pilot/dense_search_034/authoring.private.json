@@ -1,0 +1,64 @@
+{
+  "id": "dense_search_034",
+  "family": "bedroom_basket",
+  "scene": "Wainscott_1_int",
+  "scenario": "scenarios/dense_search_pilot/dense_search_034/scenario.yaml",
+  "scenario_sha256": "180b3d8af9c3aaa1ecc421a775dd1096abaab799499f12018669b431467515c3",
+  "instruction": "Find the wallet in the basket in this bedroom and put it on the table in front of you.",
+  "target_key": "wallet",
+  "target_entities": [
+    "item_01"
+  ],
+  "target_count": 1,
+  "source_room": "bedroom_1",
+  "destination_room": "bedroom_1",
+  "source_receptacle": "item_00",
+  "destination_receptacle": "coffee_table_qlmqyy_1",
+  "object_count": 10,
+  "distractor_count": 8,
+  "source_survey_sha256": "7894c711eea34a656ee926a132d6563ce3833b5ddb45c126d0ce534dd2edca60",
+  "route": {
+    "start": [
+      6.65,
+      6.550000000000001,
+      1.9180043432176748
+    ],
+    "path_xy": [
+      [
+        6.65,
+        6.550000000000001
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.5956854249492382,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 4,
+    "destination_approach_count": 1,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_00",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "robot_model": "g1_bench"
+}

@@ -1,0 +1,154 @@
+id: asset_P071_01
+instruction: Find the hair dryer among the bedroom dresser accessories and bring it
+  to the counter in front of you in the bathroom.
+scene:
+  model: Beechwood_1_int
+  source: behavior
+  clearance_manifest: /home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/build/vla_difficulty_v2/clearance/Beechwood_1_int.json
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - -6.9
+    - -2.9000000000000004
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - -0.7071067811865475
+    - 0.7071067811865476
+target:
+  entity: item_00
+  category: hair_dryer
+objects:
+- name: item_00
+  category: hair_dryer
+  model: qacdxx
+- name: item_01
+  category: jade_roller
+  model: chplbu
+- name: item_02
+  category: lipstick
+  model: petufo
+- name: item_03
+  category: tube_of_lotion
+  model: ixfuxm
+- name: item_04
+  category: bottle_of_almond_oil
+  model: nlokfa
+- name: item_05
+  category: bottle_of_baby_oil
+  model: xpdlrr
+- name: item_06
+  category: bottle_of_cold_cream
+  model: lyzvuk
+- name: item_07
+  category: bottle_of_cologne
+  model: lyipur
+- name: item_08
+  category: bottle_of_essential_oil
+  model: wansva
+- name: search_storage
+  category: bottom_cabinet_no_top
+  model: ncgmqr
+  fixed_base: true
+- name: expert_storage_94
+  category: bottom_cabinet_no_top
+  model: vzzafs
+  fixed_base: true
+placements:
+- entity: item_00
+  relation: inside
+  receptacle: expert_storage_94
+- entity: item_01
+  relation: inside
+  receptacle: expert_storage_94
+- entity: item_02
+  relation: inside
+  receptacle: expert_storage_94
+- entity: item_03
+  relation: inside
+  receptacle: expert_storage_94
+- entity: item_04
+  relation: inside
+  receptacle: expert_storage_94
+- entity: item_05
+  relation: inside
+  receptacle: expert_storage_94
+- entity: item_06
+  relation: inside
+  receptacle: expert_storage_94
+- entity: item_07
+  relation: inside
+  receptacle: expert_storage_94
+- entity: item_08
+  relation: inside
+  receptacle: expert_storage_94
+- entity: search_storage
+  relation: on_top
+  receptacle: floors_nzidpe_0
+  position_xy:
+  - -1.2000000000000002
+  - -6.300000000000001
+- entity: expert_storage_94
+  relation: on_top
+  receptacle: floors_nzidpe_0
+  position_xy:
+  - -1.2000000000000002
+  - -5.1000000000000005
+initial_states:
+  search_storage:
+    open: false
+  expert_storage_94:
+    open: false
+goal:
+- kind: on_top
+  entity: item_00
+  receptacle: bottom_cabinet_no_top_pluwfl_0
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

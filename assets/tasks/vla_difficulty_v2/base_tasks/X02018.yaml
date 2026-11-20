@@ -1,0 +1,118 @@
+task_id: X02018
+family: place_in
+scene: Pomaria_2_int
+source:
+  official_activity: store_daffodil_bulbs#0
+  official_activities_with_same_subgoal:
+  - store_daffodil_bulbs#0
+  official_subgoal: (inside mixing_bowl.n.01 cabinet.n.01)
+  reuse: official sub-goal re-used as the task goal
+  scene: BEHAVIOR-1K Pomaria_2_int
+  object: BEHAVIOR-1K mixing_bowl/bsgybx
+start:
+  name: start_bathroom_0_0
+  room: bathroom_0
+  x: -0.37
+  y: 3.2
+  yaw: -2.359
+target:
+  entity: target_obj
+  category: mixing_bowl
+  model: bsgybx
+  noun: mixing bowl
+  colour_estimate: red
+goal:
+- kind: inside
+  entity: target_obj
+  receptacle: bottom_cabinet_no_top_qohxjq_0
+place_hints:
+- - -0.398
+  - 2.817
+  - -0.885
+- - -0.48
+  - 2.698
+  - -0.633
+- - -0.197
+  - 2.817
+  - -1.215
+- - -0.146
+  - 2.867
+  - -1.341
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S1
+- S3
+missing_spatial_levels:
+- S2
+initial_states:
+  bottom_cabinet_no_top_qohxjq_0:
+    open: false
+spatial:
+  S1:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bottom_cabinet_no_top_qohxjq_1
+    room: bathroom_0
+    location_phrase: the cabinet between the two sinks in the bathroom
+    grasp_hints:
+    - - 0.01
+      - 3.101
+      - 0.0
+    - - -0.04
+      - 3.051
+      - 0.0
+    - - -0.09
+      - 3.001
+      - 0.0
+    - - -0.14
+      - 3.152
+      - -0.038
+    extra_ops_vs_S1: []
+    probe_visibility_from_start:
+      px: 477
+      delta_e: 34.6
+    task_scope: single_room
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bookcase_vgzdul_0
+    room: bedroom_0
+    location_phrase: the bookcase next to the bed in the bedroom
+    grasp_hints:
+    - - -1.985
+      - -1.169
+      - -1.571
+    - - -1.935
+      - -1.119
+      - -1.571
+    - - -2.136
+      - -1.119
+      - -1.387
+    - - -1.885
+      - -1.069
+      - -1.642
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    task_scope: cross_room
+    route_from_start_steps: 9
+language:
+  L1:
+    S1: First go and open the corner cabinet next to the sinks in the bathroom. Go
+      to the cabinet between the two sinks in the bathroom, pick up the mixing bowl
+      on it. Then put it in the corner cabinet next to the sinks in the bathroom.
+    S3: First go and open the corner cabinet next to the sinks in the bathroom. Leave
+      the bathroom, go to the bookcase next to the bed in the bedroom, pick up the
+      mixing bowl on it. Then put it in the corner cabinet next to the sinks in the
+      bathroom.
+  L2: Put the mixing bowl in the corner cabinet next to the sinks in the bathroom.
+  L3: I'm working on store daffodil bulbs. Could you store the mixing bowl in the
+    corner cabinet next to the sinks in the bathroom for me?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

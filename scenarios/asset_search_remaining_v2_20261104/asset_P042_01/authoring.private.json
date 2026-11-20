@@ -1,0 +1,216 @@
+{
+  "id": "asset_P042_01",
+  "family": "semantic_P042",
+  "scene": "hotel_suite_large",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P042_01/scenario.yaml",
+  "scenario_sha256": "32d96da42f74c6290fc1be003ab5c0debf38f1a4406b55730bea704d0f3e8866",
+  "instruction": "There is a sample on the counter in front of you in the bedroom. Find the hairbrush matching that sample in the bathroom vanity storage and bring it to the counter in front of you in the bedroom in the bedroom.",
+  "target_key": "hairbrush/bdylnb",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bathroom_0",
+  "destination_room": "bedroom_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 12,
+  "distractor_count": 8,
+  "source_survey_sha256": "06ad52b50e10b1cfb9813fac870a242888a7b8090e9b315f09f4b2237c9a12b8",
+  "route": {
+    "start": [
+      0.0,
+      1.1,
+      0.0
+    ],
+    "path_xy": [
+      [
+        0.0,
+        1.1
+      ],
+      [
+        0.0,
+        1.2000000000000002
+      ],
+      [
+        0.0,
+        1.3
+      ],
+      [
+        0.0,
+        1.4000000000000001
+      ],
+      [
+        0.0,
+        1.5
+      ],
+      [
+        0.0,
+        1.6
+      ],
+      [
+        0.0,
+        1.7000000000000002
+      ],
+      [
+        0.0,
+        1.8
+      ],
+      [
+        -0.1,
+        1.8
+      ],
+      [
+        -0.2,
+        1.8
+      ],
+      [
+        -0.30000000000000004,
+        1.8
+      ],
+      [
+        -0.30000000000000004,
+        1.9000000000000001
+      ],
+      [
+        -0.4,
+        1.9000000000000001
+      ],
+      [
+        -0.4,
+        2.0
+      ],
+      [
+        -0.5,
+        2.0
+      ],
+      [
+        -0.5,
+        2.1
+      ],
+      [
+        -0.5,
+        2.2
+      ],
+      [
+        -0.5,
+        2.3000000000000003
+      ],
+      [
+        -0.5,
+        2.4000000000000004
+      ],
+      [
+        -0.5,
+        2.5
+      ],
+      [
+        -0.5,
+        2.6
+      ],
+      [
+        -0.5,
+        2.7
+      ],
+      [
+        -0.6000000000000001,
+        2.7
+      ]
+    ],
+    "length_m": 2.2,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 56,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "nightstand",
+      "model": "uudzva",
+      "floor": "floors_kudtlk_0",
+      "position_xy": [
+        -0.9,
+        3.7
+      ],
+      "aabb": [
+        [
+          -1.075,
+          3.4700000228881835,
+          0.028
+        ],
+        [
+          -0.725,
+          3.929999977111817,
+          0.7280004272460938
+        ]
+      ],
+      "room": "bathroom_0"
+    },
+    {
+      "name": "delivery_surface",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_nwjrkc_0",
+      "position_xy": [
+        0.8,
+        1.3
+      ],
+      "aabb": [
+        [
+          0.6328552398681642,
+          0.9577120208740235,
+          -0.006
+        ],
+        [
+          0.9671447601318359,
+          1.6422879791259766,
+          0.6786599731445313
+        ]
+      ],
+      "room": "bedroom_0"
+    }
+  ],
+  "parent_task_id": "P042",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P042_01",
+    "parent_task_id": "P042",
+    "before_instruction": "Find the round-barrel hairbrush in the bathroom vanity storage and put it on the bedroom dressing table below the mirror.",
+    "after_instruction": "There is a sample on the counter in front of you in the bedroom. Find the hairbrush matching that sample in the bathroom vanity storage and bring it to the counter in front of you in the bedroom in the bedroom.",
+    "reason": "Replaces unverified round-barrel geometry with direct native hairbrush matching. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "hairbrush/bdylnb",
+    "target_assets": [
+      "hairbrush/bdylnb"
+    ]
+  },
+  "binding_sha256": "c1e6723a24a4c2d670edfc94610d2cdf8375958fef9429f0c7baa5ee74cc58ad"
+}

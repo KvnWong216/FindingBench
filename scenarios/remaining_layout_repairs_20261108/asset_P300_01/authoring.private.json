@@ -1,0 +1,55 @@
+{
+  "id": "asset_P300_01",
+  "family": "semantic_P300",
+  "scene": "Merom_0_int",
+  "scenario": "scenarios/remaining_layout_repairs_20261108/asset_P300_01/scenario.yaml",
+  "scenario_sha256": "409e7093e655ae0024e1518dd5a09bb194392226b0ccff80527b02c1e5bb2c71",
+  "instruction": "Find the toy car in the drawers in this living room and put it on the table in front of you.",
+  "target_key": "toy_car/nhtywr",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "coffee_table_dnsjnv_0",
+  "object_count": 1,
+  "distractor_count": 0,
+  "source_survey_sha256": "432c3be0b4dd33aa136873f8d072cfc232afe601bfa0f68e3b7489a89af8f0f5",
+  "route": {
+    "start": [
+      3.0500000000000003,
+      8.05,
+      0.0
+    ],
+    "path_xy": [
+      [
+        3.0500000000000003,
+        8.05
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 16,
+    "destination_approach_count": 47,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate"
+}

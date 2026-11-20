@@ -1,0 +1,229 @@
+{
+  "tasks": [
+    {
+      "id": "asset_U268_01",
+      "family": "semantic_U268",
+      "scene": "house_double_floor_lower",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/native_garden_toolbox_v91_20261114_U268/asset_U268_01/scenario.yaml",
+      "scenario_sha256": "b21cb20070d4a5b8cdd9cd64221144eec749d2b0513b42cfed7cd064736560e6",
+      "instruction": "Bring a plant pot from the garden accessory storage to the table in front of you in the garden in the garden for arranging the plant display.",
+      "target_key": "plant_pot/skbcqq",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "garden_0",
+      "destination_room": "garden_0",
+      "source_receptacle": "garden_toolbox",
+      "destination_receptacle": "delivery_surface",
+      "object_count": 11,
+      "distractor_count": 8,
+      "source_survey_sha256": "0a3f401e7605a056f40f88d913d8c052476ef760acf457ac11cb1f76abbe581f",
+      "route": {
+        "start": [
+          16.45,
+          3.5500000000000003,
+          3.141592653589793
+        ],
+        "path_xy": [
+          [
+            16.45,
+            3.5500000000000003
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "garden_toolbox"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "delivery_surface",
+          "category": "breakfast_table",
+          "model": "iaritq",
+          "floor": "floors_ghetev_0",
+          "position_xy": [
+            15.55,
+            3.95
+          ],
+          "aabb": [
+            [
+              15.198999710083008,
+              3.599453765869141,
+              0.014
+            ],
+            [
+              15.901000289916993,
+              4.300546234130859,
+              0.7630009155273437
+            ]
+          ],
+          "room": "garden_0"
+        }
+      ],
+      "layout_preflight": {
+        "status": "expert_native_toolbox_proposal_pending"
+      },
+      "rejected_layout_candidates": [],
+      "parent_task_id": "U268",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_U268_01",
+        "parent_task_id": "U268",
+        "before_instruction": "The pot on the garden table needs a stand wide enough for its base. Find a suitable stand among the garage's garden accessories and put it on the ground beside the table.",
+        "after_instruction": "Bring a plant pot from the garden accessory storage to the table in front of you in the garden in the garden for arranging the plant display.",
+        "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; The stated destination is a floor/ground region; the compiler has no grounded floor-region goal for this task. Preserve the original destination. Additional requirement: Portable stand variants and reference pot required; plant_pot_stand: every surveyed model exceeds 0.60 m in at least one dimension; no default portable fetch model established and no automatic shrinking; plant_pot_stand: only one native model; requested within-category size alternatives are not established Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: garage/cabinet -> garden/table becomes garden/cabinet -> garden/table. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+        "target_asset": "plant_pot/skbcqq",
+        "target_assets": [
+          "plant_pot/skbcqq"
+        ]
+      },
+      "binding_sha256": "6a84321ffd8401a12c67ca1fdd53de4c3009225dc4f87ef3fa579e720764a96c",
+      "orientation_authoring_revisions": [
+        {
+          "method": "explicit_native_asset_side_pose_for_layout_authoring",
+          "source_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/dense_spacing_stress_v88_20261114_U268/asset_U268_01/scenario.yaml",
+          "source_sha256": "94820cdd42548648450fb3c49c5ccefb6bdf2a089cfe15e67b6a8238ecb126df",
+          "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_lane2_20261111/dense_spacing_stress_v88_20261114_U268/asset_U268_01",
+          "edits": [
+            {
+              "entity": "item_01",
+              "asset": "stake/hnasfo",
+              "before_orientation_hint": null,
+              "after_orientation_hint_xyzw": [
+                0.7071067811865475,
+                0.0,
+                0.0,
+                0.7071067811865476
+              ],
+              "before_bbox_m": [
+                0.2189448709487915,
+                0.020450474739074707,
+                0.028885214805603028
+              ],
+              "after_bbox_m": [
+                0.2189448709487915,
+                0.02888521480560303,
+                0.020450474739074714
+              ]
+            },
+            {
+              "entity": "item_03",
+              "asset": "stake/hnasfo",
+              "before_orientation_hint": null,
+              "after_orientation_hint_xyzw": [
+                0.7071067811865475,
+                0.0,
+                0.0,
+                0.7071067811865476
+              ],
+              "before_bbox_m": [
+                0.2189448709487915,
+                0.020450474739074707,
+                0.028885214805603028
+              ],
+              "after_bbox_m": [
+                0.2189448709487915,
+                0.02888521480560303,
+                0.020450474739074714
+              ]
+            },
+            {
+              "entity": "item_05",
+              "asset": "stake/hnasfo",
+              "before_orientation_hint": null,
+              "after_orientation_hint_xyzw": [
+                0.7071067811865475,
+                0.0,
+                0.0,
+                0.7071067811865476
+              ],
+              "before_bbox_m": [
+                0.2189448709487915,
+                0.020450474739074707,
+                0.028885214805603028
+              ],
+              "after_bbox_m": [
+                0.2189448709487915,
+                0.02888521480560303,
+                0.020450474739074714
+              ]
+            },
+            {
+              "entity": "item_07",
+              "asset": "stake/hnasfo",
+              "before_orientation_hint": null,
+              "after_orientation_hint_xyzw": [
+                0.7071067811865475,
+                0.0,
+                0.0,
+                0.7071067811865476
+              ],
+              "before_bbox_m": [
+                0.2189448709487915,
+                0.020450474739074707,
+                0.028885214805603028
+              ],
+              "after_bbox_m": [
+                0.2189448709487915,
+                0.02888521480560303,
+                0.020450474739074714
+              ]
+            }
+          ],
+          "reason": "Native metadata lacks stable poses; store long tools and boxed equipment on a broad side rather than forcing them upright. The actual collision mesh and all native acceptance gates are retained.",
+          "physical_validation_required": true,
+          "player_skill_change": false
+        }
+      ],
+      "source_layout_revisions": [
+        {
+          "method": "native_closed_toolbox_on_existing_garden_work_table",
+          "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/pinpoint_20261114/U268/authored_side_poses_v56/asset_U268_01/scenario.yaml",
+          "source_sha256": "35b16a143027aeda3e07818b9700fdb2ea26f9a65aa0851ffdf17a09717900ed",
+          "removed_authored_fixture": "search_storage",
+          "added_native_asset": "toolbox/redmtl",
+          "initial_support_tree": "target/clutter Inside(closed garden_toolbox) OnTop(existing delivery work table)",
+          "reason": "Replace a failed oversized floor cabinet with actual garden-tool storage; original goal requires the target directly on the table, initially false while it remains inside the toolbox. No added room, travel distance or furniture navigation bottleneck.",
+          "preserved": [
+            "exact instruction and goal",
+            "all original target/distractor assets and counts",
+            "robot and initial spawn",
+            "source/destination rooms",
+            "closed opaque search receptacle"
+          ],
+          "difficulty_regrading_required": true,
+          "physical_validation_required": true,
+          "human_completion_verified": false
+        }
+      ]
+    }
+  ]
+}

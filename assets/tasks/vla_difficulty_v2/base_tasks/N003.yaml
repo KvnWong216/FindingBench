@@ -1,0 +1,77 @@
+task_id: N003
+family: fetch
+scene: Pomaria_1_int
+source:
+  official_activity: loading_the_car#0
+  official_activities_with_same_subgoal:
+  - loading_the_car#0
+  official_subgoal: (inside container.n.01 car.n.01)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K Pomaria_1_int (+ clearance manifest)
+  object: BEHAVIOR-1K pesticide_atomizer/eisckl
+start:
+  name: start_pantry_room_0_0
+  room: pantry_room_0
+  x: -0.32
+  y: 1.72
+  yaw: 0.0
+target:
+  entity: target_obj
+  category: pesticide_atomizer
+  model: eisckl
+  noun: pesticide atomizer
+  colour_estimate: green
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S3
+missing_spatial_levels:
+- S1
+- S2
+initial_states: {}
+spatial:
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bookcase_owvfik_1
+    room: living_room_0
+    location_phrase: null
+    grasp_hints:
+    - - -12.37
+      - 0.4
+      - 1.865
+    - - -12.571
+      - 0.4
+      - 1.586
+    - - -12.621
+      - 0.35
+      - 1.571
+    - - -12.822
+      - 0.35
+      - 1.377
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start: null
+    task_scope: cross_room
+    route_from_start_steps: 15
+language:
+  L1: {}
+  L2: Pick up the pesticide atomizer and keep holding it.
+  L3: I'm loading the car. Can you find the pesticide atomizer and hold it for me?
+available_language_levels:
+  S3:
+  - L2
+  - L3
+description_provenance:
+  missing_L1_reason: source location lacks an unambiguous description
+  missing_L1_spatial_levels:
+  - S3
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

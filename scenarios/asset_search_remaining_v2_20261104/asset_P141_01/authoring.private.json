@@ -1,0 +1,87 @@
+{
+  "id": "asset_P141_01",
+  "family": "semantic_P141",
+  "scene": "Wainscott_1_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P141_01/scenario.yaml",
+  "scenario_sha256": "f8e139616a2d5e51fd487bc3aa7cf05270641e7cbb4c63a096bcb5002eb4249e",
+  "instruction": "There is a sample on the table in front of you in the bedroom. Find the paperback matching that sample among the bedroom books and bring it to the table in front of you in the bedroom for bedtime reading.",
+  "target_key": "paperback_book/bisnup",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bedroom_0",
+  "destination_room": "bedroom_0",
+  "source_receptacle": "bottom_cabinet_nnvyol_0",
+  "destination_receptacle": "breakfast_table_skczfi_2",
+  "object_count": 12,
+  "distractor_count": 10,
+  "source_survey_sha256": "7894c711eea34a656ee926a132d6563ce3833b5ddb45c126d0ce534dd2edca60",
+  "route": {
+    "start": [
+      -1.6500000000000001,
+      12.25,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -1.6500000000000001,
+        12.25
+      ],
+      [
+        -1.55,
+        12.25
+      ]
+    ],
+    "length_m": 0.1,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 47,
+    "destination_approach_count": 3,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "comparison_negative_0",
+    "comparison_negative_1",
+    "bottom_cabinet_nnvyol_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "parent_task_id": "P141",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P141_01",
+    "parent_task_id": "P141",
+    "before_instruction": "Find the paperback with both a fox and a crescent moon on its cover among bedroom books and put it on the bedside table.",
+    "after_instruction": "There is a sample on the table in front of you in the bedroom. Find the paperback matching that sample among the bedroom books and bring it to the table in front of you in the bedroom for bedtime reading.",
+    "reason": "Replaces unverified fox-and-moon cover conjunction with a native publication reference. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "paperback_book/bisnup",
+    "target_assets": [
+      "paperback_book/bisnup"
+    ]
+  },
+  "binding_sha256": "3150b8d7b1649d52f205c9aa7e507f6219f61c746108139f2c1cc52144fe0e1f"
+}

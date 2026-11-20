@@ -1,0 +1,165 @@
+id: asset_U270_01
+instruction: Bring the fertilizer matching the sample on the table in front of you
+  in the garden in the garden from the garden storage plant-care supplies and put
+  it beside that sample.
+scene:
+  model: house_double_floor_lower
+  source: behavior
+  clearance_manifest: /home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/build/vla_difficulty_v2/clearance/house_double_floor_lower.json
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - 16.45
+    - 3.5500000000000003
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - 1.0
+    - 6.123233995736766e-17
+target:
+  entity: item_00
+  category: fertilizer_atomizer
+objects:
+- name: item_00
+  category: fertilizer_atomizer
+  model: lhbpcq
+- name: item_01
+  category: bottle_of_pesticide
+  model: yyrecb
+- name: item_02
+  category: herbicide_bottle
+  model: aeslmf
+- name: item_03
+  category: pesticide_atomizer
+  model: eisckl
+- name: item_04
+  category: water_atomizer
+  model: lfarai
+- name: item_05
+  category: bottle_of_pesticide
+  model: yyrecb
+- name: item_06
+  category: herbicide_bottle
+  model: aeslmf
+- name: item_07
+  category: pesticide_atomizer
+  model: eisckl
+- name: item_08
+  category: water_atomizer
+  model: lfarai
+- name: comparison_sample
+  category: fertilizer_atomizer
+  model: lhbpcq
+- name: required_negative_0
+  category: herbicide_bottle
+  model: aeslmf
+- name: search_storage
+  category: bottom_cabinet
+  model: jrhgeu
+  fixed_base: true
+- name: delivery_surface
+  category: breakfast_table
+  model: iaritq
+  fixed_base: true
+placements:
+- entity: item_00
+  relation: inside
+  receptacle: search_storage
+- entity: item_01
+  relation: inside
+  receptacle: search_storage
+- entity: item_02
+  relation: inside
+  receptacle: search_storage
+- entity: item_03
+  relation: inside
+  receptacle: search_storage
+- entity: item_04
+  relation: inside
+  receptacle: search_storage
+- entity: item_05
+  relation: inside
+  receptacle: search_storage
+- entity: item_06
+  relation: inside
+  receptacle: search_storage
+- entity: item_07
+  relation: inside
+  receptacle: search_storage
+- entity: item_08
+  relation: inside
+  receptacle: search_storage
+- entity: comparison_sample
+  relation: on_top
+  receptacle: delivery_surface
+- entity: required_negative_0
+  relation: inside
+  receptacle: search_storage
+- entity: search_storage
+  relation: on_top
+  receptacle: floors_ghetev_0
+  position_xy:
+  - 18.75
+  - 3.45
+- entity: delivery_surface
+  relation: on_top
+  receptacle: floors_ghetev_0
+  position_xy:
+  - 15.55
+  - 3.95
+initial_states:
+  search_storage:
+    open: false
+goal:
+- kind: on_top
+  entity: item_00
+  receptacle: delivery_surface
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

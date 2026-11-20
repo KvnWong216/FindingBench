@@ -1,0 +1,79 @@
+{
+  "id": "asset_U310_01",
+  "family": "semantic_U310",
+  "scene": "Wainscott_1_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_U310_01/scenario.yaml",
+  "scenario_sha256": "cf737d68e607f55b1a56049774b3b7b9bd969534e6842e77154a4541aae8063a",
+  "instruction": "Fetch a storage box from the utility room storage and put it on the counter in front of you in the utility room in the utility room for carrying the cleaning supplies.",
+  "target_key": "storage_box/bwbpvg",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "utility_room_0",
+  "destination_room": "utility_room_0",
+  "source_receptacle": "bottom_cabinet_bamfsz_0",
+  "destination_receptacle": "bottom_cabinet_bamfsz_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "7894c711eea34a656ee926a132d6563ce3833b5ddb45c126d0ce534dd2edca60",
+  "route": {
+    "start": [
+      1.05,
+      6.95,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        1.05,
+        6.95
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 20,
+    "destination_approach_count": 20,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_bamfsz_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "parent_task_id": "U310",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_U310_01",
+    "parent_task_id": "U310",
+    "before_instruction": "I need to carry the utility supplies together. Find a rigid storage box with side handles among the storage room containers and put it on the utility counter beside the washer.",
+    "after_instruction": "Fetch a storage box from the utility room storage and put it on the counter in front of you in the utility room in the utility room for carrying the cleaning supplies.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; The storage box must have side handles; model category storage_box alone does not certify visible grasp handles. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: storage_room/cabinet -> utility_room/counter becomes utility_room/cabinet -> utility_room/counter. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+    "target_asset": "storage_box/bwbpvg",
+    "target_assets": [
+      "storage_box/bwbpvg"
+    ]
+  },
+  "binding_sha256": "e16004ab7636bfe4c5cc015a7241afc3e97bbf6674556b1d10f75e86b6b5d35e"
+}

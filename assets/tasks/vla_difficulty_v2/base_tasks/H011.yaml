@@ -1,0 +1,135 @@
+task_id: H011
+family: place_on
+scene: hotel_suite_large
+source:
+  official_activity: sorting_household_items#0
+  official_activities_with_same_subgoal:
+  - sorting_household_items#0
+  official_subgoal: (ontop box__of__sanitary_napkin.n.01 shelf.n.01)
+  reuse: official sub-goal re-used as the task goal
+  scene: BEHAVIOR-1K hotel_suite_large
+  object: BEHAVIOR-1K box_of_sanitary_napkins/humkqw
+start:
+  name: start_bedroom_0_0
+  room: bedroom_0
+  x: -0.45
+  y: 1.42
+  yaw: -0.765
+target:
+  entity: target_obj
+  category: box_of_sanitary_napkins
+  model: humkqw
+  noun: box of sanitary napkins
+  colour_estimate: orange
+goal:
+- kind: on_top
+  entity: target_obj
+  receptacle: shelf_rglkkf_0
+place_hints:
+- - 1.073
+  - 3.29
+  - -1.571
+- - 1.324
+  - 3.34
+  - -1.571
+- - 1.174
+  - 3.39
+  - -1.571
+- - 0.422
+  - 3.44
+  - -1.571
+background_objects: []
+background_placements: []
+initial_states: {}
+spatial:
+  S1:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: shelf_nbmidu_0
+    room: bedroom_0
+    location_phrase: the upper shelf next to the TV in the bedroom
+    grasp_hints:
+    - - 1.286
+      - 1.261
+      - 0.0
+    - - 1.236
+      - 1.21
+      - 0.034
+    - - 1.186
+      - 1.364
+      - -0.035
+    extra_ops_vs_S1: []
+    probe_visibility_from_start:
+      px: 83
+      delta_e: 40.2
+  S2:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: nightstand_maeowc_2
+    room: bedroom_0
+    location_phrase: the nightstand farthest from the desk in the bedroom
+    grasp_hints:
+    - - -1.467
+      - 1.56
+      - -2.356
+    - - -1.417
+      - 1.61
+      - -2.356
+    - - -1.317
+      - 1.509
+      - -2.522
+    - - -1.267
+      - 1.559
+      - -2.51
+    extra_ops_vs_S1:
+    - search behind occluders
+    s2_kind: occluded
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: shelf_xogqqm_2
+    room: bathroom_0
+    location_phrase: the third shelf from the top of the four-level shelf rack in
+      the bathroom
+    grasp_hints:
+    - - -1.016
+      - 1.754
+      - 2.348
+    - - -1.067
+      - 1.704
+      - 2.257
+    - - -1.117
+      - 1.654
+      - 2.167
+    - - -0.858
+      - 1.896
+      - 2.614
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    route_from_start_steps: 4
+language:
+  L1:
+    S1: Go to the upper shelf next to the TV in the bedroom, pick up the box of sanitary
+      napkins on it. Then put it on the long low shelf next to the sink in the bathroom.
+    S2: Go to the nightstand farthest from the desk in the bedroom, pick up the box
+      of sanitary napkins on it. Then put it on the long low shelf next to the sink
+      in the bathroom.
+    S3: Leave the bedroom, go to the third shelf from the top of the four-level shelf
+      rack in the bathroom, pick up the box of sanitary napkins on it. Then put it
+      on the long low shelf next to the sink in the bathroom.
+  L2: Put the box of sanitary napkins on the long low shelf next to the sink in the
+    bathroom.
+  L3: I'm sorting household items, so could you make sure the box of sanitary napkins
+    is on the long low shelf next to the sink in the bathroom?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

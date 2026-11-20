@@ -1,0 +1,31 @@
+# Curated BEHAVIOR-1K asset pool v1 (§26)
+# Explicit allowed categories + model ids with AABB sizes (meters, xyz).
+# Never "first sorted model in category"; missing ids fail loudly.
+# AABB sizes below are v1 estimates recorded from the BEHAVIOR asset
+# metadata; scripts/export_robot_kinematics-style build-time verification
+# corrects them against the simulator at layout build time.
+
+storage:
+  - category: bottom_cabinet
+    models:
+      - {model_id: bottom_cabinet_no_top_qudfwe_0, aabb_size: [1.0, 0.65, 0.9]}
+      - {model_id: bottom_cabinet_no_top_spojpj_0, aabb_size: [1.2, 0.65, 0.9]}
+      - {model_id: bottom_cabinet_rvpunw_0, aabb_size: [0.8, 0.65, 0.9]}
+  - category: chest_of_drawers
+    models:
+      - {model_id: chest_of_drawers_xyanzw_0, aabb_size: [1.1, 0.55, 1.0]}
+
+surface:
+  - category: countertop
+    models:
+      - {model_id: countertop_tpuwys_0, aabb_size: [1.8, 0.7, 0.95]}
+
+clutter:
+  bowl:
+    - {model_id: bowl_836520_chompu_0, aabb_size: [0.22, 0.22, 0.10]}
+  teacup:
+    - {model_id: teacup_882413_fsdtfw_0, aabb_size: [0.12, 0.12, 0.09]}
+  plate:
+    - {model_id: plate_03_0, aabb_size: [0.24, 0.24, 0.03]}
+  butter_package:
+    - {model_id: butter_package_1_0, aabb_size: [0.10, 0.06, 0.04]}

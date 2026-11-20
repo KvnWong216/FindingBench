@@ -1,0 +1,79 @@
+{
+  "id": "asset_U027_01",
+  "family": "semantic_U027",
+  "scene": "Beechwood_0_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_U027_01/scenario.yaml",
+  "scenario_sha256": "d3e065b99e3f56aa0538d78c390294b2c18c0e9c42bcd240b5ab4690402efa80",
+  "instruction": "I'm setting up for a long typing session. Find the spare keyboard among the study computer equipment and put it on the desk in front of you in the study.",
+  "target_key": "keyboard/jtdyix",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "private_office_0",
+  "destination_room": "private_office_0",
+  "source_receptacle": "bottom_cabinet_nddvba_0",
+  "destination_receptacle": "desk_rzyfxk_1",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+  "route": {
+    "start": [
+      5.3500000000000005,
+      -3.95,
+      0.0
+    ],
+    "path_xy": [
+      [
+        5.3500000000000005,
+        -3.95
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 12,
+    "destination_approach_count": 13,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_immwzb_0",
+    "bottom_cabinet_nddvba_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "parent_task_id": "U027",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_U027_01",
+    "parent_task_id": "U027",
+    "before_instruction": "I'm setting up the study desk for a long typing session. Find the spare keyboard among the computer equipment and place it in front of the monitor.",
+    "after_instruction": "I'm setting up for a long typing session. Find the spare keyboard among the study computer equipment and put it on the desk in front of you in the study.",
+    "reason": "Preserves object identity and purpose; explicitly grounds the destination as the initial-facing native surface instead of an uninstantiated decorative landmark.",
+    "target_asset": "keyboard/jtdyix",
+    "target_assets": [
+      "keyboard/jtdyix"
+    ]
+  },
+  "binding_sha256": "5d23a4650cc9e3414eaad4d26355bf263d22674fcbb8594d7d04f0738b7c3423"
+}

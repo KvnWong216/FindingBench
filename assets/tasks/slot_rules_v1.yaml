@@ -1,0 +1,85 @@
+# SceneSlots generation rules: which BEHAVIOR furniture categories expose
+# searchable slots, and how openable links are classified.
+version: 1
+
+# house-interior scenes processed by scripts/tasks/build_scene_slots.py
+scenes:
+  - Beechwood_0_int
+  - Beechwood_1_int
+  - Benevolence_1_int
+  - Benevolence_2_int
+  - Ihlen_0_int
+  - Ihlen_1_int
+  - Merom_0_int
+  - Merom_1_int
+  - Pomaria_0_int
+  - Pomaria_1_int
+  - Pomaria_2_int
+  - Rs_int
+  - Wainscott_0_int
+  - Wainscott_1_int
+
+# furniture category -> slot kinds.
+#   container: openable links become `drawer` slots (inside + link) or one
+#              `cabinet_interior` slot (inside, no link) for door cabinets
+#   surface:   one on_top slot of the given slot_type
+# Appliances (fridge, oven, dishwasher, microwave), lidded chests, bookcases
+# and shelving are excluded: their placement path is not GPU-proven.
+furniture:
+  bottom_cabinet: {container: true}
+  bottom_cabinet_no_top: {container: true}
+  top_cabinet: {container: true}
+  countertop: {surface: countertop}
+  breakfast_table: {surface: table}
+  coffee_table: {surface: table}
+  console_table: {surface: table}
+  desk: {surface: desk}
+
+# Placement-prior granularity. BDDL says only inside(x, cabinet.n.01): it
+# never distinguishes a drawer from a door cabinet's interior. Both slot types
+# therefore share ONE prior class, so one BDDL fact is counted once (not once
+# per slot type). Slot types not listed are their own class.
+prior_classes:
+  drawer: cabinet_storage
+  cabinet_interior: cabinet_storage
+
+# openable-link classification from metadata link AABBs (object frame,
+# metres, before instance scale). Joint types live in the encrypted USD, so
+# this is a geometric heuristic; GPU probing confirms it.
+link_classification:
+  # a door panel is thin in one horizontal axis
+  door_max_thickness_m: 0.12
+  # a drawer is a shallow deep box
+  drawer_min_depth_m: 0.15
+  drawer_max_height_m: 0.45
+
+# conservative inner clearance subtracted per side from link/base AABBs
+wall_margin_m: 0.015
+
+# Search regions: the instruction
+# names a visible fixed landmark; the search region is the slot furniture
+# whose oriented 2-D footprint lies within `touch_m` of the landmark's
+# footprint ("right next to / under / above the sink"). A region is usable
+# only if its boundary is unambiguous — no other slot furniture within
+# (touch_m, touch_m + clear_band_m] — and its landmark name is unique in the
+# room. Footprints: metadata bbox x scale, rotated by the root yaw.
+regions:
+  touch_m: 0.15
+  clear_band_m: 0.35
+  # landmark category -> name used in instructions
+  landmarks:
+    furniture_sink: sink
+    fridge: fridge
+    oven: oven
+    burner: stove
+    dishwasher: dishwasher
+    microwave: microwave
+    washer: washing machine
+    clothes_dryer: dryer
+    toilet: toilet
+    bathtub: bathtub
+    bed: bed
+    sofa: sofa
+    piano: piano
+    fireplace: fireplace
+    wall_mounted_tv: TV

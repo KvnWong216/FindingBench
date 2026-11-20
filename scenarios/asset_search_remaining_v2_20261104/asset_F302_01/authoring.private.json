@@ -1,0 +1,159 @@
+{
+  "id": "asset_F302_01",
+  "family": "semantic_F302",
+  "scene": "Ihlen_0_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_F302_01/scenario.yaml",
+  "scenario_sha256": "4660e3580ae81e58300e0b6fad37b94369a62388d8c62d0f7b2fd122c668fac9",
+  "instruction": "Find a mug in the dining-room cupboard and bring it to the table in front of you in the living room in the living room for a sketch.",
+  "target_key": "mug/ntgftr",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "dining_room_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "coffee_table_fqluyq_0",
+  "object_count": 10,
+  "distractor_count": 8,
+  "source_survey_sha256": "4e67f717bc639fa8251f9cbf52bc0b8a96e19f8594526a196ad4548a95e97acd",
+  "route": {
+    "start": [
+      -1.1,
+      3.5,
+      0.0
+    ],
+    "path_xy": [
+      [
+        -1.1,
+        3.5
+      ],
+      [
+        -1.2000000000000002,
+        3.5
+      ],
+      [
+        -1.3,
+        3.5
+      ],
+      [
+        -1.4000000000000001,
+        3.5
+      ],
+      [
+        -1.5,
+        3.5
+      ],
+      [
+        -1.6,
+        3.5
+      ],
+      [
+        -1.6,
+        3.6
+      ],
+      [
+        -1.6,
+        3.7
+      ],
+      [
+        -1.6,
+        3.8000000000000003
+      ],
+      [
+        -1.6,
+        3.9000000000000004
+      ],
+      [
+        -1.6,
+        4.0
+      ],
+      [
+        -1.6,
+        4.1000000000000005
+      ],
+      [
+        -1.7000000000000002,
+        4.1000000000000005
+      ],
+      [
+        -1.7000000000000002,
+        4.2
+      ],
+      [
+        -1.7000000000000002,
+        4.3
+      ]
+    ],
+    "length_m": 1.4,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 48,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_kwnype_0",
+      "position_xy": [
+        -2.2,
+        3.5
+      ],
+      "aabb": [
+        [
+          -2.3671447601318363,
+          3.1577120208740235,
+          0.0
+        ],
+        [
+          -2.032855239868164,
+          3.8422879791259765,
+          0.6846599731445313
+        ]
+      ],
+      "room": "dining_room_0"
+    }
+  ],
+  "parent_task_id": "F302",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F302_01",
+    "parent_task_id": "F302",
+    "before_instruction": "I want to draw a curved cup and the opening through its handle. Find an empty mug with a loop handle in the dining room cupboard and put it beside the sketchbook on the private office desk.",
+    "after_instruction": "Find a mug in the dining-room cupboard and bring it to the table in front of you in the living room in the living room for a sketch.",
+    "reason": "Removes unverified empty-content and loop-handle shape predicates; preserves mug drawing purpose. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Explicit spatial revision from ('dining_room', 'cabinet', 'private_office', 'desk') to ('dining_room', 'cabinet', 'living_room', 'table'): uses a room/storage pairing with previously found robot clearance and path evidence (3 prior recipes). Item sets, reference matching and inventory predicates are unchanged. Cross-room transfer is retained where the revised source and destination differ.",
+    "target_asset": "mug/ntgftr",
+    "target_assets": [
+      "mug/ntgftr"
+    ]
+  },
+  "binding_sha256": "6a95eb39a5846e975d97f897d361709d47bf97a7f6d104782623f4e751897390"
+}

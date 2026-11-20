@@ -1,0 +1,116 @@
+{
+  "id": "asset_F120_01",
+  "family": "semantic_F120",
+  "scene": "Pomaria_1_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_F120_01/scenario.yaml",
+  "scenario_sha256": "eff51b4b909dc308b71de022f853c190a3f06b52d0ec2ba06cc8ae38eb40f832",
+  "instruction": "There is a sample on the table in front of you in the kitchen. Find another ketchup bottle matching that sample in the kitchen cupboards and place it on the table in front of you in the kitchen.",
+  "target_key": "bottle_of_catsup/ialodu",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "bottom_cabinet_no_top_vzzafs_0",
+  "destination_receptacle": "breakfast_table_uhrsex_0",
+  "object_count": 12,
+  "distractor_count": 10,
+  "source_survey_sha256": "05d404c89ade70d34c89459d2b340c53ef49d49041a6624fcc9a997b8b7322b3",
+  "route": {
+    "start": [
+      -1.05,
+      -0.8500000000000001,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -1.05,
+        -0.8500000000000001
+      ],
+      [
+        -1.05,
+        -0.75
+      ],
+      [
+        -1.05,
+        -0.65
+      ],
+      [
+        -1.05,
+        -0.55
+      ],
+      [
+        -1.05,
+        -0.45
+      ],
+      [
+        -1.05,
+        -0.35000000000000003
+      ],
+      [
+        -1.05,
+        -0.25
+      ],
+      [
+        -1.1500000000000001,
+        -0.25
+      ],
+      [
+        -1.25,
+        -0.25
+      ]
+    ],
+    "length_m": 0.8,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 51,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "comparison_negative_0",
+    "comparison_negative_1",
+    "bottom_cabinet_jrhgeu_0",
+    "bottom_cabinet_no_top_vzzafs_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "parent_task_id": "F120",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F120_01",
+    "parent_task_id": "F120",
+    "before_instruction": "The ketchup bottle on the kitchen table is the one I want another of. Find a bottle of that same product in the kitchen cupboards and put it beside the reference.",
+    "after_instruction": "There is a sample on the table in front of you in the kitchen. Find another ketchup bottle matching that sample in the kitchen cupboards and place it on the table in front of you in the kitchen.",
+    "reason": "Same-native-model reference preserves the requested matching product without relying on fictional label text. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "bottle_of_catsup/ialodu",
+    "target_assets": [
+      "bottle_of_catsup/ialodu"
+    ]
+  },
+  "binding_sha256": "78ae82487cd46b9722e0279f34b09f9a1930f7ea7a6300fc4aa612e6299ab1c2"
+}

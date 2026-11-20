@@ -1,0 +1,73 @@
+{
+  "id": "asset_P107_01",
+  "family": "semantic_P107",
+  "scene": "Beechwood_1_int",
+  "scenario": "scenarios/overnight_expert_20261109/initial_generate/asset_P107_01/scenario.yaml",
+  "scenario_sha256": "79bc2b6beb1e20be585288042793a9e0e88eee18a122c3e29ba8e98a2c71e8c6",
+  "instruction": "Find all the comb in the drawers in this bathroom and put them on the cabinet in front of you.",
+  "target_key": "comb/nybyjz",
+  "target_entities": [
+    "item_00",
+    "item_01",
+    "item_02"
+  ],
+  "target_count": 3,
+  "source_room": "bathroom_1",
+  "destination_room": "bathroom_1",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "bottom_cabinet_no_top_pluwfl_0",
+  "object_count": 11,
+  "distractor_count": 8,
+  "source_survey_sha256": "e6788ca8219b4da8643d87d4deebe4595aa9d5f15520af27b74393574b33a410",
+  "route": {
+    "start": [
+      -6.9,
+      -2.9000000000000004,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -6.9,
+        -2.9000000000000004
+      ],
+      [
+        -6.800000000000001,
+        -2.9000000000000004
+      ],
+      [
+        -6.7,
+        -2.9000000000000004
+      ]
+    ],
+    "length_m": 0.2,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 18,
+    "destination_approach_count": 19,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09",
+    "item_10",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate"
+}

@@ -1,0 +1,94 @@
+task_id: N038
+family: place_on
+scene: Merom_1_int
+source:
+  official_activity: putting_out_condiments#0
+  official_activities_with_same_subgoal:
+  - putting_out_condiments#0
+  official_subgoal: (ontop bottle__of__mustard.n.01 breakfast_table.n.01)
+  reuse: official sub-goal re-used as the task goal
+  scene: BEHAVIOR-1K Merom_1_int
+  object: BEHAVIOR-1K bottle_of_mustard/qbbqat
+start:
+  name: start_living_room_0_0
+  room: living_room_0
+  x: 2.06
+  y: 7.5
+  yaw: 2.98
+target:
+  entity: target_obj
+  category: bottle_of_mustard
+  model: qbbqat
+  noun: bottle of mustard
+  colour_estimate: yellow
+goal:
+- kind: on_top
+  entity: target_obj
+  receptacle: breakfast_table_skczfi_0
+place_hints:
+- - 0.45
+  - 8.101
+  - 3.142
+- - 0.45
+  - 7.898
+  - 3.142
+- - 0.45
+  - 7.493
+  - 3.142
+- - 0.45
+  - 7.087
+  - 2.966
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S2
+missing_spatial_levels:
+- S1
+- S3
+initial_states: {}
+spatial:
+  S2:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: coffee_table_fqluyq_0
+    room: living_room_0
+    location_phrase: the coffee table in the living room
+    grasp_hints:
+    - - 2.84
+      - 7.551
+      - 0.0
+    - - 2.79
+      - 7.5
+      - 0.072
+    - - 2.79
+      - 6.897
+      - 0.785
+    - - 2.74
+      - 7.651
+      - -0.014
+    extra_ops_vs_S1:
+    - search behind occluders
+    s2_kind: occluded
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    task_scope: cross_room
+language:
+  L1:
+    S2: Go to the coffee table in the living room, pick up the bottle of mustard on
+      it. Then put it on the table in the dining room.
+  L2: Place the bottle of mustard on the table in the dining room.
+  L3: I'm putting out condiments. The bottle of mustard should end up on the table
+    in the dining room -- could you take care of it?
+available_language_levels:
+  S2:
+  - L1
+  - L2
+  - L3
+description_provenance:
+  missing_L1_reason: source location lacks an unambiguous description
+  missing_L1_spatial_levels: []
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

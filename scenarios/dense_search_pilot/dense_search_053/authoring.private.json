@@ -1,0 +1,64 @@
+{
+  "id": "dense_search_053",
+  "family": "bathroom_drawers",
+  "scene": "Wainscott_1_int",
+  "scenario": "scenarios/dense_search_pilot/dense_search_053/scenario.yaml",
+  "scenario_sha256": "afa1aba7bbb7232d933a1338037e584f899a611c60eac87865ff7d3e163f37bd",
+  "instruction": "Find the comb in the drawers in this bathroom and put it on the counter in front of you.",
+  "target_key": "comb",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bathroom_0",
+  "destination_room": "bathroom_0",
+  "source_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+  "destination_receptacle": "countertop_tpuwys_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "7894c711eea34a656ee926a132d6563ce3833b5ddb45c126d0ce534dd2edca60",
+  "route": {
+    "start": [
+      4.55,
+      10.350000000000001,
+      1.1079022971540795
+    ],
+    "path_xy": [
+      [
+        4.55,
+        10.350000000000001
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.5956854249492382,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 4,
+    "destination_approach_count": 4,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_no_top_qohxjq_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "robot_model": "g1_bench"
+}

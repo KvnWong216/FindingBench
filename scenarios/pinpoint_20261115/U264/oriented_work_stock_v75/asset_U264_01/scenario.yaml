@@ -1,0 +1,193 @@
+id: asset_U264_01
+instruction: Bring the pruners from the garden storage tools to the table in front
+  of you in the garden in the garden for checking them against the branch we need
+  to trim.
+scene:
+  model: house_double_floor_lower
+  source: behavior
+  clearance_manifest: /home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/build/vla_difficulty_v2/clearance/house_double_floor_lower.json
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - 16.45
+    - 3.5500000000000003
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 1.0
+    - 6.123233995736766e-17
+target:
+  entity: item_00
+  category: pruner
+objects:
+- name: item_00
+  category: pruner
+  model: lucqrs
+- name: item_01
+  category: shears
+  model: iizidc
+- name: item_02
+  category: wire_cutter
+  model: ugbval
+- name: item_03
+  category: plier
+  model: zwzncq
+- name: item_04
+  category: shears
+  model: iizidc
+- name: item_05
+  category: wire_cutter
+  model: ugbval
+- name: item_06
+  category: plier
+  model: zwzncq
+- name: item_07
+  category: shears
+  model: iizidc
+- name: item_08
+  category: wire_cutter
+  model: ugbval
+- name: delivery_surface
+  category: breakfast_table
+  model: iaritq
+  fixed_base: true
+- name: drawer_support_1dee263f
+  category: notebook
+  model: ksxknp
+  fixed_base: false
+- name: search_work_surface
+  category: desk
+  model: ztsyqx
+  fixed_base: true
+placements:
+- entity: item_00
+  relation: on_top
+  receptacle: search_work_surface
+  orientation_hint_xyzw:
+  - 0.0
+  - 0.7071067811865475
+  - 0.0
+  - 0.7071067811865476
+  position_xy:
+  - 18.488952117919922
+  - 3.1364883422851566
+- entity: item_01
+  relation: on_top
+  receptacle: search_work_surface
+  position_xy:
+  - 18.796952117919922
+  - 3.3159883422851566
+- entity: item_02
+  relation: on_top
+  receptacle: search_work_surface
+  position_xy:
+  - 18.723452117919923
+  - 3.1374883422851565
+- entity: item_03
+  relation: on_top
+  receptacle: search_work_surface
+  position_xy:
+  - 18.451952117919923
+  - 3.3114883422851564
+- entity: item_04
+  relation: on_top
+  receptacle: search_work_surface
+  position_xy:
+  - 18.43895211791992
+  - 3.3839883422851567
+- entity: item_05
+  relation: on_top
+  receptacle: search_work_surface
+  position_xy:
+  - 18.470452117919923
+  - 3.2294883422851566
+- entity: item_06
+  relation: on_top
+  receptacle: search_work_surface
+  position_xy:
+  - 18.63095211791992
+  - 3.3134883422851567
+- entity: item_07
+  relation: on_top
+  receptacle: search_work_surface
+  position_xy:
+  - 18.591952117919924
+  - 3.3859883422851564
+- entity: item_08
+  relation: on_top
+  receptacle: search_work_surface
+  position_xy:
+  - 18.686452117919924
+  - 3.231488342285157
+- entity: delivery_surface
+  relation: on_top
+  receptacle: floors_ghetev_0
+  position_xy:
+  - 15.55
+  - 3.95
+- entity: drawer_support_1dee263f
+  relation: on_top
+  receptacle: search_work_surface
+  position_xy:
+  - 18.878452117919924
+  - 3.1584883422851564
+- entity: search_work_surface
+  relation: on_top
+  receptacle: floors_ghetev_0
+  position_xy:
+  - 18.650000000000002
+  - 3.45
+initial_states: {}
+goal:
+- kind: on_top
+  entity: item_00
+  receptacle: delivery_surface
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

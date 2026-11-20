@@ -1,0 +1,64 @@
+{
+  "id": "dense_search_027",
+  "family": "bedroom_drawers",
+  "scene": "house_double_floor_upper",
+  "scenario": "scenarios/dense_search_pilot/dense_search_027/scenario.yaml",
+  "scenario_sha256": "c19694d3c52dfb88ea1776479ee544565347aeee357e0bf1d52c2a1c06244f07",
+  "instruction": "Find the wallet in the drawers in this bedroom and put it on the cabinet in front of you.",
+  "target_key": "wallet",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bedroom_2",
+  "destination_room": "bedroom_2",
+  "source_receptacle": "bottom_cabinet_nddvba_0",
+  "destination_receptacle": "bottom_cabinet_no_top_ncgmqr_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "bad4111136351f4ccb189cc8da21449e65bb285de15b8c94024c1d045abd820a",
+  "route": {
+    "start": [
+      4.6000000000000005,
+      -3.5,
+      -2.2613011166967487
+    ],
+    "path_xy": [
+      [
+        4.6000000000000005,
+        -3.5
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.5956854249492382,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 16,
+    "destination_approach_count": 7,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_nddvba_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "robot_model": "g1_bench"
+}

@@ -1,0 +1,155 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F222_01",
+      "family": "semantic_F222",
+      "scene": "Ihlen_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_18_F222_expert_e70806ed6e2a/asset_F222_01/scenario.yaml",
+      "scenario_sha256": "4652fab3262867328c871671a212e64973ff2c16c021f09472ce22a48ef13496",
+      "instruction": "Find sesame seeds in the kitchen food-storage area, not sesame oil, and bring the container to the counter in front of you in the kitchen in the kitchen.",
+      "target_key": "bottle_of_sesame_seeds/lzndie",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "kitchen_0",
+      "destination_room": "kitchen_0",
+      "source_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+      "destination_receptacle": "countertop_tpuwys_3",
+      "object_count": 9,
+      "distractor_count": 8,
+      "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+      "route": {
+        "start": [
+          -3.9000000000000004,
+          4.7,
+          -1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            -3.9000000000000004,
+            4.7
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 37,
+        "destination_approach_count": 37,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "bottom_cabinet_slgzfc_1",
+        "bottom_cabinet_no_top_qohxjq_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [],
+      "parent_task_id": "F222",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F222_01",
+        "parent_task_id": "F222",
+        "before_instruction": "Find sesame seeds in the pantry, not sesame oil, and put the container beside the empty garnish bowl on the kitchen counter.",
+        "after_instruction": "Find sesame seeds in the kitchen food-storage area, not sesame oil, and bring the container to the counter in front of you in the kitchen in the kitchen.",
+        "reason": "The identified delivery surface is grounded by the initial facing direction; decorative destination landmarks are omitted. Target identity, requested cardinality and source/destination room types are retained. Layout revision: the unbuilt pantry-room task is explicitly relocated to the kitchen food-storage area because surveyed pantry rooms lack two robot-accessible storage/delivery positions. Target models, counts, reference matching, destination inventory and goals are unchanged; this changes room scope and may shorten transport.",
+        "target_asset": "bottle_of_sesame_seeds/lzndie",
+        "target_assets": [
+          "bottle_of_sesame_seeds/lzndie"
+        ]
+      },
+      "binding_sha256": "ed6d85aba2b2b2e59d010a0e00cbd5c5e96bfb884def09bdb8a1b3cf9031fa87",
+      "surface_binding_revision": {
+        "status": "surface_body_binding_corrected_physics_pending",
+        "changes": [
+          {
+            "field": "goal",
+            "entity": "item_00",
+            "before": "bottom_cabinet_no_top_qohxjq_0",
+            "after": "countertop_tpuwys_3"
+          }
+        ],
+        "destination_approach_patch": {
+          "contact_body": "countertop_tpuwys_3",
+          "above_fixture": "bottom_cabinet_no_top_qohxjq_0",
+          "aabb": [
+            [
+              -4.469,
+              3.565,
+              0.901
+            ],
+            [
+              -3.97,
+              4.148,
+              0.92
+            ]
+          ],
+          "scope": "private route proposal to a subset of the actual slab; no synthetic body"
+        },
+        "geometry": {
+          "bottom_cabinet_no_top_qohxjq_0": {
+            "before": [
+              [
+                -4.469,
+                3.565,
+                0.002
+              ],
+              [
+                -3.97,
+                4.152,
+                0.898
+              ]
+            ],
+            "after": [
+              [
+                -5.058,
+                3.561,
+                0.901
+              ],
+              [
+                -3.501,
+                4.148,
+                0.92
+              ]
+            ]
+          }
+        },
+        "source_survey": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/vla_difficulty_v2/_survey/Ihlen_1_int.json",
+        "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+        "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_F222_01/scenario.yaml",
+        "original_scenario_sha256": "5df5cc1f9fb1ba90a58bae0cc8112fd3cddca93050b828c44cecbc3f1833bf1f",
+        "reason": "Native OnTop requires touching the named body; a separate measured slab covers the named cabinet.",
+        "preserved": [
+          "instruction",
+          "all object models and counts",
+          "target identities",
+          "relation kinds",
+          "spawn",
+          "robot and skills",
+          "physical delivery location"
+        ],
+        "physical_validation_required": true
+      }
+    }
+  ]
+}

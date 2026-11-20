@@ -1,0 +1,402 @@
+{
+  "action": "expert",
+  "case": {
+    "id": "U023",
+    "record": {
+      "id": "asset_U023_01",
+      "family": "semantic_U023",
+      "scene": "Beechwood_0_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/all_remaining_20261113_10_U023/asset_U023_01/scenario.yaml",
+      "scenario_sha256": "5842f80a27b2860ea321f4d27c277ee7f4e396ff4f640302dfc021b31c61d08f",
+      "instruction": "I have a new notice for the board. Find a thumbtack among the study supplies and leave it on the desk in front of you in the study.",
+      "target_key": "thumbtack/qfrphh",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "private_office_0",
+      "destination_room": "private_office_0",
+      "source_receptacle": "expert_storage_80",
+      "destination_receptacle": "desk_rzyfxk_1",
+      "object_count": 10,
+      "distractor_count": 8,
+      "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+      "route": {
+        "start": [
+          5.3500000000000005,
+          -3.95,
+          0.0
+        ],
+        "path_xy": [
+          [
+            5.3500000000000005,
+            -3.95
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 28,
+        "destination_approach_count": 6,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "bottom_cabinet_nddvba_0",
+        "bottom_cabinet_immwzb_0",
+        "expert_storage_80"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "expert_storage_80",
+          "category": "bottom_cabinet",
+          "model": "bamfsz",
+          "floor": "floors_jniagb_0",
+          "position_xy": [
+            4.3500000000000005,
+            -3.5500000000000003
+          ],
+          "aabb": [
+            [
+              4.123457824707032,
+              -3.765280570983887,
+              -0.0
+            ],
+            [
+              4.576542175292969,
+              -3.3347194290161135,
+              0.5425187683105469
+            ]
+          ],
+          "room": "private_office_0"
+        }
+      ],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "expert_storage_80",
+            "volume_extents_m": {
+              "meta__link_1_fillable_0_0_link": [
+                0.3636389226425012,
+                0.35760286045074463,
+                0.16590549134926458
+              ],
+              "meta__link_2_fillable_0_0_link": [
+                0.36083231040335595,
+                0.36367266964912415,
+                0.07200003650784437
+              ],
+              "meta__link_3_fillable_0_0_link": [
+                0.35854086937132057,
+                0.36297681522369385,
+                0.02700003399327411
+              ],
+              "meta__link_4_fillable_0_0_link": [
+                0.3579644626368419,
+                0.3631394166946411,
+                0.02700004433095321
+              ]
+            },
+            "native_links": {
+              "meta__link_1_fillable_0_0_link": "meta__link_1_fillable_0_0_link",
+              "meta__link_2_fillable_0_0_link": "meta__link_2_fillable_0_0_link",
+              "meta__link_3_fillable_0_0_link": "meta__link_3_fillable_0_0_link",
+              "meta__link_4_fillable_0_0_link": "meta__link_4_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet/bamfsz",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "a98da154c304668361e5daeed5844eaa1be5f88f30decc62c51ab146be91c60a",
+              "metadata_sha256": "799c29283726b3515c27196518d33b0888e653b894de2626a32ddd77cbc461a1",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.0013822279870510101,
+              "nodes": 0,
+              "candidate_tests": 0,
+              "search_orders_tried": 0,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_00": "meta__link_1_fillable_0_0_link",
+                "item_01": "meta__link_1_fillable_0_0_link",
+                "item_02": "meta__link_1_fillable_0_0_link",
+                "item_03": "meta__link_1_fillable_0_0_link",
+                "item_04": "meta__link_1_fillable_0_0_link",
+                "item_05": "meta__link_1_fillable_0_0_link",
+                "item_06": "meta__link_1_fillable_0_0_link",
+                "item_07": "meta__link_1_fillable_0_0_link",
+                "item_08": "meta__link_1_fillable_0_0_link"
+              },
+              "poses": {
+                "item_00": {
+                  "bin": "meta__link_1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.004,
+                    0.004
+                  ],
+                  "center_xy_m": [
+                    0.007,
+                    0.007
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__link_1_fillable_0_0_link",
+                  "yaw_degrees": 90,
+                  "lower_xy_m": [
+                    0.005,
+                    0.014
+                  ],
+                  "footprint_m": [
+                    0.009000000000000001,
+                    0.008
+                  ],
+                  "center_xy_m": [
+                    0.009500000000000001,
+                    0.018000000000000002
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__link_1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.027
+                  ],
+                  "footprint_m": [
+                    0.03,
+                    0.022
+                  ],
+                  "center_xy_m": [
+                    0.02,
+                    0.038
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__link_1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.054
+                  ],
+                  "footprint_m": [
+                    0.02,
+                    0.005
+                  ],
+                  "center_xy_m": [
+                    0.015,
+                    0.0565
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__link_1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.064
+                  ],
+                  "footprint_m": [
+                    0.013000000000000001,
+                    0.009000000000000001
+                  ],
+                  "center_xy_m": [
+                    0.0115,
+                    0.0685
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__link_1_fillable_0_0_link",
+                  "yaw_degrees": 90,
+                  "lower_xy_m": [
+                    0.005,
+                    0.078
+                  ],
+                  "footprint_m": [
+                    0.009000000000000001,
+                    0.008
+                  ],
+                  "center_xy_m": [
+                    0.009500000000000001,
+                    0.082
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__link_1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.091
+                  ],
+                  "footprint_m": [
+                    0.03,
+                    0.022
+                  ],
+                  "center_xy_m": [
+                    0.02,
+                    0.102
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__link_1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.11800000000000001
+                  ],
+                  "footprint_m": [
+                    0.02,
+                    0.005
+                  ],
+                  "center_xy_m": [
+                    0.015,
+                    0.12050000000000001
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__link_1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.128
+                  ],
+                  "footprint_m": [
+                    0.013000000000000001,
+                    0.009000000000000001
+                  ],
+                  "center_xy_m": [
+                    0.0115,
+                    0.1325
+                  ]
+                }
+              },
+              "constructive_witness": "single strip; exact quantized box and clearance checks"
+            },
+            "assignment": {
+              "item_00": "meta__link_1_fillable_0_0_link",
+              "item_01": "meta__link_1_fillable_0_0_link",
+              "item_02": "meta__link_1_fillable_0_0_link",
+              "item_03": "meta__link_1_fillable_0_0_link",
+              "item_04": "meta__link_1_fillable_0_0_link",
+              "item_05": "meta__link_1_fillable_0_0_link",
+              "item_06": "meta__link_1_fillable_0_0_link",
+              "item_07": "meta__link_1_fillable_0_0_link",
+              "item_08": "meta__link_1_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_00": "meta__link_1_fillable_0_0_link",
+              "item_01": "meta__link_1_fillable_0_0_link",
+              "item_02": "meta__link_1_fillable_0_0_link",
+              "item_03": "meta__link_1_fillable_0_0_link",
+              "item_04": "meta__link_1_fillable_0_0_link",
+              "item_05": "meta__link_1_fillable_0_0_link",
+              "item_06": "meta__link_1_fillable_0_0_link",
+              "item_07": "meta__link_1_fillable_0_0_link",
+              "item_08": "meta__link_1_fillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_00": "meta__link_1_fillable_0_0_link",
+          "item_01": "meta__link_1_fillable_0_0_link",
+          "item_02": "meta__link_1_fillable_0_0_link",
+          "item_03": "meta__link_1_fillable_0_0_link",
+          "item_04": "meta__link_1_fillable_0_0_link",
+          "item_05": "meta__link_1_fillable_0_0_link",
+          "item_06": "meta__link_1_fillable_0_0_link",
+          "item_07": "meta__link_1_fillable_0_0_link",
+          "item_08": "meta__link_1_fillable_0_0_link"
+        },
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [
+        {
+          "scene": "Beechwood_0_int",
+          "source": "bottom_cabinet_nddvba_0",
+          "reason": "Previously failed source layout"
+        }
+      ],
+      "parent_task_id": "U023",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_U023_01",
+        "parent_task_id": "U023",
+        "before_instruction": "I have a new notice for the board. Find a thumbtack among the study supplies and put it in the desk tray nearest the board.",
+        "after_instruction": "I have a new notice for the board. Find a thumbtack among the study supplies and leave it on the desk in front of you in the study.",
+        "reason": "Preserves object identity and purpose; explicitly grounds the destination as the initial-facing native surface instead of an uninstantiated decorative landmark.",
+        "target_asset": "thumbtack/qfrphh",
+        "target_assets": [
+          "thumbtack/qfrphh"
+        ]
+      },
+      "binding_sha256": "147a51a566e01f25109762c0114a8f117800827f738c29496b045b8665f53a71",
+      "proposal_native_policy_signature": "638901e57b44747045bd55ed10084fe82451f1075c4c28aa6f0af555449b389c",
+      "storage_model_experience": []
+    },
+    "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_lane2_20261111/all_remaining_20261113_10_U023/asset_U023_01",
+    "accepted": false,
+    "error": "LAYOUT_NOT_CONVERGED: see settling.private.json",
+    "source": "reviewed_polling_probe_all_remaining_20261113_10",
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "resting_state",
+      "reason": "LAYOUT_NOT_CONVERGED: see settling.private.json"
+    }
+  },
+  "out": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_010_U023_expert_749a05a63ccb",
+  "variant": 93
+}

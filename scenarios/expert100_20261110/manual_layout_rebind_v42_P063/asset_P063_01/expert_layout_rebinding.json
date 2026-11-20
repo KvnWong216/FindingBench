@@ -1,0 +1,82 @@
+{
+  "status": "new_layout_instance_physics_pending",
+  "method": "expert_verified_layout_rebinding",
+  "task": "P063",
+  "reason": "The original bedroom fixture cannot fit a 13.5-cm toiletry and exhaustive native fixture/site proposals failed at the original fixed spawn. Retain the complete matching-cream task and all ten native task objects; rebind the same bedroom-to-bathroom roles to a natively initialized and independently reloaded layout. Use only the donor source unit that has a valid approach; do not import the donors unused inaccessible fixture.",
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/initial_P063/asset_P063_01/scenario.yaml",
+  "original_scenario_sha256": "a61a2e1b30b0d483a3880d39e5a8c0a9f04cb486ed109b80c3b5dad4b87db039",
+  "baseline_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/solver_models_v23_P071/asset_P071_01/scenario.yaml",
+  "baseline_evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/solver_models_v23_P071/asset_P071_01",
+  "baseline_native_pair_verified": true,
+  "before_scene": {
+    "model": "Wainscott_1_int",
+    "source": "behavior",
+    "clearance_manifest": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/build/vla_difficulty_v2/clearance/Wainscott_1_int.json"
+  },
+  "after_scene": {
+    "model": "Beechwood_1_int",
+    "source": "behavior",
+    "clearance_manifest": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/build/vla_difficulty_v2/clearance/Beechwood_1_int.json"
+  },
+  "before_anchors": {
+    "start": {
+      "position": [
+        0.9500000000000001,
+        9.35,
+        0.0053
+      ],
+      "orientation": [
+        0,
+        0,
+        -0.7071067811865475,
+        0.7071067811865476
+      ]
+    }
+  },
+  "after_anchors": {
+    "start": {
+      "position": [
+        -6.9,
+        -2.9000000000000004,
+        0.0053
+      ],
+      "orientation": [
+        0,
+        0,
+        -0.7071067811865475,
+        0.7071067811865476
+      ]
+    }
+  },
+  "before_goal": [
+    {
+      "kind": "on_top",
+      "entity": "item_00",
+      "receptacle": "bottom_cabinet_nnvyol_1"
+    }
+  ],
+  "after_goal": [
+    {
+      "kind": "on_top",
+      "entity": "item_00",
+      "receptacle": "bottom_cabinet_no_top_pluwfl_0"
+    }
+  ],
+  "preserved": [
+    "instruction",
+    "all ten native task objects and models",
+    "matching sample identity",
+    "target count",
+    "all relation kinds",
+    "robot embodiment and skills",
+    "bedroom source and bathroom delivery semantics"
+  ],
+  "changed": [
+    "house instance",
+    "physical source and delivery fixture names",
+    "initial spawn from verified layout",
+    "one native source fixture"
+  ],
+  "physical_validation_required": true,
+  "human_completion_verified": false
+}

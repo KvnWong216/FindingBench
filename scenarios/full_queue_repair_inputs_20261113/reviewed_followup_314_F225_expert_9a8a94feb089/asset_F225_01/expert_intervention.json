@@ -1,0 +1,46 @@
+{
+  "status": "static_screened_physics_pending",
+  "method": "registered_native_support_rebinding",
+  "centered_container_placements": [
+    {
+      "entity": "item_00",
+      "receptacle": "breakfast_table_xftrki_0",
+      "position_xy": [
+        4.291,
+        1.438
+      ],
+      "orientation": "identity via explicit XY placement",
+      "physical_validation_required": true
+    }
+  ],
+  "decision": {
+    "instruction_sha256": "4f3e5665ec6ead71324a4545c2c3f159885f6fd47d9576e951e6113b4bbd1545",
+    "entity": "item_00",
+    "original_object": {
+      "name": "item_00",
+      "category": "shopping_basket",
+      "model": "vsxhsv"
+    },
+    "replacement": {
+      "name": "item_00",
+      "category": "shopping_basket",
+      "model": "nedrsh"
+    },
+    "reason": "The small native basket contains ten fruits including a watermelon; the conservative size model cannot pack one layer and the unchanged native-runtime counterfactual is being retained separately. Propose the real larger native shopping basket already strictly validated for F016, at unchanged scale, preserving the full inventory, source counter, natural instruction, targets, goals and spawn. No physical gate relaxed; independent init/reload mandatory."
+  },
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_F225_01/scenario.yaml",
+  "physical_validation_required": true,
+  "preserved": [
+    "instruction",
+    "goal",
+    "target",
+    "robot",
+    "spawn",
+    "all targets and distractors",
+    "object count",
+    "all relation types"
+  ],
+  "changed": [
+    "one native support model; original asset scales retained"
+  ]
+}

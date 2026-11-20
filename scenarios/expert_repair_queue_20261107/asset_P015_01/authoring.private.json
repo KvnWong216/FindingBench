@@ -1,0 +1,152 @@
+{
+  "id": "asset_P015_01",
+  "family": "semantic_P015",
+  "scene": "Pomaria_2_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_P015_01/scenario.yaml",
+  "scenario_sha256": "1b0f601b7fdc7f93084e63bae89621568b85de42b8dba5ca5de1456450fc4c75",
+  "instruction": "There is a sample on the cabinet top in front of you in the bedroom. Find the ring matching that sample in the bedroom jewelry storage and put it on the cabinet top in front of you in the bedroom.",
+  "target_key": "ring/oolbrj",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bedroom_0",
+  "destination_room": "bedroom_0",
+  "source_receptacle": "bottom_cabinet_rntwkg_0",
+  "destination_receptacle": "bottom_cabinet_rntwkg_0",
+  "object_count": 10,
+  "distractor_count": 8,
+  "source_survey_sha256": "62e51428546de3c0a833496f29b3c3303a5b7156fd7ac39a8975412318ea7e2d",
+  "route": {
+    "start": [
+      -2.3000000000000003,
+      -2.5,
+      0.0
+    ],
+    "path_xy": [
+      [
+        -2.3000000000000003,
+        -2.5
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 2,
+    "destination_approach_count": 2,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "bottom_cabinet_rntwkg_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_rntwkg_0",
+        "volume_extents_m": {
+          "link_1": [
+            0.3656003475189209,
+            0.36377906799316406,
+            0.1531817615032196
+          ],
+          "link_2": [
+            0.3656003475189209,
+            0.36377930641174316,
+            0.025944530963897705
+          ],
+          "link_3": [
+            0.3656003475189209,
+            0.36377930641174316,
+            0.025944530963897705
+          ],
+          "link_4": [
+            0.3656003475189209,
+            0.36377930641174316,
+            0.025944560766220093
+          ],
+          "link_5": [
+            0.3656003475189209,
+            0.36377930641174316,
+            0.025944560766220093
+          ]
+        },
+        "native_links": {
+          "link_1": "link_1",
+          "link_2": "link_2",
+          "link_3": "link_3",
+          "link_4": "link_4",
+          "link_5": "link_5"
+        },
+        "geometry_source": "survey",
+        "geometry_provenance": {},
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_04": "link_1",
+          "item_07": "link_1",
+          "item_01": "link_1",
+          "item_02": "link_1",
+          "item_05": "link_1",
+          "item_00": "link_1",
+          "item_03": "link_1",
+          "item_06": "link_1",
+          "item_08": "link_1"
+        },
+        "component_allocation": {
+          "item_04": "link_1",
+          "item_07": "link_1",
+          "item_01": "link_1",
+          "item_02": "link_1",
+          "item_05": "link_1",
+          "item_00": "link_1",
+          "item_03": "link_1",
+          "item_06": "link_1",
+          "item_08": "link_1"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {},
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "P015",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P015_01",
+    "parent_task_id": "P015",
+    "before_instruction": "Find the ring with a single raised stone in the bedroom jewelry storage and put it in the empty dish on the dresser.",
+    "after_instruction": "There is a sample on the cabinet top in front of you in the bedroom. Find the ring matching that sample in the bedroom jewelry storage and put it on the cabinet top in front of you in the bedroom.",
+    "reason": "Replaces unverified single-stone shape with physical-reference jewelry matching. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "ring/oolbrj",
+    "target_assets": [
+      "ring/oolbrj"
+    ]
+  },
+  "binding_sha256": "4f1a3b38282771608965577fbe2aa543ea6b87b95d839bacf072f0680ecb9a60"
+}

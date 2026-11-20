@@ -1,0 +1,321 @@
+{
+  "id": "asset_P142_01",
+  "family": "semantic_P142",
+  "scene": "Merom_1_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_P142_01/scenario.yaml",
+  "scenario_sha256": "d051ab9a34cc3400f5914a633d7083cfeb3aebdf80da7715a720a15207efeb7a",
+  "instruction": "There is a sample on the table in front of you in the living room. Find the comic matching that sample among the living-room books and bring it to the table in front of you in the living room for reading.",
+  "target_key": "comic_book/nekxsh",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "bottom_cabinet_jhymlr_0",
+  "destination_receptacle": "coffee_table_fqluyq_0",
+  "object_count": 12,
+  "distractor_count": 10,
+  "source_survey_sha256": "1bcd77f7369c09f3ee939635132fc064795bb448af326a0f941bcbe3dbe0fd22",
+  "route": {
+    "start": [
+      2.75,
+      7.15,
+      0.0
+    ],
+    "path_xy": [
+      [
+        2.75,
+        7.15
+      ],
+      [
+        2.6500000000000004,
+        7.15
+      ],
+      [
+        2.5500000000000003,
+        7.15
+      ],
+      [
+        2.45,
+        7.15
+      ],
+      [
+        2.35,
+        7.15
+      ],
+      [
+        2.25,
+        7.15
+      ],
+      [
+        2.15,
+        7.15
+      ],
+      [
+        2.0500000000000003,
+        7.15
+      ],
+      [
+        1.9500000000000002,
+        7.15
+      ],
+      [
+        1.85,
+        7.15
+      ],
+      [
+        1.75,
+        7.15
+      ],
+      [
+        1.6500000000000001,
+        7.15
+      ],
+      [
+        1.55,
+        7.15
+      ],
+      [
+        1.4500000000000002,
+        7.15
+      ],
+      [
+        1.35,
+        7.15
+      ],
+      [
+        1.25,
+        7.15
+      ],
+      [
+        1.25,
+        7.25
+      ],
+      [
+        1.25,
+        7.3500000000000005
+      ],
+      [
+        1.25,
+        7.45
+      ],
+      [
+        1.25,
+        7.550000000000001
+      ],
+      [
+        1.25,
+        7.65
+      ],
+      [
+        1.25,
+        7.75
+      ],
+      [
+        1.25,
+        7.8500000000000005
+      ],
+      [
+        1.25,
+        7.95
+      ],
+      [
+        1.25,
+        8.05
+      ],
+      [
+        1.25,
+        8.15
+      ],
+      [
+        1.25,
+        8.25
+      ],
+      [
+        1.25,
+        8.35
+      ],
+      [
+        1.25,
+        8.450000000000001
+      ],
+      [
+        1.25,
+        8.55
+      ],
+      [
+        1.25,
+        8.65
+      ],
+      [
+        1.25,
+        8.75
+      ],
+      [
+        1.25,
+        8.85
+      ]
+    ],
+    "length_m": 3.2,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 35,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "comparison_negative_0",
+    "comparison_negative_1",
+    "bottom_cabinet_jhymlr_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_jhymlr_0",
+        "volume_extents_m": {
+          "meta__link_0_fillable_0_0_link": [
+            0.2773549286700383,
+            0.5010804836929584,
+            0.11265514719966996
+          ],
+          "meta__link_1_fillable_0_0_link": [
+            0.2773549368762549,
+            0.5010714618021198,
+            0.11265509558625308
+          ],
+          "meta__link_2_fillable_0_0_link": [
+            0.2773504768474596,
+            0.5010708197383781,
+            0.05737970478521934
+          ],
+          "meta__link_3_fillable_0_0_link": [
+            0.2773548969495938,
+            0.5010804205737973,
+            0.11265516092746888
+          ],
+          "meta__link_4_fillable_0_0_link": [
+            0.2773548887433784,
+            0.5010714469286316,
+            0.11265512304185177
+          ],
+          "meta__link_5_fillable_0_0_link": [
+            0.27735044512688245,
+            0.5010708197383782,
+            0.0573797014843318
+          ]
+        },
+        "native_links": {
+          "meta__link_0_fillable_0_0_link": "meta__link_0_fillable_0_0_link",
+          "meta__link_1_fillable_0_0_link": "meta__link_1_fillable_0_0_link",
+          "meta__link_2_fillable_0_0_link": "meta__link_2_fillable_0_0_link",
+          "meta__link_3_fillable_0_0_link": "meta__link_3_fillable_0_0_link",
+          "meta__link_4_fillable_0_0_link": "meta__link_4_fillable_0_0_link",
+          "meta__link_5_fillable_0_0_link": "meta__link_5_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet/jhymlr",
+          "scale": [
+            1.3397164344787598,
+            1.618847131729126,
+            1.8425140380859375
+          ],
+          "encrypted_asset_sha256": "9efdb08a982275bda4a5bd52c778037078e74869caf588eb0c7150d9a1dec2e0",
+          "metadata_sha256": "64d362b09d91494d02da79b46ac2ed7ffa2d8edebf0432612cf7ecdc222c2b03",
+          "root_orientation": [
+            3.4351207432337105e-05,
+            4.3117823224747553e-05,
+            -0.7071061730384827,
+            0.7071073651313782
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_01": "meta__link_2_fillable_0_0_link",
+          "item_06": "meta__link_5_fillable_0_0_link",
+          "item_04": "meta__link_0_fillable_0_0_link",
+          "comparison_negative_1": "meta__link_3_fillable_0_0_link",
+          "item_00": "meta__link_1_fillable_0_0_link",
+          "comparison_negative_0": "meta__link_4_fillable_0_0_link",
+          "item_02": "meta__link_0_fillable_0_0_link",
+          "item_07": "meta__link_1_fillable_0_0_link",
+          "item_05": "meta__link_4_fillable_0_0_link",
+          "item_03": "meta__link_3_fillable_0_0_link",
+          "item_08": "meta__link_3_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_01": "meta__link_2_fillable_0_0_link",
+          "item_06": "meta__link_5_fillable_0_0_link",
+          "item_04": "meta__link_0_fillable_0_0_link",
+          "comparison_negative_1": "meta__link_3_fillable_0_0_link",
+          "item_00": "meta__link_1_fillable_0_0_link",
+          "comparison_negative_0": "meta__link_4_fillable_0_0_link",
+          "item_02": "meta__link_0_fillable_0_0_link",
+          "item_07": "meta__link_1_fillable_0_0_link",
+          "item_05": "meta__link_4_fillable_0_0_link",
+          "item_03": "meta__link_3_fillable_0_0_link",
+          "item_08": "meta__link_3_fillable_0_0_link"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_01": "meta__link_2_fillable_0_0_link",
+      "item_06": "meta__link_5_fillable_0_0_link",
+      "item_04": "meta__link_0_fillable_0_0_link",
+      "comparison_negative_1": "meta__link_3_fillable_0_0_link",
+      "item_00": "meta__link_1_fillable_0_0_link",
+      "comparison_negative_0": "meta__link_4_fillable_0_0_link",
+      "item_02": "meta__link_0_fillable_0_0_link",
+      "item_07": "meta__link_1_fillable_0_0_link",
+      "item_05": "meta__link_4_fillable_0_0_link",
+      "item_03": "meta__link_3_fillable_0_0_link",
+      "item_08": "meta__link_3_fillable_0_0_link"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "P142",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P142_01",
+    "parent_task_id": "P142",
+    "before_instruction": "Find the comic showing a red robot beside a blue car among living-room books and place it on the sofa-side table.",
+    "after_instruction": "There is a sample on the table in front of you in the living room. Find the comic matching that sample among the living-room books and bring it to the table in front of you in the living room for reading.",
+    "reason": "Replaces unverified red-robot/blue-car artwork with concrete native comic matching. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "comic_book/nekxsh",
+    "target_assets": [
+      "comic_book/nekxsh"
+    ]
+  },
+  "binding_sha256": "a93e8b6ef65ac8f95b383660b0e59bd655af1bf1d311f916ec2cf30b7824892f"
+}

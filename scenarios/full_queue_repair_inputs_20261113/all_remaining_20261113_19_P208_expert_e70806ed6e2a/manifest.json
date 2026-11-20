@@ -1,0 +1,230 @@
+{
+  "tasks": [
+    {
+      "id": "asset_P208_01",
+      "family": "semantic_P208",
+      "scene": "house_double_floor_upper",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_19_P208_expert_e70806ed6e2a/asset_P208_01/scenario.yaml",
+      "scenario_sha256": "18cc88d9f3bbcd7c03fc80e03a7161d1256ba91b66bd1107754dfbd07c77aeff",
+      "instruction": "Find the paperback titled \"The Politics of Hope\" among the living room books and put it on the table in front of you in the bedroom in the bedroom.",
+      "target_key": "paperback_book/rougms",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "living_room_0",
+      "destination_room": "bedroom_0",
+      "source_receptacle": "search_storage",
+      "destination_receptacle": "delivery_surface",
+      "object_count": 11,
+      "distractor_count": 8,
+      "source_survey_sha256": "bad4111136351f4ccb189cc8da21449e65bb285de15b8c94024c1d045abd820a",
+      "route": {
+        "start": [
+          -3.2,
+          0.9,
+          3.141592653589793
+        ],
+        "path_xy": [
+          [
+            -3.2,
+            0.9
+          ],
+          [
+            -3.2,
+            0.8
+          ],
+          [
+            -3.2,
+            0.7000000000000001
+          ],
+          [
+            -3.2,
+            0.6000000000000001
+          ],
+          [
+            -3.1,
+            0.6000000000000001
+          ],
+          [
+            -3.0,
+            0.6000000000000001
+          ],
+          [
+            -2.9000000000000004,
+            0.6000000000000001
+          ],
+          [
+            -2.8000000000000003,
+            0.6000000000000001
+          ],
+          [
+            -2.7,
+            0.6000000000000001
+          ],
+          [
+            -2.6,
+            0.6000000000000001
+          ],
+          [
+            -2.5,
+            0.6000000000000001
+          ],
+          [
+            -2.4000000000000004,
+            0.6000000000000001
+          ],
+          [
+            -2.3000000000000003,
+            0.6000000000000001
+          ],
+          [
+            -2.2,
+            0.6000000000000001
+          ],
+          [
+            -2.1,
+            0.6000000000000001
+          ],
+          [
+            -2.0,
+            0.6000000000000001
+          ],
+          [
+            -1.9000000000000001,
+            0.6000000000000001
+          ],
+          [
+            -1.8,
+            0.6000000000000001
+          ],
+          [
+            -1.7000000000000002,
+            0.6000000000000001
+          ],
+          [
+            -1.6,
+            0.6000000000000001
+          ],
+          [
+            -1.5,
+            0.6000000000000001
+          ],
+          [
+            -1.4000000000000001,
+            0.6000000000000001
+          ],
+          [
+            -1.3,
+            0.6000000000000001
+          ],
+          [
+            -1.2000000000000002,
+            0.6000000000000001
+          ]
+        ],
+        "length_m": 2.3,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 58,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "search_storage"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "delivery_surface",
+          "category": "breakfast_table",
+          "model": "iaritq",
+          "floor": "floors_nlswvt_0",
+          "position_xy": [
+            -4.1000000000000005,
+            1.3
+          ],
+          "aabb": [
+            [
+              -4.451000289916992,
+              0.9494537658691407,
+              0.0
+            ],
+            [
+              -3.7489997100830084,
+              1.6505462341308594,
+              0.7490009155273437
+            ]
+          ],
+          "room": "bedroom_0"
+        },
+        {
+          "name": "search_storage",
+          "category": "bookcase",
+          "model": "xsfeyi",
+          "floor": "floors_rfqizg_0",
+          "position_xy": [
+            -0.30000000000000004,
+            0.1
+          ],
+          "aabb": [
+            [
+              -0.5,
+              -0.6716881713867188,
+              0.0
+            ],
+            [
+              -0.10000000000000003,
+              0.8716881713867187,
+              0.8
+            ]
+          ],
+          "room": "living_room_0"
+        }
+      ],
+      "parent_task_id": "P208",
+      "tier": "long",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_P208_01",
+        "parent_task_id": "P208",
+        "before_instruction": "Find the paperback titled Blue Hills among the living-room bookcase, sideboard drawers, or TV cabinet; put it on the bedroom nightstand.",
+        "after_instruction": "Find the paperback titled \"The Politics of Hope\" among the living room books and put it on the table in front of you in the bedroom in the bedroom.",
+        "reason": "Replaces fictional Blue Hills title with the actual native cover title; preserves exact-title retrieval and room transfer. The destination is the unique initial-facing delivery surface in the original room.",
+        "target_asset": "paperback_book/rougms",
+        "target_assets": [
+          "paperback_book/rougms"
+        ]
+      },
+      "binding_sha256": "5040d770fcbe760889e5a31d200d4352051c5304225def7fe6fb34c29ba7a228",
+      "proposal_native_policy_signature": "638901e57b44747045bd55ed10084fe82451f1075c4c28aa6f0af555449b389c",
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    }
+  ]
+}

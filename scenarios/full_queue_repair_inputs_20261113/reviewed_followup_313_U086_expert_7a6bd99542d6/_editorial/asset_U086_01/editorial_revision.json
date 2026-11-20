@@ -1,0 +1,69 @@
+{
+  "status": "editorial_revision_physics_pending",
+  "revision_id": "expert_native_handheld_target_20261114_U086",
+  "authorization": "user_approved_find_and_deliver_rewrite",
+  "reason": "The only native wheeled mop-bucket assembly is 59 cm long and was bound to a shallow utility cupboard; use an ordinary native cleaning bucket while preserving finding/delivery, all distractors, original rooms and goal surface.",
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_U086_01/scenario.yaml",
+  "original_archive": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_313_U086_expert_7a6bd99542d6/_editorial/asset_U086_01/original_scenario.yaml",
+  "original_scenario_sha256": "a47625430d65ef0cef260097fbc68f76f3ae7eb5302db3f156847afb2f6db4df",
+  "revised_scenario_sha256": "4921be01aae6183cdcadbf7ee0d2c73a11790581dbe01fe2cbac5812312768da",
+  "before_instruction": "I am assembling the floor-cleaning equipment. Bring the mop bucket from the utility storage to the counter in front of you in the utility room.",
+  "after_instruction": "Bring the cleaning bucket from the utility storage to the counter in front of you in the utility room.",
+  "object_changes": [
+    {
+      "before": {
+        "name": "item_00",
+        "category": "mop_bucket",
+        "model": "xjzyfc"
+      },
+      "after": {
+        "name": "item_00",
+        "category": "bucket",
+        "model": "wlilma"
+      },
+      "native_bbox_m": [
+        0.24926848602294924,
+        0.3,
+        0.19025335693359374
+      ],
+      "metadata_sha256": "8320ebb29b50bc99adcc1544519f50eea918a8e7f814463a3eee24450d5482c8",
+      "encrypted_asset_sha256": "b7b50756e1cdd8b5ca5f21682422cde7358cbf842a5b9d01c61036cdb88d0e28"
+    }
+  ],
+  "surface_binding_changes": [],
+  "before_goal": [
+    {
+      "kind": "on_top",
+      "entity": "item_00",
+      "receptacle": "bottom_cabinet_bamfsz_0"
+    }
+  ],
+  "after_goal": [
+    {
+      "kind": "on_top",
+      "entity": "item_00",
+      "receptacle": "bottom_cabinet_bamfsz_0"
+    }
+  ],
+  "before_target": {
+    "entity": "item_00",
+    "category": "mop_bucket"
+  },
+  "after_target": {
+    "entity": "item_00",
+    "category": "bucket"
+  },
+  "preserved": [
+    "find-and-deliver paradigm",
+    "goal entity and relation",
+    "scene",
+    "spawn",
+    "robot",
+    "skills",
+    "entity names and count",
+    "placement relations",
+    "target cardinality"
+  ],
+  "physical_validation_required": true,
+  "human_completion_verified": false
+}

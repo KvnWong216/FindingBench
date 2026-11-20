@@ -1,0 +1,1118 @@
+{
+  "id": "asset_P033_01",
+  "family": "semantic_P033",
+  "scene": "Rs_int",
+  "scenario": "scenarios/serial_repairs_20261109/asset_P033_01/scenario.yaml",
+  "scenario_sha256": "dc88042c40c44241237dca984846c9e9e3368f5f3a94a54f2ad55f3151ceb561",
+  "instruction": "There is a sample on the table in front of you in the living room. Find the toy figure matching that sample among the living-room toys and bring it to the table in front of you in the living room.",
+  "target_key": "toy_figure/vcmcoi",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "bottom_cabinet_bamfsz_1",
+  "destination_receptacle": "coffee_table_fqluyq_0",
+  "object_count": 12,
+  "distractor_count": 10,
+  "source_survey_sha256": "24bd47925e994c3defe707f3d8a919b355cd46a7128d2b59d373bc2697d8185e",
+  "route": {
+    "start": [
+      0.4,
+      -1.6,
+      3.141592653589793
+    ],
+    "path_xy": [
+      [
+        0.4,
+        -1.6
+      ],
+      [
+        0.30000000000000004,
+        -1.6
+      ],
+      [
+        0.30000000000000004,
+        -1.5
+      ],
+      [
+        0.30000000000000004,
+        -1.4000000000000001
+      ],
+      [
+        0.30000000000000004,
+        -1.3
+      ],
+      [
+        0.30000000000000004,
+        -1.2000000000000002
+      ],
+      [
+        0.30000000000000004,
+        -1.1
+      ],
+      [
+        0.30000000000000004,
+        -1.0
+      ],
+      [
+        0.30000000000000004,
+        -0.9
+      ],
+      [
+        0.30000000000000004,
+        -0.8
+      ],
+      [
+        0.30000000000000004,
+        -0.7000000000000001
+      ],
+      [
+        0.30000000000000004,
+        -0.6000000000000001
+      ],
+      [
+        0.30000000000000004,
+        -0.5
+      ],
+      [
+        0.30000000000000004,
+        -0.4
+      ],
+      [
+        0.30000000000000004,
+        -0.30000000000000004
+      ],
+      [
+        0.2,
+        -0.30000000000000004
+      ],
+      [
+        0.2,
+        -0.2
+      ],
+      [
+        0.1,
+        -0.2
+      ],
+      [
+        0.0,
+        -0.2
+      ],
+      [
+        0.0,
+        -0.1
+      ],
+      [
+        -0.1,
+        -0.1
+      ],
+      [
+        -0.2,
+        -0.1
+      ],
+      [
+        -0.30000000000000004,
+        -0.1
+      ],
+      [
+        -0.4,
+        -0.1
+      ],
+      [
+        -0.5,
+        -0.1
+      ],
+      [
+        -0.5,
+        0.0
+      ]
+    ],
+    "length_m": 2.5,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 46,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "comparison_negative_0",
+    "comparison_negative_1",
+    "bottom_cabinet_bamfsz_1"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_bamfsz_1",
+        "volume_extents_m": {
+          "link_1": [
+            0.33487772941589355,
+            0.370966374874115,
+            0.20883751660585403
+          ],
+          "link_2": [
+            0.3371378183364868,
+            0.3809979259967804,
+            0.0892288088798523
+          ],
+          "link_3": [
+            0.3351621627807617,
+            0.37633565068244934,
+            0.03191465139389038
+          ],
+          "link_4": [
+            0.3346196413040161,
+            0.38081181049346924,
+            0.03191465139389038
+          ]
+        },
+        "native_links": {
+          "link_1": "link_1",
+          "link_2": "link_2",
+          "link_3": "link_3",
+          "link_4": "link_4"
+        },
+        "geometry_source": "survey",
+        "geometry_provenance": {},
+        "status": "heuristic_fit",
+        "solver": {
+          "status": "feasible_model",
+          "device": "cuda",
+          "backend": "torch_cuda_finite_csp",
+          "solve_seconds": 0.01564179384149611,
+          "nodes": 11,
+          "candidate_tests": 2033900,
+          "grid_m": 0.001,
+          "margin_m": 0.005,
+          "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+          "physical_validation_required": true,
+          "assignment": {
+            "item_01": "link_1",
+            "item_06": "link_1",
+            "item_04": "link_2",
+            "comparison_negative_1": "link_2",
+            "comparison_negative_0": "link_1",
+            "item_00": "link_1",
+            "item_05": "link_4",
+            "item_02": "link_2",
+            "item_07": "link_1",
+            "item_03": "link_3",
+            "item_08": "link_3"
+          },
+          "poses": {
+            "item_01": {
+              "bin": "link_1",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.005,
+                0.005
+              ],
+              "footprint_m": [
+                0.098,
+                0.098
+              ],
+              "center_xy_m": [
+                0.054,
+                0.054
+              ]
+            },
+            "item_06": {
+              "bin": "link_1",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.108,
+                0.005
+              ],
+              "footprint_m": [
+                0.098,
+                0.098
+              ],
+              "center_xy_m": [
+                0.157,
+                0.054
+              ]
+            },
+            "item_04": {
+              "bin": "link_2",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.005,
+                0.005
+              ],
+              "footprint_m": [
+                0.074,
+                0.074
+              ],
+              "center_xy_m": [
+                0.042,
+                0.042
+              ]
+            },
+            "comparison_negative_1": {
+              "bin": "link_2",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.084,
+                0.005
+              ],
+              "footprint_m": [
+                0.218,
+                0.23800000000000002
+              ],
+              "center_xy_m": [
+                0.193,
+                0.124
+              ]
+            },
+            "comparison_negative_0": {
+              "bin": "link_1",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.005,
+                0.108
+              ],
+              "footprint_m": [
+                0.15,
+                0.129
+              ],
+              "center_xy_m": [
+                0.08,
+                0.17250000000000001
+              ]
+            },
+            "item_00": {
+              "bin": "link_1",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.211,
+                0.005
+              ],
+              "footprint_m": [
+                0.11800000000000001,
+                0.139
+              ],
+              "center_xy_m": [
+                0.27,
+                0.0745
+              ]
+            },
+            "item_05": {
+              "bin": "link_4",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.005,
+                0.005
+              ],
+              "footprint_m": [
+                0.075,
+                0.075
+              ],
+              "center_xy_m": [
+                0.0425,
+                0.0425
+              ]
+            },
+            "item_02": {
+              "bin": "link_2",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.005,
+                0.084
+              ],
+              "footprint_m": [
+                0.067,
+                0.066
+              ],
+              "center_xy_m": [
+                0.0385,
+                0.117
+              ]
+            },
+            "item_07": {
+              "bin": "link_1",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.16,
+                0.149
+              ],
+              "footprint_m": [
+                0.067,
+                0.066
+              ],
+              "center_xy_m": [
+                0.1935,
+                0.182
+              ]
+            },
+            "item_03": {
+              "bin": "link_3",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.005,
+                0.005
+              ],
+              "footprint_m": [
+                0.056,
+                0.031
+              ],
+              "center_xy_m": [
+                0.033,
+                0.0205
+              ]
+            },
+            "item_08": {
+              "bin": "link_3",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.066,
+                0.005
+              ],
+              "footprint_m": [
+                0.056,
+                0.031
+              ],
+              "center_xy_m": [
+                0.094,
+                0.0205
+              ]
+            }
+          }
+        },
+        "assignment": {
+          "item_01": "link_1",
+          "item_06": "link_1",
+          "item_04": "link_2",
+          "comparison_negative_1": "link_2",
+          "comparison_negative_0": "link_1",
+          "item_00": "link_1",
+          "item_05": "link_4",
+          "item_02": "link_2",
+          "item_07": "link_1",
+          "item_03": "link_3",
+          "item_08": "link_3"
+        },
+        "component_allocation": {
+          "item_01": "link_1",
+          "item_06": "link_1",
+          "item_04": "link_2",
+          "comparison_negative_1": "link_2",
+          "comparison_negative_0": "link_1",
+          "item_00": "link_1",
+          "item_05": "link_4",
+          "item_02": "link_2",
+          "item_07": "link_1",
+          "item_03": "link_3",
+          "item_08": "link_3"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_01": "link_1",
+      "item_06": "link_1",
+      "item_04": "link_2",
+      "comparison_negative_1": "link_2",
+      "comparison_negative_0": "link_1",
+      "item_00": "link_1",
+      "item_05": "link_4",
+      "item_02": "link_2",
+      "item_07": "link_1",
+      "item_03": "link_3",
+      "item_08": "link_3"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [
+    {
+      "scene": "house_double_floor_lower",
+      "source": "bottom_cabinet_rhdbzv_0",
+      "preflight": {
+        "status": "unknown",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_rhdbzv_0",
+            "volume_extents_m": {
+              "meta__right_drawer_fillable_0_0_link#component:0": [
+                0.2988722254252931,
+                0.6992414998967402,
+                0.23422153262964174
+              ],
+              "meta__right_drawer_fillable_0_0_link#component:1": [
+                0.29887209737894904,
+                0.35334094151482387,
+                0.23422100421083158
+              ],
+              "meta__left_drawer_fillable_0_0_link#component:0": [
+                0.30546743003145566,
+                0.7859062579703509,
+                0.2225923935394969
+              ],
+              "meta__left_drawer_fillable_0_0_link#component:1": [
+                0.3054675880740725,
+                0.10805427738050422,
+                0.2225933918358305
+              ]
+            },
+            "native_links": {
+              "meta__right_drawer_fillable_0_0_link#component:0": "meta__right_drawer_fillable_0_0_link",
+              "meta__right_drawer_fillable_0_0_link#component:1": "meta__right_drawer_fillable_0_0_link",
+              "meta__left_drawer_fillable_0_0_link#component:0": "meta__left_drawer_fillable_0_0_link",
+              "meta__left_drawer_fillable_0_0_link#component:1": "meta__left_drawer_fillable_0_0_link"
+            },
+            "geometry_source": "survey_with_native_components",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet/rhdbzv",
+              "scale": [
+                0.9999125599861145,
+                0.9999962449073792,
+                0.9999184012413025
+              ],
+              "encrypted_asset_sha256": "8e3704d83c598f2120c6544f07bb2e55544bb31895026b91fe4fced3aab21b13",
+              "metadata_sha256": "102822f1e1556a48cc6f1a34e9c9997d5c7deccb89c72221258c9cc8b8e7f93a",
+              "root_orientation": [
+                -9.961120213120012e-07,
+                7.51335619497695e-07,
+                1.0,
+                -1.9470644474495202e-07
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "unknown",
+            "native_sampling_required": false,
+            "solver": {
+              "status": "unknown",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.49464699905365705,
+              "nodes": 0,
+              "candidate_tests": 0,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "reason": "Candidate tensor memory budget exhausted"
+            },
+            "reason": "Layout solver undecided; no native sampling",
+            "entities": [
+              "item_00",
+              "item_01",
+              "item_02",
+              "item_03",
+              "item_04",
+              "item_05",
+              "item_06",
+              "item_07",
+              "item_08",
+              "comparison_negative_0",
+              "comparison_negative_1"
+            ]
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    },
+    {
+      "scene": "Merom_1_int",
+      "source": "bottom_cabinet_jhymlr_0",
+      "preflight": {
+        "status": "unknown",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_jhymlr_0",
+            "volume_extents_m": {
+              "meta__link_0_fillable_0_0_link": [
+                0.2773549286700383,
+                0.5010804836929584,
+                0.11265514719966996
+              ],
+              "meta__link_1_fillable_0_0_link": [
+                0.2773549368762549,
+                0.5010714618021198,
+                0.11265509558625308
+              ],
+              "meta__link_2_fillable_0_0_link": [
+                0.2773504768474596,
+                0.5010708197383781,
+                0.05737970478521934
+              ],
+              "meta__link_3_fillable_0_0_link": [
+                0.2773548969495938,
+                0.5010804205737973,
+                0.11265516092746888
+              ],
+              "meta__link_4_fillable_0_0_link": [
+                0.2773548887433784,
+                0.5010714469286316,
+                0.11265512304185177
+              ],
+              "meta__link_5_fillable_0_0_link": [
+                0.27735044512688245,
+                0.5010708197383782,
+                0.0573797014843318
+              ]
+            },
+            "native_links": {
+              "meta__link_0_fillable_0_0_link": "meta__link_0_fillable_0_0_link",
+              "meta__link_1_fillable_0_0_link": "meta__link_1_fillable_0_0_link",
+              "meta__link_2_fillable_0_0_link": "meta__link_2_fillable_0_0_link",
+              "meta__link_3_fillable_0_0_link": "meta__link_3_fillable_0_0_link",
+              "meta__link_4_fillable_0_0_link": "meta__link_4_fillable_0_0_link",
+              "meta__link_5_fillable_0_0_link": "meta__link_5_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet/jhymlr",
+              "scale": [
+                1.3397164344787598,
+                1.618847131729126,
+                1.8425140380859375
+              ],
+              "encrypted_asset_sha256": "9efdb08a982275bda4a5bd52c778037078e74869caf588eb0c7150d9a1dec2e0",
+              "metadata_sha256": "64d362b09d91494d02da79b46ac2ed7ffa2d8edebf0432612cf7ecdc222c2b03",
+              "root_orientation": [
+                3.4351207432337105e-05,
+                4.3117823224747553e-05,
+                -0.7071061730384827,
+                0.7071073651313782
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "unknown",
+            "native_sampling_required": false,
+            "solver": {
+              "status": "unknown",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.023081212071701884,
+              "nodes": 9,
+              "candidate_tests": 6547968,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "reason": "Candidate tensor memory budget exhausted"
+            },
+            "reason": "Layout solver undecided; no native sampling",
+            "entities": [
+              "item_00",
+              "item_01",
+              "item_02",
+              "item_03",
+              "item_04",
+              "item_05",
+              "item_06",
+              "item_07",
+              "item_08",
+              "comparison_negative_0",
+              "comparison_negative_1"
+            ]
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    },
+    {
+      "scene": "Wainscott_0_int",
+      "source": "bottom_cabinet_jhymlr_0",
+      "preflight": {
+        "status": "unknown",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_jhymlr_0",
+            "volume_extents_m": {
+              "link_0": [
+                0.4039824604988098,
+                0.7194783687591553,
+                0.11852405220270157
+              ],
+              "link_1": [
+                0.40398257970809937,
+                0.7194693088531494,
+                0.11852410435676575
+              ],
+              "link_2": [
+                0.4039824604988098,
+                0.7194690704345703,
+                0.059297025203704834
+              ],
+              "link_3": [
+                0.4039822816848755,
+                0.7194781303405762,
+                0.11852405965328217
+              ],
+              "link_4": [
+                0.4039825201034546,
+                0.7194690704345703,
+                0.11852407455444336
+              ],
+              "link_5": [
+                0.4039822816848755,
+                0.7194689512252808,
+                0.05929696559906006
+              ]
+            },
+            "native_links": {
+              "link_0": "link_0",
+              "link_1": "link_1",
+              "link_2": "link_2",
+              "link_3": "link_3",
+              "link_4": "link_4",
+              "link_5": "link_5"
+            },
+            "geometry_source": "survey",
+            "geometry_provenance": {},
+            "status": "unknown",
+            "native_sampling_required": false,
+            "solver": {
+              "status": "unknown",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.0076192510314285755,
+              "nodes": 0,
+              "candidate_tests": 0,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "reason": "Candidate tensor memory budget exhausted"
+            },
+            "reason": "Layout solver undecided; no native sampling",
+            "entities": [
+              "item_00",
+              "item_01",
+              "item_02",
+              "item_03",
+              "item_04",
+              "item_05",
+              "item_06",
+              "item_07",
+              "item_08",
+              "comparison_negative_0",
+              "comparison_negative_1"
+            ]
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    },
+    {
+      "scene": "Wainscott_0_int",
+      "source": "bottom_cabinet_jhymlr_0",
+      "preflight": {
+        "status": "unknown",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_jhymlr_0",
+            "volume_extents_m": {
+              "link_0": [
+                0.4039824604988098,
+                0.7194783687591553,
+                0.11852405220270157
+              ],
+              "link_1": [
+                0.40398257970809937,
+                0.7194693088531494,
+                0.11852410435676575
+              ],
+              "link_2": [
+                0.4039824604988098,
+                0.7194690704345703,
+                0.059297025203704834
+              ],
+              "link_3": [
+                0.4039822816848755,
+                0.7194781303405762,
+                0.11852405965328217
+              ],
+              "link_4": [
+                0.4039825201034546,
+                0.7194690704345703,
+                0.11852407455444336
+              ],
+              "link_5": [
+                0.4039822816848755,
+                0.7194689512252808,
+                0.05929696559906006
+              ]
+            },
+            "native_links": {
+              "link_0": "link_0",
+              "link_1": "link_1",
+              "link_2": "link_2",
+              "link_3": "link_3",
+              "link_4": "link_4",
+              "link_5": "link_5"
+            },
+            "geometry_source": "survey",
+            "geometry_provenance": {},
+            "status": "unknown",
+            "native_sampling_required": false,
+            "solver": {
+              "status": "unknown",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.0076192510314285755,
+              "nodes": 0,
+              "candidate_tests": 0,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "reason": "Candidate tensor memory budget exhausted"
+            },
+            "reason": "Layout solver undecided; no native sampling",
+            "entities": [
+              "item_00",
+              "item_01",
+              "item_02",
+              "item_03",
+              "item_04",
+              "item_05",
+              "item_06",
+              "item_07",
+              "item_08",
+              "comparison_negative_0",
+              "comparison_negative_1"
+            ]
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    },
+    {
+      "scene": "Wainscott_0_int",
+      "source": "bottom_cabinet_jhymlr_0",
+      "preflight": {
+        "status": "unknown",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_jhymlr_0",
+            "volume_extents_m": {
+              "link_0": [
+                0.4039824604988098,
+                0.7194783687591553,
+                0.11852405220270157
+              ],
+              "link_1": [
+                0.40398257970809937,
+                0.7194693088531494,
+                0.11852410435676575
+              ],
+              "link_2": [
+                0.4039824604988098,
+                0.7194690704345703,
+                0.059297025203704834
+              ],
+              "link_3": [
+                0.4039822816848755,
+                0.7194781303405762,
+                0.11852405965328217
+              ],
+              "link_4": [
+                0.4039825201034546,
+                0.7194690704345703,
+                0.11852407455444336
+              ],
+              "link_5": [
+                0.4039822816848755,
+                0.7194689512252808,
+                0.05929696559906006
+              ]
+            },
+            "native_links": {
+              "link_0": "link_0",
+              "link_1": "link_1",
+              "link_2": "link_2",
+              "link_3": "link_3",
+              "link_4": "link_4",
+              "link_5": "link_5"
+            },
+            "geometry_source": "survey",
+            "geometry_provenance": {},
+            "status": "unknown",
+            "native_sampling_required": false,
+            "solver": {
+              "status": "unknown",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.0076192510314285755,
+              "nodes": 0,
+              "candidate_tests": 0,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "reason": "Candidate tensor memory budget exhausted"
+            },
+            "reason": "Layout solver undecided; no native sampling",
+            "entities": [
+              "item_00",
+              "item_01",
+              "item_02",
+              "item_03",
+              "item_04",
+              "item_05",
+              "item_06",
+              "item_07",
+              "item_08",
+              "comparison_negative_0",
+              "comparison_negative_1"
+            ]
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    },
+    {
+      "scene": "Wainscott_0_int",
+      "source": "bottom_cabinet_jhymlr_0",
+      "preflight": {
+        "status": "unknown",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_jhymlr_0",
+            "volume_extents_m": {
+              "link_0": [
+                0.4039824604988098,
+                0.7194783687591553,
+                0.11852405220270157
+              ],
+              "link_1": [
+                0.40398257970809937,
+                0.7194693088531494,
+                0.11852410435676575
+              ],
+              "link_2": [
+                0.4039824604988098,
+                0.7194690704345703,
+                0.059297025203704834
+              ],
+              "link_3": [
+                0.4039822816848755,
+                0.7194781303405762,
+                0.11852405965328217
+              ],
+              "link_4": [
+                0.4039825201034546,
+                0.7194690704345703,
+                0.11852407455444336
+              ],
+              "link_5": [
+                0.4039822816848755,
+                0.7194689512252808,
+                0.05929696559906006
+              ]
+            },
+            "native_links": {
+              "link_0": "link_0",
+              "link_1": "link_1",
+              "link_2": "link_2",
+              "link_3": "link_3",
+              "link_4": "link_4",
+              "link_5": "link_5"
+            },
+            "geometry_source": "survey",
+            "geometry_provenance": {},
+            "status": "unknown",
+            "native_sampling_required": false,
+            "solver": {
+              "status": "unknown",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.0076192510314285755,
+              "nodes": 0,
+              "candidate_tests": 0,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "reason": "Candidate tensor memory budget exhausted"
+            },
+            "reason": "Layout solver undecided; no native sampling",
+            "entities": [
+              "item_00",
+              "item_01",
+              "item_02",
+              "item_03",
+              "item_04",
+              "item_05",
+              "item_06",
+              "item_07",
+              "item_08",
+              "comparison_negative_0",
+              "comparison_negative_1"
+            ]
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    },
+    {
+      "scene": "Beechwood_0_int",
+      "source": "bottom_cabinet_immwzb_1",
+      "preflight": {
+        "status": "unknown",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_immwzb_1",
+            "volume_extents_m": {
+              "link_2": [
+                0.4339632987976074,
+                1.0581302642822266,
+                0.11316221952438354
+              ]
+            },
+            "native_links": {
+              "link_2": "link_2"
+            },
+            "geometry_source": "survey",
+            "geometry_provenance": {},
+            "status": "unknown",
+            "native_sampling_required": false,
+            "solver": {
+              "status": "unknown",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.009351872839033604,
+              "nodes": 4,
+              "candidate_tests": 3175524,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "reason": "Candidate tensor memory budget exhausted"
+            },
+            "reason": "Layout solver undecided; no native sampling",
+            "entities": [
+              "item_00",
+              "item_01",
+              "item_02",
+              "item_03",
+              "item_04",
+              "item_05",
+              "item_06",
+              "item_07",
+              "item_08",
+              "comparison_negative_0",
+              "comparison_negative_1"
+            ]
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    },
+    {
+      "scene": "Beechwood_0_int",
+      "source": "bottom_cabinet_immwzb_1",
+      "preflight": {
+        "status": "unknown",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_immwzb_1",
+            "volume_extents_m": {
+              "link_2": [
+                0.4339632987976074,
+                1.0581302642822266,
+                0.11316221952438354
+              ]
+            },
+            "native_links": {
+              "link_2": "link_2"
+            },
+            "geometry_source": "survey",
+            "geometry_provenance": {},
+            "status": "unknown",
+            "native_sampling_required": false,
+            "solver": {
+              "status": "unknown",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.009351872839033604,
+              "nodes": 4,
+              "candidate_tests": 3175524,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "reason": "Candidate tensor memory budget exhausted"
+            },
+            "reason": "Layout solver undecided; no native sampling",
+            "entities": [
+              "item_00",
+              "item_01",
+              "item_02",
+              "item_03",
+              "item_04",
+              "item_05",
+              "item_06",
+              "item_07",
+              "item_08",
+              "comparison_negative_0",
+              "comparison_negative_1"
+            ]
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    }
+  ],
+  "parent_task_id": "P033",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P033_01",
+    "parent_task_id": "P033",
+    "before_instruction": "Find the rigid firefighter figure among the living-room toys and put it beside the toy fire engine on the coffee table.",
+    "after_instruction": "There is a sample on the table in front of you in the living room. Find the toy figure matching that sample among the living-room toys and bring it to the table in front of you in the living room.",
+    "reason": "Replaces unverified firefighter identity with actual native figure matching. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "toy_figure/vcmcoi",
+    "target_assets": [
+      "toy_figure/vcmcoi"
+    ]
+  },
+  "binding_sha256": "b808a1b69610c2b915fa85d3a5f91a2e726dda831f30b06d515f1dfc60e7b65d"
+}

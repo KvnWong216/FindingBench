@@ -1,0 +1,159 @@
+{
+  "status": "static_screened_physics_pending",
+  "old_storage": "expert_storage_93",
+  "new_storage": {
+    "name": "expert_storage_93",
+    "category": "bottom_cabinet_no_top",
+    "model": "qudfwe",
+    "floor": "floors_nlswvt_0",
+    "position_xy": [
+      -3.6,
+      2.0
+    ],
+    "aabb": [
+      [
+        -3.8263579025268557,
+        1.6589142456054686,
+        0.0
+      ],
+      [
+        -3.3736420974731445,
+        2.3410857543945314,
+        0.603460205078125
+      ]
+    ],
+    "room": "bedroom_0"
+  },
+  "released_compiler_links": [
+    {
+      "entity": "item_03",
+      "previous_link": "meta__base_link_fillable_0_0_link"
+    },
+    {
+      "entity": "item_05",
+      "previous_link": "meta__base_link_fillable_0_0_link"
+    },
+    {
+      "entity": "item_08",
+      "previous_link": "meta__base_link_fillable_0_0_link"
+    }
+  ],
+  "replaced_failed_auxiliary_fixture": true,
+  "previous_auxiliary_asset": {
+    "category": "bottom_cabinet_no_top",
+    "model": "ozzcvs"
+  },
+  "conservative_opening_clearance_m": 0.0,
+  "opening_sweep_requires_native_measurement": true,
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/reviewed_followup_055_P318/asset_P318_01/scenario.yaml",
+  "original_sha256": "46ccbbed4064e1c4d5a21529c48e52631bc1a133aed5f8d48408f42da1049f4e",
+  "diagnosis_directory": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/reviewed_followup_055_P318/asset_P318_01",
+  "solver": {
+    "status": "feasible_model",
+    "device": "cuda",
+    "backend": "torch_cuda_finite_csp",
+    "solve_seconds": 0.014247251208871603,
+    "nodes": 3,
+    "candidate_tests": 82,
+    "search_orders_tried": 1,
+    "grid_m": 0.001,
+    "margin_m": 0.015,
+    "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+    "physical_validation_required": true,
+    "assignment": {
+      "item_03": "meta__base_link_fillable_0_0_link#component:0",
+      "item_08": "meta__base_link_fillable_0_0_link#component:1",
+      "item_05": "meta__base_link_fillable_0_0_link#component:1"
+    },
+    "poses": {
+      "item_03": {
+        "bin": "meta__base_link_fillable_0_0_link#component:0",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.015
+        ],
+        "footprint_m": [
+          0.356,
+          0.356
+        ],
+        "center_xy_m": [
+          0.193,
+          0.193
+        ]
+      },
+      "item_08": {
+        "bin": "meta__base_link_fillable_0_0_link#component:1",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.015
+        ],
+        "footprint_m": [
+          0.14400000000000002,
+          0.14400000000000002
+        ],
+        "center_xy_m": [
+          0.08700000000000001,
+          0.08700000000000001
+        ]
+      },
+      "item_05": {
+        "bin": "meta__base_link_fillable_0_0_link#component:1",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.17400000000000002,
+          0.015
+        ],
+        "footprint_m": [
+          0.12,
+          0.12
+        ],
+        "center_xy_m": [
+          0.234,
+          0.075
+        ]
+      }
+    }
+  },
+  "variant": 93,
+  "task_local_model_experience": [
+    {
+      "inventory_sha256": "95c8a1bc0a2026d5bc7b7b89604a828e33a6f11b53bc675044b2576b40acfdd4",
+      "asset": "metal_bottom_cabinet/melxmd",
+      "reason": "No allowed bin/orientation fits an item",
+      "native_policy_signature": "da21699bb284e9018c7131619ad5f951352bfdfa037231c52967db50639dcece",
+      "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/full_queue_866c64bb754e_P318/asset_P318_01/native_validation.log",
+      "scenario_sha256": "b39a982a476388786afa00f739a17cd6a9a5e6f1d44e4e3cdee4db2cef21590b",
+      "scope": "same task and unchanged inventory; try another model first, never exclude the asset globally"
+    },
+    {
+      "inventory_sha256": "95c8a1bc0a2026d5bc7b7b89604a828e33a6f11b53bc675044b2576b40acfdd4",
+      "asset": "bottom_cabinet/immwzb",
+      "reason": "No allowed bin/orientation fits an item",
+      "native_policy_signature": "70bed8d4013007fdceb7d61e05f62e8f527f932285630c9d0705582f0dc99eed",
+      "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/all_remaining_20261113_13_P318/asset_P318_01/native_validation.log",
+      "scenario_sha256": "3e1f6a089beb8d1b8ac88214db02c2558b8e9eb8939f70f709a9c7af8c7d7724",
+      "scope": "same task and unchanged inventory; try another model first, never exclude the asset globally"
+    },
+    {
+      "inventory_sha256": "95c8a1bc0a2026d5bc7b7b89604a828e33a6f11b53bc675044b2576b40acfdd4",
+      "asset": "bottom_cabinet/lhucjo",
+      "reason": "No allowed bin/orientation fits an item",
+      "native_policy_signature": "70bed8d4013007fdceb7d61e05f62e8f527f932285630c9d0705582f0dc99eed",
+      "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_lane2_20261111/reviewed_followup_018_P318/asset_P318_01/native_validation.log",
+      "scenario_sha256": "804bb0c77d9dc208a9630d5723bdca130f67812150bfa3f60b7f2e6f931e11a7",
+      "scope": "same task and unchanged inventory; try another model first, never exclude the asset globally"
+    }
+  ],
+  "removed_uninstantiated_open_state": null,
+  "preserved": [
+    "instruction",
+    "goal",
+    "target",
+    "robot",
+    "spawn",
+    "all task items and counts",
+    "relation types"
+  ]
+}

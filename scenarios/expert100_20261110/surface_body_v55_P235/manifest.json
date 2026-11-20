@@ -1,0 +1,266 @@
+{
+  "tasks": [
+    {
+      "id": "asset_P235_01",
+      "family": "semantic_P235",
+      "scene": "Beechwood_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/surface_body_v55_P235/asset_P235_01/scenario.yaml",
+      "scenario_sha256": "ed04cb5376348f0a2dbbb2ee62e7fd332fdbf13d49d5a17a30ca4b1e34e9d3cc",
+      "instruction": "Find the toothpaste marked \"100 ml\" among the bedroom travel supplies and put it on the counter in front of you in the bathroom in the bathroom.",
+      "target_key": "tube_of_toothpaste/vsclsj",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "bedroom_0",
+      "destination_room": "bathroom_1",
+      "source_receptacle": "bottom_cabinet_nddvba_0",
+      "destination_receptacle": "countertop_tpuwys_1",
+      "object_count": 9,
+      "distractor_count": 8,
+      "source_survey_sha256": "e6788ca8219b4da8643d87d4deebe4595aa9d5f15520af27b74393574b33a410",
+      "route": {
+        "start": [
+          -6.9,
+          -2.9000000000000004,
+          -1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            -6.9,
+            -2.9000000000000004
+          ],
+          [
+            -6.800000000000001,
+            -2.9000000000000004
+          ],
+          [
+            -6.7,
+            -2.9000000000000004
+          ],
+          [
+            -6.6000000000000005,
+            -2.9000000000000004
+          ],
+          [
+            -6.5,
+            -2.9000000000000004
+          ],
+          [
+            -6.4,
+            -2.9000000000000004
+          ],
+          [
+            -6.300000000000001,
+            -2.9000000000000004
+          ],
+          [
+            -6.2,
+            -2.9000000000000004
+          ],
+          [
+            -6.1000000000000005,
+            -2.9000000000000004
+          ],
+          [
+            -6.0,
+            -2.9000000000000004
+          ],
+          [
+            -5.9,
+            -2.9000000000000004
+          ],
+          [
+            -5.800000000000001,
+            -2.9000000000000004
+          ],
+          [
+            -5.7,
+            -2.9000000000000004
+          ],
+          [
+            -5.6000000000000005,
+            -2.9000000000000004
+          ],
+          [
+            -5.5,
+            -2.9000000000000004
+          ],
+          [
+            -5.4,
+            -2.9000000000000004
+          ],
+          [
+            -5.300000000000001,
+            -2.9000000000000004
+          ],
+          [
+            -5.2,
+            -2.9000000000000004
+          ],
+          [
+            -5.1000000000000005,
+            -2.9000000000000004
+          ],
+          [
+            -5.0,
+            -2.9000000000000004
+          ],
+          [
+            -4.9,
+            -2.9000000000000004
+          ],
+          [
+            -4.9,
+            -2.8000000000000003
+          ],
+          [
+            -4.800000000000001,
+            -2.8000000000000003
+          ],
+          [
+            -4.7,
+            -2.8000000000000003
+          ],
+          [
+            -4.6000000000000005,
+            -2.8000000000000003
+          ],
+          [
+            -4.5,
+            -2.8000000000000003
+          ],
+          [
+            -4.4,
+            -2.8000000000000003
+          ],
+          [
+            -4.3,
+            -2.8000000000000003
+          ],
+          [
+            -4.2,
+            -2.8000000000000003
+          ]
+        ],
+        "length_m": 2.8,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 34,
+        "destination_approach_count": 36,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "bottom_cabinet_nddvba_1",
+        "bottom_cabinet_nddvba_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "parent_task_id": "P235",
+      "tier": "long",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_P235_01",
+        "parent_task_id": "P235",
+        "before_instruction": "Find the toothpaste marked 100 mL among bedroom travel and grooming storage and place it beside the bathroom toothbrush cup.",
+        "after_instruction": "Find the toothpaste marked \"100 ml\" among the bedroom travel supplies and put it on the counter in front of you in the bathroom in the bathroom.",
+        "reason": "The requested volume is present on the original texture; no identity substitution. Delivery is grounded on the unique initial-facing handoff support in the original destination room.",
+        "target_asset": "tube_of_toothpaste/vsclsj",
+        "target_assets": [
+          "tube_of_toothpaste/vsclsj"
+        ]
+      },
+      "binding_sha256": "d814a4aa97e8f72338b44141faca2046bcddc65204d46ae23ede68d2ea2711fb",
+      "surface_binding_revision": {
+        "status": "surface_body_binding_corrected_physics_pending",
+        "changes": [
+          {
+            "field": "goal",
+            "entity": "item_00",
+            "before": "bottom_cabinet_no_top_pluwfl_0",
+            "after": "countertop_tpuwys_1"
+          }
+        ],
+        "destination_approach_patch": {
+          "contact_body": "countertop_tpuwys_1",
+          "above_fixture": "bottom_cabinet_no_top_pluwfl_0",
+          "aabb": [
+            [
+              -7.635,
+              -3.999,
+              0.553
+            ],
+            [
+              -6.647,
+              -3.483,
+              0.572
+            ]
+          ],
+          "scope": "private route proposal to a subset of the actual slab; no synthetic body"
+        },
+        "geometry": {
+          "bottom_cabinet_no_top_pluwfl_0": {
+            "before": [
+              [
+                -7.635,
+                -3.999,
+                0.005
+              ],
+              [
+                -6.646,
+                -3.471,
+                0.549
+              ]
+            ],
+            "after": [
+              [
+                -7.675,
+                -4.01,
+                0.553
+              ],
+              [
+                -6.647,
+                -3.483,
+                0.572
+              ]
+            ]
+          }
+        },
+        "source_survey": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/vla_difficulty_v2/_survey/Beechwood_1_int.json",
+        "source_survey_sha256": "e6788ca8219b4da8643d87d4deebe4595aa9d5f15520af27b74393574b33a410",
+        "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_P235_01/scenario.yaml",
+        "original_scenario_sha256": "d58926ae1d6490d05aa6d701ef5082514cc7a211c15f140d4038e26e0d8093f7",
+        "reason": "Native OnTop requires touching the named body; a separate measured slab covers the named cabinet.",
+        "preserved": [
+          "instruction",
+          "all object models and counts",
+          "target identities",
+          "relation kinds",
+          "spawn",
+          "robot and skills",
+          "physical delivery location"
+        ],
+        "physical_validation_required": true
+      }
+    }
+  ]
+}

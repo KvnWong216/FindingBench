@@ -1,0 +1,372 @@
+{
+  "status": "proposed",
+  "record": {
+    "id": "asset_P177_01",
+    "family": "semantic_P177",
+    "scene": "Benevolence_2_int",
+    "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_007_P177_direct_dd1230f5077b/asset_P177_01/scenario.yaml",
+    "scenario_sha256": "b05a75d52806578f9c8c9e42666a2a0a163d23d7f945855a5dee4b1a4dd939fe",
+    "instruction": "Find a book with the same cover as the sample on the cabinet top in front of you in the bedroom among the bedroom books and put it beside the sample.",
+    "target_key": "hardback/plimis",
+    "target_entities": [
+      "item_00"
+    ],
+    "target_count": 1,
+    "source_room": "bedroom_1",
+    "destination_room": "bedroom_1",
+    "source_receptacle": "bottom_cabinet_slgzfc_0",
+    "destination_receptacle": "bottom_cabinet_slgzfc_0",
+    "object_count": 11,
+    "distractor_count": 9,
+    "source_survey_sha256": "a5aecce586f71d5c55e54407ca135508aa6adf0cf04829a58057df06a25a855d",
+    "route": {
+      "start": [
+        2.75,
+        0.15000000000000002,
+        3.141592653589793
+      ],
+      "path_xy": [
+        [
+          2.75,
+          0.15000000000000002
+        ]
+      ],
+      "length_m": 0.0,
+      "grid_m": 0.1,
+      "base_radius_m": 0.38355339059327376,
+      "endpoint_free_patch_radius_m": 0.2,
+      "source_approach_count": 25,
+      "destination_approach_count": 25,
+      "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+    },
+    "status": "static_screened_physics_pending",
+    "human_reference_steps": null,
+    "required_gates": [
+      "fresh_native_initialization",
+      "stable_dense_layout",
+      "target_CHECK_identifiability",
+      "all_yaw_live_navigation_and_tolerant_endpoints",
+      "reachable_open_grasp_place",
+      "initial_goal_false",
+      "human_completion"
+    ],
+    "restoration_entities": [
+      "item_01",
+      "item_02",
+      "item_03",
+      "item_04",
+      "item_05",
+      "item_06",
+      "item_07",
+      "item_08",
+      "comparison_sample",
+      "required_negative_0",
+      "bottom_cabinet_slgzfc_0"
+    ],
+    "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+    "reference_entity": "comparison_sample",
+    "inserted_furniture": [],
+    "layout_preflight": {
+      "status": "heuristic_fit",
+      "findings": [
+        {
+          "receptacle": "bottom_cabinet_slgzfc_0",
+          "volume_extents_m": {
+            "meta__link_1_fillable_0_0_link": [
+              0.4627654875977758,
+              0.8265971392466687,
+              0.11027310330549267
+            ],
+            "meta__link_2_fillable_0_0_link": [
+              0.4627654875977758,
+              0.8265971392466687,
+              0.11027310330549267
+            ],
+            "meta__link_3_fillable_0_0_link": [
+              0.4627654738658942,
+              0.8265971392466687,
+              0.11027310007870275
+            ],
+            "meta__link_4_fillable_0_0_link": [
+              0.46276547386589423,
+              0.8265971392466687,
+              0.11027311482973379
+            ]
+          },
+          "native_links": {
+            "meta__link_1_fillable_0_0_link": "meta__link_1_fillable_0_0_link",
+            "meta__link_2_fillable_0_0_link": "meta__link_2_fillable_0_0_link",
+            "meta__link_3_fillable_0_0_link": "meta__link_3_fillable_0_0_link",
+            "meta__link_4_fillable_0_0_link": "meta__link_4_fillable_0_0_link"
+          },
+          "geometry_source": "offline_asset_hint",
+          "geometry_provenance": {
+            "asset": "bottom_cabinet/slgzfc",
+            "scale": [
+              1.2559125423431396,
+              2.247575044631958,
+              1.546757459640503
+            ],
+            "encrypted_asset_sha256": "8730de13129a20a6ac8ee45d1a9bfaddb32e2f1eacacbad1762e3397f6b9be1f",
+            "metadata_sha256": "1d26b797bfe333f5e4376a14a649e0d011d8f8f9ed8ed38b1f1f471c823be158",
+            "root_orientation": [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ],
+            "coordinates": "size_only_not_world_positions",
+            "physical_validation_required": true
+          },
+          "status": "heuristic_fit",
+          "solver": {
+            "status": "feasible_model",
+            "device": "cuda",
+            "backend": "torch_cuda_finite_csp",
+            "solve_seconds": 0.07258659275248647,
+            "nodes": 10,
+            "candidate_tests": 2752276,
+            "search_orders_tried": 1,
+            "grid_m": 0.001,
+            "margin_m": 0.005,
+            "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+            "physical_validation_required": true,
+            "assignment": {
+              "item_02": "meta__link_1_fillable_0_0_link",
+              "item_04": "meta__link_2_fillable_0_0_link",
+              "required_negative_0": "meta__link_3_fillable_0_0_link",
+              "item_00": "meta__link_4_fillable_0_0_link",
+              "item_06": "meta__link_4_fillable_0_0_link",
+              "item_03": "meta__link_3_fillable_0_0_link",
+              "item_05": "meta__link_4_fillable_0_0_link",
+              "item_01": "meta__link_4_fillable_0_0_link",
+              "item_08": "meta__link_3_fillable_0_0_link",
+              "item_07": "meta__link_4_fillable_0_0_link"
+            },
+            "poses": {
+              "item_02": {
+                "bin": "meta__link_1_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.005
+                ],
+                "footprint_m": [
+                  0.356,
+                  0.356
+                ],
+                "center_xy_m": [
+                  0.183,
+                  0.183
+                ]
+              },
+              "item_04": {
+                "bin": "meta__link_2_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.005
+                ],
+                "footprint_m": [
+                  0.301,
+                  0.275
+                ],
+                "center_xy_m": [
+                  0.1555,
+                  0.14250000000000002
+                ]
+              },
+              "required_negative_0": {
+                "bin": "meta__link_3_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.005
+                ],
+                "footprint_m": [
+                  0.255,
+                  0.162
+                ],
+                "center_xy_m": [
+                  0.1325,
+                  0.08600000000000001
+                ]
+              },
+              "item_00": {
+                "bin": "meta__link_4_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.005
+                ],
+                "footprint_m": [
+                  0.182,
+                  0.129
+                ],
+                "center_xy_m": [
+                  0.096,
+                  0.0695
+                ]
+              },
+              "item_06": {
+                "bin": "meta__link_4_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.192,
+                  0.005
+                ],
+                "footprint_m": [
+                  0.14400000000000002,
+                  0.14400000000000002
+                ],
+                "center_xy_m": [
+                  0.264,
+                  0.077
+                ]
+              },
+              "item_03": {
+                "bin": "meta__link_3_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.265,
+                  0.005
+                ],
+                "footprint_m": [
+                  0.12,
+                  0.12
+                ],
+                "center_xy_m": [
+                  0.325,
+                  0.065
+                ]
+              },
+              "item_05": {
+                "bin": "meta__link_4_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.341,
+                  0.005
+                ],
+                "footprint_m": [
+                  0.085,
+                  0.096
+                ],
+                "center_xy_m": [
+                  0.3835,
+                  0.053
+                ]
+              },
+              "item_01": {
+                "bin": "meta__link_4_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.341,
+                  0.106
+                ],
+                "footprint_m": [
+                  0.094,
+                  0.059000000000000004
+                ],
+                "center_xy_m": [
+                  0.388,
+                  0.1355
+                ]
+              },
+              "item_08": {
+                "bin": "meta__link_3_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.265,
+                  0.13
+                ],
+                "footprint_m": [
+                  0.094,
+                  0.059000000000000004
+                ],
+                "center_xy_m": [
+                  0.312,
+                  0.1595
+                ]
+              },
+              "item_07": {
+                "bin": "meta__link_4_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.139
+                ],
+                "footprint_m": [
+                  0.027,
+                  0.027
+                ],
+                "center_xy_m": [
+                  0.0185,
+                  0.1525
+                ]
+              }
+            }
+          },
+          "assignment": {
+            "item_02": "meta__link_1_fillable_0_0_link",
+            "item_04": "meta__link_2_fillable_0_0_link",
+            "required_negative_0": "meta__link_3_fillable_0_0_link",
+            "item_00": "meta__link_4_fillable_0_0_link",
+            "item_06": "meta__link_4_fillable_0_0_link",
+            "item_03": "meta__link_3_fillable_0_0_link",
+            "item_05": "meta__link_4_fillable_0_0_link",
+            "item_01": "meta__link_4_fillable_0_0_link",
+            "item_08": "meta__link_3_fillable_0_0_link",
+            "item_07": "meta__link_4_fillable_0_0_link"
+          },
+          "component_allocation": {
+            "item_02": "meta__link_1_fillable_0_0_link",
+            "item_04": "meta__link_2_fillable_0_0_link",
+            "required_negative_0": "meta__link_3_fillable_0_0_link",
+            "item_00": "meta__link_4_fillable_0_0_link",
+            "item_06": "meta__link_4_fillable_0_0_link",
+            "item_03": "meta__link_3_fillable_0_0_link",
+            "item_05": "meta__link_4_fillable_0_0_link",
+            "item_01": "meta__link_4_fillable_0_0_link",
+            "item_08": "meta__link_3_fillable_0_0_link",
+            "item_07": "meta__link_4_fillable_0_0_link"
+          }
+        }
+      ],
+      "prefer_alternative_layout": false,
+      "assignments": {
+        "item_02": "meta__link_1_fillable_0_0_link",
+        "item_04": "meta__link_2_fillable_0_0_link",
+        "required_negative_0": "meta__link_3_fillable_0_0_link",
+        "item_00": "meta__link_4_fillable_0_0_link",
+        "item_06": "meta__link_4_fillable_0_0_link",
+        "item_03": "meta__link_3_fillable_0_0_link",
+        "item_05": "meta__link_4_fillable_0_0_link",
+        "item_01": "meta__link_4_fillable_0_0_link",
+        "item_08": "meta__link_3_fillable_0_0_link",
+        "item_07": "meta__link_4_fillable_0_0_link"
+      },
+      "physical_validation_required": true
+    },
+    "rejected_layout_candidates": [],
+    "parent_task_id": "P177",
+    "tier": "short",
+    "physics_status": "pending",
+    "adaptation": {
+      "id": "asset_P177_01",
+      "parent_task_id": "P177",
+      "before_instruction": "Find the copy of Mountain Path marked Large Print among bedroom books and place it on the nightstand.",
+      "after_instruction": "Find a book with the same cover as the sample on the cabinet top in front of you in the bedroom among the bedroom books and put it beside the sample.",
+      "reason": "Retains matching-based retrieval through a physical same-native-model sample on the delivery surface. Any original cross-object compatibility, photo or consumable-state requirement is explicitly replaced with visible product/shape matching. Original source and destination rooms preserved; forced native distractor creates a real competing selection.",
+      "target_asset": "hardback/plimis",
+      "target_assets": [
+        "hardback/plimis"
+      ]
+    },
+    "binding_sha256": "13f8fe55ac5277e3d6f9cbd94330bcbdd352ed10410a33770cdcec462776dd9b",
+    "proposal_native_policy_signature": "638901e57b44747045bd55ed10084fe82451f1075c4c28aa6f0af555449b389c"
+  },
+  "evidence": {
+    "status": "static_screened_physics_pending",
+    "change": "Unchanged recipe; validated expert live-layout runtime"
+  }
+}

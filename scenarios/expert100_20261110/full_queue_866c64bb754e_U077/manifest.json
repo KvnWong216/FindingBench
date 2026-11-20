@@ -1,0 +1,380 @@
+{
+  "tasks": [
+    {
+      "id": "asset_U077_01",
+      "family": "semantic_U077",
+      "scene": "Wainscott_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/full_queue_866c64bb754e_U077/asset_U077_01/scenario.yaml",
+      "scenario_sha256": "80f370fa7957103a486ee6630ad07df0927182b8bb6c6d0334034bdf75ae130a",
+      "instruction": "I need to measure fabric softener for the laundry. Find the fabric-softener bottle and the measuring cup kept with the utility-room supplies, and put both on the counter in front of you in the utility room.",
+      "target_key": "bottle_of_fabric_softener/rmrnev",
+      "target_entities": [
+        "item_00",
+        "item_01"
+      ],
+      "target_count": 2,
+      "source_room": "utility_room_0",
+      "destination_room": "utility_room_0",
+      "source_receptacle": "expert_storage_80",
+      "destination_receptacle": "bottom_cabinet_bamfsz_0",
+      "object_count": 11,
+      "distractor_count": 8,
+      "source_survey_sha256": "7894c711eea34a656ee926a132d6563ce3833b5ddb45c126d0ce534dd2edca60",
+      "route": {
+        "start": [
+          1.05,
+          6.95,
+          1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            1.05,
+            6.95
+          ],
+          [
+            1.05,
+            6.8500000000000005
+          ],
+          [
+            1.05,
+            6.75
+          ]
+        ],
+        "length_m": 0.2,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 18,
+        "destination_approach_count": 20,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "item_09",
+        "bottom_cabinet_bamfsz_0",
+        "expert_storage_80"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "expert_storage_80",
+          "category": "bottom_cabinet_no_top",
+          "model": "fmelap",
+          "floor": "floors_byoazk_0",
+          "position_xy": [
+            0.9500000000000001,
+            5.45
+          ],
+          "aabb": [
+            [
+              0.7384064712524414,
+              5.107814392089844,
+              0.0
+            ],
+            [
+              1.1615935287475587,
+              5.792185607910157,
+              0.5621618194580078
+            ]
+          ],
+          "room": "utility_room_0"
+        }
+      ],
+      "parent_task_id": "U077",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_U077_01",
+        "parent_task_id": "U077",
+        "before_instruction": "I need to measure fabric softener for the laundry. Find the fabric-softener bottle and the measuring cup kept with the utility-room supplies, and put both on the counter in the utility room.",
+        "after_instruction": "I need to measure fabric softener for the laundry. Find the fabric-softener bottle and the measuring cup kept with the utility-room supplies, and put both on the counter in front of you in the utility room.",
+        "reason": "Preserve fabric conditioning but add the dosing vessel that changes the preparation requirement. No measurements, liquid transfer or mixing is performed; native product category, not invented text, identifies the bottle.",
+        "target_asset": "bottle_of_fabric_softener/rmrnev",
+        "target_assets": [
+          "bottle_of_fabric_softener/rmrnev",
+          "measuring_cup/ahtzhp"
+        ]
+      },
+      "binding_sha256": "3a25f5452e42610258625b41b0d8e7ed0c07b298b2ed17df3efed1600e01006b",
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "expert_storage_80",
+            "volume_extents_m": {
+              "meta__base_link_fillable_0_0_link": [
+                0.3455092270374298,
+                0.6493657488822937,
+                0.3955096859931946
+              ]
+            },
+            "native_links": {
+              "meta__base_link_fillable_0_0_link": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet_no_top/fmelap",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "ebf1073d4205b3424aa87cb34428d4c111aa604d83ca106f3fee558ca82d9e76",
+              "metadata_sha256": "9043de919e23232841f4d289988a0f2a220603c897ffe110a828da721e00e6eb",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.019094110932201147,
+              "nodes": 10,
+              "candidate_tests": 188081,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_01": "meta__base_link_fillable_0_0_link",
+                "item_00": "meta__base_link_fillable_0_0_link",
+                "item_02": "meta__base_link_fillable_0_0_link",
+                "item_05": "meta__base_link_fillable_0_0_link",
+                "item_08": "meta__base_link_fillable_0_0_link",
+                "item_03": "meta__base_link_fillable_0_0_link",
+                "item_06": "meta__base_link_fillable_0_0_link",
+                "item_09": "meta__base_link_fillable_0_0_link",
+                "item_04": "meta__base_link_fillable_0_0_link",
+                "item_07": "meta__base_link_fillable_0_0_link"
+              },
+              "poses": {
+                "item_01": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.275,
+                    0.163
+                  ],
+                  "center_xy_m": [
+                    0.14250000000000002,
+                    0.08650000000000001
+                  ]
+                },
+                "item_00": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.17300000000000001
+                  ],
+                  "footprint_m": [
+                    0.182,
+                    0.116
+                  ],
+                  "center_xy_m": [
+                    0.096,
+                    0.231
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.192,
+                    0.17300000000000001
+                  ],
+                  "footprint_m": [
+                    0.093,
+                    0.125
+                  ],
+                  "center_xy_m": [
+                    0.23850000000000002,
+                    0.23550000000000001
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.294
+                  ],
+                  "footprint_m": [
+                    0.093,
+                    0.125
+                  ],
+                  "center_xy_m": [
+                    0.051500000000000004,
+                    0.3565
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.10300000000000001,
+                    0.303
+                  ],
+                  "footprint_m": [
+                    0.093,
+                    0.125
+                  ],
+                  "center_xy_m": [
+                    0.1495,
+                    0.3655
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.201,
+                    0.303
+                  ],
+                  "footprint_m": [
+                    0.101,
+                    0.078
+                  ],
+                  "center_xy_m": [
+                    0.2515,
+                    0.342
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.201,
+                    0.386
+                  ],
+                  "footprint_m": [
+                    0.101,
+                    0.078
+                  ],
+                  "center_xy_m": [
+                    0.2515,
+                    0.425
+                  ]
+                },
+                "item_09": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.433
+                  ],
+                  "footprint_m": [
+                    0.101,
+                    0.078
+                  ],
+                  "center_xy_m": [
+                    0.0555,
+                    0.47200000000000003
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.111,
+                    0.46900000000000003
+                  ],
+                  "footprint_m": [
+                    0.17400000000000002,
+                    0.03
+                  ],
+                  "center_xy_m": [
+                    0.198,
+                    0.484
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.111,
+                    0.504
+                  ],
+                  "footprint_m": [
+                    0.17400000000000002,
+                    0.03
+                  ],
+                  "center_xy_m": [
+                    0.198,
+                    0.519
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_01": "meta__base_link_fillable_0_0_link",
+              "item_00": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link",
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_09": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_01": "meta__base_link_fillable_0_0_link",
+              "item_00": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link",
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_09": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link",
+          "item_09": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_07": "meta__base_link_fillable_0_0_link"
+        },
+        "physical_validation_required": true
+      }
+    }
+  ]
+}

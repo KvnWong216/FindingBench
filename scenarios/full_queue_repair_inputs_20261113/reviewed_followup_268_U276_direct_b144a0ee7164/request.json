@@ -1,0 +1,230 @@
+{
+  "action": "direct",
+  "case": {
+    "id": "U276",
+    "record": {
+      "id": "asset_U276_01",
+      "family": "semantic_U276",
+      "scene": "house_double_floor_lower",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_U276_01/scenario.yaml",
+      "scenario_sha256": "a228ac6d798d54dfdbcca368f6c2537c4b681d8353c55a03951814edc53948a0",
+      "instruction": "Retrieve the desk organizer from the garden storage containers and put it on the table in front of you in the garden in the garden for sorting the small fittings.",
+      "target_key": "desk_organizer/yidrel",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "garden_0",
+      "destination_room": "garden_0",
+      "source_receptacle": "search_storage",
+      "destination_receptacle": "delivery_surface",
+      "object_count": 11,
+      "distractor_count": 8,
+      "source_survey_sha256": "0a3f401e7605a056f40f88d913d8c052476ef760acf457ac11cb1f76abbe581f",
+      "route": {
+        "start": [
+          16.45,
+          3.5500000000000003,
+          3.141592653589793
+        ],
+        "path_xy": [
+          [
+            16.45,
+            3.5500000000000003
+          ],
+          [
+            16.55,
+            3.5500000000000003
+          ],
+          [
+            16.650000000000002,
+            3.5500000000000003
+          ],
+          [
+            16.75,
+            3.5500000000000003
+          ],
+          [
+            16.85,
+            3.5500000000000003
+          ],
+          [
+            16.95,
+            3.5500000000000003
+          ],
+          [
+            17.05,
+            3.5500000000000003
+          ],
+          [
+            17.150000000000002,
+            3.5500000000000003
+          ],
+          [
+            17.25,
+            3.5500000000000003
+          ],
+          [
+            17.35,
+            3.5500000000000003
+          ],
+          [
+            17.45,
+            3.5500000000000003
+          ],
+          [
+            17.55,
+            3.5500000000000003
+          ],
+          [
+            17.650000000000002,
+            3.5500000000000003
+          ],
+          [
+            17.75,
+            3.5500000000000003
+          ],
+          [
+            17.85,
+            3.5500000000000003
+          ],
+          [
+            17.95,
+            3.5500000000000003
+          ]
+        ],
+        "length_m": 1.5,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "search_storage"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "search_storage",
+          "category": "bottom_cabinet",
+          "model": "jrhgeu",
+          "floor": "floors_ghetev_0",
+          "position_xy": [
+            18.75,
+            3.45
+          ],
+          "aabb": [
+            [
+              18.582855239868163,
+              3.1077120208740237,
+              0.014
+            ],
+            [
+              18.917144760131837,
+              3.7922879791259767,
+              0.6986599731445313
+            ]
+          ],
+          "room": "garden_0"
+        },
+        {
+          "name": "delivery_surface",
+          "category": "breakfast_table",
+          "model": "iaritq",
+          "floor": "floors_ghetev_0",
+          "position_xy": [
+            15.55,
+            3.95
+          ],
+          "aabb": [
+            [
+              15.198999710083008,
+              3.599453765869141,
+              0.014
+            ],
+            [
+              15.901000289916993,
+              4.300546234130859,
+              0.7630009155273437
+            ]
+          ],
+          "room": "garden_0"
+        }
+      ],
+      "parent_task_id": "U276",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_U276_01",
+        "parent_task_id": "U276",
+        "before_instruction": "I need a lidded desktop organizer for the small garden fittings. Find one among the storage room containers and put it on the garden table beside the watering can.",
+        "after_instruction": "Retrieve the desk organizer from the garden storage containers and put it on the table in front of you in the garden in the garden for sorting the small fittings.",
+        "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; The desktop organizer must have a lid; no lidded subtype/closure evidence is certified for the allocated organizer. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Source stock relocated to the garage because native house layouts provide garage-garden pairs, not storage-room-garden pairs; purpose and native objects retained. Layout revision uses a surveyed feasible geometry pair: garage/cabinet -> garden/table becomes garden/cabinet -> garden/table. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+        "target_asset": "desk_organizer/yidrel",
+        "target_assets": [
+          "desk_organizer/yidrel"
+        ]
+      },
+      "binding_sha256": "02f60799f31190ed68ad4e924f4caa6f941afa0e9e457a571569a6c1f289904b"
+    },
+    "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_gpu_new_20261106/asset_U276_01",
+    "error": "placement failed verification after physics settled: ['item_00 inside search_storage', 'item_01 inside search_storage', 'item_02 inside search_storage', 'item_03 inside search_storage', 'item_04 inside search_storage', 'item_05 inside search_storage', 'item_06 inside search_storage', 'item_07 inside search_storage', 'item_08 inside search_storage']",
+    "source_sha256": "a228ac6d798d54dfdbcca368f6c2537c4b681d8353c55a03951814edc53948a0",
+    "expert_diagnosis": {
+      "category": "surface_or_timeout",
+      "error": "placement failed verification after physics settled: ['item_00 inside search_storage', 'item_01 inside search_storage', 'item_02 inside search_storage', 'item_03 inside search_storage', 'item_04 inside search_storage', 'item_05 inside search_storage', 'item_06 inside search_storage', 'item_07 inside search_storage', 'item_08 inside search_storage']",
+      "native_rejections_in_current_queue": 0,
+      "first_blocker": {
+        "entity": "search_storage",
+        "relation": "on_top",
+        "receptacle": "floors_ghetev_0"
+      },
+      "solver": null,
+      "support_measurements": {
+        "total": 0,
+        "planar": 0,
+        "reasons": {}
+      },
+      "first_contact": null,
+      "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_gpu_new_20261106/asset_U276_01/native_validation.log",
+      "inference_scope": "proposal/model diagnosis; native physics acceptance unchanged"
+    },
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "surface_or_timeout",
+      "reason": "placement failed verification after physics settled: ['item_00 inside search_storage', 'item_01 inside search_storage', 'item_02 inside search_storage', 'item_03 inside search_storage', 'item_04 inside search_storage', 'item_05 inside search_storage', 'item_06 inside search_storage', 'item_07 inside search_storage', 'item_08 inside search_storage']"
+    }
+  },
+  "out": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_268_U276_direct_b144a0ee7164",
+  "variant": 93
+}

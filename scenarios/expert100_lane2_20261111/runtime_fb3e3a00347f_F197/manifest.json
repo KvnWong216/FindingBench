@@ -1,0 +1,476 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F197_01",
+      "family": "semantic_F197",
+      "scene": "Beechwood_0_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/runtime_fb3e3a00347f_F197/asset_F197_01/scenario.yaml",
+      "scenario_sha256": "2ec95bf9cc5884fc72d696997a25716b8fd34cb5635f738997b04d4d651e7a26",
+      "instruction": "There is a sample on the table in front of you in the living room. Find another juice bottle matching that sample in the kitchen drink storage and bring it to the table in front of you in the living room in the living room while I work.",
+      "target_key": "bottle_of_apple_juice/xvrbdy",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "kitchen_0",
+      "destination_room": "living_room_0",
+      "source_receptacle": "bottom_cabinet_no_top_pluwfl_0",
+      "destination_receptacle": "breakfast_table_skczfi_0",
+      "object_count": 10,
+      "distractor_count": 8,
+      "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+      "route": {
+        "start": [
+          3.5500000000000003,
+          -6.95,
+          -3.141592653589793
+        ],
+        "path_xy": [
+          [
+            3.5500000000000003,
+            -6.95
+          ],
+          [
+            3.45,
+            -6.95
+          ],
+          [
+            3.35,
+            -6.95
+          ],
+          [
+            3.35,
+            -6.8500000000000005
+          ],
+          [
+            3.25,
+            -6.8500000000000005
+          ],
+          [
+            3.25,
+            -6.75
+          ],
+          [
+            3.1500000000000004,
+            -6.75
+          ],
+          [
+            3.0500000000000003,
+            -6.75
+          ],
+          [
+            2.95,
+            -6.75
+          ],
+          [
+            2.85,
+            -6.75
+          ],
+          [
+            2.75,
+            -6.75
+          ],
+          [
+            2.75,
+            -6.65
+          ],
+          [
+            2.6500000000000004,
+            -6.65
+          ],
+          [
+            2.6500000000000004,
+            -6.550000000000001
+          ],
+          [
+            2.5500000000000003,
+            -6.550000000000001
+          ],
+          [
+            2.5500000000000003,
+            -6.45
+          ],
+          [
+            2.45,
+            -6.45
+          ],
+          [
+            2.45,
+            -6.3500000000000005
+          ],
+          [
+            2.35,
+            -6.3500000000000005
+          ],
+          [
+            2.25,
+            -6.3500000000000005
+          ],
+          [
+            2.15,
+            -6.3500000000000005
+          ],
+          [
+            2.0500000000000003,
+            -6.3500000000000005
+          ],
+          [
+            1.9500000000000002,
+            -6.3500000000000005
+          ],
+          [
+            1.85,
+            -6.3500000000000005
+          ],
+          [
+            1.85,
+            -6.25
+          ],
+          [
+            1.75,
+            -6.25
+          ],
+          [
+            1.75,
+            -6.15
+          ],
+          [
+            1.6500000000000001,
+            -6.15
+          ],
+          [
+            1.6500000000000001,
+            -6.050000000000001
+          ],
+          [
+            1.55,
+            -6.050000000000001
+          ],
+          [
+            1.4500000000000002,
+            -6.050000000000001
+          ],
+          [
+            1.35,
+            -6.050000000000001
+          ],
+          [
+            1.25,
+            -6.050000000000001
+          ],
+          [
+            1.1500000000000001,
+            -6.050000000000001
+          ],
+          [
+            1.1500000000000001,
+            -5.95
+          ]
+        ],
+        "length_m": 3.4,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "bottom_cabinet_no_top_pluwfl_0",
+        "comparison_sample"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_no_top_pluwfl_0",
+            "volume_extents_m": {
+              "link_1": [
+                0.29326508939266205,
+                0.41143274307250977,
+                0.04179656505584717
+              ],
+              "meta__base_link_fillable_0_0_link#component:0": [
+                0.5199915280856164,
+                0.9832567592132311,
+                0.22076112604498485
+              ],
+              "meta__base_link_fillable_0_0_link#component:1": [
+                0.5199915280856164,
+                0.9832567592132311,
+                0.3906072046292203
+              ]
+            },
+            "native_links": {
+              "link_1": "link_1",
+              "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "survey_with_native_components",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet_no_top/pluwfl",
+              "scale": [
+                1.276749849319458,
+                1.3885451555252075,
+                1.3932181596755981
+              ],
+              "encrypted_asset_sha256": "e437cb6606b889ee5d9e12f0de89e7467c08149881866fe7238139c89f92fc6b",
+              "metadata_sha256": "0e00312845b9ed8078f5a263551207004beec9ab9d83dfd9e656f277ade69f2c",
+              "root_orientation": [
+                -9.313224857976365e-09,
+                -4.773028638993537e-09,
+                0.7071068286895752,
+                -0.7071067094802856
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.015700065065175295,
+              "nodes": 9,
+              "candidate_tests": 3042000,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_03": "meta__base_link_fillable_0_0_link#component:1",
+                "item_04": "meta__base_link_fillable_0_0_link#component:1",
+                "item_02": "meta__base_link_fillable_0_0_link#component:1",
+                "item_08": "meta__base_link_fillable_0_0_link#component:1",
+                "item_07": "meta__base_link_fillable_0_0_link#component:0",
+                "item_00": "meta__base_link_fillable_0_0_link#component:0",
+                "item_01": "meta__base_link_fillable_0_0_link#component:0",
+                "item_05": "meta__base_link_fillable_0_0_link#component:0",
+                "item_06": "meta__base_link_fillable_0_0_link#component:0"
+              },
+              "poses": {
+                "item_03": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.078,
+                    0.078
+                  ],
+                  "center_xy_m": [
+                    0.044,
+                    0.044
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.088,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.077,
+                    0.077
+                  ],
+                  "center_xy_m": [
+                    0.1265,
+                    0.043500000000000004
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.17,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.073,
+                    0.073
+                  ],
+                  "center_xy_m": [
+                    0.20650000000000002,
+                    0.0415
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.248,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.073,
+                    0.073
+                  ],
+                  "center_xy_m": [
+                    0.28450000000000003,
+                    0.0415
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.092,
+                    0.092
+                  ],
+                  "center_xy_m": [
+                    0.051000000000000004,
+                    0.051000000000000004
+                  ]
+                },
+                "item_00": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.10200000000000001,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.044,
+                    0.044
+                  ],
+                  "center_xy_m": [
+                    0.124,
+                    0.027
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.151,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.044,
+                    0.044
+                  ],
+                  "center_xy_m": [
+                    0.17300000000000001,
+                    0.027
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.2,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.051000000000000004,
+                    0.055
+                  ],
+                  "center_xy_m": [
+                    0.2255,
+                    0.0325
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.256,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.19,
+                    0.07100000000000001
+                  ],
+                  "center_xy_m": [
+                    0.35100000000000003,
+                    0.0405
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link",
+              "item_00": "meta__base_link_fillable_0_0_link",
+              "item_01": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_06": "meta__base_link_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_03": "meta__base_link_fillable_0_0_link#component:1",
+              "item_04": "meta__base_link_fillable_0_0_link#component:1",
+              "item_02": "meta__base_link_fillable_0_0_link#component:1",
+              "item_08": "meta__base_link_fillable_0_0_link#component:1",
+              "item_07": "meta__base_link_fillable_0_0_link#component:0",
+              "item_00": "meta__base_link_fillable_0_0_link#component:0",
+              "item_01": "meta__base_link_fillable_0_0_link#component:0",
+              "item_05": "meta__base_link_fillable_0_0_link#component:0",
+              "item_06": "meta__base_link_fillable_0_0_link#component:0"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link",
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link"
+        },
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [],
+      "parent_task_id": "F197",
+      "tier": "long",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F197_01",
+        "parent_task_id": "F197",
+        "before_instruction": "The juice bottle on the private office desk is the product I want. Find another bottle of it in the kitchen drink storage and put it beside the reference bottle.",
+        "after_instruction": "There is a sample on the table in front of you in the living room. Find another juice bottle matching that sample in the kitchen drink storage and bring it to the table in front of you in the living room in the living room while I work.",
+        "reason": "Physical same-model sample preserves product matching; the exact target is grounded visually rather than by an invented label. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Explicit spatial revision from ('kitchen', 'cabinet', 'private_office', 'desk') to ('kitchen', 'cabinet', 'living_room', 'table'): uses a room/storage pairing with previously found robot clearance and path evidence (19 prior recipes). Item sets, reference matching and inventory predicates are unchanged. Cross-room transfer is retained where the revised source and destination differ.",
+        "target_asset": "bottle_of_apple_juice/xvrbdy",
+        "target_assets": [
+          "bottle_of_apple_juice/xvrbdy"
+        ]
+      },
+      "proposal_native_policy_signature": "fb3e3a00347f3595ec116ed84a45954668701ce1df7fad39f863edcc864c2be8"
+    }
+  ]
+}

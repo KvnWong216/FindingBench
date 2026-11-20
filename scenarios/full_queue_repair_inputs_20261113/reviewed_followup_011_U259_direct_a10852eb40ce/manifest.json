@@ -1,0 +1,532 @@
+{
+  "tasks": [
+    {
+      "id": "asset_U259_01",
+      "family": "semantic_U259",
+      "scene": "house_double_floor_lower",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_011_U259_direct_a10852eb40ce/asset_U259_01/scenario.yaml",
+      "scenario_sha256": "e7930e59b045227a88d9921afe91c563d80241876029804995121d1bd078facb",
+      "instruction": "Fetch a hand trowel from the garden supply storage and put it on the table in front of you in the garden in the garden for planting the narrow beds.",
+      "target_key": "trowel/ematag",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "garden_0",
+      "destination_room": "garden_0",
+      "source_receptacle": "search_storage",
+      "destination_receptacle": "delivery_surface",
+      "object_count": 11,
+      "distractor_count": 8,
+      "source_survey_sha256": "0a3f401e7605a056f40f88d913d8c052476ef760acf457ac11cb1f76abbe581f",
+      "route": {
+        "start": [
+          14.75,
+          3.5500000000000003,
+          0.0
+        ],
+        "path_xy": [
+          [
+            14.75,
+            3.5500000000000003
+          ],
+          [
+            14.850000000000001,
+            3.5500000000000003
+          ],
+          [
+            14.850000000000001,
+            3.45
+          ],
+          [
+            14.850000000000001,
+            3.35
+          ],
+          [
+            14.950000000000001,
+            3.35
+          ],
+          [
+            14.950000000000001,
+            3.25
+          ],
+          [
+            15.05,
+            3.25
+          ],
+          [
+            15.05,
+            3.1500000000000004
+          ],
+          [
+            15.15,
+            3.1500000000000004
+          ],
+          [
+            15.25,
+            3.1500000000000004
+          ],
+          [
+            15.350000000000001,
+            3.1500000000000004
+          ],
+          [
+            15.450000000000001,
+            3.1500000000000004
+          ],
+          [
+            15.55,
+            3.1500000000000004
+          ],
+          [
+            15.65,
+            3.1500000000000004
+          ],
+          [
+            15.75,
+            3.1500000000000004
+          ],
+          [
+            15.850000000000001,
+            3.1500000000000004
+          ],
+          [
+            15.950000000000001,
+            3.1500000000000004
+          ],
+          [
+            16.05,
+            3.1500000000000004
+          ],
+          [
+            16.150000000000002,
+            3.1500000000000004
+          ],
+          [
+            16.25,
+            3.1500000000000004
+          ],
+          [
+            16.35,
+            3.1500000000000004
+          ],
+          [
+            16.45,
+            3.1500000000000004
+          ],
+          [
+            16.55,
+            3.1500000000000004
+          ],
+          [
+            16.650000000000002,
+            3.1500000000000004
+          ],
+          [
+            16.75,
+            3.1500000000000004
+          ],
+          [
+            16.85,
+            3.1500000000000004
+          ],
+          [
+            16.95,
+            3.1500000000000004
+          ],
+          [
+            17.05,
+            3.1500000000000004
+          ],
+          [
+            17.05,
+            3.25
+          ],
+          [
+            17.05,
+            3.35
+          ],
+          [
+            17.05,
+            3.45
+          ],
+          [
+            17.05,
+            3.5500000000000003
+          ],
+          [
+            17.05,
+            3.6500000000000004
+          ],
+          [
+            17.05,
+            3.75
+          ],
+          [
+            17.05,
+            3.85
+          ],
+          [
+            17.05,
+            3.95
+          ],
+          [
+            17.05,
+            4.05
+          ],
+          [
+            17.05,
+            4.15
+          ],
+          [
+            17.05,
+            4.25
+          ],
+          [
+            17.05,
+            4.3500000000000005
+          ]
+        ],
+        "length_m": 3.9,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "search_storage"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "delivery_surface",
+          "category": "breakfast_table",
+          "model": "iaritq",
+          "floor": "floors_ghetev_0",
+          "position_xy": [
+            15.65,
+            3.95
+          ],
+          "aabb": [
+            [
+              15.298999710083008,
+              3.599453765869141,
+              0.014
+            ],
+            [
+              16.00100028991699,
+              4.300546234130859,
+              0.7630009155273437
+            ]
+          ],
+          "room": "garden_0"
+        },
+        {
+          "name": "search_storage",
+          "category": "bottom_cabinet_no_top",
+          "model": "vzzafs",
+          "floor": "floors_ghetev_0",
+          "position_xy": [
+            17.95,
+            4.8500000000000005
+          ],
+          "aabb": [
+            [
+              17.623635940551758,
+              4.62351139831543,
+              0.014
+            ],
+            [
+              18.27636405944824,
+              5.076488601684571,
+              0.8822071838378907
+            ]
+          ],
+          "room": "garden_0"
+        }
+      ],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "search_storage",
+            "volume_extents_m": {
+              "meta__base_link_fillable_0_0_link": [
+                0.5315370221138,
+                0.39102343478868673,
+                0.6658233661651611
+              ]
+            },
+            "native_links": {
+              "meta__base_link_fillable_0_0_link": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet_no_top/vzzafs",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "b4daa08616feaef1a73fc5cb01bcd60c278fad77ff3d5bda42d007a631e01515",
+              "metadata_sha256": "f0ba45ae134ef2c37866c9bb0186200606042fb03eafed9783116a94253ac4bf",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.001716631930321455,
+              "nodes": 0,
+              "candidate_tests": 0,
+              "search_orders_tried": 0,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_00": "meta__base_link_fillable_0_0_link",
+                "item_01": "meta__base_link_fillable_0_0_link",
+                "item_02": "meta__base_link_fillable_0_0_link",
+                "item_03": "meta__base_link_fillable_0_0_link",
+                "item_04": "meta__base_link_fillable_0_0_link",
+                "item_05": "meta__base_link_fillable_0_0_link",
+                "item_06": "meta__base_link_fillable_0_0_link",
+                "item_07": "meta__base_link_fillable_0_0_link",
+                "item_08": "meta__base_link_fillable_0_0_link"
+              },
+              "poses": {
+                "item_00": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.28,
+                    0.047
+                  ],
+                  "center_xy_m": [
+                    0.14500000000000002,
+                    0.0285
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 90,
+                  "lower_xy_m": [
+                    0.005,
+                    0.057
+                  ],
+                  "footprint_m": [
+                    0.036000000000000004,
+                    0.035
+                  ],
+                  "center_xy_m": [
+                    0.023000000000000003,
+                    0.07450000000000001
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.097
+                  ],
+                  "footprint_m": [
+                    0.17400000000000002,
+                    0.03
+                  ],
+                  "center_xy_m": [
+                    0.09200000000000001,
+                    0.112
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 90,
+                  "lower_xy_m": [
+                    0.005,
+                    0.132
+                  ],
+                  "footprint_m": [
+                    0.036000000000000004,
+                    0.035
+                  ],
+                  "center_xy_m": [
+                    0.023000000000000003,
+                    0.14950000000000002
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.17200000000000001
+                  ],
+                  "footprint_m": [
+                    0.17400000000000002,
+                    0.03
+                  ],
+                  "center_xy_m": [
+                    0.09200000000000001,
+                    0.187
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 90,
+                  "lower_xy_m": [
+                    0.005,
+                    0.20700000000000002
+                  ],
+                  "footprint_m": [
+                    0.036000000000000004,
+                    0.035
+                  ],
+                  "center_xy_m": [
+                    0.023000000000000003,
+                    0.22450000000000003
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.247
+                  ],
+                  "footprint_m": [
+                    0.17400000000000002,
+                    0.03
+                  ],
+                  "center_xy_m": [
+                    0.09200000000000001,
+                    0.262
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 90,
+                  "lower_xy_m": [
+                    0.005,
+                    0.28200000000000003
+                  ],
+                  "footprint_m": [
+                    0.036000000000000004,
+                    0.035
+                  ],
+                  "center_xy_m": [
+                    0.023000000000000003,
+                    0.29950000000000004
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.322
+                  ],
+                  "footprint_m": [
+                    0.17400000000000002,
+                    0.03
+                  ],
+                  "center_xy_m": [
+                    0.09200000000000001,
+                    0.337
+                  ]
+                }
+              },
+              "constructive_witness": "single strip; exact quantized box and clearance checks"
+            },
+            "assignment": {
+              "item_00": "meta__base_link_fillable_0_0_link",
+              "item_01": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link",
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_00": "meta__base_link_fillable_0_0_link",
+              "item_01": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link",
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link",
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link"
+        },
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [],
+      "parent_task_id": "U259",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_U259_01",
+        "parent_task_id": "U259",
+        "before_instruction": "The narrow planter on the garden table needs a slim hand tool. Find the narrowest trowel among the garage's garden supplies and put it beside that planter.",
+        "after_instruction": "Fetch a hand trowel from the garden supply storage and put it on the table in front of you in the garden in the garden for planting the narrow beds.",
+        "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Missing constructed comparison/count evidence and distractor set for thin hand trowel. Trowel width variants and reference planter required; trowel: only one native model; requested within-category size alternatives are not established Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: garage/cabinet -> garden/table becomes garden/cabinet -> garden/table. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+        "target_asset": "trowel/ematag",
+        "target_assets": [
+          "trowel/ematag"
+        ]
+      },
+      "proposal_native_policy_signature": "638901e57b44747045bd55ed10084fe82451f1075c4c28aa6f0af555449b389c",
+      "storage_model_experience": []
+    }
+  ]
+}

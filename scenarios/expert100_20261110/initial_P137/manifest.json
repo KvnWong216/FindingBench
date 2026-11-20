@@ -1,0 +1,368 @@
+{
+  "tasks": [
+    {
+      "id": "asset_P137_01",
+      "family": "semantic_P137",
+      "scene": "Merom_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/initial_P137/asset_P137_01/scenario.yaml",
+      "scenario_sha256": "b893e31579d9c310b74d2637d4eccf56be2bc9d9d1b5ffe7ba1f17ba0a0d0b82",
+      "instruction": "There is a sample on the cabinet top in front of you in the living room. Find two DVDs matching that sample in the living-room media storage and bring both to the cabinet top in front of you in the living room.",
+      "target_key": "dvd/lggrfa",
+      "target_entities": [
+        "item_00",
+        "item_01"
+      ],
+      "target_count": 2,
+      "source_room": "living_room_0",
+      "destination_room": "living_room_0",
+      "source_receptacle": "bottom_cabinet_jhymlr_0",
+      "destination_receptacle": "bottom_cabinet_jhymlr_0",
+      "object_count": 11,
+      "distractor_count": 8,
+      "source_survey_sha256": "1bcd77f7369c09f3ee939635132fc064795bb448af326a0f941bcbe3dbe0fd22",
+      "route": {
+        "start": [
+          0.65,
+          9.25,
+          1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            0.65,
+            9.25
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 35,
+        "destination_approach_count": 35,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "item_09",
+        "bottom_cabinet_jhymlr_0",
+        "comparison_sample"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_jhymlr_0",
+            "volume_extents_m": {
+              "meta__link_0_fillable_0_0_link": [
+                0.2773549286700383,
+                0.5010804836929584,
+                0.11265514719966996
+              ],
+              "meta__link_1_fillable_0_0_link": [
+                0.2773549368762549,
+                0.5010714618021198,
+                0.11265509558625308
+              ],
+              "meta__link_2_fillable_0_0_link": [
+                0.2773504768474596,
+                0.5010708197383781,
+                0.05737970478521934
+              ],
+              "meta__link_3_fillable_0_0_link": [
+                0.2773548969495938,
+                0.5010804205737973,
+                0.11265516092746888
+              ],
+              "meta__link_4_fillable_0_0_link": [
+                0.2773548887433784,
+                0.5010714469286316,
+                0.11265512304185177
+              ],
+              "meta__link_5_fillable_0_0_link": [
+                0.27735044512688245,
+                0.5010708197383782,
+                0.0573797014843318
+              ]
+            },
+            "native_links": {
+              "meta__link_0_fillable_0_0_link": "meta__link_0_fillable_0_0_link",
+              "meta__link_1_fillable_0_0_link": "meta__link_1_fillable_0_0_link",
+              "meta__link_2_fillable_0_0_link": "meta__link_2_fillable_0_0_link",
+              "meta__link_3_fillable_0_0_link": "meta__link_3_fillable_0_0_link",
+              "meta__link_4_fillable_0_0_link": "meta__link_4_fillable_0_0_link",
+              "meta__link_5_fillable_0_0_link": "meta__link_5_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet/jhymlr",
+              "scale": [
+                1.3397164344787598,
+                1.618847131729126,
+                1.8425140380859375
+              ],
+              "encrypted_asset_sha256": "9efdb08a982275bda4a5bd52c778037078e74869caf588eb0c7150d9a1dec2e0",
+              "metadata_sha256": "64d362b09d91494d02da79b46ac2ed7ffa2d8edebf0432612cf7ecdc222c2b03",
+              "root_orientation": [
+                3.4351207432337105e-05,
+                4.3117823224747553e-05,
+                -0.7071061730384827,
+                0.7071073651313782
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.016608892008662224,
+              "nodes": 10,
+              "candidate_tests": 269340,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_07": "meta__link_0_fillable_0_0_link",
+                "item_02": "meta__link_1_fillable_0_0_link",
+                "item_09": "meta__link_2_fillable_0_0_link",
+                "item_00": "meta__link_3_fillable_0_0_link",
+                "item_01": "meta__link_4_fillable_0_0_link",
+                "item_04": "meta__link_5_fillable_0_0_link",
+                "item_05": "meta__link_3_fillable_0_0_link",
+                "item_03": "meta__link_4_fillable_0_0_link",
+                "item_08": "meta__link_5_fillable_0_0_link",
+                "item_06": "meta__link_4_fillable_0_0_link"
+              },
+              "poses": {
+                "item_07": {
+                  "bin": "meta__link_0_fillable_0_0_link",
+                  "yaw_degrees": 90,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.22,
+                    0.29
+                  ],
+                  "center_xy_m": [
+                    0.115,
+                    0.15
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__link_1_fillable_0_0_link",
+                  "yaw_degrees": 90,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.212,
+                    0.298
+                  ],
+                  "center_xy_m": [
+                    0.111,
+                    0.154
+                  ]
+                },
+                "item_09": {
+                  "bin": "meta__link_2_fillable_0_0_link",
+                  "yaw_degrees": 90,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.212,
+                    0.298
+                  ],
+                  "center_xy_m": [
+                    0.111,
+                    0.154
+                  ]
+                },
+                "item_00": {
+                  "bin": "meta__link_3_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.14400000000000002,
+                    0.14400000000000002
+                  ],
+                  "center_xy_m": [
+                    0.077,
+                    0.077
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__link_4_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.14400000000000002,
+                    0.14400000000000002
+                  ],
+                  "center_xy_m": [
+                    0.077,
+                    0.077
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__link_5_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.218,
+                    0.16
+                  ],
+                  "center_xy_m": [
+                    0.114,
+                    0.085
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__link_3_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.154
+                  ],
+                  "footprint_m": [
+                    0.194,
+                    0.146
+                  ],
+                  "center_xy_m": [
+                    0.10200000000000001,
+                    0.227
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__link_4_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.154
+                  ],
+                  "footprint_m": [
+                    0.194,
+                    0.131
+                  ],
+                  "center_xy_m": [
+                    0.10200000000000001,
+                    0.2195
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__link_5_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.17
+                  ],
+                  "footprint_m": [
+                    0.161,
+                    0.12
+                  ],
+                  "center_xy_m": [
+                    0.0855,
+                    0.23
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__link_4_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.29
+                  ],
+                  "footprint_m": [
+                    0.154,
+                    0.122
+                  ],
+                  "center_xy_m": [
+                    0.082,
+                    0.35100000000000003
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_07": "meta__link_0_fillable_0_0_link",
+              "item_02": "meta__link_1_fillable_0_0_link",
+              "item_09": "meta__link_2_fillable_0_0_link",
+              "item_00": "meta__link_3_fillable_0_0_link",
+              "item_01": "meta__link_4_fillable_0_0_link",
+              "item_04": "meta__link_5_fillable_0_0_link",
+              "item_05": "meta__link_3_fillable_0_0_link",
+              "item_03": "meta__link_4_fillable_0_0_link",
+              "item_08": "meta__link_5_fillable_0_0_link",
+              "item_06": "meta__link_4_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_07": "meta__link_0_fillable_0_0_link",
+              "item_02": "meta__link_1_fillable_0_0_link",
+              "item_09": "meta__link_2_fillable_0_0_link",
+              "item_00": "meta__link_3_fillable_0_0_link",
+              "item_01": "meta__link_4_fillable_0_0_link",
+              "item_04": "meta__link_5_fillable_0_0_link",
+              "item_05": "meta__link_3_fillable_0_0_link",
+              "item_03": "meta__link_4_fillable_0_0_link",
+              "item_08": "meta__link_5_fillable_0_0_link",
+              "item_06": "meta__link_4_fillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [],
+      "parent_task_id": "P137",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_P137_01",
+        "parent_task_id": "P137",
+        "before_instruction": "Find discs 1 and 2 of City Lights among the living-room media storage and put both closed cases below the television.",
+        "after_instruction": "There is a sample on the cabinet top in front of you in the living room. Find two DVDs matching that sample in the living-room media storage and bring both to the cabinet top in front of you in the living room.",
+        "reason": "Preserves cardinality two while replacing fictional numbered films and unverified closed cases with same-model discs. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "dvd/lggrfa",
+        "target_assets": [
+          "dvd/lggrfa",
+          "dvd/lggrfa"
+        ]
+      }
+    }
+  ]
+}

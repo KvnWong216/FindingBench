@@ -1,0 +1,171 @@
+{
+  "method": "replace_native_scene_source_at_same_site",
+  "edit": {
+    "entity": "search_storage",
+    "replacement_entity": "search_storage",
+    "before_asset": "bottom_cabinet/immwzb",
+    "after_asset": "bottom_cabinet_no_top/ncgmqr",
+    "before_aabb": [
+      [
+        0.6235068817138673,
+        6.633530570983887,
+        0.0
+      ],
+      [
+        1.0764931182861328,
+        7.066469429016114,
+        0.5443244018554687
+      ]
+    ],
+    "after_aabb": [
+      [
+        0.5381302947998048,
+        6.641652801513672,
+        0.0
+      ],
+      [
+        1.1618697052001954,
+        7.058347198486329,
+        0.6957286682128906
+      ]
+    ],
+    "source_sha256": "626309b07f4ac1a625e18665465a46167c5994010e9503b6f8ceee82173f217f",
+    "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/all_remaining_20261113_27_U314/asset_U314_01",
+    "reason": "Replace failed source at its existing site; adding another fixture consumes its approach space",
+    "physical_validation_required": true
+  },
+  "initial_closed_state_retained": {
+    "open": false
+  },
+  "solver": {
+    "status": "feasible_model",
+    "device": "cuda",
+    "backend": "torch_cuda_finite_csp",
+    "solve_seconds": 0.11620676377788186,
+    "nodes": 6,
+    "candidate_tests": 62928,
+    "search_orders_tried": 1,
+    "grid_m": 0.005,
+    "margin_m": 0.015,
+    "model": "upright boxes; yaw 0/90; single-layer independent bins; integer grid with convex centre halfspaces / fixed obstacles",
+    "physical_validation_required": true,
+    "assignment": {
+      "item_00": "meta__drawer2_fillable_0_0_link#mesh:0",
+      "item_03": "meta__drawer1_fillable_0_0_link#mesh:0#support_patch:0",
+      "item_02": "meta__drawer0_fillable_0_0_link#mesh:0#support_patch:0",
+      "item_05": "meta__drawer2_fillable_0_0_link#mesh:0",
+      "item_01": "meta__drawer0_fillable_0_0_link#mesh:0#support_patch:1",
+      "item_04": "meta__drawer1_fillable_0_0_link#mesh:0#support_patch:1"
+    },
+    "poses": {
+      "item_00": {
+        "bin": "meta__drawer2_fillable_0_0_link#mesh:0",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.015
+        ],
+        "footprint_m": [
+          0.25,
+          0.3
+        ],
+        "center_xy_m": [
+          0.14,
+          0.165
+        ]
+      },
+      "item_03": {
+        "bin": "meta__drawer1_fillable_0_0_link#mesh:0#support_patch:0",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.015
+        ],
+        "footprint_m": [
+          0.24,
+          0.255
+        ],
+        "center_xy_m": [
+          0.135,
+          0.14250000000000002
+        ]
+      },
+      "item_02": {
+        "bin": "meta__drawer0_fillable_0_0_link#mesh:0#support_patch:0",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.015
+        ],
+        "footprint_m": [
+          0.07,
+          0.115
+        ],
+        "center_xy_m": [
+          0.05,
+          0.0725
+        ]
+      },
+      "item_05": {
+        "bin": "meta__drawer2_fillable_0_0_link#mesh:0",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.28,
+          0.015
+        ],
+        "footprint_m": [
+          0.07,
+          0.115
+        ],
+        "center_xy_m": [
+          0.315,
+          0.0725
+        ]
+      },
+      "item_01": {
+        "bin": "meta__drawer0_fillable_0_0_link#mesh:0#support_patch:1",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.015
+        ],
+        "footprint_m": [
+          0.09,
+          0.02
+        ],
+        "center_xy_m": [
+          0.06,
+          0.025
+        ]
+      },
+      "item_04": {
+        "bin": "meta__drawer1_fillable_0_0_link#mesh:0#support_patch:1",
+        "yaw_degrees": 90,
+        "lower_xy_m": [
+          0.015,
+          0.015
+        ],
+        "footprint_m": [
+          0.02,
+          0.09
+        ],
+        "center_xy_m": [
+          0.025,
+          0.06
+        ]
+      }
+    }
+  },
+  "preserved": [
+    "instruction",
+    "goal",
+    "physical source site and room",
+    "initial source open/closed state",
+    "target",
+    "all task props",
+    "robot",
+    "spawn",
+    "all original relation kinds"
+  ],
+  "physical_validation_required": true
+}

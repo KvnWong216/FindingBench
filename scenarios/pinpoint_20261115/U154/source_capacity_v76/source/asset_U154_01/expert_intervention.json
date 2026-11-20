@@ -1,0 +1,431 @@
+{
+  "method": "expert_reauthored_generic_storage_on_open_work_surface",
+  "source_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/native_sleep_defaults_v89_20261114_U154/asset_U154_01/scenario.yaml",
+  "source_sha256": "99ac78849aa1c6bab8cf0fe698e0acc5bebd57b1e5ab5fc76bde847483f71467",
+  "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/native_sleep_defaults_v89_20261114_U154/asset_U154_01",
+  "relation_changes": [
+    {
+      "before": {
+        "entity": "item_00",
+        "relation": "inside",
+        "receptacle": "expert_storage_93"
+      },
+      "after": {
+        "entity": "item_00",
+        "relation": "on_top",
+        "receptacle": "search_work_surface",
+        "position_xy": [
+          -1.5326253662109377,
+          -5.1705638122558595
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_01",
+        "relation": "inside",
+        "receptacle": "expert_storage_93"
+      },
+      "after": {
+        "entity": "item_01",
+        "relation": "on_top",
+        "receptacle": "search_work_surface",
+        "position_xy": [
+          -1.5341253662109375,
+          -5.054563812255859
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_02",
+        "relation": "inside",
+        "receptacle": "expert_storage_93"
+      },
+      "after": {
+        "entity": "item_02",
+        "relation": "on_top",
+        "receptacle": "search_work_surface",
+        "position_xy": [
+          -1.8506253662109375,
+          -4.700063812255859
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_03",
+        "relation": "inside",
+        "receptacle": "expert_storage_93"
+      },
+      "after": {
+        "entity": "item_03",
+        "relation": "on_top",
+        "receptacle": "search_work_surface",
+        "position_xy": [
+          -1.7856253662109376,
+          -5.37056381225586
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_04",
+        "relation": "inside",
+        "receptacle": "expert_storage_93"
+      },
+      "after": {
+        "entity": "item_04",
+        "relation": "on_top",
+        "receptacle": "search_work_surface",
+        "position_xy": [
+          -1.5206253662109377,
+          -5.4765638122558595
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_05",
+        "relation": "inside",
+        "receptacle": "expert_storage_93"
+      },
+      "after": {
+        "entity": "item_05",
+        "relation": "on_top",
+        "receptacle": "search_work_surface",
+        "position_xy": [
+          -1.4486253662109376,
+          -5.086563812255859
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_06",
+        "relation": "inside",
+        "receptacle": "expert_storage_93"
+      },
+      "after": {
+        "entity": "item_06",
+        "relation": "on_top",
+        "receptacle": "search_work_surface",
+        "position_xy": [
+          -1.5341253662109375,
+          -4.957563812255859
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_07",
+        "relation": "inside",
+        "receptacle": "expert_storage_93"
+      },
+      "after": {
+        "entity": "item_07",
+        "relation": "on_top",
+        "receptacle": "search_work_surface",
+        "position_xy": [
+          -1.6096253662109377,
+          -4.700063812255859
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_08",
+        "relation": "inside",
+        "receptacle": "expert_storage_93"
+      },
+      "after": {
+        "entity": "item_08",
+        "relation": "on_top",
+        "receptacle": "search_work_surface",
+        "position_xy": [
+          -1.7856253662109376,
+          -4.999563812255859
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "required_negative_0",
+        "relation": "inside",
+        "receptacle": "expert_storage_93"
+      },
+      "after": {
+        "entity": "required_negative_0",
+        "relation": "on_top",
+        "receptacle": "search_work_surface",
+        "position_xy": [
+          -1.5206253662109377,
+          -5.317563812255859
+        ]
+      }
+    }
+  ],
+  "removed_unused_authored_fixtures": [
+    "expert_storage_93"
+  ],
+  "flat_stock_stacks": [],
+  "stack_footprint_envelopes_m": {},
+  "source_surface": "search_work_surface",
+  "plans": [
+    {
+      "receptacle": "search_work_surface",
+      "entities": [
+        "item_00",
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "required_negative_0"
+      ],
+      "solver": {
+        "status": "feasible_model",
+        "device": "cuda",
+        "backend": "torch_cuda_finite_csp",
+        "solve_seconds": 0.02299112780019641,
+        "nodes": 10,
+        "candidate_tests": 301757,
+        "search_orders_tried": 1,
+        "grid_m": 0.001,
+        "margin_m": 0.015,
+        "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+        "physical_validation_required": true,
+        "assignment": {
+          "item_03": "surface",
+          "item_08": "surface",
+          "item_02": "surface",
+          "item_07": "surface",
+          "item_04": "surface",
+          "required_negative_0": "surface",
+          "item_00": "surface",
+          "item_01": "surface",
+          "item_06": "surface",
+          "item_05": "surface"
+        },
+        "poses": {
+          "item_03": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.015
+            ],
+            "footprint_m": [
+              0.356,
+              0.356
+            ],
+            "center_xy_m": [
+              0.193,
+              0.193
+            ]
+          },
+          "item_08": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.386
+            ],
+            "footprint_m": [
+              0.356,
+              0.356
+            ],
+            "center_xy_m": [
+              0.193,
+              0.5640000000000001
+            ]
+          },
+          "item_02": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.757
+            ],
+            "footprint_m": [
+              0.226,
+              0.213
+            ],
+            "center_xy_m": [
+              0.128,
+              0.8635
+            ]
+          },
+          "item_07": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.256,
+              0.757
+            ],
+            "footprint_m": [
+              0.226,
+              0.213
+            ],
+            "center_xy_m": [
+              0.369,
+              0.8635
+            ]
+          },
+          "item_04": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.386,
+              0.015
+            ],
+            "footprint_m": [
+              0.14400000000000002,
+              0.14400000000000002
+            ],
+            "center_xy_m": [
+              0.458,
+              0.08700000000000001
+            ]
+          },
+          "required_negative_0": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.386,
+              0.17400000000000002
+            ],
+            "footprint_m": [
+              0.14400000000000002,
+              0.14400000000000002
+            ],
+            "center_xy_m": [
+              0.458,
+              0.246
+            ]
+          },
+          "item_00": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.386,
+              0.333
+            ],
+            "footprint_m": [
+              0.12,
+              0.12
+            ],
+            "center_xy_m": [
+              0.446,
+              0.393
+            ]
+          },
+          "item_01": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.386,
+              0.468
+            ],
+            "footprint_m": [
+              0.117,
+              0.082
+            ],
+            "center_xy_m": [
+              0.4445,
+              0.509
+            ]
+          },
+          "item_06": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.386,
+              0.5650000000000001
+            ],
+            "footprint_m": [
+              0.117,
+              0.082
+            ],
+            "center_xy_m": [
+              0.4445,
+              0.606
+            ]
+          },
+          "item_05": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.518,
+              0.468
+            ],
+            "footprint_m": [
+              0.024,
+              0.018000000000000002
+            ],
+            "center_xy_m": [
+              0.53,
+              0.47700000000000004
+            ]
+          }
+        },
+        "authoring_spacing_attempts": [
+          {
+            "margin_m": 0.025,
+            "grid_m": 0.001,
+            "status": "unknown",
+            "reason": "Search budget exhausted; no infeasibility claim"
+          },
+          {
+            "margin_m": 0.015,
+            "grid_m": 0.001,
+            "status": "feasible_model",
+            "reason": null
+          }
+        ]
+      },
+      "measured_scene_obstacles": [],
+      "physical_validation_required": true
+    }
+  ],
+  "source_room": "bedroom_0",
+  "reviewed_initial_placement": {
+    "before": {
+      "position": [
+        -3.2,
+        -2.9000000000000004,
+        0.0053
+      ],
+      "orientation": [
+        0,
+        0,
+        1.0,
+        6.123233995736766e-17
+      ]
+    },
+    "after": {
+      "position": [
+        -3.2,
+        -2.9000000000000004,
+        0.0053
+      ],
+      "orientation": [
+        0.0,
+        0.0,
+        1.0,
+        6.123233995736766e-17
+      ]
+    },
+    "reason": "Keep a unique forward delivery table after explicitly reauthoring generic source storage on a work surface.",
+    "displacement_m": 0.0,
+    "same_initial_room": true,
+    "physical_validation_required": true
+  },
+  "reviewed_source_scope": " the bedroom workspace media, ",
+  "reason": "Task names generic storage rather than an enclosed receptacle. Large household equipment and containers are stored on a real work surface among the same unchanged clutter; retain task meaning and all native physical checks.",
+  "physical_validation_required": true,
+  "human_completion_verified": false
+}

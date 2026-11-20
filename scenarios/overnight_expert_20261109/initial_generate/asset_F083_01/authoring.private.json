@@ -1,0 +1,72 @@
+{
+  "id": "asset_F083_01",
+  "family": "semantic_F083",
+  "scene": "Ihlen_1_int",
+  "scenario": "scenarios/overnight_expert_20261109/initial_generate/asset_F083_01/scenario.yaml",
+  "scenario_sha256": "54def13f5da44a5e7f373247f8dc69ceaac0309096af82bf4f33bde068cf328f",
+  "instruction": "Find all the apple in the shopping basket in this kitchen and put them on the table in front of you.",
+  "target_key": "apple/obixxh",
+  "target_entities": [
+    "item_01",
+    "item_02"
+  ],
+  "target_count": 2,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "item_00",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 11,
+  "distractor_count": 8,
+  "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+  "route": {
+    "start": [
+      -3.9000000000000004,
+      5.6000000000000005,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -3.9000000000000004,
+        5.6000000000000005
+      ],
+      [
+        -3.9000000000000004,
+        5.5
+      ],
+      [
+        -3.8000000000000003,
+        5.5
+      ]
+    ],
+    "length_m": 0.2,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 33,
+    "destination_approach_count": 12,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_00",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09",
+    "item_10"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate"
+}

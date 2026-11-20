@@ -1,0 +1,110 @@
+{
+  "id": "asset_F131_01",
+  "family": "semantic_F131",
+  "scene": "Pomaria_1_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_F131_01/scenario.yaml",
+  "scenario_sha256": "508a6c78163fc208f3944a494a07bb8798ab5bb4625db5ad64443e5db207a268",
+  "instruction": "Find every mug among the dishes on the table in the kitchen in the kitchen and move them to the counter in front of you in the kitchen.",
+  "target_key": "mug/dhnxww",
+  "target_entities": [
+    "item_00",
+    "item_01",
+    "item_02"
+  ],
+  "target_count": 3,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "breakfast_table_uhrsex_0",
+  "destination_receptacle": "countertop_tpuwys_4",
+  "object_count": 11,
+  "distractor_count": 8,
+  "source_survey_sha256": "05d404c89ade70d34c89459d2b340c53ef49d49041a6624fcc9a997b8b7322b3",
+  "route": {
+    "start": [
+      -1.35,
+      -0.15000000000000002,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -1.35,
+        -0.15000000000000002
+      ],
+      [
+        -1.35,
+        -0.25
+      ],
+      [
+        -1.35,
+        -0.35000000000000003
+      ],
+      [
+        -1.25,
+        -0.35000000000000003
+      ],
+      [
+        -1.25,
+        -0.45
+      ],
+      [
+        -1.1500000000000001,
+        -0.45
+      ],
+      [
+        -1.1500000000000001,
+        -0.55
+      ],
+      [
+        -1.05,
+        -0.55
+      ]
+    ],
+    "length_m": 0.7,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 51,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09",
+    "item_10"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "parent_task_id": "F131",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F131_01",
+    "parent_task_id": "F131",
+    "before_instruction": "Find every empty mug among the dishes on the kitchen table and put them on the counter beside the sink.",
+    "after_instruction": "Find every mug among the dishes on the table in the kitchen in the kitchen and move them to the counter in front of you in the kitchen.",
+    "reason": "Complete eligible set contains three mugs; removes unverified empty-content filtering while preserving exhaustive table cleanup. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "mug/dhnxww",
+    "target_assets": [
+      "mug/dhnxww",
+      "mug/dhnxww",
+      "mug/dhnxww"
+    ]
+  },
+  "binding_sha256": "67fbabcd4f622f0b97ef664afe8acf0fcf2d25729524c90bf76757d3537fee35"
+}

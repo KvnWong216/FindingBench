@@ -1,0 +1,80 @@
+{
+  "status": "deferred",
+  "reason": "Original layout fails corrected static geometry gate",
+  "preflight": {
+    "status": "rejected_candidate",
+    "findings": [
+      {
+        "receptacle": "search_storage",
+        "volume_extents_m": {
+          "meta__dof_rootd_aa001_t_fillable_0_0_link": [
+            0.3362949450016022,
+            0.6380979676246643,
+            0.14389748043127404
+          ],
+          "meta__dof_rootd_aa002_t_fillable_0_0_link": [
+            0.33629477615042824,
+            0.6380979676246643,
+            0.13829066944122315
+          ]
+        },
+        "native_links": {
+          "meta__dof_rootd_aa001_t_fillable_0_0_link": "meta__dof_rootd_aa001_t_fillable_0_0_link",
+          "meta__dof_rootd_aa002_t_fillable_0_0_link": "meta__dof_rootd_aa002_t_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet/rvpunw",
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "encrypted_asset_sha256": "85cd7d05a1126a2a97f651eeb9e1351c68a3d2f8c461ba512548e9c392e0a79f",
+          "metadata_sha256": "fe82c573d8f26cd669b0aae94d38e9a84909ec27ce8ec62647e54b6eba7f33e8",
+          "root_orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "rejected_candidate",
+        "native_sampling_required": false,
+        "solver": {
+          "status": "infeasible_model",
+          "device": "cuda",
+          "backend": "torch_cuda_finite_csp",
+          "solve_seconds": 0.3076943610794842,
+          "nodes": 0,
+          "candidate_tests": 0,
+          "search_orders_tried": 0,
+          "grid_m": 0.001,
+          "margin_m": 0.005,
+          "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+          "physical_validation_required": true,
+          "reason": "Total inflated footprint exceeds total bin area"
+        },
+        "reason": "Finite layout model infeasible",
+        "entities": [
+          "item_00",
+          "item_01",
+          "item_02",
+          "item_03",
+          "item_04",
+          "item_05",
+          "item_06",
+          "item_07",
+          "item_08",
+          "comparison_negative_0",
+          "comparison_negative_1"
+        ]
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {},
+    "physical_validation_required": true
+  }
+}

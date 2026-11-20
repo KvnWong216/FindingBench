@@ -1,0 +1,518 @@
+{
+  "status": "proposed",
+  "record": {
+    "id": "asset_P011_01",
+    "family": "semantic_P011",
+    "scene": "Wainscott_1_int",
+    "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/household_component_P011_20261114_P011_expert_570fd0d700b4/asset_P011_01/scenario.yaml",
+    "scenario_sha256": "00aff4d704046bb5d64b862f6a9f2216de48168daac2c7830da04634cee2c908",
+    "instruction": "Find the jade roller in the bathroom cabinet and put it on the counter in front of you in the bathroom.",
+    "target_key": "jade_roller/chplbu",
+    "target_entities": [
+      "item_00"
+    ],
+    "target_count": 1,
+    "source_room": "bathroom_0",
+    "destination_room": "bathroom_0",
+    "source_receptacle": "expert_storage_93",
+    "destination_receptacle": "bottom_cabinet_nnvyol_1",
+    "object_count": 10,
+    "distractor_count": 8,
+    "source_survey_sha256": "7894c711eea34a656ee926a132d6563ce3833b5ddb45c126d0ce534dd2edca60",
+    "route": {
+      "start": [
+        0.9500000000000001,
+        9.35,
+        -1.5707963267948966
+      ],
+      "path_xy": [
+        [
+          0.9500000000000001,
+          9.35
+        ]
+      ],
+      "length_m": 0.0,
+      "grid_m": 0.1,
+      "base_radius_m": 0.38355339059327376,
+      "endpoint_free_patch_radius_m": 0.2,
+      "source_approach_count": 21,
+      "destination_approach_count": 12,
+      "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+    },
+    "status": "editorial_revision_physics_pending",
+    "human_reference_steps": null,
+    "required_gates": [
+      "fresh_native_initialization",
+      "stable_dense_layout",
+      "target_CHECK_identifiability",
+      "all_yaw_live_navigation_and_tolerant_endpoints",
+      "reachable_open_grasp_place",
+      "initial_goal_false",
+      "human_completion"
+    ],
+    "restoration_entities": [
+      "item_01",
+      "item_02",
+      "item_03",
+      "item_04",
+      "item_05",
+      "item_06",
+      "item_07",
+      "item_08",
+      "bottom_cabinet_nnvyol_2",
+      "bottom_cabinet_nnvyol_1",
+      "expert_storage_93"
+    ],
+    "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+    "inserted_furniture": [
+      {
+        "name": "expert_storage_93",
+        "category": "wardrobe",
+        "model": "brimns",
+        "floor": "floors_kjptjl_0",
+        "position_xy": [
+          0.9500000000000001,
+          10.350000000000001
+        ],
+        "aabb": [
+          [
+            0.6899549865722656,
+            9.958999969482424,
+            0.0
+          ],
+          [
+            1.2100450134277345,
+            10.74100003051758,
+            1.9049998779296875
+          ]
+        ],
+        "room": "bathroom_0"
+      }
+    ],
+    "parent_task_id": "P011",
+    "tier": "short",
+    "physics_status": "pending",
+    "adaptation": {
+      "id": "asset_P011_01",
+      "parent_task_id": "P011",
+      "before_instruction": "Find the freestanding makeup mirror in the bathroom cabinet and place it on the counter beside the wall mirror.",
+      "after_instruction": "Find the jade roller in the bathroom cabinet and put it on the counter in front of you in the bathroom.",
+      "reason": "Removes unverified freestanding-versus-handheld form; grounded counter replaces wall-mirror landmark. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+      "target_asset": "jade_roller/chplbu",
+      "target_assets": [
+        "jade_roller/chplbu"
+      ],
+      "editorial_revision_id": "expert_household_component_rebinding_20261114_P011"
+    },
+    "binding_sha256": "f1fca9876d13f8cc29bab981a5c847f99315fc3d1cbc72986d76f33b566c10ca",
+    "previous_binding_sha256": "efdf0a88f488003f5de7e526684a7ba58b2afb34440c036b1d3517a0cc9f112a",
+    "editorial_revisions": [
+      {
+        "status": "editorial_revision_physics_pending",
+        "revision_id": "expert_household_component_rebinding_20261114_P011",
+        "authorization": "user_approved_find_and_deliver_rewrite",
+        "reason": "The only native makeup_mirror is 88.7 cm tall and 58.5 cm wide, unsuitable for this bathroom-cabinet finding task. Retain the same natural bathroom cabinet-to-counter activity with a native rigid jade roller, a semantically relevant cosmetic tool. No scale changes. Preserve every distractor, task count, source, destination, spawn and goal relation.",
+        "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_P011_01/scenario.yaml",
+        "original_archive": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/pinpoint_20261114/P011/household_component_v37/asset_P011_01/original_scenario.yaml",
+        "original_scenario_sha256": "6e2f3b64c5945123795fd51c8aae08fe9a1f403bcdb6ab17280ae70d83d1af7b",
+        "revised_scenario_sha256": "8c2453d6588f9ab20f7a52bc07228a3ae8ceff11350ab340f2fb942e3db0c9f8",
+        "before_instruction": "Find the makeup mirror in the bathroom cabinet and put it on the counter in front of you in the bathroom.",
+        "after_instruction": "Find the jade roller in the bathroom cabinet and put it on the counter in front of you in the bathroom.",
+        "object_changes": [
+          {
+            "before": {
+              "name": "item_00",
+              "category": "makeup_mirror",
+              "model": "vtccbu"
+            },
+            "after": {
+              "name": "item_00",
+              "category": "jade_roller",
+              "model": "chplbu"
+            },
+            "native_bbox_m": [
+              0.12679151916503906,
+              0.049331476211547855,
+              0.015290254592895508
+            ],
+            "metadata_sha256": "202dd3d0bcb40eae72c50e5309c2b362243622a06b610d3f2af51ba1a72493e3",
+            "encrypted_asset_sha256": "7d3c8dda2acdc15024d7cf28ce5d9727ab03a7fb4d3b97ac2fdd80798d91aae4"
+          }
+        ],
+        "surface_binding_changes": [],
+        "before_goal": [
+          {
+            "kind": "on_top",
+            "entity": "item_00",
+            "receptacle": "bottom_cabinet_nnvyol_1"
+          }
+        ],
+        "after_goal": [
+          {
+            "kind": "on_top",
+            "entity": "item_00",
+            "receptacle": "bottom_cabinet_nnvyol_1"
+          }
+        ],
+        "before_target": {
+          "entity": "item_00",
+          "category": "makeup_mirror"
+        },
+        "after_target": {
+          "entity": "item_00",
+          "category": "jade_roller"
+        },
+        "preserved": [
+          "find-and-deliver paradigm",
+          "goal entity and relation",
+          "scene",
+          "spawn",
+          "robot",
+          "skills",
+          "entity names and count",
+          "placement relations",
+          "target cardinality"
+        ],
+        "physical_validation_required": true,
+        "human_completion_verified": false
+      }
+    ],
+    "storage_model_experience": [],
+    "layout_preflight": {
+      "status": "heuristic_fit",
+      "findings": [
+        {
+          "receptacle": "expert_storage_93",
+          "volume_extents_m": {
+            "meta__base_link_fillable_0_0_link#component:0": [
+              0.46800010991096497,
+              0.7500002864599307,
+              1.103999973461032
+            ],
+            "meta__base_link_fillable_0_0_link#component:1": [
+              0.4680001237988505,
+              0.3669997589923316,
+              0.7060000839233347
+            ],
+            "meta__base_link_fillable_0_0_link#component:2": [
+              0.46800006622075796,
+              0.36900001085549583,
+              0.3523999531745805
+            ],
+            "meta__base_link_fillable_0_0_link#component:3": [
+              0.4680000939965272,
+              0.36900001085549583,
+              0.32359911148552034
+            ]
+          },
+          "native_links": {
+            "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+            "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+            "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link",
+            "meta__base_link_fillable_0_0_link#component:3": "meta__base_link_fillable_0_0_link"
+          },
+          "geometry_source": "offline_asset_hint",
+          "geometry_provenance": {
+            "asset": "wardrobe/brimns",
+            "scale": [
+              1,
+              1,
+              1
+            ],
+            "encrypted_asset_sha256": "3371793f298fc9f2f52a109285b48b4b4fad82c8fd0181e8c4bef124cc805566",
+            "metadata_sha256": "e74c8b7aade07f8443440e3dd73b5836c1ef5e9634387ecad985bad851a5e353",
+            "root_orientation": [
+              0,
+              0,
+              0,
+              1
+            ],
+            "coordinates": "size_only_not_world_positions",
+            "physical_validation_required": true
+          },
+          "status": "heuristic_fit",
+          "solver": {
+            "status": "feasible_model",
+            "device": "cuda",
+            "backend": "torch_cuda_finite_csp",
+            "solve_seconds": 0.004687601234763861,
+            "nodes": 0,
+            "candidate_tests": 0,
+            "search_orders_tried": 0,
+            "grid_m": 0.001,
+            "margin_m": 0.005,
+            "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+            "physical_validation_required": true,
+            "assignment": {
+              "item_00": "meta__base_link_fillable_0_0_link#component:0",
+              "item_01": "meta__base_link_fillable_0_0_link#component:0",
+              "item_02": "meta__base_link_fillable_0_0_link#component:0",
+              "item_03": "meta__base_link_fillable_0_0_link#component:0",
+              "item_04": "meta__base_link_fillable_0_0_link#component:0",
+              "item_05": "meta__base_link_fillable_0_0_link#component:0"
+            },
+            "poses": {
+              "item_00": {
+                "bin": "meta__base_link_fillable_0_0_link#component:0",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.005
+                ],
+                "footprint_m": [
+                  0.127,
+                  0.05
+                ],
+                "center_xy_m": [
+                  0.0685,
+                  0.030000000000000002
+                ]
+              },
+              "item_01": {
+                "bin": "meta__base_link_fillable_0_0_link#component:0",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.06
+                ],
+                "footprint_m": [
+                  0.066,
+                  0.066
+                ],
+                "center_xy_m": [
+                  0.038,
+                  0.093
+                ]
+              },
+              "item_02": {
+                "bin": "meta__base_link_fillable_0_0_link#component:0",
+                "yaw_degrees": 90,
+                "lower_xy_m": [
+                  0.005,
+                  0.131
+                ],
+                "footprint_m": [
+                  0.076,
+                  0.055
+                ],
+                "center_xy_m": [
+                  0.043,
+                  0.1585
+                ]
+              },
+              "item_03": {
+                "bin": "meta__base_link_fillable_0_0_link#component:0",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.191
+                ],
+                "footprint_m": [
+                  0.17200000000000001,
+                  0.074
+                ],
+                "center_xy_m": [
+                  0.09100000000000001,
+                  0.228
+                ]
+              },
+              "item_04": {
+                "bin": "meta__base_link_fillable_0_0_link#component:0",
+                "yaw_degrees": 90,
+                "lower_xy_m": [
+                  0.005,
+                  0.27
+                ],
+                "footprint_m": [
+                  0.08,
+                  0.078
+                ],
+                "center_xy_m": [
+                  0.045,
+                  0.309
+                ]
+              },
+              "item_05": {
+                "bin": "meta__base_link_fillable_0_0_link#component:0",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.353
+                ],
+                "footprint_m": [
+                  0.023,
+                  0.023
+                ],
+                "center_xy_m": [
+                  0.0165,
+                  0.3645
+                ]
+              }
+            },
+            "constructive_witness": "single strip; exact quantized box and clearance checks"
+          },
+          "assignment": {
+            "item_00": "meta__base_link_fillable_0_0_link",
+            "item_01": "meta__base_link_fillable_0_0_link",
+            "item_02": "meta__base_link_fillable_0_0_link",
+            "item_03": "meta__base_link_fillable_0_0_link",
+            "item_04": "meta__base_link_fillable_0_0_link",
+            "item_05": "meta__base_link_fillable_0_0_link"
+          },
+          "component_allocation": {
+            "item_00": "meta__base_link_fillable_0_0_link#component:0",
+            "item_01": "meta__base_link_fillable_0_0_link#component:0",
+            "item_02": "meta__base_link_fillable_0_0_link#component:0",
+            "item_03": "meta__base_link_fillable_0_0_link#component:0",
+            "item_04": "meta__base_link_fillable_0_0_link#component:0",
+            "item_05": "meta__base_link_fillable_0_0_link#component:0"
+          }
+        },
+        {
+          "receptacle": "bottom_cabinet_nnvyol_2",
+          "volume_extents_m": {
+            "meta__base_link_fillable_0_0_link#component:0": [
+              0.44089448679957965,
+              0.39182347549416197,
+              0.15945834423578661
+            ],
+            "meta__base_link_fillable_0_0_link#component:1": [
+              0.44425064723908503,
+              0.3918302714594257,
+              0.2090562617842396
+            ],
+            "meta__base_link_fillable_0_0_link#component:2": [
+              0.44424443933224095,
+              0.39183778413800097,
+              0.2053803389001196
+            ],
+            "meta__base_link_fillable_0_0_link#component:3": [
+              0.44090220986376416,
+              0.3918394022533863,
+              0.1675444032703807
+            ]
+          },
+          "native_links": {
+            "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+            "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+            "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link",
+            "meta__base_link_fillable_0_0_link#component:3": "meta__base_link_fillable_0_0_link"
+          },
+          "geometry_source": "offline_asset_hint",
+          "geometry_provenance": {
+            "asset": "bottom_cabinet/nnvyol",
+            "scale": [
+              1.4953995943069458,
+              1.2927367687225342,
+              0.9722601175308228
+            ],
+            "encrypted_asset_sha256": "887a4818b174c0f04c36ec47839e426d6a59dd79bd95d4f28953d8d57a8d4162",
+            "metadata_sha256": "b96561d74ef50f76cdb25ad30017bd50cc0bd225355dd685dc54ec19cde2d678",
+            "root_orientation": [
+              -0.00018816994270309806,
+              7.723827002337202e-05,
+              0.7071097493171692,
+              0.7071037888526917
+            ],
+            "coordinates": "size_only_not_world_positions",
+            "physical_validation_required": true
+          },
+          "status": "heuristic_fit",
+          "solver": {
+            "status": "feasible_model",
+            "device": "cuda",
+            "backend": "torch_cuda_finite_csp",
+            "solve_seconds": 0.0025910609401762486,
+            "nodes": 0,
+            "candidate_tests": 0,
+            "search_orders_tried": 0,
+            "grid_m": 0.001,
+            "margin_m": 0.005,
+            "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+            "physical_validation_required": true,
+            "assignment": {
+              "item_06": "meta__base_link_fillable_0_0_link#component:1",
+              "item_07": "meta__base_link_fillable_0_0_link#component:1",
+              "item_08": "meta__base_link_fillable_0_0_link#component:1"
+            },
+            "poses": {
+              "item_06": {
+                "bin": "meta__base_link_fillable_0_0_link#component:1",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.005
+                ],
+                "footprint_m": [
+                  0.077,
+                  0.077
+                ],
+                "center_xy_m": [
+                  0.0435,
+                  0.0435
+                ]
+              },
+              "item_07": {
+                "bin": "meta__base_link_fillable_0_0_link#component:1",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.08700000000000001
+                ],
+                "footprint_m": [
+                  0.025,
+                  0.025
+                ],
+                "center_xy_m": [
+                  0.0175,
+                  0.0995
+                ]
+              },
+              "item_08": {
+                "bin": "meta__base_link_fillable_0_0_link#component:1",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.117
+                ],
+                "footprint_m": [
+                  0.073,
+                  0.073
+                ],
+                "center_xy_m": [
+                  0.041499999999999995,
+                  0.1535
+                ]
+              }
+            },
+            "constructive_witness": "single strip; exact quantized box and clearance checks"
+          },
+          "assignment": {
+            "item_06": "meta__base_link_fillable_0_0_link",
+            "item_07": "meta__base_link_fillable_0_0_link",
+            "item_08": "meta__base_link_fillable_0_0_link"
+          },
+          "component_allocation": {
+            "item_06": "meta__base_link_fillable_0_0_link#component:1",
+            "item_07": "meta__base_link_fillable_0_0_link#component:1",
+            "item_08": "meta__base_link_fillable_0_0_link#component:1"
+          }
+        }
+      ],
+      "prefer_alternative_layout": false,
+      "assignments": {
+        "item_00": "meta__base_link_fillable_0_0_link",
+        "item_01": "meta__base_link_fillable_0_0_link",
+        "item_02": "meta__base_link_fillable_0_0_link",
+        "item_03": "meta__base_link_fillable_0_0_link",
+        "item_04": "meta__base_link_fillable_0_0_link",
+        "item_05": "meta__base_link_fillable_0_0_link",
+        "item_06": "meta__base_link_fillable_0_0_link",
+        "item_07": "meta__base_link_fillable_0_0_link",
+        "item_08": "meta__base_link_fillable_0_0_link"
+      },
+      "physical_validation_required": true
+    }
+  },
+  "reused_immutable_candidate": true
+}

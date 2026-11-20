@@ -1,0 +1,27 @@
+Traceback (most recent call last):
+  File "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scripts/v2/expert_storage_repair.py", line 1944, in handle
+    return request(payload)
+           ^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scripts/v2/expert_storage_repair.py", line 1899, in request
+    result,info=expert_proposal(row,case['evidence'],out,policy=case['expert_policy'],variant=payload.get('variant',10))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scripts/v2/expert_storage_repair.py", line 1797, in expert_proposal
+    result,info=curate(row,evidence,out,variant=variant,allow_patch_support=True,prefer_constructed=True)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scripts/v2/expert_storage_repair.py", line 778, in curate
+    packed=compartment_assignment(entity,items,kind,native_size=True,allow_patch_support=allow_patch_support,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scripts/v2/expert_storage_repair.py", line 581, in compartment_assignment
+    solved=solve_layout(items,allowed,fixed,margin_m=.015,time_limit_s=1.)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/src/rummagebench/sim/omnigibson/inside_volume.py", line 1356, in solve_layout
+    return copy.deepcopy(_solve_layout_gpu_cached(tuple((n,tuple(v)) for n,v in sorted(items.items())),
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/src/rummagebench/sim/omnigibson/inside_volume.py", line 1077, in _solve_layout_gpu_cached
+    sizes=th.ceil(dimensions[:,:2]/grid_m-1e-9).to(th.int64)
+                  ~~~~~~~~~~~~~~~~^~~~~~~
+RuntimeError: CUDA error: out of memory
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+

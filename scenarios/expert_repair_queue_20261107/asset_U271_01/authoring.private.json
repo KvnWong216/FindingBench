@@ -1,0 +1,195 @@
+{
+  "id": "asset_U271_01",
+  "family": "semantic_U271",
+  "scene": "house_double_floor_lower",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_U271_01/scenario.yaml",
+  "scenario_sha256": "445bb16ab522c1a3fd74baa3dda5cb664d4964715319b96953b5ac118375b6a7",
+  "instruction": "I'm gathering separate products for weeds and plant pests. Find the herbicide and the plant pesticide among the garden supply storage and put both on the table in front of you in the garden in the garden.",
+  "target_key": "herbicide_bottle/aeslmf",
+  "target_entities": [
+    "item_00",
+    "item_01"
+  ],
+  "target_count": 2,
+  "source_room": "garden_0",
+  "destination_room": "garden_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 12,
+  "distractor_count": 8,
+  "source_survey_sha256": "0a3f401e7605a056f40f88d913d8c052476ef760acf457ac11cb1f76abbe581f",
+  "route": {
+    "start": [
+      16.45,
+      3.5500000000000003,
+      3.141592653589793
+    ],
+    "path_xy": [
+      [
+        16.45,
+        3.5500000000000003
+      ],
+      [
+        16.55,
+        3.5500000000000003
+      ],
+      [
+        16.650000000000002,
+        3.5500000000000003
+      ],
+      [
+        16.75,
+        3.5500000000000003
+      ],
+      [
+        16.85,
+        3.5500000000000003
+      ],
+      [
+        16.95,
+        3.5500000000000003
+      ],
+      [
+        17.05,
+        3.5500000000000003
+      ],
+      [
+        17.150000000000002,
+        3.5500000000000003
+      ],
+      [
+        17.25,
+        3.5500000000000003
+      ],
+      [
+        17.35,
+        3.5500000000000003
+      ],
+      [
+        17.45,
+        3.5500000000000003
+      ],
+      [
+        17.55,
+        3.5500000000000003
+      ],
+      [
+        17.650000000000002,
+        3.5500000000000003
+      ],
+      [
+        17.75,
+        3.5500000000000003
+      ],
+      [
+        17.85,
+        3.5500000000000003
+      ],
+      [
+        17.95,
+        3.5500000000000003
+      ]
+    ],
+    "length_m": 1.5,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "shelf",
+      "model": "vanltx",
+      "floor": "floors_ghetev_0",
+      "position_xy": [
+        18.75,
+        3.6500000000000004
+      ],
+      "aabb": [
+        [
+          18.576926239013673,
+          3.0574854125976567,
+          0.014
+        ],
+        [
+          18.923073760986327,
+          4.242514587402344,
+          0.44211041259765627
+        ]
+      ],
+      "room": "garden_0"
+    },
+    {
+      "name": "delivery_surface",
+      "category": "breakfast_table",
+      "model": "iaritq",
+      "floor": "floors_ghetev_0",
+      "position_xy": [
+        15.55,
+        3.95
+      ],
+      "aabb": [
+        [
+          15.198999710083008,
+          3.599453765869141,
+          0.014
+        ],
+        [
+          15.901000289916993,
+          4.300546234130859,
+          0.7630009155273437
+        ]
+      ],
+      "room": "garden_0"
+    }
+  ],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [],
+    "prefer_alternative_layout": false,
+    "assignments": {},
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "U271",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_U271_01",
+    "parent_task_id": "U271",
+    "before_instruction": "I'm gathering separate supplies for weeds and plant pests. Find the herbicide and the plant pesticide among the storage room's garden products and put both on the garden table beside the door.",
+    "after_instruction": "I'm gathering separate products for weeds and plant pests. Find the herbicide and the plant pesticide among the garden supply storage and put both on the table in front of you in the garden in the garden.",
+    "reason": "Preserves requested target identities, multiplicity and source/destination rooms; replaces only the uninstantiated delivery landmark with the uniquely initial-facing native surface. Source stock relocated to the garage because native house layouts provide garage-garden pairs, not storage-room-garden pairs; purpose and native objects retained. Layout revision uses a surveyed feasible geometry pair: garage/shelf -> garden/table becomes garden/shelf -> garden/table. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+    "target_asset": "herbicide_bottle/aeslmf",
+    "target_assets": [
+      "herbicide_bottle/aeslmf",
+      "pesticide_atomizer/eisckl"
+    ]
+  },
+  "binding_sha256": "f0820ff59a16538554bddf293636ddebfc555c67925a2c2c981aa9d4feb0e56e"
+}

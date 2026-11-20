@@ -1,0 +1,96 @@
+{
+  "id": "dense_search_019",
+  "family": "living_cabinet",
+  "scene": "Rs_int",
+  "scenario": "scenarios/dense_search_pilot/dense_search_019/scenario.yaml",
+  "scenario_sha256": "ca8155645de547011ce7ec70f6c48fce7799c845dd91c848296f549cabaee7aa",
+  "instruction": "Find the flashlight in the drawers in this living room and put it on the table in front of you.",
+  "target_key": "flashlight",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "bottom_cabinet_bamfsz_1",
+  "destination_receptacle": "coffee_table_fqluyq_0",
+  "object_count": 5,
+  "distractor_count": 4,
+  "source_survey_sha256": "24bd47925e994c3defe707f3d8a919b355cd46a7128d2b59d373bc2697d8185e",
+  "route": {
+    "start": [
+      0.2,
+      0.1,
+      -2.0448555106804887
+    ],
+    "path_xy": [
+      [
+        0.2,
+        0.1
+      ],
+      [
+        0.2,
+        0.2
+      ],
+      [
+        0.1,
+        0.2
+      ],
+      [
+        0.0,
+        0.2
+      ],
+      [
+        -0.1,
+        0.2
+      ],
+      [
+        -0.2,
+        0.2
+      ],
+      [
+        -0.30000000000000004,
+        0.2
+      ],
+      [
+        -0.4,
+        0.2
+      ],
+      [
+        -0.5,
+        0.2
+      ],
+      [
+        -0.6000000000000001,
+        0.2
+      ]
+    ],
+    "length_m": 0.9,
+    "grid_m": 0.1,
+    "base_radius_m": 0.5956854249492382,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 17,
+    "destination_approach_count": 42,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "bottom_cabinet_bamfsz_1"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "robot_model": "g1_bench"
+}

@@ -1,0 +1,128 @@
+{
+  "status": "static_partial_not_native_ready",
+  "old_storage": "search_storage",
+  "new_storage": {
+    "name": "expert_storage_93",
+    "category": "bottom_cabinet_no_top",
+    "model": "ncgmqr",
+    "floor": "floors_khjmrr_0",
+    "position_xy": [
+      8.0,
+      1.8
+    ],
+    "aabb": [
+      [
+        7.688130294799805,
+        1.591652801513672,
+        -0.0
+      ],
+      [
+        8.311869705200195,
+        2.0083471984863284,
+        0.6957286682128906
+      ]
+    ],
+    "room": "kitchen_0"
+  },
+  "released_compiler_links": [
+    {
+      "entity": "item_00",
+      "previous_link": "meta__drawer1_fillable_0_0_link"
+    },
+    {
+      "entity": "item_02",
+      "previous_link": "meta__drawer0_fillable_0_0_link"
+    },
+    {
+      "entity": "comparison_negative_0",
+      "previous_link": "meta__drawer2_fillable_0_0_link"
+    }
+  ],
+  "replaced_failed_auxiliary_fixture": false,
+  "previous_auxiliary_asset": null,
+  "conservative_opening_clearance_m": 0.0,
+  "opening_sweep_requires_native_measurement": true,
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_196_F311_expert_190d1412c40c/_working/step_0/asset_F311_01/scenario.yaml",
+  "original_sha256": "3973d2dd918b4c3e71e651faa3de43dbcec0ed81518e88e681c1d7f8145f03c5",
+  "diagnosis_directory": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/stability_repairs_20261108/asset_F311_01",
+  "solver": {
+    "status": "feasible_model",
+    "device": "cuda",
+    "backend": "torch_cuda_finite_csp",
+    "solve_seconds": 0.021609234157949686,
+    "nodes": 3,
+    "candidate_tests": 9,
+    "search_orders_tried": 1,
+    "grid_m": 0.001,
+    "margin_m": 0.015,
+    "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+    "physical_validation_required": true,
+    "assignment": {
+      "item_00": "meta__drawer1_fillable_0_0_link",
+      "comparison_negative_0": "meta__drawer2_fillable_0_0_link",
+      "item_02": "meta__drawer0_fillable_0_0_link"
+    },
+    "poses": {
+      "item_00": {
+        "bin": "meta__drawer1_fillable_0_0_link",
+        "yaw_degrees": 90,
+        "lower_xy_m": [
+          0.015,
+          0.015
+        ],
+        "footprint_m": [
+          0.462,
+          0.311
+        ],
+        "center_xy_m": [
+          0.246,
+          0.1705
+        ]
+      },
+      "comparison_negative_0": {
+        "bin": "meta__drawer2_fillable_0_0_link",
+        "yaw_degrees": 90,
+        "lower_xy_m": [
+          0.015,
+          0.015
+        ],
+        "footprint_m": [
+          0.437,
+          0.273
+        ],
+        "center_xy_m": [
+          0.2335,
+          0.1515
+        ]
+      },
+      "item_02": {
+        "bin": "meta__drawer0_fillable_0_0_link",
+        "yaw_degrees": 90,
+        "lower_xy_m": [
+          0.015,
+          0.015
+        ],
+        "footprint_m": [
+          0.417,
+          0.25
+        ],
+        "center_xy_m": [
+          0.2235,
+          0.14
+        ]
+      }
+    }
+  },
+  "variant": 93,
+  "task_local_model_experience": [],
+  "removed_uninstantiated_open_state": null,
+  "preserved": [
+    "instruction",
+    "goal",
+    "target",
+    "robot",
+    "spawn",
+    "all task items and counts",
+    "relation types"
+  ]
+}

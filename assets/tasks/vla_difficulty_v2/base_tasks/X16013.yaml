@@ -1,0 +1,70 @@
+task_id: X16013
+family: fetch
+scene: hotel_suite_small
+source:
+  official_activity: laying_out_a_feast#0
+  official_activities_with_same_subgoal:
+  - laying_out_a_feast#0
+  official_subgoal: (ontop lamb.n.05 platter.n.01)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K hotel_suite_small
+  object: BEHAVIOR-1K lamb/zzwdks
+start:
+  name: start_bedroom_0_0
+  room: bedroom_0
+  x: -3.5
+  y: -0.05
+  yaw: 0.0
+target:
+  entity: target_obj
+  category: lamb
+  model: zzwdks
+  noun: lamb
+  colour_estimate: red
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S1
+missing_spatial_levels:
+- S2
+- S3
+initial_states: {}
+spatial:
+  S1:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: desk_sjugsf_0
+    room: bedroom_0
+    location_phrase: the desk in the bedroom
+    grasp_hints:
+    - - -3.703
+      - 0.512
+      - 2.296
+    - - -3.553
+      - 0.462
+      - 2.35
+    - - -3.753
+      - 0.462
+      - 2.244
+    - - -3.603
+      - 0.412
+      - 2.302
+    extra_ops_vs_S1: []
+    probe_visibility_from_start:
+      px: 166
+      delta_e: 7.3
+    task_scope: single_room
+language:
+  L1:
+    S1: Go to the desk in the bedroom, pick up the lamb on it and hold it.
+  L2: Pick up the lamb and keep holding it.
+  L3: I'm laying out a feast and I need the lamb. Could you get it for me?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

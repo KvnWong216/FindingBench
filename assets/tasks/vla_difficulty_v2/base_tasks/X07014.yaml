@@ -1,0 +1,72 @@
+task_id: X07014
+family: fetch
+scene: Ihlen_0_int
+source:
+  official_activity: packing_bags_or_suitcase#0
+  official_activities_with_same_subgoal:
+  - packing_bags_or_suitcase#0
+  official_subgoal: (inside bottle__of__shampoo.n.01 backpack.n.01)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K Ihlen_0_int (+ clearance manifest)
+  object: BEHAVIOR-1K bottle_of_shampoo/dvrzmy
+start:
+  name: start_garage_0_0
+  room: garage_0
+  x: 3.07
+  y: 3.09
+  yaw: -1.559
+target:
+  entity: target_obj
+  category: bottle_of_shampoo
+  model: dvrzmy
+  noun: bottle of shampoo
+  colour_estimate: teal
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S1
+missing_spatial_levels:
+- S2
+- S3
+initial_states: {}
+spatial:
+  S1:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bottom_cabinet_jrhgeu_0
+    room: garage_0
+    location_phrase: the cabinet in the garage
+    grasp_hints:
+    - - 3.812
+      - 4.311
+      - 1.623
+    - - 3.561
+      - 4.261
+      - 1.433
+    - - 3.963
+      - 4.261
+      - 1.829
+    - - 3.109
+      - 4.211
+      - 0.939
+    extra_ops_vs_S1: []
+    probe_visibility_from_start:
+      px: 150
+      delta_e: 29.4
+    task_scope: single_room
+language:
+  L1:
+    S1: Go to the cabinet in the garage, pick up the bottle of shampoo on it and hold
+      it.
+  L2: Pick up the bottle of shampoo and keep holding it.
+  L3: I'm packing bags or suitcase and I need the bottle of shampoo. Could you get
+    it for me?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

@@ -1,0 +1,152 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F287_01",
+      "family": "semantic_F287",
+      "scene": "Pomaria_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/surface_body_v52_F287/asset_F287_01/scenario.yaml",
+      "scenario_sha256": "452cb20f05373c4e3c1f77a41c01dffa5de257d73c6922f8765b9bfaf4dda6f6",
+      "instruction": "Find all the cans of tomatoes among the groceries on the table in the kitchen in the kitchen and put them on the cabinet top in front of you in the kitchen in the kitchen food-storage area.",
+      "target_key": "can_of_tomatoes/ckdouu",
+      "target_entities": [
+        "item_00",
+        "item_01",
+        "item_02"
+      ],
+      "target_count": 3,
+      "source_room": "kitchen_0",
+      "destination_room": "kitchen_0",
+      "source_receptacle": "breakfast_table_uhrsex_0",
+      "destination_receptacle": "countertop_tpuwys_1",
+      "object_count": 11,
+      "distractor_count": 8,
+      "source_survey_sha256": "05d404c89ade70d34c89459d2b340c53ef49d49041a6624fcc9a997b8b7322b3",
+      "route": {
+        "start": [
+          -0.05,
+          -0.55,
+          0.0
+        ],
+        "path_xy": [
+          [
+            -0.05,
+            -0.55
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 51,
+        "destination_approach_count": 38,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "item_09",
+        "item_10"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [],
+      "parent_task_id": "F287",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F287_01",
+        "parent_task_id": "F287",
+        "before_instruction": "Find all cans of tomatoes among the groceries on the kitchen table and put them on the pantry shelf beside the other canned food.",
+        "after_instruction": "Find all the cans of tomatoes among the groceries on the table in the kitchen in the kitchen and put them on the cabinet top in front of you in the kitchen in the kitchen food-storage area.",
+        "reason": "Constructs three eligible cans and a grounded pantry storage surface; preserves exhaustive food put-away. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Layout revision: the unbuilt pantry-room task is explicitly relocated to the kitchen food-storage area because surveyed pantry rooms lack two robot-accessible storage/delivery positions. Target models, counts, reference matching, destination inventory and goals are unchanged; this changes room scope and may shorten transport.",
+        "target_asset": "can_of_tomatoes/ckdouu",
+        "target_assets": [
+          "can_of_tomatoes/ckdouu",
+          "can_of_tomatoes/ckdouu",
+          "can_of_tomatoes/ckdouu"
+        ]
+      },
+      "binding_sha256": "de0dfab401342f44ec2d0ec1946231c91ebd01654466b37f34268d9352c73626",
+      "surface_binding_revision": {
+        "status": "surface_body_binding_corrected_physics_pending",
+        "changes": [
+          {
+            "field": "goal",
+            "entity": "item_00",
+            "before": "bottom_cabinet_no_top_pluwfl_0",
+            "after": "countertop_tpuwys_1"
+          },
+          {
+            "field": "goal",
+            "entity": "item_01",
+            "before": "bottom_cabinet_no_top_pluwfl_0",
+            "after": "countertop_tpuwys_1"
+          },
+          {
+            "field": "goal",
+            "entity": "item_02",
+            "before": "bottom_cabinet_no_top_pluwfl_0",
+            "after": "countertop_tpuwys_1"
+          }
+        ],
+        "geometry": {
+          "bottom_cabinet_no_top_pluwfl_0": {
+            "before": [
+              [
+                0.505,
+                -0.653,
+                0.005
+              ],
+              [
+                1.0,
+                0.399,
+                0.894
+              ]
+            ],
+            "after": [
+              [
+                0.501,
+                -0.648,
+                0.902
+              ],
+              [
+                1.06,
+                0.446,
+                0.92
+              ]
+            ]
+          }
+        },
+        "source_survey": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/vla_difficulty_v2/_survey/Pomaria_1_int.json",
+        "source_survey_sha256": "05d404c89ade70d34c89459d2b340c53ef49d49041a6624fcc9a997b8b7322b3",
+        "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_F287_01/scenario.yaml",
+        "original_scenario_sha256": "043479ad602a2fe12f662ce2036f7c3c5c35568bd52e9d4168ace729ef3b8cb6",
+        "reason": "Native OnTop requires touching the named body; a separate measured slab covers the named cabinet.",
+        "preserved": [
+          "instruction",
+          "all object models and counts",
+          "target identities",
+          "relation kinds",
+          "spawn",
+          "robot and skills",
+          "physical delivery location"
+        ],
+        "physical_validation_required": true
+      }
+    }
+  ]
+}

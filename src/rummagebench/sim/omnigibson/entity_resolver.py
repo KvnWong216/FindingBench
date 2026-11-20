@@ -1,0 +1,56 @@
+"""Entity resolution and privileged EntityInfo construction.
+
+EntityInfo is evaluator-side metadata (category, openability, fixed base,
+rooms). It feeds validators; it is never placed into an Observation.
+"""
+
+from __future__ import annotations
+
+from rummagebench.core.errors import UnresolvableTargetError
+from rummagebench.sim.base import EntityInfo
+
+
+def resolve_object(scene, name: str):
+    """Look up a scene object by its unique name (Registry unique key 'name')."""
+    obj = scene.object_registry("name", name)
+    if obj is None:
+        raise UnresolvableTargetError(f"no entity named {name!r} in the scene")
+    return obj
+
+
+# Furniture whose top is a support surface (PLACE onto it). BEHAVIOR
+# abilities only mark fillable / `inside` containers as receptacles, which
+# leaves countertops, tables, desks and base cabinets without any PLACE
+# interface; they are support surfaces by category.
+#
+# Round-5 (GPU smoke finding): room furniture such as console_table is NOT
+# fixed_base in the BEHAVIOR metadata — gating the support-surface rule on
+# fixed_base classified it as a graspable rigid body with no PLACE
+# interface. Support-surface categories are support surfaces regardless of
+# the fixed_base flag, and are never graspable objects.
+SUPPORT_SURFACE_CATEGORIES = frozenset({
+    "countertop", "bottom_cabinet", "breakfast_table", "coffee_table",
+    "console_table", "pedestal_table", "desk", "shelf",
+})
+
+
+def build_entity_info(obj) -> EntityInfo:
+    abilities = obj.abilities or {}
+    openable = "openable" in abilities
+    fixed_base = bool(getattr(obj, "fixed_base", False))
+    support_surface = obj.category in SUPPORT_SURFACE_CATEGORIES
+    is_receptacle = ("fillable" in abilities or "inside" in abilities
+                     or support_surface)
+    # support-surface furniture is a PLACE target, never a grasp object —
+    # even when the BEHAVIOR metadata marks it fixed_base=False
+    graspable = not fixed_base and not support_surface
+    return EntityInfo(
+        name=obj.name,
+        category=obj.category,
+        model=getattr(obj, "model", None),
+        fixed_base=fixed_base,
+        openable=openable,
+        graspable=graspable,
+        is_receptacle=is_receptacle,
+        in_rooms=list(getattr(obj, "in_rooms", None) or []),
+    )

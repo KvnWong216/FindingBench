@@ -1,0 +1,569 @@
+{
+  "tasks": [
+    {
+      "id": "asset_U244_01",
+      "family": "semantic_U244",
+      "scene": "house_double_floor_lower",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/full_queue_f387d0204d0d_U244/asset_U244_01/scenario.yaml",
+      "scenario_sha256": "77198bca73b1a676aacb9079f4581f8f5beba7812fcff51bc8c342254c23c38e",
+      "instruction": "Bring a bucket from the garage containers to the table in front of you in the garage in the garage for the maintenance supplies.",
+      "target_key": "bucket/lsmlzi",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "garage_0",
+      "destination_room": "garage_0",
+      "source_receptacle": "search_storage",
+      "destination_receptacle": "delivery_surface",
+      "object_count": 11,
+      "distractor_count": 8,
+      "source_survey_sha256": "0a3f401e7605a056f40f88d913d8c052476ef760acf457ac11cb1f76abbe581f",
+      "route": {
+        "start": [
+          -8.05,
+          3.75,
+          0.0
+        ],
+        "path_xy": [
+          [
+            -8.05,
+            3.75
+          ],
+          [
+            -7.95,
+            3.75
+          ],
+          [
+            -7.95,
+            3.6500000000000004
+          ],
+          [
+            -7.95,
+            3.5500000000000003
+          ],
+          [
+            -7.8500000000000005,
+            3.5500000000000003
+          ],
+          [
+            -7.8500000000000005,
+            3.45
+          ],
+          [
+            -7.75,
+            3.45
+          ],
+          [
+            -7.75,
+            3.35
+          ],
+          [
+            -7.65,
+            3.35
+          ],
+          [
+            -7.550000000000001,
+            3.35
+          ],
+          [
+            -7.45,
+            3.35
+          ],
+          [
+            -7.3500000000000005,
+            3.35
+          ],
+          [
+            -7.25,
+            3.35
+          ],
+          [
+            -7.15,
+            3.35
+          ],
+          [
+            -7.050000000000001,
+            3.35
+          ],
+          [
+            -6.95,
+            3.35
+          ],
+          [
+            -6.8500000000000005,
+            3.35
+          ],
+          [
+            -6.75,
+            3.35
+          ],
+          [
+            -6.65,
+            3.35
+          ],
+          [
+            -6.550000000000001,
+            3.35
+          ],
+          [
+            -6.45,
+            3.35
+          ],
+          [
+            -6.3500000000000005,
+            3.35
+          ],
+          [
+            -6.25,
+            3.35
+          ],
+          [
+            -6.15,
+            3.35
+          ],
+          [
+            -6.050000000000001,
+            3.35
+          ],
+          [
+            -5.95,
+            3.35
+          ],
+          [
+            -5.8500000000000005,
+            3.35
+          ],
+          [
+            -5.75,
+            3.35
+          ],
+          [
+            -5.65,
+            3.35
+          ],
+          [
+            -5.550000000000001,
+            3.35
+          ],
+          [
+            -5.45,
+            3.35
+          ],
+          [
+            -5.3500000000000005,
+            3.35
+          ],
+          [
+            -5.25,
+            3.35
+          ],
+          [
+            -5.15,
+            3.35
+          ],
+          [
+            -5.050000000000001,
+            3.35
+          ],
+          [
+            -4.95,
+            3.35
+          ],
+          [
+            -4.8500000000000005,
+            3.35
+          ],
+          [
+            -4.75,
+            3.35
+          ],
+          [
+            -4.75,
+            3.45
+          ],
+          [
+            -4.75,
+            3.5500000000000003
+          ],
+          [
+            -4.75,
+            3.6500000000000004
+          ],
+          [
+            -4.75,
+            3.75
+          ]
+        ],
+        "length_m": 4.1,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "search_storage"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "delivery_surface",
+          "category": "breakfast_table",
+          "model": "iaritq",
+          "floor": "floors_nbxnpk_0",
+          "position_xy": [
+            -7.15,
+            4.15
+          ],
+          "aabb": [
+            [
+              -7.501000289916993,
+              3.799453765869141,
+              -0.0
+            ],
+            [
+              -6.798999710083008,
+              4.5005462341308595,
+              0.7490009155273437
+            ]
+          ],
+          "room": "garage_0"
+        },
+        {
+          "name": "search_storage",
+          "category": "bottom_cabinet",
+          "model": "qbdweu",
+          "floor": "floors_nbxnpk_0",
+          "position_xy": [
+            -3.6500000000000004,
+            4.05
+          ],
+          "aabb": [
+            [
+              -4.062074142456055,
+              3.3629346923828125,
+              -0.0
+            ],
+            [
+              -3.237925857543946,
+              4.737065307617187,
+              0.8999951782226563
+            ]
+          ],
+          "room": "garage_0"
+        }
+      ],
+      "parent_task_id": "U244",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_U244_01",
+        "parent_task_id": "U244",
+        "before_instruction": "I need the bucket that belongs with the garage maintenance supplies. Find it among the utility room containers and bring it to the floor beside the garage worktable.",
+        "after_instruction": "Bring a bucket from the garage containers to the table in front of you in the garage in the garage for the maintenance supplies.",
+        "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Native category metadata does not certify the stated target predicate: bucket matching garage maintenance supplies. Distinctive maintenance set relationship required Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: utility_room/cabinet -> garage/table becomes garage/cabinet -> garage/table. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+        "target_asset": "bucket/lsmlzi",
+        "target_assets": [
+          "bucket/lsmlzi"
+        ]
+      },
+      "binding_sha256": "48a9194a1b99c3eee1abf8c22626bc2a8c155b390a720c712d196f495ba2619a",
+      "proposal_native_policy_signature": "638901e57b44747045bd55ed10084fe82451f1075c4c28aa6f0af555449b389c",
+      "storage_model_experience": [],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "search_storage",
+            "volume_extents_m": {
+              "meta__base_link_fillable_0_0_link#component:0": [
+                0.6943576593399048,
+                0.40972851086471906,
+                0.4625519908831113
+              ],
+              "meta__base_link_fillable_0_0_link#component:1": [
+                0.686539100066992,
+                0.3981894630250171,
+                0.15136254918575287
+              ],
+              "meta__base_link_fillable_0_0_link#component:2": [
+                0.687064435005188,
+                0.40826468695787566,
+                0.1570117319836275
+              ],
+              "meta__base_link_fillable_0_0_link#component:3": [
+                0.6881176490783691,
+                0.39481347393989563,
+                0.1512648869752884
+              ],
+              "meta__base_link_fillable_0_0_link#component:4": [
+                0.6939692158699036,
+                0.3898749675825244,
+                0.46566430019832095
+              ],
+              "meta__base_link_fillable_0_0_link#component:5": [
+                0.6943613548278809,
+                0.4192168324718957,
+                0.46255527835256927
+              ]
+            },
+            "native_links": {
+              "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:3": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:4": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:5": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet/qbdweu",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "5854748fc89c4c402086bc4674a002702bb6576a99e89bded7111152262e5edb",
+              "metadata_sha256": "9fb62a3cf2ebe63c2511bfe2c4104815fc31d2de67620664e4e0807eafac6511",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.12708743289113045,
+              "nodes": 9,
+              "candidate_tests": 8301,
+              "search_orders_tried": 1,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_00": "meta__base_link_fillable_0_0_link#component:5",
+                "item_02": "meta__base_link_fillable_0_0_link#component:0",
+                "item_04": "meta__base_link_fillable_0_0_link#component:4",
+                "item_06": "meta__base_link_fillable_0_0_link#component:0",
+                "item_08": "meta__base_link_fillable_0_0_link#component:4",
+                "item_01": "meta__base_link_fillable_0_0_link#component:0",
+                "item_03": "meta__base_link_fillable_0_0_link#component:4",
+                "item_05": "meta__base_link_fillable_0_0_link#component:5",
+                "item_07": "meta__base_link_fillable_0_0_link#component:0"
+              },
+              "poses": {
+                "item_00": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:5",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.247,
+                    0.3
+                  ],
+                  "center_xy_m": [
+                    0.1285,
+                    0.155
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.166,
+                    0.17300000000000001
+                  ],
+                  "center_xy_m": [
+                    0.088,
+                    0.0915
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:4",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.166,
+                    0.17300000000000001
+                  ],
+                  "center_xy_m": [
+                    0.088,
+                    0.0915
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.176,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.166,
+                    0.17300000000000001
+                  ],
+                  "center_xy_m": [
+                    0.259,
+                    0.0915
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:4",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.176,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.166,
+                    0.17300000000000001
+                  ],
+                  "center_xy_m": [
+                    0.259,
+                    0.0915
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.34700000000000003,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.23,
+                    0.108
+                  ],
+                  "center_xy_m": [
+                    0.462,
+                    0.059000000000000004
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:4",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.34700000000000003,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.23,
+                    0.108
+                  ],
+                  "center_xy_m": [
+                    0.462,
+                    0.059000000000000004
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:5",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.257,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.23,
+                    0.108
+                  ],
+                  "center_xy_m": [
+                    0.372,
+                    0.059000000000000004
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.34700000000000003,
+                    0.11800000000000001
+                  ],
+                  "footprint_m": [
+                    0.23,
+                    0.108
+                  ],
+                  "center_xy_m": [
+                    0.462,
+                    0.17200000000000001
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_00": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link",
+              "item_01": "meta__base_link_fillable_0_0_link",
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_00": "meta__base_link_fillable_0_0_link#component:5",
+              "item_02": "meta__base_link_fillable_0_0_link#component:0",
+              "item_04": "meta__base_link_fillable_0_0_link#component:4",
+              "item_06": "meta__base_link_fillable_0_0_link#component:0",
+              "item_08": "meta__base_link_fillable_0_0_link#component:4",
+              "item_01": "meta__base_link_fillable_0_0_link#component:0",
+              "item_03": "meta__base_link_fillable_0_0_link#component:4",
+              "item_05": "meta__base_link_fillable_0_0_link#component:5",
+              "item_07": "meta__base_link_fillable_0_0_link#component:0"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_07": "meta__base_link_fillable_0_0_link"
+        },
+        "physical_validation_required": true
+      }
+    }
+  ]
+}

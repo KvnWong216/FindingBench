@@ -1,0 +1,143 @@
+{
+  "id": "asset_P206_01",
+  "family": "semantic_P206",
+  "scene": "Pomaria_2_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_P206_01/scenario.yaml",
+  "scenario_sha256": "c47db090e7fc6610f91ce3d513c607ecaef1647f2784973e1ae6275ad453c2f5",
+  "instruction": "Find the cell phone matching the sample on the cabinet top in front of you in the bedroom among the bedroom belongings and put it beside that sample.",
+  "target_key": "cell_phone/dbhfuh",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bedroom_0",
+  "destination_room": "bedroom_0",
+  "source_receptacle": "bottom_cabinet_rntwkg_0",
+  "destination_receptacle": "bottom_cabinet_rntwkg_0",
+  "object_count": 7,
+  "distractor_count": 5,
+  "source_survey_sha256": "62e51428546de3c0a833496f29b3c3303a5b7156fd7ac39a8975412318ea7e2d",
+  "route": {
+    "start": [
+      -2.3000000000000003,
+      -2.5,
+      0.0
+    ],
+    "path_xy": [
+      [
+        -2.3000000000000003,
+        -2.5
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 2,
+    "destination_approach_count": 2,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "comparison_sample",
+    "required_negative_0",
+    "bottom_cabinet_rntwkg_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_rntwkg_0",
+        "volume_extents_m": {
+          "link_1": [
+            0.3656003475189209,
+            0.36377906799316406,
+            0.1531817615032196
+          ],
+          "link_2": [
+            0.3656003475189209,
+            0.36377930641174316,
+            0.025944530963897705
+          ],
+          "link_3": [
+            0.3656003475189209,
+            0.36377930641174316,
+            0.025944530963897705
+          ],
+          "link_4": [
+            0.3656003475189209,
+            0.36377930641174316,
+            0.025944560766220093
+          ],
+          "link_5": [
+            0.3656003475189209,
+            0.36377930641174316,
+            0.025944560766220093
+          ]
+        },
+        "native_links": {
+          "link_1": "link_1",
+          "link_2": "link_2",
+          "link_3": "link_3",
+          "link_4": "link_4",
+          "link_5": "link_5"
+        },
+        "geometry_source": "survey",
+        "geometry_provenance": {},
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_02": "link_1",
+          "item_04": "link_1",
+          "item_03": "link_1",
+          "item_01": "link_1",
+          "required_negative_0": "link_1",
+          "item_00": "link_1"
+        },
+        "component_allocation": {
+          "item_02": "link_1",
+          "item_04": "link_1",
+          "item_03": "link_1",
+          "item_01": "link_1",
+          "required_negative_0": "link_1",
+          "item_00": "link_1"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {},
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "P206",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P206_01",
+    "parent_task_id": "P206",
+    "before_instruction": "Find the phone in the green rigid case among the bedroom vanity drawers, nightstand drawers, or bed-foot chest; put it beside the alarm clock.",
+    "after_instruction": "Find the cell phone matching the sample on the cabinet top in front of you in the bedroom among the bedroom belongings and put it beside that sample.",
+    "reason": "Retains matching-based retrieval through a physical same-native-model sample on the delivery surface. Any original cross-object compatibility, photo or consumable-state requirement is explicitly replaced with visible product/shape matching. Original source and destination rooms preserved; forced native distractor creates a real competing selection.",
+    "target_asset": "cell_phone/dbhfuh",
+    "target_assets": [
+      "cell_phone/dbhfuh"
+    ]
+  },
+  "binding_sha256": "445cc3a5ba7393d910ea4b40484674be650df1bccd31f06837062e8a9e81b3f3"
+}

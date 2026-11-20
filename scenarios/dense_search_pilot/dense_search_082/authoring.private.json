@@ -1,0 +1,112 @@
+{
+  "id": "dense_search_082",
+  "family": "fridge_food",
+  "scene": "Ihlen_1_int",
+  "scenario": "scenarios/dense_search_pilot/dense_search_082/scenario.yaml",
+  "scenario_sha256": "b9c218b20b41d6a6fa7de3d72ec69a5cb42d29f16f1d30b6066765d5613a6cf7",
+  "instruction": "Find the cup of yogurt in the kitchen fridge and put it in the kitchen sink in front of you.",
+  "target_key": "yogurt",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "fridge_xyejdx_0",
+  "destination_receptacle": "furniture_sink_czyfhq_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+  "route": {
+    "start": [
+      -3.7,
+      4.9,
+      -3.0479395315072417
+    ],
+    "path_xy": [
+      [
+        -3.7,
+        4.9
+      ],
+      [
+        -3.7,
+        4.800000000000001
+      ],
+      [
+        -3.6,
+        4.800000000000001
+      ],
+      [
+        -3.5,
+        4.800000000000001
+      ],
+      [
+        -3.4000000000000004,
+        4.800000000000001
+      ],
+      [
+        -3.3000000000000003,
+        4.800000000000001
+      ],
+      [
+        -3.2,
+        4.800000000000001
+      ],
+      [
+        -3.1,
+        4.800000000000001
+      ],
+      [
+        -3.0,
+        4.800000000000001
+      ],
+      [
+        -2.9000000000000004,
+        4.800000000000001
+      ],
+      [
+        -2.8000000000000003,
+        4.800000000000001
+      ],
+      [
+        -2.7,
+        4.800000000000001
+      ],
+      [
+        -2.6,
+        4.800000000000001
+      ]
+    ],
+    "length_m": 1.2,
+    "grid_m": 0.1,
+    "base_radius_m": 0.5956854249492382,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 21,
+    "destination_approach_count": 3,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "fridge_xyejdx_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "robot_model": "g1_bench"
+}

@@ -1,0 +1,207 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F081_01",
+      "family": "semantic_F081",
+      "scene": "Pomaria_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/pinpoint_repair_20261109/asset_F081_01/scenario.yaml",
+      "scenario_sha256": "dedde4bcfc62e1d026fe0c4211996f3cdc3c9d4355241e073f253c189c4f229d",
+      "instruction": "There is a sample on the table in front of you in the kitchen. Find the peanut-butter jar matching that sample among the kitchen spreads and put it on the table in front of you in the kitchen.",
+      "target_key": "peanut_butter_jar/xdxqxj",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "kitchen_0",
+      "destination_room": "kitchen_0",
+      "source_receptacle": "bottom_cabinet_no_top_vzzafs_0",
+      "destination_receptacle": "breakfast_table_uhrsex_0",
+      "object_count": 10,
+      "distractor_count": 8,
+      "source_survey_sha256": "05d404c89ade70d34c89459d2b340c53ef49d49041a6624fcc9a997b8b7322b3",
+      "route": {
+        "start": [
+          -1.05,
+          -0.8500000000000001,
+          -1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            -1.05,
+            -0.8500000000000001
+          ],
+          [
+            -1.1500000000000001,
+            -0.8500000000000001
+          ],
+          [
+            -1.1500000000000001,
+            -0.75
+          ],
+          [
+            -1.1500000000000001,
+            -0.65
+          ],
+          [
+            -1.1500000000000001,
+            -0.55
+          ],
+          [
+            -1.1500000000000001,
+            -0.45
+          ],
+          [
+            -1.25,
+            -0.45
+          ],
+          [
+            -1.25,
+            -0.35000000000000003
+          ],
+          [
+            -1.25,
+            -0.25
+          ]
+        ],
+        "length_m": 0.8,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 51,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "comparison_sample",
+        "bottom_cabinet_no_top_bmsclc_0",
+        "bottom_cabinet_no_top_vzzafs_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_no_top_vzzafs_0",
+            "volume_extents_m": {
+              "meta__base_link_fillable_0_0_link": [
+                0.4682353269382784,
+                0.35746334360017995,
+                0.6820272216287624
+              ]
+            },
+            "native_links": {
+              "meta__base_link_fillable_0_0_link": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet_no_top/vzzafs",
+              "scale": [
+                0.880458414554596,
+                0.9137324690818787,
+                1.0244098901748657
+              ],
+              "encrypted_asset_sha256": "b4daa08616feaef1a73fc5cb01bcd60c278fad77ff3d5bda42d007a631e01515",
+              "metadata_sha256": "f0ba45ae134ef2c37866c9bb0186200606042fb03eafed9783116a94253ac4bf",
+              "root_orientation": [
+                0.0,
+                0.0,
+                0.9999911785125732,
+                -0.004201833158731461
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "assignment": {
+              "item_00": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link",
+              "item_01": "meta__base_link_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_00": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link",
+              "item_01": "meta__base_link_fillable_0_0_link"
+            }
+          },
+          {
+            "receptacle": "bottom_cabinet_no_top_ufhpbn_0",
+            "volume_extents_m": {
+              "link_0": [
+                0.2084658145904541,
+                0.47002530097961426,
+                0.6547667682170868
+              ]
+            },
+            "native_links": {
+              "link_0": "link_0"
+            },
+            "geometry_source": "survey",
+            "geometry_provenance": {},
+            "status": "heuristic_fit",
+            "assignment": {
+              "item_07": "link_0",
+              "item_06": "link_0",
+              "item_08": "link_0"
+            },
+            "component_allocation": {
+              "item_07": "link_0",
+              "item_06": "link_0",
+              "item_08": "link_0"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_07": "link_0",
+          "item_06": "link_0",
+          "item_08": "link_0"
+        },
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [],
+      "parent_task_id": "F081",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F081_01",
+        "parent_task_id": "F081",
+        "before_instruction": "Of the peanut butter jars in the kitchen cupboard, find the smallest one and put it beside the lunch box on the kitchen table.",
+        "after_instruction": "There is a sample on the table in front of you in the kitchen. Find the peanut-butter jar matching that sample among the kitchen spreads and put it on the table in front of you in the kitchen.",
+        "reason": "Replaced unsupported smallest-jar ordering with observable same-model matching. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "peanut_butter_jar/xdxqxj",
+        "target_assets": [
+          "peanut_butter_jar/xdxqxj"
+        ]
+      },
+      "binding_sha256": "251b097584a09fa49e12a60641f6ff3741808e025b28c9afc9c2f5a9bd3a5383",
+      "repair_evidence": "runs/pinpoint_contact_20261109/asset_F081_01/native_validation.log"
+    }
+  ]
+}

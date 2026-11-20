@@ -1,0 +1,77 @@
+task_id: T01_knife_fetch
+task_name: 取刀 (fetch the table knife)
+family: fetch
+source:
+  findingbench: scenarios/knife_search_001/scenario.yaml   # same scene, target model, background models
+  official_behavior_analogue: null   # no official BDDL task ends in holding(knife)
+
+target: {entity: target_knife, category: table_knife, model: eebpap}
+goal:
+  - {kind: holding, entity: target_knife}
+
+# identical in every variant
+background_objects:
+  - {name: bg_bowl,      category: bowl,       model: adciys}
+  - {name: bg_teacup,    category: teacup,     model: cpozxi}
+  - {name: bg_tablespoon, category: tablespoon, model: huudhe}
+  - {name: bg_tablefork, category: tablefork,  model: flexrc}
+  - {name: bg_mug,       category: mug,        model: dhnxww}
+  - {name: bg_apple,     category: apple,      model: agveuv}
+  - {name: bg_plate,     category: plate,      model: aewthq}
+background_placements:
+  - {entity: bg_bowl,       relation: inside, receptacle: bottom_cabinet_no_top_spojpj_0}
+  - {entity: bg_teacup,     relation: inside, receptacle: bottom_cabinet_no_top_spojpj_0}
+  - {entity: bg_tablespoon, relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: bg_tablefork,  relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: bg_mug,        relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: bg_apple,      relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: bg_plate,      relation: on_top, receptacle: breakfast_table_uhrsex_0}
+initial_states:
+  bottom_cabinet_rvpunw_0: {open: false}
+  bottom_cabinet_no_top_qohxjq_0: {open: false}
+  bottom_cabinet_no_top_spojpj_0: {open: false}
+
+spatial:
+  S1:
+    placement: {entity: target_knife, relation: on_top, receptacle: countertop_tpuwys_4}
+    room: kitchen_0
+    location_phrase: the kitchen island
+    extra_ops_vs_S1: []
+  S2:
+    # certified 2026-10-18 (runs/vla_difficulty_v1/_locations/round3_mug.json): 0 px at start,
+    # 0 px and GRASP infeasible from the interaction pose while closed, 496 px open.
+    # = knife_search_001's original target drawer. rvpunw_0 (old choice) has only
+    # floor-level drawers (z<0.31) that the arm cannot reach.
+    placement: {entity: target_knife, relation: inside, receptacle: bottom_cabinet_no_top_qohxjq_0, link: link_2}
+    room: kitchen_0
+    location_phrase: the top drawer of the cabinet next to the hallway door
+    extra_ops_vs_S1: [OPEN]
+  S3:
+    # certified 2026-10-18 (round1_mug.json): living_room_0, 0 px from the kitchen
+    # start, GRASP feasible, 7-step route. The office / dining room of the old design
+    # are behind ~0.75 m doors the 0.86 m R1Pro footprint cannot pass
+    # (docs/evidence/vla_difficulty_v1/beechwood_reachability.png).
+    # position_xy pins the hidden far end of the 1.7 m shelf: the sampler put the mug / apple at
+    # x~3.8 where they were visible from the start (35 / 30 px, 2026-10-18 runs); x~4.3-4.6 was 0 px
+    placement: {entity: target_knife, relation: on_top, receptacle: bookcase_owvfik_1, position_xy: [4.45, -5.45]}
+    room: living_room_0
+    location_phrase: the low shelf under the TV in the living room
+    extra_ops_vs_S1: [cross-room navigation (open-plan kitchen -> living room)]
+
+language:
+  L1:
+    S1: Go to the kitchen island, pick up the table knife lying on it, and then report that you are done.
+    S2: Go to the top drawer of the cabinet next to the hallway door, open it, pick up the table knife inside, and then report that you are done.
+    S3: Go to the living room, pick up the table knife on the low shelf under the TV, and then report that you are done.
+  L2: Get the table knife for me.
+  L3: I want to slice an apple for a snack. Could you get me something to cut it with?
+
+l3_ambiguity_check:
+  competing_interpretations: [cutting_board, vegetable_peeler, carving_knife]
+  resolution: removed from the scene in every variant (knife_search_001 had cutting_board and peeler)
+  residual_risk: none known; the knife is the only cutting tool in the authored objects (native scene items not yet audited)
+
+verification_status:   # 2026-10-18
+  S1 countertop_tpuwys_4: sim-run, scripted SUCCESS 8/60 (runs/vla_difficulty_v1/T01_knife_fetch__L2_S1)
+  S2 qohxjq_0/link_2: certified with the mug (round3); knife GPU-proven there by knife_search_001
+  S3 bookcase_owvfik_1: certified with the mug (round1)

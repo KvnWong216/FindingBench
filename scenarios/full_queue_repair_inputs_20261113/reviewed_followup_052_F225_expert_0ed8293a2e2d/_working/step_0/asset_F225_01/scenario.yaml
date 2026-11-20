@@ -1,0 +1,148 @@
+id: asset_F225_01
+instruction: Find a banana and an apple in the kitchen produce storage and bring both
+  to the table in front of you in the living room in the living room for a snack.
+scene:
+  model: house_double_floor_lower
+  source: behavior
+  clearance_manifest: /home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/build/vla_difficulty_v2/clearance/house_double_floor_lower.json
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - 4.15
+    - 3.95
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - 0.7071067811865475
+    - 0.7071067811865476
+target:
+  entity: item_01
+  category: banana
+objects:
+- name: item_00
+  category: shopping_basket
+  model: vsxhsv
+- name: item_01
+  category: banana
+  model: znakxm
+- name: item_02
+  category: apple
+  model: hwrflj
+- name: item_03
+  category: half_lime
+  model: jnbwpy
+- name: item_04
+  category: half_mango
+  model: qzgjym
+- name: item_05
+  category: half_nectarine
+  model: glfyoh
+- name: item_06
+  category: half_papaya
+  model: hgjdxq
+- name: item_07
+  category: half_peach
+  model: orowgl
+- name: item_08
+  category: half_pineapple
+  model: zympwt
+- name: item_09
+  category: half_plum
+  model: dsybez
+- name: item_10
+  category: half_pomegranate
+  model: tbwsgm
+placements:
+- entity: item_00
+  relation: on_top
+  receptacle: breakfast_table_xftrki_0
+  position_xy:
+  - 4.291
+  - 1.438
+- entity: item_01
+  relation: inside
+  receptacle: item_00
+- entity: item_02
+  relation: inside
+  receptacle: item_00
+- entity: item_03
+  relation: inside
+  receptacle: item_00
+- entity: item_04
+  relation: inside
+  receptacle: item_00
+- entity: item_05
+  relation: inside
+  receptacle: item_00
+- entity: item_06
+  relation: inside
+  receptacle: item_00
+- entity: item_07
+  relation: inside
+  receptacle: item_00
+- entity: item_08
+  relation: inside
+  receptacle: item_00
+- entity: item_09
+  relation: inside
+  receptacle: item_00
+- entity: item_10
+  relation: inside
+  receptacle: item_00
+initial_states: {}
+goal:
+- kind: on_top
+  entity: item_01
+  receptacle: coffee_table_koagbh_0
+- kind: on_top
+  entity: item_02
+  receptacle: coffee_table_koagbh_0
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

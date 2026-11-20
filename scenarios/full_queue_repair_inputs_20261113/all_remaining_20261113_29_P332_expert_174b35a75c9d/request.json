@@ -1,0 +1,166 @@
+{
+  "action": "expert",
+  "case": {
+    "id": "P332",
+    "record": {
+      "id": "asset_P332_01",
+      "family": "semantic_P332",
+      "scene": "Beechwood_0_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_P332_01/scenario.yaml",
+      "scenario_sha256": "55956b6f0ccabb1f8bfe698d05d52e3825d8ef9f1c42141644425c0561038ae2",
+      "instruction": "Find the storage box matching the sample on the table in front of you in the living room among the living room games and put it beside that sample for the game pieces.",
+      "target_key": "storage_box/bwbpvg",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "living_room_0",
+      "destination_room": "living_room_0",
+      "source_receptacle": "bottom_cabinet_immwzb_1",
+      "destination_receptacle": "coffee_table_qlmqyy_0",
+      "object_count": 11,
+      "distractor_count": 9,
+      "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+      "route": {
+        "start": [
+          4.8500000000000005,
+          -7.550000000000001,
+          -3.141592653589793
+        ],
+        "path_xy": [
+          [
+            4.8500000000000005,
+            -7.550000000000001
+          ],
+          [
+            4.8500000000000005,
+            -7.45
+          ],
+          [
+            4.8500000000000005,
+            -7.3500000000000005
+          ],
+          [
+            4.8500000000000005,
+            -7.25
+          ],
+          [
+            4.8500000000000005,
+            -7.15
+          ],
+          [
+            4.8500000000000005,
+            -7.050000000000001
+          ],
+          [
+            4.95,
+            -7.050000000000001
+          ],
+          [
+            5.050000000000001,
+            -7.050000000000001
+          ],
+          [
+            5.15,
+            -7.050000000000001
+          ],
+          [
+            5.25,
+            -7.050000000000001
+          ],
+          [
+            5.3500000000000005,
+            -7.050000000000001
+          ]
+        ],
+        "length_m": 1.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "comparison_sample",
+        "required_negative_0",
+        "bottom_cabinet_immwzb_1"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [],
+      "parent_task_id": "P332",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_P332_01",
+        "parent_task_id": "P332",
+        "before_instruction": "Find the rigid box labeled Dominoes among living-room game drawers and put the closed box beside the game rack on the coffee table.",
+        "after_instruction": "Find the storage box matching the sample on the table in front of you in the living room among the living room games and put it beside that sample for the game pieces.",
+        "reason": "Retains matching-based retrieval through a physical same-native-model sample on the delivery surface. Any original cross-object compatibility, photo or consumable-state requirement is explicitly replaced with visible product/shape matching. Original source and destination rooms preserved; forced native distractor creates a real competing selection.",
+        "target_asset": "storage_box/bwbpvg",
+        "target_assets": [
+          "storage_box/bwbpvg"
+        ]
+      },
+      "binding_sha256": "5a487de6ec15ffd40235c506c89096197c208b5c1ae9da7a060ee37e0cff624b"
+    },
+    "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_gpu_new_20261106/asset_P332_01",
+    "error": "placement failed verification after physics settled: ['item_00 inside bottom_cabinet_immwzb_1', 'item_01 inside bottom_cabinet_immwzb_1', 'item_02 inside bottom_cabinet_immwzb_1', 'item_03 inside bottom_cabinet_immwzb_1', 'item_04 inside bottom_cabinet_immwzb_1', 'item_05 inside bottom_cabinet_immwzb_1', 'item_06 inside bottom_cabinet_immwzb_1', 'item_07 inside bottom_cabinet_immwzb_1', 'item_08 inside bottom_cabinet_immwzb_1', 'comparison_sample on_top coffee_table_qlmqyy_0', 'required_negative_0 inside bottom_cabinet_immwzb_1']",
+    "source_sha256": "55956b6f0ccabb1f8bfe698d05d52e3825d8ef9f1c42141644425c0561038ae2",
+    "expert_diagnosis": {
+      "category": "native_placement",
+      "error": "placement failed verification after physics settled: ['item_00 inside bottom_cabinet_immwzb_1', 'item_01 inside bottom_cabinet_immwzb_1', 'item_02 inside bottom_cabinet_immwzb_1', 'item_03 inside bottom_cabinet_immwzb_1', 'item_04 inside bottom_cabinet_immwzb_1', 'item_05 inside bottom_cabinet_immwzb_1', 'item_06 inside bottom_cabinet_immwzb_1', 'item_07 inside bottom_cabinet_immwzb_1', 'item_08 inside bottom_cabinet_immwzb_1', 'comparison_sample on_top coffee_table_qlmqyy_0', 'required_negative_0 inside bottom_cabinet_immwzb_1']",
+      "native_rejections_in_current_queue": 0,
+      "first_blocker": {
+        "entity": "required_negative_0",
+        "relation": "inside",
+        "receptacle": "bottom_cabinet_immwzb_1"
+      },
+      "solver": null,
+      "support_measurements": {
+        "total": 0,
+        "planar": 0,
+        "reasons": {}
+      },
+      "first_contact": null,
+      "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_gpu_new_20261106/asset_P332_01/native_validation.log",
+      "inference_scope": "proposal/model diagnosis; native physics acceptance unchanged"
+    },
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "native_placement",
+      "reason": "placement failed verification after physics settled: ['item_00 inside bottom_cabinet_immwzb_1', 'item_01 inside bottom_cabinet_immwzb_1', 'item_02 inside bottom_cabinet_immwzb_1', 'item_03 inside bottom_cabinet_immwzb_1', 'item_04 inside bottom_cabinet_immwzb_1', 'item_05 inside bottom_cabinet_immwzb_1', 'item_06 inside bottom_cabinet_immwzb_1', 'item_07 inside bottom_cabinet_immwzb_1', 'item_08 inside bottom_cabinet_immwzb_1', 'comparison_sample on_top coffee_table_qlmqyy_0', 'required_negative_0 inside bottom_cabinet_immwzb_1']"
+    }
+  },
+  "out": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_29_P332_expert_174b35a75c9d",
+  "variant": 93
+}

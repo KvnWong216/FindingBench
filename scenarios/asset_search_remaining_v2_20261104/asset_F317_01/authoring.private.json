@@ -1,0 +1,202 @@
+{
+  "id": "asset_F317_01",
+  "family": "semantic_F317",
+  "scene": "house_single_floor",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_F317_01/scenario.yaml",
+  "scenario_sha256": "d796276e7146f4924df38752a44e031a55154a48e2b16eab0eaf90d907e648f6",
+  "instruction": "There is a sample on the cabinet top in front of you in the dining room. Find the mug matching that sample among the kitchen cups and bring it to the cabinet top in front of you in the dining room in the dining room.",
+  "target_key": "mug/kewbyf",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "dining_room_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 14,
+  "distractor_count": 10,
+  "source_survey_sha256": "14714104a089f0a43cdebe256d01d697215fe5627c0e2fcb55a030a71a1fb2a5",
+  "route": {
+    "start": [
+      6.300000000000001,
+      1.9000000000000001,
+      3.141592653589793
+    ],
+    "path_xy": [
+      [
+        6.300000000000001,
+        1.9000000000000001
+      ],
+      [
+        6.300000000000001,
+        1.8
+      ],
+      [
+        6.4,
+        1.8
+      ],
+      [
+        6.5,
+        1.8
+      ],
+      [
+        6.6000000000000005,
+        1.8
+      ],
+      [
+        6.7,
+        1.8
+      ],
+      [
+        6.800000000000001,
+        1.8
+      ],
+      [
+        6.9,
+        1.8
+      ],
+      [
+        7.0,
+        1.8
+      ],
+      [
+        7.1000000000000005,
+        1.8
+      ],
+      [
+        7.2,
+        1.8
+      ],
+      [
+        7.300000000000001,
+        1.8
+      ],
+      [
+        7.4,
+        1.8
+      ],
+      [
+        7.5,
+        1.8
+      ],
+      [
+        7.6000000000000005,
+        1.8
+      ],
+      [
+        7.7,
+        1.8
+      ],
+      [
+        7.800000000000001,
+        1.8
+      ],
+      [
+        7.9,
+        1.8
+      ],
+      [
+        8.0,
+        1.8
+      ]
+    ],
+    "length_m": 1.8,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 15,
+    "destination_approach_count": 18,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "comparison_negative_0",
+    "comparison_negative_1",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_khjmrr_0",
+      "position_xy": [
+        9.200000000000001,
+        1.8
+      ],
+      "aabb": [
+        [
+          9.032855239868166,
+          1.4577120208740235,
+          -0.0
+        ],
+        [
+          9.367144760131836,
+          2.142287979125977,
+          0.6846599731445313
+        ]
+      ],
+      "room": "kitchen_0"
+    },
+    {
+      "name": "delivery_surface",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_khjmrr_0",
+      "position_xy": [
+        5.5,
+        1.9000000000000001
+      ],
+      "aabb": [
+        [
+          5.332855239868164,
+          1.5577120208740236,
+          -0.0
+        ],
+        [
+          5.667144760131836,
+          2.242287979125977,
+          0.6846599731445313
+        ]
+      ],
+      "room": "dining_room_0"
+    }
+  ],
+  "parent_task_id": "F317",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F317_01",
+    "parent_task_id": "F317",
+    "before_instruction": "Find the cup holding the table forks among the cups in the kitchen storage and put that cup beside the plates on the dining room sideboard.",
+    "after_instruction": "There is a sample on the cabinet top in front of you in the dining room. Find the mug matching that sample among the kitchen cups and bring it to the cabinet top in front of you in the dining room in the dining room.",
+    "reason": "Replaces unconstructed contained-forks identification with native cup matching; no content transport is claimed. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "mug/kewbyf",
+    "target_assets": [
+      "mug/kewbyf"
+    ]
+  },
+  "binding_sha256": "13a6ce1c1d196d98f315dba732ae235f78fcca5b1c38e4a2f87255fe833e17e5"
+}

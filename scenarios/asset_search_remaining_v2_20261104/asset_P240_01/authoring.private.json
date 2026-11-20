@@ -1,0 +1,79 @@
+{
+  "id": "asset_P240_01",
+  "family": "semantic_P240",
+  "scene": "Wainscott_1_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P240_01/scenario.yaml",
+  "scenario_sha256": "ed91442bfae890f2c293d7e12e94a6b2d1d5db9fa110a25f1dc43f1ce1ce05ea",
+  "instruction": "Find the curl-defining lotion labeled \"STRICTLY CURLS\" among the bathroom cupboard bottles and put it on the counter in front of you in the bathroom.",
+  "target_key": "bottle_of_shampoo/hlkpwd",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bathroom_0",
+  "destination_room": "bathroom_0",
+  "source_receptacle": "bottom_cabinet_nnvyol_1",
+  "destination_receptacle": "bottom_cabinet_nnvyol_1",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "7894c711eea34a656ee926a132d6563ce3833b5ddb45c126d0ce534dd2edca60",
+  "route": {
+    "start": [
+      0.9500000000000001,
+      9.35,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        0.9500000000000001,
+        9.35
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 33,
+    "destination_approach_count": 33,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_nnvyol_2",
+    "bottom_cabinet_nnvyol_1"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "parent_task_id": "P240",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P240_01",
+    "parent_task_id": "P240",
+    "before_instruction": "Find the bottle labeled Shampoo and Cedar among bathroom cupboard bottles and place it on the bathtub ledge by the tap.",
+    "after_instruction": "Find the curl-defining lotion labeled \"STRICTLY CURLS\" among the bathroom cupboard bottles and put it on the counter in front of you in the bathroom.",
+    "reason": "Replaces invented Cedar shampoo with the actual labeled hair-care lotion. The native shampoo category is a misclassification; visible product identity controls the instruction. Delivery is grounded on the unique initial-facing handoff support in the original destination room.",
+    "target_asset": "bottle_of_shampoo/hlkpwd",
+    "target_assets": [
+      "bottle_of_shampoo/hlkpwd"
+    ]
+  },
+  "binding_sha256": "f32665e7bf3d30dcd1434f01183bc035e8df31b290eed9496de87c7e5d71d8f2"
+}

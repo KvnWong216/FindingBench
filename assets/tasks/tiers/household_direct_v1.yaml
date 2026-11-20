@@ -1,0 +1,30 @@
+# Physical task-class contract for the first complete kitchen pilot.
+# Independent of easy_v1. This name is NOT a difficulty stratum.
+# Natural background population comes from the protected source scene.
+tier: household_direct
+version: 1
+planner_enabled: false
+fail_on_wrong_grasp: false
+
+budget:
+  max_planning_steps: 48
+  search_reserve_steps: 0
+
+modes:
+  in_container: 1.0
+
+search:
+  room_count: 1  # current public instruction scopes the search to the kitchen
+  candidate_slot_count: [2, 128]  # instantiated as EXACTLY the complete native count
+  containment_depth: 1
+  rearrangement_depth: 0  # direct-container pilot; later families have their own structure
+  lookalike_count: {min: 0}  # natural household similarity is not an easy-tier exclusion
+
+gates:
+  start_visibility_max: 0.0
+  modes:
+    in_container:
+      open_required: true
+      pre_reveal_graspable: false
+      revealed_visibility_min: 0.60
+      generator_visibility_margin: 0.65

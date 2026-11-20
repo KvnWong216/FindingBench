@@ -1,0 +1,172 @@
+id: asset_U035_01
+instruction: The internet technician needs the modem. Find the spare modem among the
+  study equipment and set it on the desk in front of you in the study.
+scene:
+  model: Pomaria_0_int
+  source: behavior
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - -5.9
+    - -1.0
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - 1.0
+    - 6.123233995736766e-17
+target:
+  entity: item_00
+  category: modem
+objects:
+- name: item_00
+  category: modem
+  model: axqxsv
+- name: item_01
+  category: hard_drive
+  model: ubjbsm
+- name: item_02
+  category: hard_drive
+  model: ubjbsm
+- name: item_03
+  category: hard_drive
+  model: ubjbsm
+- name: item_04
+  category: hard_drive
+  model: ubjbsm
+- name: item_05
+  category: hard_drive
+  model: ubjbsm
+- name: item_06
+  category: hard_drive
+  model: ubjbsm
+- name: item_07
+  category: hard_drive
+  model: ubjbsm
+- name: item_08
+  category: hard_drive
+  model: ubjbsm
+- name: search_storage
+  category: bottom_cabinet
+  model: jrhgeu
+  fixed_base: true
+- name: delivery_surface
+  category: desk
+  model: tmluxa
+  fixed_base: true
+- name: expert_storage_0
+  category: bottom_cabinet_no_top
+  model: ufhpbn
+  fixed_base: true
+placements:
+- entity: item_00
+  relation: inside
+  receptacle: expert_storage_0
+  link: meta__link_0_fillable_0_0_link
+- entity: item_01
+  relation: inside
+  receptacle: expert_storage_0
+  link: meta__link_0_fillable_0_0_link
+- entity: item_02
+  relation: inside
+  receptacle: expert_storage_0
+  link: meta__link_0_fillable_0_0_link
+- entity: item_03
+  relation: inside
+  receptacle: expert_storage_0
+  link: meta__link_0_fillable_0_0_link
+- entity: item_04
+  relation: inside
+  receptacle: expert_storage_0
+  link: meta__link_0_fillable_0_0_link
+- entity: item_05
+  relation: inside
+  receptacle: expert_storage_0
+  link: meta__link_0_fillable_0_0_link
+- entity: item_06
+  relation: inside
+  receptacle: expert_storage_0
+  link: meta__link_0_fillable_0_0_link
+- entity: item_07
+  relation: inside
+  receptacle: expert_storage_0
+  link: meta__link_0_fillable_0_0_link
+- entity: item_08
+  relation: inside
+  receptacle: expert_storage_0
+  link: meta__link_0_fillable_0_0_link
+- entity: search_storage
+  relation: on_top
+  receptacle: floors_elvhyh_0
+  position_xy:
+  - -6.4
+  - -1.8
+- entity: delivery_surface
+  relation: on_top
+  receptacle: floors_elvhyh_0
+  position_xy:
+  - -6.7
+  - -0.5
+- entity: expert_storage_0
+  relation: on_top
+  receptacle: floors_elvhyh_0
+  position_xy:
+  - -5.6000000000000005
+  - 0.30000000000000004
+initial_states:
+  search_storage:
+    open: false
+  expert_storage_0:
+    open: false
+goal:
+- kind: on_top
+  entity: item_00
+  receptacle: delivery_surface
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

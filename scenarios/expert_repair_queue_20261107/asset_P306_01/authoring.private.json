@@ -1,0 +1,212 @@
+{
+  "id": "asset_P306_01",
+  "family": "semantic_P306",
+  "scene": "house_single_floor",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_P306_01/scenario.yaml",
+  "scenario_sha256": "2f8699a3dcb7c6fa5bd203037372f4234199eea35ab6447fd71fc3b9f5ae25f2",
+  "instruction": "Fetch the sunglasses from the entryway belongings and put them on the table in front of you in the entryway for the outing.",
+  "target_key": "sunglasses/qiwncl",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "entryway_0",
+  "destination_room": "entryway_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 11,
+  "distractor_count": 8,
+  "source_survey_sha256": "14714104a089f0a43cdebe256d01d697215fe5627c0e2fcb55a030a71a1fb2a5",
+  "route": {
+    "start": [
+      -0.2,
+      0.6000000000000001,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -0.2,
+        0.6000000000000001
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 28,
+    "destination_approach_count": 24,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_khjmrr_0",
+      "position_xy": [
+        -0.1,
+        -0.6000000000000001
+      ],
+      "aabb": [
+        [
+          -0.26714476013183597,
+          -0.9422879791259766,
+          -0.0
+        ],
+        [
+          0.06714476013183593,
+          -0.2577120208740235,
+          0.6846599731445313
+        ]
+      ],
+      "room": "entryway_0"
+    },
+    {
+      "name": "delivery_surface",
+      "category": "breakfast_table",
+      "model": "iaritq",
+      "floor": "floors_khjmrr_0",
+      "position_xy": [
+        0.2,
+        1.5
+      ],
+      "aabb": [
+        [
+          -0.15100028991699216,
+          1.1494537658691406,
+          -0.0
+        ],
+        [
+          0.5510002899169921,
+          1.8505462341308594,
+          0.7490009155273437
+        ]
+      ],
+      "room": "entryway_0"
+    }
+  ],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "search_storage",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.23922629249095917,
+            0.18965983357072802,
+            0.5851681912193236
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.23877585313392102,
+            0.19861903381347656,
+            0.5853487684532628
+          ],
+          "meta__base_link_fillable_0_0_link#component:2": [
+            0.23817441952228546,
+            0.189000270903126,
+            0.5853966732025147
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet/jrhgeu",
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "encrypted_asset_sha256": "70d166224352a46e63c008e4d1b5af6bec5bfdfc27f6b21dad220cca350bc871",
+          "metadata_sha256": "838fad16a0dc49e7be965c08b9de0d54b477a05592b32eb05d6519a940331708",
+          "root_orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_04": "meta__base_link_fillable_0_0_link#component:1",
+          "item_07": "meta__base_link_fillable_0_0_link#component:0",
+          "item_00": "meta__base_link_fillable_0_0_link#component:1",
+          "item_01": "meta__base_link_fillable_0_0_link#component:2",
+          "item_08": "meta__base_link_fillable_0_0_link#component:0",
+          "item_05": "meta__base_link_fillable_0_0_link#component:1",
+          "item_06": "meta__base_link_fillable_0_0_link#component:2",
+          "item_03": "meta__base_link_fillable_0_0_link#component:0",
+          "item_02": "meta__base_link_fillable_0_0_link#component:2"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_04": "meta__base_link_fillable_0_0_link",
+      "item_07": "meta__base_link_fillable_0_0_link",
+      "item_00": "meta__base_link_fillable_0_0_link",
+      "item_01": "meta__base_link_fillable_0_0_link",
+      "item_08": "meta__base_link_fillable_0_0_link",
+      "item_05": "meta__base_link_fillable_0_0_link",
+      "item_06": "meta__base_link_fillable_0_0_link",
+      "item_03": "meta__base_link_fillable_0_0_link",
+      "item_02": "meta__base_link_fillable_0_0_link"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "P306",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P306_01",
+    "parent_task_id": "P306",
+    "before_instruction": "Find the sunglasses with a double bridge above the nose among entryway cabinet belongings and place them on the bench.",
+    "after_instruction": "Fetch the sunglasses from the entryway belongings and put them on the table in front of you in the entryway for the outing.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Native category metadata does not certify the stated target predicate: double-bridge sunglasses. Native categories are only candidates; required subtype, markings, quantity, or reference appearance remain unverified: double-bridge sunglasses. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+    "target_asset": "sunglasses/qiwncl",
+    "target_assets": [
+      "sunglasses/qiwncl"
+    ]
+  },
+  "binding_sha256": "4b4039e5169b5d12d901fcac518a790005a34f832f77589870ad104fd28da937"
+}

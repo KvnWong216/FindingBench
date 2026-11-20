@@ -1,0 +1,277 @@
+{
+  "id": "asset_P047_01",
+  "family": "semantic_P047",
+  "scene": "Rs_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_P047_01/scenario.yaml",
+  "scenario_sha256": "2778b4e076146235601d298b7c08aba420521ff8a40c940f43796e0df981820f",
+  "instruction": "Find the board-game box labeled \"Cootie Games\" in the living-room game cabinet and bring it to the cabinet top in front of you in the entryway.",
+  "target_key": "board_game/phwwnx",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_0",
+  "destination_room": "entryway_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 11,
+  "distractor_count": 8,
+  "source_survey_sha256": "24bd47925e994c3defe707f3d8a919b355cd46a7128d2b59d373bc2697d8185e",
+  "route": {
+    "start": [
+      1.1,
+      1.9000000000000001,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        1.1,
+        1.9000000000000001
+      ],
+      [
+        1.1,
+        1.8
+      ],
+      [
+        1.1,
+        1.7000000000000002
+      ],
+      [
+        1.1,
+        1.6
+      ],
+      [
+        1.1,
+        1.5
+      ],
+      [
+        1.1,
+        1.4000000000000001
+      ],
+      [
+        1.1,
+        1.3
+      ],
+      [
+        1.1,
+        1.2000000000000002
+      ],
+      [
+        1.0,
+        1.2000000000000002
+      ]
+    ],
+    "length_m": 0.8,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 16,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_bamfsz_1",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_ptwlei_0",
+      "position_xy": [
+        0.2,
+        0.4
+      ],
+      "aabb": [
+        [
+          0.03285523986816408,
+          0.05771202087402344,
+          -0.0
+        ],
+        [
+          0.36714476013183595,
+          0.7422879791259767,
+          0.6846599731445313
+        ]
+      ],
+      "room": "living_room_0"
+    },
+    {
+      "name": "delivery_surface",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_gjemfr_0",
+      "position_xy": [
+        1.2000000000000002,
+        2.8000000000000003
+      ],
+      "aabb": [
+        [
+          1.0328552398681643,
+          2.4577120208740237,
+          -0.0
+        ],
+        [
+          1.367144760131836,
+          3.142287979125977,
+          0.6846599731445313
+        ]
+      ],
+      "room": "entryway_0"
+    }
+  ],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "search_storage",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.23922629249095917,
+            0.18965983357072802,
+            0.5851681912193236
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.23877585313392102,
+            0.19861903381347656,
+            0.5853487684532628
+          ],
+          "meta__base_link_fillable_0_0_link#component:2": [
+            0.23817441952228546,
+            0.189000270903126,
+            0.5853966732025147
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet/jrhgeu",
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "encrypted_asset_sha256": "70d166224352a46e63c008e4d1b5af6bec5bfdfc27f6b21dad220cca350bc871",
+          "metadata_sha256": "838fad16a0dc49e7be965c08b9de0d54b477a05592b32eb05d6519a940331708",
+          "root_orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_01": "meta__base_link_fillable_0_0_link#component:1",
+          "item_00": "meta__base_link_fillable_0_0_link#component:0",
+          "item_03": "meta__base_link_fillable_0_0_link#component:2",
+          "item_04": "meta__base_link_fillable_0_0_link#component:2",
+          "item_05": "meta__base_link_fillable_0_0_link#component:2",
+          "item_02": "meta__base_link_fillable_0_0_link#component:2"
+        }
+      },
+      {
+        "receptacle": "bottom_cabinet_bamfsz_1",
+        "volume_extents_m": {
+          "link_1": [
+            0.33487772941589355,
+            0.370966374874115,
+            0.20883751660585403
+          ],
+          "link_2": [
+            0.3371378183364868,
+            0.3809979259967804,
+            0.0892288088798523
+          ],
+          "link_3": [
+            0.3351621627807617,
+            0.37633565068244934,
+            0.03191465139389038
+          ],
+          "link_4": [
+            0.3346196413040161,
+            0.38081181049346924,
+            0.03191465139389038
+          ]
+        },
+        "native_links": {
+          "link_1": "link_1",
+          "link_2": "link_2",
+          "link_3": "link_3",
+          "link_4": "link_4"
+        },
+        "geometry_source": "survey",
+        "geometry_provenance": {},
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_08": "link_2",
+          "item_06": "link_4",
+          "item_07": "link_3"
+        },
+        "component_allocation": {
+          "item_08": "link_2",
+          "item_06": "link_4",
+          "item_07": "link_3"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_08": "link_2",
+      "item_06": "link_4",
+      "item_07": "link_3"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "P047",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P047_01",
+    "parent_task_id": "P047",
+    "before_instruction": "Find the board-game box labeled Word Race in the living-room game cabinet and put it on the entryway bench beside the front door.",
+    "after_instruction": "Find the board-game box labeled \"Cootie Games\" in the living-room game cabinet and bring it to the cabinet top in front of you in the entryway.",
+    "reason": "The fictional Word Race title is replaced by the actual native Cootie Games title, retaining title-based selection. Source/destination room types and requested cardinality are retained. The explicit delivery surface replaces decorative destination landmarks.",
+    "target_asset": "board_game/phwwnx",
+    "target_assets": [
+      "board_game/phwwnx"
+    ]
+  },
+  "binding_sha256": "dd81bccea0bd4072a3d5dcdf289cb91cb6ff2ce8f0b8eb78a241d2f6d0123c84"
+}

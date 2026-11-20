@@ -1,0 +1,147 @@
+{
+  "id": "asset_U114_01",
+  "family": "semantic_U114",
+  "scene": "Pomaria_0_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_U114_01/scenario.yaml",
+  "scenario_sha256": "a747cd3edd208d7713f44a3b740dc6f3a8510263ec6d7d7f2dd6d24ccf31cc16",
+  "instruction": "Bring the geode from the study collection to the desk in front of you in the study; I want to examine its crystals.",
+  "target_key": "geode/shxbue",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "private_office_0",
+  "destination_room": "private_office_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 11,
+  "distractor_count": 8,
+  "source_survey_sha256": "5f126672121f241779c0ea9705424fa8ac90469f422772fc224ad7184f7883fc",
+  "route": {
+    "start": [
+      -6.7,
+      -0.2,
+      0.0
+    ],
+    "path_xy": [
+      [
+        -6.7,
+        -0.2
+      ],
+      [
+        -6.7,
+        -0.30000000000000004
+      ],
+      [
+        -6.7,
+        -0.4
+      ],
+      [
+        -6.7,
+        -0.5
+      ],
+      [
+        -6.7,
+        -0.6000000000000001
+      ],
+      [
+        -6.800000000000001,
+        -0.6000000000000001
+      ]
+    ],
+    "length_m": 0.5,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 13,
+    "destination_approach_count": 40,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_no_top_spojpj_0",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "bottom_cabinet",
+      "model": "lhucjo",
+      "floor": "floors_elvhyh_0",
+      "position_xy": [
+        -6.4,
+        -1.8
+      ],
+      "aabb": [
+        [
+          -6.625691932678223,
+          -2.0352182388305664,
+          0.0
+        ],
+        [
+          -6.174308067321777,
+          -1.5647817611694337,
+          0.8450484619140625
+        ]
+      ],
+      "room": "private_office_0"
+    },
+    {
+      "name": "delivery_surface",
+      "category": "desk",
+      "model": "tmluxa",
+      "floor": "floors_elvhyh_0",
+      "position_xy": [
+        -6.0,
+        -0.9
+      ],
+      "aabb": [
+        [
+          -6.253712738037109,
+          -1.2538818969726564,
+          0.0
+        ],
+        [
+          -5.746287261962891,
+          -0.5461181030273438,
+          0.7001053161621094
+        ]
+      ],
+      "room": "private_office_0"
+    }
+  ],
+  "parent_task_id": "U114",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_U114_01",
+    "parent_task_id": "U114",
+    "before_instruction": "I want to show the crystals inside the geode. Find it among the study's collection pieces and put it on the desk under the lamp.",
+    "after_instruction": "Bring the geode from the study collection to the desk in front of you in the study; I want to examine its crystals.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; The geode must visibly expose its internal crystals; no verified open-geode render establishes that property for the allocated model. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+    "target_asset": "geode/shxbue",
+    "target_assets": [
+      "geode/shxbue"
+    ]
+  },
+  "binding_sha256": "c6cb6dfc7a76f7f7c410265cbf5cff60463c3c719a66670c1eef2aa4e702edd3"
+}

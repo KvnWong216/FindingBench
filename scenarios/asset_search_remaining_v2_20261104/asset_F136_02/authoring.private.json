@@ -1,0 +1,166 @@
+{
+  "id": "asset_F136_02",
+  "family": "semantic_F136",
+  "scene": "Beechwood_0_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_F136_02/scenario.yaml",
+  "scenario_sha256": "854bd6f6aba5eba074e9315537f3f077f79b6878e9a82046e6ff1d282bc28130",
+  "instruction": "Find a table fork in the kitchen utensil drawers and bring it to the table in front of you in the living room in the living room for cake.",
+  "target_key": "tablefork/ptqjqv",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+  "destination_receptacle": "breakfast_table_skczfi_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+  "route": {
+    "start": [
+      3.5500000000000003,
+      -6.95,
+      -3.141592653589793
+    ],
+    "path_xy": [
+      [
+        3.5500000000000003,
+        -6.95
+      ],
+      [
+        3.5500000000000003,
+        -6.8500000000000005
+      ],
+      [
+        3.5500000000000003,
+        -6.75
+      ],
+      [
+        3.5500000000000003,
+        -6.65
+      ],
+      [
+        3.5500000000000003,
+        -6.550000000000001
+      ],
+      [
+        3.5500000000000003,
+        -6.45
+      ],
+      [
+        3.5500000000000003,
+        -6.3500000000000005
+      ],
+      [
+        3.5500000000000003,
+        -6.25
+      ],
+      [
+        3.45,
+        -6.25
+      ],
+      [
+        3.35,
+        -6.25
+      ],
+      [
+        3.25,
+        -6.25
+      ],
+      [
+        3.1500000000000004,
+        -6.25
+      ],
+      [
+        3.0500000000000003,
+        -6.25
+      ],
+      [
+        2.95,
+        -6.25
+      ],
+      [
+        2.85,
+        -6.25
+      ],
+      [
+        2.75,
+        -6.25
+      ],
+      [
+        2.6500000000000004,
+        -6.25
+      ],
+      [
+        2.5500000000000003,
+        -6.25
+      ],
+      [
+        2.45,
+        -6.25
+      ],
+      [
+        2.35,
+        -6.25
+      ],
+      [
+        2.25,
+        -6.25
+      ],
+      [
+        2.15,
+        -6.25
+      ],
+      [
+        2.0500000000000003,
+        -6.25
+      ]
+    ],
+    "length_m": 2.2,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_no_top_qohxjq_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "parent_task_id": "F136",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F136_02",
+    "parent_task_id": "F136",
+    "before_instruction": "Find a table fork in the kitchen utensil drawers and put it beside the cake plate on the living room coffee table.",
+    "after_instruction": "Find a table fork in the kitchen utensil drawers and bring it to the table in front of you in the living room in the living room for cake.",
+    "reason": "The identified delivery surface is grounded by the initial facing direction; decorative destination landmarks are omitted. Target identity, requested cardinality and source/destination room types are retained.",
+    "target_asset": "tablefork/ptqjqv",
+    "target_assets": [
+      "tablefork/ptqjqv"
+    ]
+  },
+  "binding_sha256": "b9039eaf18e7bccd3442e721bee39612b6f2c963b21e2b46e4c48f4f7d6c7400"
+}

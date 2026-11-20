@@ -1,0 +1,124 @@
+{
+  "source_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/staged_v31_P136/asset_P136_01/scenario.yaml",
+  "source_sha256": "0c087f8c33c4d85dc9ee2dfc66416ce5ec455733a0de3ac2aa810656249d9ae1",
+  "source_intervention": {
+    "status": "static_screened_physics_pending",
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true
+    },
+    "removed_compiler_links": [
+      {
+        "entity": "item_00",
+        "previous_link": "meta__base_link_fillable_0_0_link"
+      },
+      {
+        "entity": "item_01",
+        "previous_link": "meta__base_link_fillable_0_0_link"
+      },
+      {
+        "entity": "item_02",
+        "previous_link": "meta__base_link_fillable_0_0_link"
+      },
+      {
+        "entity": "item_03",
+        "previous_link": "meta__base_link_fillable_0_0_link"
+      },
+      {
+        "entity": "item_04",
+        "previous_link": "meta__base_link_fillable_0_0_link"
+      },
+      {
+        "entity": "item_05",
+        "previous_link": "meta__base_link_fillable_0_0_link"
+      },
+      {
+        "entity": "item_06",
+        "previous_link": "meta__base_link_fillable_0_0_link"
+      },
+      {
+        "entity": "item_07",
+        "previous_link": "meta__base_link_fillable_0_0_link"
+      },
+      {
+        "entity": "item_08",
+        "previous_link": "meta__base_link_fillable_0_0_link"
+      },
+      {
+        "entity": "item_09",
+        "previous_link": "meta__base_link_fillable_0_0_link"
+      },
+      {
+        "entity": "item_10",
+        "previous_link": "meta__base_link_fillable_0_0_link"
+      },
+      {
+        "entity": "comparison_negative_0",
+        "previous_link": "meta__base_link_fillable_0_0_link"
+      },
+      {
+        "entity": "comparison_negative_1",
+        "previous_link": "meta__base_link_fillable_0_0_link"
+      }
+    ],
+    "centered_container_placements": [],
+    "explicit_surface_plans": [
+      {
+        "receptacle": "breakfast_table_skczfi_2",
+        "entities": [
+          "comparison_sample"
+        ],
+        "solver": {
+          "status": "feasible_model",
+          "device": "cuda",
+          "backend": "torch_cuda_finite_csp",
+          "solve_seconds": 0.0016655582003295422,
+          "nodes": 0,
+          "candidate_tests": 0,
+          "search_orders_tried": 0,
+          "grid_m": 0.001,
+          "margin_m": 0.025,
+          "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+          "physical_validation_required": true,
+          "assignment": {
+            "comparison_sample": "surface"
+          },
+          "poses": {
+            "comparison_sample": {
+              "bin": "surface",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.025,
+                0.025
+              ],
+              "footprint_m": [
+                0.28800000000000003,
+                0.28800000000000003
+              ],
+              "center_xy_m": [
+                0.169,
+                0.169
+              ]
+            }
+          },
+          "constructive_witness": "single strip; exact quantized box and clearance checks"
+        },
+        "physical_validation_required": true
+      }
+    ],
+    "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/overnight_expert_20261109/direct/asset_P136_01/scenario.yaml",
+    "original_sha256": "f9a4e8e0a1c120260026422411f62698d22ccd0208c150996ad6bcbc3e4cc5be",
+    "diagnosis_directory": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/overnight_expert_20261109/direct/asset_P136_01",
+    "preserved": [
+      "instruction",
+      "goal",
+      "target",
+      "robot",
+      "spawn",
+      "all original assets",
+      "relation types"
+    ]
+  },
+  "physical_validation_required": true
+}

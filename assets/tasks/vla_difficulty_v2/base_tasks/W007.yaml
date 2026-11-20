@@ -1,0 +1,126 @@
+task_id: W007
+family: fetch
+scene: Beechwood_0_int
+source:
+  official_activity: canning_food#0
+  official_activities_with_same_subgoal:
+  - canning_food#0
+  - cleaning_kitchen_cupboard#0
+  official_subgoal: (inside bowl.n.01 cabinet.n.01)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K Beechwood_0_int (+ clearance manifest)
+  object: BEHAVIOR-1K bowl/sqqahm
+start:
+  name: start_kitchen_0_0
+  room: kitchen_0
+  x: 2.03
+  y: -5.93
+  yaw: 2.968
+target:
+  entity: target_obj
+  category: bowl
+  model: sqqahm
+  noun: bowl
+  colour_estimate: yellow
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+initial_states:
+  bottom_cabinet_no_top_pluwfl_0:
+    open: false
+spatial:
+  S1:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: countertop_tpuwys_0
+    room: kitchen_0
+    location_phrase: the island counter in the kitchen
+    grasp_hints:
+    - - 1.72
+      - -6.143
+      - -2.356
+    - - 1.219
+      - -6.043
+      - -1.571
+    - - 1.269
+      - -5.993
+      - -1.646
+    - - 1.87
+      - -5.993
+      - -2.356
+    extra_ops_vs_S1: []
+    probe_visibility_from_start:
+      px: 444
+      delta_e: 16.7
+  S2:
+    placement:
+      entity: target_obj
+      relation: inside
+      receptacle: bottom_cabinet_no_top_pluwfl_0
+      link: link_1
+    room: kitchen_0
+    location_phrase: the top drawer of the wide cabinet under the island counter in
+      the kitchen
+    grasp_hints:
+    - - -0.448
+      - -7.501
+      - 0.504
+    - - -0.297
+      - -7.753
+      - 1.033
+    - - -0.347
+      - -7.803
+      - 1.006
+    - - -0.196
+      - -7.853
+      - 1.253
+    extra_ops_vs_S1:
+    - OPEN
+    s2_kind: container
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bottom_cabinet_immwzb_1
+    room: living_room_0
+    location_phrase: the cabinet in the living room
+    grasp_hints:
+    - - 5.525
+      - -5.593
+      - 0.058
+    - - 5.425
+      - -5.893
+      - 0.352
+    - - 5.325
+      - -5.993
+      - 0.404
+    - - 5.275
+      - -6.243
+      - 0.566
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    route_from_start_steps: 7
+language:
+  L1:
+    S1: Go to the island counter in the kitchen, pick up the bowl on it and hold it.
+    S2: Go to the wide cabinet under the island counter in the kitchen, open the top
+      drawer of the wide cabinet under the island counter in the kitchen, pick up
+      the bowl inside and hold it.
+    S3: Leave the kitchen, go to the cabinet in the living room, pick up the bowl
+      on it and hold it.
+  L2: Pick up the bowl and keep holding it.
+  L3: I'm canning food and I need the bowl. Could you get it for me?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

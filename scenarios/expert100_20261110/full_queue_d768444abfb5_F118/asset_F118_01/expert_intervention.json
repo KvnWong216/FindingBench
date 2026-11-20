@@ -1,0 +1,342 @@
+{
+  "status": "static_screened_physics_pending",
+  "expert_policy": {
+    "method": "relocate_storage",
+    "clear_unstated_links": true,
+    "plan_surfaces": true,
+    "runtime_changes": [
+      "closed_native_bbox_XY",
+      "disjoint_measured_support_patches",
+      "bounded_CUDA_candidate_domains"
+    ],
+    "original_instruction_retained": true,
+    "explicit_location_scope_retained": true,
+    "diagnosis": "native_placement",
+    "reason": "placement failed verification after physics settled: ['item_00 inside search_storage', 'item_01 inside search_storage', 'item_02 inside search_storage', 'item_03 inside search_storage', 'item_04 inside search_storage', 'item_05 inside search_storage', 'item_06 inside delivery_surface', 'item_07 inside delivery_surface', 'item_08 inside delivery_surface']"
+  },
+  "partial_authoring_steps": [
+    {
+      "status": "static_partial_not_native_ready",
+      "old_storage": "search_storage",
+      "new_storage": {
+        "name": "search_storage",
+        "category": "bottom_cabinet",
+        "model": "songes",
+        "floor": "floors_kwnype_0",
+        "position_xy": [
+          -2.8000000000000003,
+          3.8000000000000003
+        ],
+        "aabb": [
+          [
+            -3.0636192626953127,
+            3.380784881591797,
+            0.0
+          ],
+          [
+            -2.536380737304688,
+            4.219215118408203,
+            0.82936767578125
+          ]
+        ],
+        "room": "dining_room_0"
+      },
+      "released_compiler_links": [
+        {
+          "entity": "item_00",
+          "previous_link": "meta__bottomdrawer_fillable_0_0_link"
+        },
+        {
+          "entity": "item_01",
+          "previous_link": "meta__middledrawer_fillable_0_0_link"
+        },
+        {
+          "entity": "item_02",
+          "previous_link": "meta__middledrawer_fillable_0_0_link"
+        },
+        {
+          "entity": "item_03",
+          "previous_link": "meta__topdrawer_fillable_0_0_link"
+        },
+        {
+          "entity": "item_04",
+          "previous_link": "meta__topdrawer_fillable_0_0_link"
+        },
+        {
+          "entity": "item_05",
+          "previous_link": "meta__bottomdrawer_fillable_0_0_link"
+        }
+      ],
+      "replaced_failed_auxiliary_fixture": true,
+      "previous_auxiliary_asset": {
+        "category": "bottom_cabinet",
+        "model": "jrhgeu"
+      },
+      "conservative_opening_clearance_m": 0.0,
+      "opening_sweep_requires_native_measurement": true,
+      "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/full_queue_d768444abfb5_F118/_working/step_0/asset_F118_01/scenario.yaml",
+      "original_sha256": "fa9bbeac3d28422634efba3a9b2dfb3c66ce03dd7d52d8e3ea93155f96b55233",
+      "diagnosis_directory": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_full_20261105/asset_F118_01",
+      "solver": {
+        "status": "feasible_model",
+        "device": "cuda",
+        "backend": "torch_cuda_finite_csp",
+        "solve_seconds": 0.02858901210129261,
+        "nodes": 6,
+        "candidate_tests": 1683,
+        "search_orders_tried": 1,
+        "grid_m": 0.001,
+        "margin_m": 0.015,
+        "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+        "physical_validation_required": true,
+        "assignment": {
+          "item_00": "meta__bottomdrawer_fillable_0_0_link",
+          "item_02": "meta__middledrawer_fillable_0_0_link",
+          "item_03": "meta__topdrawer_fillable_0_0_link",
+          "item_04": "meta__topdrawer_fillable_0_0_link",
+          "item_01": "meta__middledrawer_fillable_0_0_link",
+          "item_05": "meta__bottomdrawer_fillable_0_0_link"
+        },
+        "poses": {
+          "item_00": {
+            "bin": "meta__bottomdrawer_fillable_0_0_link",
+            "yaw_degrees": 90,
+            "lower_xy_m": [
+              0.015,
+              0.015
+            ],
+            "footprint_m": [
+              0.271,
+              0.406
+            ],
+            "center_xy_m": [
+              0.1505,
+              0.218
+            ]
+          },
+          "item_02": {
+            "bin": "meta__middledrawer_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.015
+            ],
+            "footprint_m": [
+              0.25,
+              0.417
+            ],
+            "center_xy_m": [
+              0.14,
+              0.2235
+            ]
+          },
+          "item_03": {
+            "bin": "meta__topdrawer_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.015
+            ],
+            "footprint_m": [
+              0.36,
+              0.24
+            ],
+            "center_xy_m": [
+              0.195,
+              0.135
+            ]
+          },
+          "item_04": {
+            "bin": "meta__topdrawer_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.27
+            ],
+            "footprint_m": [
+              0.159,
+              0.341
+            ],
+            "center_xy_m": [
+              0.0945,
+              0.4405
+            ]
+          },
+          "item_01": {
+            "bin": "meta__middledrawer_fillable_0_0_link",
+            "yaw_degrees": 90,
+            "lower_xy_m": [
+              0.015,
+              0.447
+            ],
+            "footprint_m": [
+              0.277,
+              0.126
+            ],
+            "center_xy_m": [
+              0.1535,
+              0.51
+            ]
+          },
+          "item_05": {
+            "bin": "meta__bottomdrawer_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.436
+            ],
+            "footprint_m": [
+              0.109,
+              0.109
+            ],
+            "center_xy_m": [
+              0.0695,
+              0.4905
+            ]
+          }
+        }
+      },
+      "variant": 80,
+      "task_local_model_experience": [],
+      "preserved": [
+        "instruction",
+        "goal",
+        "target",
+        "robot",
+        "spawn",
+        "all task items and counts",
+        "relation types"
+      ]
+    },
+    {
+      "status": "static_screened_physics_pending",
+      "old_storage": "delivery_surface",
+      "new_storage": {
+        "name": "expert_storage_81",
+        "category": "bottom_cabinet_no_top",
+        "model": "vzzafs",
+        "floor": "floors_kwnype_0",
+        "position_xy": [
+          -3.0,
+          1.9000000000000001
+        ],
+        "aabb": [
+          [
+            -3.326364059448242,
+            1.6735113983154297,
+            0.0
+          ],
+          [
+            -2.673635940551758,
+            2.1264886016845703,
+            0.8682071838378906
+          ]
+        ],
+        "room": "dining_room_0"
+      },
+      "released_compiler_links": [
+        {
+          "entity": "item_06",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_07",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        },
+        {
+          "entity": "item_08",
+          "previous_link": "meta__base_link_fillable_0_0_link"
+        }
+      ],
+      "replaced_failed_auxiliary_fixture": false,
+      "previous_auxiliary_asset": null,
+      "conservative_opening_clearance_m": 0.0,
+      "opening_sweep_requires_native_measurement": true,
+      "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/full_queue_d768444abfb5_F118/_working/step_1/asset_F118_01/scenario.yaml",
+      "original_sha256": "3fb4b587afac6df3cd9e690162af97262e2fac05a8e814966d6089b46911ffc1",
+      "diagnosis_directory": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_full_20261105/asset_F118_01",
+      "solver": {
+        "status": "feasible_model",
+        "device": "cuda",
+        "backend": "torch_cuda_finite_csp",
+        "solve_seconds": 0.05687579000368714,
+        "nodes": 3,
+        "candidate_tests": 91,
+        "search_orders_tried": 1,
+        "grid_m": 0.001,
+        "margin_m": 0.015,
+        "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+        "physical_validation_required": true,
+        "assignment": {
+          "item_06": "meta__base_link_fillable_0_0_link",
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link"
+        },
+        "poses": {
+          "item_06": {
+            "bin": "meta__base_link_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.015
+            ],
+            "footprint_m": [
+              0.261,
+              0.361
+            ],
+            "center_xy_m": [
+              0.1455,
+              0.1955
+            ]
+          },
+          "item_07": {
+            "bin": "meta__base_link_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.291,
+              0.015
+            ],
+            "footprint_m": [
+              0.17,
+              0.176
+            ],
+            "center_xy_m": [
+              0.376,
+              0.10300000000000001
+            ]
+          },
+          "item_08": {
+            "bin": "meta__base_link_fillable_0_0_link",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.291,
+              0.20600000000000002
+            ],
+            "footprint_m": [
+              0.093,
+              0.093
+            ],
+            "center_xy_m": [
+              0.3375,
+              0.2525
+            ]
+          }
+        }
+      },
+      "variant": 81,
+      "task_local_model_experience": [],
+      "preserved": [
+        "instruction",
+        "goal",
+        "target",
+        "robot",
+        "spawn",
+        "all task items and counts",
+        "relation types"
+      ]
+    }
+  ],
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_F118_01/scenario.yaml",
+  "removed_compiler_links": [],
+  "physical_validation_required": true
+}

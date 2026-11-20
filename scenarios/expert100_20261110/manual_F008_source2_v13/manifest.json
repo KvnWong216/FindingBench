@@ -1,0 +1,579 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F008_01",
+      "family": "semantic_F008",
+      "scene": "Pomaria_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/manual_F008_source2_v13/asset_F008_01/scenario.yaml",
+      "scenario_sha256": "1099512741a531a6eb2bb4fab16cb6a784519cfb60418235496f4abeabed6078",
+      "instruction": "I need baking powder for a recipe. Find it in the kitchen cupboards and put the container on the table in front of you in the kitchen; leave the baking soda there.",
+      "target_key": "baking_powder_jar/lgopij",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "kitchen_0",
+      "destination_room": "kitchen_0",
+      "source_receptacle": "bottom_cabinet_no_top_vzzafs_0",
+      "destination_receptacle": "breakfast_table_uhrsex_0",
+      "object_count": 10,
+      "distractor_count": 8,
+      "source_survey_sha256": "05d404c89ade70d34c89459d2b340c53ef49d49041a6624fcc9a997b8b7322b3",
+      "route": {
+        "start": [
+          -1.1500000000000001,
+          -2.85,
+          1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            -1.1500000000000001,
+            -2.85
+          ],
+          [
+            -1.1500000000000001,
+            -2.75
+          ],
+          [
+            -1.1500000000000001,
+            -2.6500000000000004
+          ],
+          [
+            -1.1500000000000001,
+            -2.5500000000000003
+          ],
+          [
+            -1.1500000000000001,
+            -2.45
+          ],
+          [
+            -1.1500000000000001,
+            -2.35
+          ],
+          [
+            -1.1500000000000001,
+            -2.25
+          ],
+          [
+            -1.1500000000000001,
+            -2.15
+          ],
+          [
+            -1.1500000000000001,
+            -2.0500000000000003
+          ],
+          [
+            -1.1500000000000001,
+            -1.9500000000000002
+          ],
+          [
+            -1.1500000000000001,
+            -1.85
+          ],
+          [
+            -1.1500000000000001,
+            -1.75
+          ],
+          [
+            -1.1500000000000001,
+            -1.6500000000000001
+          ],
+          [
+            -1.1500000000000001,
+            -1.55
+          ],
+          [
+            -1.1500000000000001,
+            -1.4500000000000002
+          ],
+          [
+            -1.05,
+            -1.4500000000000002
+          ],
+          [
+            -1.05,
+            -1.35
+          ],
+          [
+            -1.05,
+            -1.25
+          ],
+          [
+            -1.05,
+            -1.1500000000000001
+          ],
+          [
+            -1.05,
+            -1.05
+          ],
+          [
+            -1.05,
+            -0.9500000000000001
+          ],
+          [
+            -1.05,
+            -0.8500000000000001
+          ]
+        ],
+        "length_m": 2.1,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 46,
+        "destination_approach_count": 51,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "bottom_cabinet_no_top_bmsclc_0",
+        "bottom_cabinet_no_top_ufhpbn_0",
+        "bottom_cabinet_no_top_vzzafs_0",
+        "expert_storage_12",
+        "bottom_cabinet_no_top_pluwfl_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "expert_storage_12",
+          "category": "bottom_cabinet_no_top",
+          "model": "vzzafs",
+          "floor": "floors_abekig_0",
+          "position_xy": [
+            -3.45,
+            -1.55
+          ],
+          "aabb": [
+            [
+              -3.7763640594482424,
+              -1.7764886016845705,
+              0.0
+            ],
+            [
+              -3.123635940551758,
+              -1.3235113983154296,
+              0.8682071838378906
+            ]
+          ],
+          "room": "kitchen_0"
+        }
+      ],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_no_top_vzzafs_0",
+            "volume_extents_m": {
+              "meta__base_link_fillable_0_0_link": [
+                0.4682353269382784,
+                0.35746334360017995,
+                0.6820272216287624
+              ]
+            },
+            "native_links": {
+              "meta__base_link_fillable_0_0_link": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet_no_top/vzzafs",
+              "scale": [
+                0.880458414554596,
+                0.9137324690818787,
+                1.0244098901748657
+              ],
+              "encrypted_asset_sha256": "b4daa08616feaef1a73fc5cb01bcd60c278fad77ff3d5bda42d007a631e01515",
+              "metadata_sha256": "f0ba45ae134ef2c37866c9bb0186200606042fb03eafed9783116a94253ac4bf",
+              "root_orientation": [
+                0.0,
+                0.0,
+                0.9999911785125732,
+                -0.004201833158731461
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.012907360214740038,
+              "nodes": 6,
+              "candidate_tests": 32344,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_04": "meta__base_link_fillable_0_0_link",
+                "item_05": "meta__base_link_fillable_0_0_link",
+                "item_00": "meta__base_link_fillable_0_0_link",
+                "item_03": "meta__base_link_fillable_0_0_link",
+                "item_01": "meta__base_link_fillable_0_0_link",
+                "item_02": "meta__base_link_fillable_0_0_link"
+              },
+              "poses": {
+                "item_04": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.10400000000000001,
+                    0.10400000000000001
+                  ],
+                  "center_xy_m": [
+                    0.057,
+                    0.057
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.114,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.222,
+                    0.133
+                  ],
+                  "center_xy_m": [
+                    0.225,
+                    0.07150000000000001
+                  ]
+                },
+                "item_00": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.14300000000000002
+                  ],
+                  "footprint_m": [
+                    0.195,
+                    0.131
+                  ],
+                  "center_xy_m": [
+                    0.10250000000000001,
+                    0.2085
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.341,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.089,
+                    0.156
+                  ],
+                  "center_xy_m": [
+                    0.3855,
+                    0.083
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.20500000000000002,
+                    0.14300000000000002
+                  ],
+                  "footprint_m": [
+                    0.074,
+                    0.115
+                  ],
+                  "center_xy_m": [
+                    0.242,
+                    0.2005
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.28400000000000003,
+                    0.14300000000000002
+                  ],
+                  "footprint_m": [
+                    0.044,
+                    0.077
+                  ],
+                  "center_xy_m": [
+                    0.306,
+                    0.1815
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_00": "meta__base_link_fillable_0_0_link",
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "item_01": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_00": "meta__base_link_fillable_0_0_link",
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "item_01": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link"
+            }
+          },
+          {
+            "receptacle": "expert_storage_12",
+            "volume_extents_m": {
+              "meta__base_link_fillable_0_0_link": [
+                0.5315370221138,
+                0.39102343478868673,
+                0.6658233661651611
+              ]
+            },
+            "native_links": {
+              "meta__base_link_fillable_0_0_link": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet_no_top/vzzafs",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "b4daa08616feaef1a73fc5cb01bcd60c278fad77ff3d5bda42d007a631e01515",
+              "metadata_sha256": "f0ba45ae134ef2c37866c9bb0186200606042fb03eafed9783116a94253ac4bf",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.0071810889057815075,
+              "nodes": 3,
+              "candidate_tests": 2846,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_06": "meta__base_link_fillable_0_0_link",
+                "item_07": "meta__base_link_fillable_0_0_link",
+                "item_08": "meta__base_link_fillable_0_0_link"
+              },
+              "poses": {
+                "item_06": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.189,
+                    0.13
+                  ],
+                  "center_xy_m": [
+                    0.0995,
+                    0.07
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.199,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.074,
+                    0.115
+                  ],
+                  "center_xy_m": [
+                    0.23600000000000002,
+                    0.0625
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.278,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.044,
+                    0.077
+                  ],
+                  "center_xy_m": [
+                    0.3,
+                    0.043500000000000004
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link",
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link"
+        },
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [
+        {
+          "scene": "Pomaria_1_int",
+          "source": "bottom_cabinet_no_top_pluwfl_0",
+          "preflight": {
+            "status": "unknown",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_pluwfl_0",
+                "volume_extents_m": {
+                  "link_1": [
+                    0.35147470235824585,
+                    0.30304981768131256,
+                    0.04425930976867676
+                  ],
+                  "meta__base_link_fillable_0_0_link#component:0": [
+                    0.44400863201962193,
+                    1.014351279307019,
+                    0.2336508773869792
+                  ],
+                  "meta__base_link_fillable_0_0_link#component:1": [
+                    0.44400863201962193,
+                    1.014351279307019,
+                    0.4135045553968705
+                  ]
+                },
+                "native_links": {
+                  "link_1": "link_1",
+                  "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+                  "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link"
+                },
+                "geometry_source": "survey_with_native_components",
+                "geometry_provenance": {
+                  "asset": "bottom_cabinet_no_top/pluwfl",
+                  "scale": [
+                    1.0894665718078613,
+                    1.4325460195541382,
+                    1.4753087759017944
+                  ],
+                  "encrypted_asset_sha256": "e437cb6606b889ee5d9e12f0de89e7467c08149881866fe7238139c89f92fc6b",
+                  "metadata_sha256": "0e00312845b9ed8078f5a263551207004beec9ab9d83dfd9e656f277ade69f2c",
+                  "root_orientation": [
+                    -9.962804803365088e-09,
+                    3.2031899355189353e-09,
+                    0.9999997615814209,
+                    -0.0007240335107780993
+                  ],
+                  "coordinates": "size_only_not_world_positions",
+                  "physical_validation_required": true
+                },
+                "status": "unknown",
+                "native_sampling_required": false,
+                "solver": {
+                  "status": "unknown",
+                  "device": "cuda",
+                  "backend": "torch_cuda_finite_csp",
+                  "solve_seconds": 0.32674109609797597,
+                  "nodes": 0,
+                  "candidate_tests": 0,
+                  "grid_m": 0.001,
+                  "margin_m": 0.005,
+                  "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+                  "physical_validation_required": true,
+                  "reason": "Candidate tensor memory budget exhausted"
+                },
+                "reason": "Layout solver undecided; no native sampling",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "item_04",
+                  "item_05",
+                  "item_06",
+                  "item_07",
+                  "item_08"
+                ]
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Pomaria_1_int",
+          "source": "bottom_cabinet_no_top_vzzafs_0",
+          "reason": "Previously failed source layout"
+        }
+      ],
+      "parent_task_id": "F008",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F008_01",
+        "parent_task_id": "F008",
+        "before_instruction": "I need baking powder for the recipe on the kitchen table. Find it in the baking cupboard and put the container beside the recipe book; leave the baking soda there.",
+        "after_instruction": "I need baking powder for a recipe. Find it in the kitchen cupboards and put the container on the table in front of you in the kitchen; leave the baking soda there.",
+        "reason": "Explicit first-tranche grounding: native storage and initial-facing destination replace uninstantiated decorative reference props; no new semantic-task count.",
+        "target_asset": "baking_powder_jar/lgopij",
+        "target_assets": [
+          "baking_powder_jar/lgopij"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,331 @@
+{
+  "$defs": {
+    "DetailView": {
+      "additionalProperties": false,
+      "properties": {
+        "frame_id": {
+          "title": "Frame Id",
+          "type": "string"
+        },
+        "image_png_b64": {
+          "title": "Image Png B64",
+          "type": "string"
+        },
+        "yaw_deg": {
+          "title": "Yaw Deg",
+          "type": "number"
+        },
+        "pitch_deg": {
+          "title": "Pitch Deg",
+          "type": "number"
+        },
+        "hfov_deg": {
+          "default": 90.0,
+          "title": "Hfov Deg",
+          "type": "number"
+        }
+      },
+      "required": [
+        "frame_id",
+        "image_png_b64",
+        "yaw_deg",
+        "pitch_deg"
+      ],
+      "title": "DetailView",
+      "type": "object"
+    },
+    "EmbodimentObservation": {
+      "additionalProperties": false,
+      "description": "Robot-local calibration and executor state; never scene/target metadata.",
+      "properties": {
+        "version": {
+          "const": "embodiment-v1",
+          "default": "embodiment-v1",
+          "title": "Version",
+          "type": "string"
+        },
+        "robot_model": {
+          "title": "Robot Model",
+          "type": "string"
+        },
+        "executor_footprint_half_extent_m": {
+          "title": "Executor Footprint Half Extent M",
+          "type": "number"
+        },
+        "hand_capacity": {
+          "title": "Hand Capacity",
+          "type": "integer"
+        },
+        "end_effector_link": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End Effector Link"
+        },
+        "executor_holding": {
+          "title": "Executor Holding",
+          "type": "boolean"
+        },
+        "projection": {
+          "title": "Projection",
+          "type": "string"
+        },
+        "image_size": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Image Size",
+          "type": "array"
+        },
+        "view_yaw_deg": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "View Yaw Deg"
+        },
+        "view_pitch_deg": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "View Pitch Deg"
+        },
+        "camera_origin_in_base_m": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Camera Origin In Base M",
+          "type": "array"
+        },
+        "body_forward_in_camera": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Body Forward In Camera",
+          "type": "array"
+        },
+        "body_up_in_camera": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Body Up In Camera",
+          "type": "array"
+        },
+        "perspective_hfov_deg": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Perspective Hfov Deg"
+        }
+      },
+      "required": [
+        "robot_model",
+        "executor_footprint_half_extent_m",
+        "hand_capacity",
+        "executor_holding",
+        "projection",
+        "image_size",
+        "camera_origin_in_base_m",
+        "body_forward_in_camera",
+        "body_up_in_camera"
+      ],
+      "title": "EmbodimentObservation",
+      "type": "object"
+    },
+    "Feedback": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "$ref": "#/$defs/PublicActionFeedback"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "title": "Feedback",
+      "type": "object"
+    },
+    "PublicActionFeedback": {
+      "description": "EXACTLY four public action-result classes. No other category may cross\nthe agent boundary.",
+      "enum": [
+        "EXECUTED",
+        "INVALID_ACTION",
+        "OUT_OF_CAPABILITY",
+        "UNSAFE"
+      ],
+      "title": "PublicActionFeedback",
+      "type": "string"
+    },
+    "PublicObservation": {
+      "additionalProperties": false,
+      "description": "The complete agent-facing observation. Nothing else may be added.\n\nForbidden anywhere in the serialized form: entity/category names, object\nstates, robot world pose, held-entity id, scene graph, pair_id, placement\nregime, oracle depth, segmentation, depth, world camera extrinsics, candidate\nor admissible action sets, interaction targets.",
+      "properties": {
+        "instruction": {
+          "title": "Instruction",
+          "type": "string"
+        },
+        "frame_id": {
+          "title": "Frame Id",
+          "type": "string"
+        },
+        "image_png_b64": {
+          "title": "Image Png B64",
+          "type": "string"
+        },
+        "planning_step": {
+          "title": "Planning Step",
+          "type": "integer"
+        },
+        "max_planning_steps": {
+          "title": "Max Planning Steps",
+          "type": "integer"
+        },
+        "skill_library": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Skill Library",
+          "type": "array"
+        },
+        "feedback": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Feedback"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "embodiment": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EmbodimentObservation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "detail_view": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DetailView"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "instruction",
+        "frame_id",
+        "image_png_b64",
+        "planning_step",
+        "max_planning_steps"
+      ],
+      "title": "PublicObservation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "episode_status": {
+      "enum": [
+        "RUNNING",
+        "SUCCESS",
+        "FAIL_MAX_STEPS",
+        "FAIL_FALSE_COMPLETION"
+      ],
+      "title": "Episode Status",
+      "type": "string"
+    },
+    "planning_step": {
+      "title": "Planning Step",
+      "type": "integer"
+    },
+    "feedback": {
+      "$ref": "#/$defs/Feedback"
+    },
+    "observation": {
+      "$ref": "#/$defs/PublicObservation"
+    }
+  },
+  "required": [
+    "episode_status",
+    "planning_step",
+    "feedback",
+    "observation"
+  ],
+  "title": "PublicStepResult",
+  "type": "object"
+}

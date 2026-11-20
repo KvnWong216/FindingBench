@@ -1,0 +1,88 @@
+{
+  "id": "asset_F076_01",
+  "family": "semantic_F076",
+  "scene": "Beechwood_0_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_F076_01/scenario.yaml",
+  "scenario_sha256": "e5edc309d4df225bb32d5463208d888f15f8bd4fc01b43b23a668c9a9f9c18f3",
+  "instruction": "There is a sample on the table in front of you in the kitchen. Find another tea package matching that sample among the kitchen food-storage supplies and place it on the table in front of you in the kitchen.",
+  "target_key": "bag_of_tea/jjweyi",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "bookcase_owvfik_0",
+  "destination_receptacle": "breakfast_table_uhrsex_0",
+  "object_count": 10,
+  "distractor_count": 8,
+  "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+  "route": {
+    "start": [
+      0.25,
+      -8.55,
+      0.0
+    ],
+    "path_xy": [
+      [
+        0.25,
+        -8.55
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [],
+    "prefer_alternative_layout": false,
+    "assignments": {},
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "F076",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F076_01",
+    "parent_task_id": "F076",
+    "before_instruction": "Find a tea package in the pantry with the same product name as the empty package on the pantry table, and put it beside that package.",
+    "after_instruction": "There is a sample on the table in front of you in the kitchen. Find another tea package matching that sample among the kitchen food-storage supplies and place it on the table in front of you in the kitchen.",
+    "reason": "Same-native-model sample preserves product matching without claiming readable package text or an empty sample. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Layout revision: the unbuilt pantry-room task is explicitly relocated to the kitchen food-storage area because surveyed pantry rooms lack two robot-accessible storage/delivery positions. Target models, counts, reference matching, destination inventory and goals are unchanged; this changes room scope and may shorten transport.",
+    "target_asset": "bag_of_tea/jjweyi",
+    "target_assets": [
+      "bag_of_tea/jjweyi"
+    ]
+  },
+  "binding_sha256": "d8c77c9153eaf9a87b5c8edf07e40cdcd6bef2552c32d0e0d9b3c6f6c3ec7680"
+}

@@ -1,0 +1,151 @@
+{
+  "id": "asset_U156_01",
+  "family": "semantic_U156",
+  "scene": "Rs_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_U156_01/scenario.yaml",
+  "scenario_sha256": "f9eb78a811cf9e4cd50ff98df79b7c6f7bace541769fe4d1fb33bd6dd5ac28a1",
+  "instruction": "The spare keyboard needs to be collected. Bring it from the living room workspace peripherals to the table in front of you in the entryway in the entryway.",
+  "target_key": "keyboard/mzskhj",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_0",
+  "destination_room": "entryway_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 11,
+  "distractor_count": 8,
+  "source_survey_sha256": "24bd47925e994c3defe707f3d8a919b355cd46a7128d2b59d373bc2697d8185e",
+  "route": {
+    "start": [
+      1.0,
+      1.8,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        1.0,
+        1.8
+      ],
+      [
+        1.0,
+        1.7000000000000002
+      ],
+      [
+        1.0,
+        1.6
+      ],
+      [
+        1.0,
+        1.5
+      ],
+      [
+        1.0,
+        1.4000000000000001
+      ],
+      [
+        1.0,
+        1.3
+      ],
+      [
+        1.0,
+        1.2000000000000002
+      ]
+    ],
+    "length_m": 0.6,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 12,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_jhymlr_0",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_ptwlei_0",
+      "position_xy": [
+        0.2,
+        0.4
+      ],
+      "aabb": [
+        [
+          0.03285523986816408,
+          0.05771202087402344,
+          -0.0
+        ],
+        [
+          0.36714476013183595,
+          0.7422879791259767,
+          0.6846599731445313
+        ]
+      ],
+      "room": "living_room_0"
+    },
+    {
+      "name": "delivery_surface",
+      "category": "breakfast_table",
+      "model": "iaritq",
+      "floor": "floors_gjemfr_0",
+      "position_xy": [
+        1.2000000000000002,
+        2.8000000000000003
+      ],
+      "aabb": [
+        [
+          0.848999710083008,
+          2.4494537658691407,
+          -0.0
+        ],
+        [
+          1.5510002899169923,
+          3.15054623413086,
+          0.7490009155273437
+        ]
+      ],
+      "room": "entryway_0"
+    }
+  ],
+  "parent_task_id": "U156",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_U156_01",
+    "parent_task_id": "U156",
+    "before_instruction": "The compact keyboard borrowed from the visitor is still mixed into the study peripherals. Find it and put it on the corridor console beside the office door for collection.",
+    "after_instruction": "The spare keyboard needs to be collected. Bring it from the living room workspace peripherals to the table in front of you in the entryway in the entryway.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; The compact keyboard must be identifiable as the visitor-borrowed unit; no distinctive visitor reference/marking or compact-subtype evidence is bound. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: private_office/cabinet -> corridor/table becomes living_room/cabinet -> entryway/table. Native target models, quantities, reference criteria and distractors are unchanged. Cross-room transport remains explicit. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+    "target_asset": "keyboard/mzskhj",
+    "target_assets": [
+      "keyboard/mzskhj"
+    ]
+  },
+  "binding_sha256": "23669f9a6d4e13e9c210c56f81cf5bad8d64570e31b51eaae69366da4c93e089"
+}

@@ -1,0 +1,83 @@
+{
+  "id": "asset_U148_01",
+  "family": "semantic_U148",
+  "scene": "Wainscott_1_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_U148_01/scenario.yaml",
+  "scenario_sha256": "092f3e329c05a8eafe6fb8ccc4e0ab0f74b46e16cba413793fe9216f7fd72ebf",
+  "instruction": "Bring the glue stick from the bedroom workspace craft supplies to the table in front of you in the bedroom in the bedroom for the paper model.",
+  "target_key": "glue_stick/sqzyci",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bedroom_0",
+  "destination_room": "bedroom_0",
+  "source_receptacle": "bottom_cabinet_nnvyol_0",
+  "destination_receptacle": "breakfast_table_skczfi_2",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "7894c711eea34a656ee926a132d6563ce3833b5ddb45c126d0ce534dd2edca60",
+  "route": {
+    "start": [
+      -1.6500000000000001,
+      12.25,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -1.6500000000000001,
+        12.25
+      ],
+      [
+        -1.55,
+        12.25
+      ]
+    ],
+    "length_m": 0.1,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 47,
+    "destination_approach_count": 3,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_nnvyol_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "parent_task_id": "U148",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_U148_01",
+    "parent_task_id": "U148",
+    "before_instruction": "The paper model is on the child's desk. Find a capped glue stick among the study's craft supplies and put it beside the model on that desk.",
+    "after_instruction": "Bring the glue stick from the bedroom workspace craft supplies to the table in front of you in the bedroom in the bedroom for the paper model.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; The glue stick must be capped. A matching cap entity or verified capped geometry/state is not bound. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Native house layout maps the child study workspace to the bedroom; destination_room_type is explicitly bedroom rather than unsupported childs_room. Layout revision uses a surveyed feasible geometry pair: private_office/cabinet -> bedroom/table becomes bedroom/cabinet -> bedroom/table. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+    "target_asset": "glue_stick/sqzyci",
+    "target_assets": [
+      "glue_stick/sqzyci"
+    ]
+  },
+  "binding_sha256": "9b19d744a254104c9bbae783168f6f50a6a2d753fbea1ade2da749242f5a0c1a"
+}

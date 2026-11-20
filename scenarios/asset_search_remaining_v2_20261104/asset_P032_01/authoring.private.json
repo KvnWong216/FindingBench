@@ -1,0 +1,107 @@
+{
+  "id": "asset_P032_01",
+  "family": "semantic_P032",
+  "scene": "Merom_0_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P032_01/scenario.yaml",
+  "scenario_sha256": "2c9a57a077d078e4b3257c3d273b0ae7a7896c1718672d490294d9a7bca4aecf",
+  "instruction": "There is a sample on the table in front of you in the living room. Find the toy vehicle matching that sample among the living-room toy drawers and bring it to the table in front of you in the living room.",
+  "target_key": "toy_car/ksijjl",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "coffee_table_dnsjnv_0",
+  "object_count": 13,
+  "distractor_count": 10,
+  "source_survey_sha256": "432c3be0b4dd33aa136873f8d072cfc232afe601bfa0f68e3b7489a89af8f0f5",
+  "route": {
+    "start": [
+      3.0500000000000003,
+      8.05,
+      0.0
+    ],
+    "path_xy": [
+      [
+        3.0500000000000003,
+        8.05
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 16,
+    "destination_approach_count": 50,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "comparison_negative_0",
+    "comparison_negative_1",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "nightstand",
+      "model": "gjwjtj",
+      "floor": "floors_lqngig_0",
+      "position_xy": [
+        3.25,
+        8.950000000000001
+      ],
+      "aabb": [
+        [
+          3.0666436157226564,
+          8.688053253173829,
+          0.0
+        ],
+        [
+          3.4333563842773436,
+          9.211946746826174,
+          0.4715069580078125
+        ]
+      ],
+      "room": "living_room_0"
+    }
+  ],
+  "parent_task_id": "P032",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P032_01",
+    "parent_task_id": "P032",
+    "before_instruction": "Find the toy bus among the vehicles in the living-room toy drawers and place it on the play mat next to the toy road.",
+    "after_instruction": "There is a sample on the table in front of you in the living room. Find the toy vehicle matching that sample among the living-room toy drawers and bring it to the table in front of you in the living room.",
+    "reason": "The allocated toy_car has no verified bus identity; substitutes model-reference selection without inventing a bus or toy-road landmark. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "toy_car/ksijjl",
+    "target_assets": [
+      "toy_car/ksijjl"
+    ]
+  },
+  "binding_sha256": "9967b03cd849765f90268728e2be8ea913441b8d80b5a211a6b9882004307c89"
+}

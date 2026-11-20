@@ -1,0 +1,70 @@
+# Shared by every base task / variant in vla_difficulty_v1.
+# Field names follow rummagebench.core.scenario.ScenarioSpec so a variant
+# compiles to a standard scenario without new runtime code.
+version: 1
+scene:
+  model: Beechwood_0_int     # same scene as scenarios/knife_search_001 (historical GPU builds)
+  source: behavior
+
+robot:
+  model: r1pro
+  name: robot_0
+  init_anchor: start_kitchen
+  panorama:                  # mount copied from scenarios/behavior_groceries_pilot (real-sim verified on this host)
+    head_link: zed_link
+    mount_frame_link: torso_link4
+    offset: [0.0, 0.0, 0.15]
+    # VIEW resamples this cached panorama (no re-render). The pilot's 256/1024x512
+    # gives ~2.8 px/deg: a table knife 2.4 m away was 6 px (T01 L2_S1, 2026-10-18).
+    # 512/2048x1024 gives ~5.7 px/deg, close to the 640x480 / 90 deg VIEW (7.1 px/deg).
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities: [rgb, depth_linear, seg_instance]
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/r1pro.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+
+anchors:
+  # knife_search_001's `kitchen` anchor (0.75, -8.15) fails the AGENT-protocol
+  # spawn footprint check (0.40 m half extent + 0.03 m margin) against
+  # straight_chair_vkgbbl_0 (sim, 2026-10-18). Moved 0.46 m to the nearest
+  # room-map point with >= 0.7 m traversable clearance (turn-in-place safe).
+  start_kitchen:
+    position: [0.85, -7.70, 0.0053]
+    orientation: [0.0, 0.0, 1.0, 0.0]   # yaw 180: facing -x, into the kitchen
+  # Evaluator-private interaction anchors (never exposed in AGENT mode): base
+  # poses where PLACE succeeded in scripted runs on 2026-10-18. The route oracle
+  # tries <entity>__<SKILL>* anchors before its ring search, because one PLACE
+  # feasibility check costs ~100-180 s on this host.
+  countertop_tpuwys_0__PLACE_0:   # T02 L2_S1
+    position: [1.07, -6.191, 0.0053]
+    orientation: [0.0, 0.0, 0.8093, 0.5874]
+  countertop_tpuwys_0__PLACE_1:   # T02 L2_S3
+    position: [1.425, -6.241, 0.0053]
+    orientation: [0.0, 0.0, 0.9180, 0.3966]
+  countertop_tpuwys_4__PLACE_0:   # T04 L2_S2
+    position: [0.025, -8.37, 0.0053]
+    orientation: [0.0, 0.0, 0.7072, 0.7070]
+  countertop_tpuwys_4__PLACE_1:   # T04 L2_S3
+    position: [0.293, -6.515, 0.0053]
+    orientation: [0.0, 0.0, -0.8093, 0.5874]
+
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+
+termination:
+  max_planning_steps: 60      # identical for all variants; calibrate after scripted runs
+  fail_on_wrong_grasp: false  # AGENT protocol: wrong grasps are recoverable
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false   # success only via REPORT_DONE + goal
+
+skills: [MOVE, TURN, VIEW, OPEN, CLOSE, GRASP, PLACE, REPORT_DONE]
+expose_available_skills: false

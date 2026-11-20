@@ -1,0 +1,77 @@
+# FindingBench batch scenario spec — kitchen targets in cabinets.
+# Rendered by scripts/generate_scenarios.py into scenarios/<id>/scenario.yaml;
+# edit THIS file to mass-produce scenarios, never the generated output.
+#
+# All entries share the Beechwood_0_int kitchen layout, the 854x480 camera and
+# the drawer-safe placement scheme (bottom_cabinet_no_top_qohxjq_0 / link_2 is
+# GPU-proven by knife_search_001). A per-entry receptacle/link that has never
+# run on GPU needs one smoke run (gpu_smoke_needed: true) before it may be
+# used for evaluation; distractor cabinets are reused from knife_search_001.
+batch: kitchen_v1
+
+scenarios:
+  - id: ketchup_search_001
+    instruction: >
+      Season the fries for me. My ketchup may be in the kitchen.
+    target: {category: tomato_sauce_jar, model: krfzqk}
+    entity: target_ketchup
+    receptacle: bottom_cabinet_no_top_qohxjq_0
+    link: link_2
+    distractors: [bowl, teacup, tablespoon, tablefork]
+
+  - id: barbecue_sauce_search_001
+    instruction: >
+      The grill is almost ready — grab my barbecue sauce. It may be in the kitchen.
+    target: {category: barbecue_sauce_bottle, model: gfxrnj}
+    entity: target_barbecue_sauce
+    receptacle: bottom_cabinet_no_top_qohxjq_0
+    link: link_2
+    distractors: [bowl, teacup, tablespoon, tablefork, vegetable_peeler]
+
+  - id: basil_jar_search_001
+    instruction: >
+      The pasta needs flavor. Find my basil jar — it may be in the kitchen.
+    target: {category: basil_jar, model: swytaw}
+    entity: target_basil_jar
+    receptacle: bottom_cabinet_no_top_qohxjq_0
+    link: link_2
+    distractors: [bowl, teacup, tablefork, vegetable_peeler]
+
+  - id: bowl_search_001
+    instruction: >
+      Serve the salad in my big bowl. It may be in the kitchen.
+    target: {category: bowl, model: adciys}
+    entity: target_bowl
+    receptacle: bottom_cabinet_no_top_qohxjq_0
+    link: link_2
+    distractors: [teacup, tablespoon, tablefork, vegetable_peeler]
+
+  - id: peeler_search_001
+    instruction: >
+      Prep the carrots for me. My peeler may be in the kitchen.
+    target: {category: vegetable_peeler, model: njgqao}
+    entity: target_peeler
+    receptacle: bottom_cabinet_no_top_qohxjq_0
+    link: link_2
+    distractors: [bowl, teacup, tablespoon, tablefork]
+
+  # --- variety entries: NEW receptacles; one GPU smoke run each first ---
+  - id: basil_jar_search_002
+    instruction: >
+      We are out of herbs. There is another basil jar somewhere in the kitchen.
+    target: {category: basil_jar, model: swytaw}
+    entity: target_basil_jar
+    receptacle: bottom_cabinet_no_top_spojpj_0
+    link: link_2
+    distractors: [bowl, teacup, tablefork]
+    gpu_smoke_needed: true
+
+  - id: ketchup_search_002
+    instruction: >
+      One more bottle: find the spare ketchup in the kitchen drawers.
+    target: {category: tomato_sauce_jar, model: krfzqk}
+    entity: target_ketchup
+    receptacle: bottom_cabinet_rvpunw_0
+    link: link_2
+    distractors: [bowl, teacup, tablefork]
+    gpu_smoke_needed: true

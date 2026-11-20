@@ -1,0 +1,163 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F127_01",
+      "family": "semantic_F127",
+      "scene": "house_single_floor",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_15_F127_expert_af780492c411/asset_F127_01/scenario.yaml",
+      "scenario_sha256": "2004c6db84c46ce31a125d0f11ee184ef58d6dd008f7c955efbc333dedeb315e",
+      "instruction": "Find a can of tomatoes and a jar of tomato sauce in the kitchen cupboards and put both on the counter in front of you in the kitchen for cooking.",
+      "target_key": "can_of_tomatoes/ckdouu",
+      "target_entities": [
+        "item_00",
+        "item_01"
+      ],
+      "target_count": 2,
+      "source_room": "kitchen_0",
+      "destination_room": "kitchen_0",
+      "source_receptacle": "bottom_cabinet_no_top_gjeoer_0",
+      "destination_receptacle": "countertop_kelker_0",
+      "object_count": 10,
+      "distractor_count": 8,
+      "source_survey_sha256": "14714104a089f0a43cdebe256d01d697215fe5627c0e2fcb55a030a71a1fb2a5",
+      "route": {
+        "start": [
+          5.0,
+          1.4000000000000001,
+          -1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            5.0,
+            1.4000000000000001
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "item_09",
+        "bottom_cabinet_no_top_rkgjer_0",
+        "bottom_cabinet_no_top_gjeoer_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [],
+      "parent_task_id": "F127",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F127_01",
+        "parent_task_id": "F127",
+        "before_instruction": "Find either a can of tomatoes or a jar of tomato sauce in the kitchen food cupboards and put it beside the empty stockpot on the counter.",
+        "after_instruction": "Find a can of tomatoes and a jar of tomato sauce in the kitchen cupboards and put both on the counter in front of you in the kitchen for cooking.",
+        "reason": "Changes an OR retrieval to a concrete two-ingredient preparation; no unsupported empty stockpot is referenced. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "can_of_tomatoes/ckdouu",
+        "target_assets": [
+          "can_of_tomatoes/ckdouu",
+          "tomato_sauce_jar/krfzqk"
+        ]
+      },
+      "binding_sha256": "32cabb1b23e602d67b28969445d97ddaabb92676b89d1bcb28048fcb60a30def",
+      "surface_binding_revision": {
+        "status": "surface_body_binding_corrected_physics_pending",
+        "changes": [
+          {
+            "field": "goal",
+            "entity": "item_00",
+            "before": "bottom_cabinet_no_top_gjeoer_0",
+            "after": "countertop_kelker_0"
+          },
+          {
+            "field": "goal",
+            "entity": "item_01",
+            "before": "bottom_cabinet_no_top_gjeoer_0",
+            "after": "countertop_kelker_0"
+          }
+        ],
+        "destination_approach_patch": {
+          "contact_body": "countertop_kelker_0",
+          "above_fixture": "bottom_cabinet_no_top_gjeoer_0",
+          "aabb": [
+            [
+              3.868,
+              -1.613,
+              0.851
+            ],
+            [
+              4.485,
+              1.201,
+              0.888
+            ]
+          ],
+          "scope": "private route proposal to a subset of the actual slab; no synthetic body"
+        },
+        "geometry": {
+          "bottom_cabinet_no_top_gjeoer_0": {
+            "before": [
+              [
+                3.868,
+                -1.613,
+                0.12
+              ],
+              [
+                4.485,
+                1.201,
+                0.851
+              ]
+            ],
+            "after": [
+              [
+                3.868,
+                -2.201,
+                0.851
+              ],
+              [
+                4.494,
+                1.211,
+                0.888
+              ]
+            ]
+          }
+        },
+        "source_survey": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/vla_difficulty_v2/_survey/house_single_floor.json",
+        "source_survey_sha256": "14714104a089f0a43cdebe256d01d697215fe5627c0e2fcb55a030a71a1fb2a5",
+        "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_F127_01/scenario.yaml",
+        "original_scenario_sha256": "6ea5a5669cf816458fe6e591864a41fd9c7689fc9fb1957cc758e9afd7cdb81c",
+        "reason": "Native OnTop requires touching the named body; a separate measured slab covers the named cabinet.",
+        "preserved": [
+          "instruction",
+          "all object models and counts",
+          "target identities",
+          "relation kinds",
+          "spawn",
+          "robot and skills",
+          "physical delivery location"
+        ],
+        "physical_validation_required": true
+      }
+    }
+  ]
+}

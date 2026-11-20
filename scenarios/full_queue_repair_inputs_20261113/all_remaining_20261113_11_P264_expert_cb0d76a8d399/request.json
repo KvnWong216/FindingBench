@@ -1,0 +1,240 @@
+{
+  "action": "expert",
+  "case": {
+    "id": "P264",
+    "record": {
+      "id": "asset_P264_01",
+      "family": "semantic_P264",
+      "scene": "Benevolence_2_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/overnight_expert_20261109/direct/asset_P264_01/scenario.yaml",
+      "scenario_sha256": "e31b89b6bd2c300dbf87f87d2490733ae4325854ec773900db86028fdcf0f889",
+      "instruction": "Retrieve the wristwatch from the bedroom accessories and put it on the cabinet top in front of you in the bedroom for getting ready to go out.",
+      "target_key": "watch/ghobzn",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "bedroom_1",
+      "destination_room": "bedroom_1",
+      "source_receptacle": "bottom_cabinet_slgzfc_0",
+      "destination_receptacle": "bottom_cabinet_slgzfc_0",
+      "object_count": 9,
+      "distractor_count": 8,
+      "source_survey_sha256": "a5aecce586f71d5c55e54407ca135508aa6adf0cf04829a58057df06a25a855d",
+      "route": {
+        "start": [
+          2.75,
+          0.15000000000000002,
+          3.141592653589793
+        ],
+        "path_xy": [
+          [
+            2.75,
+            0.15000000000000002
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 25,
+        "destination_approach_count": 25,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "bottom_cabinet_slgzfc_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_slgzfc_0",
+            "volume_extents_m": {
+              "meta__link_1_fillable_0_0_link": [
+                0.4627654875977758,
+                0.8265971392466687,
+                0.11027310330549267
+              ],
+              "meta__link_2_fillable_0_0_link": [
+                0.4627654875977758,
+                0.8265971392466687,
+                0.11027310330549267
+              ],
+              "meta__link_3_fillable_0_0_link": [
+                0.4627654738658942,
+                0.8265971392466687,
+                0.11027310007870275
+              ],
+              "meta__link_4_fillable_0_0_link": [
+                0.46276547386589423,
+                0.8265971392466687,
+                0.11027311482973379
+              ]
+            },
+            "native_links": {
+              "meta__link_1_fillable_0_0_link": "meta__link_1_fillable_0_0_link",
+              "meta__link_2_fillable_0_0_link": "meta__link_2_fillable_0_0_link",
+              "meta__link_3_fillable_0_0_link": "meta__link_3_fillable_0_0_link",
+              "meta__link_4_fillable_0_0_link": "meta__link_4_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet/slgzfc",
+              "scale": [
+                1.2559125423431396,
+                2.247575044631958,
+                1.546757459640503
+              ],
+              "encrypted_asset_sha256": "8730de13129a20a6ac8ee45d1a9bfaddb32e2f1eacacbad1762e3397f6b9be1f",
+              "metadata_sha256": "1d26b797bfe333f5e4376a14a649e0d011d8f8f9ed8ed38b1f1f471c823be158",
+              "root_orientation": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "assignment": {
+              "item_00": "meta__link_3_fillable_0_0_link",
+              "item_02": "meta__link_1_fillable_0_0_link",
+              "item_07": "meta__link_2_fillable_0_0_link",
+              "item_08": "meta__link_4_fillable_0_0_link",
+              "item_05": "meta__link_2_fillable_0_0_link",
+              "item_06": "meta__link_1_fillable_0_0_link",
+              "item_01": "meta__link_1_fillable_0_0_link",
+              "item_04": "meta__link_2_fillable_0_0_link",
+              "item_03": "meta__link_1_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_00": "meta__link_3_fillable_0_0_link",
+              "item_02": "meta__link_1_fillable_0_0_link",
+              "item_07": "meta__link_2_fillable_0_0_link",
+              "item_08": "meta__link_4_fillable_0_0_link",
+              "item_05": "meta__link_2_fillable_0_0_link",
+              "item_06": "meta__link_1_fillable_0_0_link",
+              "item_01": "meta__link_1_fillable_0_0_link",
+              "item_04": "meta__link_2_fillable_0_0_link",
+              "item_03": "meta__link_1_fillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_00": "meta__link_3_fillable_0_0_link",
+          "item_02": "meta__link_1_fillable_0_0_link",
+          "item_07": "meta__link_2_fillable_0_0_link",
+          "item_08": "meta__link_4_fillable_0_0_link",
+          "item_05": "meta__link_2_fillable_0_0_link",
+          "item_06": "meta__link_1_fillable_0_0_link",
+          "item_01": "meta__link_1_fillable_0_0_link",
+          "item_04": "meta__link_2_fillable_0_0_link",
+          "item_03": "meta__link_1_fillable_0_0_link"
+        },
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [],
+      "parent_task_id": "P264",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_P264_01",
+        "parent_task_id": "P264",
+        "before_instruction": "Find the wristwatch with Roman numerals among bedroom accessory storage and place it beside the standing mirror.",
+        "after_instruction": "Retrieve the wristwatch from the bedroom accessories and put it on the cabinet top in front of you in the bedroom for getting ready to go out.",
+        "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Native category metadata does not certify the stated target predicate: Roman-numeral wristwatch. Native categories are only candidates; required subtype, markings, quantity, or reference appearance remain unverified: Roman-numeral wristwatch. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+        "target_asset": "watch/ghobzn",
+        "target_assets": [
+          "watch/ghobzn"
+        ]
+      },
+      "binding_sha256": "5a4b77485880c1ff27bc1e3bef4a7653f0b71f4d5d41cbfd6f976665bab39606"
+    },
+    "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/overnight_expert_20261109/direct/asset_P264_01",
+    "error": "EXPERT_LAYOUT_UNRESOLVED: infeasible_model No allowed bin/orientation fits an item",
+    "source_sha256": "e31b89b6bd2c300dbf87f87d2490733ae4325854ec773900db86028fdcf0f889",
+    "expert_diagnosis": {
+      "category": "restricted_packing",
+      "error": "EXPERT_LAYOUT_UNRESOLVED: infeasible_model No allowed bin/orientation fits an item",
+      "native_rejections_in_current_queue": 0,
+      "first_blocker": {
+        "entity": "item_08",
+        "relation": "inside",
+        "receptacle": "bottom_cabinet_slgzfc_0"
+      },
+      "solver": {
+        "receptacle": "bottom_cabinet_slgzfc_0",
+        "status": "infeasible_model",
+        "device": "cuda",
+        "backend": "torch_cuda_finite_csp",
+        "solve_seconds": 0.06234240019693971,
+        "nodes": 0,
+        "candidate_tests": 0,
+        "grid_m": 0.001,
+        "margin_m": 0.015,
+        "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+        "physical_validation_required": true,
+        "reason": "No allowed bin/orientation fits an item",
+        "blocking_entities": [
+          "item_01",
+          "item_02",
+          "item_03",
+          "item_04",
+          "item_05",
+          "item_06",
+          "item_07",
+          "item_08"
+        ]
+      },
+      "support_measurements": {
+        "total": 4,
+        "planar": 4,
+        "reasons": {
+          "measured_plane": 4
+        }
+      },
+      "first_contact": null,
+      "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/overnight_expert_20261109/direct/asset_P264_01/native_validation.log",
+      "inference_scope": "proposal/model diagnosis; native physics acceptance unchanged"
+    },
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "restricted_packing",
+      "reason": "EXPERT_LAYOUT_UNRESOLVED: infeasible_model No allowed bin/orientation fits an item"
+    }
+  },
+  "out": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_11_P264_expert_cb0d76a8d399",
+  "variant": 93
+}

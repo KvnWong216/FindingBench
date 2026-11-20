@@ -1,0 +1,83 @@
+{
+  "id": "asset_P231_01",
+  "family": "semantic_P231",
+  "scene": "Beechwood_1_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P231_01/scenario.yaml",
+  "scenario_sha256": "6fb392a5584c501fa1c96bd4e2371854d23894ccd282f18be21cfc6a7bf28015",
+  "instruction": "Find a toothbrush matching the sample on the counter in front of you in the bathroom among the bathroom supplies and put it beside the sample for the guest toiletries.",
+  "target_key": "toothbrush/qbkrzg",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bathroom_1",
+  "destination_room": "bathroom_1",
+  "source_receptacle": "bottom_cabinet_no_top_pluwfl_0",
+  "destination_receptacle": "bottom_cabinet_no_top_pluwfl_0",
+  "object_count": 11,
+  "distractor_count": 9,
+  "source_survey_sha256": "e6788ca8219b4da8643d87d4deebe4595aa9d5f15520af27b74393574b33a410",
+  "route": {
+    "start": [
+      -6.9,
+      -2.9000000000000004,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -6.9,
+        -2.9000000000000004
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 36,
+    "destination_approach_count": 36,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "required_negative_0",
+    "bottom_cabinet_no_top_pluwfl_1",
+    "bottom_cabinet_no_top_pluwfl_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "parent_task_id": "P231",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P231_01",
+    "parent_task_id": "P231",
+    "before_instruction": "Find the toothbrush marked Guest among the bathroom vanity supplies and place it in the empty cup on the guest shelf.",
+    "after_instruction": "Find a toothbrush matching the sample on the counter in front of you in the bathroom among the bathroom supplies and put it beside the sample for the guest toiletries.",
+    "reason": "Retains matching-based retrieval through a physical same-native-model sample on the delivery surface. Any original cross-object compatibility, photo or consumable-state requirement is explicitly replaced with visible product/shape matching. Original source and destination rooms preserved; forced native distractor creates a real competing selection.",
+    "target_asset": "toothbrush/qbkrzg",
+    "target_assets": [
+      "toothbrush/qbkrzg"
+    ]
+  },
+  "binding_sha256": "3b4c9cfb10a46485928a33829c628308e859085f1d0c098b57dd13848a93797a"
+}

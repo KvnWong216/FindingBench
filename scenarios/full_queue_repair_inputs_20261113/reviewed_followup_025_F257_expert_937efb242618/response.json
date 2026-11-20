@@ -1,0 +1,75 @@
+{
+  "status": "deferred",
+  "reason": "Per-case multi-source repair remains unresolved; no native launch",
+  "preflight": {
+    "status": "rejected_candidate",
+    "findings": [
+      {
+        "receptacle": "item_00",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link": [
+            0.1978030222595637,
+            0.31705463466211037,
+            0.2897242242776086
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "wicker_basket/dgkhyn",
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "metadata_sha256": "5ed97e0c59ab025ecd439f7a00b8a518d535026f26ad2e1e8b9a3899aa426f66",
+          "encrypted_asset_sha256": "9b01092e6ff6bff02265758d285bd2a4c93e5c8653bf873f0a754978518b8a55",
+          "physical_validation_required": true
+        },
+        "status": "rejected_candidate",
+        "reason": "Pre-sampling dimension gate: no allowed compartment fits the upright object with clearance",
+        "entities": [
+          "item_07"
+        ],
+        "object_extents_m": {
+          "item_07": [
+            0.3708655853271485,
+            0.297087890625,
+            0.16317513275146484
+          ]
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {},
+    "physical_validation_required": true
+  },
+  "fixture_repair": {
+    "status": "deferred",
+    "reason": "No semantics-preserving storage profile",
+    "storage": "item_00"
+  },
+  "partial_authoring_steps": [
+    {
+      "status": "deferred",
+      "reason": "No semantics-preserving storage profile",
+      "storage": "item_00"
+    }
+  ],
+  "expert_policy": {
+    "method": "relocate_storage",
+    "clear_unstated_links": true,
+    "plan_surfaces": true,
+    "runtime_changes": [
+      "closed_native_bbox_XY",
+      "disjoint_measured_support_patches",
+      "bounded_CUDA_candidate_domains"
+    ],
+    "original_instruction_retained": true,
+    "explicit_location_scope_retained": true,
+    "diagnosis": "native_placement",
+    "reason": "placement failed verification after physics settled: ['item_01 inside item_00', 'item_02 inside item_00', 'item_03 inside item_00', 'item_04 inside item_00', 'item_05 inside item_00', 'item_06 inside item_00', 'item_07 inside item_00', 'item_08 inside item_00', 'item_09 inside item_00']"
+  }
+}

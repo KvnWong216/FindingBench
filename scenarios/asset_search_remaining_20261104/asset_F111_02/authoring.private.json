@@ -1,0 +1,112 @@
+{
+  "id": "asset_F111_02",
+  "family": "semantic_F111",
+  "scene": "Pomaria_1_int",
+  "scenario": "scenarios/asset_search_remaining_20261104/asset_F111_02/scenario.yaml",
+  "scenario_sha256": "a96fd58d71983204fe02e26d2af51a37df6af9ffdd8d2d32027e88d004aba5e9",
+  "instruction": "Find a bottle of water and a box of granola bars in the kitchen grocery storage and put both on the table in front of you in the kitchen for lunch.",
+  "target_key": "bottle_of_water/qaceen",
+  "target_entities": [
+    "item_00",
+    "item_01"
+  ],
+  "target_count": 2,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "bottom_cabinet_no_top_vzzafs_0",
+  "destination_receptacle": "breakfast_table_uhrsex_0",
+  "object_count": 10,
+  "distractor_count": 8,
+  "source_survey_sha256": "05d404c89ade70d34c89459d2b340c53ef49d49041a6624fcc9a997b8b7322b3",
+  "route": {
+    "start": [
+      -1.05,
+      -0.8500000000000001,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -1.05,
+        -0.8500000000000001
+      ],
+      [
+        -1.05,
+        -0.75
+      ],
+      [
+        -1.05,
+        -0.65
+      ],
+      [
+        -1.05,
+        -0.55
+      ],
+      [
+        -1.05,
+        -0.45
+      ],
+      [
+        -1.05,
+        -0.35000000000000003
+      ],
+      [
+        -1.05,
+        -0.25
+      ],
+      [
+        -1.1500000000000001,
+        -0.25
+      ],
+      [
+        -1.25,
+        -0.25
+      ]
+    ],
+    "length_m": 0.8,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 51,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09",
+    "bottom_cabinet_jrhgeu_0",
+    "bottom_cabinet_no_top_vzzafs_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "parent_task_id": "F111",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F111_02",
+    "parent_task_id": "F111",
+    "before_instruction": "Find a bottle of water and a box of granola bars in the kitchen grocery storage and put both beside the lunch box on the kitchen table.",
+    "after_instruction": "Find a bottle of water and a box of granola bars in the kitchen grocery storage and put both on the table in front of you in the kitchen for lunch.",
+    "reason": "The identified delivery surface is grounded by the initial facing direction; decorative destination landmarks are omitted. Target identity, requested cardinality and source/destination room types are retained.",
+    "target_asset": "bottle_of_water/qaceen",
+    "target_assets": [
+      "bottle_of_water/qaceen",
+      "box_of_granola_bars/tqwhvz"
+    ]
+  }
+}

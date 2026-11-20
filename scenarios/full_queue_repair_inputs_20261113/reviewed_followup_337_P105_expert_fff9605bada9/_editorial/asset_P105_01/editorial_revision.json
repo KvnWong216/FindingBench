@@ -1,0 +1,126 @@
+{
+  "status": "editorial_revision_physics_pending",
+  "revision_id": "expert_native_household_size_20261114_P105",
+  "authorization": "user_approved_find_and_deliver_rewrite",
+  "reason": "All four native toy cars are 45\u201389 cm long; use three distinct native handheld toy figures while retaining exact sample matching, clutter, entity counts, rooms and delivery.",
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_P105_01/scenario.yaml",
+  "original_archive": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_337_P105_expert_fff9605bada9/_editorial/asset_P105_01/original_scenario.yaml",
+  "original_scenario_sha256": "53ff969701c24cf0965a591510d0cade5adaa88f0964214d9fe6232b033364f9",
+  "revised_scenario_sha256": "c75a5675e3c65d18ca21cfdb76ffac9928cb66416400dad0a57b56cd77039a9e",
+  "before_instruction": "There is a sample on the cabinet top in front of you in the bedroom. Find a toy car matching that sample among the living-room toys and bring it to the cabinet top in front of you in the bedroom in the bedroom.",
+  "after_instruction": "There is a sample on the cabinet top in front of you in the bedroom. Find a toy figure matching that sample among the living-room toys and bring it to the cabinet top in front of you in the bedroom in the bedroom.",
+  "object_changes": [
+    {
+      "before": {
+        "name": "item_00",
+        "category": "toy_car",
+        "model": "ksijjl"
+      },
+      "after": {
+        "name": "item_00",
+        "category": "toy_figure",
+        "model": "issvzv"
+      },
+      "native_bbox_m": [
+        0.14876868438720703,
+        0.1061657485961914,
+        0.14032323986291886
+      ],
+      "metadata_sha256": "e996251a9110e82552cbf297b000805b8ab1fc1a09e21cb1c679daefbb0fe809",
+      "encrypted_asset_sha256": "38c189e0cca398ef25b8d5df781446b22ff7ebf3577c236a171d198d3b24138a"
+    },
+    {
+      "before": {
+        "name": "comparison_sample",
+        "category": "toy_car",
+        "model": "ksijjl"
+      },
+      "after": {
+        "name": "comparison_sample",
+        "category": "toy_figure",
+        "model": "issvzv"
+      },
+      "native_bbox_m": [
+        0.14876868438720703,
+        0.1061657485961914,
+        0.14032323986291886
+      ],
+      "metadata_sha256": "e996251a9110e82552cbf297b000805b8ab1fc1a09e21cb1c679daefbb0fe809",
+      "encrypted_asset_sha256": "38c189e0cca398ef25b8d5df781446b22ff7ebf3577c236a171d198d3b24138a"
+    },
+    {
+      "before": {
+        "name": "comparison_negative_0",
+        "category": "toy_car",
+        "model": "dgnnin"
+      },
+      "after": {
+        "name": "comparison_negative_0",
+        "category": "toy_figure",
+        "model": "fekpjq"
+      },
+      "native_bbox_m": [
+        0.103241455078125,
+        0.11427047729492187,
+        0.08317471694946289
+      ],
+      "metadata_sha256": "996b4e092ecb1f299a8fa8c0a2fcf5c88f3afdb994b400194ca45226270c5290",
+      "encrypted_asset_sha256": "5df40943f4fddb6d9e95e7c9ac92504cb4a2091c9b5d8dee0427978f08d9b961"
+    },
+    {
+      "before": {
+        "name": "comparison_negative_1",
+        "category": "toy_car",
+        "model": "nhtywr"
+      },
+      "after": {
+        "name": "comparison_negative_1",
+        "category": "toy_figure",
+        "model": "cqeowc"
+      },
+      "native_bbox_m": [
+        0.11246259212493896,
+        0.1539401626586914,
+        0.07903120422363281
+      ],
+      "metadata_sha256": "9446e7c5c3ef25798c55cfa0838208a1d18f07ddc8090e5058ba9ebd17950915",
+      "encrypted_asset_sha256": "dacd3948acd72958ce03cb7d1f9a3328ec833ed1287883bf6927d0b3e367c6e6"
+    }
+  ],
+  "surface_binding_changes": [],
+  "before_goal": [
+    {
+      "kind": "on_top",
+      "entity": "item_00",
+      "receptacle": "delivery_surface"
+    }
+  ],
+  "after_goal": [
+    {
+      "kind": "on_top",
+      "entity": "item_00",
+      "receptacle": "delivery_surface"
+    }
+  ],
+  "before_target": {
+    "entity": "item_00",
+    "category": "toy_car"
+  },
+  "after_target": {
+    "entity": "item_00",
+    "category": "toy_figure"
+  },
+  "preserved": [
+    "find-and-deliver paradigm",
+    "goal entity and relation",
+    "scene",
+    "spawn",
+    "robot",
+    "skills",
+    "entity names and count",
+    "placement relations",
+    "target cardinality"
+  ],
+  "physical_validation_required": true,
+  "human_completion_verified": false
+}

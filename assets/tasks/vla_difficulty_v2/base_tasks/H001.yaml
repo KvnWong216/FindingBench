@@ -1,0 +1,122 @@
+task_id: H001
+family: fetch
+scene: hotel_suite_large
+source:
+  official_activity: buying_groceries_for_a_feast#0
+  official_activities_with_same_subgoal:
+  - buying_groceries_for_a_feast#0
+  official_subgoal: (inside grocery.n.02 shopping_cart.n.01)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K hotel_suite_large
+  object: BEHAVIOR-1K box_of_raspberries/rxvopf
+start:
+  name: start_bathroom_0_0
+  room: bathroom_0
+  x: -0.85
+  y: 3.72
+  yaw: 0.0
+target:
+  entity: target_obj
+  category: box_of_raspberries
+  model: rxvopf
+  noun: box of raspberries
+  colour_estimate: red
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+initial_states: {}
+spatial:
+  S1:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: shelf_rglkkf_0
+    room: bathroom_0
+    location_phrase: the long low shelf next to the sink in the bathroom
+    grasp_hints:
+    - - 0.612
+      - 3.193
+      - -1.485
+    - - 1.214
+      - 3.193
+      - -2.356
+    - - 0.662
+      - 3.243
+      - -1.571
+    - - 1.113
+      - 3.293
+      - -2.137
+    extra_ops_vs_S1: []
+    probe_visibility_from_start:
+      px: 159
+      delta_e: 22.0
+  S2:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: shelf_xogqqm_0
+    room: bathroom_0
+    location_phrase: the top shelf of the four-level shelf rack in the bathroom
+    grasp_hints:
+    - - -0.995
+      - 1.786
+      - 2.434
+    - - -0.958
+      - 1.649
+      - 2.346
+    - - -1.009
+      - 1.599
+      - 2.268
+    - - -1.059
+      - 1.549
+      - 2.191
+    extra_ops_vs_S1:
+    - search behind occluders
+    s2_kind: occluded
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: shelf_aqtmhm_0
+    room: bedroom_0
+    location_phrase: the lower shelf next to the TV in the bedroom
+    grasp_hints:
+    - - 1.253
+      - 0.432
+      - -0.092
+    - - 1.203
+      - 0.381
+      - -0.013
+    - - 1.153
+      - 0.733
+      - -0.448
+    - - 1.153
+      - 0.331
+      - 0.0
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    route_from_start_steps: 8
+language:
+  L1:
+    S1: Go to the long low shelf next to the sink in the bathroom, pick up the box
+      of raspberries on it and hold it.
+    S2: Go to the top shelf of the four-level shelf rack in the bathroom, pick up
+      the box of raspberries on it and hold it.
+    S3: Leave the bathroom, go to the lower shelf next to the TV in the bedroom, pick
+      up the box of raspberries on it and hold it.
+  L2: Pick up the box of raspberries and keep holding it.
+  L3: I'm buying groceries for a feast. Can you find the box of raspberries and hold
+    it for me?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

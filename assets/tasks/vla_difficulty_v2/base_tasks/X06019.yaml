@@ -1,0 +1,72 @@
+task_id: X06019
+family: fetch
+scene: Wainscott_1_int
+source:
+  official_activity: bag_groceries#0
+  official_activities_with_same_subgoal:
+  - bag_groceries#0
+  official_subgoal: (inside bottle__of__orange_juice.n.01 sack.n.01)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K Wainscott_1_int (+ clearance manifest)
+  object: BEHAVIOR-1K bottle_of_orange_juice/rtqqor
+start:
+  name: start_bathroom_0_0
+  room: bathroom_0
+  x: 4.22
+  y: 10.36
+  yaw: -3.065
+target:
+  entity: target_obj
+  category: bottle_of_orange_juice
+  model: rtqqor
+  noun: bottle of orange juice
+  colour_estimate: orange
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S1
+missing_spatial_levels:
+- S2
+- S3
+initial_states: {}
+spatial:
+  S1:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: countertop_tpuwys_0
+    room: bathroom_0
+    location_phrase: the counter in the bathroom
+    grasp_hints:
+    - - 4.672
+      - 11.971
+      - 0.403
+    - - 4.622
+      - 11.921
+      - 0.435
+    - - 4.622
+      - 12.122
+      - 0.194
+    - - 4.572
+      - 12.072
+      - 0.242
+    extra_ops_vs_S1: []
+    probe_visibility_from_start:
+      px: 111
+      delta_e: 28.6
+    task_scope: single_room
+language:
+  L1:
+    S1: Go to the counter in the bathroom, pick up the bottle of orange juice on it
+      and hold it.
+  L2: Get the bottle of orange juice and hold on to it.
+  L3: I'm working on bag groceries and I need the bottle of orange juice. Could you
+    get it for me?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

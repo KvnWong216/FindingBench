@@ -1,0 +1,188 @@
+{
+  "id": "asset_P196_01",
+  "family": "semantic_P196",
+  "scene": "house_double_floor_lower",
+  "scenario": "scenarios/remaining_layout_repairs_20261108/asset_P196_01/scenario.yaml",
+  "scenario_sha256": "7848d9ae28cb271a0089c00daecbb295de0a52d79f37784e2c5e227a30ef1b68",
+  "instruction": "Bring the postcard with the same picture as the sample on the table in front of you in the living room from the living room keepsakes and put it beside the sample.",
+  "target_key": "postcard/aujfqp",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "bottom_cabinet_rhdbzv_0",
+  "destination_receptacle": "coffee_table_koagbh_0",
+  "object_count": 11,
+  "distractor_count": 9,
+  "source_survey_sha256": "0a3f401e7605a056f40f88d913d8c052476ef760acf457ac11cb1f76abbe581f",
+  "route": {
+    "start": [
+      4.15,
+      3.95,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        4.15,
+        3.95
+      ],
+      [
+        4.25,
+        3.95
+      ],
+      [
+        4.3500000000000005,
+        3.95
+      ],
+      [
+        4.45,
+        3.95
+      ],
+      [
+        4.55,
+        3.95
+      ],
+      [
+        4.65,
+        3.95
+      ],
+      [
+        4.75,
+        3.95
+      ],
+      [
+        4.8500000000000005,
+        3.95
+      ],
+      [
+        4.95,
+        3.95
+      ],
+      [
+        5.050000000000001,
+        3.95
+      ],
+      [
+        5.15,
+        3.95
+      ]
+    ],
+    "length_m": 1.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "required_negative_0",
+    "bottom_cabinet_rhdbzv_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_rhdbzv_0",
+        "volume_extents_m": {
+          "left_drawer": [
+            0.3034677505493164,
+            0.9855995178222656,
+            0.2205941453576088
+          ],
+          "right_drawer": [
+            0.2968716621398926,
+            1.1522061824798584,
+            0.2322199046611786
+          ]
+        },
+        "native_links": {
+          "left_drawer": "left_drawer",
+          "right_drawer": "right_drawer"
+        },
+        "geometry_source": "survey",
+        "geometry_provenance": {},
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_06": "right_drawer",
+          "item_04": "left_drawer",
+          "item_03": "right_drawer",
+          "item_02": "left_drawer",
+          "item_08": "right_drawer",
+          "required_negative_0": "right_drawer",
+          "item_05": "left_drawer",
+          "item_01": "left_drawer",
+          "item_07": "left_drawer",
+          "item_00": "left_drawer"
+        },
+        "component_allocation": {
+          "item_06": "right_drawer",
+          "item_04": "left_drawer",
+          "item_03": "right_drawer",
+          "item_02": "left_drawer",
+          "item_08": "right_drawer",
+          "required_negative_0": "right_drawer",
+          "item_05": "left_drawer",
+          "item_01": "left_drawer",
+          "item_07": "left_drawer",
+          "item_00": "left_drawer"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_06": "right_drawer",
+      "item_04": "left_drawer",
+      "item_03": "right_drawer",
+      "item_02": "left_drawer",
+      "item_08": "right_drawer",
+      "required_negative_0": "right_drawer",
+      "item_05": "left_drawer",
+      "item_01": "left_drawer",
+      "item_07": "left_drawer",
+      "item_00": "left_drawer"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "P196",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P196_01",
+    "parent_task_id": "P196",
+    "before_instruction": "Find the souvenir postcard marked Kyoto 2019 among the living-room cabinet keepsakes and place it on the coffee table.",
+    "after_instruction": "Bring the postcard with the same picture as the sample on the table in front of you in the living room from the living room keepsakes and put it beside the sample.",
+    "reason": "Retains matching-based retrieval through a physical same-native-model sample on the delivery surface. Any original cross-object compatibility, photo or consumable-state requirement is explicitly replaced with visible product/shape matching. Original source and destination rooms preserved; forced native distractor creates a real competing selection.",
+    "target_asset": "postcard/aujfqp",
+    "target_assets": [
+      "postcard/aujfqp"
+    ]
+  },
+  "binding_sha256": "45f4acb355f531ddbada05312d88d42574d6d889835d99aefa875e8a48d03eed"
+}

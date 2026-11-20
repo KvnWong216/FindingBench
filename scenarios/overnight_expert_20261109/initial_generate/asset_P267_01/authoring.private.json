@@ -1,0 +1,702 @@
+{
+  "id": "asset_P267_01",
+  "family": "semantic_P267",
+  "scene": "Ihlen_0_int",
+  "scenario": "scenarios/overnight_expert_20261109/initial_generate/asset_P267_01/scenario.yaml",
+  "scenario_sha256": "7c74cb4fd2198a5749f8e484538afff69c27f50b2d54c117e86c4b2e70ab2514",
+  "instruction": "Bring the picture frame matching the sample on the table in front of you in the living room from the living room keepsakes and put it beside that sample.",
+  "target_key": "picture_frame/guatvs",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "coffee_table_fqluyq_0",
+  "object_count": 12,
+  "distractor_count": 9,
+  "source_survey_sha256": "4e67f717bc639fa8251f9cbf52bc0b8a96e19f8594526a196ad4548a95e97acd",
+  "route": {
+    "start": [
+      -1.1,
+      3.5,
+      0.0
+    ],
+    "path_xy": [
+      [
+        -1.1,
+        3.5
+      ],
+      [
+        -1.1,
+        3.4000000000000004
+      ],
+      [
+        -1.2000000000000002,
+        3.4000000000000004
+      ],
+      [
+        -1.2000000000000002,
+        3.3000000000000003
+      ],
+      [
+        -1.3,
+        3.3000000000000003
+      ],
+      [
+        -1.4000000000000001,
+        3.3000000000000003
+      ],
+      [
+        -1.4000000000000001,
+        3.2
+      ],
+      [
+        -1.5,
+        3.2
+      ],
+      [
+        -1.5,
+        3.1
+      ],
+      [
+        -1.6,
+        3.1
+      ],
+      [
+        -1.6,
+        3.0
+      ],
+      [
+        -1.7000000000000002,
+        3.0
+      ],
+      [
+        -1.7000000000000002,
+        2.9000000000000004
+      ],
+      [
+        -1.7000000000000002,
+        2.8000000000000003
+      ],
+      [
+        -1.7000000000000002,
+        2.7
+      ],
+      [
+        -1.7000000000000002,
+        2.6
+      ],
+      [
+        -1.7000000000000002,
+        2.5
+      ],
+      [
+        -1.7000000000000002,
+        2.4000000000000004
+      ],
+      [
+        -1.7000000000000002,
+        2.3000000000000003
+      ],
+      [
+        -1.7000000000000002,
+        2.2
+      ],
+      [
+        -1.7000000000000002,
+        2.1
+      ],
+      [
+        -1.7000000000000002,
+        2.0
+      ],
+      [
+        -1.7000000000000002,
+        1.9000000000000001
+      ],
+      [
+        -1.7000000000000002,
+        1.8
+      ],
+      [
+        -1.7000000000000002,
+        1.7000000000000002
+      ],
+      [
+        -1.7000000000000002,
+        1.6
+      ],
+      [
+        -1.7000000000000002,
+        1.5
+      ],
+      [
+        -1.7000000000000002,
+        1.4000000000000001
+      ],
+      [
+        -1.6,
+        1.4000000000000001
+      ],
+      [
+        -1.5,
+        1.4000000000000001
+      ],
+      [
+        -1.4000000000000001,
+        1.4000000000000001
+      ],
+      [
+        -1.3,
+        1.4000000000000001
+      ],
+      [
+        -1.2000000000000002,
+        1.4000000000000001
+      ],
+      [
+        -1.1,
+        1.4000000000000001
+      ]
+    ],
+    "length_m": 3.3,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 48,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "required_negative_0",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_lwmene_0",
+      "position_xy": [
+        -0.2,
+        1.0
+      ],
+      "aabb": [
+        [
+          -0.36714476013183595,
+          0.6577120208740235,
+          0.0
+        ],
+        [
+          -0.03285523986816408,
+          1.3422879791259765,
+          0.6846599731445313
+        ]
+      ],
+      "room": "living_room_0"
+    }
+  ],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "search_storage",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.23922629249095917,
+            0.18965983357072802,
+            0.5851681912193236
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.23877585313392102,
+            0.19861903381347656,
+            0.5853487684532628
+          ],
+          "meta__base_link_fillable_0_0_link#component:2": [
+            0.23817441952228546,
+            0.189000270903126,
+            0.5853966732025147
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet/jrhgeu",
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "encrypted_asset_sha256": "70d166224352a46e63c008e4d1b5af6bec5bfdfc27f6b21dad220cca350bc871",
+          "metadata_sha256": "838fad16a0dc49e7be965c08b9de0d54b477a05592b32eb05d6519a940331708",
+          "root_orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "solver": {
+          "status": "feasible_model",
+          "device": "cuda",
+          "backend": "torch_cuda_finite_csp",
+          "solve_seconds": 0.3443803458940238,
+          "nodes": 10,
+          "candidate_tests": 1053405,
+          "grid_m": 0.001,
+          "margin_m": 0.005,
+          "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+          "physical_validation_required": true,
+          "assignment": {
+            "item_06": "meta__base_link_fillable_0_0_link#component:1",
+            "item_05": "meta__base_link_fillable_0_0_link#component:0",
+            "item_01": "meta__base_link_fillable_0_0_link#component:2",
+            "item_07": "meta__base_link_fillable_0_0_link#component:2",
+            "item_04": "meta__base_link_fillable_0_0_link#component:0",
+            "required_negative_0": "meta__base_link_fillable_0_0_link#component:0",
+            "item_00": "meta__base_link_fillable_0_0_link#component:2",
+            "item_03": "meta__base_link_fillable_0_0_link#component:1",
+            "item_02": "meta__base_link_fillable_0_0_link#component:2",
+            "item_08": "meta__base_link_fillable_0_0_link#component:1"
+          },
+          "poses": {
+            "item_06": {
+              "bin": "meta__base_link_fillable_0_0_link#component:1",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.005,
+                0.005
+              ],
+              "footprint_m": [
+                0.091,
+                0.091
+              ],
+              "center_xy_m": [
+                0.0505,
+                0.0505
+              ]
+            },
+            "item_05": {
+              "bin": "meta__base_link_fillable_0_0_link#component:0",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.005,
+                0.005
+              ],
+              "footprint_m": [
+                0.03,
+                0.03
+              ],
+              "center_xy_m": [
+                0.02,
+                0.02
+              ]
+            },
+            "item_01": {
+              "bin": "meta__base_link_fillable_0_0_link#component:2",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.005,
+                0.005
+              ],
+              "footprint_m": [
+                0.026000000000000002,
+                0.026000000000000002
+              ],
+              "center_xy_m": [
+                0.018000000000000002,
+                0.018000000000000002
+              ]
+            },
+            "item_07": {
+              "bin": "meta__base_link_fillable_0_0_link#component:2",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.036000000000000004,
+                0.005
+              ],
+              "footprint_m": [
+                0.026000000000000002,
+                0.026000000000000002
+              ],
+              "center_xy_m": [
+                0.049,
+                0.018000000000000002
+              ]
+            },
+            "item_04": {
+              "bin": "meta__base_link_fillable_0_0_link#component:0",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.04,
+                0.005
+              ],
+              "footprint_m": [
+                0.019,
+                0.019
+              ],
+              "center_xy_m": [
+                0.0495,
+                0.0145
+              ]
+            },
+            "required_negative_0": {
+              "bin": "meta__base_link_fillable_0_0_link#component:0",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.064,
+                0.005
+              ],
+              "footprint_m": [
+                0.077,
+                0.154
+              ],
+              "center_xy_m": [
+                0.10250000000000001,
+                0.082
+              ]
+            },
+            "item_00": {
+              "bin": "meta__base_link_fillable_0_0_link#component:2",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.067,
+                0.005
+              ],
+              "footprint_m": [
+                0.073,
+                0.127
+              ],
+              "center_xy_m": [
+                0.10350000000000001,
+                0.0685
+              ]
+            },
+            "item_03": {
+              "bin": "meta__base_link_fillable_0_0_link#component:1",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.101,
+                0.005
+              ],
+              "footprint_m": [
+                0.034,
+                0.11800000000000001
+              ],
+              "center_xy_m": [
+                0.11800000000000001,
+                0.064
+              ]
+            },
+            "item_02": {
+              "bin": "meta__base_link_fillable_0_0_link#component:2",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.145,
+                0.005
+              ],
+              "footprint_m": [
+                0.063,
+                0.043000000000000003
+              ],
+              "center_xy_m": [
+                0.1765,
+                0.0265
+              ]
+            },
+            "item_08": {
+              "bin": "meta__base_link_fillable_0_0_link#component:1",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.14,
+                0.005
+              ],
+              "footprint_m": [
+                0.063,
+                0.043000000000000003
+              ],
+              "center_xy_m": [
+                0.1715,
+                0.0265
+              ]
+            }
+          }
+        },
+        "assignment": {
+          "item_06": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "required_negative_0": "meta__base_link_fillable_0_0_link",
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_06": "meta__base_link_fillable_0_0_link#component:1",
+          "item_05": "meta__base_link_fillable_0_0_link#component:0",
+          "item_01": "meta__base_link_fillable_0_0_link#component:2",
+          "item_07": "meta__base_link_fillable_0_0_link#component:2",
+          "item_04": "meta__base_link_fillable_0_0_link#component:0",
+          "required_negative_0": "meta__base_link_fillable_0_0_link#component:0",
+          "item_00": "meta__base_link_fillable_0_0_link#component:2",
+          "item_03": "meta__base_link_fillable_0_0_link#component:1",
+          "item_02": "meta__base_link_fillable_0_0_link#component:2",
+          "item_08": "meta__base_link_fillable_0_0_link#component:1"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_06": "meta__base_link_fillable_0_0_link",
+      "item_05": "meta__base_link_fillable_0_0_link",
+      "item_01": "meta__base_link_fillable_0_0_link",
+      "item_07": "meta__base_link_fillable_0_0_link",
+      "item_04": "meta__base_link_fillable_0_0_link",
+      "required_negative_0": "meta__base_link_fillable_0_0_link",
+      "item_00": "meta__base_link_fillable_0_0_link",
+      "item_03": "meta__base_link_fillable_0_0_link",
+      "item_02": "meta__base_link_fillable_0_0_link",
+      "item_08": "meta__base_link_fillable_0_0_link"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [
+    {
+      "scene": "house_double_floor_lower",
+      "source": "bottom_cabinet_rhdbzv_0",
+      "preflight": {
+        "status": "rejected_candidate",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_rhdbzv_0",
+            "volume_extents_m": {
+              "meta__right_drawer_fillable_0_0_link#component:0": [
+                0.2988722254252931,
+                0.6992414998967402,
+                0.23422153262964174
+              ],
+              "meta__right_drawer_fillable_0_0_link#component:1": [
+                0.29887209737894904,
+                0.35334094151482387,
+                0.23422100421083158
+              ],
+              "meta__left_drawer_fillable_0_0_link#component:0": [
+                0.30546743003145566,
+                0.7859062579703509,
+                0.2225923935394969
+              ],
+              "meta__left_drawer_fillable_0_0_link#component:1": [
+                0.3054675880740725,
+                0.10805427738050422,
+                0.2225933918358305
+              ]
+            },
+            "native_links": {
+              "meta__right_drawer_fillable_0_0_link#component:0": "meta__right_drawer_fillable_0_0_link",
+              "meta__right_drawer_fillable_0_0_link#component:1": "meta__right_drawer_fillable_0_0_link",
+              "meta__left_drawer_fillable_0_0_link#component:0": "meta__left_drawer_fillable_0_0_link",
+              "meta__left_drawer_fillable_0_0_link#component:1": "meta__left_drawer_fillable_0_0_link"
+            },
+            "geometry_source": "survey_with_native_components",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet/rhdbzv",
+              "scale": [
+                0.9999125599861145,
+                0.9999962449073792,
+                0.9999184012413025
+              ],
+              "encrypted_asset_sha256": "8e3704d83c598f2120c6544f07bb2e55544bb31895026b91fe4fced3aab21b13",
+              "metadata_sha256": "102822f1e1556a48cc6f1a34e9c9997d5c7deccb89c72221258c9cc8b8e7f93a",
+              "root_orientation": [
+                -9.961120213120012e-07,
+                7.51335619497695e-07,
+                1.0,
+                -1.9470644474495202e-07
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "rejected_candidate",
+            "reason": "Pre-sampling dimension gate: no allowed compartment fits the upright object with clearance",
+            "entities": [
+              "required_negative_0"
+            ],
+            "object_extents_m": {
+              "required_negative_0": [
+                0.07651226425170898,
+                0.1534749069213867,
+                0.23344699096679689
+              ]
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    },
+    {
+      "scene": "Rs_int",
+      "source": "bottom_cabinet_bamfsz_1",
+      "preflight": {
+        "status": "rejected_candidate",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_bamfsz_1",
+            "volume_extents_m": {
+              "link_1": [
+                0.33487772941589355,
+                0.370966374874115,
+                0.20883751660585403
+              ],
+              "link_2": [
+                0.3371378183364868,
+                0.3809979259967804,
+                0.0892288088798523
+              ],
+              "link_3": [
+                0.3351621627807617,
+                0.37633565068244934,
+                0.03191465139389038
+              ],
+              "link_4": [
+                0.3346196413040161,
+                0.38081181049346924,
+                0.03191465139389038
+              ]
+            },
+            "native_links": {
+              "link_1": "link_1",
+              "link_2": "link_2",
+              "link_3": "link_3",
+              "link_4": "link_4"
+            },
+            "geometry_source": "survey",
+            "geometry_provenance": {},
+            "status": "rejected_candidate",
+            "reason": "Pre-sampling dimension gate: no allowed compartment fits the upright object with clearance",
+            "entities": [
+              "required_negative_0"
+            ],
+            "object_extents_m": {
+              "required_negative_0": [
+                0.07651226425170898,
+                0.1534749069213867,
+                0.23344699096679689
+              ]
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    },
+    {
+      "scene": "Rs_int",
+      "source": "bottom_cabinet_bamfsz_1",
+      "preflight": {
+        "status": "rejected_candidate",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_bamfsz_1",
+            "volume_extents_m": {
+              "link_1": [
+                0.33487772941589355,
+                0.370966374874115,
+                0.20883751660585403
+              ],
+              "link_2": [
+                0.3371378183364868,
+                0.3809979259967804,
+                0.0892288088798523
+              ],
+              "link_3": [
+                0.3351621627807617,
+                0.37633565068244934,
+                0.03191465139389038
+              ],
+              "link_4": [
+                0.3346196413040161,
+                0.38081181049346924,
+                0.03191465139389038
+              ]
+            },
+            "native_links": {
+              "link_1": "link_1",
+              "link_2": "link_2",
+              "link_3": "link_3",
+              "link_4": "link_4"
+            },
+            "geometry_source": "survey",
+            "geometry_provenance": {},
+            "status": "rejected_candidate",
+            "reason": "Pre-sampling dimension gate: no allowed compartment fits the upright object with clearance",
+            "entities": [
+              "required_negative_0"
+            ],
+            "object_extents_m": {
+              "required_negative_0": [
+                0.07651226425170898,
+                0.1534749069213867,
+                0.23344699096679689
+              ]
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    }
+  ],
+  "parent_task_id": "P267",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P267_01",
+    "parent_task_id": "P267",
+    "before_instruction": "Find the frame showing exactly two adults and one child among living-room cabinet keepsakes and place it facing the sofa on the coffee table.",
+    "after_instruction": "Bring the picture frame matching the sample on the table in front of you in the living room from the living room keepsakes and put it beside that sample.",
+    "reason": "Retains matching-based retrieval through a physical same-native-model sample on the delivery surface. Any original cross-object compatibility, photo or consumable-state requirement is explicitly replaced with visible product/shape matching. Original source and destination rooms preserved; forced native distractor creates a real competing selection.",
+    "target_asset": "picture_frame/guatvs",
+    "target_assets": [
+      "picture_frame/guatvs"
+    ]
+  },
+  "binding_sha256": "3d9a46c0ac195a7e9bfce8d5187c41c4eb5413003dd3ced9a2f544a2f1d1d689"
+}

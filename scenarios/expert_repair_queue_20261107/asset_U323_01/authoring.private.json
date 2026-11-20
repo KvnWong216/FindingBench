@@ -1,0 +1,171 @@
+{
+  "id": "asset_U323_01",
+  "family": "semantic_U323",
+  "scene": "Wainscott_1_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_U323_01/scenario.yaml",
+  "scenario_sha256": "f013e0a09fefd56e8d82b37872579d8bc9c4334878a7ed253b19e31187d03702",
+  "instruction": "Fetch the lint roller from the utility room storage household supplies and put it on the counter in front of you in the utility room in the utility room for the garment-care kit.",
+  "target_key": "lint_roller/itbtor",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "utility_room_0",
+  "destination_room": "utility_room_0",
+  "source_receptacle": "bottom_cabinet_bamfsz_0",
+  "destination_receptacle": "bottom_cabinet_bamfsz_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "7894c711eea34a656ee926a132d6563ce3833b5ddb45c126d0ce534dd2edca60",
+  "route": {
+    "start": [
+      1.05,
+      6.95,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        1.05,
+        6.95
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 20,
+    "destination_approach_count": 20,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_bamfsz_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_bamfsz_0",
+        "volume_extents_m": {
+          "meta__link_1_fillable_0_0_link": [
+            0.48010459944930917,
+            0.42222077205855624,
+            0.2704331361319102
+          ],
+          "meta__link_2_fillable_0_0_link": [
+            0.4763941188113261,
+            0.42939354874645486,
+            0.11664124340476639
+          ],
+          "meta__link_3_fillable_0_0_link": [
+            0.47336472007078734,
+            0.4285712480385133,
+            0.04294333553424931
+          ],
+          "meta__link_4_fillable_0_0_link": [
+            0.47260268176779124,
+            0.42876339642441974,
+            0.0429433524645888
+          ]
+        },
+        "native_links": {
+          "meta__link_1_fillable_0_0_link": "meta__link_1_fillable_0_0_link",
+          "meta__link_2_fillable_0_0_link": "meta__link_2_fillable_0_0_link",
+          "meta__link_3_fillable_0_0_link": "meta__link_3_fillable_0_0_link",
+          "meta__link_4_fillable_0_0_link": "meta__link_4_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet/bamfsz",
+          "scale": [
+            1.322049617767334,
+            1.1817137002944946,
+            1.6377311944961548
+          ],
+          "encrypted_asset_sha256": "a98da154c304668361e5daeed5844eaa1be5f88f30decc62c51ab146be91c60a",
+          "metadata_sha256": "799c29283726b3515c27196518d33b0888e653b894de2626a32ddd77cbc461a1",
+          "root_orientation": [
+            9.466201299801469e-05,
+            8.192634413717315e-05,
+            0.7071082592010498,
+            -0.707105278968811
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_03": "meta__link_1_fillable_0_0_link",
+          "item_06": "meta__link_1_fillable_0_0_link",
+          "item_00": "meta__link_2_fillable_0_0_link",
+          "item_01": "meta__link_3_fillable_0_0_link",
+          "item_04": "meta__link_4_fillable_0_0_link",
+          "item_07": "meta__link_2_fillable_0_0_link",
+          "item_02": "meta__link_1_fillable_0_0_link",
+          "item_05": "meta__link_3_fillable_0_0_link",
+          "item_08": "meta__link_4_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_03": "meta__link_1_fillable_0_0_link",
+          "item_06": "meta__link_1_fillable_0_0_link",
+          "item_00": "meta__link_2_fillable_0_0_link",
+          "item_01": "meta__link_3_fillable_0_0_link",
+          "item_04": "meta__link_4_fillable_0_0_link",
+          "item_07": "meta__link_2_fillable_0_0_link",
+          "item_02": "meta__link_1_fillable_0_0_link",
+          "item_05": "meta__link_3_fillable_0_0_link",
+          "item_08": "meta__link_4_fillable_0_0_link"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_03": "meta__link_1_fillable_0_0_link",
+      "item_06": "meta__link_1_fillable_0_0_link",
+      "item_00": "meta__link_2_fillable_0_0_link",
+      "item_01": "meta__link_3_fillable_0_0_link",
+      "item_04": "meta__link_4_fillable_0_0_link",
+      "item_07": "meta__link_2_fillable_0_0_link",
+      "item_02": "meta__link_1_fillable_0_0_link",
+      "item_05": "meta__link_3_fillable_0_0_link",
+      "item_08": "meta__link_4_fillable_0_0_link"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "U323",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_U323_01",
+    "parent_task_id": "U323",
+    "before_instruction": "The new lint roller was mixed in with the household deliveries. Find the packaged roller in the storage room and put it on the utility counter beside the dryer.",
+    "after_instruction": "Fetch the lint roller from the utility room storage household supplies and put it on the counter in front of you in the utility room in the utility room for the garment-care kit.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; The target is a newly packaged lint roller, not a bare roller. Native lint_roller category does not prove packaging. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: storage_room/cabinet -> utility_room/counter becomes utility_room/cabinet -> utility_room/counter. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+    "target_asset": "lint_roller/itbtor",
+    "target_assets": [
+      "lint_roller/itbtor"
+    ]
+  },
+  "binding_sha256": "5a64361ccc6cd06fea998db648fba60b3fb9e0d3f605e1b6dde0c1fca5bf9c46"
+}

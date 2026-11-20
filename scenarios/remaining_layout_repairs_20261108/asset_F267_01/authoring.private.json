@@ -1,0 +1,289 @@
+{
+  "id": "asset_F267_01",
+  "family": "semantic_F267",
+  "scene": "house_single_floor",
+  "scenario": "scenarios/remaining_layout_repairs_20261108/asset_F267_01/scenario.yaml",
+  "scenario_sha256": "46202cbe999fd0c534ec1160b0a45f5f7dd65f00f58c5c542f5320d80f5d5236",
+  "instruction": "Find the soup ladle and a serving tablespoon in the kitchen drawers and bring both to the cabinet top in front of you in the dining room in the dining room.",
+  "target_key": "soup_ladle/hgvzdm",
+  "target_entities": [
+    "item_00",
+    "item_01"
+  ],
+  "target_count": 2,
+  "source_room": "kitchen_0",
+  "destination_room": "dining_room_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 12,
+  "distractor_count": 8,
+  "source_survey_sha256": "14714104a089f0a43cdebe256d01d697215fe5627c0e2fcb55a030a71a1fb2a5",
+  "route": {
+    "start": [
+      6.300000000000001,
+      1.9000000000000001,
+      3.141592653589793
+    ],
+    "path_xy": [
+      [
+        6.300000000000001,
+        1.9000000000000001
+      ],
+      [
+        6.300000000000001,
+        1.8
+      ],
+      [
+        6.4,
+        1.8
+      ],
+      [
+        6.5,
+        1.8
+      ],
+      [
+        6.6000000000000005,
+        1.8
+      ],
+      [
+        6.7,
+        1.8
+      ],
+      [
+        6.800000000000001,
+        1.8
+      ],
+      [
+        6.9,
+        1.8
+      ],
+      [
+        7.0,
+        1.8
+      ],
+      [
+        7.1000000000000005,
+        1.8
+      ],
+      [
+        7.2,
+        1.8
+      ],
+      [
+        7.300000000000001,
+        1.8
+      ],
+      [
+        7.4,
+        1.8
+      ],
+      [
+        7.5,
+        1.8
+      ],
+      [
+        7.6000000000000005,
+        1.8
+      ],
+      [
+        7.7,
+        1.8
+      ],
+      [
+        7.800000000000001,
+        1.8
+      ],
+      [
+        7.9,
+        1.8
+      ],
+      [
+        8.0,
+        1.8
+      ]
+    ],
+    "length_m": 1.8,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 15,
+    "destination_approach_count": 18,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "bottom_cabinet_no_top",
+      "model": "qohxjq",
+      "floor": "floors_khjmrr_0",
+      "position_xy": [
+        9.200000000000001,
+        1.8
+      ],
+      "aabb": [
+        [
+          8.973511375427247,
+          1.612822250366211,
+          -0.0
+        ],
+        [
+          9.426488624572755,
+          1.987177749633789,
+          0.6150122375488282
+        ]
+      ],
+      "room": "kitchen_0"
+    },
+    {
+      "name": "delivery_surface",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_khjmrr_0",
+      "position_xy": [
+        5.5,
+        1.9000000000000001
+      ],
+      "aabb": [
+        [
+          5.332855239868164,
+          1.5577120208740236,
+          -0.0
+        ],
+        [
+          5.667144760131836,
+          2.242287979125977,
+          0.6846599731445313
+        ]
+      ],
+      "room": "dining_room_0"
+    }
+  ],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "search_storage",
+        "volume_extents_m": {
+          "meta__link_0_fillable_0_0_link": [
+            0.3292657296876389,
+            0.2706094343662262,
+            0.12410529661492387
+          ],
+          "meta__link_1_fillable_0_0_link": [
+            0.3240965170235477,
+            0.2637109417915344,
+            0.11264877776358184
+          ],
+          "meta__link_2_fillable_0_0_link": [
+            0.32557296347618103,
+            0.2591561855925264,
+            0.032000005364418105
+          ]
+        },
+        "native_links": {
+          "meta__link_0_fillable_0_0_link": "meta__link_0_fillable_0_0_link",
+          "meta__link_1_fillable_0_0_link": "meta__link_1_fillable_0_0_link",
+          "meta__link_2_fillable_0_0_link": "meta__link_2_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet_no_top/qohxjq",
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "encrypted_asset_sha256": "cca0104a6d0c365538622fdb04a559025851e0dd44d517440e7287f803d4f3d7",
+          "metadata_sha256": "ccbcb382882e37c1a1b62095b631247ae63f535c9960b59ad7d0dd43284fff7d",
+          "root_orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_00": "meta__link_1_fillable_0_0_link",
+          "item_03": "meta__link_0_fillable_0_0_link",
+          "item_06": "meta__link_0_fillable_0_0_link",
+          "item_05": "meta__link_0_fillable_0_0_link",
+          "item_02": "meta__link_1_fillable_0_0_link",
+          "item_09": "meta__link_1_fillable_0_0_link",
+          "item_08": "meta__link_2_fillable_0_0_link",
+          "item_07": "meta__link_2_fillable_0_0_link",
+          "item_01": "meta__link_2_fillable_0_0_link",
+          "item_04": "meta__link_2_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_00": "meta__link_1_fillable_0_0_link",
+          "item_03": "meta__link_0_fillable_0_0_link",
+          "item_06": "meta__link_0_fillable_0_0_link",
+          "item_05": "meta__link_0_fillable_0_0_link",
+          "item_02": "meta__link_1_fillable_0_0_link",
+          "item_09": "meta__link_1_fillable_0_0_link",
+          "item_08": "meta__link_2_fillable_0_0_link",
+          "item_07": "meta__link_2_fillable_0_0_link",
+          "item_01": "meta__link_2_fillable_0_0_link",
+          "item_04": "meta__link_2_fillable_0_0_link"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_00": "meta__link_1_fillable_0_0_link",
+      "item_03": "meta__link_0_fillable_0_0_link",
+      "item_06": "meta__link_0_fillable_0_0_link",
+      "item_05": "meta__link_0_fillable_0_0_link",
+      "item_02": "meta__link_1_fillable_0_0_link",
+      "item_09": "meta__link_1_fillable_0_0_link",
+      "item_08": "meta__link_2_fillable_0_0_link",
+      "item_07": "meta__link_2_fillable_0_0_link",
+      "item_01": "meta__link_2_fillable_0_0_link",
+      "item_04": "meta__link_2_fillable_0_0_link"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "F267",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F267_01",
+    "parent_task_id": "F267",
+    "before_instruction": "Find the soup ladle and a serving tablespoon in the kitchen drawers and put both beside the soup pot on the dining room sideboard.",
+    "after_instruction": "Find the soup ladle and a serving tablespoon in the kitchen drawers and bring both to the cabinet top in front of you in the dining room in the dining room.",
+    "reason": "The identified delivery surface is grounded by the initial facing direction; decorative destination landmarks are omitted. Target identity, requested cardinality and source/destination room types are retained.",
+    "target_asset": "soup_ladle/hgvzdm",
+    "target_assets": [
+      "soup_ladle/hgvzdm",
+      "tablespoon/oacqcl"
+    ]
+  },
+  "binding_sha256": "20acbbb308459aeb48a563b76f57ea159f74ad4e6bac14f5c429768a28acc1a1"
+}

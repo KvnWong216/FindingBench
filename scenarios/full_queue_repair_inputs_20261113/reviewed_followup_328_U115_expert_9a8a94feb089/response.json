@@ -1,0 +1,644 @@
+{
+  "status": "proposed",
+  "record": {
+    "id": "asset_U115_01",
+    "family": "semantic_U115",
+    "scene": "Merom_0_int",
+    "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_328_U115_expert_9a8a94feb089/asset_U115_01/scenario.yaml",
+    "scenario_sha256": "c42c371334d25cba5d6fea34b69bc55818db720b21c3139909e2456980b24f42",
+    "instruction": "I need a container for the household spares. Retrieve a storage box from the storage room and set it on the table in front of you in the storage room for checking its capacity.",
+    "target_key": "storage_box/izcglf",
+    "target_entities": [
+      "item_00"
+    ],
+    "target_count": 1,
+    "source_room": "storage_room_0",
+    "destination_room": "storage_room_0",
+    "source_receptacle": "search_storage",
+    "destination_receptacle": "delivery_surface",
+    "object_count": 11,
+    "distractor_count": 8,
+    "source_survey_sha256": "432c3be0b4dd33aa136873f8d072cfc232afe601bfa0f68e3b7489a89af8f0f5",
+    "route": {
+      "start": [
+        -0.55,
+        9.35,
+        0.0
+      ],
+      "path_xy": [
+        [
+          -0.55,
+          9.35
+        ]
+      ],
+      "length_m": 0.0,
+      "grid_m": 0.1,
+      "base_radius_m": 0.38355339059327376,
+      "endpoint_free_patch_radius_m": 0.2,
+      "source_approach_count": 15,
+      "destination_approach_count": 15,
+      "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+    },
+    "status": "static_screened_physics_pending",
+    "human_reference_steps": null,
+    "required_gates": [
+      "fresh_native_initialization",
+      "stable_dense_layout",
+      "target_CHECK_identifiability",
+      "all_yaw_live_navigation_and_tolerant_endpoints",
+      "reachable_open_grasp_place",
+      "initial_goal_false",
+      "human_completion"
+    ],
+    "restoration_entities": [
+      "item_01",
+      "item_02",
+      "item_03",
+      "item_04",
+      "item_05",
+      "item_06",
+      "item_07",
+      "item_08",
+      "search_storage"
+    ],
+    "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+    "inserted_furniture": [
+      {
+        "name": "delivery_surface",
+        "category": "breakfast_table",
+        "model": "iaritq",
+        "floor": "floors_getzeg_0",
+        "position_xy": [
+          0.45,
+          9.450000000000001
+        ],
+        "aabb": [
+          [
+            0.09899971008300784,
+            9.099453765869141,
+            0.0
+          ],
+          [
+            0.8010002899169921,
+            9.800546234130861,
+            0.7490009155273437
+          ]
+        ],
+        "room": "storage_room_0"
+      },
+      {
+        "name": "search_storage",
+        "category": "metal_bottom_cabinet",
+        "model": "jqyhjy",
+        "floor": "floors_getzeg_0",
+        "position_xy": [
+          -1.85,
+          9.450000000000001
+        ],
+        "aabb": [
+          [
+            -2.1857001953125,
+            8.823967712402345,
+            0.0
+          ],
+          [
+            -1.5142998046875,
+            10.076032287597657,
+            0.9464012756347656
+          ]
+        ],
+        "room": "storage_room_0"
+      }
+    ],
+    "parent_task_id": "U115",
+    "tier": "short",
+    "physics_status": "pending",
+    "adaptation": {
+      "id": "asset_U115_01",
+      "parent_task_id": "U115",
+      "before_instruction": "I need a box that will hold the tall item on the storage room table upright. Search the stored containers for one with enough height and place it beside that item.",
+      "after_instruction": "I need a container for the household spares. Retrieve a storage box from the storage room and set it on the table in front of you in the storage room for checking its capacity.",
+      "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Missing constructed comparison/count evidence and distractor set for box taller than reference object. Reference object and varied open box dimensions required Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+      "target_asset": "storage_box/izcglf",
+      "target_assets": [
+        "storage_box/izcglf"
+      ]
+    },
+    "binding_sha256": "002aeac3cc2a0c42b3454a11c60f194bd9a55b8cd2eef89468fcc4d775e2503a",
+    "layout_preflight": {
+      "status": "heuristic_fit",
+      "findings": [
+        {
+          "receptacle": "search_storage",
+          "volume_extents_m": {
+            "meta__base_link_fillable_0_0_link": [
+              0.5345392922002283,
+              1.194346012364208,
+              0.6993660200049281
+            ]
+          },
+          "native_links": {
+            "meta__base_link_fillable_0_0_link": "meta__base_link_fillable_0_0_link"
+          },
+          "geometry_source": "offline_asset_hint",
+          "geometry_provenance": {
+            "asset": "metal_bottom_cabinet/jqyhjy",
+            "scale": [
+              1,
+              1,
+              1
+            ],
+            "encrypted_asset_sha256": "00c41914a3067345f1b6416f147eca7f33731a4bb7bcf4f509c0a07e78951f51",
+            "metadata_sha256": "0e1b5b1c7097d8c2938da721677c4e4c98baee8e4cebcfbf58c29364731888a6",
+            "root_orientation": [
+              0,
+              0,
+              0,
+              1
+            ],
+            "coordinates": "size_only_not_world_positions",
+            "physical_validation_required": true
+          },
+          "status": "heuristic_fit",
+          "solver": {
+            "status": "feasible_model",
+            "device": "cuda",
+            "backend": "torch_cuda_finite_csp",
+            "solve_seconds": 0.02024446288123727,
+            "nodes": 9,
+            "candidate_tests": 33463,
+            "search_orders_tried": 1,
+            "grid_m": 0.001,
+            "margin_m": 0.005,
+            "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+            "physical_validation_required": true,
+            "assignment": {
+              "item_00": "meta__base_link_fillable_0_0_link",
+              "item_01": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link",
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "item_06": "meta__base_link_fillable_0_0_link"
+            },
+            "poses": {
+              "item_00": {
+                "bin": "meta__base_link_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.005
+                ],
+                "footprint_m": [
+                  0.403,
+                  0.40700000000000003
+                ],
+                "center_xy_m": [
+                  0.20650000000000002,
+                  0.2085
+                ]
+              },
+              "item_01": {
+                "bin": "meta__base_link_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.417
+                ],
+                "footprint_m": [
+                  0.179,
+                  0.179
+                ],
+                "center_xy_m": [
+                  0.0945,
+                  0.5065000000000001
+                ]
+              },
+              "item_04": {
+                "bin": "meta__base_link_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.189,
+                  0.417
+                ],
+                "footprint_m": [
+                  0.179,
+                  0.179
+                ],
+                "center_xy_m": [
+                  0.2785,
+                  0.5065000000000001
+                ]
+              },
+              "item_07": {
+                "bin": "meta__base_link_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.005,
+                  0.601
+                ],
+                "footprint_m": [
+                  0.179,
+                  0.179
+                ],
+                "center_xy_m": [
+                  0.0945,
+                  0.6905
+                ]
+              },
+              "item_02": {
+                "bin": "meta__base_link_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.373,
+                  0.417
+                ],
+                "footprint_m": [
+                  0.155,
+                  0.133
+                ],
+                "center_xy_m": [
+                  0.4505,
+                  0.4835
+                ]
+              },
+              "item_05": {
+                "bin": "meta__base_link_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.373,
+                  0.555
+                ],
+                "footprint_m": [
+                  0.155,
+                  0.133
+                ],
+                "center_xy_m": [
+                  0.4505,
+                  0.6215
+                ]
+              },
+              "item_08": {
+                "bin": "meta__base_link_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.189,
+                  0.601
+                ],
+                "footprint_m": [
+                  0.155,
+                  0.133
+                ],
+                "center_xy_m": [
+                  0.2665,
+                  0.6675
+                ]
+              },
+              "item_03": {
+                "bin": "meta__base_link_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.41300000000000003,
+                  0.005
+                ],
+                "footprint_m": [
+                  0.114,
+                  0.114
+                ],
+                "center_xy_m": [
+                  0.47000000000000003,
+                  0.062
+                ]
+              },
+              "item_06": {
+                "bin": "meta__base_link_fillable_0_0_link",
+                "yaw_degrees": 0,
+                "lower_xy_m": [
+                  0.41300000000000003,
+                  0.124
+                ],
+                "footprint_m": [
+                  0.114,
+                  0.114
+                ],
+                "center_xy_m": [
+                  0.47000000000000003,
+                  0.181
+                ]
+              }
+            }
+          },
+          "assignment": {
+            "item_00": "meta__base_link_fillable_0_0_link",
+            "item_01": "meta__base_link_fillable_0_0_link",
+            "item_04": "meta__base_link_fillable_0_0_link",
+            "item_07": "meta__base_link_fillable_0_0_link",
+            "item_02": "meta__base_link_fillable_0_0_link",
+            "item_05": "meta__base_link_fillable_0_0_link",
+            "item_08": "meta__base_link_fillable_0_0_link",
+            "item_03": "meta__base_link_fillable_0_0_link",
+            "item_06": "meta__base_link_fillable_0_0_link"
+          },
+          "component_allocation": {
+            "item_00": "meta__base_link_fillable_0_0_link",
+            "item_01": "meta__base_link_fillable_0_0_link",
+            "item_04": "meta__base_link_fillable_0_0_link",
+            "item_07": "meta__base_link_fillable_0_0_link",
+            "item_02": "meta__base_link_fillable_0_0_link",
+            "item_05": "meta__base_link_fillable_0_0_link",
+            "item_08": "meta__base_link_fillable_0_0_link",
+            "item_03": "meta__base_link_fillable_0_0_link",
+            "item_06": "meta__base_link_fillable_0_0_link"
+          }
+        }
+      ],
+      "prefer_alternative_layout": false,
+      "assignments": {
+        "item_00": "meta__base_link_fillable_0_0_link",
+        "item_01": "meta__base_link_fillable_0_0_link",
+        "item_04": "meta__base_link_fillable_0_0_link",
+        "item_07": "meta__base_link_fillable_0_0_link",
+        "item_02": "meta__base_link_fillable_0_0_link",
+        "item_05": "meta__base_link_fillable_0_0_link",
+        "item_08": "meta__base_link_fillable_0_0_link",
+        "item_03": "meta__base_link_fillable_0_0_link",
+        "item_06": "meta__base_link_fillable_0_0_link"
+      },
+      "physical_validation_required": true
+    },
+    "scene_fixture_replacements": [
+      {
+        "entity": "search_storage",
+        "replacement_entity": "search_storage",
+        "before_asset": "bottom_cabinet/songes",
+        "after_asset": "metal_bottom_cabinet/jqyhjy",
+        "before_aabb": [
+          [
+            -2.1136192626953125,
+            9.030784881591797,
+            0.0
+          ],
+          [
+            -1.5863807373046876,
+            9.869215118408205,
+            0.82936767578125
+          ]
+        ],
+        "after_aabb": [
+          [
+            -2.1857001953125,
+            8.823967712402345,
+            0.0
+          ],
+          [
+            -1.5142998046875,
+            10.076032287597657,
+            0.9464012756347656
+          ]
+        ],
+        "source_sha256": "858ef30b42f9bf66aa1ac3386d00d538ceb142df8d83635bfb9c439d672ce1a0",
+        "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_gpu_new_20261106/asset_U115_01",
+        "reason": "Replace failed source at its existing site; adding another fixture consumes its approach space",
+        "physical_validation_required": true
+      }
+    ]
+  },
+  "evidence": {
+    "method": "replace_native_scene_source_at_same_site",
+    "edit": {
+      "entity": "search_storage",
+      "replacement_entity": "search_storage",
+      "before_asset": "bottom_cabinet/songes",
+      "after_asset": "metal_bottom_cabinet/jqyhjy",
+      "before_aabb": [
+        [
+          -2.1136192626953125,
+          9.030784881591797,
+          0.0
+        ],
+        [
+          -1.5863807373046876,
+          9.869215118408205,
+          0.82936767578125
+        ]
+      ],
+      "after_aabb": [
+        [
+          -2.1857001953125,
+          8.823967712402345,
+          0.0
+        ],
+        [
+          -1.5142998046875,
+          10.076032287597657,
+          0.9464012756347656
+        ]
+      ],
+      "source_sha256": "858ef30b42f9bf66aa1ac3386d00d538ceb142df8d83635bfb9c439d672ce1a0",
+      "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_gpu_new_20261106/asset_U115_01",
+      "reason": "Replace failed source at its existing site; adding another fixture consumes its approach space",
+      "physical_validation_required": true
+    },
+    "initial_closed_state_retained": {
+      "open": false
+    },
+    "solver": {
+      "status": "feasible_model",
+      "device": "cuda",
+      "backend": "torch_cuda_finite_csp",
+      "solve_seconds": 0.043760314118117094,
+      "nodes": 9,
+      "candidate_tests": 165187,
+      "search_orders_tried": 1,
+      "grid_m": 0.005,
+      "margin_m": 0.015,
+      "model": "upright boxes; yaw 0/90; single-layer independent bins; integer grid with convex centre halfspaces / fixed obstacles",
+      "physical_validation_required": true,
+      "assignment": {
+        "item_00": "meta__base_link_fillable_0_0_link#mesh:0",
+        "item_01": "meta__base_link_fillable_0_0_link#mesh:0",
+        "item_04": "meta__base_link_fillable_0_0_link#mesh:0",
+        "item_07": "meta__base_link_fillable_0_0_link#mesh:0",
+        "item_02": "meta__base_link_fillable_0_0_link#mesh:0",
+        "item_05": "meta__base_link_fillable_0_0_link#mesh:0",
+        "item_08": "meta__base_link_fillable_0_0_link#mesh:0",
+        "item_03": "meta__base_link_fillable_0_0_link#mesh:0",
+        "item_06": "meta__base_link_fillable_0_0_link#mesh:0"
+      },
+      "poses": {
+        "item_00": {
+          "bin": "meta__base_link_fillable_0_0_link#mesh:0",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.015,
+            0.015
+          ],
+          "footprint_m": [
+            0.405,
+            0.41000000000000003
+          ],
+          "center_xy_m": [
+            0.2175,
+            0.22
+          ]
+        },
+        "item_01": {
+          "bin": "meta__base_link_fillable_0_0_link#mesh:0",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.015,
+            0.44
+          ],
+          "footprint_m": [
+            0.18,
+            0.18
+          ],
+          "center_xy_m": [
+            0.105,
+            0.53
+          ]
+        },
+        "item_04": {
+          "bin": "meta__base_link_fillable_0_0_link#mesh:0",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.21,
+            0.44
+          ],
+          "footprint_m": [
+            0.18,
+            0.18
+          ],
+          "center_xy_m": [
+            0.3,
+            0.53
+          ]
+        },
+        "item_07": {
+          "bin": "meta__base_link_fillable_0_0_link#mesh:0",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.015,
+            0.635
+          ],
+          "footprint_m": [
+            0.18,
+            0.18
+          ],
+          "center_xy_m": [
+            0.105,
+            0.725
+          ]
+        },
+        "item_02": {
+          "bin": "meta__base_link_fillable_0_0_link#mesh:0",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.21,
+            0.635
+          ],
+          "footprint_m": [
+            0.155,
+            0.135
+          ],
+          "center_xy_m": [
+            0.28750000000000003,
+            0.7025
+          ]
+        },
+        "item_05": {
+          "bin": "meta__base_link_fillable_0_0_link#mesh:0",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.21,
+            0.785
+          ],
+          "footprint_m": [
+            0.155,
+            0.135
+          ],
+          "center_xy_m": [
+            0.28750000000000003,
+            0.8525
+          ]
+        },
+        "item_08": {
+          "bin": "meta__base_link_fillable_0_0_link#mesh:0",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.015,
+            0.8300000000000001
+          ],
+          "footprint_m": [
+            0.155,
+            0.135
+          ],
+          "center_xy_m": [
+            0.0925,
+            0.8975
+          ]
+        },
+        "item_03": {
+          "bin": "meta__base_link_fillable_0_0_link#mesh:0",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.38,
+            0.635
+          ],
+          "footprint_m": [
+            0.115,
+            0.115
+          ],
+          "center_xy_m": [
+            0.4375,
+            0.6925
+          ]
+        },
+        "item_06": {
+          "bin": "meta__base_link_fillable_0_0_link#mesh:0",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.38,
+            0.765
+          ],
+          "footprint_m": [
+            0.115,
+            0.115
+          ],
+          "center_xy_m": [
+            0.4375,
+            0.8225
+          ]
+        }
+      }
+    },
+    "preserved": [
+      "instruction",
+      "goal",
+      "physical source site and room",
+      "initial source open/closed state",
+      "target",
+      "all task props",
+      "robot",
+      "spawn",
+      "all original relation kinds"
+    ],
+    "physical_validation_required": true,
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "native_placement",
+      "reason": "placement failed verification after physics settled: ['item_00 inside search_storage', 'item_01 inside search_storage', 'item_02 inside search_storage', 'item_03 inside search_storage', 'item_04 inside search_storage', 'item_05 inside search_storage', 'item_06 inside search_storage', 'item_07 inside search_storage', 'item_08 inside search_storage']"
+    }
+  }
+}

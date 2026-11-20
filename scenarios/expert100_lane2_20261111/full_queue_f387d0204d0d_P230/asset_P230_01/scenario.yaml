@@ -1,0 +1,166 @@
+id: asset_P230_01
+instruction: Bring the game box matching the sample on the table in front of you in
+  the entryway in the entryway from the living room games and put it beside the sample.
+scene:
+  model: Rs_int
+  source: behavior
+  clearance_manifest: /home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/build/vla_difficulty_v2/clearance/Rs_int.json
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - 1.0
+    - 1.8
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - 0.7071067811865475
+    - 0.7071067811865476
+target:
+  entity: item_00
+  category: board_game
+objects:
+- name: item_00
+  category: board_game
+  model: gumkqh
+- name: item_01
+  category: statue
+  model: noykhv
+- name: item_02
+  category: vase
+  model: yfqgfd
+- name: item_03
+  category: bell
+  model: oshurh
+- name: item_04
+  category: candle_holder
+  model: szulaa
+- name: item_05
+  category: conch
+  model: dovqcj
+- name: item_06
+  category: crystal
+  model: oarraa
+- name: item_07
+  category: decorative_sign
+  model: rypeha
+- name: item_08
+  category: statue
+  model: noykhv
+- name: comparison_sample
+  category: board_game
+  model: gumkqh
+- name: required_negative_0
+  category: board_game
+  model: qgvsnb
+- name: search_storage
+  category: bottom_cabinet_no_top
+  model: ncgmqr
+  fixed_base: true
+- name: delivery_surface
+  category: breakfast_table
+  model: iaritq
+  fixed_base: true
+placements:
+- entity: item_00
+  relation: inside
+  receptacle: search_storage
+- entity: item_01
+  relation: inside
+  receptacle: search_storage
+- entity: item_02
+  relation: inside
+  receptacle: search_storage
+- entity: item_03
+  relation: inside
+  receptacle: search_storage
+- entity: item_04
+  relation: inside
+  receptacle: search_storage
+- entity: item_05
+  relation: inside
+  receptacle: search_storage
+- entity: item_06
+  relation: inside
+  receptacle: bottom_cabinet_bamfsz_1
+- entity: item_07
+  relation: inside
+  receptacle: bottom_cabinet_bamfsz_1
+- entity: item_08
+  relation: inside
+  receptacle: bottom_cabinet_bamfsz_1
+- entity: comparison_sample
+  relation: on_top
+  receptacle: delivery_surface
+- entity: required_negative_0
+  relation: inside
+  receptacle: search_storage
+- entity: search_storage
+  relation: on_top
+  receptacle: floors_ptwlei_0
+  position_xy:
+  - 0.0
+  - 0.4
+- entity: delivery_surface
+  relation: on_top
+  receptacle: floors_gjemfr_0
+  position_xy:
+  - 1.2000000000000002
+  - 2.8000000000000003
+initial_states:
+  bottom_cabinet_bamfsz_1:
+    open: false
+  search_storage:
+    open: false
+goal:
+- kind: on_top
+  entity: item_00
+  receptacle: delivery_surface
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

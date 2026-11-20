@@ -1,0 +1,260 @@
+{
+  "id": "asset_P126_01",
+  "family": "semantic_P126",
+  "scene": "hotel_suite_large",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_P126_01/scenario.yaml",
+  "scenario_sha256": "462cf0ac6e763ba681ea1d9e0bc3f967d920ecb306f7a6421e9e695f5bc23dba",
+  "instruction": "For the bathroom wash station, find a bottle labeled \"SHAMPOO\" and a bottle labeled \"CONDITIONER\" in the cupboard in the bathroom and bring both to the counter in front of you in the bathroom.",
+  "target_key": "shampoo_bottle/tukaoq",
+  "target_entities": [
+    "item_00",
+    "item_01"
+  ],
+  "target_count": 2,
+  "source_room": "bathroom_0",
+  "destination_room": "bathroom_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 12,
+  "distractor_count": 8,
+  "source_survey_sha256": "06ad52b50e10b1cfb9813fac870a242888a7b8090e9b315f09f4b2237c9a12b8",
+  "route": {
+    "start": [
+      0.0,
+      4.3,
+      0.0
+    ],
+    "path_xy": [
+      [
+        0.0,
+        4.3
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 39,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09",
+    "delivery_surface",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_kudtlk_0",
+      "position_xy": [
+        -0.9,
+        3.7
+      ],
+      "aabb": [
+        [
+          -1.067144760131836,
+          3.3577120208740237,
+          0.028
+        ],
+        [
+          -0.732855239868164,
+          4.042287979125977,
+          0.7126599731445313
+        ]
+      ],
+      "room": "bathroom_0"
+    },
+    {
+      "name": "delivery_surface",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_kudtlk_0",
+      "position_xy": [
+        0.7000000000000001,
+        3.8000000000000003
+      ],
+      "aabb": [
+        [
+          0.5328552398681641,
+          3.4577120208740237,
+          0.028
+        ],
+        [
+          0.8671447601318361,
+          4.142287979125977,
+          0.7126599731445313
+        ]
+      ],
+      "room": "bathroom_0"
+    }
+  ],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "search_storage",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.23922629249095917,
+            0.18965983357072802,
+            0.5851681912193236
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.23877585313392102,
+            0.19861903381347656,
+            0.5853487684532628
+          ],
+          "meta__base_link_fillable_0_0_link#component:2": [
+            0.23817441952228546,
+            0.189000270903126,
+            0.5853966732025147
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet/jrhgeu",
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "encrypted_asset_sha256": "70d166224352a46e63c008e4d1b5af6bec5bfdfc27f6b21dad220cca350bc871",
+          "metadata_sha256": "838fad16a0dc49e7be965c08b9de0d54b477a05592b32eb05d6519a940331708",
+          "root_orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_00": "meta__base_link_fillable_0_0_link#component:1",
+          "item_01": "meta__base_link_fillable_0_0_link#component:0",
+          "item_03": "meta__base_link_fillable_0_0_link#component:2",
+          "item_06": "meta__base_link_fillable_0_0_link#component:0",
+          "item_04": "meta__base_link_fillable_0_0_link#component:0",
+          "item_05": "meta__base_link_fillable_0_0_link#component:0",
+          "item_02": "meta__base_link_fillable_0_0_link#component:2"
+        }
+      },
+      {
+        "receptacle": "delivery_surface",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.23922629249095917,
+            0.18965983357072802,
+            0.5851681912193236
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.23877585313392102,
+            0.19861903381347656,
+            0.5853487684532628
+          ],
+          "meta__base_link_fillable_0_0_link#component:2": [
+            0.23817441952228546,
+            0.189000270903126,
+            0.5853966732025147
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet/jrhgeu",
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "encrypted_asset_sha256": "70d166224352a46e63c008e4d1b5af6bec5bfdfc27f6b21dad220cca350bc871",
+          "metadata_sha256": "838fad16a0dc49e7be965c08b9de0d54b477a05592b32eb05d6519a940331708",
+          "root_orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_09": "meta__base_link_fillable_0_0_link",
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_09": "meta__base_link_fillable_0_0_link#component:1",
+          "item_07": "meta__base_link_fillable_0_0_link#component:0",
+          "item_08": "meta__base_link_fillable_0_0_link#component:2"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_09": "meta__base_link_fillable_0_0_link",
+      "item_07": "meta__base_link_fillable_0_0_link",
+      "item_08": "meta__base_link_fillable_0_0_link"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "P126",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P126_01",
+    "parent_task_id": "P126",
+    "before_instruction": "Find the shampoo and conditioner bottles each marked 100 mL or less among bathroom storage; put them on the shelf beneath the mirror.",
+    "after_instruction": "For the bathroom wash station, find a bottle labeled \"SHAMPOO\" and a bottle labeled \"CONDITIONER\" in the cupboard in the bathroom and bring both to the counter in front of you in the bathroom.",
+    "reason": "Replaces unsupported 100 mL thresholds with verified native product-label requirements; two distinct hair-care products remain required. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "shampoo_bottle/tukaoq",
+    "target_assets": [
+      "shampoo_bottle/tukaoq",
+      "bottle_of_shampoo/dvrzmy"
+    ]
+  },
+  "binding_sha256": "03495ca37e95092176c974ed469a244a6120a826d59587c7895aedab4e2afd9b"
+}

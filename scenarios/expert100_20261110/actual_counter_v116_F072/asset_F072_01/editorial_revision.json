@@ -1,0 +1,80 @@
+{
+  "status": "editorial_revision_physics_pending",
+  "revision_id": "actual_counter_reference_20261113_F072",
+  "authorization": "user_approved_find_and_deliver_rewrite",
+  "reason": "The authored cupboard top has no continuous counter surface. Preserve every object, source cupboard, robot pose and finding/delivery intent; place the unique sample on the existing native kitchen countertop and ground delivery by that visible sample. Remove the inaccurate in-front qualifier.",
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/explicit_body_top_v114_F072/asset_F072_01/scenario.yaml",
+  "original_archive": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/actual_counter_v116_F072/asset_F072_01/original_scenario.yaml",
+  "original_scenario_sha256": "3fd2d9af8dddc22d5f22a605a68dd5f56bb14740cdf6b3dd22481b64ad0fc46a",
+  "revised_scenario_sha256": "1b1b75b258546d72d10368794cc7038113bd676c83485e01ddd3584efe72f211",
+  "before_instruction": "There is a sample on the counter in front of you in the kitchen. Find a bowl matching that sample in the kitchen cupboard and bring it to the counter in front of you in the kitchen.",
+  "after_instruction": "There is a sample on the kitchen counter. Find a bowl matching that sample in the kitchen cupboards and put it on the counter with the sample.",
+  "object_changes": [],
+  "surface_binding_changes": [
+    {
+      "field": "placements",
+      "before": {
+        "entity": "comparison_sample",
+        "relation": "on_top",
+        "receptacle": "bottom_cabinet_bamfsz_0",
+        "position_xy": [
+          -1.6364999999999998,
+          3.115
+        ]
+      },
+      "after": {
+        "entity": "comparison_sample",
+        "relation": "on_top",
+        "receptacle": "countertop_tpuwys_0"
+      }
+    },
+    {
+      "field": "goal",
+      "before": {
+        "kind": "on_top",
+        "entity": "item_00",
+        "receptacle": "bottom_cabinet_bamfsz_0"
+      },
+      "after": {
+        "kind": "on_top",
+        "entity": "item_00",
+        "receptacle": "countertop_tpuwys_0"
+      }
+    }
+  ],
+  "before_goal": [
+    {
+      "kind": "on_top",
+      "entity": "item_00",
+      "receptacle": "bottom_cabinet_bamfsz_0"
+    }
+  ],
+  "after_goal": [
+    {
+      "kind": "on_top",
+      "entity": "item_00",
+      "receptacle": "countertop_tpuwys_0"
+    }
+  ],
+  "before_target": {
+    "entity": "item_00",
+    "category": "bowl"
+  },
+  "after_target": {
+    "entity": "item_00",
+    "category": "bowl"
+  },
+  "preserved": [
+    "find-and-deliver paradigm",
+    "goal entity and relation",
+    "scene",
+    "spawn",
+    "robot",
+    "skills",
+    "entity names and count",
+    "placement relations",
+    "target cardinality"
+  ],
+  "physical_validation_required": true,
+  "human_completion_verified": false
+}

@@ -1,0 +1,106 @@
+{
+  "id": "asset_F108_01",
+  "family": "semantic_F108",
+  "scene": "Pomaria_1_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_F108_01/scenario.yaml",
+  "scenario_sha256": "a88d3236d6dd00068f5e954f10f215db87c41954bef33bc386aef01853c0bde7",
+  "instruction": "Find the teaspoon among the breakfast dishes on the kitchen table and move it to the counter in front of you in the kitchen.",
+  "target_key": "teaspoon/prbhag",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "breakfast_table_uhrsex_0",
+  "destination_receptacle": "countertop_tpuwys_4",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "05d404c89ade70d34c89459d2b340c53ef49d49041a6624fcc9a997b8b7322b3",
+  "route": {
+    "start": [
+      -1.35,
+      -0.15000000000000002,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -1.35,
+        -0.15000000000000002
+      ],
+      [
+        -1.35,
+        -0.25
+      ],
+      [
+        -1.35,
+        -0.35000000000000003
+      ],
+      [
+        -1.25,
+        -0.35000000000000003
+      ],
+      [
+        -1.25,
+        -0.45
+      ],
+      [
+        -1.1500000000000001,
+        -0.45
+      ],
+      [
+        -1.1500000000000001,
+        -0.55
+      ],
+      [
+        -1.05,
+        -0.55
+      ]
+    ],
+    "length_m": 0.7,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 51,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "parent_task_id": "F108",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F108_01",
+    "parent_task_id": "F108",
+    "before_instruction": "Find the teaspoon beneath the empty dishes on the kitchen breakfast tray and put it beside the sink.",
+    "after_instruction": "Find the teaspoon among the breakfast dishes on the kitchen table and move it to the counter in front of you in the kitchen.",
+    "reason": "Uses a real table source rather than asserting an unconstructed tray and beneath relation; source clutter still permits occlusion. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "teaspoon/prbhag",
+    "target_assets": [
+      "teaspoon/prbhag"
+    ]
+  },
+  "binding_sha256": "778918dd269a56e308793b2b5324f3d06b054cb6ce34f296c6737b31c89040ec"
+}

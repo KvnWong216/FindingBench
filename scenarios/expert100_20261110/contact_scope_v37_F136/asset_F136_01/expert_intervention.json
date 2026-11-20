@@ -1,0 +1,86 @@
+{
+  "status": "static_screened_physics_pending",
+  "method": "registered_native_contact_layout_repair",
+  "decision": {
+    "revision_id": "Rs_int_drawer_contact_20261111",
+    "base_survey_sha256": "24bd47925e994c3defe707f3d8a919b355cd46a7128d2b59d373bc2697d8185e",
+    "source_entity": "bottom_cabinet_bamfsz_0",
+    "source_asset": "bottom_cabinet/bamfsz",
+    "translations": [
+      {
+        "entity": "bottom_cabinet_bamfsz_0",
+        "delta": [
+          0.008,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "entity": "oven_wuinhm_0",
+        "delta": [
+          0.0,
+          -0.05,
+          0.0
+        ]
+      }
+    ],
+    "removed_objects": [
+      "public_trash_can_zotrbg_0"
+    ],
+    "native_failure_evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/joint_trace_v34_F071_original/asset_F071_01/native_validation.log",
+    "native_failure_evidence_sha256": "538d006ebd6c52de695e93fdfee8a90faff1be3610f85e7c778e6c6e764c8311",
+    "reason": "Failure-frame contacts show the opened bottom drawers striking the wall, the adjacent oven and a non-task trash bin. Retain the cabinet and oven at native scale, separate the cabinet 8 mm from the wall, shift the oven 5 cm out of the drawer sweep, and remove only the non-task bin. Preserve every target, distractor, sample, delivery identity and spawn. All native gates remain required.",
+    "status": "expert_layout_revision_physics_pending",
+    "human_completion_verified": false
+  },
+  "released_compiler_links": [
+    {
+      "entity": "item_00",
+      "previous_link": "link_2"
+    },
+    {
+      "entity": "item_01",
+      "previous_link": "link_2"
+    },
+    {
+      "entity": "item_02",
+      "previous_link": "link_2"
+    },
+    {
+      "entity": "item_03",
+      "previous_link": "link_2"
+    },
+    {
+      "entity": "item_04",
+      "previous_link": "link_2"
+    },
+    {
+      "entity": "item_05",
+      "previous_link": "link_2"
+    },
+    {
+      "entity": "item_06",
+      "previous_link": "link_2"
+    },
+    {
+      "entity": "item_07",
+      "previous_link": "link_2"
+    },
+    {
+      "entity": "item_08",
+      "previous_link": "link_2"
+    }
+  ],
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/overnight_expert_20261109/generate/asset_F136_01/scenario.yaml",
+  "original_sha256": "f78498d4813f2567c4452fd34de52c676ab7bd80b3a490c90830646fe509dc70",
+  "physical_validation_required": true,
+  "preserved": [
+    "instruction",
+    "goal",
+    "target",
+    "robot",
+    "spawn",
+    "all task assets and counts",
+    "all placement relations"
+  ]
+}

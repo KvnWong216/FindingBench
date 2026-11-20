@@ -1,0 +1,83 @@
+{
+  "id": "asset_P147_01",
+  "family": "semantic_P147",
+  "scene": "Ihlen_1_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P147_01/scenario.yaml",
+  "scenario_sha256": "3580f9da0a037f39a31429acb9b113026ce124de07adbbe3ed293d10de0bf405",
+  "instruction": "There is a sample on the cabinet top in front of you in the living room. Find the picture frame matching that sample among the living-room cabinet decorations and put it on the cabinet top in front of you in the living room.",
+  "target_key": "picture_frame/yxmjdx",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "bottom_cabinet_jrhgeu_2",
+  "destination_receptacle": "bottom_cabinet_jrhgeu_2",
+  "object_count": 12,
+  "distractor_count": 10,
+  "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+  "route": {
+    "start": [
+      1.6,
+      -0.1,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        1.6,
+        -0.1
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 1,
+    "destination_approach_count": 1,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "comparison_negative_0",
+    "comparison_negative_1",
+    "bottom_cabinet_jrhgeu_2"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "parent_task_id": "P147",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P147_01",
+    "parent_task_id": "P147",
+    "before_instruction": "Find the frame marked Original on its back among the living-room cabinet frames and put it on the mantel beside the clock.",
+    "after_instruction": "There is a sample on the cabinet top in front of you in the living room. Find the picture frame matching that sample among the living-room cabinet decorations and put it on the cabinet top in front of you in the living room.",
+    "reason": "Replaces fictional Original back label and unsupported mantel landmark with physical frame matching. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "picture_frame/yxmjdx",
+    "target_assets": [
+      "picture_frame/yxmjdx"
+    ]
+  },
+  "binding_sha256": "50c5538f9a24021a4486e7777cf4ec725fc27dc2e218df39b06331e52179a1d5"
+}

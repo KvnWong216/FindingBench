@@ -1,0 +1,143 @@
+id: asset_F096_01
+instruction: Find a cereal box and an empty bowl in the kitchen cupboards and put
+  both on the table in front of you in the kitchen.
+scene:
+  model: Pomaria_1_int
+  source: behavior
+  clearance_manifest: /home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/build/vla_difficulty_v2/clearance/Pomaria_1_int.json
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - -1.1500000000000001
+    - -2.85
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - 0.7071067811865475
+    - 0.7071067811865476
+target:
+  entity: item_00
+  category: box_of_cereal
+objects:
+- name: item_00
+  category: box_of_cereal
+  model: wdkcbu
+- name: item_01
+  category: bowl
+  model: ajzltc
+- name: item_02
+  category: pasta_box
+  model: jaypjo
+- name: item_03
+  category: bag_of_rice
+  model: xcokwx
+- name: item_04
+  category: box_of_barley
+  model: lxpwnw
+- name: item_05
+  category: box_of_corn_flakes
+  model: zbwzkq
+- name: item_06
+  category: box_of_rice
+  model: yyheuw
+- name: item_07
+  category: box_of_corn_flakes
+  model: zbwzkq
+- name: item_08
+  category: box_of_oatmeal
+  model: zkggxm
+- name: item_09
+  category: box_of_rice
+  model: yyheuw
+placements:
+- entity: item_00
+  relation: inside
+  receptacle: bottom_cabinet_no_top_vdedzt_0
+- entity: item_01
+  relation: inside
+  receptacle: bottom_cabinet_no_top_vdedzt_0
+- entity: item_02
+  relation: inside
+  receptacle: bottom_cabinet_no_top_vdedzt_0
+- entity: item_03
+  relation: inside
+  receptacle: bottom_cabinet_no_top_vdedzt_0
+- entity: item_04
+  relation: inside
+  receptacle: bottom_cabinet_no_top_vdedzt_0
+- entity: item_05
+  relation: inside
+  receptacle: bottom_cabinet_no_top_vdedzt_0
+- entity: item_06
+  relation: inside
+  receptacle: bottom_cabinet_no_top_vdedzt_0
+- entity: item_07
+  relation: inside
+  receptacle: bottom_cabinet_no_top_pluwfl_0
+- entity: item_08
+  relation: inside
+  receptacle: bottom_cabinet_no_top_pluwfl_0
+- entity: item_09
+  relation: inside
+  receptacle: bottom_cabinet_no_top_pluwfl_0
+initial_states:
+  bottom_cabinet_no_top_pluwfl_0:
+    open: false
+  bottom_cabinet_no_top_vdedzt_0:
+    open: false
+goal:
+- kind: on_top
+  entity: item_00
+  receptacle: breakfast_table_uhrsex_0
+- kind: on_top
+  entity: item_01
+  receptacle: breakfast_table_uhrsex_0
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

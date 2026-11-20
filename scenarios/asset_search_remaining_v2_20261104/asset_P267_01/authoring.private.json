@@ -1,0 +1,210 @@
+{
+  "id": "asset_P267_01",
+  "family": "semantic_P267",
+  "scene": "Merom_1_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P267_01/scenario.yaml",
+  "scenario_sha256": "812ee619e4277408146b74f5e6a8d8b66d7f35c9c1177ad70bf977894002ce66",
+  "instruction": "Bring the picture frame matching the sample on the table in front of you in the living room from the living room keepsakes and put it beside that sample.",
+  "target_key": "picture_frame/guatvs",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "bottom_cabinet_jhymlr_0",
+  "destination_receptacle": "coffee_table_fqluyq_0",
+  "object_count": 11,
+  "distractor_count": 9,
+  "source_survey_sha256": "1bcd77f7369c09f3ee939635132fc064795bb448af326a0f941bcbe3dbe0fd22",
+  "route": {
+    "start": [
+      2.75,
+      7.15,
+      0.0
+    ],
+    "path_xy": [
+      [
+        2.75,
+        7.15
+      ],
+      [
+        2.75,
+        7.25
+      ],
+      [
+        2.75,
+        7.3500000000000005
+      ],
+      [
+        2.75,
+        7.45
+      ],
+      [
+        2.75,
+        7.550000000000001
+      ],
+      [
+        2.75,
+        7.65
+      ],
+      [
+        2.75,
+        7.75
+      ],
+      [
+        2.75,
+        7.8500000000000005
+      ],
+      [
+        2.75,
+        7.95
+      ],
+      [
+        2.75,
+        8.05
+      ],
+      [
+        2.75,
+        8.15
+      ],
+      [
+        2.75,
+        8.25
+      ],
+      [
+        2.75,
+        8.35
+      ],
+      [
+        2.6500000000000004,
+        8.35
+      ],
+      [
+        2.5500000000000003,
+        8.35
+      ],
+      [
+        2.45,
+        8.35
+      ],
+      [
+        2.35,
+        8.35
+      ],
+      [
+        2.25,
+        8.35
+      ],
+      [
+        2.15,
+        8.35
+      ],
+      [
+        2.0500000000000003,
+        8.35
+      ],
+      [
+        1.9500000000000002,
+        8.35
+      ],
+      [
+        1.85,
+        8.35
+      ],
+      [
+        1.75,
+        8.35
+      ],
+      [
+        1.6500000000000001,
+        8.35
+      ],
+      [
+        1.55,
+        8.35
+      ],
+      [
+        1.4500000000000002,
+        8.35
+      ],
+      [
+        1.4500000000000002,
+        8.450000000000001
+      ],
+      [
+        1.35,
+        8.450000000000001
+      ],
+      [
+        1.35,
+        8.55
+      ],
+      [
+        1.35,
+        8.65
+      ],
+      [
+        1.35,
+        8.75
+      ],
+      [
+        1.35,
+        8.85
+      ],
+      [
+        1.25,
+        8.85
+      ]
+    ],
+    "length_m": 3.2,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 35,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "required_negative_0",
+    "bottom_cabinet_jhymlr_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "parent_task_id": "P267",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P267_01",
+    "parent_task_id": "P267",
+    "before_instruction": "Find the frame showing exactly two adults and one child among living-room cabinet keepsakes and place it facing the sofa on the coffee table.",
+    "after_instruction": "Bring the picture frame matching the sample on the table in front of you in the living room from the living room keepsakes and put it beside that sample.",
+    "reason": "Retains matching-based retrieval through a physical same-native-model sample on the delivery surface. Any original cross-object compatibility, photo or consumable-state requirement is explicitly replaced with visible product/shape matching. Original source and destination rooms preserved; forced native distractor creates a real competing selection.",
+    "target_asset": "picture_frame/guatvs",
+    "target_assets": [
+      "picture_frame/guatvs"
+    ]
+  },
+  "binding_sha256": "3d9a46c0ac195a7e9bfce8d5187c41c4eb5413003dd3ced9a2f544a2f1d1d689"
+}

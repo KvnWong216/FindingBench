@@ -1,0 +1,495 @@
+{
+  "tasks": [
+    {
+      "id": "asset_U168_01",
+      "family": "semantic_U168",
+      "scene": "Pomaria_0_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/native_work_surface_v59_U168_20261114_U168/asset_U168_01/scenario.yaml",
+      "scenario_sha256": "bc2bf7b673e4b46f469559049afdcb8e69ba85874bf75d328f590cb5aa13f2ba",
+      "instruction": "I am setting up a second display for the household records. Bring the monitor from the study storage equipment to the desk in front of you in the study in the study.",
+      "target_key": "monitor/xhxcyg",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "private_office_0",
+      "destination_room": "private_office_0",
+      "source_receptacle": "search_work_surface",
+      "destination_receptacle": "delivery_surface",
+      "object_count": 11,
+      "distractor_count": 8,
+      "source_survey_sha256": "5f126672121f241779c0ea9705424fa8ac90469f422772fc224ad7184f7883fc",
+      "route": {
+        "start": [
+          -6.1000000000000005,
+          -1.3,
+          1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            -6.1000000000000005,
+            -1.3
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 38,
+        "destination_approach_count": 30,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "bottom_cabinet_no_top_spojpj_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "delivery_surface",
+          "category": "desk",
+          "model": "tmluxa",
+          "floor": "floors_elvhyh_0",
+          "position_xy": [
+            -6.7,
+            -0.5
+          ],
+          "aabb": [
+            [
+              -6.95371273803711,
+              -0.8538818969726563,
+              0.0
+            ],
+            [
+              -6.44628726196289,
+              -0.14611810302734374,
+              0.7001053161621094
+            ]
+          ],
+          "room": "private_office_0"
+        },
+        {
+          "name": "search_work_surface",
+          "category": "breakfast_table",
+          "model": "iaritq",
+          "floor": "floors_elvhyh_0",
+          "position_xy": [
+            -5.9,
+            -2.3000000000000003
+          ],
+          "aabb": [
+            [
+              -6.251000289916993,
+              -2.65054623413086,
+              0.0
+            ],
+            [
+              -5.548999710083008,
+              -1.9494537658691409,
+              0.7490009155273437
+            ]
+          ],
+          "room": "private_office_0"
+        }
+      ],
+      "parent_task_id": "U168",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_U168_01",
+        "parent_task_id": "U168",
+        "before_instruction": "I want a second screen for the household records. Find the smallest spare monitor among the storage room equipment and place it at the back of the study desk beside the existing screen.",
+        "after_instruction": "I am setting up a second display for the household records. Bring the monitor from the study storage equipment to the desk in front of you in the study in the study.",
+        "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Missing constructed comparison/count evidence and distractor set for compact spare monitor. Portable graspable monitor and two size variants required Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: storage_room/cabinet -> private_office/desk becomes private_office/cabinet -> private_office/desk. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+        "target_asset": "monitor/xhxcyg",
+        "target_assets": [
+          "monitor/xhxcyg"
+        ]
+      },
+      "binding_sha256": "14389db1d5125745ff7caaec02ee2875006f27f69fce1d7a82442512db2df57b",
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      },
+      "source_layout_revisions": [
+        {
+          "method": "expert_reauthored_generic_storage_on_open_work_surface",
+          "source_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_U168_01/scenario.yaml",
+          "source_sha256": "9c3226113eace5a4d79baf83b1eccf008114527a7773ca2bd2d3214db65c2bc7",
+          "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_gpu_new_20261106/asset_U168_01",
+          "relation_changes": [
+            {
+              "before": {
+                "entity": "item_00",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_00",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  -6.134500289916993,
+                  -2.38604623413086
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_01",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_01",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  -5.862000289916993,
+                  -2.5130462341308597
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_02",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_02",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  -5.9585002899169925,
+                  -2.09354623413086
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_03",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_03",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  -5.6460002899169925,
+                  -2.5795462341308597
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_04",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_04",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  -5.634000289916993,
+                  -2.36204623413086
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_05",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_05",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  -5.667500289916993,
+                  -2.29404623413086
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_06",
+                "relation": "inside",
+                "receptacle": "bottom_cabinet_no_top_spojpj_0"
+              },
+              "after": {
+                "entity": "item_06",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  -5.862000289916993,
+                  -2.2630462341308597
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_07",
+                "relation": "inside",
+                "receptacle": "bottom_cabinet_no_top_spojpj_0"
+              },
+              "after": {
+                "entity": "item_07",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  -5.814500289916993,
+                  -2.09354623413086
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_08",
+                "relation": "inside",
+                "receptacle": "bottom_cabinet_no_top_spojpj_0"
+              },
+              "after": {
+                "entity": "item_08",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  -5.6460002899169925,
+                  -2.4625462341308597
+                ]
+              }
+            }
+          ],
+          "removed_unused_authored_fixtures": [
+            "search_storage"
+          ],
+          "source_surface": "search_work_surface",
+          "plans": [
+            {
+              "receptacle": "search_work_surface",
+              "entities": [
+                "item_00",
+                "item_01",
+                "item_02",
+                "item_03",
+                "item_04",
+                "item_05",
+                "item_06",
+                "item_07",
+                "item_08"
+              ],
+              "solver": {
+                "status": "feasible_model",
+                "device": "cuda",
+                "backend": "torch_cuda_finite_csp",
+                "solve_seconds": 0.018802851904183626,
+                "nodes": 9,
+                "candidate_tests": 435562,
+                "search_orders_tried": 1,
+                "grid_m": 0.001,
+                "margin_m": 0.025,
+                "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+                "physical_validation_required": true,
+                "assignment": {
+                  "item_00": "surface",
+                  "item_01": "surface",
+                  "item_06": "surface",
+                  "item_02": "surface",
+                  "item_07": "surface",
+                  "item_03": "surface",
+                  "item_08": "surface",
+                  "item_04": "surface",
+                  "item_05": "surface"
+                },
+                "poses": {
+                  "item_00": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.025,
+                      0.025
+                    ],
+                    "footprint_m": [
+                      0.183,
+                      0.47900000000000004
+                    ],
+                    "center_xy_m": [
+                      0.1165,
+                      0.2645
+                    ]
+                  },
+                  "item_01": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.233,
+                      0.025
+                    ],
+                    "footprint_m": [
+                      0.312,
+                      0.225
+                    ],
+                    "center_xy_m": [
+                      0.389,
+                      0.1375
+                    ]
+                  },
+                  "item_06": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.233,
+                      0.275
+                    ],
+                    "footprint_m": [
+                      0.312,
+                      0.225
+                    ],
+                    "center_xy_m": [
+                      0.389,
+                      0.3875
+                    ]
+                  },
+                  "item_02": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.233,
+                      0.525
+                    ],
+                    "footprint_m": [
+                      0.11900000000000001,
+                      0.064
+                    ],
+                    "center_xy_m": [
+                      0.2925,
+                      0.557
+                    ]
+                  },
+                  "item_07": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.377,
+                      0.525
+                    ],
+                    "footprint_m": [
+                      0.11900000000000001,
+                      0.064
+                    ],
+                    "center_xy_m": [
+                      0.4365,
+                      0.557
+                    ]
+                  },
+                  "item_03": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.5700000000000001,
+                      0.025
+                    ],
+                    "footprint_m": [
+                      0.07,
+                      0.092
+                    ],
+                    "center_xy_m": [
+                      0.605,
+                      0.07100000000000001
+                    ]
+                  },
+                  "item_08": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.5700000000000001,
+                      0.14200000000000002
+                    ],
+                    "footprint_m": [
+                      0.07,
+                      0.092
+                    ],
+                    "center_xy_m": [
+                      0.605,
+                      0.188
+                    ]
+                  },
+                  "item_04": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.5700000000000001,
+                      0.259
+                    ],
+                    "footprint_m": [
+                      0.094,
+                      0.059000000000000004
+                    ],
+                    "center_xy_m": [
+                      0.617,
+                      0.2885
+                    ]
+                  },
+                  "item_05": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.5700000000000001,
+                      0.343
+                    ],
+                    "footprint_m": [
+                      0.027,
+                      0.027
+                    ],
+                    "center_xy_m": [
+                      0.5835,
+                      0.3565
+                    ]
+                  }
+                },
+                "authoring_spacing_attempts": [
+                  {
+                    "margin_m": 0.025,
+                    "grid_m": 0.001,
+                    "status": "feasible_model",
+                    "reason": null
+                  }
+                ]
+              },
+              "measured_scene_obstacles": [],
+              "physical_validation_required": true
+            }
+          ],
+          "source_room": "private_office_0",
+          "reason": "Task names generic storage rather than an enclosed receptacle. Large household equipment and containers are stored on a real work surface among the same unchanged clutter; retain task meaning and all native physical checks.",
+          "physical_validation_required": true,
+          "human_completion_verified": false
+        }
+      ]
+    }
+  ]
+}

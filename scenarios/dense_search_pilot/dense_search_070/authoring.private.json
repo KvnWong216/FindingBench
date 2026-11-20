@@ -1,0 +1,65 @@
+{
+  "id": "dense_search_070",
+  "family": "fruit_bowl",
+  "scene": "Ihlen_1_int",
+  "scenario": "scenarios/dense_search_pilot/dense_search_070/scenario.yaml",
+  "scenario_sha256": "1fc363c6c045ccb146db8759625ec537b14d50542dd01b8f9bfd953a0a491add",
+  "instruction": "Find all the oranges in the fruit basket in this kitchen and put them in the kitchen sink in front of you.",
+  "target_key": "orange",
+  "target_entities": [
+    "item_01",
+    "item_02"
+  ],
+  "target_count": 2,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "item_00",
+  "destination_receptacle": "furniture_sink_czyfhq_0",
+  "object_count": 11,
+  "distractor_count": 8,
+  "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+  "route": {
+    "start": [
+      -3.7,
+      4.9,
+      -3.0479395315072417
+    ],
+    "path_xy": [
+      [
+        -3.7,
+        4.9
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.5956854249492382,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 3,
+    "destination_approach_count": 3,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_00",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09",
+    "item_10"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "robot_model": "g1_bench"
+}

@@ -1,0 +1,138 @@
+{
+  "id": "asset_F005_01",
+  "family": "semantic_F005",
+  "scene": "Ihlen_1_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_F005_01/scenario.yaml",
+  "scenario_sha256": "63b4b73ffe48fc93f4a1b16cc6e6bef71e64a326f5872f87cb729a93e98c5343",
+  "instruction": "I need the tongs for serving pasta. Find them in the kitchen utensil drawers and leave them on the counter in front of you in the kitchen.",
+  "target_key": "tongs/rcpjld",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+  "destination_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+  "route": {
+    "start": [
+      -3.9000000000000004,
+      4.7,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -3.9000000000000004,
+        4.7
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 37,
+    "destination_approach_count": 37,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_no_top_qohxjq_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+        "volume_extents_m": {
+          "link_0": [
+            0.35790157318115234,
+            0.41975927352905273,
+            0.17664214968681335
+          ],
+          "link_1": [
+            0.3487100601196289,
+            0.4131288528442383,
+            0.16006872057914734
+          ],
+          "link_2": [
+            0.34264087677001953,
+            0.415022611618042,
+            0.043399155139923096
+          ]
+        },
+        "native_links": {
+          "link_0": "link_0",
+          "link_1": "link_1",
+          "link_2": "link_2"
+        },
+        "geometry_source": "survey",
+        "geometry_provenance": {},
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_05": "link_0",
+          "item_06": "link_0",
+          "item_03": "link_0",
+          "item_00": "link_0",
+          "item_08": "link_0",
+          "item_04": "link_0",
+          "item_01": "link_0",
+          "item_07": "link_0",
+          "item_02": "link_0"
+        },
+        "component_allocation": {
+          "item_05": "link_0",
+          "item_06": "link_0",
+          "item_03": "link_0",
+          "item_00": "link_0",
+          "item_08": "link_0",
+          "item_04": "link_0",
+          "item_01": "link_0",
+          "item_07": "link_0",
+          "item_02": "link_0"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {},
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "F005",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F005_01",
+    "parent_task_id": "F005",
+    "before_instruction": "I need the tongs for serving pasta later. Find them in the kitchen utensil drawers and leave them on the tray beside the stove.",
+    "after_instruction": "I need the tongs for serving pasta. Find them in the kitchen utensil drawers and leave them on the counter in front of you in the kitchen.",
+    "reason": "The identified delivery surface is grounded by the initial facing direction; decorative destination landmarks are omitted. Target identity, requested cardinality and source/destination room types are retained.",
+    "target_asset": "tongs/rcpjld",
+    "target_assets": [
+      "tongs/rcpjld"
+    ]
+  },
+  "binding_sha256": "c189a9446044b6ceaf87cbe2fb3cbf3b5c951b3635fa83d4635fd621366e1f8b"
+}

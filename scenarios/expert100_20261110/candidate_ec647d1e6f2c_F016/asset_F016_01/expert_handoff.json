@@ -1,0 +1,56 @@
+{
+  "source_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/staged_v31_F016/asset_F016_01/scenario.yaml",
+  "source_sha256": "ec647d1e6f2c96b0dfb00da117e3653501e6bcc340b6f6874e43bae00265ebf0",
+  "source_intervention": {
+    "status": "static_screened_physics_pending",
+    "method": "registered_native_support_rebinding",
+    "centered_container_placements": [
+      {
+        "entity": "item_00",
+        "receptacle": "delivery_surface",
+        "position_xy": [
+          0.7000000000000002,
+          0.7
+        ],
+        "orientation": "identity via explicit XY placement",
+        "physical_validation_required": true
+      }
+    ],
+    "decision": {
+      "instruction_sha256": "151c9888b73e5dde6b328679767c846a72cc2defbd49e451e0e1a3aa130c3174",
+      "entity": "item_00",
+      "original_object": {
+        "name": "item_00",
+        "category": "shopping_basket",
+        "model": "vsxhsv"
+      },
+      "replacement": {
+        "name": "item_00",
+        "category": "shopping_basket",
+        "model": "nedrsh"
+      },
+      "reason": "Native larger shopping basket holds the full required inventory in the joint static size model; preserve native size, every target and every distractor. Independent physics and reload still required."
+    },
+    "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_F016_01/scenario.yaml",
+    "physical_validation_required": true,
+    "preserved": [
+      "instruction",
+      "goal",
+      "target",
+      "robot",
+      "spawn",
+      "all targets and distractors",
+      "object count",
+      "all relation types"
+    ],
+    "changed": [
+      "one native support model; original asset scales retained"
+    ],
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true
+    }
+  },
+  "physical_validation_required": true
+}

@@ -1,0 +1,159 @@
+{
+  "scene_model": "house_double_floor_lower",
+  "status": "local_portals_replayed",
+  "wall_warps": [
+    {
+      "entity": "walls_weybsr_0",
+      "axis": 0,
+      "source": [
+        -4.5,
+        -4.337,
+        -3.438,
+        -1.55
+      ],
+      "target": [
+        -4.5,
+        -4.337,
+        -2.937,
+        -1.55
+      ],
+      "wall_plane": 2.35,
+      "portal": true,
+      "requested_width_m": 1.4
+    },
+    {
+      "entity": "walls_epketb_0",
+      "axis": 0,
+      "source": [
+        -4.5,
+        -4.337,
+        -3.438,
+        -1.55
+      ],
+      "target": [
+        -4.5,
+        -4.337,
+        -2.937,
+        -1.55
+      ],
+      "wall_plane": 2.35,
+      "portal": false,
+      "requested_width_m": 1.4
+    },
+    {
+      "entity": "walls_qeofms_0",
+      "axis": 0,
+      "source": [
+        -4.34,
+        -2.452,
+        -1.558,
+        -1.3
+      ],
+      "target": [
+        -4.34,
+        -2.958,
+        -1.558,
+        -1.3
+      ],
+      "wall_plane": 0.75,
+      "portal": true,
+      "requested_width_m": 1.4
+    },
+    {
+      "entity": "walls_chmqjn_0",
+      "axis": 0,
+      "source": [
+        -4.34,
+        -2.452,
+        -1.558,
+        -1.3
+      ],
+      "target": [
+        -4.34,
+        -2.958,
+        -1.558,
+        -1.3
+      ],
+      "wall_plane": 0.75,
+      "portal": false,
+      "requested_width_m": 1.4
+    }
+  ],
+  "translations": [
+    {
+      "entity": "bottom_cabinet_qacthv_0",
+      "delta": [
+        -1,
+        0,
+        0
+      ]
+    },
+    {
+      "entity": "drop_in_sink_hecjnt_0",
+      "delta": [
+        -1,
+        0,
+        0
+      ]
+    },
+    {
+      "entity": "mirror_edxfnt_0",
+      "delta": [
+        -1,
+        0,
+        0
+      ]
+    },
+    {
+      "entity": "wall_mounted_light_mbhxbg_0",
+      "delta": [
+        -1,
+        0,
+        0
+      ]
+    }
+  ],
+  "manual_review": [],
+  "note": "Door leaves/frames, furniture, cross-walls and task-state preservation require independent inspection before enabling.",
+  "removed_objects": [
+    "door_bexenl_0",
+    "door_bexenl_1"
+  ],
+  "validation_report": "runs/clearance_lower_validation/report.json",
+  "expert_fixture_replacements": [
+    {
+      "entity": "search_storage",
+      "replacement_entity": "search_storage",
+      "before_asset": "bottom_cabinet_no_top/vzzafs",
+      "after_asset": "metal_bottom_cabinet/mvsgdm",
+      "before_aabb": [
+        [
+          17.623635940551758,
+          4.52351139831543,
+          0.014
+        ],
+        [
+          18.27636405944824,
+          4.97648860168457,
+          0.8822071838378907
+        ]
+      ],
+      "after_aabb": [
+        [
+          17.642566650390624,
+          4.547301391601563,
+          0.014
+        ],
+        [
+          18.257433349609375,
+          4.952698608398437,
+          0.936740234375
+        ]
+      ],
+      "source_sha256": "af0ece74f3f14dab112c6d1b6e8fda2ff0a59ce4e0a28d6883b72ba804103a4b",
+      "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/reviewed_followup_231_U221/asset_U221_01",
+      "reason": "Replace failed source at its existing site; adding another fixture consumes its approach space",
+      "physical_validation_required": true
+    }
+  ]
+}

@@ -1,0 +1,180 @@
+id: asset_U161_01
+instruction: Bring a bulldog clip from the living room workspace stationery to the
+  table in front of you in the entryway in the entryway for the temporary notice.
+scene:
+  model: Rs_int
+  source: behavior
+  clearance_manifest: /home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_340_U161_expert_e1975d43641f/asset_U161_01/clearance_0a3f37032121aeb8.json
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - 1.0
+    - 1.8
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - 0.7071067811865475
+    - 0.7071067811865476
+target:
+  entity: item_00
+  category: bulldog_clip
+objects:
+- name: item_00
+  category: bulldog_clip
+  model: cqxnkn
+- name: item_01
+  category: thumbtack
+  model: qfrphh
+- name: item_02
+  category: paper_clip
+  model: xjfirk
+- name: item_03
+  category: staple
+  model: ldvmsa
+- name: item_04
+  category: wall_nail
+  model: wlnail
+- name: item_05
+  category: thumbtack
+  model: qfrphh
+- name: item_06
+  category: paper_clip
+  model: xjfirk
+- name: item_07
+  category: staple
+  model: ldvmsa
+- name: item_08
+  category: wall_nail
+  model: wlnail
+- name: search_storage
+  category: bottom_cabinet
+  model: jrhgeu
+  fixed_base: true
+- name: delivery_surface
+  category: breakfast_table
+  model: iaritq
+  fixed_base: true
+- name: expert_storage_93
+  category: bottom_cabinet_no_top
+  model: wtnrwl
+  fixed_base: true
+- name: drawer_support_1dee263f
+  category: notebook
+  model: umxsmd
+  fixed_base: false
+- name: drawer_support_be5a6fd3
+  category: notebook
+  model: umxsmd
+  fixed_base: false
+placements:
+- entity: item_00
+  relation: inside
+  receptacle: search_storage
+- entity: item_01
+  relation: inside
+  receptacle: search_storage
+- entity: item_02
+  relation: inside
+  receptacle: search_storage
+- entity: item_03
+  relation: inside
+  receptacle: search_storage
+- entity: item_04
+  relation: inside
+  receptacle: search_storage
+- entity: item_05
+  relation: inside
+  receptacle: search_storage
+- entity: item_06
+  relation: inside
+  receptacle: expert_storage_93
+- entity: item_07
+  relation: inside
+  receptacle: expert_storage_93
+- entity: item_08
+  relation: inside
+  receptacle: bottom_cabinet_bamfsz_1
+- entity: search_storage
+  relation: on_top
+  receptacle: floors_ptwlei_0
+  position_xy:
+  - 0.2
+  - 0.4
+- entity: delivery_surface
+  relation: on_top
+  receptacle: floors_gjemfr_0
+  position_xy:
+  - 1.2000000000000002
+  - 2.8000000000000003
+- entity: expert_storage_93
+  relation: on_top
+  receptacle: floors_ptwlei_0
+  position_xy:
+  - 1.1
+  - 0.6000000000000001
+- entity: drawer_support_1dee263f
+  relation: inside
+  receptacle: search_storage
+- entity: drawer_support_be5a6fd3
+  relation: inside
+  receptacle: expert_storage_93
+initial_states:
+  bottom_cabinet_bamfsz_1:
+    open: false
+  search_storage:
+    open: false
+  expert_storage_93:
+    open: false
+goal:
+- kind: on_top
+  entity: item_00
+  receptacle: delivery_surface
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

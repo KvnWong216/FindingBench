@@ -1,0 +1,63 @@
+{
+  "id": "asset_P250_01",
+  "family": "semantic_P250",
+  "scene": "hotel_suite_large",
+  "scenario": "scenarios/remaining_layout_repairs_20261108/asset_P250_01/scenario.yaml",
+  "scenario_sha256": "d0e0087f38500d409b4a9f0a293d2014e732d35229d0cf9ae995f700cf861a31",
+  "instruction": "Find the mirror in the cupboards in this bathroom and put it on the cabinet in front of you.",
+  "target_key": "mirror/rgbvxy",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bathroom_0",
+  "destination_room": "bathroom_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "06ad52b50e10b1cfb9813fac870a242888a7b8090e9b315f09f4b2237c9a12b8",
+  "route": {
+    "start": [
+      0.0,
+      4.3,
+      0.0
+    ],
+    "path_xy": [
+      [
+        0.0,
+        4.3
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 39,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate"
+}

@@ -1,0 +1,256 @@
+{
+  "id": "asset_U040_01",
+  "family": "semantic_U040",
+  "scene": "Pomaria_0_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_U040_01/scenario.yaml",
+  "scenario_sha256": "fbbd25655d945a72c522e0ae2b8ed47d67187b84386d4c893af72fc95f6df233",
+  "instruction": "I'm taking detail photographs. Find the loose camera lens among the study photography supplies and put it on the desk in front of you in the study.",
+  "target_key": "lens/oeeuic",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "private_office_0",
+  "destination_room": "private_office_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 11,
+  "distractor_count": 8,
+  "source_survey_sha256": "5f126672121f241779c0ea9705424fa8ac90469f422772fc224ad7184f7883fc",
+  "route": {
+    "start": [
+      -5.9,
+      -1.0,
+      3.141592653589793
+    ],
+    "path_xy": [
+      [
+        -5.9,
+        -1.0
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 8,
+    "destination_approach_count": 6,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_no_top_spojpj_0",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_elvhyh_0",
+      "position_xy": [
+        -6.4,
+        -1.8
+      ],
+      "aabb": [
+        [
+          -6.5671447601318365,
+          -2.142287979125977,
+          0.0
+        ],
+        [
+          -6.232855239868164,
+          -1.4577120208740235,
+          0.6846599731445313
+        ]
+      ],
+      "room": "private_office_0"
+    },
+    {
+      "name": "delivery_surface",
+      "category": "desk",
+      "model": "tmluxa",
+      "floor": "floors_elvhyh_0",
+      "position_xy": [
+        -6.7,
+        -0.5
+      ],
+      "aabb": [
+        [
+          -6.95371273803711,
+          -0.8538818969726563,
+          0.0
+        ],
+        [
+          -6.44628726196289,
+          -0.14611810302734374,
+          0.7001053161621094
+        ]
+      ],
+      "room": "private_office_0"
+    }
+  ],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "search_storage",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.23922629249095917,
+            0.18965983357072802,
+            0.5851681912193236
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.23877585313392102,
+            0.19861903381347656,
+            0.5853487684532628
+          ],
+          "meta__base_link_fillable_0_0_link#component:2": [
+            0.23817441952228546,
+            0.189000270903126,
+            0.5853966732025147
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet/jrhgeu",
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "encrypted_asset_sha256": "70d166224352a46e63c008e4d1b5af6bec5bfdfc27f6b21dad220cca350bc871",
+          "metadata_sha256": "838fad16a0dc49e7be965c08b9de0d54b477a05592b32eb05d6519a940331708",
+          "root_orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_00": "meta__base_link_fillable_0_0_link#component:1",
+          "item_03": "meta__base_link_fillable_0_0_link#component:0",
+          "item_01": "meta__base_link_fillable_0_0_link#component:2",
+          "item_04": "meta__base_link_fillable_0_0_link#component:2",
+          "item_02": "meta__base_link_fillable_0_0_link#component:0",
+          "item_05": "meta__base_link_fillable_0_0_link#component:1"
+        }
+      },
+      {
+        "receptacle": "bottom_cabinet_no_top_spojpj_0",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.47778748757643297,
+            0.7533896995103886,
+            0.17911914148513677
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.47957378669274847,
+            0.7552043790479293,
+            0.20087095049054082
+          ],
+          "meta__base_link_fillable_0_0_link#component:2": [
+            0.48415563986783583,
+            0.7562513069118342,
+            0.20778712613745862
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet_no_top/spojpj",
+          "scale": [
+            1.2320706844329834,
+            1.2762794494628906,
+            1.4180110692977905
+          ],
+          "encrypted_asset_sha256": "b1a8387eba4405101e82da8fc1a934432b2f15dfaf23df29ca85b10f676830d9",
+          "metadata_sha256": "821af7f29773bfc2aa846ad7360069c7f643f3d0cf7d09e47400953b401bb4e3",
+          "root_orientation": [
+            0.0,
+            0.0,
+            0.7071068286895752,
+            -0.7071067094802856
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_08": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link",
+          "item_07": "meta__base_link_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_08": "meta__base_link_fillable_0_0_link#component:0",
+          "item_06": "meta__base_link_fillable_0_0_link#component:1",
+          "item_07": "meta__base_link_fillable_0_0_link#component:2"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_08": "meta__base_link_fillable_0_0_link",
+      "item_06": "meta__base_link_fillable_0_0_link",
+      "item_07": "meta__base_link_fillable_0_0_link"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "U040",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_U040_01",
+    "parent_task_id": "U040",
+    "before_instruction": "I'm taking detail photos and need the loose camera lens. Search the study's photography supplies and put the lens beside the digital camera on the desk.",
+    "after_instruction": "I'm taking detail photographs. Find the loose camera lens among the study photography supplies and put it on the desk in front of you in the study.",
+    "reason": "Preserves object identity and purpose; explicitly grounds the destination as the initial-facing native surface instead of an uninstantiated decorative landmark.",
+    "target_asset": "lens/oeeuic",
+    "target_assets": [
+      "lens/oeeuic"
+    ]
+  },
+  "binding_sha256": "a2d764a95bfc18539ce9a903b6b1a0545d985a0b88cfc7934d325a77f4a790d6"
+}

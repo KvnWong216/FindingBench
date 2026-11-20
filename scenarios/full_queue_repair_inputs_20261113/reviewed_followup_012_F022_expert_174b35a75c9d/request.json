@@ -1,0 +1,278 @@
+{
+  "action": "expert",
+  "case": {
+    "id": "F022",
+    "record": {
+      "id": "asset_F022_01",
+      "family": "semantic_F022",
+      "scene": "Ihlen_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/direct_native_motion_v128_F022/asset_F022_01/scenario.yaml",
+      "scenario_sha256": "1219c10ed38f0c4b723a74c8a734c97b1ea890bea66fe9d4c7c4f8c4dd8bf78f",
+      "instruction": "Find the cutting board among the kitchen trays and pans and bring it to the counter in front of you in the kitchen.",
+      "target_key": "cutting_board/nsvnai",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "kitchen_0",
+      "destination_room": "kitchen_0",
+      "source_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+      "destination_receptacle": "countertop_tpuwys_3",
+      "object_count": 9,
+      "distractor_count": 8,
+      "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+      "route": {
+        "start": [
+          -3.9000000000000004,
+          4.7,
+          -1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            -3.9000000000000004,
+            4.7
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 37,
+        "destination_approach_count": 37,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "bottom_cabinet_no_top_qohxjq_1",
+        "bottom_cabinet_no_top_qohxjq_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+            "volume_extents_m": {
+              "link_0": [
+                0.35790157318115234,
+                0.41975927352905273,
+                0.17664214968681335
+              ],
+              "link_1": [
+                0.3487100601196289,
+                0.4131288528442383,
+                0.16006872057914734
+              ],
+              "link_2": [
+                0.34264087677001953,
+                0.415022611618042,
+                0.043399155139923096
+              ]
+            },
+            "native_links": {
+              "link_0": "link_0",
+              "link_1": "link_1",
+              "link_2": "link_2"
+            },
+            "geometry_source": "survey",
+            "geometry_provenance": {},
+            "status": "heuristic_fit",
+            "assignment": {
+              "item_01": "link_1",
+              "item_02": "link_0",
+              "item_04": "link_2",
+              "item_00": "link_1",
+              "item_05": "link_0",
+              "item_03": "link_0"
+            },
+            "component_allocation": {
+              "item_01": "link_1",
+              "item_02": "link_0",
+              "item_04": "link_2",
+              "item_00": "link_1",
+              "item_05": "link_0",
+              "item_03": "link_0"
+            }
+          },
+          {
+            "receptacle": "bottom_cabinet_no_top_qohxjq_1",
+            "volume_extents_m": {
+              "link_0": [
+                0.32920026779174805,
+                0.41975927352905273,
+                0.17664214968681335
+              ],
+              "link_1": [
+                0.32074594497680664,
+                0.4131288528442383,
+                0.16006872057914734
+              ],
+              "link_2": [
+                0.31516385078430176,
+                0.415022611618042,
+                0.043399155139923096
+              ]
+            },
+            "native_links": {
+              "link_0": "link_0",
+              "link_1": "link_1",
+              "link_2": "link_2"
+            },
+            "geometry_source": "survey",
+            "geometry_provenance": {},
+            "status": "heuristic_fit",
+            "assignment": {
+              "item_06": "link_1",
+              "item_07": "link_0",
+              "item_08": "link_2"
+            },
+            "component_allocation": {
+              "item_06": "link_1",
+              "item_07": "link_0",
+              "item_08": "link_2"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_01": "link_1",
+          "item_02": "link_0",
+          "item_04": "link_2",
+          "item_00": "link_1",
+          "item_05": "link_0",
+          "item_03": "link_0",
+          "item_06": "link_1",
+          "item_07": "link_0",
+          "item_08": "link_2"
+        },
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [],
+      "parent_task_id": "F022",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F022_01",
+        "parent_task_id": "F022",
+        "before_instruction": "Find the cutting board among the kitchen trays and pans and put it on the counter next to the sink.",
+        "after_instruction": "Find the cutting board among the kitchen trays and pans and bring it to the counter in front of you in the kitchen.",
+        "reason": "The identified delivery surface is grounded by the initial facing direction; decorative destination landmarks are omitted. Target identity, requested cardinality and source/destination room types are retained.",
+        "target_asset": "cutting_board/nsvnai",
+        "target_assets": [
+          "cutting_board/nsvnai"
+        ]
+      },
+      "binding_sha256": "5d212cb3c2867df17a376565e1d82f4252ee04e11ca340d70a953ddc9aee750c",
+      "surface_binding_revision": {
+        "status": "surface_body_binding_corrected_physics_pending",
+        "changes": [
+          {
+            "field": "goal",
+            "entity": "item_00",
+            "before": "bottom_cabinet_no_top_qohxjq_0",
+            "after": "countertop_tpuwys_3"
+          }
+        ],
+        "destination_approach_patch": {
+          "contact_body": "countertop_tpuwys_3",
+          "above_fixture": "bottom_cabinet_no_top_qohxjq_0",
+          "aabb": [
+            [
+              -4.469,
+              3.565,
+              0.901
+            ],
+            [
+              -3.97,
+              4.148,
+              0.92
+            ]
+          ],
+          "scope": "private route proposal to a subset of the actual slab; no synthetic body"
+        },
+        "geometry": {
+          "bottom_cabinet_no_top_qohxjq_0": {
+            "before": [
+              [
+                -4.469,
+                3.565,
+                0.002
+              ],
+              [
+                -3.97,
+                4.152,
+                0.898
+              ]
+            ],
+            "after": [
+              [
+                -5.058,
+                3.561,
+                0.901
+              ],
+              [
+                -3.501,
+                4.148,
+                0.92
+              ]
+            ]
+          }
+        },
+        "source_survey": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/vla_difficulty_v2/_survey/Ihlen_1_int.json",
+        "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+        "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert_repair_queue_20261107/asset_F022_01/scenario.yaml",
+        "original_scenario_sha256": "61393e8d5846e3e6265945dfb06e1a1a13d32459747f80ad927e8f2b2172b9ac",
+        "reason": "Native OnTop requires touching the named body; a separate measured slab covers the named cabinet.",
+        "preserved": [
+          "instruction",
+          "all object models and counts",
+          "target identities",
+          "relation kinds",
+          "spawn",
+          "robot and skills",
+          "physical delivery location"
+        ],
+        "physical_validation_required": true
+      }
+    },
+    "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_lane2_20261111/direct_native_motion_v128_F022/asset_F022_01",
+    "accepted": false,
+    "error": "EXPERT_LAYOUT_UNRESOLVED: infeasible_model No allowed bin/orientation fits an item",
+    "source": "reviewed_polling_probe_direct_native_motion_v128",
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "restricted_packing",
+      "reason": "EXPERT_LAYOUT_UNRESOLVED: infeasible_model No allowed bin/orientation fits an item"
+    }
+  },
+  "out": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_012_F022_expert_174b35a75c9d",
+  "variant": 93
+}

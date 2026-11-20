@@ -1,0 +1,114 @@
+{
+  "id": "asset_F092_01",
+  "family": "semantic_F092",
+  "scene": "Pomaria_1_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_F092_01/scenario.yaml",
+  "scenario_sha256": "c5137121898fb69c4f9316c45c93d3f32aa9e965751046d7c87367ab11378e90",
+  "instruction": "Breakfast at the table in front of you in the kitchen needs a bowl, a teaspoon and a cereal box. Check what is already there, then find the missing item in the kitchen cupboards and bring it over.",
+  "target_key": "box_of_cereal/sgirte",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "bottom_cabinet_no_top_vzzafs_0",
+  "destination_receptacle": "breakfast_table_uhrsex_0",
+  "object_count": 11,
+  "distractor_count": 8,
+  "source_survey_sha256": "05d404c89ade70d34c89459d2b340c53ef49d49041a6624fcc9a997b8b7322b3",
+  "route": {
+    "start": [
+      -1.05,
+      -0.8500000000000001,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -1.05,
+        -0.8500000000000001
+      ],
+      [
+        -1.05,
+        -0.75
+      ],
+      [
+        -1.05,
+        -0.65
+      ],
+      [
+        -1.05,
+        -0.55
+      ],
+      [
+        -1.05,
+        -0.45
+      ],
+      [
+        -1.05,
+        -0.35000000000000003
+      ],
+      [
+        -1.05,
+        -0.25
+      ],
+      [
+        -1.1500000000000001,
+        -0.25
+      ],
+      [
+        -1.25,
+        -0.25
+      ]
+    ],
+    "length_m": 0.8,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 51,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "initial_inventory_0",
+    "initial_inventory_1",
+    "bottom_cabinet_jrhgeu_0",
+    "bottom_cabinet_no_top_vzzafs_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "parent_task_id": "F092",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F092_01",
+    "parent_task_id": "F092",
+    "before_instruction": "Breakfast needs a bowl, a spoon and a cereal box. The bowl and spoon are on the kitchen table; find the missing item in the kitchen cupboards and bring it beside them.",
+    "after_instruction": "Breakfast at the table in front of you in the kitchen needs a bowl, a teaspoon and a cereal box. Check what is already there, then find the missing item in the kitchen cupboards and bring it over.",
+    "reason": "Constructs a bowl and teaspoon at the destination; cereal is the unique missing target without leaking the answer. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "box_of_cereal/sgirte",
+    "target_assets": [
+      "box_of_cereal/sgirte"
+    ]
+  },
+  "binding_sha256": "35d8784aa6883b6048f215558d4e9eeea17838aa05dd4ab821d1f2ba1860089c"
+}

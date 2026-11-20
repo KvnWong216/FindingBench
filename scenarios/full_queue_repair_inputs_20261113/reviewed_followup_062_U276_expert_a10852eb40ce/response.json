@@ -1,0 +1,26 @@
+{
+  "status": "deferred",
+  "reason": "No measured native compartment fits unchanged inventory",
+  "storage": "search_storage",
+  "expert_policy": {
+    "method": "relocate_storage",
+    "clear_unstated_links": true,
+    "plan_surfaces": true,
+    "runtime_changes": [
+      "closed_native_bbox_XY",
+      "disjoint_measured_support_patches",
+      "bounded_CUDA_candidate_domains"
+    ],
+    "original_instruction_retained": true,
+    "explicit_location_scope_retained": true,
+    "diagnosis": "surface_or_timeout",
+    "reason": "placement failed verification after physics settled: ['item_00 inside search_storage', 'item_01 inside search_storage', 'item_02 inside search_storage', 'item_03 inside search_storage', 'item_04 inside search_storage', 'item_05 inside search_storage', 'item_06 inside search_storage', 'item_07 inside search_storage', 'item_08 inside search_storage']"
+  },
+  "prior_fixture_relocation": {
+    "status": "deferred",
+    "method": "relocate_failed_fixture",
+    "entity": "search_storage",
+    "reason": "No connected opening-clear site for the same failed native fixture; do not replay its unchanged floor failure",
+    "physical_validation_required": true
+  }
+}

@@ -1,0 +1,381 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F043_01",
+      "family": "semantic_F043",
+      "scene": "grocery_store_convenience",
+      "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_F043_01/scenario.yaml",
+      "scenario_sha256": "536adec0cb0d0436b2791aaefb53884aa0bf715e94a2196943b2a20f2958827a",
+      "instruction": "Find four water bottles of the same size among the grocery-store drinks and put all four in the shopping basket on the shopping basket in front of you in the grocery store.",
+      "target_key": "bottle_of_water/suytyi",
+      "target_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04"
+      ],
+      "target_count": 4,
+      "source_room": "grocery_store_0",
+      "destination_room": "grocery_store_0",
+      "source_receptacle": "search_storage",
+      "destination_receptacle": "item_00",
+      "object_count": 14,
+      "distractor_count": 7,
+      "source_survey_sha256": "a2c547e08ae7b260e95d8b48eef0027668b5c06f7c674406f7ebc43f7ad37672",
+      "route": {
+        "start": [
+          1.6,
+          0.30000000000000004,
+          3.141592653589793
+        ],
+        "path_xy": [
+          [
+            1.6,
+            0.30000000000000004
+          ],
+          [
+            1.6,
+            0.2
+          ],
+          [
+            1.6,
+            0.1
+          ],
+          [
+            1.6,
+            0.0
+          ],
+          [
+            1.6,
+            -0.1
+          ],
+          [
+            1.6,
+            -0.2
+          ],
+          [
+            1.6,
+            -0.30000000000000004
+          ],
+          [
+            1.6,
+            -0.4
+          ],
+          [
+            1.5,
+            -0.4
+          ],
+          [
+            1.4000000000000001,
+            -0.4
+          ],
+          [
+            1.3,
+            -0.4
+          ],
+          [
+            1.2000000000000002,
+            -0.4
+          ],
+          [
+            1.1,
+            -0.4
+          ],
+          [
+            1.0,
+            -0.4
+          ],
+          [
+            0.9,
+            -0.4
+          ],
+          [
+            0.8,
+            -0.4
+          ]
+        ],
+        "length_m": 1.5,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_00",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "item_09",
+        "item_10",
+        "item_11"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "search_storage",
+          "category": "shelf",
+          "model": "vanltx",
+          "floor": "floors_rojznj_0",
+          "position_xy": [
+            0.2,
+            -1.4000000000000001
+          ],
+          "aabb": [
+            [
+              0.026926239013671888,
+              -1.992514587402344,
+              0.0
+            ],
+            [
+              0.37307376098632816,
+              -0.8074854125976564,
+              0.42811041259765625
+            ]
+          ],
+          "room": "grocery_store_0"
+        },
+        {
+          "name": "delivery_surface",
+          "category": "breakfast_table",
+          "model": "iaritq",
+          "floor": "floors_rojznj_0",
+          "position_xy": [
+            0.7000000000000001,
+            0.7000000000000001
+          ],
+          "aabb": [
+            [
+              0.3489997100830079,
+              0.3494537658691407,
+              0.0
+            ],
+            [
+              1.0510002899169923,
+              1.0505462341308593,
+              0.7490009155273437
+            ]
+          ],
+          "room": "grocery_store_0"
+        }
+      ],
+      "parent_task_id": "F043",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F043_01",
+        "parent_task_id": "F043",
+        "before_instruction": "Find four water bottles of the same size among the grocery store drinks and put them in the shopping basket beside the checkout.",
+        "after_instruction": "Find four water bottles of the same size among the grocery-store drinks and put all four in the shopping basket on the shopping basket in front of you in the grocery store.",
+        "reason": "The identified delivery surface is grounded by the initial facing direction; decorative destination landmarks are omitted. Target identity, requested cardinality and source/destination room types are retained.",
+        "target_asset": "bottle_of_water/suytyi",
+        "target_assets": [
+          "bottle_of_water/suytyi",
+          "bottle_of_water/suytyi",
+          "bottle_of_water/suytyi",
+          "bottle_of_water/suytyi"
+        ]
+      }
+    },
+    {
+      "id": "asset_F057_01",
+      "family": "semantic_F057",
+      "scene": "grocery_store_convenience",
+      "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_F057_01/scenario.yaml",
+      "scenario_sha256": "e5d1423f39b9afbfe5aa306ea699c7d53931b87ceded547bdf45b8bb58a71cf7",
+      "instruction": "Find a honey jar among the grocery store breakfast spreads and put it in the shopping basket in front of you in the grocery store.",
+      "target_key": "honey_jar/dhgtvg",
+      "target_entities": [
+        "item_01"
+      ],
+      "target_count": 1,
+      "source_room": "grocery_store_0",
+      "destination_room": "grocery_store_0",
+      "source_receptacle": "search_storage",
+      "destination_receptacle": "item_00",
+      "object_count": 12,
+      "distractor_count": 8,
+      "source_survey_sha256": "a2c547e08ae7b260e95d8b48eef0027668b5c06f7c674406f7ebc43f7ad37672",
+      "route": {
+        "start": [
+          1.6,
+          0.30000000000000004,
+          3.141592653589793
+        ],
+        "path_xy": [
+          [
+            1.6,
+            0.30000000000000004
+          ],
+          [
+            1.6,
+            0.2
+          ],
+          [
+            1.6,
+            0.1
+          ],
+          [
+            1.6,
+            0.0
+          ],
+          [
+            1.6,
+            -0.1
+          ],
+          [
+            1.6,
+            -0.2
+          ],
+          [
+            1.6,
+            -0.30000000000000004
+          ],
+          [
+            1.6,
+            -0.4
+          ],
+          [
+            1.5,
+            -0.4
+          ],
+          [
+            1.4000000000000001,
+            -0.4
+          ],
+          [
+            1.3,
+            -0.4
+          ],
+          [
+            1.2000000000000002,
+            -0.4
+          ],
+          [
+            1.1,
+            -0.4
+          ],
+          [
+            1.0,
+            -0.4
+          ],
+          [
+            0.9,
+            -0.4
+          ],
+          [
+            0.8,
+            -0.4
+          ]
+        ],
+        "length_m": 1.5,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_00",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "item_09"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "search_storage",
+          "category": "shelf",
+          "model": "vanltx",
+          "floor": "floors_rojznj_0",
+          "position_xy": [
+            0.2,
+            -1.4000000000000001
+          ],
+          "aabb": [
+            [
+              0.026926239013671888,
+              -1.992514587402344,
+              0.0
+            ],
+            [
+              0.37307376098632816,
+              -0.8074854125976564,
+              0.42811041259765625
+            ]
+          ],
+          "room": "grocery_store_0"
+        },
+        {
+          "name": "delivery_surface",
+          "category": "breakfast_table",
+          "model": "iaritq",
+          "floor": "floors_rojznj_0",
+          "position_xy": [
+            0.7000000000000001,
+            0.7000000000000001
+          ],
+          "aabb": [
+            [
+              0.3489997100830079,
+              0.3494537658691407,
+              0.0
+            ],
+            [
+              1.0510002899169923,
+              1.0505462341308593,
+              0.7490009155273437
+            ]
+          ],
+          "room": "grocery_store_0"
+        }
+      ],
+      "parent_task_id": "F057",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F057_01",
+        "parent_task_id": "F057",
+        "before_instruction": "Find the honey jar between the coffee display and the tea display in the grocery store, and put it in the shopping basket beside the checkout.",
+        "after_instruction": "Find a honey jar among the grocery store breakfast spreads and put it in the shopping basket in front of you in the grocery store.",
+        "reason": "Removed unconstructed coffee/tea display landmarks; retained grocery search for honey and basket delivery. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "honey_jar/dhgtvg",
+        "target_assets": [
+          "honey_jar/dhgtvg"
+        ]
+      }
+    }
+  ],
+  "generated_count": 2,
+  "parent_task_count": 2
+}

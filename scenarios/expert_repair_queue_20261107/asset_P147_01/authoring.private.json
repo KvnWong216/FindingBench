@@ -1,0 +1,249 @@
+{
+  "id": "asset_P147_01",
+  "family": "semantic_P147",
+  "scene": "Pomaria_0_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_P147_01/scenario.yaml",
+  "scenario_sha256": "ec4e602b86c2bab40ad652558fbf7df3e101b6d847e85cf0d7ed7818bba929d5",
+  "instruction": "There is a sample on the cabinet top in front of you in the living room. Find the picture frame matching that sample among the living-room cabinet decorations and put it on the cabinet top in front of you in the living room.",
+  "target_key": "picture_frame/yxmjdx",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 14,
+  "distractor_count": 10,
+  "source_survey_sha256": "5f126672121f241779c0ea9705424fa8ac90469f422772fc224ad7184f7883fc",
+  "route": {
+    "start": [
+      -8.200000000000001,
+      2.1,
+      0.0
+    ],
+    "path_xy": [
+      [
+        -8.200000000000001,
+        2.1
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 10,
+    "destination_approach_count": 10,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "comparison_negative_0",
+    "comparison_negative_1",
+    "delivery_surface",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_zpatyb_0",
+      "position_xy": [
+        -9.0,
+        2.3000000000000003
+      ],
+      "aabb": [
+        [
+          -9.167144760131835,
+          1.9577120208740237,
+          0.0
+        ],
+        [
+          -8.832855239868165,
+          2.642287979125977,
+          0.6846599731445313
+        ]
+      ],
+      "room": "living_room_0"
+    },
+    {
+      "name": "delivery_surface",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_zpatyb_0",
+      "position_xy": [
+        -7.4,
+        2.3000000000000003
+      ],
+      "aabb": [
+        [
+          -7.5671447601318365,
+          1.9577120208740237,
+          0.0
+        ],
+        [
+          -7.232855239868164,
+          2.642287979125977,
+          0.6846599731445313
+        ]
+      ],
+      "room": "living_room_0"
+    }
+  ],
+  "layout_preflight": {
+    "status": "unknown",
+    "findings": [
+      {
+        "receptacle": "search_storage",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.23922629249095917,
+            0.18965983357072802,
+            0.5851681912193236
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.23877585313392102,
+            0.19861903381347656,
+            0.5853487684532628
+          ],
+          "meta__base_link_fillable_0_0_link#component:2": [
+            0.23817441952228546,
+            0.189000270903126,
+            0.5853966732025147
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet/jrhgeu",
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "encrypted_asset_sha256": "70d166224352a46e63c008e4d1b5af6bec5bfdfc27f6b21dad220cca350bc871",
+          "metadata_sha256": "838fad16a0dc49e7be965c08b9de0d54b477a05592b32eb05d6519a940331708",
+          "root_orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "unknown",
+        "native_sampling_required": true,
+        "reason": "No conservative upright joint packing found; alternate poses require native sampling",
+        "entities": [
+          "item_00",
+          "item_01",
+          "item_02",
+          "item_03",
+          "item_04",
+          "item_05",
+          "comparison_negative_0",
+          "comparison_negative_1"
+        ]
+      },
+      {
+        "receptacle": "delivery_surface",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.23922629249095917,
+            0.18965983357072802,
+            0.5851681912193236
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.23877585313392102,
+            0.19861903381347656,
+            0.5853487684532628
+          ],
+          "meta__base_link_fillable_0_0_link#component:2": [
+            0.23817441952228546,
+            0.189000270903126,
+            0.5853966732025147
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet/jrhgeu",
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "encrypted_asset_sha256": "70d166224352a46e63c008e4d1b5af6bec5bfdfc27f6b21dad220cca350bc871",
+          "metadata_sha256": "838fad16a0dc49e7be965c08b9de0d54b477a05592b32eb05d6519a940331708",
+          "root_orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "unknown",
+        "native_sampling_required": true,
+        "reason": "No conservative upright joint packing found; alternate poses require native sampling",
+        "entities": [
+          "item_06",
+          "item_07",
+          "item_08"
+        ]
+      }
+    ],
+    "prefer_alternative_layout": true,
+    "assignments": {},
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "P147",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P147_01",
+    "parent_task_id": "P147",
+    "before_instruction": "Find the frame marked Original on its back among the living-room cabinet frames and put it on the mantel beside the clock.",
+    "after_instruction": "There is a sample on the cabinet top in front of you in the living room. Find the picture frame matching that sample among the living-room cabinet decorations and put it on the cabinet top in front of you in the living room.",
+    "reason": "Replaces fictional Original back label and unsupported mantel landmark with physical frame matching. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "picture_frame/yxmjdx",
+    "target_assets": [
+      "picture_frame/yxmjdx"
+    ]
+  },
+  "binding_sha256": "50c5538f9a24021a4486e7777cf4ec725fc27dc2e218df39b06331e52179a1d5"
+}

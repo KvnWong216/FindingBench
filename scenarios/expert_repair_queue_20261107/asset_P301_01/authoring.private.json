@@ -1,0 +1,184 @@
+{
+  "id": "asset_P301_01",
+  "family": "semantic_P301",
+  "scene": "Merom_0_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_P301_01/scenario.yaml",
+  "scenario_sha256": "1273ef6dbdcb5b131ffd43370a02a36341c06ec94eae4e416ee3cae4f3885ffc",
+  "instruction": "Find the trophy matching the sample on the table in front of you in the living room among the living room keepsakes and put it beside that sample.",
+  "target_key": "trophy/myaxie",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "coffee_table_dnsjnv_0",
+  "object_count": 12,
+  "distractor_count": 9,
+  "source_survey_sha256": "432c3be0b4dd33aa136873f8d072cfc232afe601bfa0f68e3b7489a89af8f0f5",
+  "route": {
+    "start": [
+      3.0500000000000003,
+      8.05,
+      0.0
+    ],
+    "path_xy": [
+      [
+        3.0500000000000003,
+        8.05
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 16,
+    "destination_approach_count": 47,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "required_negative_0",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_lqngig_0",
+      "position_xy": [
+        3.25,
+        8.950000000000001
+      ],
+      "aabb": [
+        [
+          3.082855239868164,
+          8.607712020874024,
+          0.0
+        ],
+        [
+          3.417144760131836,
+          9.292287979125978,
+          0.6846599731445313
+        ]
+      ],
+      "room": "living_room_0"
+    }
+  ],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "search_storage",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.23922629249095917,
+            0.18965983357072802,
+            0.5851681912193236
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.23877585313392102,
+            0.19861903381347656,
+            0.5853487684532628
+          ],
+          "meta__base_link_fillable_0_0_link#component:2": [
+            0.23817441952228546,
+            0.189000270903126,
+            0.5853966732025147
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet/jrhgeu",
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "encrypted_asset_sha256": "70d166224352a46e63c008e4d1b5af6bec5bfdfc27f6b21dad220cca350bc871",
+          "metadata_sha256": "838fad16a0dc49e7be965c08b9de0d54b477a05592b32eb05d6519a940331708",
+          "root_orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "required_negative_0": "meta__base_link_fillable_0_0_link",
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_07": "meta__base_link_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "required_negative_0": "meta__base_link_fillable_0_0_link#component:1",
+          "item_00": "meta__base_link_fillable_0_0_link#component:0",
+          "item_06": "meta__base_link_fillable_0_0_link#component:2",
+          "item_04": "meta__base_link_fillable_0_0_link#component:0",
+          "item_03": "meta__base_link_fillable_0_0_link#component:2",
+          "item_02": "meta__base_link_fillable_0_0_link#component:2",
+          "item_08": "meta__base_link_fillable_0_0_link#component:2",
+          "item_05": "meta__base_link_fillable_0_0_link#component:2",
+          "item_01": "meta__base_link_fillable_0_0_link#component:2",
+          "item_07": "meta__base_link_fillable_0_0_link#component:2"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {},
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "P301",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P301_01",
+    "parent_task_id": "P301",
+    "before_instruction": "Find the trophy engraved Spelling Final among living-room display storage and put it beside the family photograph on the coffee table.",
+    "after_instruction": "Find the trophy matching the sample on the table in front of you in the living room among the living room keepsakes and put it beside that sample.",
+    "reason": "Retains matching-based retrieval through a physical same-native-model sample on the delivery surface. Any original cross-object compatibility, photo or consumable-state requirement is explicitly replaced with visible product/shape matching. Original source and destination rooms preserved; forced native distractor creates a real competing selection.",
+    "target_asset": "trophy/myaxie",
+    "target_assets": [
+      "trophy/myaxie"
+    ]
+  },
+  "binding_sha256": "5200121093d24b861fe1578ae4e8184ea5a506f0d48cff4c67c3d36211cc9cd0"
+}

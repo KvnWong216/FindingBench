@@ -1,0 +1,176 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F180_01",
+      "family": "semantic_F180",
+      "scene": "Beechwood_0_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/manual_dense_repairs_20261106/asset_F180_01/scenario.yaml",
+      "scenario_sha256": "31432655048d82a208d87b91c43a3d5aaf6f634387ed3bbc8155207043e32889",
+      "instruction": "There is a sample on the table in front of you in the living room. Find another mug matching that sample in the kitchen cupboards and bring it to the table in front of you in the living room for my work break in the living room.",
+      "target_key": "mug/kitxam",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "kitchen_0",
+      "destination_room": "living_room_0",
+      "source_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+      "destination_receptacle": "breakfast_table_skczfi_0",
+      "object_count": 12,
+      "distractor_count": 10,
+      "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+      "route": {
+        "start": [
+          3.5500000000000003,
+          -6.95,
+          -3.141592653589793
+        ],
+        "path_xy": [
+          [
+            3.5500000000000003,
+            -6.95
+          ],
+          [
+            3.45,
+            -6.95
+          ],
+          [
+            3.35,
+            -6.95
+          ],
+          [
+            3.35,
+            -6.8500000000000005
+          ],
+          [
+            3.25,
+            -6.8500000000000005
+          ],
+          [
+            3.25,
+            -6.75
+          ],
+          [
+            3.1500000000000004,
+            -6.75
+          ],
+          [
+            3.0500000000000003,
+            -6.75
+          ],
+          [
+            2.95,
+            -6.75
+          ],
+          [
+            2.85,
+            -6.75
+          ],
+          [
+            2.75,
+            -6.75
+          ],
+          [
+            2.75,
+            -6.65
+          ],
+          [
+            2.6500000000000004,
+            -6.65
+          ],
+          [
+            2.6500000000000004,
+            -6.550000000000001
+          ],
+          [
+            2.5500000000000003,
+            -6.550000000000001
+          ],
+          [
+            2.5500000000000003,
+            -6.45
+          ],
+          [
+            2.45,
+            -6.45
+          ],
+          [
+            2.45,
+            -6.3500000000000005
+          ],
+          [
+            2.35,
+            -6.3500000000000005
+          ],
+          [
+            2.25,
+            -6.3500000000000005
+          ],
+          [
+            2.15,
+            -6.3500000000000005
+          ],
+          [
+            2.0500000000000003,
+            -6.3500000000000005
+          ],
+          [
+            2.0500000000000003,
+            -6.25
+          ]
+        ],
+        "length_m": 2.2,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "comparison_sample",
+        "comparison_negative_0",
+        "comparison_negative_1",
+        "bottom_cabinet_no_top_qohxjq_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [],
+      "parent_task_id": "F180",
+      "tier": "long",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F180_01",
+        "parent_task_id": "F180",
+        "before_instruction": "The mug on the private office desk is the design I want. Find another of that design in the kitchen cupboards and put it beside the desk mug.",
+        "after_instruction": "There is a sample on the table in front of you in the living room. Find another mug matching that sample in the kitchen cupboards and bring it to the table in front of you in the living room for my work break in the living room.",
+        "reason": "Same-model reference preserves design matching; shared desk placement replaces an unmeasured beside relation. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Explicit spatial revision from ('kitchen', 'cabinet', 'private_office', 'desk') to ('kitchen', 'cabinet', 'living_room', 'table'): uses a room/storage pairing with previously found robot clearance and path evidence (19 prior recipes). Item sets, reference matching and inventory predicates are unchanged. Cross-room transfer is retained where the revised source and destination differ.",
+        "target_asset": "mug/kitxam",
+        "target_assets": [
+          "mug/kitxam"
+        ]
+      },
+      "binding_sha256": "c629af8d8b3287c0f34dedfdb8f6cddec6316f8798a4d6b5d0225e7b8447aff3",
+      "repair_priority": -1
+    }
+  ]
+}

@@ -1,0 +1,211 @@
+{
+  "action": "direct",
+  "case": {
+    "id": "F172",
+    "record": {
+      "id": "asset_F172_01",
+      "family": "semantic_F172",
+      "scene": "Beechwood_0_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_F172_01/scenario.yaml",
+      "scenario_sha256": "622e7c5d7cdbb98d91b535c73a778992f4bba63d4ac5efc680f3a47bffe9205c",
+      "instruction": "Find a whole banana among the kitchen produce and bring it to the table in front of you in the living room in the living room for lunch while I work.",
+      "target_key": "banana/wmglhc",
+      "target_entities": [
+        "item_01"
+      ],
+      "target_count": 1,
+      "source_room": "kitchen_0",
+      "destination_room": "living_room_0",
+      "source_receptacle": "item_00",
+      "destination_receptacle": "breakfast_table_skczfi_0",
+      "object_count": 10,
+      "distractor_count": 8,
+      "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+      "route": {
+        "start": [
+          3.5500000000000003,
+          -6.95,
+          -3.141592653589793
+        ],
+        "path_xy": [
+          [
+            3.5500000000000003,
+            -6.95
+          ],
+          [
+            3.45,
+            -6.95
+          ],
+          [
+            3.35,
+            -6.95
+          ],
+          [
+            3.35,
+            -6.8500000000000005
+          ],
+          [
+            3.25,
+            -6.8500000000000005
+          ],
+          [
+            3.25,
+            -6.75
+          ],
+          [
+            3.1500000000000004,
+            -6.75
+          ],
+          [
+            3.0500000000000003,
+            -6.75
+          ],
+          [
+            2.95,
+            -6.75
+          ],
+          [
+            2.85,
+            -6.75
+          ],
+          [
+            2.75,
+            -6.75
+          ],
+          [
+            2.75,
+            -6.65
+          ],
+          [
+            2.6500000000000004,
+            -6.65
+          ],
+          [
+            2.6500000000000004,
+            -6.550000000000001
+          ],
+          [
+            2.5500000000000003,
+            -6.550000000000001
+          ],
+          [
+            2.5500000000000003,
+            -6.45
+          ],
+          [
+            2.45,
+            -6.45
+          ],
+          [
+            2.45,
+            -6.3500000000000005
+          ],
+          [
+            2.35,
+            -6.3500000000000005
+          ],
+          [
+            2.25,
+            -6.3500000000000005
+          ],
+          [
+            2.15,
+            -6.3500000000000005
+          ],
+          [
+            2.0500000000000003,
+            -6.3500000000000005
+          ],
+          [
+            2.0500000000000003,
+            -6.25
+          ]
+        ],
+        "length_m": 2.2,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_00",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "item_09"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [],
+      "parent_task_id": "F172",
+      "tier": "long",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F172_01",
+        "parent_task_id": "F172",
+        "before_instruction": "Find a whole banana in the kitchen produce storage and put it beside the lunch plate on the private office desk.",
+        "after_instruction": "Find a whole banana among the kitchen produce and bring it to the table in front of you in the living room in the living room for lunch while I work.",
+        "reason": "The identified delivery surface is grounded by the initial facing direction; decorative destination landmarks are omitted. Target identity, requested cardinality and source/destination room types are retained. Explicit spatial revision from ('kitchen', 'bowl', 'private_office', 'desk') to ('kitchen', 'bowl', 'living_room', 'table'): uses a room/storage pairing with previously found robot clearance and path evidence (2 prior recipes). Item sets, reference matching and inventory predicates are unchanged. Cross-room transfer is retained where the revised source and destination differ.",
+        "target_asset": "banana/wmglhc",
+        "target_assets": [
+          "banana/wmglhc"
+        ]
+      },
+      "binding_sha256": "800957d37103634d688a9f8421b62086c8d81c1d611d319ee2392190e98b30b8"
+    },
+    "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_full_20261105/asset_F172_01",
+    "error": "native_timeout",
+    "source_sha256": "622e7c5d7cdbb98d91b535c73a778992f4bba63d4ac5efc680f3a47bffe9205c",
+    "expert_diagnosis": {
+      "category": "surface_or_timeout",
+      "error": "native_timeout",
+      "native_rejections_in_current_queue": 0,
+      "first_blocker": {
+        "entity": "item_00",
+        "relation": "on_top",
+        "receptacle": "bottom_cabinet_no_top_qohxjq_0"
+      },
+      "solver": null,
+      "support_measurements": {
+        "total": 0,
+        "planar": 0,
+        "reasons": {}
+      },
+      "first_contact": null,
+      "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_full_20261105/asset_F172_01/native_validation.log",
+      "inference_scope": "proposal/model diagnosis; native physics acceptance unchanged"
+    },
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "surface_or_timeout",
+      "reason": "native_timeout"
+    }
+  },
+  "out": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_332_F172_direct_9a8a94feb089",
+  "variant": 93
+}

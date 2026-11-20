@@ -1,0 +1,309 @@
+{
+  "action": "direct",
+  "case": {
+    "id": "F311",
+    "record": {
+      "id": "asset_F311_01",
+      "family": "semantic_F311",
+      "scene": "house_single_floor",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/stability_repairs_20261108/asset_F311_01/scenario.yaml",
+      "scenario_sha256": "3973d2dd918b4c3e71e651faa3de43dbcec0ed81518e88e681c1d7f8145f03c5",
+      "instruction": "There is a sample on the cabinet top in front of you in the dining room. Find the tray matching that sample in the kitchen storage and bring it to the cabinet top in front of you in the dining room in the dining room.",
+      "target_key": "tray/mhhoga",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "kitchen_0",
+      "destination_room": "dining_room_0",
+      "source_receptacle": "search_storage",
+      "destination_receptacle": "delivery_surface",
+      "object_count": 14,
+      "distractor_count": 10,
+      "source_survey_sha256": "14714104a089f0a43cdebe256d01d697215fe5627c0e2fcb55a030a71a1fb2a5",
+      "route": {
+        "start": [
+          6.300000000000001,
+          1.9000000000000001,
+          3.141592653589793
+        ],
+        "path_xy": [
+          [
+            6.300000000000001,
+            1.9000000000000001
+          ],
+          [
+            6.300000000000001,
+            1.8
+          ],
+          [
+            6.4,
+            1.8
+          ],
+          [
+            6.5,
+            1.8
+          ],
+          [
+            6.6000000000000005,
+            1.8
+          ],
+          [
+            6.7,
+            1.8
+          ],
+          [
+            6.800000000000001,
+            1.8
+          ],
+          [
+            6.9,
+            1.8
+          ],
+          [
+            7.0,
+            1.8
+          ],
+          [
+            7.1000000000000005,
+            1.8
+          ],
+          [
+            7.2,
+            1.8
+          ],
+          [
+            7.300000000000001,
+            1.8
+          ],
+          [
+            7.4,
+            1.8
+          ],
+          [
+            7.5,
+            1.8
+          ],
+          [
+            7.6000000000000005,
+            1.8
+          ],
+          [
+            7.7,
+            1.8
+          ],
+          [
+            7.800000000000001,
+            1.8
+          ],
+          [
+            7.9,
+            1.8
+          ],
+          [
+            8.0,
+            1.8
+          ]
+        ],
+        "length_m": 1.8,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 15,
+        "destination_approach_count": 18,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "comparison_sample",
+        "comparison_negative_0",
+        "comparison_negative_1",
+        "search_storage"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [
+        {
+          "name": "search_storage",
+          "category": "bottom_cabinet",
+          "model": "rvpunw",
+          "floor": "floors_khjmrr_0",
+          "position_xy": [
+            9.200000000000001,
+            1.8
+          ],
+          "aabb": [
+            [
+              9.004465385437014,
+              1.4578141479492188,
+              -0.0
+            ],
+            [
+              9.395534614562989,
+              2.1421858520507815,
+              0.408810791015625
+            ]
+          ],
+          "room": "kitchen_0"
+        },
+        {
+          "name": "delivery_surface",
+          "category": "bottom_cabinet",
+          "model": "rvpunw",
+          "floor": "floors_khjmrr_0",
+          "position_xy": [
+            5.5,
+            1.9000000000000001
+          ],
+          "aabb": [
+            [
+              5.304465385437012,
+              1.557814147949219,
+              -0.0
+            ],
+            [
+              5.695534614562988,
+              2.2421858520507816,
+              0.408810791015625
+            ]
+          ],
+          "room": "dining_room_0"
+        }
+      ],
+      "layout_preflight": {
+        "status": "unknown",
+        "findings": [
+          {
+            "receptacle": "search_storage",
+            "volume_extents_m": {
+              "meta__dof_rootd_aa001_t_fillable_0_0_link": [
+                0.3362949450016022,
+                0.6380979676246643,
+                0.14389748043127404
+              ],
+              "meta__dof_rootd_aa002_t_fillable_0_0_link": [
+                0.33629477615042824,
+                0.6380979676246643,
+                0.13829066944122315
+              ]
+            },
+            "native_links": {
+              "meta__dof_rootd_aa001_t_fillable_0_0_link": "meta__dof_rootd_aa001_t_fillable_0_0_link",
+              "meta__dof_rootd_aa002_t_fillable_0_0_link": "meta__dof_rootd_aa002_t_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet/rvpunw",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "85cd7d05a1126a2a97f651eeb9e1351c68a3d2f8c461ba512548e9c392e0a79f",
+              "metadata_sha256": "fe82c573d8f26cd669b0aae94d38e9a84909ec27ce8ec62647e54b6eba7f33e8",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "unknown",
+            "native_sampling_required": true,
+            "reason": "No conservative upright joint packing found; alternate poses require native sampling",
+            "entities": [
+              "item_00",
+              "item_01",
+              "item_02",
+              "item_03",
+              "item_04",
+              "item_05",
+              "item_06",
+              "item_07",
+              "item_08",
+              "comparison_negative_0",
+              "comparison_negative_1"
+            ]
+          }
+        ],
+        "prefer_alternative_layout": true,
+        "assignments": {},
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [],
+      "parent_task_id": "F311",
+      "tier": "long",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F311_01",
+        "parent_task_id": "F311",
+        "before_instruction": "Find the middle-sized of the three trays in the storage room and put it beside the cups on the dining room sideboard.",
+        "after_instruction": "There is a sample on the cabinet top in front of you in the dining room. Find the tray matching that sample in the kitchen storage and bring it to the cabinet top in front of you in the dining room in the dining room.",
+        "reason": "Revises unsupported middle-size ordering into exact native tray matching. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Explicit spatial revision from ('storage_room', 'cabinet', 'dining_room', 'cabinet') to ('kitchen', 'cabinet', 'dining_room', 'cabinet'): uses a room/storage pairing with previously found robot clearance and path evidence (11 prior recipes). Item sets, reference matching and inventory predicates are unchanged. Cross-room transfer is retained where the revised source and destination differ.",
+        "target_asset": "tray/mhhoga",
+        "target_assets": [
+          "tray/mhhoga"
+        ]
+      },
+      "binding_sha256": "c82b99391c2cfccf43db2128940fcb7710faddcf1eb2c9ee35a400f1d6d892b5"
+    },
+    "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/stability_repairs_20261108/asset_F311_01",
+    "error": "native_timeout",
+    "source_sha256": "3973d2dd918b4c3e71e651faa3de43dbcec0ed81518e88e681c1d7f8145f03c5",
+    "expert_diagnosis": {
+      "category": "surface_or_timeout",
+      "error": "native_timeout",
+      "native_rejections_in_current_queue": 0,
+      "first_blocker": {
+        "entity": "item_05",
+        "relation": "inside",
+        "receptacle": "search_storage"
+      },
+      "solver": null,
+      "support_measurements": {
+        "total": 0,
+        "planar": 0,
+        "reasons": {}
+      },
+      "first_contact": null,
+      "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/stability_repairs_20261108/asset_F311_01/native_validation.log",
+      "inference_scope": "proposal/model diagnosis; native physics acceptance unchanged"
+    },
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "surface_or_timeout",
+      "reason": "native_timeout"
+    }
+  },
+  "out": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_259_F311_direct_e233ebcc78df",
+  "variant": 93
+}

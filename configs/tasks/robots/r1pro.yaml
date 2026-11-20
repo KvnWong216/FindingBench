@@ -1,0 +1,28 @@
+# R1Pro robot and feasibility config for task-factory probe / certification
+# scenarios.
+robot:
+  model: r1pro
+  name: robot_0
+  obs_modalities: [rgb, depth_linear, seg_instance]
+  image_width: 854
+  image_height: 480
+  focal_length_mm: 10.5
+  kinematics:
+    urdf_path: build/robots/r1pro.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  reach_radius: 1.0
+  z_min: 0.0
+  z_max: 1.6
+  hand_capacity: 1
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+# MOVE/TURN footprint used by the agent protocol (AgentProtocolConfig
+# defaults); probe poses must satisfy the same check
+footprint:
+  half_extent_m: 0.40
+  margin_m: 0.03

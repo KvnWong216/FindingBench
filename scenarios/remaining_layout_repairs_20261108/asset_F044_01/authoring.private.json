@@ -1,0 +1,255 @@
+{
+  "id": "asset_F044_01",
+  "family": "semantic_F044",
+  "scene": "Beechwood_0_int",
+  "scenario": "scenarios/remaining_layout_repairs_20261108/asset_F044_01/scenario.yaml",
+  "scenario_sha256": "d82888a585af6a2d05441bb4c9d7c5bde41c2193e23d80510f7ca52b082b1c8d",
+  "instruction": "Find the aluminium foil box among the kitchen food-storage supplies and put it on the table in front of you in the kitchen for wrapping food.",
+  "target_key": "box_of_aluminium_foil/lhwgty",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "bottom_cabinet_no_top_spojpj_2",
+  "destination_receptacle": "breakfast_table_uhrsex_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+  "route": {
+    "start": [
+      0.25,
+      -8.55,
+      0.0
+    ],
+    "path_xy": [
+      [
+        0.25,
+        -8.55
+      ],
+      [
+        0.15000000000000002,
+        -8.55
+      ],
+      [
+        0.05,
+        -8.55
+      ],
+      [
+        -0.05,
+        -8.55
+      ],
+      [
+        -0.15000000000000002,
+        -8.55
+      ],
+      [
+        -0.25,
+        -8.55
+      ],
+      [
+        -0.35000000000000003,
+        -8.55
+      ],
+      [
+        -0.45,
+        -8.55
+      ],
+      [
+        -0.55,
+        -8.55
+      ],
+      [
+        -0.65,
+        -8.55
+      ],
+      [
+        -0.65,
+        -8.450000000000001
+      ]
+    ],
+    "length_m": 1.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 37,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_no_top_spojpj_0",
+    "bottom_cabinet_no_top_spojpj_2"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_no_top_spojpj_2",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.5542579520840694,
+            0.4870562816230197,
+            0.17911914148513677
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.5563313523258685,
+            0.48822773993471924,
+            0.20087095049054082
+          ],
+          "meta__base_link_fillable_0_0_link#component:2": [
+            0.5616496192355613,
+            0.4889035795651056,
+            0.20778712613745862
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet_no_top/spojpj",
+          "scale": [
+            1.4300940036773682,
+            0.8238965272903442,
+            1.4180110692977905
+          ],
+          "encrypted_asset_sha256": "b1a8387eba4405101e82da8fc1a934432b2f15dfaf23df29ca85b10f676830d9",
+          "metadata_sha256": "821af7f29773bfc2aa846ad7360069c7f643f3d0cf7d09e47400953b401bb4e3",
+          "root_orientation": [
+            0.0,
+            0.0,
+            0.7071066498756409,
+            0.70710688829422
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_00": "meta__base_link_fillable_0_0_link#component:0",
+          "item_02": "meta__base_link_fillable_0_0_link#component:2",
+          "item_05": "meta__base_link_fillable_0_0_link#component:1",
+          "item_01": "meta__base_link_fillable_0_0_link#component:0",
+          "item_04": "meta__base_link_fillable_0_0_link#component:0",
+          "item_03": "meta__base_link_fillable_0_0_link#component:0"
+        }
+      },
+      {
+        "receptacle": "bottom_cabinet_no_top_spojpj_0",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.5207541439556291,
+            0.7053030264824561,
+            0.17911914148513677
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.5227017573190094,
+            0.7070015720064096,
+            0.20087095049054082
+          ],
+          "meta__base_link_fillable_0_0_link#component:2": [
+            0.5276973811713306,
+            0.7079814996467177,
+            0.20778712613745862
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet_no_top/spojpj",
+          "scale": [
+            1.3433345556259155,
+            1.1946014165878296,
+            1.4180110692977905
+          ],
+          "encrypted_asset_sha256": "b1a8387eba4405101e82da8fc1a934432b2f15dfaf23df29ca85b10f676830d9",
+          "metadata_sha256": "821af7f29773bfc2aa846ad7360069c7f643f3d0cf7d09e47400953b401bb4e3",
+          "root_orientation": [
+            0.0,
+            0.0,
+            -0.0003452669770922512,
+            0.9999999403953552
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_08": "meta__base_link_fillable_0_0_link",
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_08": "meta__base_link_fillable_0_0_link#component:0",
+          "item_07": "meta__base_link_fillable_0_0_link#component:1",
+          "item_06": "meta__base_link_fillable_0_0_link#component:2"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_00": "meta__base_link_fillable_0_0_link",
+      "item_02": "meta__base_link_fillable_0_0_link",
+      "item_05": "meta__base_link_fillable_0_0_link",
+      "item_01": "meta__base_link_fillable_0_0_link",
+      "item_04": "meta__base_link_fillable_0_0_link",
+      "item_03": "meta__base_link_fillable_0_0_link",
+      "item_08": "meta__base_link_fillable_0_0_link",
+      "item_07": "meta__base_link_fillable_0_0_link",
+      "item_06": "meta__base_link_fillable_0_0_link"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "F044",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F044_01",
+    "parent_task_id": "F044",
+    "before_instruction": "Find the aluminium foil box in the pantry household-food storage and put it beside the baking pan on the pantry table.",
+    "after_instruction": "Find the aluminium foil box among the kitchen food-storage supplies and put it on the table in front of you in the kitchen for wrapping food.",
+    "reason": "The identified delivery surface is grounded by the initial facing direction; decorative destination landmarks are omitted. Target identity, requested cardinality and source/destination room types are retained. Layout revision: the unbuilt pantry-room task is explicitly relocated to the kitchen food-storage area because surveyed pantry rooms lack two robot-accessible storage/delivery positions. Target models, counts, reference matching, destination inventory and goals are unchanged; this changes room scope and may shorten transport.",
+    "target_asset": "box_of_aluminium_foil/lhwgty",
+    "target_assets": [
+      "box_of_aluminium_foil/lhwgty"
+    ]
+  },
+  "binding_sha256": "ff4dd61693674793b325151220f65b412a3465c79fdb93abe8bfddf2f8f2d85b"
+}

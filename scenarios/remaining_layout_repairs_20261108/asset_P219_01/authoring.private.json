@@ -1,0 +1,273 @@
+{
+  "id": "asset_P219_01",
+  "family": "semantic_P219",
+  "scene": "Wainscott_1_int",
+  "scenario": "scenarios/remaining_layout_repairs_20261108/asset_P219_01/scenario.yaml",
+  "scenario_sha256": "821d6d8b054ec42f32a5115a8db717a4a507b42625ad4f70843253d734893f3b",
+  "instruction": "I need my retainer for the night. Find the retainer among the bedroom personal-care supplies and place it on the counter in front of you in the bathroom in the bathroom.",
+  "target_key": "retainer/umtnei",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bedroom_0",
+  "destination_room": "bathroom_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "bottom_cabinet_nnvyol_1",
+  "object_count": 10,
+  "distractor_count": 8,
+  "source_survey_sha256": "7894c711eea34a656ee926a132d6563ce3833b5ddb45c126d0ce534dd2edca60",
+  "route": {
+    "start": [
+      0.9500000000000001,
+      9.35,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        0.9500000000000001,
+        9.35
+      ],
+      [
+        0.8500000000000001,
+        9.35
+      ],
+      [
+        0.75,
+        9.35
+      ],
+      [
+        0.65,
+        9.35
+      ],
+      [
+        0.65,
+        9.450000000000001
+      ],
+      [
+        0.65,
+        9.55
+      ],
+      [
+        0.65,
+        9.65
+      ],
+      [
+        0.65,
+        9.75
+      ],
+      [
+        0.65,
+        9.850000000000001
+      ],
+      [
+        0.65,
+        9.950000000000001
+      ],
+      [
+        0.65,
+        10.05
+      ],
+      [
+        0.65,
+        10.15
+      ],
+      [
+        0.55,
+        10.15
+      ],
+      [
+        0.55,
+        10.25
+      ],
+      [
+        0.45,
+        10.25
+      ],
+      [
+        0.45,
+        10.350000000000001
+      ],
+      [
+        0.35000000000000003,
+        10.350000000000001
+      ],
+      [
+        0.25,
+        10.350000000000001
+      ],
+      [
+        0.15000000000000002,
+        10.350000000000001
+      ],
+      [
+        0.05,
+        10.350000000000001
+      ],
+      [
+        -0.05,
+        10.350000000000001
+      ],
+      [
+        -0.05,
+        10.450000000000001
+      ]
+    ],
+    "length_m": 2.1,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 33,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "bottom_cabinet_no_top",
+      "model": "qohxjq",
+      "floor": "floors_sfyruj_0",
+      "position_xy": [
+        -1.05,
+        10.450000000000001
+      ],
+      "aabb": [
+        [
+          -1.276488624572754,
+          10.262822250366211,
+          0.0
+        ],
+        [
+          -0.8235113754272462,
+          10.637177749633791,
+          0.6150122375488282
+        ]
+      ],
+      "room": "bedroom_0"
+    }
+  ],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "search_storage",
+        "volume_extents_m": {
+          "meta__link_0_fillable_0_0_link": [
+            0.3292657296876389,
+            0.2706094343662262,
+            0.12410529661492387
+          ],
+          "meta__link_1_fillable_0_0_link": [
+            0.3240965170235477,
+            0.2637109417915344,
+            0.11264877776358184
+          ],
+          "meta__link_2_fillable_0_0_link": [
+            0.32557296347618103,
+            0.2591561855925264,
+            0.032000005364418105
+          ]
+        },
+        "native_links": {
+          "meta__link_0_fillable_0_0_link": "meta__link_0_fillable_0_0_link",
+          "meta__link_1_fillable_0_0_link": "meta__link_1_fillable_0_0_link",
+          "meta__link_2_fillable_0_0_link": "meta__link_2_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet_no_top/qohxjq",
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "encrypted_asset_sha256": "cca0104a6d0c365538622fdb04a559025851e0dd44d517440e7287f803d4f3d7",
+          "metadata_sha256": "ccbcb382882e37c1a1b62095b631247ae63f535c9960b59ad7d0dd43284fff7d",
+          "root_orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_01": "meta__link_1_fillable_0_0_link",
+          "item_04": "meta__link_0_fillable_0_0_link",
+          "item_07": "meta__link_1_fillable_0_0_link",
+          "item_00": "meta__link_0_fillable_0_0_link",
+          "item_02": "meta__link_2_fillable_0_0_link",
+          "item_05": "meta__link_2_fillable_0_0_link",
+          "item_08": "meta__link_2_fillable_0_0_link",
+          "item_03": "meta__link_2_fillable_0_0_link",
+          "item_06": "meta__link_2_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_01": "meta__link_1_fillable_0_0_link",
+          "item_04": "meta__link_0_fillable_0_0_link",
+          "item_07": "meta__link_1_fillable_0_0_link",
+          "item_00": "meta__link_0_fillable_0_0_link",
+          "item_02": "meta__link_2_fillable_0_0_link",
+          "item_05": "meta__link_2_fillable_0_0_link",
+          "item_08": "meta__link_2_fillable_0_0_link",
+          "item_03": "meta__link_2_fillable_0_0_link",
+          "item_06": "meta__link_2_fillable_0_0_link"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_01": "meta__link_1_fillable_0_0_link",
+      "item_04": "meta__link_0_fillable_0_0_link",
+      "item_07": "meta__link_1_fillable_0_0_link",
+      "item_00": "meta__link_0_fillable_0_0_link",
+      "item_02": "meta__link_2_fillable_0_0_link",
+      "item_05": "meta__link_2_fillable_0_0_link",
+      "item_08": "meta__link_2_fillable_0_0_link",
+      "item_03": "meta__link_2_fillable_0_0_link",
+      "item_06": "meta__link_2_fillable_0_0_link"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "P219",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P219_01",
+    "parent_task_id": "P219",
+    "before_instruction": "I need my retainer for the night. Find the retainer among the bedroom personal-care supplies and place it on the counter in the bathroom in the bathroom.",
+    "after_instruction": "I need my retainer for the night. Find the retainer among the bedroom personal-care supplies and place it on the counter in front of you in the bathroom in the bathroom.",
+    "reason": "No native left/right contact-lens container was verified. Replace that unavailable appliance-container query with a native removable dental-appliance recovery task in the same bedroom-to-bathroom routine. Retainer is not claimed to be a lens case.",
+    "target_asset": "retainer/umtnei",
+    "target_assets": [
+      "retainer/umtnei"
+    ]
+  },
+  "binding_sha256": "7dd9acfaa7a5722d7bfae8fceceda54098daef699f623f14fb539de79443d44b"
+}

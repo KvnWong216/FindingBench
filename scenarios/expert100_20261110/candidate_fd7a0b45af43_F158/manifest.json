@@ -1,0 +1,565 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F158_01",
+      "family": "semantic_F158",
+      "scene": "Rs_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/candidate_fd7a0b45af43_F158/asset_F158_01/scenario.yaml",
+      "scenario_sha256": "fd7a0b45af431c8b20533f147d47a9382244f12c56d13461b985a20f64bac610",
+      "instruction": "Find the chocolate sauce in the kitchen cupboards and bring it to the table in front of you in the living room in the living room for dessert.",
+      "target_key": "bottle_of_chocolate_sauce/tsyldw",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "kitchen_0",
+      "destination_room": "living_room_0",
+      "source_receptacle": "bottom_cabinet_bamfsz_0",
+      "destination_receptacle": "coffee_table_fqluyq_0",
+      "object_count": 9,
+      "distractor_count": 8,
+      "source_survey_sha256": "24bd47925e994c3defe707f3d8a919b355cd46a7128d2b59d373bc2697d8185e",
+      "route": {
+        "start": [
+          0.4,
+          -1.6,
+          3.141592653589793
+        ],
+        "path_xy": [
+          [
+            0.4,
+            -1.6
+          ],
+          [
+            0.4,
+            -1.5
+          ],
+          [
+            0.4,
+            -1.4000000000000001
+          ],
+          [
+            0.4,
+            -1.3
+          ],
+          [
+            0.4,
+            -1.2000000000000002
+          ],
+          [
+            0.4,
+            -1.1
+          ],
+          [
+            0.4,
+            -1.0
+          ],
+          [
+            0.4,
+            -0.9
+          ],
+          [
+            0.4,
+            -0.8
+          ],
+          [
+            0.4,
+            -0.7000000000000001
+          ],
+          [
+            0.4,
+            -0.6000000000000001
+          ],
+          [
+            0.4,
+            -0.5
+          ],
+          [
+            0.4,
+            -0.4
+          ],
+          [
+            0.4,
+            -0.30000000000000004
+          ],
+          [
+            0.4,
+            -0.2
+          ],
+          [
+            0.4,
+            -0.1
+          ],
+          [
+            0.4,
+            0.0
+          ],
+          [
+            0.4,
+            0.1
+          ],
+          [
+            0.4,
+            0.2
+          ],
+          [
+            0.4,
+            0.30000000000000004
+          ],
+          [
+            0.4,
+            0.4
+          ],
+          [
+            0.4,
+            0.5
+          ],
+          [
+            0.4,
+            0.6000000000000001
+          ],
+          [
+            0.4,
+            0.7000000000000001
+          ],
+          [
+            0.4,
+            0.8
+          ],
+          [
+            0.4,
+            0.9
+          ],
+          [
+            0.4,
+            1.0
+          ],
+          [
+            0.5,
+            1.0
+          ],
+          [
+            0.6000000000000001,
+            1.0
+          ],
+          [
+            0.7000000000000001,
+            1.0
+          ],
+          [
+            0.7000000000000001,
+            1.1
+          ],
+          [
+            0.8,
+            1.1
+          ],
+          [
+            0.8,
+            1.2000000000000002
+          ],
+          [
+            0.9,
+            1.2000000000000002
+          ],
+          [
+            0.9,
+            1.3
+          ],
+          [
+            0.9,
+            1.4000000000000001
+          ],
+          [
+            0.9,
+            1.5
+          ],
+          [
+            0.9,
+            1.6
+          ],
+          [
+            0.9,
+            1.7000000000000002
+          ],
+          [
+            0.9,
+            1.8
+          ],
+          [
+            0.9,
+            1.9000000000000001
+          ],
+          [
+            0.8,
+            1.9000000000000001
+          ],
+          [
+            0.8,
+            2.0
+          ],
+          [
+            0.7000000000000001,
+            2.0
+          ],
+          [
+            0.7000000000000001,
+            2.1
+          ],
+          [
+            0.6000000000000001,
+            2.1
+          ],
+          [
+            0.5,
+            2.1
+          ],
+          [
+            0.4,
+            2.1
+          ],
+          [
+            0.30000000000000004,
+            2.1
+          ],
+          [
+            0.2,
+            2.1
+          ],
+          [
+            0.1,
+            2.1
+          ],
+          [
+            0.0,
+            2.1
+          ],
+          [
+            -0.1,
+            2.1
+          ],
+          [
+            -0.2,
+            2.1
+          ],
+          [
+            -0.30000000000000004,
+            2.1
+          ],
+          [
+            -0.4,
+            2.1
+          ],
+          [
+            -0.5,
+            2.1
+          ],
+          [
+            -0.6000000000000001,
+            2.1
+          ],
+          [
+            -0.6000000000000001,
+            2.2
+          ]
+        ],
+        "length_m": 5.8,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 2,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "bottom_cabinet_bamfsz_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_bamfsz_0",
+            "volume_extents_m": {
+              "link_1": [
+                0.6015068292617798,
+                0.5179393291473389,
+                0.26259466260671616
+              ],
+              "link_2": [
+                0.6117739677429199,
+                0.5139126777648926,
+                0.11220884323120117
+              ],
+              "link_3": [
+                0.6105971336364746,
+                0.5106301307678223,
+                0.04014790058135986
+              ],
+              "link_4": [
+                0.6108721494674683,
+                0.5098047256469727,
+                0.04014790058135986
+              ]
+            },
+            "native_links": {
+              "link_1": "link_1",
+              "link_2": "link_2",
+              "link_3": "link_3",
+              "link_4": "link_4"
+            },
+            "geometry_source": "survey",
+            "geometry_provenance": {},
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.025149141903966665,
+              "nodes": 9,
+              "candidate_tests": 249110,
+              "search_orders_tried": 1,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_02": "link_1",
+                "item_08": "link_1",
+                "item_05": "link_1",
+                "item_06": "link_1",
+                "item_01": "link_1",
+                "item_03": "link_1",
+                "item_07": "link_1",
+                "item_04": "link_1",
+                "item_00": "link_1"
+              },
+              "poses": {
+                "item_02": {
+                  "bin": "link_1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.202,
+                    0.131
+                  ],
+                  "center_xy_m": [
+                    0.106,
+                    0.07050000000000001
+                  ]
+                },
+                "item_08": {
+                  "bin": "link_1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.212,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.202,
+                    0.131
+                  ],
+                  "center_xy_m": [
+                    0.313,
+                    0.07050000000000001
+                  ]
+                },
+                "item_05": {
+                  "bin": "link_1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.419,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.081,
+                    0.081
+                  ],
+                  "center_xy_m": [
+                    0.4595,
+                    0.0455
+                  ]
+                },
+                "item_06": {
+                  "bin": "link_1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.505,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.08,
+                    0.08
+                  ],
+                  "center_xy_m": [
+                    0.545,
+                    0.045
+                  ]
+                },
+                "item_01": {
+                  "bin": "link_1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.419,
+                    0.091
+                  ],
+                  "footprint_m": [
+                    0.155,
+                    0.128
+                  ],
+                  "center_xy_m": [
+                    0.4965,
+                    0.155
+                  ]
+                },
+                "item_03": {
+                  "bin": "link_1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.14100000000000001
+                  ],
+                  "footprint_m": [
+                    0.155,
+                    0.128
+                  ],
+                  "center_xy_m": [
+                    0.0825,
+                    0.20500000000000002
+                  ]
+                },
+                "item_07": {
+                  "bin": "link_1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.165,
+                    0.14100000000000001
+                  ],
+                  "footprint_m": [
+                    0.155,
+                    0.128
+                  ],
+                  "center_xy_m": [
+                    0.2425,
+                    0.20500000000000002
+                  ]
+                },
+                "item_04": {
+                  "bin": "link_1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.325,
+                    0.224
+                  ],
+                  "footprint_m": [
+                    0.13,
+                    0.10400000000000001
+                  ],
+                  "center_xy_m": [
+                    0.39,
+                    0.276
+                  ]
+                },
+                "item_00": {
+                  "bin": "link_1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.46,
+                    0.224
+                  ],
+                  "footprint_m": [
+                    0.055,
+                    0.1
+                  ],
+                  "center_xy_m": [
+                    0.4875,
+                    0.274
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_02": "link_1",
+              "item_08": "link_1",
+              "item_05": "link_1",
+              "item_06": "link_1",
+              "item_01": "link_1",
+              "item_03": "link_1",
+              "item_07": "link_1",
+              "item_04": "link_1",
+              "item_00": "link_1"
+            },
+            "component_allocation": {
+              "item_02": "link_1",
+              "item_08": "link_1",
+              "item_05": "link_1",
+              "item_06": "link_1",
+              "item_01": "link_1",
+              "item_03": "link_1",
+              "item_07": "link_1",
+              "item_04": "link_1",
+              "item_00": "link_1"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_02": "link_1",
+          "item_08": "link_1",
+          "item_05": "link_1",
+          "item_06": "link_1",
+          "item_01": "link_1",
+          "item_03": "link_1",
+          "item_07": "link_1",
+          "item_04": "link_1",
+          "item_00": "link_1"
+        },
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [],
+      "parent_task_id": "F158",
+      "tier": "long",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F158_01",
+        "parent_task_id": "F158",
+        "before_instruction": "Find the chocolate sauce in the kitchen cupboards and bring the bottle to the dessert bowls on the living room coffee table.",
+        "after_instruction": "Find the chocolate sauce in the kitchen cupboards and bring it to the table in front of you in the living room in the living room for dessert.",
+        "reason": "Explicit first-tranche grounding: native storage and initial-facing destination replace uninstantiated decorative reference props; no new semantic-task count.",
+        "target_asset": "bottle_of_chocolate_sauce/tsyldw",
+        "target_assets": [
+          "bottle_of_chocolate_sauce/tsyldw"
+        ]
+      },
+      "scene_contact_repairs": [
+        {
+          "revision_id": "Rs_int_drawer_contact_20261111",
+          "clearance_sha256": "44cae99f48c5e4525edfec6b311eb1951a3c475bbe78cee659173e3dc12fbe9e"
+        }
+      ]
+    }
+  ]
+}

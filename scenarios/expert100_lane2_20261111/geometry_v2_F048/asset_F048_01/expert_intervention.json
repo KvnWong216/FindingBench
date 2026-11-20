@@ -1,0 +1,151 @@
+{
+  "status": "static_screened_physics_pending",
+  "old_storage": "expert_storage_10",
+  "new_storage": {
+    "name": "expert_storage_10",
+    "category": "bottom_cabinet_no_top",
+    "model": "pluwfl",
+    "floor": "floors_kwnype_0",
+    "position_xy": [
+      -2.0,
+      2.4000000000000004
+    ],
+    "aabb": [
+      [
+        -2.226395195007324,
+        2.0329611968994143,
+        0.0
+      ],
+      [
+        -1.7736048049926758,
+        2.7670388031005864,
+        0.602992431640625
+      ]
+    ],
+    "room": "dining_room_0"
+  },
+  "released_compiler_links": [
+    {
+      "entity": "item_00",
+      "previous_link": "meta__base_link_fillable_0_0_link"
+    },
+    {
+      "entity": "item_02",
+      "previous_link": "meta__base_link_fillable_0_0_link"
+    },
+    {
+      "entity": "item_03",
+      "previous_link": "meta__base_link_fillable_0_0_link"
+    },
+    {
+      "entity": "item_06",
+      "previous_link": "meta__base_link_fillable_0_0_link"
+    }
+  ],
+  "replaced_failed_auxiliary_fixture": true,
+  "previous_auxiliary_asset": {
+    "category": "bottom_cabinet_no_top",
+    "model": "pluwfl"
+  },
+  "conservative_opening_clearance_m": 0.0,
+  "opening_sweep_requires_native_measurement": true,
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/release_links_v2_F048/asset_F048_01/scenario.yaml",
+  "original_sha256": "07fd4815ee2341e284cfa6aa424cb80e4106b5020d75e09f2f75aaf1cf9f200d",
+  "diagnosis_directory": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_lane2_20261111/release_links_v2_F048/asset_F048_01",
+  "solver": {
+    "status": "feasible_model",
+    "device": "cuda",
+    "backend": "torch_cuda_finite_csp",
+    "solve_seconds": 0.01405227743089199,
+    "nodes": 4,
+    "candidate_tests": 176,
+    "search_orders_tried": 1,
+    "grid_m": 0.001,
+    "margin_m": 0.015,
+    "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+    "physical_validation_required": true,
+    "assignment": {
+      "item_02": "meta__base_link_fillable_0_0_link#component:1",
+      "item_00": "meta__base_link_fillable_0_0_link#component:1",
+      "item_06": "meta__base_link_fillable_0_0_link#component:1",
+      "item_03": "meta__base_link_fillable_0_0_link#component:0"
+    },
+    "poses": {
+      "item_02": {
+        "bin": "meta__base_link_fillable_0_0_link#component:1",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.015
+        ],
+        "footprint_m": [
+          0.298,
+          0.221
+        ],
+        "center_xy_m": [
+          0.164,
+          0.1255
+        ]
+      },
+      "item_00": {
+        "bin": "meta__base_link_fillable_0_0_link#component:1",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.251
+        ],
+        "footprint_m": [
+          0.28200000000000003,
+          0.2
+        ],
+        "center_xy_m": [
+          0.156,
+          0.35100000000000003
+        ]
+      },
+      "item_06": {
+        "bin": "meta__base_link_fillable_0_0_link#component:1",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.466
+        ],
+        "footprint_m": [
+          0.22,
+          0.22
+        ],
+        "center_xy_m": [
+          0.125,
+          0.5760000000000001
+        ]
+      },
+      "item_03": {
+        "bin": "meta__base_link_fillable_0_0_link#component:0",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.015
+        ],
+        "footprint_m": [
+          0.23500000000000001,
+          0.147
+        ],
+        "center_xy_m": [
+          0.1325,
+          0.0885
+        ]
+      }
+    }
+  },
+  "variant": 21,
+  "task_local_model_experience": [],
+  "preserved": [
+    "instruction",
+    "goal",
+    "target",
+    "robot",
+    "spawn",
+    "all task items and counts",
+    "relation types"
+  ]
+}

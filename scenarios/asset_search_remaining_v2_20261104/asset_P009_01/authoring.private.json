@@ -1,0 +1,79 @@
+{
+  "id": "asset_P009_01",
+  "family": "semantic_P009",
+  "scene": "Pomaria_2_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P009_01/scenario.yaml",
+  "scenario_sha256": "7619db37ba3257c159c27d3d381b40ccbfccf98c4ba54da0a6d6e14ddc71c605",
+  "instruction": "Find the eyeshadow compact among the bathroom cosmetics and put it on the counter in front of you in the bathroom for makeup.",
+  "target_key": "case_of_eyeshadow/zgervc",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bathroom_0",
+  "destination_room": "bathroom_0",
+  "source_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+  "destination_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "62e51428546de3c0a833496f29b3c3303a5b7156fd7ac39a8975412318ea7e2d",
+  "route": {
+    "start": [
+      -0.30000000000000004,
+      2.6,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -0.30000000000000004,
+        2.6
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 35,
+    "destination_approach_count": 35,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_no_top_qohxjq_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "parent_task_id": "P009",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P009_01",
+    "parent_task_id": "P009",
+    "before_instruction": "Find the closed eyeshadow compact among the bathroom cosmetics and place it beside the makeup mirror.",
+    "after_instruction": "Find the eyeshadow compact among the bathroom cosmetics and put it on the counter in front of you in the bathroom for makeup.",
+    "reason": "Removes unverified closed-state predicate while retaining the cosmetics item and use. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "case_of_eyeshadow/zgervc",
+    "target_assets": [
+      "case_of_eyeshadow/zgervc"
+    ]
+  },
+  "binding_sha256": "f43da6f06329a1ffafff6844064abd3b3a9d5c8db80c0028fd285e49eb993f2c"
+}

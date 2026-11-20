@@ -1,0 +1,100 @@
+task_id: X02014
+family: fetch
+scene: Pomaria_2_int
+source:
+  official_activity: organizing_file_cabinet#0
+  official_activities_with_same_subgoal:
+  - organizing_file_cabinet#0
+  official_subgoal: (inside folder.n.02 cabinet.n.01)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K Pomaria_2_int
+  object: BEHAVIOR-1K folder/lktggf
+start:
+  name: start_bedroom_0_0
+  room: bedroom_0
+  x: -1.87
+  y: 1.2
+  yaw: -1.758
+target:
+  entity: target_obj
+  category: folder
+  model: lktggf
+  noun: folder
+  colour_estimate: blue
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S1
+- S3
+missing_spatial_levels:
+- S2
+initial_states: {}
+spatial:
+  S1:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bookcase_vgzdul_0
+    room: bedroom_0
+    location_phrase: the bookcase next to the bed in the bedroom
+    grasp_hints:
+    - - -1.985
+      - -1.169
+      - -1.571
+    - - -1.935
+      - -1.119
+      - -1.571
+    - - -2.136
+      - -1.119
+      - -1.387
+    - - -1.885
+      - -1.069
+      - -1.642
+    extra_ops_vs_S1: []
+    probe_visibility_from_start:
+      px: 62
+      delta_e: 42.0
+    task_scope: single_room
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bottom_cabinet_no_top_qohxjq_0
+    room: bathroom_0
+    location_phrase: the corner cabinet next to the sinks in the bathroom
+    grasp_hints:
+    - - -0.142
+      - 2.658
+      - -1.199
+    - - -0.293
+      - 2.708
+      - -1.073
+    - - -0.494
+      - 2.708
+      - -0.908
+    - - -0.092
+      - 2.708
+      - -1.272
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    task_scope: cross_room
+    route_from_start_steps: 6
+language:
+  L1:
+    S1: Go to the bookcase next to the bed in the bedroom, pick up the folder on it
+      and hold it.
+    S3: Leave the bedroom, go to the corner cabinet next to the sinks in the bathroom,
+      pick up the folder on it and hold it.
+  L2: Pick up the folder and keep holding it.
+  L3: I'm organizing file cabinet and I need the folder. Could you get it for me?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

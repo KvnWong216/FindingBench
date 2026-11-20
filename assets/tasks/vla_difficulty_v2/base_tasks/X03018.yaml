@@ -1,0 +1,73 @@
+task_id: X03018
+family: fetch
+scene: house_double_floor_lower
+source:
+  official_activity: can_fruit#0
+  official_activities_with_same_subgoal:
+  - can_fruit#0
+  official_subgoal: (inside peach.n.03 hinged_jar.n.01)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K house_double_floor_lower (+ clearance manifest)
+  object: BEHAVIOR-1K peach/wrutgk
+start:
+  name: start_corridor_0_1
+  room: corridor_0
+  x: -0.16
+  y: 1.26
+  yaw: 1.666
+target:
+  entity: target_obj
+  category: peach
+  model: wrutgk
+  noun: peach
+  colour_estimate: orange
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S3
+missing_spatial_levels:
+- S1
+- S2
+initial_states: {}
+spatial:
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bottom_cabinet_rhdbzv_0
+    room: living_room_0
+    location_phrase: the cabinet in the living room
+    grasp_hints:
+    - - 5.537
+      - 4.561
+      - 0.0
+    - - 5.437
+      - 4.252
+      - 0.389
+    - - 5.437
+      - 4.871
+      - -0.328
+    - - 5.387
+      - 4.201
+      - 0.423
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    task_scope: cross_room
+    route_from_start_steps: 12
+language:
+  L1:
+    S3: Leave the hallway, go to the cabinet in the living room, pick up the peach
+      on it and hold it.
+  L2: Pick up the peach and keep holding it.
+  L3: I'm working on can fruit. Can you find the peach and hold it for me?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

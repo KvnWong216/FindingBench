@@ -1,0 +1,93 @@
+task_id: N035
+family: place_on
+scene: Merom_1_int
+source:
+  official_activity: decorating_outside_for_parties#0
+  official_activities_with_same_subgoal:
+  - decorating_outside_for_parties#0
+  - setting_up_for_an_event#0
+  official_subgoal: (ontop gift_box.n.01 coffee_table.n.01)
+  reuse: official sub-goal re-used as the task goal
+  scene: BEHAVIOR-1K Merom_1_int
+  object: BEHAVIOR-1K gift_box/mfalrc
+start:
+  name: start_living_room_0_1
+  room: living_room_0
+  x: 0.96
+  y: 8.6
+  yaw: -0.953
+target:
+  entity: target_obj
+  category: gift_box
+  model: mfalrc
+  noun: gift box
+  colour_estimate: red
+goal:
+- kind: on_top
+  entity: target_obj
+  receptacle: coffee_table_fqluyq_0
+place_hints:
+- - 2.847
+  - 6.987
+  - 0.501
+- - 2.797
+  - 7.955
+  - 0.0
+- - 2.797
+  - 7.14
+  - 0.183
+- - 4.4
+  - 8.185
+  - 3.142
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S1
+missing_spatial_levels:
+- S2
+- S3
+initial_states: {}
+spatial:
+  S1:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bottom_cabinet_jhymlr_0
+    room: living_room_0
+    location_phrase: the cabinet in the living room
+    grasp_hints:
+    - - 1.261
+      - 9.37
+      - 1.621
+    - - 1.211
+      - 9.32
+      - 1.571
+    - - 1.161
+      - 9.27
+      - 1.571
+    - - 1.111
+      - 9.22
+      - 1.571
+    extra_ops_vs_S1: []
+    probe_visibility_from_start:
+      px: 299
+      delta_e: 50.8
+    task_scope: single_room
+language:
+  L1:
+    S1: Go to the cabinet in the living room, pick up the gift box on it. Then put
+      it on the coffee table in the living room.
+  L2: Place the gift box on the coffee table in the living room.
+  L3: I'm decorating outside for parties. The gift box should end up on the coffee
+    table in the living room -- could you take care of it?
+available_language_levels:
+  S1:
+  - L1
+  - L2
+  - L3
+description_provenance:
+  missing_L1_reason: source location lacks an unambiguous description
+  missing_L1_spatial_levels: []
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

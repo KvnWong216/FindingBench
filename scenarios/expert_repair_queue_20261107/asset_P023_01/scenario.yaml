@@ -1,0 +1,148 @@
+id: asset_P023_01
+instruction: There is a sample on the table in front of you in the living room. Find
+  the DVD matching that sample in the living-room media cabinet and put it on the
+  table in front of you in the living room.
+scene:
+  model: house_double_floor_lower
+  source: behavior
+  clearance_manifest: /home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/build/vla_difficulty_v2/clearance/house_double_floor_lower.json
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - 4.15
+    - 3.95
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - 0.7071067811865475
+    - 0.7071067811865476
+target:
+  entity: item_00
+  category: dvd
+objects:
+- name: item_00
+  category: dvd
+  model: lggrfa
+- name: item_01
+  category: cd
+  model: xkfnrj
+- name: item_02
+  category: game_console
+  model: anslwz
+- name: item_03
+  category: gaming_controller
+  model: yofqbq
+- name: item_04
+  category: headset
+  model: oytuam
+- name: item_05
+  category: portable_game_console
+  model: muwcnf
+- name: item_06
+  category: video_game
+  model: rzaxlj
+- name: item_07
+  category: cd
+  model: xkfnrj
+- name: item_08
+  category: game_console
+  model: anslwz
+- name: comparison_sample
+  category: dvd
+  model: lggrfa
+placements:
+- entity: item_00
+  relation: inside
+  receptacle: bottom_cabinet_rhdbzv_0
+  link: right_drawer
+- entity: item_01
+  relation: inside
+  receptacle: bottom_cabinet_rhdbzv_0
+  link: right_drawer
+- entity: item_02
+  relation: inside
+  receptacle: bottom_cabinet_rhdbzv_0
+  link: left_drawer
+- entity: item_03
+  relation: inside
+  receptacle: bottom_cabinet_rhdbzv_0
+  link: right_drawer
+- entity: item_04
+  relation: inside
+  receptacle: bottom_cabinet_rhdbzv_0
+  link: left_drawer
+- entity: item_05
+  relation: inside
+  receptacle: bottom_cabinet_rhdbzv_0
+  link: left_drawer
+- entity: item_06
+  relation: inside
+  receptacle: bottom_cabinet_rhdbzv_0
+  link: right_drawer
+- entity: item_07
+  relation: inside
+  receptacle: bottom_cabinet_rhdbzv_0
+  link: left_drawer
+- entity: item_08
+  relation: inside
+  receptacle: bottom_cabinet_rhdbzv_0
+  link: right_drawer
+- entity: comparison_sample
+  relation: on_top
+  receptacle: coffee_table_koagbh_0
+initial_states:
+  bottom_cabinet_rhdbzv_0:
+    open: false
+goal:
+- kind: on_top
+  entity: item_00
+  receptacle: coffee_table_koagbh_0
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

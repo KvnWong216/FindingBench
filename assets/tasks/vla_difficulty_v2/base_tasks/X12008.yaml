@@ -1,0 +1,72 @@
+task_id: X12008
+family: fetch
+scene: Ihlen_1_int
+source:
+  official_activity: buying_everyday_consumer_goods#0
+  official_activities_with_same_subgoal:
+  - buying_everyday_consumer_goods#0
+  official_subgoal: (inside bottle__of__milk.n.01 sack.n.01)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K Ihlen_1_int
+  object: BEHAVIOR-1K bottle_of_milk/ddvsgl
+start:
+  name: start_living_room_0_0
+  room: living_room_0
+  x: 0.33
+  y: 0.22
+  yaw: 0.046
+target:
+  entity: target_obj
+  category: bottle_of_milk
+  model: ddvsgl
+  noun: bottle of milk
+  colour_estimate: orange
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S1
+missing_spatial_levels:
+- S2
+- S3
+initial_states: {}
+spatial:
+  S1:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: coffee_table_gcollb_0
+    room: living_room_0
+    location_phrase: the coffee table in the living room
+    grasp_hints:
+    - - 2.011
+      - 0.16
+      - 0.785
+    - - 1.961
+      - 0.311
+      - 0.565
+    - - 1.911
+      - 0.261
+      - 0.587
+    - - 1.911
+      - 0.462
+      - 0.319
+    extra_ops_vs_S1: []
+    probe_visibility_from_start:
+      px: 112
+      delta_e: 27.2
+    task_scope: single_room
+language:
+  L1:
+    S1: Go to the coffee table in the living room, pick up the bottle of milk on it
+      and hold it.
+  L2: Pick up the bottle of milk and keep holding it.
+  L3: I'm buying everyday consumer goods and I need the bottle of milk. Could you
+    get it for me?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

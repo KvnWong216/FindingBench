@@ -1,0 +1,131 @@
+{
+  "status": "static_screened_physics_pending",
+  "old_storage": "bottom_cabinet_no_top_rkgjer_0",
+  "reused_native_storage": "bottom_cabinet_no_top_gjeoer_0",
+  "existing_contents_retained": [
+    "item_03",
+    "item_04"
+  ],
+  "joint_packed_entities": [
+    "item_03",
+    "item_04",
+    "item_07",
+    "item_08"
+  ],
+  "released_compiler_links": [
+    {
+      "entity": "item_03",
+      "previous_link": "meta__base_link_fillable_0_0_link"
+    },
+    {
+      "entity": "item_04",
+      "previous_link": "meta__base_link_fillable_0_0_link"
+    },
+    {
+      "entity": "item_07",
+      "previous_link": "meta__base_link_fillable_0_0_link"
+    },
+    {
+      "entity": "item_08",
+      "previous_link": "meta__base_link_fillable_0_0_link"
+    }
+  ],
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/reviewed_followup_040_F062/asset_F062_01/scenario.yaml",
+  "diagnosis_directory": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_lane2_20261111/reviewed_followup_040_F062/asset_F062_01",
+  "solver": {
+    "status": "feasible_model",
+    "device": "cuda",
+    "backend": "torch_cuda_finite_csp",
+    "solve_seconds": 0.0030363588593900204,
+    "nodes": 0,
+    "candidate_tests": 0,
+    "search_orders_tried": 0,
+    "grid_m": 0.001,
+    "margin_m": 0.015,
+    "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+    "physical_validation_required": true,
+    "assignment": {
+      "item_03": "meta__base_link_fillable_0_0_link#component:0",
+      "item_04": "meta__base_link_fillable_0_0_link#component:0",
+      "item_07": "meta__base_link_fillable_0_0_link#component:0",
+      "item_08": "meta__base_link_fillable_0_0_link#component:0"
+    },
+    "poses": {
+      "item_03": {
+        "bin": "meta__base_link_fillable_0_0_link#component:0",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.015
+        ],
+        "footprint_m": [
+          0.155,
+          0.128
+        ],
+        "center_xy_m": [
+          0.0925,
+          0.079
+        ]
+      },
+      "item_04": {
+        "bin": "meta__base_link_fillable_0_0_link#component:0",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.158
+        ],
+        "footprint_m": [
+          0.153,
+          0.153
+        ],
+        "center_xy_m": [
+          0.0915,
+          0.2345
+        ]
+      },
+      "item_07": {
+        "bin": "meta__base_link_fillable_0_0_link#component:0",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.326
+        ],
+        "footprint_m": [
+          0.1,
+          0.1
+        ],
+        "center_xy_m": [
+          0.065,
+          0.376
+        ]
+      },
+      "item_08": {
+        "bin": "meta__base_link_fillable_0_0_link#component:0",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.441
+        ],
+        "footprint_m": [
+          0.155,
+          0.059000000000000004
+        ],
+        "center_xy_m": [
+          0.0925,
+          0.47050000000000003
+        ]
+      }
+    },
+    "constructive_witness": "single strip; exact quantized box and clearance checks"
+  },
+  "preserved": [
+    "instruction",
+    "goal",
+    "target",
+    "robot",
+    "spawn",
+    "all original assets",
+    "furniture geometry",
+    "relation types"
+  ]
+}

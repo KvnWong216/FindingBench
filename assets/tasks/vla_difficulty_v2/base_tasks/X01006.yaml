@@ -1,0 +1,87 @@
+task_id: X01006
+family: place_on
+scene: Rs_int
+source:
+  official_activity: heating_food_up#0
+  official_activities_with_same_subgoal:
+  - heating_food_up#0
+  official_subgoal: (ontop hamburger.n.01 countertop.n.01)
+  reuse: official sub-goal re-used as the task goal
+  scene: BEHAVIOR-1K Rs_int (+ clearance manifest)
+  object: BEHAVIOR-1K hamburger/fyswch
+start:
+  name: start_entryway_0_0
+  room: entryway_0
+  x: 1.04
+  y: 2.19
+  yaw: 0.0
+target:
+  entity: target_obj
+  category: hamburger
+  model: fyswch
+  noun: hamburger
+  colour_estimate: orange
+goal:
+- kind: on_top
+  entity: target_obj
+  receptacle: countertop_tpuwys_0
+place_hints:
+- - -1.149
+  - 0.92
+  - 1.571
+- - -0.342
+  - 0.92
+  - 1.571
+- - -0.158
+  - 2.149
+  - -1.571
+- - -0.393
+  - 0.87
+  - 1.571
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S3
+missing_spatial_levels:
+- S1
+- S2
+initial_states: {}
+spatial:
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bottom_cabinet_bamfsz_1
+    room: living_room_0
+    location_phrase: the cabinet next to the floor lamp in the living room
+    grasp_hints:
+    - - -1.085
+      - 0.023
+      - -2.356
+    - - -1.035
+      - 0.073
+      - -2.356
+    - - -0.985
+      - 0.123
+      - -2.356
+    - - -0.985
+      - -0.078
+      - -2.537
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    task_scope: cross_room
+    route_from_start_steps: 7
+language:
+  L1:
+    S3: Leave the entryway, go to the cabinet next to the floor lamp in the living
+      room, pick up the hamburger on it. Then put it on the counter in the living
+      room.
+  L2: Place the hamburger on the counter in the living room.
+  L3: I'm heating food up. The hamburger should end up on the counter in the living
+    room -- could you take care of it?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

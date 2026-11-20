@@ -1,0 +1,174 @@
+id: asset_P051_01
+instruction: There is a sample on the counter in front of you in the bathroom. Find
+  the comb matching that sample among the living-room sideboard belongings and bring
+  it to the counter in front of you in the bathroom in the bathroom.
+scene:
+  model: house_double_floor_lower
+  source: behavior
+  clearance_manifest: /home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/build/vla_difficulty_v2/clearance/house_double_floor_lower.json
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - -2.75
+    - 0.05
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - -0.7071067811865475
+    - 0.7071067811865476
+target:
+  entity: item_00
+  category: comb
+objects:
+- name: item_00
+  category: comb
+  model: nybyjz
+- name: item_01
+  category: conditioner_dispenser
+  model: elofnb
+- name: item_02
+  category: razor
+  model: jocsgp
+- name: item_03
+  category: shampoo_bottle
+  model: tukaoq
+- name: item_04
+  category: tweezers
+  model: jghpwr
+- name: item_05
+  category: bobby_pin
+  model: zphpcz
+- name: item_06
+  category: bobby_pin
+  model: zphpcz
+- name: item_07
+  category: bottle_of_conditioner
+  model: teafxb
+- name: item_08
+  category: conditioner_dispenser
+  model: elofnb
+- name: comparison_sample
+  category: comb
+  model: nybyjz
+- name: comparison_negative_0
+  category: comb
+  model: yopqrq
+- name: comparison_negative_1
+  category: comb
+  model: lqnwhb
+- name: search_storage
+  category: bottom_cabinet
+  model: jrhgeu
+  fixed_base: true
+placements:
+- entity: item_00
+  relation: inside
+  receptacle: search_storage
+  link: meta__base_link_fillable_0_0_link
+- entity: item_01
+  relation: inside
+  receptacle: search_storage
+  link: meta__base_link_fillable_0_0_link
+- entity: item_02
+  relation: inside
+  receptacle: search_storage
+  link: meta__base_link_fillable_0_0_link
+- entity: item_03
+  relation: inside
+  receptacle: search_storage
+  link: meta__base_link_fillable_0_0_link
+- entity: item_04
+  relation: inside
+  receptacle: search_storage
+  link: meta__base_link_fillable_0_0_link
+- entity: item_05
+  relation: inside
+  receptacle: search_storage
+  link: meta__base_link_fillable_0_0_link
+- entity: item_06
+  relation: inside
+  receptacle: bottom_cabinet_rhdbzv_0
+  link: meta__right_drawer_fillable_0_0_link
+- entity: item_07
+  relation: inside
+  receptacle: bottom_cabinet_rhdbzv_0
+  link: meta__right_drawer_fillable_0_0_link
+- entity: item_08
+  relation: inside
+  receptacle: bottom_cabinet_rhdbzv_0
+  link: meta__left_drawer_fillable_0_0_link
+- entity: comparison_sample
+  relation: on_top
+  receptacle: bottom_cabinet_qacthv_0
+- entity: comparison_negative_0
+  relation: inside
+  receptacle: search_storage
+  link: meta__base_link_fillable_0_0_link
+- entity: comparison_negative_1
+  relation: inside
+  receptacle: search_storage
+  link: meta__base_link_fillable_0_0_link
+- entity: search_storage
+  relation: on_top
+  receptacle: floors_ogynye_0
+  position_xy:
+  - 4.75
+  - 3.5500000000000003
+initial_states:
+  bottom_cabinet_rhdbzv_0:
+    open: false
+  search_storage:
+    open: false
+goal:
+- kind: on_top
+  entity: item_00
+  receptacle: bottom_cabinet_qacthv_0
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

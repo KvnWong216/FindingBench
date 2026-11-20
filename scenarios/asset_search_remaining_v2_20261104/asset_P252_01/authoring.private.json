@@ -1,0 +1,243 @@
+{
+  "id": "asset_P252_01",
+  "family": "semantic_P252",
+  "scene": "Wainscott_1_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P252_01/scenario.yaml",
+  "scenario_sha256": "d5ba2416c8a0ca6610ee94d27058edeb8379a52f125a0fe10179bd1ed7ce3e23",
+  "instruction": "Find the bottle labeled \"BABY OIL\" among the bathroom cupboard toiletries and put it on the cabinet top in front of you in the bedroom in the bedroom.",
+  "target_key": "bottle_of_shampoo/stjjjm",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bathroom_0",
+  "destination_room": "bedroom_0",
+  "source_receptacle": "bottom_cabinet_nnvyol_1",
+  "destination_receptacle": "bottom_cabinet_jhymlr_1",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "7894c711eea34a656ee926a132d6563ce3833b5ddb45c126d0ce534dd2edca60",
+  "route": {
+    "start": [
+      -1.25,
+      9.15,
+      -3.141592653589793
+    ],
+    "path_xy": [
+      [
+        -1.25,
+        9.15
+      ],
+      [
+        -1.25,
+        9.25
+      ],
+      [
+        -1.25,
+        9.35
+      ],
+      [
+        -1.25,
+        9.450000000000001
+      ],
+      [
+        -1.25,
+        9.55
+      ],
+      [
+        -1.25,
+        9.65
+      ],
+      [
+        -1.25,
+        9.75
+      ],
+      [
+        -1.25,
+        9.850000000000001
+      ],
+      [
+        -1.25,
+        9.950000000000001
+      ],
+      [
+        -1.25,
+        10.05
+      ],
+      [
+        -1.25,
+        10.15
+      ],
+      [
+        -1.25,
+        10.25
+      ],
+      [
+        -1.25,
+        10.350000000000001
+      ],
+      [
+        -1.1500000000000001,
+        10.350000000000001
+      ],
+      [
+        -1.05,
+        10.350000000000001
+      ],
+      [
+        -0.9500000000000001,
+        10.350000000000001
+      ],
+      [
+        -0.8500000000000001,
+        10.350000000000001
+      ],
+      [
+        -0.75,
+        10.350000000000001
+      ],
+      [
+        -0.65,
+        10.350000000000001
+      ],
+      [
+        -0.55,
+        10.350000000000001
+      ],
+      [
+        -0.45,
+        10.350000000000001
+      ],
+      [
+        -0.35000000000000003,
+        10.350000000000001
+      ],
+      [
+        -0.25,
+        10.350000000000001
+      ],
+      [
+        -0.15000000000000002,
+        10.350000000000001
+      ],
+      [
+        -0.05,
+        10.350000000000001
+      ],
+      [
+        0.05,
+        10.350000000000001
+      ],
+      [
+        0.15000000000000002,
+        10.350000000000001
+      ],
+      [
+        0.25,
+        10.350000000000001
+      ],
+      [
+        0.35000000000000003,
+        10.350000000000001
+      ],
+      [
+        0.45,
+        10.350000000000001
+      ],
+      [
+        0.45,
+        10.25
+      ],
+      [
+        0.55,
+        10.25
+      ],
+      [
+        0.55,
+        10.15
+      ],
+      [
+        0.65,
+        10.15
+      ],
+      [
+        0.65,
+        10.05
+      ],
+      [
+        0.65,
+        9.950000000000001
+      ],
+      [
+        0.65,
+        9.850000000000001
+      ],
+      [
+        0.65,
+        9.75
+      ],
+      [
+        0.65,
+        9.65
+      ],
+      [
+        0.65,
+        9.55
+      ],
+      [
+        0.65,
+        9.450000000000001
+      ],
+      [
+        0.75,
+        9.450000000000001
+      ]
+    ],
+    "length_m": 4.1,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 33,
+    "destination_approach_count": 60,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_nnvyol_2",
+    "bottom_cabinet_nnvyol_1"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "parent_task_id": "P252",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P252_01",
+    "parent_task_id": "P252",
+    "before_instruction": "Find the bottle labeled Baby Oil among bathroom cupboard toiletries and put it on the bedroom dresser beside the closed travel box.",
+    "after_instruction": "Find the bottle labeled \"BABY OIL\" among the bathroom cupboard toiletries and put it on the cabinet top in front of you in the bedroom in the bedroom.",
+    "reason": "Preserves Baby Oil identity using a different native model; original baby-oil-category model carries only a placeholder. Native shampoo category is visually mislabeled. Delivery is grounded on the unique initial-facing handoff support in the original destination room.",
+    "target_asset": "bottle_of_shampoo/stjjjm",
+    "target_assets": [
+      "bottle_of_shampoo/stjjjm"
+    ]
+  },
+  "binding_sha256": "79d30de49012f78d2cbca07dcd0188199ce9953001fc59e81871414406aa8d0a"
+}

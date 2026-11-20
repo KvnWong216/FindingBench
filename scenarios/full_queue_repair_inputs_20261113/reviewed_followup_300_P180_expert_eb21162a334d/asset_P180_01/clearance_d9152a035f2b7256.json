@@ -1,0 +1,77 @@
+{
+  "scene_model": "Rs_int",
+  "status": "kitchen_route_replayed",
+  "wall_warps": [
+    {
+      "entity": "walls_exiopd_0",
+      "axis": 0,
+      "source": [
+        0.44983063494079834,
+        1.3202400272885222,
+        2.1000101345713347
+      ],
+      "target": [
+        0.44983063494079834,
+        1.85,
+        2.1000101345713347
+      ]
+    }
+  ],
+  "translations": [
+    {
+      "entity": "bottom_cabinet_slgzfc_0",
+      "delta": [
+        -0.17,
+        -2.9,
+        0
+      ]
+    }
+  ],
+  "purpose": "Widen kitchen entrance to approximately 1.4m; relocate the intact empty target cabinet to cleared living-room space. | vla_difficulty_v2: plus the six non-task living-room removals of the store_honey_open_route derivation (runs/clearance_honey_validation), so the start area is not enclosed by chairs.",
+  "validation_report": "runs/clearance_honey_validation/report.json",
+  "removed_objects": [
+    "straight_chair_amgwaw_0",
+    "straight_chair_amgwaw_1",
+    "straight_chair_amgwaw_2",
+    "straight_chair_eospnr_0",
+    "straight_chair_eospnr_1",
+    "breakfast_table_skczfi_0"
+  ],
+  "derived_from": "build/behavior/clearance/Rs_int.json",
+  "expert_fixture_replacements": [
+    {
+      "entity": "expert_storage_93",
+      "replacement_entity": "expert_storage_93",
+      "before_asset": "bottom_cabinet/wesxdp",
+      "after_asset": "bottom_cabinet/lhucjo",
+      "before_aabb": [
+        [
+          -1.1382884521484375,
+          -0.12648884582519532,
+          -0.0
+        ],
+        [
+          -0.6617115478515625,
+          0.32648884582519533,
+          0.856023681640625
+        ]
+      ],
+      "after_aabb": [
+        [
+          -1.1256919326782227,
+          -0.1352182388305664,
+          -0.0
+        ],
+        [
+          -0.6743080673217774,
+          0.33521823883056645,
+          0.8450484619140625
+        ]
+      ],
+      "source_sha256": "5bcae9e8c6404fdeb50b7eca03a9f9a992346d5b53e15212ef5688cc6def9256",
+      "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/reviewed_followup_241_P180/asset_P180_01",
+      "reason": "Replace failed source at its existing site; adding another fixture consumes its approach space",
+      "physical_validation_required": true
+    }
+  ]
+}

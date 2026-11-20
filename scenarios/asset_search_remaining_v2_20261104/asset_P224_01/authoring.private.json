@@ -1,0 +1,169 @@
+{
+  "id": "asset_P224_01",
+  "family": "semantic_P224",
+  "scene": "Wainscott_0_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P224_01/scenario.yaml",
+  "scenario_sha256": "fb3f16608f0832dd3566ac1405825a2b04956c7c0dd977a1f4d4aa2ba8c6cfc4",
+  "instruction": "Find a spare skateboard wheel among the stored sports equipment matching the sample on the table in front of you in the bedroom, and bring it to the same surface.",
+  "target_key": "skateboard_wheel/bbkthh",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_2",
+  "destination_room": "bedroom_0",
+  "source_receptacle": "bottom_cabinet_jhymlr_0",
+  "destination_receptacle": "console_table_emeeke_0",
+  "object_count": 11,
+  "distractor_count": 9,
+  "source_survey_sha256": "bfc3f55c9661a7a599b91007a0d13bfe6624ef15110725894b31404980af12ee",
+  "route": {
+    "start": [
+      -1.6,
+      -5.300000000000001,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -1.6,
+        -5.300000000000001
+      ],
+      [
+        -1.6,
+        -5.2
+      ],
+      [
+        -1.6,
+        -5.1000000000000005
+      ],
+      [
+        -1.6,
+        -5.0
+      ],
+      [
+        -1.6,
+        -4.9
+      ],
+      [
+        -1.6,
+        -4.800000000000001
+      ],
+      [
+        -1.6,
+        -4.7
+      ],
+      [
+        -1.6,
+        -4.6000000000000005
+      ],
+      [
+        -1.6,
+        -4.5
+      ],
+      [
+        -1.6,
+        -4.4
+      ],
+      [
+        -1.6,
+        -4.3
+      ],
+      [
+        -1.6,
+        -4.2
+      ],
+      [
+        -1.6,
+        -4.1000000000000005
+      ],
+      [
+        -1.6,
+        -4.0
+      ],
+      [
+        -1.6,
+        -3.9000000000000004
+      ],
+      [
+        -1.7000000000000002,
+        -3.9000000000000004
+      ],
+      [
+        -1.7000000000000002,
+        -3.8000000000000003
+      ],
+      [
+        -1.7000000000000002,
+        -3.7
+      ],
+      [
+        -1.7000000000000002,
+        -3.6
+      ],
+      [
+        -1.7000000000000002,
+        -3.5
+      ],
+      [
+        -1.7000000000000002,
+        -3.4000000000000004
+      ],
+      [
+        -1.8,
+        -3.4000000000000004
+      ],
+      [
+        -1.9000000000000001,
+        -3.4000000000000004
+      ]
+    ],
+    "length_m": 2.2,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 6,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "comparison_negative_0",
+    "bottom_cabinet_jhymlr_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "parent_task_id": "P224",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P224_01",
+    "parent_task_id": "P224",
+    "before_instruction": "Find the loose skateboard wheel matching the diameter of the sample wheel beside the skateboard deck on the bedroom play table among living-room toy storage; put it beside the sample.",
+    "after_instruction": "Find a spare skateboard wheel among the stored sports equipment matching the sample on the table in front of you in the bedroom, and bring it to the same surface.",
+    "reason": "Preserves the source/destination room types and the single-source-object matching requirement. Grounds the comparison sample on the uniquely initial-facing handoff surface; reference is not a goal target. Delivery is onto the reference-bearing surface; no unimplemented beside-distance predicate is claimed. Exact same-model sample and different-model negatives are explicitly instantiated.",
+    "target_asset": "skateboard_wheel/bbkthh",
+    "target_assets": [
+      "skateboard_wheel/bbkthh"
+    ]
+  },
+  "binding_sha256": "19ec2302af8939bf30ae41cf49d10b717fe987f6b28d2b03898d5e65f9bfb22e"
+}

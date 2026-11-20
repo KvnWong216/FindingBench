@@ -1,0 +1,132 @@
+id: asset_F306_01
+instruction: Find the plate in the cupboards in the dining room and put it on the
+  cabinet in front of you.
+scene:
+  model: Wainscott_0_int
+  source: behavior
+  clearance_manifest: /home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/build/vla_difficulty_v2/clearance/Wainscott_0_int.json
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - 5.800000000000001
+    - 9.600000000000001
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - -0.7071067811865475
+    - 0.7071067811865476
+target:
+  entity: item_00
+  category: plate
+objects:
+- name: item_00
+  category: plate
+  model: qtfzeq
+- name: item_01
+  category: cutting_board
+  model: aibvew
+- name: item_02
+  category: lid
+  model: jqvurl
+- name: item_03
+  category: teacup
+  model: cpozxi
+- name: item_04
+  category: water_glass
+  model: uwtdng
+- name: item_05
+  category: wineglass
+  model: hxccge
+- name: item_06
+  category: cutting_board
+  model: aibvew
+- name: item_07
+  category: lid
+  model: jqvurl
+- name: item_08
+  category: teacup
+  model: cpozxi
+placements:
+- entity: item_00
+  relation: inside
+  receptacle: search_storage
+- entity: item_01
+  relation: inside
+  receptacle: search_storage
+- entity: item_02
+  relation: inside
+  receptacle: search_storage
+- entity: item_03
+  relation: inside
+  receptacle: search_storage
+- entity: item_04
+  relation: inside
+  receptacle: search_storage
+- entity: item_05
+  relation: inside
+  receptacle: search_storage
+- entity: item_06
+  relation: inside
+  receptacle: search_storage
+- entity: item_07
+  relation: inside
+  receptacle: search_storage
+- entity: item_08
+  relation: inside
+  receptacle: search_storage
+initial_states:
+  search_storage:
+    open: false
+goal:
+- kind: on_top
+  entity: item_00
+  receptacle: bottom_cabinet_bamfsz_0
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

@@ -1,0 +1,63 @@
+{
+  "id": "asset_F061_01",
+  "family": "semantic_F061",
+  "scene": "Merom_1_int",
+  "scenario": "scenarios/serial_repairs_20261109/asset_F061_01/scenario.yaml",
+  "scenario_sha256": "a4b931bc84d6c373d135fb737efae438402a0f7b5c28e7add6538be8528174a9",
+  "instruction": "Find the apple in the fruit basket in this kitchen and put it on the table in front of you.",
+  "target_key": "apple/zlxfxt",
+  "target_entities": [
+    "item_01"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "item_00",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 10,
+  "distractor_count": 8,
+  "source_survey_sha256": "1bcd77f7369c09f3ee939635132fc064795bb448af326a0f941bcbe3dbe0fd22",
+  "route": {
+    "start": [
+      -1.4500000000000002,
+      4.55,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -1.4500000000000002,
+        4.55
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 15,
+    "destination_approach_count": 15,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_00",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate"
+}

@@ -1,0 +1,160 @@
+{
+  "id": "asset_U157_01",
+  "family": "semantic_U157",
+  "scene": "Pomaria_2_int",
+  "scenario": "scenarios/remaining_layout_repairs_20261108/asset_U157_01/scenario.yaml",
+  "scenario_sha256": "e9c6c4316197743278926312326c2be8b072cd3aa1a3e532f2ae04d9069c40ac",
+  "instruction": "I need a mouse at the bedroom workspace. Fetch one from the bedroom workspace peripherals and put it on the cabinet top in front of you in the bedroom in the bedroom.",
+  "target_key": "mouse/eosngb",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bedroom_0",
+  "destination_room": "bedroom_0",
+  "source_receptacle": "bottom_cabinet_rntwkg_0",
+  "destination_receptacle": "bottom_cabinet_rntwkg_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "62e51428546de3c0a833496f29b3c3303a5b7156fd7ac39a8975412318ea7e2d",
+  "route": {
+    "start": [
+      -2.3000000000000003,
+      -2.5,
+      0.0
+    ],
+    "path_xy": [
+      [
+        -2.3000000000000003,
+        -2.5
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 2,
+    "destination_approach_count": 2,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_rntwkg_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_rntwkg_0",
+        "volume_extents_m": {
+          "link_1": [
+            0.3656003475189209,
+            0.36377906799316406,
+            0.1531817615032196
+          ],
+          "link_2": [
+            0.3656003475189209,
+            0.36377930641174316,
+            0.025944530963897705
+          ],
+          "link_3": [
+            0.3656003475189209,
+            0.36377930641174316,
+            0.025944530963897705
+          ],
+          "link_4": [
+            0.3656003475189209,
+            0.36377930641174316,
+            0.025944560766220093
+          ],
+          "link_5": [
+            0.3656003475189209,
+            0.36377930641174316,
+            0.025944560766220093
+          ]
+        },
+        "native_links": {
+          "link_1": "link_1",
+          "link_2": "link_2",
+          "link_3": "link_3",
+          "link_4": "link_4",
+          "link_5": "link_5"
+        },
+        "geometry_source": "survey",
+        "geometry_provenance": {},
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_02": "link_1",
+          "item_06": "link_1",
+          "item_03": "link_1",
+          "item_07": "link_1",
+          "item_04": "link_1",
+          "item_08": "link_1",
+          "item_00": "link_1",
+          "item_01": "link_2",
+          "item_05": "link_3"
+        },
+        "component_allocation": {
+          "item_02": "link_1",
+          "item_06": "link_1",
+          "item_03": "link_1",
+          "item_07": "link_1",
+          "item_04": "link_1",
+          "item_08": "link_1",
+          "item_00": "link_1",
+          "item_01": "link_2",
+          "item_05": "link_3"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_02": "link_1",
+      "item_06": "link_1",
+      "item_03": "link_1",
+      "item_07": "link_1",
+      "item_04": "link_1",
+      "item_08": "link_1",
+      "item_00": "link_1",
+      "item_01": "link_2",
+      "item_05": "link_3"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "U157",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_U157_01",
+    "parent_task_id": "U157",
+    "before_instruction": "The bedroom desk has very little space. Find the smallest mouse among the study's spare peripherals and put it beside the bedroom laptop.",
+    "after_instruction": "I need a mouse at the bedroom workspace. Fetch one from the bedroom workspace peripherals and put it on the cabinet top in front of you in the bedroom in the bedroom.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Missing constructed comparison/count evidence and distractor set for compact mouse. Multiple mouse sizes required Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: private_office/cabinet -> bedroom/cabinet becomes bedroom/cabinet -> bedroom/cabinet. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+    "target_asset": "mouse/eosngb",
+    "target_assets": [
+      "mouse/eosngb"
+    ]
+  },
+  "binding_sha256": "1d4867a899323cf6f00381b0ba05068472c3e404ef6ae31570d6fc8de706db7f"
+}

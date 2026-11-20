@@ -1,0 +1,123 @@
+task_id: U022
+family: fetch
+scene: house_double_floor_upper
+source:
+  official_activity: setup_a_baby_crib#0
+  official_activities_with_same_subgoal:
+  - setup_a_baby_crib#0
+  official_subgoal: (inside teddy.n.01 crib.n.01)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K house_double_floor_upper (+ clearance manifest)
+  object: BEHAVIOR-1K teddy_bear/ecvxmu
+start:
+  name: start_bedroom_0_0
+  room: bedroom_0
+  x: -4.14
+  y: 1.33
+  yaw: 0.0
+target:
+  entity: target_obj
+  category: teddy_bear
+  model: ecvxmu
+  noun: teddy bear
+  colour_estimate: orange
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+initial_states: {}
+spatial:
+  S1:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bookcase_kmuacd_0
+    room: bedroom_0
+    location_phrase: the bookcase next to the desk in the bedroom with the maps on
+      the wall
+    grasp_hints:
+    - - -3.858
+      - 0.443
+      - -2.356
+    - - -3.758
+      - 0.543
+      - -2.356
+    - - -3.96
+      - 0.543
+      - -2.157
+    - - -3.708
+      - 0.392
+      - -2.537
+    extra_ops_vs_S1: []
+    probe_visibility_from_start:
+      px: 239
+      delta_e: 6.1
+  S2:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: desk_aduafr_0
+    room: bedroom_0
+    location_phrase: the desk in the bedroom with the maps on the wall
+    grasp_hints:
+    - - -4.221
+      - 0.737
+      - -2.356
+    - - -4.371
+      - 0.787
+      - -2.137
+    - - -4.321
+      - 0.837
+      - -2.159
+    - - -4.071
+      - 0.687
+      - -2.536
+    extra_ops_vs_S1:
+    - search behind occluders
+    s2_kind: occluded
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: shelf_sapyzl_1
+    room: bedroom_1
+    location_phrase: the lower wall shelf in the bedroom with the wall shelves
+    grasp_hints:
+    - - 3.081
+      - 1.239
+      - 2.279
+    - - 3.181
+      - 1.139
+      - 2.291
+    - - 3.131
+      - 1.089
+      - 2.215
+    - - 3.08
+      - 1.039
+      - 2.141
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    route_from_start_steps: 12
+language:
+  L1:
+    S1: Go to the bookcase next to the desk in the bedroom with the maps on the wall,
+      pick up the teddy bear on it and hold it.
+    S2: Go to the desk in the bedroom with the maps on the wall, pick up the teddy
+      bear on it and hold it.
+    S3: Leave the bedroom with the maps on the wall, go to the lower wall shelf in
+      the bedroom with the wall shelves, pick up the teddy bear on it and hold it.
+  L2: Pick up the teddy bear and keep holding it.
+  L3: I'm working on setup a baby crib. Can you find the teddy bear and hold it for
+    me?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

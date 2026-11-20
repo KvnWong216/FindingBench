@@ -1,0 +1,239 @@
+{
+  "status": "static_screened_physics_pending",
+  "expert_policy": {
+    "method": "relocate_storage",
+    "clear_unstated_links": true,
+    "plan_surfaces": true
+  },
+  "removed_compiler_links": [],
+  "centered_container_placements": [
+    {
+      "entity": "item_00",
+      "receptacle": "delivery_surface",
+      "position_xy": [
+        0.7000000000000002,
+        0.7
+      ],
+      "orientation": "identity via explicit XY placement",
+      "physical_validation_required": true
+    }
+  ],
+  "explicit_surface_plans": [
+    {
+      "receptacle": "search_storage",
+      "entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "item_09",
+        "item_10"
+      ],
+      "solver": {
+        "status": "feasible_model",
+        "device": "cuda",
+        "backend": "torch_cuda_finite_csp",
+        "solve_seconds": 0.0016105091199278831,
+        "nodes": 0,
+        "candidate_tests": 0,
+        "search_orders_tried": 0,
+        "grid_m": 0.001,
+        "margin_m": 0.025,
+        "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+        "physical_validation_required": true,
+        "assignment": {
+          "item_01": "surface",
+          "item_02": "surface",
+          "item_03": "surface",
+          "item_04": "surface",
+          "item_05": "surface",
+          "item_06": "surface",
+          "item_07": "surface",
+          "item_08": "surface",
+          "item_09": "surface",
+          "item_10": "surface"
+        },
+        "poses": {
+          "item_01": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.025,
+              0.025
+            ],
+            "footprint_m": [
+              0.085,
+              0.085
+            ],
+            "center_xy_m": [
+              0.0675,
+              0.0675
+            ]
+          },
+          "item_02": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.025,
+              0.135
+            ],
+            "footprint_m": [
+              0.155,
+              0.155
+            ],
+            "center_xy_m": [
+              0.10250000000000001,
+              0.21250000000000002
+            ]
+          },
+          "item_03": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.025,
+              0.315
+            ],
+            "footprint_m": [
+              0.08600000000000001,
+              0.08600000000000001
+            ],
+            "center_xy_m": [
+              0.068,
+              0.358
+            ]
+          },
+          "item_04": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.025,
+              0.426
+            ],
+            "footprint_m": [
+              0.053,
+              0.053
+            ],
+            "center_xy_m": [
+              0.051500000000000004,
+              0.4525
+            ]
+          },
+          "item_05": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.025,
+              0.504
+            ],
+            "footprint_m": [
+              0.057,
+              0.057
+            ],
+            "center_xy_m": [
+              0.053500000000000006,
+              0.5325
+            ]
+          },
+          "item_06": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.025,
+              0.586
+            ],
+            "footprint_m": [
+              0.097,
+              0.097
+            ],
+            "center_xy_m": [
+              0.07350000000000001,
+              0.6345
+            ]
+          },
+          "item_07": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.025,
+              0.708
+            ],
+            "footprint_m": [
+              0.098,
+              0.098
+            ],
+            "center_xy_m": [
+              0.07400000000000001,
+              0.757
+            ]
+          },
+          "item_08": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.025,
+              0.8310000000000001
+            ],
+            "footprint_m": [
+              0.075,
+              0.075
+            ],
+            "center_xy_m": [
+              0.0625,
+              0.8685
+            ]
+          },
+          "item_09": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.025,
+              0.931
+            ],
+            "footprint_m": [
+              0.057,
+              0.057
+            ],
+            "center_xy_m": [
+              0.053500000000000006,
+              0.9595
+            ]
+          },
+          "item_10": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.025,
+              1.0130000000000001
+            ],
+            "footprint_m": [
+              0.076,
+              0.076
+            ],
+            "center_xy_m": [
+              0.063,
+              1.0510000000000002
+            ]
+          }
+        },
+        "constructive_witness": "single strip; exact quantized box and clearance checks"
+      },
+      "physical_validation_required": true
+    }
+  ],
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/overnight_expert_20261109/direct/asset_F064_01/scenario.yaml",
+  "original_sha256": "13f3783490a8b5e73faa8e1f94219803200be5220eba9e0e5e93d73bc992e0b3",
+  "diagnosis_directory": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/overnight_expert_20261109/direct/asset_F064_01",
+  "preserved": [
+    "instruction",
+    "goal",
+    "target",
+    "robot",
+    "spawn",
+    "all original assets",
+    "relation types"
+  ]
+}

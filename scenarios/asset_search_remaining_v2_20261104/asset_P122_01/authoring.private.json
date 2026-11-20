@@ -1,0 +1,81 @@
+{
+  "id": "asset_P122_01",
+  "family": "semantic_P122",
+  "scene": "Pomaria_2_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P122_01/scenario.yaml",
+  "scenario_sha256": "8da184cced8db361a9c13e47820b5409eee1e24948a6387b796ace8058fb586a",
+  "instruction": "There is a sample on the counter in front of you in the bedroom. Find the lip-balm container matching that sample in the bedroom vanity drawers and put it on the counter in front of you in the bedroom.",
+  "target_key": "lip_balm/sqjhbz",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bedroom_0",
+  "destination_room": "bedroom_0",
+  "source_receptacle": "bottom_cabinet_rntwkg_0",
+  "destination_receptacle": "bottom_cabinet_rntwkg_0",
+  "object_count": 10,
+  "distractor_count": 8,
+  "source_survey_sha256": "62e51428546de3c0a833496f29b3c3303a5b7156fd7ac39a8975412318ea7e2d",
+  "route": {
+    "start": [
+      -2.3000000000000003,
+      -2.5,
+      0.0
+    ],
+    "path_xy": [
+      [
+        -2.3000000000000003,
+        -2.5
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 2,
+    "destination_approach_count": 2,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "bottom_cabinet_rntwkg_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "parent_task_id": "P122",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P122_01",
+    "parent_task_id": "P122",
+    "before_instruction": "Find the lip-balm tube with an intact seal band in the bedroom vanity drawers and place it beside the makeup mirror.",
+    "after_instruction": "There is a sample on the counter in front of you in the bedroom. Find the lip-balm container matching that sample in the bedroom vanity drawers and put it on the counter in front of you in the bedroom.",
+    "reason": "Replaces unverified seal band with direct native-container matching. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "lip_balm/sqjhbz",
+    "target_assets": [
+      "lip_balm/sqjhbz"
+    ]
+  },
+  "binding_sha256": "70b9991177fb777b57b9e4dc38131dc675934d685bb137278729859db80e3659"
+}

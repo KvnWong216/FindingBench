@@ -1,0 +1,74 @@
+task_id: X03020
+family: fetch
+scene: house_double_floor_lower
+source:
+  official_activity: set_up_a_home_office_in_your_garage#0
+  official_activities_with_same_subgoal:
+  - set_up_a_home_office_in_your_garage#0
+  official_subgoal: (ontop table_lamp.n.01 table.n.02)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K house_double_floor_lower (+ clearance manifest)
+  object: BEHAVIOR-1K table_lamp/lyjkje
+start:
+  name: start_corridor_0_0
+  room: corridor_0
+  x: 0.34
+  y: 3.06
+  yaw: 3.077
+target:
+  entity: target_obj
+  category: table_lamp
+  model: lyjkje
+  noun: table lamp
+  colour_estimate: brown
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S3
+missing_spatial_levels:
+- S1
+- S2
+initial_states: {}
+spatial:
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: shelf_vanltx_0
+    room: living_room_0
+    location_phrase: the shelf in the living room
+    grasp_hints:
+    - - 3.738
+      - 6.829
+      - 2.369
+    - - 3.698
+      - 6.768
+      - 2.259
+    - - 3.838
+      - 6.93
+      - 2.591
+    - - 3.888
+      - 6.98
+      - 2.695
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    task_scope: cross_room
+    route_from_start_steps: 11
+language:
+  L1:
+    S3: Leave the hallway, go to the shelf in the living room, pick up the table lamp
+      on it and hold it.
+  L2: Pick up the table lamp and keep holding it.
+  L3: I'm working on set up a home office in your garage and I need the table lamp.
+    Could you get it for me?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

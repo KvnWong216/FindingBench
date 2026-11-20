@@ -1,0 +1,71 @@
+{
+  "status": "surface_body_binding_corrected_physics_pending",
+  "changes": [
+    {
+      "field": "goal",
+      "entity": "item_00",
+      "before": "bottom_cabinet_no_top_gjrero_0",
+      "after": "countertop_ikwqer_0"
+    }
+  ],
+  "destination_approach_patch": {
+    "contact_body": "countertop_ikwqer_0",
+    "above_fixture": "bottom_cabinet_no_top_gjrero_0",
+    "aabb": [
+      [
+        24.184,
+        1.178,
+        0.89
+      ],
+      [
+        24.843,
+        2.176,
+        0.928
+      ]
+    ],
+    "scope": "private route proposal to a subset of the actual slab; no synthetic body"
+  },
+  "geometry": {
+    "bottom_cabinet_no_top_gjrero_0": {
+      "before": [
+        [
+          24.184,
+          1.178,
+          -0.004
+        ],
+        [
+          24.847,
+          2.176,
+          0.883
+        ]
+      ],
+      "after": [
+        [
+          24.182,
+          -2.287,
+          0.89
+        ],
+        [
+          24.843,
+          2.182,
+          0.928
+        ]
+      ]
+    }
+  },
+  "source_survey": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/vla_difficulty_v2/_survey/house_single_floor.json",
+  "source_survey_sha256": "14714104a089f0a43cdebe256d01d697215fe5627c0e2fcb55a030a71a1fb2a5",
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert_repair_queue_20261107/asset_U085_01/scenario.yaml",
+  "original_scenario_sha256": "1319a13a07ee9a921e120e8fbee80a93c08dfd93672cc3cad398832a35fa5285",
+  "reason": "Native OnTop requires touching the named body; a separate measured slab covers the named cabinet.",
+  "preserved": [
+    "instruction",
+    "all object models and counts",
+    "target identities",
+    "relation kinds",
+    "spawn",
+    "robot and skills",
+    "physical delivery location"
+  ],
+  "physical_validation_required": true
+}

@@ -1,0 +1,64 @@
+{
+  "id": "dense_search_048",
+  "family": "bathroom_drawers",
+  "scene": "Pomaria_2_int",
+  "scenario": "scenarios/dense_search_pilot/dense_search_048/scenario.yaml",
+  "scenario_sha256": "cc4340f23944e4a8048fb3526c78e333a94fa678b76120502eb0229d836c2930",
+  "instruction": "Find the tube of toothpaste in the drawers in this bathroom and put it on the table in front of you.",
+  "target_key": "toothpaste",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bathroom_0",
+  "destination_room": "bathroom_0",
+  "source_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+  "destination_receptacle": "breakfast_table_skczfi_1",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "62e51428546de3c0a833496f29b3c3303a5b7156fd7ac39a8975412318ea7e2d",
+  "route": {
+    "start": [
+      -0.5,
+      2.9000000000000004,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -0.5,
+        2.9000000000000004
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.5956854249492382,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 6,
+    "destination_approach_count": 10,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_no_top_qohxjq_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "robot_model": "g1_bench"
+}

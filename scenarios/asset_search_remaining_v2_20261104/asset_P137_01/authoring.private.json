@@ -1,0 +1,83 @@
+{
+  "id": "asset_P137_01",
+  "family": "semantic_P137",
+  "scene": "Ihlen_1_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P137_01/scenario.yaml",
+  "scenario_sha256": "9c514a32b32800bd801bf0308d3624d8a1f95318ad6141ca096de00264217cd2",
+  "instruction": "There is a sample on the cabinet top in front of you in the living room. Find two DVDs matching that sample in the living-room media storage and bring both to the cabinet top in front of you in the living room.",
+  "target_key": "dvd/lggrfa",
+  "target_entities": [
+    "item_00",
+    "item_01"
+  ],
+  "target_count": 2,
+  "source_room": "living_room_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "bottom_cabinet_jrhgeu_2",
+  "destination_receptacle": "bottom_cabinet_jrhgeu_2",
+  "object_count": 11,
+  "distractor_count": 8,
+  "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+  "route": {
+    "start": [
+      1.6,
+      -0.1,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        1.6,
+        -0.1
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 1,
+    "destination_approach_count": 1,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09",
+    "comparison_sample",
+    "bottom_cabinet_jrhgeu_2"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "parent_task_id": "P137",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P137_01",
+    "parent_task_id": "P137",
+    "before_instruction": "Find discs 1 and 2 of City Lights among the living-room media storage and put both closed cases below the television.",
+    "after_instruction": "There is a sample on the cabinet top in front of you in the living room. Find two DVDs matching that sample in the living-room media storage and bring both to the cabinet top in front of you in the living room.",
+    "reason": "Preserves cardinality two while replacing fictional numbered films and unverified closed cases with same-model discs. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "dvd/lggrfa",
+    "target_assets": [
+      "dvd/lggrfa",
+      "dvd/lggrfa"
+    ]
+  },
+  "binding_sha256": "295b02cf739b855929a82ee0aa446383d46ddddef320c511e49e7ee8ea9f40d9"
+}

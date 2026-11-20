@@ -1,0 +1,178 @@
+{
+  "id": "asset_F201_01",
+  "family": "semantic_F201",
+  "scene": "Beechwood_0_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_F201_01/scenario.yaml",
+  "scenario_sha256": "bbeabdc3e2aa7c0e3cdba2e416a426f6af961a4500b75621ce9088beccb66497",
+  "instruction": "Find the bottle labeled \"OXA-WATER\" among the kitchen drink supplies and bring it to the table in front of you in the living room.",
+  "target_key": "bottle_of_water/sxffiv",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "countertop_tpuwys_0",
+  "destination_receptacle": "breakfast_table_skczfi_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+  "route": {
+    "start": [
+      3.5500000000000003,
+      -6.95,
+      -3.141592653589793
+    ],
+    "path_xy": [
+      [
+        3.5500000000000003,
+        -6.95
+      ],
+      [
+        3.45,
+        -6.95
+      ],
+      [
+        3.35,
+        -6.95
+      ],
+      [
+        3.35,
+        -6.8500000000000005
+      ],
+      [
+        3.25,
+        -6.8500000000000005
+      ],
+      [
+        3.25,
+        -6.75
+      ],
+      [
+        3.1500000000000004,
+        -6.75
+      ],
+      [
+        3.0500000000000003,
+        -6.75
+      ],
+      [
+        2.95,
+        -6.75
+      ],
+      [
+        2.85,
+        -6.75
+      ],
+      [
+        2.75,
+        -6.75
+      ],
+      [
+        2.75,
+        -6.65
+      ],
+      [
+        2.6500000000000004,
+        -6.65
+      ],
+      [
+        2.6500000000000004,
+        -6.550000000000001
+      ],
+      [
+        2.5500000000000003,
+        -6.550000000000001
+      ],
+      [
+        2.5500000000000003,
+        -6.45
+      ],
+      [
+        2.45,
+        -6.45
+      ],
+      [
+        2.45,
+        -6.3500000000000005
+      ],
+      [
+        2.35,
+        -6.3500000000000005
+      ],
+      [
+        2.25,
+        -6.3500000000000005
+      ],
+      [
+        2.15,
+        -6.3500000000000005
+      ],
+      [
+        2.0500000000000003,
+        -6.3500000000000005
+      ],
+      [
+        1.9500000000000002,
+        -6.3500000000000005
+      ],
+      [
+        1.9500000000000002,
+        -6.25
+      ]
+    ],
+    "length_m": 2.3,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [],
+    "prefer_alternative_layout": false,
+    "assignments": {},
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "F201",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F201_01",
+    "parent_task_id": "F201",
+    "before_instruction": "Find a bottle labeled water among the pantry drinks and put it beside the exercise notebook on the living room table.",
+    "after_instruction": "Find the bottle labeled \"OXA-WATER\" among the kitchen drink supplies and bring it to the table in front of you in the living room.",
+    "reason": "The water-label requirement is grounded in the actual readable OXA-WATER label. Source/destination room types and requested cardinality are retained. The explicit delivery surface replaces decorative destination landmarks. Layout revision: the unbuilt pantry-room task is explicitly relocated to the kitchen food-storage area because surveyed pantry rooms lack two robot-accessible storage/delivery positions. Target models, counts, reference matching, destination inventory and goals are unchanged; this changes room scope and may shorten transport.",
+    "target_asset": "bottle_of_water/sxffiv",
+    "target_assets": [
+      "bottle_of_water/sxffiv"
+    ]
+  },
+  "binding_sha256": "06a58b5d560772106e2558881fdf0685cb6bf57b7aa73656e3ea47c85a79d4a7"
+}

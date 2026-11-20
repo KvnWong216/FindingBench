@@ -1,0 +1,643 @@
+{
+  "id": "asset_F072_01",
+  "family": "semantic_F072",
+  "scene": "house_single_floor",
+  "scenario": "scenarios/remaining_layout_repairs_20261108/asset_F072_01/scenario.yaml",
+  "scenario_sha256": "9b63d137da159da7a0eb281c1c3c0cba01a2e20853975f63ca076a57274af89f",
+  "instruction": "There is a sample on the counter in front of you in the kitchen. Find a bowl matching that sample in the kitchen cupboard and bring it to the counter in front of you in the kitchen.",
+  "target_key": "bowl/fiarri",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "bottom_cabinet_no_top_gjeoer_0",
+  "destination_receptacle": "bottom_cabinet_no_top_gjeoer_0",
+  "object_count": 12,
+  "distractor_count": 10,
+  "source_survey_sha256": "14714104a089f0a43cdebe256d01d697215fe5627c0e2fcb55a030a71a1fb2a5",
+  "route": {
+    "start": [
+      5.0,
+      1.4000000000000001,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        5.0,
+        1.4000000000000001
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "comparison_negative_0",
+    "comparison_negative_1",
+    "bottom_cabinet_no_top_rkgjer_0",
+    "bottom_cabinet_no_top_gjeoer_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_no_top_gjeoer_0",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.5612621141256355,
+            1.392786301860543,
+            0.31808635890158254
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.5612609054223452,
+            1.3927860868369875,
+            0.29428167702715446
+          ],
+          "meta__base_link_fillable_0_0_link#component:2": [
+            0.5579978261278609,
+            1.3855120469089781,
+            0.29428168573782737
+          ],
+          "meta__base_link_fillable_0_0_link#component:3": [
+            0.5579995380099554,
+            1.3855139291145446,
+            0.31808653770956963
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:3": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet_no_top/gjeoer",
+          "scale": [
+            0.9999522566795349,
+            1.0000033378601074,
+            0.9999667406082153
+          ],
+          "encrypted_asset_sha256": "f8f1816ad2fa5bbf1c4af20033ddfb0f15b8b9220c1d54bbe811d3b38e51819a",
+          "metadata_sha256": "11f3ae3677938b0a8e371605884720d59276a24f4122fd868c3155599a16819e",
+          "root_orientation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "comparison_negative_1": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "comparison_negative_0": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "comparison_negative_1": "meta__base_link_fillable_0_0_link#component:1",
+          "item_02": "meta__base_link_fillable_0_0_link#component:2",
+          "item_04": "meta__base_link_fillable_0_0_link#component:0",
+          "item_05": "meta__base_link_fillable_0_0_link#component:3",
+          "item_00": "meta__base_link_fillable_0_0_link#component:2",
+          "item_03": "meta__base_link_fillable_0_0_link#component:2",
+          "comparison_negative_0": "meta__base_link_fillable_0_0_link#component:2",
+          "item_01": "meta__base_link_fillable_0_0_link#component:1"
+        }
+      },
+      {
+        "receptacle": "bottom_cabinet_no_top_rkgjer_0",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            1.197059004458582,
+            0.6536733792825575,
+            0.29427582829195353
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            1.1970595169173073,
+            0.6536768959093322,
+            0.31807402030939713
+          ],
+          "meta__base_link_fillable_0_0_link#component:2": [
+            1.2024834890008476,
+            0.6533580749497101,
+            0.3180744876977688
+          ],
+          "meta__base_link_fillable_0_0_link#component:3": [
+            1.2024829227147038,
+            0.6533553733648436,
+            0.29427583482482744
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:3": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet_no_top/rkgjer",
+          "scale": [
+            1.0000126361846924,
+            0.9999865293502808,
+            0.9999390840530396
+          ],
+          "encrypted_asset_sha256": "5ac73a7ed77f580b81ca5433145544c59507bdc6b94aae93554a7f4bdda0e15d",
+          "metadata_sha256": "a4c12df7d7ef3ba98c0a2e18a7f42f57fe0944915992648562b6ca478f0cc612",
+          "root_orientation": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_07": "meta__base_link_fillable_0_0_link#component:3",
+          "item_08": "meta__base_link_fillable_0_0_link#component:0",
+          "item_06": "meta__base_link_fillable_0_0_link#component:2"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "comparison_negative_1": "meta__base_link_fillable_0_0_link",
+      "item_02": "meta__base_link_fillable_0_0_link",
+      "item_04": "meta__base_link_fillable_0_0_link",
+      "item_05": "meta__base_link_fillable_0_0_link",
+      "item_00": "meta__base_link_fillable_0_0_link",
+      "item_03": "meta__base_link_fillable_0_0_link",
+      "comparison_negative_0": "meta__base_link_fillable_0_0_link",
+      "item_01": "meta__base_link_fillable_0_0_link",
+      "item_07": "meta__base_link_fillable_0_0_link",
+      "item_08": "meta__base_link_fillable_0_0_link",
+      "item_06": "meta__base_link_fillable_0_0_link"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [
+    {
+      "scene": "Merom_1_int",
+      "source": "bottom_cabinet_slgzfc_0",
+      "preflight": {
+        "status": "rejected_candidate",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_slgzfc_0",
+            "volume_extents_m": {
+              "meta__link_1_fillable_0_0_link": [
+                0.49888809936156275,
+                0.4241405825725101,
+                0.11664818723740678
+              ],
+              "meta__link_2_fillable_0_0_link": [
+                0.49888809936156275,
+                0.4241405825725101,
+                0.11664818723740678
+              ],
+              "meta__link_3_fillable_0_0_link": [
+                0.49888808455314343,
+                0.4241405825725101,
+                0.11664818382062453
+              ],
+              "meta__link_4_fillable_0_0_link": [
+                0.4988880845531434,
+                0.4241405825725101,
+                0.11664819944019134
+              ]
+            },
+            "native_links": {
+              "meta__link_1_fillable_0_0_link": "meta__link_1_fillable_0_0_link",
+              "meta__link_2_fillable_0_0_link": "meta__link_2_fillable_0_0_link",
+              "meta__link_3_fillable_0_0_link": "meta__link_3_fillable_0_0_link",
+              "meta__link_4_fillable_0_0_link": "meta__link_4_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet/slgzfc",
+              "scale": [
+                1.354372262954712,
+                1.15061354637146,
+                1.6378300189971924
+              ],
+              "encrypted_asset_sha256": "8730de13129a20a6ac8ee45d1a9bfaddb32e2f1eacacbad1762e3397f6b9be1f",
+              "metadata_sha256": "1d26b797bfe333f5e4376a14a649e0d011d8f8f9ed8ed38b1f1f471c823be158",
+              "root_orientation": [
+                3.460406006183803e-08,
+                4.2925812210325986e-11,
+                0.0020132341887801886,
+                0.9999979734420776
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "rejected_candidate",
+            "reason": "Pre-sampling dimension gate: no allowed compartment fits the upright object with clearance",
+            "entities": [
+              "comparison_negative_1"
+            ],
+            "object_extents_m": {
+              "comparison_negative_1": [
+                0.1823177032470703,
+                0.2758385314941406,
+                0.13368773651123048
+              ]
+            }
+          },
+          {
+            "receptacle": "bottom_cabinet_slgzfc_1",
+            "volume_extents_m": {
+              "meta__link_1_fillable_0_0_link": [
+                0.49888809936156275,
+                0.4241405825725101,
+                0.11664818723740678
+              ],
+              "meta__link_2_fillable_0_0_link": [
+                0.49888809936156275,
+                0.4241405825725101,
+                0.11664818723740678
+              ],
+              "meta__link_3_fillable_0_0_link": [
+                0.49888808455314343,
+                0.4241405825725101,
+                0.11664818382062453
+              ],
+              "meta__link_4_fillable_0_0_link": [
+                0.4988880845531434,
+                0.4241405825725101,
+                0.11664819944019134
+              ]
+            },
+            "native_links": {
+              "meta__link_1_fillable_0_0_link": "meta__link_1_fillable_0_0_link",
+              "meta__link_2_fillable_0_0_link": "meta__link_2_fillable_0_0_link",
+              "meta__link_3_fillable_0_0_link": "meta__link_3_fillable_0_0_link",
+              "meta__link_4_fillable_0_0_link": "meta__link_4_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet/slgzfc",
+              "scale": [
+                1.354372262954712,
+                1.15061354637146,
+                1.6378300189971924
+              ],
+              "encrypted_asset_sha256": "8730de13129a20a6ac8ee45d1a9bfaddb32e2f1eacacbad1762e3397f6b9be1f",
+              "metadata_sha256": "1d26b797bfe333f5e4376a14a649e0d011d8f8f9ed8ed38b1f1f471c823be158",
+              "root_orientation": [
+                3.460406006183803e-08,
+                4.292579833253818e-11,
+                0.0020132341887801886,
+                0.9999979734420776
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "assignment": {
+              "item_07": "meta__link_1_fillable_0_0_link",
+              "item_06": "meta__link_2_fillable_0_0_link",
+              "item_08": "meta__link_3_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_07": "meta__link_1_fillable_0_0_link",
+              "item_06": "meta__link_2_fillable_0_0_link",
+              "item_08": "meta__link_3_fillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    },
+    {
+      "scene": "Merom_1_int",
+      "source": "bottom_cabinet_slgzfc_1",
+      "preflight": {
+        "status": "rejected_candidate",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_slgzfc_1",
+            "volume_extents_m": {
+              "meta__link_1_fillable_0_0_link": [
+                0.49888809936156275,
+                0.4241405825725101,
+                0.11664818723740678
+              ],
+              "meta__link_2_fillable_0_0_link": [
+                0.49888809936156275,
+                0.4241405825725101,
+                0.11664818723740678
+              ],
+              "meta__link_3_fillable_0_0_link": [
+                0.49888808455314343,
+                0.4241405825725101,
+                0.11664818382062453
+              ],
+              "meta__link_4_fillable_0_0_link": [
+                0.4988880845531434,
+                0.4241405825725101,
+                0.11664819944019134
+              ]
+            },
+            "native_links": {
+              "meta__link_1_fillable_0_0_link": "meta__link_1_fillable_0_0_link",
+              "meta__link_2_fillable_0_0_link": "meta__link_2_fillable_0_0_link",
+              "meta__link_3_fillable_0_0_link": "meta__link_3_fillable_0_0_link",
+              "meta__link_4_fillable_0_0_link": "meta__link_4_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet/slgzfc",
+              "scale": [
+                1.354372262954712,
+                1.15061354637146,
+                1.6378300189971924
+              ],
+              "encrypted_asset_sha256": "8730de13129a20a6ac8ee45d1a9bfaddb32e2f1eacacbad1762e3397f6b9be1f",
+              "metadata_sha256": "1d26b797bfe333f5e4376a14a649e0d011d8f8f9ed8ed38b1f1f471c823be158",
+              "root_orientation": [
+                3.460406006183803e-08,
+                4.292579833253818e-11,
+                0.0020132341887801886,
+                0.9999979734420776
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "rejected_candidate",
+            "reason": "Pre-sampling dimension gate: no allowed compartment fits the upright object with clearance",
+            "entities": [
+              "comparison_negative_1"
+            ],
+            "object_extents_m": {
+              "comparison_negative_1": [
+                0.1823177032470703,
+                0.2758385314941406,
+                0.13368773651123048
+              ]
+            }
+          },
+          {
+            "receptacle": "bottom_cabinet_slgzfc_0",
+            "volume_extents_m": {
+              "meta__link_1_fillable_0_0_link": [
+                0.49888809936156275,
+                0.4241405825725101,
+                0.11664818723740678
+              ],
+              "meta__link_2_fillable_0_0_link": [
+                0.49888809936156275,
+                0.4241405825725101,
+                0.11664818723740678
+              ],
+              "meta__link_3_fillable_0_0_link": [
+                0.49888808455314343,
+                0.4241405825725101,
+                0.11664818382062453
+              ],
+              "meta__link_4_fillable_0_0_link": [
+                0.4988880845531434,
+                0.4241405825725101,
+                0.11664819944019134
+              ]
+            },
+            "native_links": {
+              "meta__link_1_fillable_0_0_link": "meta__link_1_fillable_0_0_link",
+              "meta__link_2_fillable_0_0_link": "meta__link_2_fillable_0_0_link",
+              "meta__link_3_fillable_0_0_link": "meta__link_3_fillable_0_0_link",
+              "meta__link_4_fillable_0_0_link": "meta__link_4_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet/slgzfc",
+              "scale": [
+                1.354372262954712,
+                1.15061354637146,
+                1.6378300189971924
+              ],
+              "encrypted_asset_sha256": "8730de13129a20a6ac8ee45d1a9bfaddb32e2f1eacacbad1762e3397f6b9be1f",
+              "metadata_sha256": "1d26b797bfe333f5e4376a14a649e0d011d8f8f9ed8ed38b1f1f471c823be158",
+              "root_orientation": [
+                3.460406006183803e-08,
+                4.2925812210325986e-11,
+                0.0020132341887801886,
+                0.9999979734420776
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "assignment": {
+              "item_07": "meta__link_1_fillable_0_0_link",
+              "item_06": "meta__link_2_fillable_0_0_link",
+              "item_08": "meta__link_3_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_07": "meta__link_1_fillable_0_0_link",
+              "item_06": "meta__link_2_fillable_0_0_link",
+              "item_08": "meta__link_3_fillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    },
+    {
+      "scene": "Merom_1_int",
+      "source": "bottom_cabinet_slgzfc_2",
+      "preflight": {
+        "status": "rejected_candidate",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_slgzfc_2",
+            "volume_extents_m": {
+              "meta__link_1_fillable_0_0_link": [
+                0.5072302735336092,
+                0.2527790892085796,
+                0.11664818723740678
+              ],
+              "meta__link_2_fillable_0_0_link": [
+                0.5072302735336092,
+                0.2527790892085796,
+                0.11664818723740678
+              ],
+              "meta__link_3_fillable_0_0_link": [
+                0.5072302584765738,
+                0.2527790892085796,
+                0.11664818382062453
+              ],
+              "meta__link_4_fillable_0_0_link": [
+                0.5072302584765737,
+                0.2527790892085796,
+                0.11664819944019134
+              ]
+            },
+            "native_links": {
+              "meta__link_1_fillable_0_0_link": "meta__link_1_fillable_0_0_link",
+              "meta__link_2_fillable_0_0_link": "meta__link_2_fillable_0_0_link",
+              "meta__link_3_fillable_0_0_link": "meta__link_3_fillable_0_0_link",
+              "meta__link_4_fillable_0_0_link": "meta__link_4_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet/slgzfc",
+              "scale": [
+                1.3771106004714966,
+                0.683539628982544,
+                1.6378300189971924
+              ],
+              "encrypted_asset_sha256": "8730de13129a20a6ac8ee45d1a9bfaddb32e2f1eacacbad1762e3397f6b9be1f",
+              "metadata_sha256": "1d26b797bfe333f5e4376a14a649e0d011d8f8f9ed8ed38b1f1f471c823be158",
+              "root_orientation": [
+                5.132615731524338e-16,
+                -2.6898995184043706e-11,
+                1.3755965941153567e-16,
+                1.0
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "rejected_candidate",
+            "reason": "Pre-sampling dimension gate: no allowed compartment fits the upright object with clearance",
+            "entities": [
+              "comparison_negative_1"
+            ],
+            "object_extents_m": {
+              "comparison_negative_1": [
+                0.1823177032470703,
+                0.2758385314941406,
+                0.13368773651123048
+              ]
+            }
+          },
+          {
+            "receptacle": "bottom_cabinet_slgzfc_0",
+            "volume_extents_m": {
+              "meta__link_1_fillable_0_0_link": [
+                0.49888809936156275,
+                0.4241405825725101,
+                0.11664818723740678
+              ],
+              "meta__link_2_fillable_0_0_link": [
+                0.49888809936156275,
+                0.4241405825725101,
+                0.11664818723740678
+              ],
+              "meta__link_3_fillable_0_0_link": [
+                0.49888808455314343,
+                0.4241405825725101,
+                0.11664818382062453
+              ],
+              "meta__link_4_fillable_0_0_link": [
+                0.4988880845531434,
+                0.4241405825725101,
+                0.11664819944019134
+              ]
+            },
+            "native_links": {
+              "meta__link_1_fillable_0_0_link": "meta__link_1_fillable_0_0_link",
+              "meta__link_2_fillable_0_0_link": "meta__link_2_fillable_0_0_link",
+              "meta__link_3_fillable_0_0_link": "meta__link_3_fillable_0_0_link",
+              "meta__link_4_fillable_0_0_link": "meta__link_4_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet/slgzfc",
+              "scale": [
+                1.354372262954712,
+                1.15061354637146,
+                1.6378300189971924
+              ],
+              "encrypted_asset_sha256": "8730de13129a20a6ac8ee45d1a9bfaddb32e2f1eacacbad1762e3397f6b9be1f",
+              "metadata_sha256": "1d26b797bfe333f5e4376a14a649e0d011d8f8f9ed8ed38b1f1f471c823be158",
+              "root_orientation": [
+                3.460406006183803e-08,
+                4.2925812210325986e-11,
+                0.0020132341887801886,
+                0.9999979734420776
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "assignment": {
+              "item_07": "meta__link_1_fillable_0_0_link",
+              "item_06": "meta__link_2_fillable_0_0_link",
+              "item_08": "meta__link_3_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_07": "meta__link_1_fillable_0_0_link",
+              "item_06": "meta__link_2_fillable_0_0_link",
+              "item_08": "meta__link_3_fillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    }
+  ],
+  "parent_task_id": "F072",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F072_01",
+    "parent_task_id": "F072",
+    "before_instruction": "Find a kitchen bowl smaller than the mixing bowl on the counter, small enough to nest inside it, and place it beside that mixing bowl.",
+    "after_instruction": "There is a sample on the counter in front of you in the kitchen. Find a bowl matching that sample in the kitchen cupboard and bring it to the counter in front of you in the kitchen.",
+    "reason": "Replaces unverified nesting fit into a mixing bowl with direct native-model matching. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "bowl/fiarri",
+    "target_assets": [
+      "bowl/fiarri"
+    ]
+  },
+  "binding_sha256": "ddd6ec8eb6774bab1430c09f22ec448e2a2a47e648e03c4aa7c8224db077f22d"
+}

@@ -1,0 +1,361 @@
+{
+  "id": "asset_P106_01",
+  "family": "semantic_P106",
+  "scene": "house_double_floor_upper",
+  "scenario": "scenarios/overnight_expert_20261109/initial_generate/asset_P106_01/scenario.yaml",
+  "scenario_sha256": "11d632ac5d1cae466ad2368ead92c6280107405c0118ed76b7d42e4c8c1c36e2",
+  "instruction": "Find the phone, keys and wallet in the bedroom dresser drawers and put all three on the cabinet top in front of you in the bedroom before I go out.",
+  "target_key": "cell_phone/dbhfuh",
+  "target_entities": [
+    "item_00",
+    "item_01",
+    "item_02"
+  ],
+  "target_count": 3,
+  "source_room": "bedroom_2",
+  "destination_room": "bedroom_2",
+  "source_receptacle": "bottom_cabinet_nddvba_0",
+  "destination_receptacle": "bottom_cabinet_nddvba_0",
+  "object_count": 11,
+  "distractor_count": 8,
+  "source_survey_sha256": "bad4111136351f4ccb189cc8da21449e65bb285de15b8c94024c1d045abd820a",
+  "route": {
+    "start": [
+      5.2,
+      -3.8000000000000003,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        5.2,
+        -3.8000000000000003
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 61,
+    "destination_approach_count": 61,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09",
+    "item_10",
+    "bottom_cabinet_nddvba_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_nddvba_0",
+        "volume_extents_m": {
+          "link_1": [
+            0.6578431129455566,
+            0.33721208572387695,
+            0.12310384213924408
+          ],
+          "link_2": [
+            0.6578364372253418,
+            0.33721208572387695,
+            0.12310367822647095
+          ],
+          "link_3": [
+            0.6578364372253418,
+            0.3372039794921875,
+            0.04411935806274414
+          ],
+          "link_4": [
+            0.6578364372253418,
+            0.3372044563293457,
+            0.04411935806274414
+          ]
+        },
+        "native_links": {
+          "link_1": "link_1",
+          "link_2": "link_2",
+          "link_3": "link_3",
+          "link_4": "link_4"
+        },
+        "geometry_source": "survey",
+        "geometry_provenance": {},
+        "status": "heuristic_fit",
+        "solver": {
+          "status": "feasible_model",
+          "device": "cuda",
+          "backend": "torch_cuda_finite_csp",
+          "solve_seconds": 0.3123210771009326,
+          "nodes": 11,
+          "candidate_tests": 4880720,
+          "grid_m": 0.001,
+          "margin_m": 0.005,
+          "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+          "physical_validation_required": true,
+          "assignment": {
+            "item_03": "link_1",
+            "item_09": "link_1",
+            "item_06": "link_1",
+            "item_07": "link_1",
+            "item_05": "link_1",
+            "item_08": "link_1",
+            "item_00": "link_1",
+            "item_02": "link_1",
+            "item_04": "link_1",
+            "item_10": "link_1",
+            "item_01": "link_1"
+          },
+          "poses": {
+            "item_03": {
+              "bin": "link_1",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.005,
+                0.005
+              ],
+              "footprint_m": [
+                0.031,
+                0.031
+              ],
+              "center_xy_m": [
+                0.0205,
+                0.0205
+              ]
+            },
+            "item_09": {
+              "bin": "link_1",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.041,
+                0.005
+              ],
+              "footprint_m": [
+                0.031,
+                0.031
+              ],
+              "center_xy_m": [
+                0.0565,
+                0.0205
+              ]
+            },
+            "item_06": {
+              "bin": "link_1",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.077,
+                0.005
+              ],
+              "footprint_m": [
+                0.126,
+                0.277
+              ],
+              "center_xy_m": [
+                0.14,
+                0.14350000000000002
+              ]
+            },
+            "item_07": {
+              "bin": "link_1",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.20800000000000002,
+                0.005
+              ],
+              "footprint_m": [
+                0.167,
+                0.192
+              ],
+              "center_xy_m": [
+                0.2915,
+                0.101
+              ]
+            },
+            "item_05": {
+              "bin": "link_1",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.38,
+                0.005
+              ],
+              "footprint_m": [
+                0.081,
+                0.154
+              ],
+              "center_xy_m": [
+                0.4205,
+                0.082
+              ]
+            },
+            "item_08": {
+              "bin": "link_1",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.466,
+                0.005
+              ],
+              "footprint_m": [
+                0.081,
+                0.154
+              ],
+              "center_xy_m": [
+                0.5065000000000001,
+                0.082
+              ]
+            },
+            "item_00": {
+              "bin": "link_1",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.38,
+                0.164
+              ],
+              "footprint_m": [
+                0.14100000000000001,
+                0.083
+              ],
+              "center_xy_m": [
+                0.4505,
+                0.20550000000000002
+              ]
+            },
+            "item_02": {
+              "bin": "link_1",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.20800000000000002,
+                0.202
+              ],
+              "footprint_m": [
+                0.129,
+                0.089
+              ],
+              "center_xy_m": [
+                0.2725,
+                0.2465
+              ]
+            },
+            "item_04": {
+              "bin": "link_1",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.552,
+                0.005
+              ],
+              "footprint_m": [
+                0.059000000000000004,
+                0.156
+              ],
+              "center_xy_m": [
+                0.5815,
+                0.083
+              ]
+            },
+            "item_10": {
+              "bin": "link_1",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.005,
+                0.041
+              ],
+              "footprint_m": [
+                0.059000000000000004,
+                0.156
+              ],
+              "center_xy_m": [
+                0.0345,
+                0.11900000000000001
+              ]
+            },
+            "item_01": {
+              "bin": "link_1",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.526,
+                0.166
+              ],
+              "footprint_m": [
+                0.049,
+                0.065
+              ],
+              "center_xy_m": [
+                0.5505,
+                0.1985
+              ]
+            }
+          }
+        },
+        "assignment": {
+          "item_03": "link_1",
+          "item_09": "link_1",
+          "item_06": "link_1",
+          "item_07": "link_1",
+          "item_05": "link_1",
+          "item_08": "link_1",
+          "item_00": "link_1",
+          "item_02": "link_1",
+          "item_04": "link_1",
+          "item_10": "link_1",
+          "item_01": "link_1"
+        },
+        "component_allocation": {
+          "item_03": "link_1",
+          "item_09": "link_1",
+          "item_06": "link_1",
+          "item_07": "link_1",
+          "item_05": "link_1",
+          "item_08": "link_1",
+          "item_00": "link_1",
+          "item_02": "link_1",
+          "item_04": "link_1",
+          "item_10": "link_1",
+          "item_01": "link_1"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {},
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [
+    {
+      "scene": "Pomaria_2_int",
+      "source": "bottom_cabinet_rntwkg_0",
+      "reason": "Previously failed source layout"
+    }
+  ],
+  "parent_task_id": "P106",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P106_01",
+    "parent_task_id": "P106",
+    "before_instruction": "Find the cell phone, rigid wallet, and house-tagged keys among the bedroom dresser and nightstand storage; put all three on the bed-foot bench.",
+    "after_instruction": "Find the phone, keys and wallet in the bedroom dresser drawers and put all three on the cabinet top in front of you in the bedroom before I go out.",
+    "reason": "Preserves the three-item packing list; removes unverified rigid wallet, house tag and a second hypothetical source. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "cell_phone/dbhfuh",
+    "target_assets": [
+      "cell_phone/dbhfuh",
+      "keys/olymng",
+      "wallet/lagjae"
+    ]
+  },
+  "binding_sha256": "d429744e427f88860393593d04a58d397c2cf0e2e4b59fa22d28358c46ef4941"
+}

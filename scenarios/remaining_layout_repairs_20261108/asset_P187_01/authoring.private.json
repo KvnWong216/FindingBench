@@ -1,0 +1,148 @@
+{
+  "id": "asset_P187_01",
+  "family": "semantic_P187",
+  "scene": "house_double_floor_upper",
+  "scenario": "scenarios/remaining_layout_repairs_20261108/asset_P187_01/scenario.yaml",
+  "scenario_sha256": "36d4fb54035dba688e403b4a7ddb6d6ee864cb4ec7986e413c9d7cca03290cd2",
+  "instruction": "Retrieve a picture frame from the bedroom keepsakes and put it on the cabinet top in front of you in the bedroom for framing a photo.",
+  "target_key": "picture_frame/fgsgpu",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bedroom_2",
+  "destination_room": "bedroom_2",
+  "source_receptacle": "bottom_cabinet_no_top_ncgmqr_0",
+  "destination_receptacle": "bottom_cabinet_no_top_ncgmqr_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "bad4111136351f4ccb189cc8da21449e65bb285de15b8c94024c1d045abd820a",
+  "route": {
+    "start": [
+      4.5,
+      -3.7,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        4.5,
+        -3.7
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 34,
+    "destination_approach_count": 34,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_no_top_ncgmqr_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_no_top_ncgmqr_0",
+        "volume_extents_m": {
+          "drawer0": [
+            0.39159536361694336,
+            0.5213556289672852,
+            0.14244306087493896
+          ],
+          "drawer1": [
+            0.3962228298187256,
+            0.5216689109802246,
+            0.1419602334499359
+          ],
+          "drawer2": [
+            0.39650797843933105,
+            0.5166358947753906,
+            0.2855750620365143
+          ]
+        },
+        "native_links": {
+          "drawer0": "drawer0",
+          "drawer1": "drawer1",
+          "drawer2": "drawer2"
+        },
+        "geometry_source": "survey",
+        "geometry_provenance": {},
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_00": "drawer2",
+          "item_05": "drawer2",
+          "item_01": "drawer1",
+          "item_06": "drawer0",
+          "item_04": "drawer1",
+          "item_02": "drawer0",
+          "item_07": "drawer0",
+          "item_03": "drawer0",
+          "item_08": "drawer0"
+        },
+        "component_allocation": {
+          "item_00": "drawer2",
+          "item_05": "drawer2",
+          "item_01": "drawer1",
+          "item_06": "drawer0",
+          "item_04": "drawer1",
+          "item_02": "drawer0",
+          "item_07": "drawer0",
+          "item_03": "drawer0",
+          "item_08": "drawer0"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_00": "drawer2",
+      "item_05": "drawer2",
+      "item_01": "drawer1",
+      "item_06": "drawer0",
+      "item_04": "drawer1",
+      "item_02": "drawer0",
+      "item_07": "drawer0",
+      "item_03": "drawer0",
+      "item_08": "drawer0"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "P187",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P187_01",
+    "parent_task_id": "P187",
+    "before_instruction": "Find the empty square frame among bedroom keepsakes and put it beside the square photograph on the dresser.",
+    "after_instruction": "Retrieve a picture frame from the bedroom keepsakes and put it on the cabinet top in front of you in the bedroom for framing a photo.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Missing explicit reference entity and validated target-reference correspondence for empty square photo frame. Native categories are only candidates; required subtype, markings, quantity, or reference appearance remain unverified: empty square photo frame. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Empty-frame condition removed because the native frame texture may already contain an image.",
+    "target_asset": "picture_frame/fgsgpu",
+    "target_assets": [
+      "picture_frame/fgsgpu"
+    ]
+  },
+  "binding_sha256": "3a408be47af1a3c2a9a76c1db1c709d718f7d047141804ed88b8ff06b914978d"
+}

@@ -1,0 +1,164 @@
+{
+  "tasks": [
+    {
+      "id": "asset_P231_01",
+      "family": "semantic_P231",
+      "scene": "Beechwood_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_26_P231_expert_174b35a75c9d/asset_P231_01/scenario.yaml",
+      "scenario_sha256": "05d0d88182ef99af74caee265982ddffc67164b50d741a572bf71211e8e78426",
+      "instruction": "Find a toothbrush matching the sample on the counter in front of you in the bathroom among the bathroom supplies and put it beside the sample for the guest toiletries.",
+      "target_key": "toothbrush/qbkrzg",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "bathroom_1",
+      "destination_room": "bathroom_1",
+      "source_receptacle": "bottom_cabinet_no_top_pluwfl_0",
+      "destination_receptacle": "countertop_tpuwys_1",
+      "object_count": 11,
+      "distractor_count": 9,
+      "source_survey_sha256": "e6788ca8219b4da8643d87d4deebe4595aa9d5f15520af27b74393574b33a410",
+      "route": {
+        "start": [
+          -6.9,
+          -2.9000000000000004,
+          -1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            -6.9,
+            -2.9000000000000004
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 36,
+        "destination_approach_count": 36,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "comparison_sample",
+        "required_negative_0",
+        "bottom_cabinet_no_top_pluwfl_1",
+        "bottom_cabinet_no_top_pluwfl_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [],
+      "parent_task_id": "P231",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_P231_01",
+        "parent_task_id": "P231",
+        "before_instruction": "Find the toothbrush marked Guest among the bathroom vanity supplies and place it in the empty cup on the guest shelf.",
+        "after_instruction": "Find a toothbrush matching the sample on the counter in front of you in the bathroom among the bathroom supplies and put it beside the sample for the guest toiletries.",
+        "reason": "Retains matching-based retrieval through a physical same-native-model sample on the delivery surface. Any original cross-object compatibility, photo or consumable-state requirement is explicitly replaced with visible product/shape matching. Original source and destination rooms preserved; forced native distractor creates a real competing selection.",
+        "target_asset": "toothbrush/qbkrzg",
+        "target_assets": [
+          "toothbrush/qbkrzg"
+        ]
+      },
+      "binding_sha256": "3b4c9cfb10a46485928a33829c628308e859085f1d0c098b57dd13848a93797a",
+      "surface_binding_revision": {
+        "status": "surface_body_binding_corrected_physics_pending",
+        "changes": [
+          {
+            "field": "placements",
+            "entity": "comparison_sample",
+            "before": "bottom_cabinet_no_top_pluwfl_0",
+            "after": "countertop_tpuwys_1"
+          },
+          {
+            "field": "goal",
+            "entity": "item_00",
+            "before": "bottom_cabinet_no_top_pluwfl_0",
+            "after": "countertop_tpuwys_1"
+          }
+        ],
+        "destination_approach_patch": {
+          "contact_body": "countertop_tpuwys_1",
+          "above_fixture": "bottom_cabinet_no_top_pluwfl_0",
+          "aabb": [
+            [
+              -7.635,
+              -3.999,
+              0.553
+            ],
+            [
+              -6.647,
+              -3.483,
+              0.572
+            ]
+          ],
+          "scope": "private route proposal to a subset of the actual slab; no synthetic body"
+        },
+        "geometry": {
+          "bottom_cabinet_no_top_pluwfl_0": {
+            "before": [
+              [
+                -7.635,
+                -3.999,
+                0.005
+              ],
+              [
+                -6.646,
+                -3.471,
+                0.549
+              ]
+            ],
+            "after": [
+              [
+                -7.675,
+                -4.01,
+                0.553
+              ],
+              [
+                -6.647,
+                -3.483,
+                0.572
+              ]
+            ]
+          }
+        },
+        "source_survey": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/vla_difficulty_v2/_survey/Beechwood_1_int.json",
+        "source_survey_sha256": "e6788ca8219b4da8643d87d4deebe4595aa9d5f15520af27b74393574b33a410",
+        "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_P231_01/scenario.yaml",
+        "original_scenario_sha256": "6fb392a5584c501fa1c96bd4e2371854d23894ccd282f18be21cfc6a7bf28015",
+        "reason": "Native OnTop requires touching the named body; a separate measured slab covers the named cabinet.",
+        "preserved": [
+          "instruction",
+          "all object models and counts",
+          "target identities",
+          "relation kinds",
+          "spawn",
+          "robot and skills",
+          "physical delivery location"
+        ],
+        "physical_validation_required": true
+      }
+    }
+  ]
+}

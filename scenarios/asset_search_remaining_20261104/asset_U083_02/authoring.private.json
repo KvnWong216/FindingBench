@@ -1,0 +1,69 @@
+{
+  "id": "asset_U083_02",
+  "family": "semantic_U083",
+  "scene": "Beechwood_0_int",
+  "scenario": "scenarios/asset_search_remaining_20261104/asset_U083_02/scenario.yaml",
+  "scenario_sha256": "4b0220f73aaae1d8827a7461a4006a692646a9ef66fcc954d163860386b3c416",
+  "instruction": "I need the rubber-bladed tool for the window. Find the squeegee among the utility room cleaning equipment and put it on the counter in front of you in the utility room.",
+  "target_key": "squeegee/hgeqlw",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "utility_room_0",
+  "destination_room": "utility_room_0",
+  "source_receptacle": "bottom_cabinet_slgzfc_0",
+  "destination_receptacle": "bottom_cabinet_slgzfc_0",
+  "object_count": 1,
+  "distractor_count": 0,
+  "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+  "route": {
+    "start": [
+      4.15,
+      -0.45,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        4.15,
+        -0.45
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 56,
+    "destination_approach_count": 56,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "bottom_cabinet_slgzfc_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "parent_task_id": "U083",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_U083_02",
+    "parent_task_id": "U083",
+    "before_instruction": "I need the rubber bladed tool for the utility window. Find the squeegee among the cleaning equipment and put it on the counter by the sink.",
+    "after_instruction": "I need the rubber-bladed tool for the window. Find the squeegee among the utility room cleaning equipment and put it on the counter in front of you in the utility room.",
+    "reason": "Preserves object identity and purpose; explicitly grounds the destination as the initial-facing native surface instead of an uninstantiated decorative landmark.",
+    "target_asset": "squeegee/hgeqlw",
+    "target_assets": [
+      "squeegee/hgeqlw"
+    ]
+  }
+}

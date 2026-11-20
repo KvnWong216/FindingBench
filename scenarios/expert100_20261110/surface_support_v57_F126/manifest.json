@@ -1,0 +1,133 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F126_01",
+      "family": "semantic_F126",
+      "scene": "Beechwood_0_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/surface_support_v57_F126/asset_F126_01/scenario.yaml",
+      "scenario_sha256": "4a7e4823b82a98cdbd99f9b2088c06df979383d9d9c7e4e74b5dd3fd5acff7ca",
+      "instruction": "Find maple syrup and honey in the kitchen food-storage area and bring both to the table in front of you in the kitchen for choosing a pancake topping.",
+      "target_key": "maple_syrup_jar/wigtue",
+      "target_entities": [
+        "item_00",
+        "item_01"
+      ],
+      "target_count": 2,
+      "source_room": "kitchen_0",
+      "destination_room": "kitchen_0",
+      "source_receptacle": "countertop_tpuwys_0",
+      "destination_receptacle": "breakfast_table_uhrsex_0",
+      "object_count": 10,
+      "distractor_count": 8,
+      "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+      "route": {
+        "start": [
+          0.25,
+          -8.55,
+          0.0
+        ],
+        "path_xy": [
+          [
+            0.25,
+            -8.55
+          ],
+          [
+            0.15000000000000002,
+            -8.55
+          ],
+          [
+            0.15000000000000002,
+            -8.450000000000001
+          ],
+          [
+            0.15000000000000002,
+            -8.35
+          ],
+          [
+            0.15000000000000002,
+            -8.25
+          ],
+          [
+            0.15000000000000002,
+            -8.15
+          ],
+          [
+            0.15000000000000002,
+            -8.05
+          ],
+          [
+            0.15000000000000002,
+            -7.95
+          ],
+          [
+            0.15000000000000002,
+            -7.8500000000000005
+          ],
+          [
+            0.15000000000000002,
+            -7.75
+          ]
+        ],
+        "length_m": 0.9,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "item_09"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [
+        {
+          "scene": "Beechwood_0_int",
+          "source": "bookcase_owvfik_0",
+          "reason": "Previously failed source layout"
+        }
+      ],
+      "parent_task_id": "F126",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F126_01",
+        "parent_task_id": "F126",
+        "before_instruction": "Find maple syrup in the pantry and bring it to the pantry packing table. If there is no maple syrup, bring the honey jar instead.",
+        "after_instruction": "Find maple syrup and honey in the kitchen food-storage area and bring both to the table in front of you in the kitchen for choosing a pancake topping.",
+        "reason": "Replaces absence-dependent fallback with a two-product choice preparation task; both native targets are required. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Layout revision: the unbuilt pantry-room task is explicitly relocated to the kitchen food-storage area because surveyed pantry rooms lack two robot-accessible storage/delivery positions. Target models, counts, reference matching, destination inventory and goals are unchanged; this changes room scope and may shorten transport.",
+        "target_asset": "maple_syrup_jar/wigtue",
+        "target_assets": [
+          "maple_syrup_jar/wigtue",
+          "honey_jar/dhgtvg"
+        ]
+      }
+    }
+  ]
+}

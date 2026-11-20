@@ -1,0 +1,123 @@
+task_id: U009
+family: fetch
+scene: house_double_floor_upper
+source:
+  official_activity: set_up_a_hot_dog_bar#0
+  official_activities_with_same_subgoal:
+  - set_up_a_hot_dog_bar#0
+  official_subgoal: (ontop hotdog.n.02 plate.n.04)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K house_double_floor_upper (+ clearance manifest)
+  object: BEHAVIOR-1K hotdog/lsajfg
+start:
+  name: start_bedroom_0_0
+  room: bedroom_0
+  x: -4.14
+  y: 1.33
+  yaw: 0.0
+target:
+  entity: target_obj
+  category: hotdog
+  model: lsajfg
+  noun: hotdog
+  colour_estimate: orange
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+initial_states: {}
+spatial:
+  S1:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bookcase_kmuacd_0
+    room: bedroom_0
+    location_phrase: the bookcase next to the desk in the bedroom with the maps on
+      the wall
+    grasp_hints:
+    - - -3.858
+      - 0.443
+      - -2.356
+    - - -3.758
+      - 0.543
+      - -2.356
+    - - -3.96
+      - 0.543
+      - -2.157
+    - - -3.708
+      - 0.392
+      - -2.537
+    extra_ops_vs_S1: []
+    probe_visibility_from_start:
+      px: 239
+      delta_e: 6.1
+  S2:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: desk_aduafr_0
+    room: bedroom_0
+    location_phrase: the desk in the bedroom with the maps on the wall
+    grasp_hints:
+    - - -4.221
+      - 0.737
+      - -2.356
+    - - -4.371
+      - 0.787
+      - -2.137
+    - - -4.321
+      - 0.837
+      - -2.159
+    - - -4.071
+      - 0.687
+      - -2.536
+    extra_ops_vs_S1:
+    - search behind occluders
+    s2_kind: occluded
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: desk_iotfzl_0
+    room: living_room_0
+    location_phrase: the desk in the living room
+    grasp_hints:
+    - - -2.015
+      - -1.966
+      - -0.799
+    - - -1.964
+      - -1.916
+      - -0.891
+    - - -1.914
+      - -1.866
+      - -0.982
+    - - -2.115
+      - -1.866
+      - -0.797
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    route_from_start_steps: 9
+language:
+  L1:
+    S1: Go to the bookcase next to the desk in the bedroom with the maps on the wall,
+      pick up the hotdog on it and hold it.
+    S2: Go to the desk in the bedroom with the maps on the wall, pick up the hotdog
+      on it and hold it.
+    S3: Leave the bedroom with the maps on the wall, go to the desk in the living
+      room, pick up the hotdog on it and hold it.
+  L2: Pick up the hotdog and keep holding it.
+  L3: I'm working on set up a hot dog bar. Can you find the hotdog and hold it for
+    me?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

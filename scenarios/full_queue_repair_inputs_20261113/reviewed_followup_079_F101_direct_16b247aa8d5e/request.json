@@ -1,0 +1,167 @@
+{
+  "action": "direct",
+  "case": {
+    "id": "F101",
+    "record": {
+      "id": "asset_F101_02",
+      "family": "semantic_F101",
+      "scene": "Beechwood_0_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_v1/asset_F101_02/scenario.yaml",
+      "scenario_sha256": "d65b2234450416977fb376cd4e060c00be04c3557a283f23d4791c91ac5d9205",
+      "instruction": "Find a whole potato and a whole onion among the kitchen produce and put both on the table in front of you in the kitchen for the lesson.",
+      "target_key": "potato/ljfitc",
+      "target_entities": [
+        "item_01",
+        "item_02"
+      ],
+      "target_count": 2,
+      "source_room": "kitchen_0",
+      "destination_room": "kitchen_0",
+      "source_receptacle": "item_00",
+      "destination_receptacle": "breakfast_table_uhrsex_0",
+      "object_count": 11,
+      "distractor_count": 8,
+      "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+      "route": {
+        "start": [
+          0.25,
+          -8.55,
+          0.0
+        ],
+        "path_xy": [
+          [
+            0.25,
+            -8.55
+          ],
+          [
+            0.25,
+            -8.450000000000001
+          ],
+          [
+            0.25,
+            -8.35
+          ],
+          [
+            0.25,
+            -8.25
+          ],
+          [
+            0.25,
+            -8.15
+          ],
+          [
+            0.25,
+            -8.05
+          ],
+          [
+            0.25,
+            -7.95
+          ],
+          [
+            0.25,
+            -7.8500000000000005
+          ],
+          [
+            0.25,
+            -7.75
+          ],
+          [
+            0.35000000000000003,
+            -7.75
+          ],
+          [
+            0.45,
+            -7.75
+          ],
+          [
+            0.55,
+            -7.75
+          ]
+        ],
+        "length_m": 1.1,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_00",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "item_09",
+        "item_10"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "parent_task_id": "F101",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F101_02",
+        "parent_task_id": "F101",
+        "before_instruction": "Find a whole potato and a whole onion among the kitchen produce storage and put both beside the lesson book on the kitchen table.",
+        "after_instruction": "Find a whole potato and a whole onion among the kitchen produce and put both on the table in front of you in the kitchen for the lesson.",
+        "reason": "Explicit first-tranche grounding: native storage and initial-facing destination replace uninstantiated decorative reference props; no new semantic-task count.",
+        "target_asset": "potato/ljfitc",
+        "target_assets": [
+          "potato/ljfitc",
+          "vidalia_onion/dejqhf"
+        ]
+      }
+    },
+    "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_remaining_repairs_20261105/asset_F101_02",
+    "error": "native_timeout",
+    "source_sha256": "d65b2234450416977fb376cd4e060c00be04c3557a283f23d4791c91ac5d9205",
+    "expert_diagnosis": {
+      "category": "surface_or_timeout",
+      "error": "native_timeout",
+      "native_rejections_in_current_queue": 0,
+      "first_blocker": {
+        "entity": "item_00",
+        "relation": "on_top",
+        "receptacle": "bottom_cabinet_no_top_qohxjq_0"
+      },
+      "solver": null,
+      "support_measurements": {
+        "total": 0,
+        "planar": 0,
+        "reasons": {}
+      },
+      "first_contact": null,
+      "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_remaining_repairs_20261105/asset_F101_02/native_validation.log",
+      "inference_scope": "proposal/model diagnosis; native physics acceptance unchanged"
+    },
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "surface_or_timeout",
+      "reason": "native_timeout"
+    }
+  },
+  "out": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_079_F101_direct_16b247aa8d5e",
+  "variant": 93
+}

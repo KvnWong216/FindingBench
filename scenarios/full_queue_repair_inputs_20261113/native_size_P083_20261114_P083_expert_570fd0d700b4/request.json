@@ -1,0 +1,413 @@
+{
+  "action": "expert",
+  "case": {
+    "id": "P083",
+    "record": {
+      "id": "asset_P083_01",
+      "family": "semantic_P083",
+      "scene": "house_double_floor_upper",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/pinpoint_20261114/P083/native_size_rebinding_v35/asset_P083_01/scenario.yaml",
+      "scenario_sha256": "7010b0e2320cfc7fe77d16119963a6d0885fb8229c37c46fa4b982607349cbf7",
+      "instruction": "There is a sample on the cabinet top in front of you in the bedroom. Find the toy figure matching that sample in the living-room toy cabinet and bring it to the cabinet top in front of you in the bedroom in the bedroom.",
+      "target_key": "toy_figure/lfxygp",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "living_room_0",
+      "destination_room": "bedroom_0",
+      "source_receptacle": "search_storage",
+      "destination_receptacle": "delivery_surface",
+      "object_count": 14,
+      "distractor_count": 10,
+      "source_survey_sha256": "bad4111136351f4ccb189cc8da21449e65bb285de15b8c94024c1d045abd820a",
+      "route": {
+        "start": [
+          -3.4000000000000004,
+          0.8,
+          3.141592653589793
+        ],
+        "path_xy": [
+          [
+            -3.4000000000000004,
+            0.8
+          ],
+          [
+            -3.4000000000000004,
+            0.7000000000000001
+          ],
+          [
+            -3.4000000000000004,
+            0.6000000000000001
+          ],
+          [
+            -3.3000000000000003,
+            0.6000000000000001
+          ],
+          [
+            -3.2,
+            0.6000000000000001
+          ],
+          [
+            -3.1,
+            0.6000000000000001
+          ],
+          [
+            -3.0,
+            0.6000000000000001
+          ],
+          [
+            -2.9000000000000004,
+            0.6000000000000001
+          ],
+          [
+            -2.8000000000000003,
+            0.6000000000000001
+          ],
+          [
+            -2.7,
+            0.6000000000000001
+          ],
+          [
+            -2.6,
+            0.6000000000000001
+          ],
+          [
+            -2.5,
+            0.6000000000000001
+          ],
+          [
+            -2.4000000000000004,
+            0.6000000000000001
+          ],
+          [
+            -2.3000000000000003,
+            0.6000000000000001
+          ],
+          [
+            -2.2,
+            0.6000000000000001
+          ],
+          [
+            -2.1,
+            0.6000000000000001
+          ],
+          [
+            -2.0,
+            0.6000000000000001
+          ],
+          [
+            -1.9000000000000001,
+            0.6000000000000001
+          ],
+          [
+            -1.8,
+            0.6000000000000001
+          ],
+          [
+            -1.7000000000000002,
+            0.6000000000000001
+          ],
+          [
+            -1.6,
+            0.6000000000000001
+          ],
+          [
+            -1.5,
+            0.6000000000000001
+          ],
+          [
+            -1.4000000000000001,
+            0.6000000000000001
+          ],
+          [
+            -1.3,
+            0.6000000000000001
+          ],
+          [
+            -1.2000000000000002,
+            0.6000000000000001
+          ]
+        ],
+        "length_m": 2.4,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "editorial_revision_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "comparison_sample",
+        "comparison_negative_0",
+        "comparison_negative_1",
+        "search_storage"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [
+        {
+          "name": "search_storage",
+          "category": "bottom_cabinet",
+          "model": "jrhgeu",
+          "floor": "floors_rfqizg_0",
+          "position_xy": [
+            -0.30000000000000004,
+            0.1
+          ],
+          "aabb": [
+            [
+              -0.467144760131836,
+              -0.24228797912597658,
+              0.0
+            ],
+            [
+              -0.1328552398681641,
+              0.4422879791259766,
+              0.6846599731445313
+            ]
+          ],
+          "room": "living_room_0"
+        },
+        {
+          "name": "delivery_surface",
+          "category": "bottom_cabinet",
+          "model": "jrhgeu",
+          "floor": "floors_nlswvt_0",
+          "position_xy": [
+            -4.1000000000000005,
+            1.3
+          ],
+          "aabb": [
+            [
+              -4.267144760131837,
+              0.9577120208740235,
+              0.0
+            ],
+            [
+              -3.9328552398681644,
+              1.6422879791259766,
+              0.6846599731445313
+            ]
+          ],
+          "room": "bedroom_0"
+        }
+      ],
+      "parent_task_id": "P083",
+      "tier": "long",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_P083_01",
+        "parent_task_id": "P083",
+        "before_instruction": "Find the rigid toy dinosaur with three horns among the living-room toy cabinet contents and place it on the bedroom shelf above the dresser.",
+        "after_instruction": "There is a sample on the cabinet top in front of you in the bedroom. Find the toy figure matching that sample in the living-room toy cabinet and bring it to the cabinet top in front of you in the bedroom in the bedroom.",
+        "reason": "Replaces unverified three-horn dinosaur identity with concrete native figure matching. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "toy_figure/lfxygp",
+        "target_assets": [
+          "toy_figure/lfxygp"
+        ],
+        "editorial_revision_id": "expert_native_size_rebinding_20261114_P083"
+      },
+      "binding_sha256": "f8b97ab5774ff0c671e568aee2252f264f95684c60d88efa8d8b2dbeca808c88",
+      "previous_binding_sha256": "f9044b0fbf5133b5779afda2e3c400df24e47f087d6e141db9b50d770e51695b",
+      "editorial_revisions": [
+        {
+          "status": "editorial_revision_physics_pending",
+          "revision_id": "expert_native_size_rebinding_20261114_P083",
+          "authorization": "user_approved_find_and_deliver_rewrite",
+          "reason": "Replace a 68.5 by 33.3 by 62.2 cm non-target toy figure with a native 11.2 by 15.4 by 7.9 cm toy figure. Keep the target and its exact matching sample unchanged and retain a second distinct-model matching distractor. Preserve task, count, every other asset and cupboard relations.",
+          "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_P083_01/scenario.yaml",
+          "original_archive": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/pinpoint_20261114/P083/native_size_rebinding_v35/asset_P083_01/original_scenario.yaml",
+          "original_scenario_sha256": "079f3bc1b92ab5163ad7593e57717e94e65c672186ac4f41711777e25e2ef638",
+          "revised_scenario_sha256": "7010b0e2320cfc7fe77d16119963a6d0885fb8229c37c46fa4b982607349cbf7",
+          "before_instruction": "There is a sample on the cabinet top in front of you in the bedroom. Find the toy figure matching that sample in the living-room toy cabinet and bring it to the cabinet top in front of you in the bedroom in the bedroom.",
+          "after_instruction": "There is a sample on the cabinet top in front of you in the bedroom. Find the toy figure matching that sample in the living-room toy cabinet and bring it to the cabinet top in front of you in the bedroom in the bedroom.",
+          "object_changes": [
+            {
+              "before": {
+                "name": "comparison_negative_1",
+                "category": "toy_figure",
+                "model": "vansnq"
+              },
+              "after": {
+                "name": "comparison_negative_1",
+                "category": "toy_figure",
+                "model": "cqeowc"
+              },
+              "native_bbox_m": [
+                0.11246259212493896,
+                0.1539401626586914,
+                0.07903120422363281
+              ],
+              "metadata_sha256": "9446e7c5c3ef25798c55cfa0838208a1d18f07ddc8090e5058ba9ebd17950915",
+              "encrypted_asset_sha256": "dacd3948acd72958ce03cb7d1f9a3328ec833ed1287883bf6927d0b3e367c6e6"
+            }
+          ],
+          "surface_binding_changes": [],
+          "before_goal": [
+            {
+              "kind": "on_top",
+              "entity": "item_00",
+              "receptacle": "delivery_surface"
+            }
+          ],
+          "after_goal": [
+            {
+              "kind": "on_top",
+              "entity": "item_00",
+              "receptacle": "delivery_surface"
+            }
+          ],
+          "before_target": {
+            "entity": "item_00",
+            "category": "toy_figure"
+          },
+          "after_target": {
+            "entity": "item_00",
+            "category": "toy_figure"
+          },
+          "preserved": [
+            "find-and-deliver paradigm",
+            "goal entity and relation",
+            "scene",
+            "spawn",
+            "robot",
+            "skills",
+            "entity names and count",
+            "placement relations",
+            "target cardinality"
+          ],
+          "physical_validation_required": true,
+          "human_completion_verified": false
+        }
+      ],
+      "layout_preflight": {
+        "status": "rejected_candidate",
+        "findings": [
+          {
+            "receptacle": "search_storage",
+            "volume_extents_m": {
+              "meta__base_link_fillable_0_0_link#component:0": [
+                0.23922629249095917,
+                0.18965983357072802,
+                0.5851681912193236
+              ],
+              "meta__base_link_fillable_0_0_link#component:1": [
+                0.23877585313392102,
+                0.19861903381347656,
+                0.5853487684532628
+              ],
+              "meta__base_link_fillable_0_0_link#component:2": [
+                0.23817441952228546,
+                0.189000270903126,
+                0.5853966732025147
+              ]
+            },
+            "native_links": {
+              "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet/jrhgeu",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "70d166224352a46e63c008e4d1b5af6bec5bfdfc27f6b21dad220cca350bc871",
+              "metadata_sha256": "838fad16a0dc49e7be965c08b9de0d54b477a05592b32eb05d6519a940331708",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "rejected_candidate",
+            "reason": "Pre-sampling dimension gate: no allowed compartment fits the upright object with clearance",
+            "entities": [
+              "item_06",
+              "comparison_negative_0"
+            ],
+            "object_extents_m": {
+              "item_06": [
+                0.44590550231933596,
+                0.3702107086181641,
+                0.351507568359375
+              ],
+              "comparison_negative_0": [
+                0.21722055053710937,
+                0.23720599365234377,
+                0.06807527923583985
+              ]
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    },
+    "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_full_20261105/asset_P083_01",
+    "error": "placement failed verification after physics settled: ['item_00 inside search_storage', 'item_01 inside search_storage', 'item_02 inside search_storage', 'item_03 inside search_storage', 'item_04 inside search_storage', 'item_05 inside search_storage', 'item_06 inside search_storage', 'item_07 inside search_storage', 'item_08 inside search_storage', 'comparison_sample on_top delivery_surface', 'comparison_negative_0 inside search_storage', 'comparison_negative_1 inside search_storage']",
+    "source_sha256": "079f3bc1b92ab5163ad7593e57717e94e65c672186ac4f41711777e25e2ef638",
+    "expert_diagnosis": {
+      "category": "native_placement",
+      "error": "placement failed verification after physics settled: ['item_00 inside search_storage', 'item_01 inside search_storage', 'item_02 inside search_storage', 'item_03 inside search_storage', 'item_04 inside search_storage', 'item_05 inside search_storage', 'item_06 inside search_storage', 'item_07 inside search_storage', 'item_08 inside search_storage', 'comparison_sample on_top delivery_surface', 'comparison_negative_0 inside search_storage', 'comparison_negative_1 inside search_storage']",
+      "native_rejections_in_current_queue": 0,
+      "first_blocker": {
+        "entity": "comparison_negative_1",
+        "relation": "inside",
+        "receptacle": "search_storage"
+      },
+      "solver": null,
+      "support_measurements": {
+        "total": 0,
+        "planar": 0,
+        "reasons": {}
+      },
+      "first_contact": null,
+      "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_full_20261105/asset_P083_01/native_validation.log",
+      "inference_scope": "proposal/model diagnosis; native physics acceptance unchanged"
+    },
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "native_placement",
+      "reason": "placement failed verification after physics settled: ['item_00 inside search_storage', 'item_01 inside search_storage', 'item_02 inside search_storage', 'item_03 inside search_storage', 'item_04 inside search_storage', 'item_05 inside search_storage', 'item_06 inside search_storage', 'item_07 inside search_storage', 'item_08 inside search_storage', 'comparison_sample on_top delivery_surface', 'comparison_negative_0 inside search_storage', 'comparison_negative_1 inside search_storage']"
+    }
+  },
+  "out": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/native_size_P083_20261114_P083_expert_570fd0d700b4",
+  "variant": 93
+}

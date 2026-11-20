@@ -1,0 +1,315 @@
+{
+  "id": "asset_F044_01",
+  "family": "semantic_F044",
+  "scene": "Pomaria_1_int",
+  "scenario": "scenarios/serial_repairs_20261109/asset_F044_01/scenario.yaml",
+  "scenario_sha256": "9af076f6195e46272d97c47b1fa197f60666db2cd916c3805a1d03110fbe0016",
+  "instruction": "Find the aluminium foil box among the kitchen food-storage supplies and put it on the table in front of you in the kitchen for wrapping food.",
+  "target_key": "box_of_aluminium_foil/lhwgty",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "bottom_cabinet_no_top_vdedzt_0",
+  "destination_receptacle": "breakfast_table_uhrsex_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "05d404c89ade70d34c89459d2b340c53ef49d49041a6624fcc9a997b8b7322b3",
+  "route": {
+    "start": [
+      -1.1500000000000001,
+      -2.85,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -1.1500000000000001,
+        -2.85
+      ],
+      [
+        -1.1500000000000001,
+        -2.75
+      ],
+      [
+        -1.1500000000000001,
+        -2.6500000000000004
+      ],
+      [
+        -1.1500000000000001,
+        -2.5500000000000003
+      ],
+      [
+        -1.1500000000000001,
+        -2.45
+      ],
+      [
+        -1.1500000000000001,
+        -2.35
+      ],
+      [
+        -1.1500000000000001,
+        -2.25
+      ],
+      [
+        -1.1500000000000001,
+        -2.15
+      ],
+      [
+        -1.1500000000000001,
+        -2.0500000000000003
+      ],
+      [
+        -1.1500000000000001,
+        -1.9500000000000002
+      ],
+      [
+        -1.1500000000000001,
+        -1.85
+      ],
+      [
+        -1.1500000000000001,
+        -1.75
+      ],
+      [
+        -1.1500000000000001,
+        -1.6500000000000001
+      ],
+      [
+        -1.1500000000000001,
+        -1.55
+      ],
+      [
+        -1.1500000000000001,
+        -1.4500000000000002
+      ],
+      [
+        -1.05,
+        -1.4500000000000002
+      ],
+      [
+        -1.05,
+        -1.35
+      ],
+      [
+        -1.05,
+        -1.25
+      ],
+      [
+        -1.05,
+        -1.1500000000000001
+      ],
+      [
+        -1.05,
+        -1.05
+      ],
+      [
+        -1.05,
+        -0.9500000000000001
+      ],
+      [
+        -1.05,
+        -0.8500000000000001
+      ],
+      [
+        -1.05,
+        -0.75
+      ],
+      [
+        -1.05,
+        -0.65
+      ],
+      [
+        -1.05,
+        -0.55
+      ],
+      [
+        -1.05,
+        -0.45
+      ]
+    ],
+    "length_m": 2.5,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 51,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_no_top_spojpj_0",
+    "bottom_cabinet_no_top_vdedzt_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_no_top_vdedzt_0",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.34823689720480944,
+            0.7288007442155852,
+            0.20119088413516306
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.361059543106247,
+            0.7293259758439963,
+            0.21677330555427446
+          ],
+          "meta__base_link_fillable_0_0_link#component:2": [
+            0.35166844011523574,
+            0.7215718036804594,
+            0.18142758126029188
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet_no_top/vdedzt",
+          "scale": [
+            0.9020318984985352,
+            1.2223000526428223,
+            1.4746999740600586
+          ],
+          "encrypted_asset_sha256": "f08f18ef2ff048b07a32617ae129452ac26d7050ef8c44cde1bbb98f77942b49",
+          "metadata_sha256": "a7e223349347b4b299798d7bff84e5ad22a3884e15abf01b55aabbdc86c7efcc",
+          "root_orientation": [
+            1.2048985809087753e-08,
+            1.2048992026336691e-08,
+            -0.7071066498756409,
+            0.70710688829422
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_00": "meta__base_link_fillable_0_0_link#component:2",
+          "item_02": "meta__base_link_fillable_0_0_link#component:1",
+          "item_05": "meta__base_link_fillable_0_0_link#component:0",
+          "item_01": "meta__base_link_fillable_0_0_link#component:2",
+          "item_04": "meta__base_link_fillable_0_0_link#component:2",
+          "item_03": "meta__base_link_fillable_0_0_link#component:2"
+        }
+      },
+      {
+        "receptacle": "bottom_cabinet_no_top_spojpj_0",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.35033681313938847,
+            0.6392195652484614,
+            0.18953295525318237
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.35164461075437115,
+            0.640758512756965,
+            0.21256367339399113
+          ],
+          "meta__base_link_fillable_0_0_link#component:2": [
+            0.354999108665639,
+            0.6416463648511828,
+            0.2198864892525212
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet_no_top/spojpj",
+          "scale": [
+            0.9020320773124695,
+            1.0823547840118408,
+            1.5013837814331055
+          ],
+          "encrypted_asset_sha256": "b1a8387eba4405101e82da8fc1a934432b2f15dfaf23df29ca85b10f676830d9",
+          "metadata_sha256": "821af7f29773bfc2aa846ad7360069c7f643f3d0cf7d09e47400953b401bb4e3",
+          "root_orientation": [
+            0.0,
+            0.0,
+            0.7071068286895752,
+            -0.7071067094802856
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_08": "meta__base_link_fillable_0_0_link",
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_08": "meta__base_link_fillable_0_0_link#component:2",
+          "item_07": "meta__base_link_fillable_0_0_link#component:0",
+          "item_06": "meta__base_link_fillable_0_0_link#component:1"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_00": "meta__base_link_fillable_0_0_link",
+      "item_02": "meta__base_link_fillable_0_0_link",
+      "item_05": "meta__base_link_fillable_0_0_link",
+      "item_01": "meta__base_link_fillable_0_0_link",
+      "item_04": "meta__base_link_fillable_0_0_link",
+      "item_03": "meta__base_link_fillable_0_0_link",
+      "item_08": "meta__base_link_fillable_0_0_link",
+      "item_07": "meta__base_link_fillable_0_0_link",
+      "item_06": "meta__base_link_fillable_0_0_link"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "F044",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F044_01",
+    "parent_task_id": "F044",
+    "before_instruction": "Find the aluminium foil box in the pantry household-food storage and put it beside the baking pan on the pantry table.",
+    "after_instruction": "Find the aluminium foil box among the kitchen food-storage supplies and put it on the table in front of you in the kitchen for wrapping food.",
+    "reason": "The identified delivery surface is grounded by the initial facing direction; decorative destination landmarks are omitted. Target identity, requested cardinality and source/destination room types are retained. Layout revision: the unbuilt pantry-room task is explicitly relocated to the kitchen food-storage area because surveyed pantry rooms lack two robot-accessible storage/delivery positions. Target models, counts, reference matching, destination inventory and goals are unchanged; this changes room scope and may shorten transport.",
+    "target_asset": "box_of_aluminium_foil/lhwgty",
+    "target_assets": [
+      "box_of_aluminium_foil/lhwgty"
+    ]
+  },
+  "binding_sha256": "ff4dd61693674793b325151220f65b412a3465c79fdb93abe8bfddf2f8f2d85b"
+}

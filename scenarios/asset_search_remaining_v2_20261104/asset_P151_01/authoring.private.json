@@ -1,0 +1,122 @@
+{
+  "id": "asset_P151_01",
+  "family": "semantic_P151",
+  "scene": "Beechwood_0_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P151_01/scenario.yaml",
+  "scenario_sha256": "adb48486701c53a77d8be2e1e1d04bac7508fb6e28758476a643abe7f07dc583",
+  "instruction": "There is a sample on the table in front of you in the living room. Find the eyeglasses matching that sample among the living-room sideboard drawers and bring them to the table in front of you in the living room for reading.",
+  "target_key": "eyeglasses/ujauoy",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "bottom_cabinet_immwzb_1",
+  "destination_receptacle": "coffee_table_qlmqyy_0",
+  "object_count": 11,
+  "distractor_count": 9,
+  "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+  "route": {
+    "start": [
+      4.8500000000000005,
+      -7.550000000000001,
+      -3.141592653589793
+    ],
+    "path_xy": [
+      [
+        4.8500000000000005,
+        -7.550000000000001
+      ],
+      [
+        4.8500000000000005,
+        -7.45
+      ],
+      [
+        4.8500000000000005,
+        -7.3500000000000005
+      ],
+      [
+        4.8500000000000005,
+        -7.25
+      ],
+      [
+        4.8500000000000005,
+        -7.15
+      ],
+      [
+        4.8500000000000005,
+        -7.050000000000001
+      ],
+      [
+        4.95,
+        -7.050000000000001
+      ],
+      [
+        5.050000000000001,
+        -7.050000000000001
+      ],
+      [
+        5.15,
+        -7.050000000000001
+      ],
+      [
+        5.25,
+        -7.050000000000001
+      ],
+      [
+        5.3500000000000005,
+        -7.050000000000001
+      ]
+    ],
+    "length_m": 1.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "comparison_negative_0",
+    "bottom_cabinet_immwzb_1"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "parent_task_id": "P151",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P151_01",
+    "parent_task_id": "P151",
+    "before_instruction": "Find the rigid glasses case labeled Dana among the living-room sideboard and side-table drawers; put it on the coffee table.",
+    "after_instruction": "There is a sample on the table in front of you in the living room. Find the eyeglasses matching that sample among the living-room sideboard drawers and bring them to the table in front of you in the living room for reading.",
+    "reason": "No native labeled rigid glasses case exists; explicitly substitutes eyeglasses and removes fictional Dana text. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "eyeglasses/ujauoy",
+    "target_assets": [
+      "eyeglasses/ujauoy"
+    ]
+  },
+  "binding_sha256": "a32578014ab3aad826e1e666f46206461a9795e1d96e2df93c68b7a0d43a7603"
+}

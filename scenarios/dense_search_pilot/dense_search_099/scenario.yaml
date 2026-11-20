@@ -1,0 +1,133 @@
+id: dense_search_099
+instruction: Find the pencil in the drawers in this private office and put it on the
+  cabinet in front of you.
+scene:
+  model: Pomaria_0_int
+  source: behavior
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  init_anchor: start
+  base_half_extent: 0.25
+  include_sensor_names: null
+anchors:
+  start:
+    position:
+    - -7.0
+    - -0.4
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - 0.6219928700026487
+    - 0.7830229049433153
+target:
+  entity: item_00
+  category: pencil
+objects:
+- name: item_00
+  category: pencil
+  model: almpve
+- name: item_01
+  category: paperback_book
+  model: xxknda
+- name: item_02
+  category: key_chain
+  model: gqbwfv
+- name: item_03
+  category: comb
+  model: nybyjz
+- name: item_04
+  category: key_chain
+  model: gqbwfv
+- name: item_05
+  category: cell_phone
+  model: dbhfuh
+- name: item_06
+  category: comb
+  model: nybyjz
+- name: item_07
+  category: stapler
+  model: kgnsas
+placements:
+- entity: item_00
+  relation: inside
+  receptacle: bottom_cabinet_jhymlr_0
+  link: link_1
+- entity: item_01
+  relation: inside
+  receptacle: bottom_cabinet_jhymlr_0
+  link: link_1
+- entity: item_02
+  relation: inside
+  receptacle: bottom_cabinet_jhymlr_0
+  link: link_1
+- entity: item_03
+  relation: inside
+  receptacle: bottom_cabinet_jhymlr_0
+  link: link_1
+- entity: item_04
+  relation: inside
+  receptacle: bottom_cabinet_jhymlr_0
+  link: link_1
+- entity: item_05
+  relation: inside
+  receptacle: bottom_cabinet_jhymlr_0
+  link: link_1
+- entity: item_06
+  relation: inside
+  receptacle: bottom_cabinet_jhymlr_0
+  link: link_1
+- entity: item_07
+  relation: inside
+  receptacle: bottom_cabinet_jhymlr_0
+  link: link_1
+initial_states:
+  bottom_cabinet_jhymlr_0:
+    open: false
+goal:
+- kind: on_top
+  entity: item_00
+  receptacle: bottom_cabinet_no_top_spojpj_1
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

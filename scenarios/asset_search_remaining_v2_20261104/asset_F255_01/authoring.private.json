@@ -1,0 +1,124 @@
+{
+  "id": "asset_F255_01",
+  "family": "semantic_F255",
+  "scene": "house_double_floor_lower",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_F255_01/scenario.yaml",
+  "scenario_sha256": "41ec362250a3715b13b6e87d8e8aea80fb33cb068e0871f04a346a6995a221d3",
+  "instruction": "Find one whole apple and one whole carrot among the kitchen produce and bring both to the table in front of you in the living room in the living room for sketching.",
+  "target_key": "apple/omzprq",
+  "target_entities": [
+    "item_01",
+    "item_02"
+  ],
+  "target_count": 2,
+  "source_room": "kitchen_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "item_00",
+  "destination_receptacle": "coffee_table_koagbh_0",
+  "object_count": 11,
+  "distractor_count": 8,
+  "source_survey_sha256": "0a3f401e7605a056f40f88d913d8c052476ef760acf457ac11cb1f76abbe581f",
+  "route": {
+    "start": [
+      4.15,
+      3.95,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        4.15,
+        3.95
+      ],
+      [
+        4.15,
+        3.85
+      ],
+      [
+        4.15,
+        3.75
+      ],
+      [
+        4.15,
+        3.6500000000000004
+      ],
+      [
+        4.15,
+        3.5500000000000003
+      ],
+      [
+        4.15,
+        3.45
+      ],
+      [
+        4.15,
+        3.35
+      ],
+      [
+        4.15,
+        3.25
+      ],
+      [
+        4.15,
+        3.1500000000000004
+      ],
+      [
+        4.15,
+        3.0500000000000003
+      ],
+      [
+        4.15,
+        2.95
+      ],
+      [
+        4.15,
+        2.85
+      ]
+    ],
+    "length_m": 1.1,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_00",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09",
+    "item_10"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "parent_task_id": "F255",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F255_01",
+    "parent_task_id": "F255",
+    "before_instruction": "Find one whole apple and one whole carrot in the kitchen produce storage and put both beside the sketchbook on the living room coffee table.",
+    "after_instruction": "Find one whole apple and one whole carrot among the kitchen produce and bring both to the table in front of you in the living room in the living room for sketching.",
+    "reason": "The identified delivery surface is grounded by the initial facing direction; decorative destination landmarks are omitted. Target identity, requested cardinality and source/destination room types are retained.",
+    "target_asset": "apple/omzprq",
+    "target_assets": [
+      "apple/omzprq",
+      "carrot/qhmmmx"
+    ]
+  },
+  "binding_sha256": "07c26d5d83b6388ec236171de0b6048d13f05bd120d137cbb0805669729f744f"
+}

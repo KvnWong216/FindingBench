@@ -1,0 +1,766 @@
+{
+  "id": "asset_F072_01",
+  "family": "semantic_F072",
+  "scene": "Beechwood_0_int",
+  "scenario": "scenarios/overnight_expert_20261109/initial_generate/asset_F072_01/scenario.yaml",
+  "scenario_sha256": "d53bda3d43971adc5d71eb79de3806dba930b59ac0b38b56a8031d870d460191",
+  "instruction": "There is a sample on the counter in front of you in the kitchen. Find a bowl matching that sample in the kitchen cupboard and bring it to the counter in front of you in the kitchen.",
+  "target_key": "bowl/fiarri",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "bottom_cabinet_no_top_spojpj_0",
+  "destination_receptacle": "bottom_cabinet_no_top_spojpj_0",
+  "object_count": 12,
+  "distractor_count": 10,
+  "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+  "route": {
+    "start": [
+      -2.0500000000000003,
+      -7.550000000000001,
+      3.141592653589793
+    ],
+    "path_xy": [
+      [
+        -2.0500000000000003,
+        -7.550000000000001
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "comparison_negative_0",
+    "comparison_negative_1",
+    "bottom_cabinet_no_top_spojpj_1",
+    "bottom_cabinet_no_top_spojpj_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_no_top_spojpj_0",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.5207541439556291,
+            0.7053030264824561,
+            0.17911914148513677
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.5227017573190094,
+            0.7070015720064096,
+            0.20087095049054082
+          ],
+          "meta__base_link_fillable_0_0_link#component:2": [
+            0.5276973811713306,
+            0.7079814996467177,
+            0.20778712613745862
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet_no_top/spojpj",
+          "scale": [
+            1.3433345556259155,
+            1.1946014165878296,
+            1.4180110692977905
+          ],
+          "encrypted_asset_sha256": "b1a8387eba4405101e82da8fc1a934432b2f15dfaf23df29ca85b10f676830d9",
+          "metadata_sha256": "821af7f29773bfc2aa846ad7360069c7f643f3d0cf7d09e47400953b401bb4e3",
+          "root_orientation": [
+            0.0,
+            0.0,
+            -0.0003452669770922512,
+            0.9999999403953552
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "solver": {
+          "status": "feasible_model",
+          "device": "cuda",
+          "backend": "torch_cuda_finite_csp",
+          "solve_seconds": 0.013246577000245452,
+          "nodes": 8,
+          "candidate_tests": 4546122,
+          "grid_m": 0.001,
+          "margin_m": 0.005,
+          "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+          "physical_validation_required": true,
+          "assignment": {
+            "comparison_negative_0": "meta__base_link_fillable_0_0_link#component:2",
+            "item_02": "meta__base_link_fillable_0_0_link#component:1",
+            "item_05": "meta__base_link_fillable_0_0_link#component:0",
+            "item_04": "meta__base_link_fillable_0_0_link#component:1",
+            "item_01": "meta__base_link_fillable_0_0_link#component:2",
+            "comparison_negative_1": "meta__base_link_fillable_0_0_link#component:1",
+            "item_00": "meta__base_link_fillable_0_0_link#component:2",
+            "item_03": "meta__base_link_fillable_0_0_link#component:2"
+          },
+          "poses": {
+            "comparison_negative_0": {
+              "bin": "meta__base_link_fillable_0_0_link#component:2",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.005,
+                0.005
+              ],
+              "footprint_m": [
+                0.15,
+                0.15
+              ],
+              "center_xy_m": [
+                0.08,
+                0.08
+              ]
+            },
+            "item_02": {
+              "bin": "meta__base_link_fillable_0_0_link#component:1",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.005,
+                0.005
+              ],
+              "footprint_m": [
+                0.11900000000000001,
+                0.11900000000000001
+              ],
+              "center_xy_m": [
+                0.0645,
+                0.0645
+              ]
+            },
+            "item_05": {
+              "bin": "meta__base_link_fillable_0_0_link#component:0",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.005,
+                0.005
+              ],
+              "footprint_m": [
+                0.289,
+                0.34600000000000003
+              ],
+              "center_xy_m": [
+                0.1495,
+                0.178
+              ]
+            },
+            "item_04": {
+              "bin": "meta__base_link_fillable_0_0_link#component:1",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.129,
+                0.005
+              ],
+              "footprint_m": [
+                0.3,
+                0.181
+              ],
+              "center_xy_m": [
+                0.279,
+                0.0955
+              ]
+            },
+            "item_01": {
+              "bin": "meta__base_link_fillable_0_0_link#component:2",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.16,
+                0.005
+              ],
+              "footprint_m": [
+                0.328,
+                0.159
+              ],
+              "center_xy_m": [
+                0.324,
+                0.0845
+              ]
+            },
+            "comparison_negative_1": {
+              "bin": "meta__base_link_fillable_0_0_link#component:1",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.005,
+                0.191
+              ],
+              "footprint_m": [
+                0.183,
+                0.276
+              ],
+              "center_xy_m": [
+                0.0965,
+                0.329
+              ]
+            },
+            "item_00": {
+              "bin": "meta__base_link_fillable_0_0_link#component:2",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.005,
+                0.16
+              ],
+              "footprint_m": [
+                0.11800000000000001,
+                0.106
+              ],
+              "center_xy_m": [
+                0.064,
+                0.213
+              ]
+            },
+            "item_03": {
+              "bin": "meta__base_link_fillable_0_0_link#component:2",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.128,
+                0.169
+              ],
+              "footprint_m": [
+                0.123,
+                0.046
+              ],
+              "center_xy_m": [
+                0.1895,
+                0.192
+              ]
+            }
+          }
+        },
+        "assignment": {
+          "comparison_negative_0": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "comparison_negative_1": "meta__base_link_fillable_0_0_link",
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "comparison_negative_0": "meta__base_link_fillable_0_0_link#component:2",
+          "item_02": "meta__base_link_fillable_0_0_link#component:1",
+          "item_05": "meta__base_link_fillable_0_0_link#component:0",
+          "item_04": "meta__base_link_fillable_0_0_link#component:1",
+          "item_01": "meta__base_link_fillable_0_0_link#component:2",
+          "comparison_negative_1": "meta__base_link_fillable_0_0_link#component:1",
+          "item_00": "meta__base_link_fillable_0_0_link#component:2",
+          "item_03": "meta__base_link_fillable_0_0_link#component:2"
+        }
+      },
+      {
+        "receptacle": "bottom_cabinet_no_top_spojpj_1",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.5204984199165115,
+            0.7531039860750895,
+            0.17911914148513677
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.5224450731881762,
+            0.7549179755867688,
+            0.20087095049054082
+          ],
+          "meta__base_link_fillable_0_0_link#component:2": [
+            0.5274382344074289,
+            0.7559645053598338,
+            0.20778712613745862
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet_no_top/spojpj",
+          "scale": [
+            1.342672348022461,
+            1.2757941484451294,
+            1.4180110692977905
+          ],
+          "encrypted_asset_sha256": "b1a8387eba4405101e82da8fc1a934432b2f15dfaf23df29ca85b10f676830d9",
+          "metadata_sha256": "821af7f29773bfc2aa846ad7360069c7f643f3d0cf7d09e47400953b401bb4e3",
+          "root_orientation": [
+            0.0,
+            0.0,
+            -0.0003452669770922512,
+            0.9999999403953552
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "solver": {
+          "status": "feasible_model",
+          "device": "cuda",
+          "backend": "torch_cuda_finite_csp",
+          "solve_seconds": 0.0059544420801103115,
+          "nodes": 3,
+          "candidate_tests": 9522,
+          "grid_m": 0.001,
+          "margin_m": 0.005,
+          "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+          "physical_validation_required": true,
+          "assignment": {
+            "item_07": "meta__base_link_fillable_0_0_link#component:2",
+            "item_08": "meta__base_link_fillable_0_0_link#component:1",
+            "item_06": "meta__base_link_fillable_0_0_link#component:0"
+          },
+          "poses": {
+            "item_07": {
+              "bin": "meta__base_link_fillable_0_0_link#component:2",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.005,
+                0.005
+              ],
+              "footprint_m": [
+                0.266,
+                0.355
+              ],
+              "center_xy_m": [
+                0.138,
+                0.1825
+              ]
+            },
+            "item_08": {
+              "bin": "meta__base_link_fillable_0_0_link#component:1",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.005,
+                0.005
+              ],
+              "footprint_m": [
+                0.366,
+                0.219
+              ],
+              "center_xy_m": [
+                0.188,
+                0.1145
+              ]
+            },
+            "item_06": {
+              "bin": "meta__base_link_fillable_0_0_link#component:0",
+              "yaw_degrees": 0,
+              "lower_xy_m": [
+                0.005,
+                0.005
+              ],
+              "footprint_m": [
+                0.151,
+                0.155
+              ],
+              "center_xy_m": [
+                0.0805,
+                0.0825
+              ]
+            }
+          }
+        },
+        "assignment": {
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_07": "meta__base_link_fillable_0_0_link#component:2",
+          "item_08": "meta__base_link_fillable_0_0_link#component:1",
+          "item_06": "meta__base_link_fillable_0_0_link#component:0"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "comparison_negative_0": "meta__base_link_fillable_0_0_link",
+      "item_02": "meta__base_link_fillable_0_0_link",
+      "item_05": "meta__base_link_fillable_0_0_link",
+      "item_04": "meta__base_link_fillable_0_0_link",
+      "item_01": "meta__base_link_fillable_0_0_link",
+      "comparison_negative_1": "meta__base_link_fillable_0_0_link",
+      "item_00": "meta__base_link_fillable_0_0_link",
+      "item_03": "meta__base_link_fillable_0_0_link",
+      "item_07": "meta__base_link_fillable_0_0_link",
+      "item_08": "meta__base_link_fillable_0_0_link",
+      "item_06": "meta__base_link_fillable_0_0_link"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [
+    {
+      "scene": "Beechwood_0_int",
+      "source": "bottom_cabinet_no_top_pluwfl_0",
+      "preflight": {
+        "status": "rejected_candidate",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_no_top_pluwfl_0",
+            "volume_extents_m": {
+              "link_1": [
+                0.29326508939266205,
+                0.41143274307250977,
+                0.04179656505584717
+              ],
+              "meta__base_link_fillable_0_0_link#component:0": [
+                0.5199915280856164,
+                0.9832567592132311,
+                0.22076112604498485
+              ],
+              "meta__base_link_fillable_0_0_link#component:1": [
+                0.5199915280856164,
+                0.9832567592132311,
+                0.3906072046292203
+              ]
+            },
+            "native_links": {
+              "link_1": "link_1",
+              "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "survey_with_native_components",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet_no_top/pluwfl",
+              "scale": [
+                1.276749849319458,
+                1.3885451555252075,
+                1.3932181596755981
+              ],
+              "encrypted_asset_sha256": "e437cb6606b889ee5d9e12f0de89e7467c08149881866fe7238139c89f92fc6b",
+              "metadata_sha256": "0e00312845b9ed8078f5a263551207004beec9ab9d83dfd9e656f277ade69f2c",
+              "root_orientation": [
+                -9.313224857976365e-09,
+                -4.773028638993537e-09,
+                0.7071068286895752,
+                -0.7071067094802856
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "unknown",
+            "native_sampling_required": false,
+            "solver": {
+              "status": "unknown",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.31139877578243613,
+              "nodes": 2,
+              "candidate_tests": 1449616,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "reason": "Candidate tensor memory budget exhausted"
+            },
+            "reason": "Layout solver undecided; no native sampling",
+            "entities": [
+              "item_00",
+              "item_01",
+              "item_02",
+              "item_03",
+              "item_04",
+              "item_05",
+              "comparison_negative_0",
+              "comparison_negative_1"
+            ]
+          },
+          {
+            "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+            "volume_extents_m": {
+              "link_0": [
+                0.35826021432876587,
+                0.41759204864501953,
+                0.16683420538902283
+              ],
+              "link_1": [
+                0.3490593433380127,
+                0.4109954833984375,
+                0.15118098258972168
+              ],
+              "link_2": [
+                0.3429843783378601,
+                0.41287994384765625,
+                0.040989458560943604
+              ]
+            },
+            "native_links": {
+              "link_0": "link_0",
+              "link_1": "link_1",
+              "link_2": "link_2"
+            },
+            "geometry_source": "survey",
+            "geometry_provenance": {},
+            "status": "rejected_candidate",
+            "native_sampling_required": false,
+            "solver": {
+              "status": "infeasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.007867467822507024,
+              "nodes": 4,
+              "candidate_tests": 1134,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "reason": "Exhausted finite normal-pattern search tree"
+            },
+            "reason": "Finite layout model infeasible",
+            "entities": [
+              "item_06",
+              "item_07",
+              "item_08"
+            ]
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    },
+    {
+      "scene": "Beechwood_0_int",
+      "source": "bottom_cabinet_no_top_qohxjq_0",
+      "preflight": {
+        "status": "unknown",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+            "volume_extents_m": {
+              "link_0": [
+                0.35826021432876587,
+                0.41759204864501953,
+                0.16683420538902283
+              ],
+              "link_1": [
+                0.3490593433380127,
+                0.4109954833984375,
+                0.15118098258972168
+              ],
+              "link_2": [
+                0.3429843783378601,
+                0.41287994384765625,
+                0.040989458560943604
+              ]
+            },
+            "native_links": {
+              "link_0": "link_0",
+              "link_1": "link_1",
+              "link_2": "link_2"
+            },
+            "geometry_source": "survey",
+            "geometry_provenance": {},
+            "status": "unknown",
+            "native_sampling_required": false,
+            "solver": {
+              "status": "unknown",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.5053272938821465,
+              "nodes": 583,
+              "candidate_tests": 12364800,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "reason": "Search budget exhausted; no infeasibility claim"
+            },
+            "reason": "Layout solver undecided; no native sampling",
+            "entities": [
+              "item_00",
+              "item_01",
+              "item_02",
+              "item_03",
+              "item_04",
+              "item_05",
+              "comparison_negative_0",
+              "comparison_negative_1"
+            ]
+          },
+          {
+            "receptacle": "bottom_cabinet_no_top_pluwfl_0",
+            "volume_extents_m": {
+              "link_1": [
+                0.29326508939266205,
+                0.41143274307250977,
+                0.04179656505584717
+              ],
+              "meta__base_link_fillable_0_0_link#component:0": [
+                0.5199915280856164,
+                0.9832567592132311,
+                0.22076112604498485
+              ],
+              "meta__base_link_fillable_0_0_link#component:1": [
+                0.5199915280856164,
+                0.9832567592132311,
+                0.3906072046292203
+              ]
+            },
+            "native_links": {
+              "link_1": "link_1",
+              "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "survey_with_native_components",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet_no_top/pluwfl",
+              "scale": [
+                1.276749849319458,
+                1.3885451555252075,
+                1.3932181596755981
+              ],
+              "encrypted_asset_sha256": "e437cb6606b889ee5d9e12f0de89e7467c08149881866fe7238139c89f92fc6b",
+              "metadata_sha256": "0e00312845b9ed8078f5a263551207004beec9ab9d83dfd9e656f277ade69f2c",
+              "root_orientation": [
+                -9.313224857976365e-09,
+                -4.773028638993537e-09,
+                0.7071068286895752,
+                -0.7071067094802856
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.006021406967192888,
+              "nodes": 3,
+              "candidate_tests": 8748,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_07": "meta__base_link_fillable_0_0_link#component:0",
+                "item_08": "meta__base_link_fillable_0_0_link#component:1",
+                "item_06": "meta__base_link_fillable_0_0_link#component:1"
+              },
+              "poses": {
+                "item_07": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.266,
+                    0.355
+                  ],
+                  "center_xy_m": [
+                    0.138,
+                    0.1825
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.366,
+                    0.219
+                  ],
+                  "center_xy_m": [
+                    0.188,
+                    0.1145
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.229
+                  ],
+                  "footprint_m": [
+                    0.151,
+                    0.155
+                  ],
+                  "center_xy_m": [
+                    0.0805,
+                    0.3065
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_07": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link",
+              "item_06": "meta__base_link_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_07": "meta__base_link_fillable_0_0_link#component:0",
+              "item_08": "meta__base_link_fillable_0_0_link#component:1",
+              "item_06": "meta__base_link_fillable_0_0_link#component:1"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link"
+        },
+        "physical_validation_required": true
+      }
+    }
+  ],
+  "parent_task_id": "F072",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F072_01",
+    "parent_task_id": "F072",
+    "before_instruction": "Find a kitchen bowl smaller than the mixing bowl on the counter, small enough to nest inside it, and place it beside that mixing bowl.",
+    "after_instruction": "There is a sample on the counter in front of you in the kitchen. Find a bowl matching that sample in the kitchen cupboard and bring it to the counter in front of you in the kitchen.",
+    "reason": "Replaces unverified nesting fit into a mixing bowl with direct native-model matching. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "bowl/fiarri",
+    "target_assets": [
+      "bowl/fiarri"
+    ]
+  },
+  "binding_sha256": "ddd6ec8eb6774bab1430c09f22ec448e2a2a47e648e03c4aa7c8224db077f22d"
+}

@@ -1,0 +1,80 @@
+{
+  "id": "dense_search_058",
+  "family": "drinks_shopping",
+  "scene": "grocery_store_convenience",
+  "scenario": "scenarios/dense_search_pilot/dense_search_058/scenario.yaml",
+  "scenario_sha256": "19b1e693db58701a5d0340aa12dff49c28cb3b0f0d89f82d29bbb6858c75112d",
+  "instruction": "Find the bottle of cola in the shelves in this grocery store and put it in the shopping basket on the table in front of you.",
+  "target_key": "cola",
+  "target_entities": [
+    "item_01"
+  ],
+  "target_count": 1,
+  "source_room": "grocery_store_0",
+  "destination_room": "grocery_store_0",
+  "source_receptacle": "grocery_shelf_pbjodr_3",
+  "destination_receptacle": "item_00",
+  "object_count": 10,
+  "distractor_count": 8,
+  "source_survey_sha256": "a2c547e08ae7b260e95d8b48eef0027668b5c06f7c674406f7ebc43f7ad37672",
+  "route": {
+    "start": [
+      3.1,
+      -2.4000000000000004,
+      -1.276870726641237
+    ],
+    "path_xy": [
+      [
+        3.1,
+        -2.4000000000000004
+      ],
+      [
+        3.1,
+        -2.3000000000000003
+      ],
+      [
+        3.1,
+        -2.2
+      ],
+      [
+        3.1,
+        -2.1
+      ],
+      [
+        3.1,
+        -2.0
+      ]
+    ],
+    "length_m": 0.4,
+    "grid_m": 0.1,
+    "base_radius_m": 0.5956854249492382,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_00",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "robot_model": "g1_bench"
+}

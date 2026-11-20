@@ -1,0 +1,695 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F311_01",
+      "family": "semantic_F311",
+      "scene": "house_single_floor",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/source_capacity_v76_F311_20261115_F311/asset_F311_01/scenario.yaml",
+      "scenario_sha256": "9ccd0464ab0ed98b2a18708d0466d716bfb65d522d915a8479840bd9a5585ce1",
+      "instruction": "There is a sample on the cabinet top in front of you in the dining room. Find the tray matching that sample in the kitchen storage and bring it to the cabinet top in front of you in the dining room in the dining room.",
+      "target_key": "tray/mhhoga",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "kitchen_0",
+      "destination_room": "dining_room_0",
+      "source_receptacle": "search_work_surface",
+      "destination_receptacle": "delivery_surface",
+      "object_count": 14,
+      "distractor_count": 10,
+      "source_survey_sha256": "14714104a089f0a43cdebe256d01d697215fe5627c0e2fcb55a030a71a1fb2a5",
+      "route": {
+        "start": [
+          6.300000000000001,
+          1.9000000000000001,
+          -3.141592653589793
+        ],
+        "path_xy": [
+          [
+            6.300000000000001,
+            1.9000000000000001
+          ],
+          [
+            6.300000000000001,
+            1.8
+          ],
+          [
+            6.4,
+            1.8
+          ],
+          [
+            6.5,
+            1.8
+          ],
+          [
+            6.6000000000000005,
+            1.8
+          ],
+          [
+            6.7,
+            1.8
+          ],
+          [
+            6.800000000000001,
+            1.8
+          ],
+          [
+            6.9,
+            1.8
+          ],
+          [
+            7.0,
+            1.8
+          ],
+          [
+            7.1000000000000005,
+            1.8
+          ],
+          [
+            7.2,
+            1.8
+          ],
+          [
+            7.300000000000001,
+            1.8
+          ],
+          [
+            7.4,
+            1.8
+          ],
+          [
+            7.5,
+            1.8
+          ],
+          [
+            7.6000000000000005,
+            1.8
+          ],
+          [
+            7.7,
+            1.8
+          ],
+          [
+            7.800000000000001,
+            1.8
+          ],
+          [
+            7.9,
+            1.8
+          ]
+        ],
+        "length_m": 1.7,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 15,
+        "destination_approach_count": 18,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "comparison_sample",
+        "comparison_negative_0",
+        "comparison_negative_1"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [
+        {
+          "name": "delivery_surface",
+          "category": "bottom_cabinet_no_top",
+          "model": "pluwfl",
+          "floor": "floors_khjmrr_0",
+          "position_xy": [
+            5.5,
+            1.9000000000000001
+          ],
+          "aabb": [
+            [
+              5.273604804992676,
+              1.5329611968994141,
+              -0.0
+            ],
+            [
+              5.726395195007324,
+              2.267038803100586,
+              0.602992431640625
+            ]
+          ],
+          "room": "dining_room_0"
+        },
+        {
+          "name": "search_work_surface",
+          "category": "desk",
+          "model": "ntezkg",
+          "floor": "floors_khjmrr_0",
+          "position_xy": [
+            9.200000000000001,
+            1.8
+          ],
+          "aabb": [
+            [
+              8.921374633789064,
+              1.2364361877441405,
+              -0.0
+            ],
+            [
+              9.478625366210938,
+              2.3635638122558595,
+              0.7561847000122071
+            ]
+          ],
+          "room": "kitchen_0"
+        }
+      ],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [],
+      "parent_task_id": "F311",
+      "tier": "long",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F311_01",
+        "parent_task_id": "F311",
+        "before_instruction": "Find the middle-sized of the three trays in the storage room and put it beside the cups on the dining room sideboard.",
+        "after_instruction": "There is a sample on the cabinet top in front of you in the dining room. Find the tray matching that sample in the kitchen storage and bring it to the cabinet top in front of you in the dining room in the dining room.",
+        "reason": "Revises unsupported middle-size ordering into exact native tray matching. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Explicit spatial revision from ('storage_room', 'cabinet', 'dining_room', 'cabinet') to ('kitchen', 'cabinet', 'dining_room', 'cabinet'): uses a room/storage pairing with previously found robot clearance and path evidence (11 prior recipes). Item sets, reference matching and inventory predicates are unchanged. Cross-room transfer is retained where the revised source and destination differ.",
+        "target_asset": "tray/mhhoga",
+        "target_assets": [
+          "tray/mhhoga"
+        ]
+      },
+      "binding_sha256": "c82b99391c2cfccf43db2128940fcb7710faddcf1eb2c9ee35a400f1d6d892b5",
+      "source_layout_revisions": [
+        {
+          "method": "expert_reauthored_generic_storage_on_open_work_surface",
+          "source_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/stability_repairs_20261108/asset_F311_01/scenario.yaml",
+          "source_sha256": "3973d2dd918b4c3e71e651faa3de43dbcec0ed81518e88e681c1d7f8145f03c5",
+          "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/stability_repairs_20261108/asset_F311_01",
+          "relation_changes": [
+            {
+              "before": {
+                "entity": "item_00",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_00",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  9.116374633789064,
+                  1.4824361877441405
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_01",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_01",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  9.374374633789063,
+                  1.3899361877441405
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_02",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_02",
+                "relation": "on_top",
+                "receptacle": "item_00"
+              }
+            },
+            {
+              "before": {
+                "entity": "item_03",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_03",
+                "relation": "on_top",
+                "receptacle": "item_02"
+              }
+            },
+            {
+              "before": {
+                "entity": "item_04",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_04",
+                "relation": "on_top",
+                "receptacle": "comparison_negative_0"
+              }
+            },
+            {
+              "before": {
+                "entity": "item_05",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_05",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  9.306874633789064,
+                  2.1669361877441404
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_06",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_06",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  9.303874633789064,
+                  1.8989361877441406
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_07",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_07",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  9.014874633789065,
+                  2.2589361877441405
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_08",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_08",
+                "relation": "on_top",
+                "receptacle": "item_04"
+              }
+            },
+            {
+              "before": {
+                "entity": "comparison_negative_0",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "comparison_negative_0",
+                "relation": "on_top",
+                "receptacle": "search_work_surface",
+                "position_xy": [
+                  9.072874633789064,
+                  1.9469361877441407
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "comparison_negative_1",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "comparison_negative_1",
+                "relation": "on_top",
+                "receptacle": "item_03"
+              }
+            }
+          ],
+          "removed_unused_authored_fixtures": [
+            "search_storage"
+          ],
+          "flat_stock_stacks": [
+            [
+              "item_00",
+              "item_02",
+              "item_03",
+              "comparison_negative_1"
+            ],
+            [
+              "comparison_negative_0",
+              "item_04",
+              "item_08"
+            ]
+          ],
+          "stack_footprint_envelopes_m": {
+            "item_00": [
+              0.36,
+              0.46182879638671875,
+              0.08724437427520752
+            ],
+            "comparison_negative_0": [
+              0.2725464172363281,
+              0.43667083740234375,
+              0.07119121170043946
+            ]
+          },
+          "source_surface": "search_work_surface",
+          "plans": [
+            {
+              "receptacle": "search_work_surface",
+              "entities": [
+                "item_00",
+                "item_01",
+                "item_05",
+                "item_06",
+                "item_07",
+                "comparison_negative_0"
+              ],
+              "solver": {
+                "status": "feasible_model",
+                "device": "cuda",
+                "backend": "torch_cuda_finite_csp",
+                "solve_seconds": 0.015614964067935944,
+                "nodes": 6,
+                "candidate_tests": 5950,
+                "search_orders_tried": 1,
+                "grid_m": 0.001,
+                "margin_m": 0.015,
+                "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+                "physical_validation_required": true,
+                "assignment": {
+                  "item_00": "surface",
+                  "comparison_negative_0": "surface",
+                  "item_06": "surface",
+                  "item_01": "surface",
+                  "item_05": "surface",
+                  "item_07": "surface"
+                },
+                "poses": {
+                  "item_00": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.015,
+                      0.015
+                    ],
+                    "footprint_m": [
+                      0.36,
+                      0.462
+                    ],
+                    "center_xy_m": [
+                      0.195,
+                      0.246
+                    ]
+                  },
+                  "comparison_negative_0": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.015,
+                      0.492
+                    ],
+                    "footprint_m": [
+                      0.273,
+                      0.437
+                    ],
+                    "center_xy_m": [
+                      0.1515,
+                      0.7105
+                    ]
+                  },
+                  "item_06": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.303,
+                      0.492
+                    ],
+                    "footprint_m": [
+                      0.159,
+                      0.341
+                    ],
+                    "center_xy_m": [
+                      0.3825,
+                      0.6625
+                    ]
+                  },
+                  "item_01": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.39,
+                      0.015
+                    ],
+                    "footprint_m": [
+                      0.126,
+                      0.277
+                    ],
+                    "center_xy_m": [
+                      0.453,
+                      0.1535
+                    ]
+                  },
+                  "item_05": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.303,
+                      0.848
+                    ],
+                    "footprint_m": [
+                      0.165,
+                      0.165
+                    ],
+                    "center_xy_m": [
+                      0.3855,
+                      0.9305
+                    ]
+                  },
+                  "item_07": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.015,
+                      0.9440000000000001
+                    ],
+                    "footprint_m": [
+                      0.157,
+                      0.157
+                    ],
+                    "center_xy_m": [
+                      0.0935,
+                      1.0225
+                    ]
+                  }
+                },
+                "authoring_spacing_attempts": [
+                  {
+                    "margin_m": 0.025,
+                    "grid_m": 0.001,
+                    "status": "unknown",
+                    "reason": "Search budget exhausted; no infeasibility claim"
+                  },
+                  {
+                    "margin_m": 0.015,
+                    "grid_m": 0.001,
+                    "status": "feasible_model",
+                    "reason": null
+                  }
+                ]
+              },
+              "measured_scene_obstacles": [],
+              "physical_validation_required": true
+            }
+          ],
+          "source_room": "kitchen_0",
+          "reviewed_initial_placement": {
+            "before": {
+              "position": [
+                6.300000000000001,
+                1.9000000000000001,
+                0.0053
+              ],
+              "orientation": [
+                0,
+                0,
+                1.0,
+                6.123233995736766e-17
+              ]
+            },
+            "after": {
+              "position": [
+                6.300000000000001,
+                1.9000000000000001,
+                0.0053
+              ],
+              "orientation": [
+                0.0,
+                0.0,
+                1.0,
+                6.123233995736766e-17
+              ]
+            },
+            "reason": "Keep a unique forward delivery table after explicitly reauthoring generic source storage on a work surface.",
+            "displacement_m": 0.0,
+            "same_initial_room": true,
+            "physical_validation_required": true
+          },
+          "reviewed_source_scope": "Find the  matching that sample in the kitchen storage ",
+          "reason": "Task names generic storage rather than an enclosed receptacle. Large household equipment and containers are stored on a real work surface among the same unchanged clutter; retain task meaning and all native physical checks.",
+          "physical_validation_required": true,
+          "human_completion_verified": false
+        },
+        {
+          "method": "reviewed_reference_fixture_capacity_exchange",
+          "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/pinpoint_20261115/F311/source_capacity_v76/source/asset_F311_01/scenario.yaml",
+          "source_sha256": "c634c9e58f5863dd7d5c7afb27bbd76135126e0ef59c15c94d1874907001511b",
+          "before_fixture": {
+            "name": "delivery_surface",
+            "category": "bottom_cabinet",
+            "model": "rvpunw",
+            "floor": "floors_khjmrr_0",
+            "position_xy": [
+              5.5,
+              1.9000000000000001
+            ],
+            "aabb": [
+              [
+                5.304465385437012,
+                1.557814147949219,
+                -0.0
+              ],
+              [
+                5.695534614562988,
+                2.2421858520507816,
+                0.408810791015625
+              ]
+            ],
+            "room": "dining_room_0"
+          },
+          "after_fixture": {
+            "name": "delivery_surface",
+            "category": "bottom_cabinet_no_top",
+            "model": "pluwfl",
+            "floor": "floors_khjmrr_0",
+            "position_xy": [
+              5.5,
+              1.9000000000000001
+            ],
+            "aabb": [
+              [
+                5.273604804992676,
+                1.5329611968994141,
+                -0.0
+              ],
+              [
+                5.726395195007324,
+                2.267038803100586,
+                0.602992431640625
+              ]
+            ],
+            "room": "dining_room_0"
+          },
+          "plans": [
+            {
+              "receptacle": "delivery_surface",
+              "entities": [
+                "comparison_sample"
+              ],
+              "solver": {
+                "status": "feasible_model",
+                "device": "cuda",
+                "backend": "torch_cuda_finite_csp",
+                "solve_seconds": 0.3055231054313481,
+                "nodes": 0,
+                "candidate_tests": 0,
+                "search_orders_tried": 0,
+                "grid_m": 0.001,
+                "margin_m": 0.025,
+                "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+                "physical_validation_required": true,
+                "assignment": {
+                  "comparison_sample": "surface"
+                },
+                "poses": {
+                  "comparison_sample": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.025,
+                      0.025
+                    ],
+                    "footprint_m": [
+                      0.311,
+                      0.462
+                    ],
+                    "center_xy_m": [
+                      0.1805,
+                      0.256
+                    ]
+                  }
+                },
+                "constructive_witness": "single strip; exact quantized box and clearance checks",
+                "authoring_spacing_attempts": [
+                  {
+                    "margin_m": 0.025,
+                    "grid_m": 0.001,
+                    "status": "feasible_model",
+                    "reason": null
+                  }
+                ]
+              },
+              "measured_scene_obstacles": [],
+              "physical_validation_required": true
+            }
+          ],
+          "reason": "Use a real native fixture matching the cabinet-top instruction and enough real surface for all distinct matching samples. Preserve the exact delivery site, reference assets, task/goal and robot spawn.",
+          "physical_validation_required": true
+        }
+      ]
+    }
+  ]
+}

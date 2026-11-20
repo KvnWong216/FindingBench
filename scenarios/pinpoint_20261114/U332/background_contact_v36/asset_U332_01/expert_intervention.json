@@ -1,0 +1,246 @@
+{
+  "method": "remove_conflicting_non_task_background_fixture",
+  "reason": "The previous passage-clearance translation puts the empty bottom_cabinet_slgzfc_0 through bottom_cabinet_jhymlr_0; native contact audits confirm inter-cabinet collisions. Remove that non-task cabinet together with its non-task speaker to avoid leaving an unsupported background object. Keep the contacted declared-closed cabinet, every original task object, goals, instruction, initial-state requirements and spawn. The removed cabinet has no task contents and is not used as any target/reference/source/destination.",
+  "removed_objects": [
+    "bottom_cabinet_slgzfc_0",
+    "loudspeaker_bmpdyv_0"
+  ],
+  "removed_body_geometry": {
+    "bottom_cabinet_slgzfc_0": {
+      "category": "bottom_cabinet",
+      "model": "slgzfc",
+      "fixed_base": true,
+      "openable": true,
+      "graspable": false,
+      "in_rooms": [
+        "entryway_0"
+      ],
+      "aabb": [
+        [
+          1.135,
+          -1.248,
+          0.006
+        ],
+        [
+          1.683,
+          -0.162,
+          0.845
+        ]
+      ],
+      "room_at_center": "living_room_0",
+      "support": {
+        "kind": "inside_volume",
+        "lo": [
+          1.2124104499816895,
+          -1.1673579216003418,
+          0.6911680698394775
+        ],
+        "hi": [
+          1.6360819339752197,
+          -0.2424665093421936,
+          0.7994412183761597
+        ]
+      },
+      "interiors": [
+        {
+          "link": "link_1",
+          "lo": [
+            1.2176003456115723,
+            -1.1673578023910522,
+            0.06191416457295418
+          ],
+          "hi": [
+            1.6412718296051025,
+            -0.24246644973754883,
+            0.17018724977970123
+          ]
+        },
+        {
+          "link": "link_2",
+          "lo": [
+            1.2176004648208618,
+            -1.1673579216003418,
+            0.27166563272476196
+          ],
+          "hi": [
+            1.6412718296051025,
+            -0.2424665093421936,
+            0.3799387216567993
+          ]
+        },
+        {
+          "link": "link_3",
+          "lo": [
+            1.192790150642395,
+            -1.1673579216003418,
+            0.4814165234565735
+          ],
+          "hi": [
+            1.6164615154266357,
+            -0.2424665093421936,
+            0.5896896123886108
+          ]
+        },
+        {
+          "link": "link_4",
+          "lo": [
+            1.2124104499816895,
+            -1.1673579216003418,
+            0.6911680698394775
+          ],
+          "hi": [
+            1.6360819339752197,
+            -0.2424665093421936,
+            0.7994412183761597
+          ]
+        }
+      ],
+      "articulated": true
+    },
+    "loudspeaker_bmpdyv_0": {
+      "category": "loudspeaker",
+      "model": "bmpdyv",
+      "fixed_base": false,
+      "openable": false,
+      "graspable": true,
+      "in_rooms": [
+        "living_room_0"
+      ],
+      "aabb": [
+        [
+          1.401,
+          -1.134,
+          0.844
+        ],
+        [
+          1.87,
+          -0.642,
+          1.119
+        ]
+      ],
+      "room_at_center": "living_room_0"
+    }
+  },
+  "source_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/reviewed_followup_214_U332/asset_U332_01/scenario.yaml",
+  "source_sha256": "5865888d7ec65238e6e7c2d3715994428a638351aa0e70958d0b3fa3c3276696",
+  "failure_evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_lane2_20261111/reviewed_followup_214_U332/asset_U332_01",
+  "native_log_sha256": "c0391fbc6b9ee4bd0af185b337629cf65bb8f9e3cbcf3e5116fb10fd73f51a39",
+  "original_manifest": {
+    "scene_model": "Rs_int",
+    "status": "expert_authoring_physics_pending",
+    "wall_warps": [
+      {
+        "entity": "walls_exiopd_0",
+        "axis": 0,
+        "source": [
+          0.44983063494079834,
+          1.3202400272885222,
+          2.1000101345713347
+        ],
+        "target": [
+          0.44983063494079834,
+          1.85,
+          2.1000101345713347
+        ]
+      }
+    ],
+    "translations": [
+      {
+        "entity": "bottom_cabinet_slgzfc_0",
+        "delta": [
+          -0.17,
+          -2.9,
+          0
+        ]
+      },
+      {
+        "entity": "bottom_cabinet_jhymlr_0",
+        "delta": [
+          -0.04206334512883463,
+          0.06804906315719964,
+          0.0
+        ],
+        "expert_scene_nudge": true
+      }
+    ],
+    "purpose": "Widen kitchen entrance to approximately 1.4m; relocate the intact empty target cabinet to cleared living-room space. | vla_difficulty_v2: plus the six non-task living-room removals of the store_honey_open_route derivation (runs/clearance_honey_validation), so the start area is not enclosed by chairs.",
+    "validation_report": "runs/clearance_honey_validation/report.json",
+    "removed_objects": [
+      "straight_chair_amgwaw_0",
+      "straight_chair_amgwaw_1",
+      "straight_chair_amgwaw_2",
+      "straight_chair_eospnr_0",
+      "straight_chair_eospnr_1",
+      "breakfast_table_skczfi_0"
+    ],
+    "derived_from": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/build/vla_difficulty_v2/clearance/Rs_int.json",
+    "expert_scene_translations": [
+      {
+        "entity": "bottom_cabinet_jhymlr_0",
+        "delta": [
+          -0.04206334512883463,
+          0.06804906315719964,
+          0.0
+        ]
+      }
+    ],
+    "expert_base_survey_sha256": "24bd47925e994c3defe707f3d8a919b355cd46a7128d2b59d373bc2697d8185e"
+  },
+  "new_manifest": {
+    "scene_model": "Rs_int",
+    "status": "expert_background_contact_repair_physics_pending",
+    "wall_warps": [
+      {
+        "entity": "walls_exiopd_0",
+        "axis": 0,
+        "source": [
+          0.44983063494079834,
+          1.3202400272885222,
+          2.1000101345713347
+        ],
+        "target": [
+          0.44983063494079834,
+          1.85,
+          2.1000101345713347
+        ]
+      }
+    ],
+    "translations": [
+      {
+        "entity": "bottom_cabinet_jhymlr_0",
+        "delta": [
+          -0.04206334512883463,
+          0.06804906315719964,
+          0.0
+        ],
+        "expert_scene_nudge": true
+      }
+    ],
+    "purpose": "Widen kitchen entrance to approximately 1.4m; relocate the intact empty target cabinet to cleared living-room space. | vla_difficulty_v2: plus the six non-task living-room removals of the store_honey_open_route derivation (runs/clearance_honey_validation), so the start area is not enclosed by chairs.",
+    "validation_report": "runs/clearance_honey_validation/report.json",
+    "removed_objects": [
+      "bottom_cabinet_slgzfc_0",
+      "breakfast_table_skczfi_0",
+      "loudspeaker_bmpdyv_0",
+      "straight_chair_amgwaw_0",
+      "straight_chair_amgwaw_1",
+      "straight_chair_amgwaw_2",
+      "straight_chair_eospnr_0",
+      "straight_chair_eospnr_1"
+    ],
+    "derived_from": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_214_U332_expert_190d1412c40c/asset_U332_01/clearance_51698789d298e5e0.json",
+    "expert_scene_translations": [
+      {
+        "entity": "bottom_cabinet_jhymlr_0",
+        "delta": [
+          -0.04206334512883463,
+          0.06804906315719964,
+          0.0
+        ]
+      }
+    ],
+    "expert_base_survey_sha256": "24bd47925e994c3defe707f3d8a919b355cd46a7128d2b59d373bc2697d8185e"
+  },
+  "physical_validation_required": true,
+  "full_skill_completion": "unverified"
+}

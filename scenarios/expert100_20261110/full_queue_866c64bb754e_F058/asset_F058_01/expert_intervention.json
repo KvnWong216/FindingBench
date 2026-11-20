@@ -1,0 +1,43 @@
+{
+  "status": "static_screened_physics_pending",
+  "expert_policy": {
+    "method": "relocate_storage",
+    "clear_unstated_links": true,
+    "plan_surfaces": true,
+    "runtime_changes": [
+      "closed_native_bbox_XY",
+      "disjoint_measured_support_patches",
+      "bounded_CUDA_candidate_domains"
+    ],
+    "original_instruction_retained": true,
+    "explicit_location_scope_retained": true,
+    "diagnosis": "surface_or_timeout",
+    "reason": "placement failed verification after physics settled: ['item_00 on_top delivery_surface', 'item_01 on_top search_storage', 'item_02 on_top search_storage', 'item_04 on_top search_storage', 'item_05 on_top search_storage', 'item_06 on_top search_storage', 'item_07 on_top search_storage', 'item_08 on_top search_storage', 'item_09 on_top search_storage']"
+  },
+  "removed_compiler_links": [],
+  "centered_container_placements": [
+    {
+      "entity": "item_00",
+      "receptacle": "delivery_surface",
+      "position_xy": [
+        0.7000000000000002,
+        0.7
+      ],
+      "orientation": "identity via explicit XY placement",
+      "physical_validation_required": true
+    }
+  ],
+  "explicit_surface_plans": [],
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/overnight_expert_20261109/direct/asset_F058_01/scenario.yaml",
+  "original_sha256": "5037df2fb5086313311f0e8f8a9b9265a392a6955b7feb24433f831d4815c1c9",
+  "diagnosis_directory": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/overnight_expert_20261109/direct/asset_F058_01",
+  "preserved": [
+    "instruction",
+    "goal",
+    "target",
+    "robot",
+    "spawn",
+    "all original assets",
+    "relation types"
+  ]
+}

@@ -1,0 +1,673 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F219_01",
+      "family": "semantic_F219",
+      "scene": "Rs_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/pinpoint_20261114/F219/native_fruit_stability_v30/asset_F219_01/scenario.yaml",
+      "scenario_sha256": "77a0af05dcbddf12272b37e3cfce24ed22d92bdbd703fed3a285f1f57c289b90",
+      "instruction": "Find a pear and an apple in the kitchen produce storage and bring both to the table in front of you in the living room in the living room for a snack while I work.",
+      "target_key": "pear/vutulb",
+      "target_entities": [
+        "item_01",
+        "item_02"
+      ],
+      "target_count": 2,
+      "source_room": "kitchen_0",
+      "destination_room": "living_room_0",
+      "source_receptacle": "item_00",
+      "destination_receptacle": "coffee_table_fqluyq_0",
+      "object_count": 11,
+      "distractor_count": 8,
+      "source_survey_sha256": "24bd47925e994c3defe707f3d8a919b355cd46a7128d2b59d373bc2697d8185e",
+      "route": {
+        "start": [
+          0.4,
+          -1.6,
+          3.141592653589793
+        ],
+        "path_xy": [
+          [
+            0.4,
+            -1.6
+          ],
+          [
+            0.4,
+            -1.5
+          ],
+          [
+            0.4,
+            -1.4000000000000001
+          ],
+          [
+            0.4,
+            -1.3
+          ],
+          [
+            0.4,
+            -1.2000000000000002
+          ],
+          [
+            0.4,
+            -1.1
+          ],
+          [
+            0.4,
+            -1.0
+          ],
+          [
+            0.4,
+            -0.9
+          ],
+          [
+            0.4,
+            -0.8
+          ],
+          [
+            0.4,
+            -0.7000000000000001
+          ],
+          [
+            0.4,
+            -0.6000000000000001
+          ],
+          [
+            0.4,
+            -0.5
+          ],
+          [
+            0.4,
+            -0.4
+          ],
+          [
+            0.4,
+            -0.30000000000000004
+          ],
+          [
+            0.4,
+            -0.2
+          ],
+          [
+            0.4,
+            -0.1
+          ],
+          [
+            0.4,
+            0.0
+          ],
+          [
+            0.4,
+            0.1
+          ],
+          [
+            0.4,
+            0.2
+          ],
+          [
+            0.4,
+            0.30000000000000004
+          ],
+          [
+            0.4,
+            0.4
+          ],
+          [
+            0.4,
+            0.5
+          ],
+          [
+            0.4,
+            0.6000000000000001
+          ],
+          [
+            0.4,
+            0.7000000000000001
+          ],
+          [
+            0.4,
+            0.8
+          ],
+          [
+            0.4,
+            0.9
+          ],
+          [
+            0.4,
+            1.0
+          ],
+          [
+            0.5,
+            1.0
+          ],
+          [
+            0.6000000000000001,
+            1.0
+          ],
+          [
+            0.7000000000000001,
+            1.0
+          ],
+          [
+            0.7000000000000001,
+            1.1
+          ],
+          [
+            0.8,
+            1.1
+          ],
+          [
+            0.8,
+            1.2000000000000002
+          ],
+          [
+            0.9,
+            1.2000000000000002
+          ],
+          [
+            0.9,
+            1.3
+          ],
+          [
+            0.9,
+            1.4000000000000001
+          ],
+          [
+            0.9,
+            1.5
+          ],
+          [
+            0.9,
+            1.6
+          ],
+          [
+            0.9,
+            1.7000000000000002
+          ],
+          [
+            0.9,
+            1.8
+          ],
+          [
+            0.9,
+            1.9000000000000001
+          ],
+          [
+            0.8,
+            1.9000000000000001
+          ],
+          [
+            0.8,
+            2.0
+          ],
+          [
+            0.7000000000000001,
+            2.0
+          ],
+          [
+            0.7000000000000001,
+            2.1
+          ],
+          [
+            0.6000000000000001,
+            2.1
+          ],
+          [
+            0.5,
+            2.1
+          ],
+          [
+            0.4,
+            2.1
+          ],
+          [
+            0.30000000000000004,
+            2.1
+          ],
+          [
+            0.2,
+            2.1
+          ],
+          [
+            0.1,
+            2.1
+          ],
+          [
+            0.0,
+            2.1
+          ],
+          [
+            -0.1,
+            2.1
+          ],
+          [
+            -0.2,
+            2.1
+          ],
+          [
+            -0.30000000000000004,
+            2.1
+          ],
+          [
+            -0.4,
+            2.1
+          ],
+          [
+            -0.5,
+            2.1
+          ],
+          [
+            -0.6000000000000001,
+            2.1
+          ],
+          [
+            -0.6000000000000001,
+            2.2
+          ]
+        ],
+        "length_m": 5.8,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 3,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "editorial_revision_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_00",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "item_09",
+        "item_10"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [],
+      "parent_task_id": "F219",
+      "tier": "long",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F219_01",
+        "parent_task_id": "F219",
+        "before_instruction": "Find either a pear or an apple in the kitchen produce storage and put one beside the notebook on the private office desk.",
+        "after_instruction": "Find a pear and an apple in the kitchen produce storage and bring both to the table in front of you in the living room in the living room for a snack while I work.",
+        "reason": "Revises fruit OR into explicit two-fruit AND while retaining source/destination rooms. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Explicit spatial revision from ('kitchen', 'basket', 'private_office', 'desk') to ('kitchen', 'basket', 'living_room', 'table'): uses a room/storage pairing with previously found robot clearance and path evidence (1 prior recipes). Item sets, reference matching and inventory predicates are unchanged. Cross-room transfer is retained where the revised source and destination differ.",
+        "target_asset": "pear/vutulb",
+        "target_assets": [
+          "pear/vutulb",
+          "apple/zutnsf"
+        ],
+        "editorial_revision_id": "expert_editorial_20261114_F219_native_fruit_stability"
+      },
+      "binding_sha256": "644eaf064041db2d372345a4e8553fdb96140a7749be33ee68260c2adf063a79",
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "item_00",
+            "volume_extents_m": {
+              "meta__base_link_openfillable_0_0_link": [
+                0.54239067029953,
+                0.3574627299308777,
+                0.5728350430478137
+              ]
+            },
+            "native_links": {
+              "meta__base_link_openfillable_0_0_link": "meta__base_link_openfillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "shopping_basket/nedrsh",
+              "scale": [
+                1.0,
+                1.0,
+                1.0
+              ],
+              "metadata_sha256": "81ae6e4fb6c17c9417ff94217d33fe634b26672c84b92d201a03b0b6a68a631e",
+              "encrypted_asset_sha256": "bb340aa2669a7e5476003c73dc5b0344d8ce34de8eeb4db7abf79d903d92f65a",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.04549353662878275,
+              "nodes": 10,
+              "candidate_tests": 1465919,
+              "search_orders_tried": 1,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_05": "meta__base_link_openfillable_0_0_link",
+                "item_04": "meta__base_link_openfillable_0_0_link",
+                "item_03": "meta__base_link_openfillable_0_0_link",
+                "item_01": "meta__base_link_openfillable_0_0_link",
+                "item_08": "meta__base_link_openfillable_0_0_link",
+                "item_07": "meta__base_link_openfillable_0_0_link",
+                "item_02": "meta__base_link_openfillable_0_0_link",
+                "item_06": "meta__base_link_openfillable_0_0_link",
+                "item_10": "meta__base_link_openfillable_0_0_link",
+                "item_09": "meta__base_link_openfillable_0_0_link"
+              },
+              "poses": {
+                "item_05": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.26,
+                    0.146
+                  ],
+                  "center_xy_m": [
+                    0.135,
+                    0.078
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.27,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.10200000000000001,
+                    0.09
+                  ],
+                  "center_xy_m": [
+                    0.321,
+                    0.05
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.377,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.124,
+                    0.073
+                  ],
+                  "center_xy_m": [
+                    0.439,
+                    0.0415
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.377,
+                    0.083
+                  ],
+                  "footprint_m": [
+                    0.125,
+                    0.067
+                  ],
+                  "center_xy_m": [
+                    0.4395,
+                    0.1165
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.27,
+                    0.1
+                  ],
+                  "footprint_m": [
+                    0.089,
+                    0.073
+                  ],
+                  "center_xy_m": [
+                    0.3145,
+                    0.1365
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.364,
+                    0.155
+                  ],
+                  "footprint_m": [
+                    0.08,
+                    0.081
+                  ],
+                  "center_xy_m": [
+                    0.404,
+                    0.1955
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.449,
+                    0.155
+                  ],
+                  "footprint_m": [
+                    0.07100000000000001,
+                    0.073
+                  ],
+                  "center_xy_m": [
+                    0.4845,
+                    0.1915
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.156
+                  ],
+                  "footprint_m": [
+                    0.061,
+                    0.041
+                  ],
+                  "center_xy_m": [
+                    0.035500000000000004,
+                    0.1765
+                  ]
+                },
+                "item_10": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.07100000000000001,
+                    0.156
+                  ],
+                  "footprint_m": [
+                    0.037,
+                    0.026000000000000002
+                  ],
+                  "center_xy_m": [
+                    0.0895,
+                    0.169
+                  ]
+                },
+                "item_09": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.506,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.01,
+                    0.011
+                  ],
+                  "center_xy_m": [
+                    0.511,
+                    0.0105
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_05": "meta__base_link_openfillable_0_0_link",
+              "item_04": "meta__base_link_openfillable_0_0_link",
+              "item_03": "meta__base_link_openfillable_0_0_link",
+              "item_01": "meta__base_link_openfillable_0_0_link",
+              "item_08": "meta__base_link_openfillable_0_0_link",
+              "item_07": "meta__base_link_openfillable_0_0_link",
+              "item_02": "meta__base_link_openfillable_0_0_link",
+              "item_06": "meta__base_link_openfillable_0_0_link",
+              "item_10": "meta__base_link_openfillable_0_0_link",
+              "item_09": "meta__base_link_openfillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_05": "meta__base_link_openfillable_0_0_link",
+              "item_04": "meta__base_link_openfillable_0_0_link",
+              "item_03": "meta__base_link_openfillable_0_0_link",
+              "item_01": "meta__base_link_openfillable_0_0_link",
+              "item_08": "meta__base_link_openfillable_0_0_link",
+              "item_07": "meta__base_link_openfillable_0_0_link",
+              "item_02": "meta__base_link_openfillable_0_0_link",
+              "item_06": "meta__base_link_openfillable_0_0_link",
+              "item_10": "meta__base_link_openfillable_0_0_link",
+              "item_09": "meta__base_link_openfillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_05": "meta__base_link_openfillable_0_0_link",
+          "item_04": "meta__base_link_openfillable_0_0_link",
+          "item_03": "meta__base_link_openfillable_0_0_link",
+          "item_01": "meta__base_link_openfillable_0_0_link",
+          "item_08": "meta__base_link_openfillable_0_0_link",
+          "item_07": "meta__base_link_openfillable_0_0_link",
+          "item_02": "meta__base_link_openfillable_0_0_link",
+          "item_06": "meta__base_link_openfillable_0_0_link",
+          "item_10": "meta__base_link_openfillable_0_0_link",
+          "item_09": "meta__base_link_openfillable_0_0_link"
+        },
+        "physical_validation_required": true
+      },
+      "support_asset_changes": [
+        {
+          "instruction_sha256": "36a33f34b53711e7c59a16da2a8284d75ad644a7c641d76dd4de51e8401f3ce6",
+          "entity": "item_00",
+          "original_object": {
+            "name": "item_00",
+            "category": "shopping_basket",
+            "model": "vsxhsv"
+          },
+          "replacement": {
+            "name": "item_00",
+            "category": "shopping_basket",
+            "model": "nedrsh"
+          },
+          "reason": "The small native basket contains ten fruits including a watermelon; the conservative size model cannot pack one layer and the unchanged native-runtime counterfactual is being retained separately. Propose the real larger native shopping basket already strictly validated for F016, at unchanged scale, preserving the full inventory, source counter, natural instruction, targets, goals and spawn. No physical gate relaxed; independent init/reload mandatory."
+        }
+      ],
+      "previous_binding_sha256": "2e8577a6a99074aee424adabb151d75b0ba10945808cd54fab017e855eebfd62",
+      "editorial_revisions": [
+        {
+          "status": "editorial_revision_physics_pending",
+          "revision_id": "expert_editorial_20261114_F219_native_fruit_stability",
+          "authorization": "user_approved_find_and_deliver_rewrite",
+          "reason": "Fresh initialization passes all gates, but independent reload measures persistent actual angular jitter (0.4376 rad/s) of the 9.8-mm non-target raspberry. Replace that one distractor with the native strawberry already physically stable in this same scene; preserve both pear/apple targets, instruction, source basket/counter, goal, entity names, counts and spawn. All original physical thresholds and fresh init/reload gates remain. This revision is only a pending physical proposal.",
+          "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/native_larger_basket_F219_20261114_F219/asset_F219_01/scenario.yaml",
+          "original_archive": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/pinpoint_20261114/F219/native_fruit_stability_v30/asset_F219_01/original_scenario.yaml",
+          "original_scenario_sha256": "af72d919ba1bb41717e45e1d5f1a787de988ec67f0c90e71dd6b930beae72e18",
+          "revised_scenario_sha256": "77a0af05dcbddf12272b37e3cfce24ed22d92bdbd703fed3a285f1f57c289b90",
+          "before_instruction": "Find a pear and an apple in the kitchen produce storage and bring both to the table in front of you in the living room in the living room for a snack while I work.",
+          "after_instruction": "Find a pear and an apple in the kitchen produce storage and bring both to the table in front of you in the living room in the living room for a snack while I work.",
+          "object_changes": [
+            {
+              "before": {
+                "name": "item_09",
+                "category": "raspberry",
+                "model": "spkers"
+              },
+              "after": {
+                "name": "item_09",
+                "category": "strawberry",
+                "model": "xcnzxh"
+              },
+              "native_bbox_m": [
+                0.036561017990112306,
+                0.02526901626586914,
+                0.026274999618530272
+              ],
+              "metadata_sha256": "8c01a64637c2e799626060f0e7ea2441e2c98f364182d4141f6d3bc494e227ca",
+              "encrypted_asset_sha256": "1a9017a05baca8d42fe96638f45ffab58295352725320a6a9c97f1b6d1a96a37"
+            }
+          ],
+          "surface_binding_changes": [],
+          "before_goal": [
+            {
+              "kind": "on_top",
+              "entity": "item_01",
+              "receptacle": "coffee_table_fqluyq_0"
+            },
+            {
+              "kind": "on_top",
+              "entity": "item_02",
+              "receptacle": "coffee_table_fqluyq_0"
+            }
+          ],
+          "after_goal": [
+            {
+              "kind": "on_top",
+              "entity": "item_01",
+              "receptacle": "coffee_table_fqluyq_0"
+            },
+            {
+              "kind": "on_top",
+              "entity": "item_02",
+              "receptacle": "coffee_table_fqluyq_0"
+            }
+          ],
+          "before_target": {
+            "entity": "item_01",
+            "category": "pear"
+          },
+          "after_target": {
+            "entity": "item_01",
+            "category": "pear"
+          },
+          "preserved": [
+            "find-and-deliver paradigm",
+            "goal entity and relation",
+            "scene",
+            "spawn",
+            "robot",
+            "skills",
+            "entity names and count",
+            "placement relations",
+            "target cardinality"
+          ],
+          "physical_validation_required": true,
+          "human_completion_verified": false
+        }
+      ]
+    }
+  ]
+}

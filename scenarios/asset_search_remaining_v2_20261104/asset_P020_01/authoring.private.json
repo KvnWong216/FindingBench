@@ -1,0 +1,205 @@
+{
+  "id": "asset_P020_01",
+  "family": "semantic_P020",
+  "scene": "hotel_suite_large",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P020_01/scenario.yaml",
+  "scenario_sha256": "048d0deece8e2b970faf40d7b300823b026c8fba39803e7d6acd5c5fe5599199",
+  "instruction": "Find the perfume bottle among the bedroom dresser supplies and put it on the counter in front of you in the bedroom for getting ready.",
+  "target_key": "bottle_of_perfume/ipurzb",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bedroom_0",
+  "destination_room": "bedroom_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 11,
+  "distractor_count": 8,
+  "source_survey_sha256": "06ad52b50e10b1cfb9813fac870a242888a7b8090e9b315f09f4b2237c9a12b8",
+  "route": {
+    "start": [
+      0.9,
+      -0.6000000000000001,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        0.9,
+        -0.6000000000000001
+      ],
+      [
+        0.9,
+        -0.5
+      ],
+      [
+        0.9,
+        -0.4
+      ],
+      [
+        0.9,
+        -0.30000000000000004
+      ],
+      [
+        0.9,
+        -0.2
+      ],
+      [
+        0.9,
+        -0.1
+      ],
+      [
+        0.9,
+        0.0
+      ],
+      [
+        0.9,
+        0.1
+      ],
+      [
+        0.9,
+        0.2
+      ],
+      [
+        0.9,
+        0.30000000000000004
+      ],
+      [
+        0.9,
+        0.4
+      ],
+      [
+        0.9,
+        0.5
+      ],
+      [
+        0.9,
+        0.6000000000000001
+      ],
+      [
+        0.9,
+        0.7000000000000001
+      ],
+      [
+        0.9,
+        0.8
+      ],
+      [
+        0.9,
+        0.9
+      ],
+      [
+        0.9,
+        1.0
+      ],
+      [
+        0.8,
+        1.0
+      ],
+      [
+        0.7000000000000001,
+        1.0
+      ],
+      [
+        0.6000000000000001,
+        1.0
+      ],
+      [
+        0.5,
+        1.0
+      ]
+    ],
+    "length_m": 2.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 43,
+    "destination_approach_count": 40,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "nightstand",
+      "model": "uudzva",
+      "floor": "floors_nwjrkc_0",
+      "position_xy": [
+        -0.6000000000000001,
+        1.5
+      ],
+      "aabb": [
+        [
+          -0.7750000000000001,
+          1.2700000228881836,
+          -0.006
+        ],
+        [
+          -0.42500000000000004,
+          1.7299999771118164,
+          0.6940004272460938
+        ]
+      ],
+      "room": "bedroom_0"
+    },
+    {
+      "name": "delivery_surface",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_nwjrkc_0",
+      "position_xy": [
+        1.0,
+        -1.5
+      ],
+      "aabb": [
+        [
+          0.8328552398681641,
+          -1.8422879791259765,
+          -0.006
+        ],
+        [
+          1.1671447601318359,
+          -1.1577120208740235,
+          0.6786599731445313
+        ]
+      ],
+      "room": "bedroom_0"
+    }
+  ],
+  "parent_task_id": "P020",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P020_01",
+    "parent_task_id": "P020",
+    "before_instruction": "Find the perfume bottle with its atomizer cap among the bedroom dresser supplies and place it on the vanity tray.",
+    "after_instruction": "Find the perfume bottle among the bedroom dresser supplies and put it on the counter in front of you in the bedroom for getting ready.",
+    "reason": "Removes unverified separate atomizer-cap condition; perfume bottle itself is the target. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "bottle_of_perfume/ipurzb",
+    "target_assets": [
+      "bottle_of_perfume/ipurzb"
+    ]
+  },
+  "binding_sha256": "c41617591225bbe8c8f26c8eeba5495a6f4801a943e8ac63f45ddd8ab0701d81"
+}

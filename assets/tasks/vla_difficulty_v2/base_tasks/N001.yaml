@@ -1,0 +1,80 @@
+task_id: N001
+family: fetch
+scene: Wainscott_0_int
+source:
+  official_activity: unloading_shopping_from_car#0
+  official_activities_with_same_subgoal:
+  - unloading_shopping_from_car#0
+  official_subgoal: (inside grocery.n.02 cabinet.n.01)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K Wainscott_0_int (+ clearance manifest)
+  object: BEHAVIOR-1K bottle_of_ground_mace/lgpxro
+start:
+  name: start_corridor_0_1
+  room: corridor_0
+  x: 0.21
+  y: 0.7
+  yaw: 1.738
+target:
+  entity: target_obj
+  category: bottle_of_ground_mace
+  model: lgpxro
+  noun: bottle of ground mace
+  colour_estimate: orange
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S3
+missing_spatial_levels:
+- S1
+- S2
+initial_states: {}
+spatial:
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bottom_cabinet_jhymlr_0
+    room: living_room_2
+    location_phrase: null
+    grasp_hints:
+    - - -1.852
+      - -2.1
+      - -0.019
+    - - -1.952
+      - -2.401
+      - 0.319
+    - - -2.002
+      - -2.854
+      - 0.785
+    - - -2.002
+      - -2.251
+      - 0.072
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    task_scope: cross_room
+    route_from_start_steps: 8
+language:
+  L1: {}
+  L2: Get the bottle of ground mace and hold on to it.
+  L3: I'm unloading shopping from car and I need the bottle of ground mace. Could
+    you get it for me?
+available_language_levels:
+  S3:
+  - L2
+  - L3
+description_provenance:
+  missing_L1_reason: source location lacks an unambiguous description
+  missing_L1_spatial_levels:
+  - S3
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

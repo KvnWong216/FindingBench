@@ -1,0 +1,146 @@
+id: asset_F145_01
+instruction: Breakfast at the table in front of you in the dining room in the dining
+  room needs a bowl, a teaspoon and a cereal box. Check what is already there and
+  fetch the missing item from the kitchen storage.
+scene:
+  model: house_single_floor
+  source: behavior
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - 9.3
+    - 2.8000000000000003
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - 1.0
+    - 6.123233995736766e-17
+target:
+  entity: item_00
+  category: box_of_cereal
+objects:
+- name: item_00
+  category: box_of_cereal
+  model: dkhgxn
+- name: item_01
+  category: noodle_jar
+  model: tmjxno
+- name: item_02
+  category: oat_box
+  model: xdhysb
+- name: item_03
+  category: pack_of_pasta
+  model: gwqhko
+- name: item_04
+  category: pack_of_ramen
+  model: bcfzfr
+- name: item_05
+  category: pasta_box
+  model: jaypjo
+- name: item_06
+  category: white_rice_sack
+  model: xiwkwz
+- name: item_07
+  category: bag_of_brown_rice
+  model: tnfazj
+- name: item_08
+  category: bag_of_rice
+  model: jzjqjb
+- name: initial_inventory_0
+  category: bowl
+  model: aspeds
+- name: initial_inventory_1
+  category: teaspoon
+  model: asapmn
+placements:
+- entity: item_00
+  relation: inside
+  receptacle: bottom_cabinet_no_top_gjeoer_0
+- entity: item_01
+  relation: inside
+  receptacle: bottom_cabinet_no_top_gjeoer_0
+- entity: item_02
+  relation: inside
+  receptacle: bottom_cabinet_no_top_gjeoer_0
+- entity: item_03
+  relation: inside
+  receptacle: bottom_cabinet_no_top_gjeoer_0
+- entity: item_04
+  relation: inside
+  receptacle: bottom_cabinet_no_top_gjeoer_0
+- entity: item_05
+  relation: inside
+  receptacle: bottom_cabinet_no_top_gjeoer_0
+- entity: item_06
+  relation: inside
+  receptacle: bottom_cabinet_no_top_rkgjer_0
+- entity: item_07
+  relation: inside
+  receptacle: bottom_cabinet_no_top_rkgjer_0
+- entity: item_08
+  relation: inside
+  receptacle: bottom_cabinet_no_top_rkgjer_0
+- entity: initial_inventory_0
+  relation: on_top
+  receptacle: breakfast_table_rhjoby_0
+- entity: initial_inventory_1
+  relation: on_top
+  receptacle: breakfast_table_rhjoby_0
+initial_states:
+  bottom_cabinet_no_top_rkgjer_0:
+    open: false
+  bottom_cabinet_no_top_gjeoer_0:
+    open: false
+goal:
+- kind: on_top
+  entity: item_00
+  receptacle: breakfast_table_rhjoby_0
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

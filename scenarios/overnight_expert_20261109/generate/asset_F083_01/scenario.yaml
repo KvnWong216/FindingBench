@@ -1,0 +1,144 @@
+id: asset_F083_01
+instruction: Find all the apple in the shopping basket in this kitchen and put them
+  on the table in front of you.
+scene:
+  model: Merom_1_int
+  source: behavior
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - -1.4500000000000002
+    - 4.55
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - 0.7071067811865475
+    - 0.7071067811865476
+target:
+  entity: item_01
+  category: apple
+objects:
+- name: item_00
+  category: shopping_basket
+  model: vsxhsv
+- name: item_01
+  category: apple
+  model: obixxh
+- name: item_02
+  category: banana
+  model: verqwv
+- name: item_03
+  category: plum
+  model: rhaemq
+- name: item_04
+  category: pomegranate
+  model: tldskr
+- name: item_05
+  category: pomelo
+  model: ezckjt
+- name: item_06
+  category: raspberry
+  model: spkers
+- name: item_07
+  category: strawberry
+  model: xcnzxh
+- name: item_08
+  category: watermelon
+  model: fxhiqs
+- name: item_09
+  category: apricot
+  model: qmwmwm
+- name: item_10
+  category: avocado
+  model: arswzs
+placements:
+- entity: item_00
+  relation: on_top
+  receptacle: search_storage
+- entity: item_01
+  relation: inside
+  receptacle: item_00
+- entity: item_02
+  relation: inside
+  receptacle: item_00
+- entity: item_03
+  relation: inside
+  receptacle: item_00
+- entity: item_04
+  relation: inside
+  receptacle: item_00
+- entity: item_05
+  relation: inside
+  receptacle: item_00
+- entity: item_06
+  relation: inside
+  receptacle: item_00
+- entity: item_07
+  relation: inside
+  receptacle: item_00
+- entity: item_08
+  relation: inside
+  receptacle: item_00
+- entity: item_09
+  relation: inside
+  receptacle: item_00
+- entity: item_10
+  relation: inside
+  receptacle: item_00
+initial_states: {}
+goal:
+- kind: on_top
+  entity: item_01
+  receptacle: delivery_surface
+- kind: on_top
+  entity: item_02
+  receptacle: delivery_surface
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

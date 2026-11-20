@@ -1,0 +1,154 @@
+id: asset_F332_01
+instruction: We need three matching bowls at the counter in front of you in the kitchen
+  in the kitchen. Check the bowls already there and find the missing one in the dining-room
+  storage.
+scene:
+  model: house_single_floor
+  source: behavior
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - 5.0
+    - 1.4000000000000001
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - -0.7071067811865475
+    - 0.7071067811865476
+target:
+  entity: item_00
+  category: bowl
+objects:
+- name: item_00
+  category: bowl
+  model: tvtive
+- name: item_01
+  category: beer_glass
+  model: mxsliu
+- name: item_02
+  category: chalice
+  model: sfkezf
+- name: item_03
+  category: cocktail_glass
+  model: xevdnl
+- name: item_04
+  category: coffee_cup
+  model: siksnl
+- name: item_05
+  category: goblet
+  model: nawrfs
+- name: item_06
+  category: paper_cup
+  model: guobeq
+- name: item_07
+  category: soda_cup
+  model: fsfsas
+- name: item_08
+  category: beer_glass
+  model: mxsliu
+- name: initial_inventory_0
+  category: bowl
+  model: tvtive
+- name: initial_inventory_1
+  category: bowl
+  model: tvtive
+- name: search_storage
+  category: bottom_cabinet
+  model: jrhgeu
+  fixed_base: true
+placements:
+- entity: item_00
+  relation: inside
+  receptacle: search_storage
+- entity: item_01
+  relation: inside
+  receptacle: search_storage
+- entity: item_02
+  relation: inside
+  receptacle: search_storage
+- entity: item_03
+  relation: inside
+  receptacle: search_storage
+- entity: item_04
+  relation: inside
+  receptacle: search_storage
+- entity: item_05
+  relation: inside
+  receptacle: search_storage
+- entity: item_06
+  relation: inside
+  receptacle: search_storage
+- entity: item_07
+  relation: inside
+  receptacle: search_storage
+- entity: item_08
+  relation: inside
+  receptacle: search_storage
+- entity: initial_inventory_0
+  relation: on_top
+  receptacle: bottom_cabinet_no_top_gjeoer_0
+- entity: initial_inventory_1
+  relation: on_top
+  receptacle: bottom_cabinet_no_top_gjeoer_0
+- entity: search_storage
+  relation: on_top
+  receptacle: floors_khjmrr_0
+  position_xy:
+  - 9.200000000000001
+  - 1.9000000000000001
+initial_states:
+  search_storage:
+    open: false
+goal:
+- kind: on_top
+  entity: item_00
+  receptacle: bottom_cabinet_no_top_gjeoer_0
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

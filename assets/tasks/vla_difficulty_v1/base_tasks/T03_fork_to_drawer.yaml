@@ -1,0 +1,96 @@
+task_id: T03_fork_to_drawer
+task_name: 把叉子收进抽屉 (put the fork away in the drawer)
+family: fetch_and_place_into_container
+source:
+  findingbench: scenarios/knife_search_001/scenario.yaml   # scene, fork model flexrc, drawer qohxjq_0/link_2
+  official_behavior_analogue: >
+    putting_dishes_away_after_cleaning / storing_food / rearranging_kitchen_furniture
+    (inside(·, cabinet) goals: 39 official rigid tasks put objects INTO scene furniture)
+  replaces: _superseded/T03_apple_to_fridge.yaml
+  requires: inside-drawer PLACE (backend.receptacle_region / receptacle_interior_regions, 2026-10-18)
+
+target: {entity: target_fork, category: tablefork, model: flexrc}
+goal:
+  # inside the cabinet's native fillable drawer; satisfied whether or not the
+  # drawer is closed afterwards (goal_checker interior-region fallback)
+  - {kind: inside, entity: target_fork, receptacle: bottom_cabinet_no_top_qohxjq_0}
+
+background_objects:   # no other cutlery: "the fork" and "the cutlery" are unambiguous
+  - {name: bg_bowl,       category: bowl,          model: adciys}
+  - {name: bg_teacup,     category: teacup,        model: cpozxi}
+  - {name: bg_mug,        category: mug,           model: dhnxww}
+  - {name: bg_apple,      category: apple,         model: agveuv}
+  - {name: bg_cutting_board, category: cutting_board, model: aibvew}
+  - {name: bg_plate,      category: plate,         model: aewthq}
+background_placements:
+  - {entity: bg_bowl,          relation: inside, receptacle: bottom_cabinet_no_top_spojpj_0}
+  - {entity: bg_teacup,        relation: inside, receptacle: bottom_cabinet_no_top_spojpj_0}
+  - {entity: bg_mug,           relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: bg_apple,         relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: bg_cutting_board, relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: bg_plate,         relation: on_top, receptacle: breakfast_table_uhrsex_0}
+initial_states:
+  bottom_cabinet_no_top_qohxjq_0: {open: false}
+  bottom_cabinet_no_top_pluwfl_0: {open: false}
+  bottom_cabinet_no_top_spojpj_0: {open: false}
+
+spatial:
+  S1:
+    placement: {entity: target_fork, relation: on_top, receptacle: countertop_tpuwys_4}
+    room: kitchen_0
+    location_phrase: the kitchen island
+    extra_ops_vs_S1: []
+  S2:
+    # the shared S2 drawer (qohxjq_0) is this task's goal, so the fork starts in the
+    # neighbouring cabinet pluwfl_0 (mug there: 0 px at start, GRASP feasible after
+    # OPEN, 6-step route — round2_mug.json; open-required check: see verification_status)
+    placement: {entity: target_fork, relation: inside, receptacle: bottom_cabinet_no_top_pluwfl_0}
+    room: kitchen_0
+    location_phrase: the cabinet to the left of the cutlery drawer
+    extra_ops_vs_S1: [OPEN]
+  S3:
+    placement: {entity: target_fork, relation: on_top, receptacle: bookcase_owvfik_1, position_xy: [4.45, -5.45]}
+    room: living_room_0
+    location_phrase: the low shelf under the TV in the living room
+    extra_ops_vs_S1: [cross-room navigation (open-plan), longer carry back]
+
+language:
+  L1:   # order matters: the drawer must be opened while the hand is free (see plan_constraint)
+    S1: First go to the top drawer of the cabinet next to the hallway door and open it. Then go to the kitchen island, pick up the fork on it, bring it back, put it inside the open drawer, and report that you are done.
+    S2: First open the top drawer of the cabinet next to the hallway door. Then open the cabinet to the left of it and pick up the fork inside. Put the fork inside the open top drawer and report that you are done.
+    S3: First go to the top drawer of the cabinet next to the hallway door and open it. Then go to the living room and pick up the fork on the low shelf under the TV. Bring it back to the kitchen, put it inside the open drawer, and report that you are done.
+  L2: Put the fork in the top drawer of the cabinet next to the hallway door.
+  L3: We're done eating. Could you put the fork away in the cutlery drawer by the hallway door?
+
+l3_ambiguity_check:
+  competing_interpretations: [other cutlery, other drawers, washing it first]
+  resolution: >
+    no other cutlery in the scene; the drawer is named by location; washing is not in
+    the skill library
+  residual_risk: '"cutlery drawer" is a label the scene does not show — the location phrase disambiguates'
+
+plan_constraint: >
+  OPEN needs a free hand: holding the fork, the modelled (right) hand collides
+  with the drawer front for every base pose (runs/vla_difficulty_v1/_diagnose/
+  T03_fork_to_drawer__L2_S1_OPEN_*.json, 2026-10-19). The goal drawer must be
+  opened BEFORE the fork is picked up (or the fork set down first). L1 states
+  this order; L2/L3 leave it to the agent, which makes T03 the task whose
+  sub-goal ORDER must be inferred.
+
+verification_status:   # 2026-10-19
+  status: active (unblocked 2026-10-19 by angled inside PLACE; was BLOCKED)
+  inside-drawer PLACE: implemented, unit-tested
+  OPEN-while-holding: infeasible (held fork vs drawer front) -> oracle opens the goal drawer first
+  PLACE into qohxjq_0 top drawer: infeasible for every base pose tried. The
+    drawer lies under countertop_tpuwys_0; PLACE models only a top-down
+    approach, and the standoff pose / release orientation put the gripper
+    into the countertop (runs/vla_difficulty_v1/_diagnose/after_open_strip/).
+    Fixed on the way: drawer cavity = native fillable volume (the link AABB
+    bottom is below the floor: the fork fell through), top-most open drawer
+    (OPEN opens all), held-footprint inset, candidates only in the pulled-out
+    strip (_diagnose/after_fillable_region, after_top_drawer).
+  unblocked (user chose the angled approach, 2026-10-19): PLACE into an open
+    drawer tries tool tilts 45/30/60/0 deg from the pulled-out side and keeps
+    the tool orientation down to the release (INSIDE_APPROACH_TILTS_DEG);
+    fork placed in the top drawer, inside relation holds
+    (_diagnose/after_angled/)

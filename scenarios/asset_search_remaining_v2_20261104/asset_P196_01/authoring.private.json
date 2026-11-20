@@ -1,0 +1,210 @@
+{
+  "id": "asset_P196_01",
+  "family": "semantic_P196",
+  "scene": "Merom_1_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P196_01/scenario.yaml",
+  "scenario_sha256": "abf3bd38f68e9e231587acdcef574b63e4822e2612dbad76e441b48212f3fa45",
+  "instruction": "Bring the postcard with the same picture as the sample on the table in front of you in the living room from the living room keepsakes and put it beside the sample.",
+  "target_key": "postcard/aujfqp",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "bottom_cabinet_jhymlr_0",
+  "destination_receptacle": "coffee_table_fqluyq_0",
+  "object_count": 11,
+  "distractor_count": 9,
+  "source_survey_sha256": "1bcd77f7369c09f3ee939635132fc064795bb448af326a0f941bcbe3dbe0fd22",
+  "route": {
+    "start": [
+      2.75,
+      7.15,
+      0.0
+    ],
+    "path_xy": [
+      [
+        2.75,
+        7.15
+      ],
+      [
+        2.75,
+        7.25
+      ],
+      [
+        2.75,
+        7.3500000000000005
+      ],
+      [
+        2.75,
+        7.45
+      ],
+      [
+        2.75,
+        7.550000000000001
+      ],
+      [
+        2.75,
+        7.65
+      ],
+      [
+        2.75,
+        7.75
+      ],
+      [
+        2.75,
+        7.8500000000000005
+      ],
+      [
+        2.75,
+        7.95
+      ],
+      [
+        2.75,
+        8.05
+      ],
+      [
+        2.75,
+        8.15
+      ],
+      [
+        2.75,
+        8.25
+      ],
+      [
+        2.75,
+        8.35
+      ],
+      [
+        2.6500000000000004,
+        8.35
+      ],
+      [
+        2.5500000000000003,
+        8.35
+      ],
+      [
+        2.45,
+        8.35
+      ],
+      [
+        2.35,
+        8.35
+      ],
+      [
+        2.25,
+        8.35
+      ],
+      [
+        2.15,
+        8.35
+      ],
+      [
+        2.0500000000000003,
+        8.35
+      ],
+      [
+        1.9500000000000002,
+        8.35
+      ],
+      [
+        1.85,
+        8.35
+      ],
+      [
+        1.75,
+        8.35
+      ],
+      [
+        1.6500000000000001,
+        8.35
+      ],
+      [
+        1.55,
+        8.35
+      ],
+      [
+        1.4500000000000002,
+        8.35
+      ],
+      [
+        1.4500000000000002,
+        8.450000000000001
+      ],
+      [
+        1.35,
+        8.450000000000001
+      ],
+      [
+        1.35,
+        8.55
+      ],
+      [
+        1.35,
+        8.65
+      ],
+      [
+        1.35,
+        8.75
+      ],
+      [
+        1.35,
+        8.85
+      ],
+      [
+        1.25,
+        8.85
+      ]
+    ],
+    "length_m": 3.2,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 35,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "required_negative_0",
+    "bottom_cabinet_jhymlr_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "parent_task_id": "P196",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P196_01",
+    "parent_task_id": "P196",
+    "before_instruction": "Find the souvenir postcard marked Kyoto 2019 among the living-room cabinet keepsakes and place it on the coffee table.",
+    "after_instruction": "Bring the postcard with the same picture as the sample on the table in front of you in the living room from the living room keepsakes and put it beside the sample.",
+    "reason": "Retains matching-based retrieval through a physical same-native-model sample on the delivery surface. Any original cross-object compatibility, photo or consumable-state requirement is explicitly replaced with visible product/shape matching. Original source and destination rooms preserved; forced native distractor creates a real competing selection.",
+    "target_asset": "postcard/aujfqp",
+    "target_assets": [
+      "postcard/aujfqp"
+    ]
+  },
+  "binding_sha256": "45f4acb355f531ddbada05312d88d42574d6d889835d99aefa875e8a48d03eed"
+}

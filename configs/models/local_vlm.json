@@ -1,0 +1,75 @@
+{
+  "models": {
+    "qwen3-vl-4b": {
+      "model_id": "Qwen/Qwen3-VL-4B-Instruct",
+      "revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17",
+      "trust_remote_code": false,
+      "gated": false
+    },
+    "internvl3.5-4b": {
+      "model_id": "OpenGVLab/InternVL3_5-4B-HF",
+      "revision": "6bd4487402110ef9889ba50eb7aefeb302526fed",
+      "trust_remote_code": false,
+      "gated": false
+    },
+    "llama3.2-11b": {
+      "model_id": "meta-llama/Llama-3.2-11B-Vision-Instruct",
+      "revision": "9eb2daaa8597bf192a8b0e73f848f3a102794df5",
+      "trust_remote_code": false,
+      "gated": "manual"
+    },
+    "molmo2-4b": {
+      "model_id": "allenai/Molmo2-4B",
+      "revision": "042abfa7a38879a376cec03d949eff0aefaa0600",
+      "trust_remote_code": true,
+      "gated": false,
+      "quantization": "none"
+    },
+    "phi4-multimodal": {
+      "model_id": "microsoft/Phi-4-multimodal-instruct",
+      "revision": "93f923e1a7727d1c4f446756212d9d3e8fcc5d81",
+      "trust_remote_code": true,
+      "gated": false,
+      "backend": "phi4",
+      "environment": "ygbench-vlm-phi4"
+    },
+    "smolvlm2-2.2b": {
+      "model_id": "HuggingFaceTB/SmolVLM2-2.2B-Instruct",
+      "revision": "482adb537c021c86670beed01cd58990d01e72e4",
+      "trust_remote_code": false,
+      "gated": false,
+      "backend": "standard",
+      "environment": "ygbench-vlm-extended"
+    },
+    "gemma3-4b": {
+      "model_id": "google/gemma-3-4b-it",
+      "revision": "093f9f388b31de276ce2de164bdc2081324b9767",
+      "trust_remote_code": false,
+      "gated": "manual",
+      "backend": "standard",
+      "environment": "ygbench-vlm-extended"
+    },
+    "minicpm-v4.5-8b": {
+      "model_id": "openbmb/MiniCPM-V-4_5",
+      "revision": "daef484c35ec93210ec93c5e901f8f3e9b78ee34",
+      "trust_remote_code": true,
+      "gated": false,
+      "backend": "minicpm",
+      "environment": "ygbench-vlm-extended"
+    },
+    "llava-onevision-7b": {
+      "model_id": "llava-hf/llava-onevision-qwen2-7b-ov-hf",
+      "revision": "0d50680527681998e456c7b78950205bedd8a068",
+      "trust_remote_code": false,
+      "gated": false,
+      "backend": "standard",
+      "environment": "ygbench-vlm-extended"
+    }
+  },
+  "defaults": {
+    "quantization": "nf4",
+    "max_new_tokens": 512,
+    "seed": 0,
+    "history_steps": 60
+  }
+}

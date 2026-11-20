@@ -1,0 +1,129 @@
+{
+  "id": "asset_U118_01",
+  "family": "semantic_U118",
+  "scene": "Merom_0_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_U118_01/scenario.yaml",
+  "scenario_sha256": "59a886182f601618b9060b8f0dfe2690d2659c16dfeb56c906463cc1bb4aca61",
+  "instruction": "The lid sample is on the table in front of you in the storage room. Find a lid of the same shape among the storage room's loose covers and put it beside the sample.",
+  "target_key": "lid/lryrtt",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "storage_room_0",
+  "destination_room": "storage_room_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 13,
+  "distractor_count": 9,
+  "source_survey_sha256": "432c3be0b4dd33aa136873f8d072cfc232afe601bfa0f68e3b7489a89af8f0f5",
+  "route": {
+    "start": [
+      -0.65,
+      9.35,
+      0.0
+    ],
+    "path_xy": [
+      [
+        -0.65,
+        9.35
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 15,
+    "destination_approach_count": 15,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "required_negative_0",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_getzeg_0",
+      "position_xy": [
+        -1.85,
+        9.450000000000001
+      ],
+      "aabb": [
+        [
+          -2.017144760131836,
+          9.107712020874024,
+          0.0
+        ],
+        [
+          -1.6828552398681642,
+          9.792287979125978,
+          0.6846599731445313
+        ]
+      ],
+      "room": "storage_room_0"
+    },
+    {
+      "name": "delivery_surface",
+      "category": "breakfast_table",
+      "model": "iaritq",
+      "floor": "floors_getzeg_0",
+      "position_xy": [
+        0.35000000000000003,
+        9.450000000000001
+      ],
+      "aabb": [
+        [
+          -0.0010002899169921364,
+          9.099453765869141,
+          0.0
+        ],
+        [
+          0.7010002899169923,
+          9.800546234130861,
+          0.7490009155273437
+        ]
+      ],
+      "room": "storage_room_0"
+    }
+  ],
+  "parent_task_id": "U118",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_U118_01",
+    "parent_task_id": "U118",
+    "before_instruction": "The storage box on the table is missing its lid. Search the storage room's loose covers for the one that fits and put it beside the box.",
+    "after_instruction": "The lid sample is on the table in front of you in the storage room. Find a lid of the same shape among the storage room's loose covers and put it beside the sample.",
+    "reason": "Retains matching-based retrieval through a physical same-native-model sample on the delivery surface. Any original cross-object compatibility, photo or consumable-state requirement is explicitly replaced with visible product/shape matching. Original source and destination rooms preserved; forced native distractor creates a real competing selection.",
+    "target_asset": "lid/lryrtt",
+    "target_assets": [
+      "lid/lryrtt"
+    ]
+  },
+  "binding_sha256": "7a4d172a0ad7d14ddd9e341abd7ef39005e7e3e8fc78f777942cd7ce725ea45b"
+}

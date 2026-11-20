@@ -1,0 +1,55 @@
+# R1Pro mobile manipulator configured for symbolic benchmark execution.
+# Absolute position controllers + holonomic base: required so that
+# set_position_orientation teleports work cleanly and so the simulator's
+# action-primitive stack stays compatible if enabled later.
+
+model: r1pro
+obs_modalities: [rgb]
+include_sensor_names: null
+exclude_sensor_names: null
+scale: 1.0
+self_collisions: true
+action_normalize: false
+action_type: continuous
+grasping_mode: sticky
+sensor_config:
+  VisionSensor:
+    sensor_kwargs:
+      image_height: 224
+      image_width: 224
+controller_config:
+  base:
+    name: HolonomicBaseJointController
+    motor_type: position
+    command_input_limits: null
+    use_impedances: false
+  trunk:
+    name: JointController
+    motor_type: position
+    command_input_limits: null
+    use_delta_commands: false
+    use_impedances: false
+  arm_left:
+    name: JointController
+    motor_type: position
+    command_input_limits: null
+    use_delta_commands: false
+    use_impedances: false
+  arm_right:
+    name: JointController
+    motor_type: position
+    command_input_limits: null
+    use_delta_commands: false
+    use_impedances: false
+  gripper_left:
+    name: JointController
+    motor_type: position
+    command_input_limits: null
+    use_delta_commands: false
+    use_impedances: false
+  gripper_right:
+    name: JointController
+    motor_type: position
+    command_input_limits: null
+    use_delta_commands: false
+    use_impedances: false

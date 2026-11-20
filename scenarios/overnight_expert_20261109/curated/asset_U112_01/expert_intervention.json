@@ -1,0 +1,107 @@
+{
+  "status": "static_screened_physics_pending",
+  "old_storage": "bottom_cabinet_immwzb_0",
+  "new_storage": {
+    "name": "expert_storage_0",
+    "category": "bottom_cabinet",
+    "model": "jrhgeu",
+    "floor": "floors_jniagb_0",
+    "position_xy": [
+      4.3500000000000005,
+      -3.5500000000000003
+    ],
+    "aabb": [
+      [
+        4.182855239868164,
+        -3.892287979125977,
+        -0.0
+      ],
+      [
+        4.517144760131837,
+        -3.2077120208740237,
+        0.6846599731445313
+      ]
+    ],
+    "room": "private_office_0"
+  },
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/stability_repairs_20261108/asset_U112_01/scenario.yaml",
+  "original_sha256": "70f4dbeee10b9cffbb2d6883c2db0ab5febb1bfac6bc3d59b8d048c34d506e61",
+  "diagnosis_directory": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/stability_repairs_20261108/asset_U112_01",
+  "solver": {
+    "status": "feasible_model",
+    "device": "cuda",
+    "backend": "torch_cuda_finite_csp",
+    "solve_seconds": 0.011022236198186874,
+    "nodes": 3,
+    "candidate_tests": 1200,
+    "grid_m": 0.001,
+    "margin_m": 0.015,
+    "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+    "physical_validation_required": true,
+    "assignment": {
+      "item_06": "meta__base_link_fillable_0_0_link#component:1",
+      "item_08": "meta__base_link_fillable_0_0_link#component:0",
+      "item_07": "meta__base_link_fillable_0_0_link#component:2"
+    },
+    "poses": {
+      "item_06": {
+        "bin": "meta__base_link_fillable_0_0_link#component:1",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.015
+        ],
+        "footprint_m": [
+          0.193,
+          0.019
+        ],
+        "center_xy_m": [
+          0.1115,
+          0.0245
+        ]
+      },
+      "item_08": {
+        "bin": "meta__base_link_fillable_0_0_link#component:0",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.015
+        ],
+        "footprint_m": [
+          0.193,
+          0.019
+        ],
+        "center_xy_m": [
+          0.1115,
+          0.0245
+        ]
+      },
+      "item_07": {
+        "bin": "meta__base_link_fillable_0_0_link#component:2",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.015
+        ],
+        "footprint_m": [
+          0.136,
+          0.024
+        ],
+        "center_xy_m": [
+          0.083,
+          0.027
+        ]
+      }
+    }
+  },
+  "variant": 0,
+  "preserved": [
+    "instruction",
+    "goal",
+    "target",
+    "robot",
+    "spawn",
+    "original assets and counts",
+    "relation types"
+  ]
+}

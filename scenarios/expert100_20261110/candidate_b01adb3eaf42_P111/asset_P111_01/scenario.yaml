@@ -1,0 +1,174 @@
+id: asset_P111_01
+instruction: Find the bottle labeled "SHAMPOO" and the bottle labeled "CONDITIONER"
+  among the bathroom supplies and put both on the counter in front of you in the bathroom.
+scene:
+  model: grocery_store_convenience
+  source: behavior
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - 12.600000000000001
+    - -9.4
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - -0.7071067811865475
+    - 0.7071067811865476
+target:
+  entity: item_00
+  category: shampoo_bottle
+objects:
+- name: item_00
+  category: shampoo_bottle
+  model: tukaoq
+- name: item_01
+  category: bottle_of_shampoo
+  model: dvrzmy
+- name: item_02
+  category: credit_card
+  model: dnweyo
+- name: item_03
+  category: eyeglasses
+  model: gphhuu
+- name: item_04
+  category: key
+  model: ftdfir
+- name: item_05
+  category: key_chain
+  model: gqbwfv
+- name: item_06
+  category: lip_balm
+  model: sqjhbz
+- name: item_07
+  category: watch
+  model: ghobzn
+- name: item_08
+  category: battery
+  model: dcjyzg
+- name: item_09
+  category: credit_card
+  model: dnweyo
+- name: search_storage
+  category: bottom_cabinet
+  model: jrhgeu
+  fixed_base: true
+- name: delivery_surface
+  category: bottom_cabinet
+  model: jrhgeu
+  fixed_base: true
+- name: expert_storage_0
+  category: bottom_cabinet_no_top
+  model: vzzafs
+  fixed_base: true
+placements:
+- entity: item_00
+  relation: inside
+  receptacle: expert_storage_0
+- entity: item_01
+  relation: inside
+  receptacle: expert_storage_0
+- entity: item_02
+  relation: inside
+  receptacle: expert_storage_0
+- entity: item_03
+  relation: inside
+  receptacle: expert_storage_0
+- entity: item_04
+  relation: inside
+  receptacle: expert_storage_0
+- entity: item_05
+  relation: inside
+  receptacle: expert_storage_0
+- entity: item_06
+  relation: inside
+  receptacle: expert_storage_0
+- entity: item_07
+  relation: inside
+  receptacle: delivery_surface
+- entity: item_08
+  relation: inside
+  receptacle: delivery_surface
+- entity: item_09
+  relation: inside
+  receptacle: delivery_surface
+- entity: search_storage
+  relation: on_top
+  receptacle: floors_sqkllg_0
+  position_xy:
+  - 12.700000000000001
+  - -11.700000000000001
+- entity: delivery_surface
+  relation: on_top
+  receptacle: floors_sqkllg_0
+  position_xy:
+  - 12.700000000000001
+  - -10.3
+- entity: expert_storage_0
+  relation: on_top
+  receptacle: floors_sqkllg_0
+  position_xy:
+  - 12.700000000000001
+  - -8.200000000000001
+initial_states:
+  delivery_surface:
+    open: false
+  search_storage:
+    open: false
+  expert_storage_0:
+    open: false
+goal:
+- kind: on_top
+  entity: item_00
+  receptacle: delivery_surface
+- kind: on_top
+  entity: item_01
+  receptacle: delivery_surface
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

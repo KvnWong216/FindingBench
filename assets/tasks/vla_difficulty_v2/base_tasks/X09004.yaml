@@ -1,0 +1,72 @@
+task_id: X09004
+family: fetch
+scene: Pomaria_0_int
+source:
+  official_activity: unloading_shopping_from_car#0
+  official_activities_with_same_subgoal:
+  - unloading_shopping_from_car#0
+  official_subgoal: (inside grocery.n.02 cabinet.n.01)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K Pomaria_0_int
+  object: BEHAVIOR-1K bag_of_cookies/vafomx
+start:
+  name: start_private_office_0_0
+  room: private_office_0
+  x: -6.41
+  y: -0.8
+  yaw: -1.723
+target:
+  entity: target_obj
+  category: bag_of_cookies
+  model: vafomx
+  noun: bag of cookies
+  colour_estimate: red
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S1
+missing_spatial_levels:
+- S2
+- S3
+initial_states: {}
+spatial:
+  S1:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: countertop_tpuwys_0
+    room: private_office_0
+    location_phrase: the counter in the office
+    grasp_hints:
+    - - -7.251
+      - -0.198
+      - 0.914
+    - - -7.096
+      - -0.248
+      - 1.054
+    - - -7.301
+      - -0.248
+      - 0.906
+    - - -6.122
+      - -0.298
+      - 1.888
+    extra_ops_vs_S1: []
+    probe_visibility_from_start:
+      px: 128
+      delta_e: 28.6
+    task_scope: single_room
+language:
+  L1:
+    S1: Go to the counter in the office, pick up the bag of cookies on it and hold
+      it.
+  L2: Pick up the bag of cookies and keep holding it.
+  L3: I'm unloading shopping from car and I need the bag of cookies. Could you get
+    it for me?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

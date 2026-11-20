@@ -1,0 +1,136 @@
+task_id: U025
+family: place_on
+scene: house_double_floor_upper
+source:
+  official_activity: clean_up_your_desk#0
+  official_activities_with_same_subgoal:
+  - clean_up_your_desk#0
+  - pack_a_pencil_case#0
+  official_subgoal: (ontop pencil_box.n.01 desk.n.01)
+  reuse: official sub-goal re-used as the task goal
+  scene: BEHAVIOR-1K house_double_floor_upper (+ clearance manifest)
+  object: BEHAVIOR-1K pencil_case/cqxkgl
+start:
+  name: start_bedroom_0_0
+  room: bedroom_0
+  x: -4.14
+  y: 1.33
+  yaw: 0.0
+target:
+  entity: target_obj
+  category: pencil_case
+  model: cqxkgl
+  noun: pencil case
+  colour_estimate: blue
+goal:
+- kind: on_top
+  entity: target_obj
+  receptacle: desk_iotfzl_0
+place_hints:
+- - -1.494
+  - -1.795
+  - -1.571
+- - -1.899
+  - -1.795
+  - -0.942
+- - -1.414
+  - -4.106
+  - 1.571
+- - -1.443
+  - -1.745
+  - -1.571
+background_objects: []
+background_placements: []
+initial_states: {}
+spatial:
+  S1:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bookcase_kmuacd_0
+    room: bedroom_0
+    location_phrase: the bookcase next to the desk in the bedroom with the maps on
+      the wall
+    grasp_hints:
+    - - -3.858
+      - 0.443
+      - -2.356
+    - - -3.758
+      - 0.543
+      - -2.356
+    - - -3.96
+      - 0.543
+      - -2.157
+    - - -3.708
+      - 0.392
+      - -2.537
+    extra_ops_vs_S1: []
+    probe_visibility_from_start:
+      px: 239
+      delta_e: 6.1
+  S2:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: desk_aduafr_0
+    room: bedroom_0
+    location_phrase: the desk in the bedroom with the maps on the wall
+    grasp_hints:
+    - - -4.221
+      - 0.737
+      - -2.356
+    - - -4.371
+      - 0.787
+      - -2.137
+    - - -4.321
+      - 0.837
+      - -2.159
+    - - -4.071
+      - 0.687
+      - -2.536
+    extra_ops_vs_S1:
+    - search behind occluders
+    s2_kind: occluded
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bottom_cabinet_jhymlr_0
+    room: bathroom_0
+    location_phrase: the cabinet in the bathroom
+    grasp_hints:
+    - - 1.251
+      - 2.004
+      - -0.345
+    - - 1.201
+      - 2.356
+      - -0.696
+    - - 1.201
+      - 1.954
+      - -0.256
+    - - 1.151
+      - 2.306
+      - -0.62
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    route_from_start_steps: 11
+language:
+  L1:
+    S1: Go to the bookcase next to the desk in the bedroom with the maps on the wall,
+      pick up the pencil case on it. Then put it on the desk in the living room.
+    S2: Go to the desk in the bedroom with the maps on the wall, pick up the pencil
+      case on it. Then put it on the desk in the living room.
+    S3: Leave the bedroom with the maps on the wall, go to the cabinet in the bathroom,
+      pick up the pencil case on it. Then put it on the desk in the living room.
+  L2: Place the pencil case on the desk in the living room.
+  L3: I'm working on clean up your desk, so could you make sure the pencil case is
+    on the desk in the living room?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

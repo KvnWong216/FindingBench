@@ -1,0 +1,72 @@
+task_id: X12005
+family: fetch
+scene: Ihlen_1_int
+source:
+  official_activity: unloading_shopping_from_car#0
+  official_activities_with_same_subgoal:
+  - unloading_shopping_from_car#0
+  official_subgoal: (ontop grocery.n.02 floor.n.01)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K Ihlen_1_int
+  object: BEHAVIOR-1K bottle_of_lemon_juice/vsjter
+start:
+  name: start_living_room_0_1
+  room: living_room_0
+  x: 1.73
+  y: 0.82
+  yaw: -2.638
+target:
+  entity: target_obj
+  category: bottle_of_lemon_juice
+  model: vsjter
+  noun: bottle of lemon juice
+  colour_estimate: yellow
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S1
+missing_spatial_levels:
+- S2
+- S3
+initial_states: {}
+spatial:
+  S1:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: coffee_table_gcollb_0
+    room: living_room_0
+    location_phrase: the coffee table in the living room
+    grasp_hints:
+    - - 2.011
+      - 0.16
+      - 0.785
+    - - 1.961
+      - 0.311
+      - 0.565
+    - - 1.911
+      - 0.261
+      - 0.587
+    - - 1.911
+      - 0.462
+      - 0.319
+    extra_ops_vs_S1: []
+    probe_visibility_from_start:
+      px: 583
+      delta_e: 29.6
+    task_scope: single_room
+language:
+  L1:
+    S1: Go to the coffee table in the living room, pick up the bottle of lemon juice
+      on it and hold it.
+  L2: Pick up the bottle of lemon juice and keep holding it.
+  L3: I'm unloading shopping from car and I need the bottle of lemon juice. Could
+    you get it for me?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

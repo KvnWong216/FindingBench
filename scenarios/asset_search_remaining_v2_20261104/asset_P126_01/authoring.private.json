@@ -1,0 +1,82 @@
+{
+  "id": "asset_P126_01",
+  "family": "semantic_P126",
+  "scene": "Wainscott_1_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P126_01/scenario.yaml",
+  "scenario_sha256": "6142d8571d8a56387f9cf85caea575c31458ffc739b4bff144d146c5ce9e31b9",
+  "instruction": "For the bathroom wash station, find a bottle labeled \"SHAMPOO\" and a bottle labeled \"CONDITIONER\" in the cupboard in the bathroom and bring both to the counter in front of you in the bathroom.",
+  "target_key": "shampoo_bottle/tukaoq",
+  "target_entities": [
+    "item_00",
+    "item_01"
+  ],
+  "target_count": 2,
+  "source_room": "bathroom_0",
+  "destination_room": "bathroom_0",
+  "source_receptacle": "bottom_cabinet_nnvyol_1",
+  "destination_receptacle": "bottom_cabinet_nnvyol_1",
+  "object_count": 10,
+  "distractor_count": 8,
+  "source_survey_sha256": "7894c711eea34a656ee926a132d6563ce3833b5ddb45c126d0ce534dd2edca60",
+  "route": {
+    "start": [
+      0.9500000000000001,
+      9.35,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        0.9500000000000001,
+        9.35
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 33,
+    "destination_approach_count": 33,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09",
+    "bottom_cabinet_nnvyol_2",
+    "bottom_cabinet_nnvyol_1"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "parent_task_id": "P126",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P126_01",
+    "parent_task_id": "P126",
+    "before_instruction": "Find the shampoo and conditioner bottles each marked 100 mL or less among bathroom storage; put them on the shelf beneath the mirror.",
+    "after_instruction": "For the bathroom wash station, find a bottle labeled \"SHAMPOO\" and a bottle labeled \"CONDITIONER\" in the cupboard in the bathroom and bring both to the counter in front of you in the bathroom.",
+    "reason": "Replaces unsupported 100 mL thresholds with verified native product-label requirements; two distinct hair-care products remain required. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "shampoo_bottle/tukaoq",
+    "target_assets": [
+      "shampoo_bottle/tukaoq",
+      "bottle_of_shampoo/dvrzmy"
+    ]
+  },
+  "binding_sha256": "03495ca37e95092176c974ed469a244a6120a826d59587c7895aedab4e2afd9b"
+}

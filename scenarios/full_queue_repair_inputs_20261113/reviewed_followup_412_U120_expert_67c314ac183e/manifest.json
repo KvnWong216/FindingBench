@@ -1,0 +1,425 @@
+{
+  "tasks": [
+    {
+      "id": "asset_U120_01",
+      "family": "semantic_U120",
+      "scene": "Merom_0_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_412_U120_expert_67c314ac183e/asset_U120_01/scenario.yaml",
+      "scenario_sha256": "78f81b5b253d623521defd89811e2bbb23762bcd2c567db23b936b42b5464b38",
+      "instruction": "I am preparing a parcel. Bring a packing box from the storage room containers to the table in front of you in the storage room.",
+      "target_key": "packing_box/cjhskr",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "storage_room_0",
+      "destination_room": "storage_room_0",
+      "source_receptacle": "search_storage",
+      "destination_receptacle": "delivery_surface",
+      "object_count": 11,
+      "distractor_count": 8,
+      "source_survey_sha256": "432c3be0b4dd33aa136873f8d072cfc232afe601bfa0f68e3b7489a89af8f0f5",
+      "route": {
+        "start": [
+          -0.55,
+          9.35,
+          0.0
+        ],
+        "path_xy": [
+          [
+            -0.55,
+            9.35
+          ],
+          [
+            -0.65,
+            9.35
+          ]
+        ],
+        "length_m": 0.1,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 15,
+        "destination_approach_count": 15,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "search_storage"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "delivery_surface",
+          "category": "breakfast_table",
+          "model": "iaritq",
+          "floor": "floors_getzeg_0",
+          "position_xy": [
+            0.45,
+            9.450000000000001
+          ],
+          "aabb": [
+            [
+              0.09899971008300784,
+              9.099453765869141,
+              0.0
+            ],
+            [
+              0.8010002899169921,
+              9.800546234130861,
+              0.7490009155273437
+            ]
+          ],
+          "room": "storage_room_0"
+        },
+        {
+          "name": "search_storage",
+          "category": "bottom_cabinet_no_top",
+          "model": "pluwfl",
+          "floor": "floors_getzeg_0",
+          "position_xy": [
+            -1.85,
+            9.450000000000001
+          ],
+          "aabb": [
+            [
+              -2.0763951950073243,
+              9.082961196899415,
+              0.0
+            ],
+            [
+              -1.623604804992676,
+              9.817038803100587,
+              0.602992431640625
+            ]
+          ],
+          "room": "storage_room_0"
+        }
+      ],
+      "parent_task_id": "U120",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_U120_01",
+        "parent_task_id": "U120",
+        "before_instruction": "I need a carton for the item waiting on the storage room table. Find an empty packing box large enough for it and set the box beside the item.",
+        "after_instruction": "I am preparing a parcel. Bring a packing box from the storage room containers to the table in front of you in the storage room.",
+        "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Native category metadata does not certify the stated target predicate: packing box fitting reference item. Rigid open cartons and reference item required Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+        "target_asset": "packing_box/cjhskr",
+        "target_assets": [
+          "packing_box/cjhskr"
+        ]
+      },
+      "binding_sha256": "a3ae3dc78bdf61df7dab6e02ea7963b08188d3ff65c99f3730bd0eb1f64954cb",
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "search_storage",
+            "volume_extents_m": {
+              "meta__link_1_fillable_0_0_link": [
+                0.32425003838539124,
+                0.21320316650858007,
+                0.03200000722706328
+              ],
+              "meta__base_link_fillable_0_0_link#component:0": [
+                0.4077110548019409,
+                0.7086797614097595,
+                0.15901857209205628
+              ],
+              "meta__base_link_fillable_0_0_link#component:1": [
+                0.4077110548019409,
+                0.7086797614097595,
+                0.2809277486303401
+              ]
+            },
+            "native_links": {
+              "meta__link_1_fillable_0_0_link": "meta__link_1_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet_no_top/pluwfl",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "e437cb6606b889ee5d9e12f0de89e7467c08149881866fe7238139c89f92fc6b",
+              "metadata_sha256": "0e00312845b9ed8078f5a263551207004beec9ab9d83dfd9e656f277ade69f2c",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.08521405514329672,
+              "nodes": 9,
+              "candidate_tests": 156129,
+              "search_orders_tried": 1,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_00": "meta__base_link_fillable_0_0_link#component:1",
+                "item_03": "meta__base_link_fillable_0_0_link#component:0",
+                "item_08": "meta__base_link_fillable_0_0_link#component:0",
+                "item_05": "meta__base_link_fillable_0_0_link#component:1",
+                "item_01": "meta__base_link_fillable_0_0_link#component:0",
+                "item_06": "meta__base_link_fillable_0_0_link#component:0",
+                "item_02": "meta__link_1_fillable_0_0_link",
+                "item_07": "meta__link_1_fillable_0_0_link",
+                "item_04": "meta__link_1_fillable_0_0_link"
+              },
+              "poses": {
+                "item_00": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.381,
+                    0.468
+                  ],
+                  "center_xy_m": [
+                    0.1955,
+                    0.23900000000000002
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.202,
+                    0.301
+                  ],
+                  "center_xy_m": [
+                    0.106,
+                    0.1555
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.311
+                  ],
+                  "footprint_m": [
+                    0.202,
+                    0.301
+                  ],
+                  "center_xy_m": [
+                    0.106,
+                    0.4615
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.47800000000000004
+                  ],
+                  "footprint_m": [
+                    0.214,
+                    0.213
+                  ],
+                  "center_xy_m": [
+                    0.112,
+                    0.5845
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.212,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.14300000000000002,
+                    0.129
+                  ],
+                  "center_xy_m": [
+                    0.28350000000000003,
+                    0.0695
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.212,
+                    0.139
+                  ],
+                  "footprint_m": [
+                    0.14300000000000002,
+                    0.129
+                  ],
+                  "center_xy_m": [
+                    0.28350000000000003,
+                    0.20350000000000001
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__link_1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.259,
+                    0.046
+                  ],
+                  "center_xy_m": [
+                    0.1345,
+                    0.028
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__link_1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.056
+                  ],
+                  "footprint_m": [
+                    0.259,
+                    0.046
+                  ],
+                  "center_xy_m": [
+                    0.1345,
+                    0.079
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__link_1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.107
+                  ],
+                  "footprint_m": [
+                    0.051000000000000004,
+                    0.05
+                  ],
+                  "center_xy_m": [
+                    0.0305,
+                    0.132
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_00": "meta__base_link_fillable_0_0_link",
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_01": "meta__base_link_fillable_0_0_link",
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__link_1_fillable_0_0_link",
+              "item_07": "meta__link_1_fillable_0_0_link",
+              "item_04": "meta__link_1_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_00": "meta__base_link_fillable_0_0_link#component:1",
+              "item_03": "meta__base_link_fillable_0_0_link#component:0",
+              "item_08": "meta__base_link_fillable_0_0_link#component:0",
+              "item_05": "meta__base_link_fillable_0_0_link#component:1",
+              "item_01": "meta__base_link_fillable_0_0_link#component:0",
+              "item_06": "meta__base_link_fillable_0_0_link#component:0",
+              "item_02": "meta__link_1_fillable_0_0_link",
+              "item_07": "meta__link_1_fillable_0_0_link",
+              "item_04": "meta__link_1_fillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__link_1_fillable_0_0_link",
+          "item_07": "meta__link_1_fillable_0_0_link",
+          "item_04": "meta__link_1_fillable_0_0_link"
+        },
+        "physical_validation_required": true
+      },
+      "scene_fixture_replacements": [
+        {
+          "entity": "search_storage",
+          "replacement_entity": "search_storage",
+          "before_asset": "bottom_cabinet/songes",
+          "after_asset": "bottom_cabinet_no_top/pluwfl",
+          "before_aabb": [
+            [
+              -2.1136192626953125,
+              9.030784881591797,
+              0.0
+            ],
+            [
+              -1.5863807373046876,
+              9.869215118408205,
+              0.82936767578125
+            ]
+          ],
+          "after_aabb": [
+            [
+              -2.0763951950073243,
+              9.082961196899415,
+              0.0
+            ],
+            [
+              -1.623604804992676,
+              9.817038803100587,
+              0.602992431640625
+            ]
+          ],
+          "source_sha256": "e0b3586a59f9066d6102e9a8d3dfa4338a4b5966c6ed6132fdc4d76ceffa45fb",
+          "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_gpu_new_20261106/asset_U120_01",
+          "reason": "Replace failed source at its existing site; adding another fixture consumes its approach space",
+          "physical_validation_required": true
+        }
+      ]
+    }
+  ]
+}

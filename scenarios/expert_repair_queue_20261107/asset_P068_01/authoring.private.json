@@ -1,0 +1,155 @@
+{
+  "id": "asset_P068_01",
+  "family": "semantic_P068",
+  "scene": "Rs_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_P068_01/scenario.yaml",
+  "scenario_sha256": "a7444967afcb98433ee2faf1bf5e57361c32fda8effd87144524e3591cc398fd",
+  "instruction": "There is a sample on the cabinet top in front of you in the entryway. Find the DVD matching that sample on the living-room media shelves and bring it to the cabinet top in front of you in the entryway in the entryway.",
+  "target_key": "dvd/lggrfa",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_0",
+  "destination_room": "entryway_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 12,
+  "distractor_count": 8,
+  "source_survey_sha256": "24bd47925e994c3defe707f3d8a919b355cd46a7128d2b59d373bc2697d8185e",
+  "route": {
+    "start": [
+      1.1,
+      1.9000000000000001,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        1.1,
+        1.9000000000000001
+      ],
+      [
+        1.1,
+        1.8
+      ],
+      [
+        1.1,
+        1.7000000000000002
+      ],
+      [
+        1.1,
+        1.6
+      ],
+      [
+        1.1,
+        1.5
+      ],
+      [
+        1.0,
+        1.5
+      ]
+    ],
+    "length_m": 0.5,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 16,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "shelf",
+      "model": "vanltx",
+      "floor": "floors_ptwlei_0",
+      "position_xy": [
+        0.2,
+        0.4
+      ],
+      "aabb": [
+        [
+          0.026926239013671888,
+          -0.19251458740234373,
+          -0.0
+        ],
+        [
+          0.37307376098632816,
+          0.9925145874023438,
+          0.42811041259765625
+        ]
+      ],
+      "room": "living_room_0"
+    },
+    {
+      "name": "delivery_surface",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_gjemfr_0",
+      "position_xy": [
+        1.2000000000000002,
+        2.8000000000000003
+      ],
+      "aabb": [
+        [
+          1.0328552398681643,
+          2.4577120208740237,
+          -0.0
+        ],
+        [
+          1.367144760131836,
+          3.142287979125977,
+          0.6846599731445313
+        ]
+      ],
+      "room": "entryway_0"
+    }
+  ],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [],
+    "prefer_alternative_layout": false,
+    "assignments": {},
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "P068",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P068_01",
+    "parent_task_id": "P068",
+    "before_instruction": "Find the DVD case with a sticker reading Sam among the living-room media shelves and put it on the entryway console beside the door.",
+    "after_instruction": "There is a sample on the cabinet top in front of you in the entryway. Find the DVD matching that sample on the living-room media shelves and bring it to the cabinet top in front of you in the entryway in the entryway.",
+    "reason": "Replaces fictional Sam sticker and unverified case with the native disc and a physical reference. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "dvd/lggrfa",
+    "target_assets": [
+      "dvd/lggrfa"
+    ]
+  },
+  "binding_sha256": "aaf5f8c0b2c301c2478e6534959c381262d3b1c9421c5c72042ee437fa3f899c"
+}

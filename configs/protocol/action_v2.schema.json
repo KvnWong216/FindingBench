@@ -1,0 +1,157 @@
+{
+  "$defs": {
+    "DiscreteTurnAction": {
+      "additionalProperties": false,
+      "description": "Rotate the body in place: left=+90, right=-90, back=+180 degrees.",
+      "properties": {
+        "skill": {
+          "const": "TURN",
+          "title": "Skill",
+          "type": "string"
+        },
+        "direction": {
+          "enum": [
+            "left",
+            "right",
+            "back"
+          ],
+          "title": "Direction",
+          "type": "string"
+        }
+      },
+      "required": [
+        "skill",
+        "direction"
+      ],
+      "title": "DiscreteTurnAction",
+      "type": "object"
+    },
+    "Point": {
+      "additionalProperties": false,
+      "properties": {
+        "frame_id": {
+          "title": "Frame Id",
+          "type": "string"
+        },
+        "x": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "X",
+          "type": "number"
+        },
+        "y": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Y",
+          "type": "number"
+        }
+      },
+      "required": [
+        "frame_id",
+        "x",
+        "y"
+      ],
+      "title": "Point",
+      "type": "object"
+    },
+    "PointAction": {
+      "additionalProperties": false,
+      "description": "Point-directed skills: OPEN/CLOSE/GRASP/PLACE select an object;\nMOVE_TO selects a fixed floor position, or a visible furniture/object.\nThe point is normalized on the CURRENT RGB frame. Floor: MOVE_TO checks a\n2D A* route, then arrives directly at that point, preserving body heading.\nFurniture/object (2026-10-26, AsgardBench-style automatic positioning):\nthe robot is placed at a reachable stand pose in front of it, nearest the\nclicked side, facing it. Walls/ceilings are invalid targets.\n\nCoordinate convention: origin top-left, x rightward, y downward, both in\n[0, 1]. frame_id MUST identify the current primary image or current detail view; stale or unknown\nframe ids are INVALID_ACTION.",
+      "properties": {
+        "skill": {
+          "enum": [
+            "OPEN",
+            "CLOSE",
+            "GRASP",
+            "PLACE",
+            "MOVE_TO"
+          ],
+          "title": "Skill",
+          "type": "string"
+        },
+        "point": {
+          "$ref": "#/$defs/Point"
+        }
+      },
+      "required": [
+        "skill",
+        "point"
+      ],
+      "title": "PointAction",
+      "type": "object"
+    },
+    "ReportDoneAction": {
+      "additionalProperties": false,
+      "description": "REPORT_DONE: no parameters. Privately evaluates the scenario goal\npredicate; a false completion terminates the episode.",
+      "properties": {
+        "skill": {
+          "const": "REPORT_DONE",
+          "title": "Skill",
+          "type": "string"
+        }
+      },
+      "required": [
+        "skill"
+      ],
+      "title": "ReportDoneAction",
+      "type": "object"
+    },
+    "ViewAction": {
+      "additionalProperties": false,
+      "description": "Absolute panoramic viewport angles in degrees; positive yaw looks left,\npositive pitch looks up. Neither the robot nor the camera mount moves.",
+      "properties": {
+        "skill": {
+          "const": "VIEW",
+          "title": "Skill",
+          "type": "string"
+        },
+        "yaw": {
+          "maximum": 180,
+          "minimum": -180,
+          "title": "Yaw",
+          "type": "number"
+        },
+        "pitch": {
+          "default": 0,
+          "maximum": 90,
+          "minimum": -90,
+          "title": "Pitch",
+          "type": "number"
+        }
+      },
+      "required": [
+        "skill",
+        "yaw"
+      ],
+      "title": "ViewAction",
+      "type": "object"
+    }
+  },
+  "discriminator": {
+    "mapping": {
+      "CLOSE": "#/$defs/PointAction",
+      "GRASP": "#/$defs/PointAction",
+      "MOVE_TO": "#/$defs/PointAction",
+      "OPEN": "#/$defs/PointAction",
+      "PLACE": "#/$defs/PointAction",
+      "REPORT_DONE": "#/$defs/ReportDoneAction",
+      "TURN": "#/$defs/DiscreteTurnAction",
+      "VIEW": "#/$defs/ViewAction"
+    },
+    "propertyName": "skill"
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/DiscreteTurnAction"
+    },
+    {
+      "$ref": "#/$defs/ViewAction"
+    },
+    {
+      "$ref": "#/$defs/PointAction"
+    },
+    {
+      "$ref": "#/$defs/ReportDoneAction"
+    }
+  ]
+}

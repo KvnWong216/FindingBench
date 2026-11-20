@@ -1,0 +1,119 @@
+{
+  "id": "asset_F295_01",
+  "family": "semantic_F295",
+  "scene": "Ihlen_0_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_F295_01/scenario.yaml",
+  "scenario_sha256": "36cb6136c6622afff03c1da6eb48fa2da5f178a614ae8c94dd594139645ee969",
+  "instruction": "Find the tray in the cupboards in the dining room and put it on the table in front of you.",
+  "target_key": "tray/mkdcha",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "dining_room_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "coffee_table_fqluyq_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "4e67f717bc639fa8251f9cbf52bc0b8a96e19f8594526a196ad4548a95e97acd",
+  "route": {
+    "start": [
+      -1.1,
+      3.5,
+      0.0
+    ],
+    "path_xy": [
+      [
+        -1.1,
+        3.5
+      ],
+      [
+        -1.2000000000000002,
+        3.5
+      ],
+      [
+        -1.3,
+        3.5
+      ],
+      [
+        -1.4000000000000001,
+        3.5
+      ],
+      [
+        -1.5,
+        3.5
+      ],
+      [
+        -1.6,
+        3.5
+      ],
+      [
+        -1.6,
+        3.6
+      ],
+      [
+        -1.6,
+        3.7
+      ],
+      [
+        -1.6,
+        3.8000000000000003
+      ],
+      [
+        -1.6,
+        3.9000000000000004
+      ],
+      [
+        -1.6,
+        4.0
+      ],
+      [
+        -1.6,
+        4.1000000000000005
+      ],
+      [
+        -1.7000000000000002,
+        4.1000000000000005
+      ],
+      [
+        -1.7000000000000002,
+        4.2
+      ],
+      [
+        -1.7000000000000002,
+        4.3
+      ]
+    ],
+    "length_m": 1.4,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 48,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate"
+}

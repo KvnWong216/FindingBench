@@ -1,0 +1,207 @@
+{
+  "id": "asset_P034_01",
+  "family": "semantic_P034",
+  "scene": "Merom_1_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P034_01/scenario.yaml",
+  "scenario_sha256": "ebf56e33a6d8c8596163754e8d25a87ee39455c6cb68353078c90e3abcfdea8c",
+  "instruction": "Find the trophy in the living-room display cabinet and place it on the table in front of you in the living room.",
+  "target_key": "trophy/zoolef",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "bottom_cabinet_jhymlr_0",
+  "destination_receptacle": "coffee_table_fqluyq_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "1bcd77f7369c09f3ee939635132fc064795bb448af326a0f941bcbe3dbe0fd22",
+  "route": {
+    "start": [
+      2.75,
+      7.15,
+      0.0
+    ],
+    "path_xy": [
+      [
+        2.75,
+        7.15
+      ],
+      [
+        2.75,
+        7.25
+      ],
+      [
+        2.75,
+        7.3500000000000005
+      ],
+      [
+        2.75,
+        7.45
+      ],
+      [
+        2.75,
+        7.550000000000001
+      ],
+      [
+        2.75,
+        7.65
+      ],
+      [
+        2.75,
+        7.75
+      ],
+      [
+        2.75,
+        7.8500000000000005
+      ],
+      [
+        2.75,
+        7.95
+      ],
+      [
+        2.75,
+        8.05
+      ],
+      [
+        2.75,
+        8.15
+      ],
+      [
+        2.75,
+        8.25
+      ],
+      [
+        2.75,
+        8.35
+      ],
+      [
+        2.6500000000000004,
+        8.35
+      ],
+      [
+        2.5500000000000003,
+        8.35
+      ],
+      [
+        2.45,
+        8.35
+      ],
+      [
+        2.35,
+        8.35
+      ],
+      [
+        2.25,
+        8.35
+      ],
+      [
+        2.15,
+        8.35
+      ],
+      [
+        2.0500000000000003,
+        8.35
+      ],
+      [
+        1.9500000000000002,
+        8.35
+      ],
+      [
+        1.85,
+        8.35
+      ],
+      [
+        1.75,
+        8.35
+      ],
+      [
+        1.6500000000000001,
+        8.35
+      ],
+      [
+        1.55,
+        8.35
+      ],
+      [
+        1.4500000000000002,
+        8.35
+      ],
+      [
+        1.4500000000000002,
+        8.450000000000001
+      ],
+      [
+        1.35,
+        8.450000000000001
+      ],
+      [
+        1.35,
+        8.55
+      ],
+      [
+        1.35,
+        8.65
+      ],
+      [
+        1.35,
+        8.75
+      ],
+      [
+        1.35,
+        8.85
+      ],
+      [
+        1.25,
+        8.85
+      ]
+    ],
+    "length_m": 3.2,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 35,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_jhymlr_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "parent_task_id": "P034",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P034_01",
+    "parent_task_id": "P034",
+    "before_instruction": "Find the small cup-shaped trophy among the living-room display cabinet objects and place it at the center of the coffee table.",
+    "after_instruction": "Find the trophy in the living-room display cabinet and place it on the table in front of you in the living room.",
+    "reason": "Removes unverified cup shape and exact-center placement requirement. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "trophy/zoolef",
+    "target_assets": [
+      "trophy/zoolef"
+    ]
+  },
+  "binding_sha256": "fb18bfafb63d8fcba16a34a52d7ed3e1a06807b37489d929e91eb343372d9bfc"
+}

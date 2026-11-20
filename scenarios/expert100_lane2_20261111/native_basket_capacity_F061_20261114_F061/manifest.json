@@ -1,0 +1,343 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F061_01",
+      "family": "semantic_F061",
+      "scene": "Wainscott_0_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/native_basket_capacity_F061_20261114_F061/asset_F061_01/scenario.yaml",
+      "scenario_sha256": "6b348392c6df5390f846585b96c54cf08109d0e5f8e82c407e6bd4fbf45409cd",
+      "instruction": "Find an apple among the fruit in the kitchen basket and put it on the table in front of you in the kitchen for lunch.",
+      "target_key": "apple/zlxfxt",
+      "target_entities": [
+        "item_01"
+      ],
+      "target_count": 1,
+      "source_room": "kitchen_0",
+      "destination_room": "kitchen_0",
+      "source_receptacle": "item_00",
+      "destination_receptacle": "coffee_table_dnsjnv_1",
+      "object_count": 10,
+      "distractor_count": 8,
+      "source_survey_sha256": "bfc3f55c9661a7a599b91007a0d13bfe6624ef15110725894b31404980af12ee",
+      "route": {
+        "start": [
+          3.0,
+          11.8,
+          -1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            3.0,
+            11.8
+          ],
+          [
+            3.0,
+            11.700000000000001
+          ],
+          [
+            3.1,
+            11.700000000000001
+          ]
+        ],
+        "length_m": 0.2,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 59,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_00",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "item_09"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "parent_task_id": "F061",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F061_01",
+        "parent_task_id": "F061",
+        "before_instruction": "Find an apple among the kitchen fruit bowls and grocery containers and put it beside the lunch box on the kitchen table.",
+        "after_instruction": "Find an apple among the fruit in the kitchen basket and put it on the table in front of you in the kitchen for lunch.",
+        "reason": "Explicit first-tranche grounding: native storage and initial-facing destination replace uninstantiated decorative reference props; no new semantic-task count.",
+        "target_asset": "apple/zlxfxt"
+      },
+      "inserted_furniture": [],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "item_00",
+            "volume_extents_m": {
+              "meta__base_link_fillable_0_0_link": [
+                0.3511950035095215,
+                0.3664273281097412,
+                0.7200592861157862
+              ]
+            },
+            "native_links": {
+              "meta__base_link_fillable_0_0_link": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "wicker_basket/tsjvyu",
+              "scale": [
+                1.0,
+                1.0,
+                1.0
+              ],
+              "metadata_sha256": "6f5ee807f24e45f98a61f2183f78b2b0cf3361ee0852467364b0c28659951c6e",
+              "encrypted_asset_sha256": "d64b9117ddd4bfe3ea9b9dd5cfc4600c948fed89e6e012c17b2b0b5444f1a5c1",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.4501140071079135,
+              "nodes": 9,
+              "candidate_tests": 260539,
+              "search_orders_tried": 1,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_09": "meta__base_link_fillable_0_0_link",
+                "item_06": "meta__base_link_fillable_0_0_link",
+                "item_07": "meta__base_link_fillable_0_0_link",
+                "item_03": "meta__base_link_fillable_0_0_link",
+                "item_05": "meta__base_link_fillable_0_0_link",
+                "item_08": "meta__base_link_fillable_0_0_link",
+                "item_04": "meta__base_link_fillable_0_0_link",
+                "item_01": "meta__base_link_fillable_0_0_link",
+                "item_02": "meta__base_link_fillable_0_0_link"
+              },
+              "poses": {
+                "item_09": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.26,
+                    0.146
+                  ],
+                  "center_xy_m": [
+                    0.135,
+                    0.078
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.156
+                  ],
+                  "footprint_m": [
+                    0.137,
+                    0.078
+                  ],
+                  "center_xy_m": [
+                    0.0735,
+                    0.195
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.147,
+                    0.156
+                  ],
+                  "footprint_m": [
+                    0.089,
+                    0.091
+                  ],
+                  "center_xy_m": [
+                    0.1915,
+                    0.2015
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.241,
+                    0.156
+                  ],
+                  "footprint_m": [
+                    0.099,
+                    0.076
+                  ],
+                  "center_xy_m": [
+                    0.2905,
+                    0.194
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.241,
+                    0.23700000000000002
+                  ],
+                  "footprint_m": [
+                    0.084,
+                    0.08600000000000001
+                  ],
+                  "center_xy_m": [
+                    0.28300000000000003,
+                    0.28
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.23900000000000002
+                  ],
+                  "footprint_m": [
+                    0.094,
+                    0.073
+                  ],
+                  "center_xy_m": [
+                    0.052000000000000005,
+                    0.2755
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.10400000000000001,
+                    0.252
+                  ],
+                  "footprint_m": [
+                    0.08,
+                    0.079
+                  ],
+                  "center_xy_m": [
+                    0.14400000000000002,
+                    0.2915
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.27,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.064,
+                    0.062
+                  ],
+                  "center_xy_m": [
+                    0.302,
+                    0.036000000000000004
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.27,
+                    0.07200000000000001
+                  ],
+                  "footprint_m": [
+                    0.063,
+                    0.062
+                  ],
+                  "center_xy_m": [
+                    0.3015,
+                    0.10300000000000001
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_09": "meta__base_link_fillable_0_0_link",
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link",
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_01": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_09": "meta__base_link_fillable_0_0_link",
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link",
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_01": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_09": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link",
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link"
+        },
+        "physical_validation_required": true
+      },
+      "support_asset_changes": [
+        {
+          "revision_id": "expert_capacity_screened_basket_20261114_F061",
+          "authorization": "user_approved_find_and_deliver_rewrite",
+          "entity": "item_00",
+          "instruction_sha256": "fb31466bf7849f5fd5e50f1b5dd0f707ec2db7d43e5dd602e48718d706c21456",
+          "original_object": {
+            "name": "item_00",
+            "category": "wicker_basket",
+            "model": "dgkhyn"
+          },
+          "replacement": {
+            "name": "item_00",
+            "category": "wicker_basket",
+            "model": "tsjvyu"
+          },
+          "reason": "Use a larger existing native basket of the same category for unchanged dense contents, based on newly extracted actual native fillable geometry; keep every fruit/vegetable, target cardinality, instruction, route and all relation types. No resizing, no relaxed physical gate. All placements and independent reload remain unverified until tested.",
+          "original_scenario_sha256": "1b51557cb28c3875e47c246fcd96e2a20000f6a57c76f8e7d32d5954cefc7b98"
+        }
+      ]
+    }
+  ]
+}

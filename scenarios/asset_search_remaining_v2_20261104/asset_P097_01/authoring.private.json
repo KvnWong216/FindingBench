@@ -1,0 +1,257 @@
+{
+  "id": "asset_P097_01",
+  "family": "semantic_P097",
+  "scene": "house_double_floor_upper",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P097_01/scenario.yaml",
+  "scenario_sha256": "38ea59b4d3b07301d89699a2b5a6a745dddd185aacdf146767b8d6eb7d1ddada",
+  "instruction": "There is a sample on the cabinet top in front of you in the living room. Find the key ring matching that sample among the bedroom dresser accessories and bring it to the cabinet top in front of you in the living room in the living room before we leave.",
+  "target_key": "key_chain/wirxcw",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bedroom_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 13,
+  "distractor_count": 9,
+  "source_survey_sha256": "bad4111136351f4ccb189cc8da21449e65bb285de15b8c94024c1d045abd820a",
+  "route": {
+    "start": [
+      -1.0,
+      -0.4,
+      0.0
+    ],
+    "path_xy": [
+      [
+        -1.0,
+        -0.4
+      ],
+      [
+        -1.1,
+        -0.4
+      ],
+      [
+        -1.2000000000000002,
+        -0.4
+      ],
+      [
+        -1.3,
+        -0.4
+      ],
+      [
+        -1.4000000000000001,
+        -0.4
+      ],
+      [
+        -1.5,
+        -0.4
+      ],
+      [
+        -1.6,
+        -0.4
+      ],
+      [
+        -1.7000000000000002,
+        -0.4
+      ],
+      [
+        -1.8,
+        -0.4
+      ],
+      [
+        -1.9000000000000001,
+        -0.4
+      ],
+      [
+        -1.9000000000000001,
+        -0.30000000000000004
+      ],
+      [
+        -1.9000000000000001,
+        -0.2
+      ],
+      [
+        -1.9000000000000001,
+        -0.1
+      ],
+      [
+        -2.0,
+        -0.1
+      ],
+      [
+        -2.0,
+        0.0
+      ],
+      [
+        -2.0,
+        0.1
+      ],
+      [
+        -2.1,
+        0.1
+      ],
+      [
+        -2.1,
+        0.2
+      ],
+      [
+        -2.2,
+        0.2
+      ],
+      [
+        -2.3000000000000003,
+        0.2
+      ],
+      [
+        -2.4000000000000004,
+        0.2
+      ],
+      [
+        -2.5,
+        0.2
+      ],
+      [
+        -2.6,
+        0.2
+      ],
+      [
+        -2.7,
+        0.2
+      ],
+      [
+        -2.8000000000000003,
+        0.2
+      ],
+      [
+        -2.9000000000000004,
+        0.2
+      ],
+      [
+        -3.0,
+        0.2
+      ],
+      [
+        -3.1,
+        0.2
+      ],
+      [
+        -3.2,
+        0.2
+      ],
+      [
+        -3.2,
+        0.30000000000000004
+      ],
+      [
+        -3.2,
+        0.4
+      ],
+      [
+        -3.2,
+        0.5
+      ],
+      [
+        -3.2,
+        0.6000000000000001
+      ]
+    ],
+    "length_m": 3.2,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "comparison_negative_0",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "nightstand",
+      "model": "uudzva",
+      "floor": "floors_nlswvt_0",
+      "position_xy": [
+        -4.1000000000000005,
+        1.3
+      ],
+      "aabb": [
+        [
+          -4.275,
+          1.0700000228881836,
+          0.0
+        ],
+        [
+          -3.9250000000000007,
+          1.5299999771118165,
+          0.7000004272460938
+        ]
+      ],
+      "room": "bedroom_0"
+    },
+    {
+      "name": "delivery_surface",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_rfqizg_0",
+      "position_xy": [
+        -0.30000000000000004,
+        0.1
+      ],
+      "aabb": [
+        [
+          -0.467144760131836,
+          -0.24228797912597658,
+          0.0
+        ],
+        [
+          -0.1328552398681641,
+          0.4422879791259766,
+          0.6846599731445313
+        ]
+      ],
+      "room": "living_room_0"
+    }
+  ],
+  "parent_task_id": "P097",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P097_01",
+    "parent_task_id": "P097",
+    "before_instruction": "Find the key ring with a bicycle-shaped charm among the bedroom dresser accessories and put it in the dish on the entryway console.",
+    "after_instruction": "There is a sample on the cabinet top in front of you in the living room. Find the key ring matching that sample among the bedroom dresser accessories and bring it to the cabinet top in front of you in the living room in the living room before we leave.",
+    "reason": "Replaces unverified bicycle charm with physical-reference key-ring matching. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Explicit spatial revision from ('bedroom', 'drawer', 'entryway', 'cabinet') to ('bedroom', 'drawer', 'living_room', 'cabinet'): uses a room/storage pairing with previously found robot clearance and path evidence (1 prior recipes). Item sets, reference matching and inventory predicates are unchanged. Cross-room transfer is retained where the revised source and destination differ.",
+    "target_asset": "key_chain/wirxcw",
+    "target_assets": [
+      "key_chain/wirxcw"
+    ]
+  },
+  "binding_sha256": "23112e4414935f7940b2a89977913f32efbddd975ecf947109816aaa61bdcb97"
+}

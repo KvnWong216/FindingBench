@@ -1,0 +1,177 @@
+{
+  "id": "asset_F113_01",
+  "family": "semantic_F113",
+  "scene": "Ihlen_0_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_F113_01/scenario.yaml",
+  "scenario_sha256": "1ece7a1d3ca3b849a99fb933c037b1ba5cd1f9055bafaa8516323cd036ce8ee5",
+  "instruction": "Six people need plates at the table in front of you in the dining room. Check the plates already there and bring enough more from the dining-room sideboard.",
+  "target_key": "plate/nrjump",
+  "target_entities": [
+    "item_00",
+    "item_01"
+  ],
+  "target_count": 2,
+  "source_room": "dining_room_0",
+  "destination_room": "dining_room_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "breakfast_table_uhrsex_0",
+  "object_count": 15,
+  "distractor_count": 8,
+  "source_survey_sha256": "4e67f717bc639fa8251f9cbf52bc0b8a96e19f8594526a196ad4548a95e97acd",
+  "route": {
+    "start": [
+      -3.0,
+      3.4000000000000004,
+      -3.141592653589793
+    ],
+    "path_xy": [
+      [
+        -3.0,
+        3.4000000000000004
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09",
+    "initial_inventory_0",
+    "initial_inventory_1",
+    "initial_inventory_2",
+    "initial_inventory_3",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_kwnype_0",
+      "position_xy": [
+        -2.2,
+        3.5
+      ],
+      "aabb": [
+        [
+          -2.3671447601318363,
+          3.1577120208740235,
+          0.0
+        ],
+        [
+          -2.032855239868164,
+          3.8422879791259765,
+          0.6846599731445313
+        ]
+      ],
+      "room": "dining_room_0"
+    }
+  ],
+  "layout_preflight": {
+    "status": "unknown",
+    "findings": [
+      {
+        "receptacle": "search_storage",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.23922629249095917,
+            0.18965983357072802,
+            0.5851681912193236
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.23877585313392102,
+            0.19861903381347656,
+            0.5853487684532628
+          ],
+          "meta__base_link_fillable_0_0_link#component:2": [
+            0.23817441952228546,
+            0.189000270903126,
+            0.5853966732025147
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet/jrhgeu",
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "encrypted_asset_sha256": "70d166224352a46e63c008e4d1b5af6bec5bfdfc27f6b21dad220cca350bc871",
+          "metadata_sha256": "838fad16a0dc49e7be965c08b9de0d54b477a05592b32eb05d6519a940331708",
+          "root_orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "unknown",
+        "native_sampling_required": true,
+        "reason": "No conservative upright joint packing found; alternate poses require native sampling",
+        "entities": [
+          "item_00",
+          "item_01",
+          "item_02",
+          "item_03",
+          "item_04",
+          "item_05",
+          "item_06",
+          "item_07",
+          "item_08",
+          "item_09"
+        ]
+      }
+    ],
+    "prefer_alternative_layout": true,
+    "assignments": {},
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "F113",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F113_01",
+    "parent_task_id": "F113",
+    "before_instruction": "We need six dessert plates on the dining table and four are already there. Find two more small plates in the dining room sideboard and put them beside the four.",
+    "after_instruction": "Six people need plates at the table in front of you in the dining room. Check the plates already there and bring enough more from the dining-room sideboard.",
+    "reason": "Constructs four existing plates and two target plates, preserving inventory/count reasoning without claiming an unverified small size. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "plate/nrjump",
+    "target_assets": [
+      "plate/nrjump",
+      "plate/nrjump"
+    ]
+  },
+  "binding_sha256": "82e3c47650063fc70d251f099bf842615ca67bab1b4b6cc938e7244578a50348"
+}

@@ -1,0 +1,104 @@
+{
+  "id": "asset_F123_01",
+  "family": "semantic_F123",
+  "scene": "Wainscott_0_int",
+  "scenario": "scenarios/remaining_layout_repairs_20261108/asset_F123_01/scenario.yaml",
+  "scenario_sha256": "008c33ac108711d344b10c4d992a5c6f5f2c0b4c9bc695b482ae5d684a68efb0",
+  "instruction": "There is a sample on the table in front of you in the kitchen. Find a cookie box matching that sample among the kitchen snack supplies and bring it to the table in front of you in the kitchen.",
+  "target_key": "box_of_cookies/fsdjun",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "countertop_tpuwys_6",
+  "destination_receptacle": "coffee_table_dnsjnv_1",
+  "object_count": 12,
+  "distractor_count": 10,
+  "source_survey_sha256": "bfc3f55c9661a7a599b91007a0d13bfe6624ef15110725894b31404980af12ee",
+  "route": {
+    "start": [
+      3.0,
+      11.8,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        3.0,
+        11.8
+      ],
+      [
+        3.0,
+        11.700000000000001
+      ],
+      [
+        3.1,
+        11.700000000000001
+      ]
+    ],
+    "length_m": 0.2,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 59,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "comparison_negative_0",
+    "comparison_negative_1"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [],
+    "prefer_alternative_layout": false,
+    "assignments": {},
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [
+    {
+      "scene": "Beechwood_0_int",
+      "source": "bookcase_owvfik_0",
+      "reason": "Previously failed source layout"
+    }
+  ],
+  "parent_task_id": "F123",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F123_01",
+    "parent_task_id": "F123",
+    "before_instruction": "Find an undented box of cookies among the pantry snacks and put it beside the dented cookie box on the pantry table.",
+    "after_instruction": "There is a sample on the table in front of you in the kitchen. Find a cookie box matching that sample among the kitchen snack supplies and bring it to the table in front of you in the kitchen.",
+    "reason": "Damage comparison is revised to same-product retrieval; neither target nor reference is falsely described as dented. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Layout revision: the unbuilt pantry-room task is explicitly relocated to the kitchen food-storage area because surveyed pantry rooms lack two robot-accessible storage/delivery positions. Target models, counts, reference matching, destination inventory and goals are unchanged; this changes room scope and may shorten transport.",
+    "target_asset": "box_of_cookies/fsdjun",
+    "target_assets": [
+      "box_of_cookies/fsdjun"
+    ]
+  },
+  "binding_sha256": "64438dc820bae2bce673689b6b62606da5f50787188d67bb80c72a80788d6e87"
+}

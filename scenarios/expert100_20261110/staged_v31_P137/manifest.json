@@ -1,0 +1,449 @@
+{
+  "tasks": [
+    {
+      "id": "asset_P137_01",
+      "family": "semantic_P137",
+      "scene": "Merom_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/staged_v31_P137/asset_P137_01/scenario.yaml",
+      "scenario_sha256": "8f046d0a1f17a885f6703d20a8367d434085434cd120ad38a81d8f535cd8407e",
+      "instruction": "There is a sample on the cabinet top in front of you in the living room. Find two DVDs matching that sample in the living-room media storage and bring both to the cabinet top in front of you in the living room.",
+      "target_key": "dvd/lggrfa",
+      "target_entities": [
+        "item_00",
+        "item_01"
+      ],
+      "target_count": 2,
+      "source_room": "living_room_0",
+      "destination_room": "living_room_0",
+      "source_receptacle": "expert_storage_310",
+      "destination_receptacle": "bottom_cabinet_jhymlr_0",
+      "object_count": 12,
+      "distractor_count": 8,
+      "source_survey_sha256": "1bcd77f7369c09f3ee939635132fc064795bb448af326a0f941bcbe3dbe0fd22",
+      "route": {
+        "start": [
+          0.65,
+          9.25,
+          1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            0.65,
+            9.25
+          ],
+          [
+            0.65,
+            9.15
+          ],
+          [
+            0.65,
+            9.05
+          ],
+          [
+            0.65,
+            8.950000000000001
+          ],
+          [
+            0.65,
+            8.85
+          ],
+          [
+            0.65,
+            8.75
+          ],
+          [
+            0.65,
+            8.65
+          ],
+          [
+            0.65,
+            8.55
+          ],
+          [
+            0.65,
+            8.450000000000001
+          ],
+          [
+            0.65,
+            8.35
+          ],
+          [
+            0.75,
+            8.35
+          ],
+          [
+            0.8500000000000001,
+            8.35
+          ],
+          [
+            0.9500000000000001,
+            8.35
+          ],
+          [
+            1.05,
+            8.35
+          ],
+          [
+            1.1500000000000001,
+            8.35
+          ],
+          [
+            1.25,
+            8.35
+          ]
+        ],
+        "length_m": 1.5,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 35,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "item_09",
+        "bottom_cabinet_jhymlr_0",
+        "comparison_sample",
+        "expert_storage_310"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [
+        {
+          "name": "expert_storage_310",
+          "category": "bottom_cabinet_no_top",
+          "model": "ncgmqr",
+          "floor": "floors_xzlkei_0",
+          "position_xy": [
+            2.0500000000000003,
+            7.550000000000001
+          ],
+          "aabb": [
+            [
+              1.738130294799805,
+              7.341652801513672,
+              -0.0
+            ],
+            [
+              2.3618697052001956,
+              7.758347198486329,
+              0.6957286682128906
+            ]
+          ],
+          "room": "living_room_0"
+        }
+      ],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "expert_storage_310",
+            "volume_extents_m": {
+              "meta__drawer0_fillable_0_0_link": [
+                0.5233886344018981,
+                0.39358985018730164,
+                0.14444891703128815
+              ],
+              "meta__drawer1_fillable_0_0_link": [
+                0.5237021703720093,
+                0.39821761441230774,
+                0.14396608537536593
+              ],
+              "meta__drawer2_fillable_0_0_link": [
+                0.5186685735186505,
+                0.3985025246143341,
+                0.28758682544270653
+              ]
+            },
+            "native_links": {
+              "meta__drawer0_fillable_0_0_link": "meta__drawer0_fillable_0_0_link",
+              "meta__drawer1_fillable_0_0_link": "meta__drawer1_fillable_0_0_link",
+              "meta__drawer2_fillable_0_0_link": "meta__drawer2_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet_no_top/ncgmqr",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "654ec43b4fbdc16ab935e47e394df2e4452ea2ef8e5df804fc94faba3196f5a7",
+              "metadata_sha256": "4f69836ec4373a572ddb8592f3f5f5e84e399b02a8b6553a4147db5c12cdb121",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.050766861997544765,
+              "nodes": 10,
+              "candidate_tests": 22759,
+              "search_orders_tried": 1,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_02": "meta__drawer1_fillable_0_0_link",
+                "item_09": "meta__drawer2_fillable_0_0_link",
+                "item_07": "meta__drawer0_fillable_0_0_link",
+                "item_00": "meta__drawer1_fillable_0_0_link",
+                "item_01": "meta__drawer2_fillable_0_0_link",
+                "item_04": "meta__drawer0_fillable_0_0_link",
+                "item_05": "meta__drawer1_fillable_0_0_link",
+                "item_03": "meta__drawer2_fillable_0_0_link",
+                "item_08": "meta__drawer0_fillable_0_0_link",
+                "item_06": "meta__drawer2_fillable_0_0_link"
+              },
+              "poses": {
+                "item_02": {
+                  "bin": "meta__drawer1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.298,
+                    0.212
+                  ],
+                  "center_xy_m": [
+                    0.154,
+                    0.111
+                  ]
+                },
+                "item_09": {
+                  "bin": "meta__drawer2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.298,
+                    0.212
+                  ],
+                  "center_xy_m": [
+                    0.154,
+                    0.111
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__drawer0_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.29,
+                    0.22
+                  ],
+                  "center_xy_m": [
+                    0.15,
+                    0.115
+                  ]
+                },
+                "item_00": {
+                  "bin": "meta__drawer1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.308,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.14400000000000002,
+                    0.14400000000000002
+                  ],
+                  "center_xy_m": [
+                    0.38,
+                    0.077
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__drawer2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.308,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.14400000000000002,
+                    0.14400000000000002
+                  ],
+                  "center_xy_m": [
+                    0.38,
+                    0.077
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__drawer0_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.3,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.218,
+                    0.16
+                  ],
+                  "center_xy_m": [
+                    0.40900000000000003,
+                    0.085
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__drawer1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.308,
+                    0.154
+                  ],
+                  "footprint_m": [
+                    0.194,
+                    0.146
+                  ],
+                  "center_xy_m": [
+                    0.405,
+                    0.227
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__drawer2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.308,
+                    0.154
+                  ],
+                  "footprint_m": [
+                    0.194,
+                    0.131
+                  ],
+                  "center_xy_m": [
+                    0.405,
+                    0.2195
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__drawer0_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.3,
+                    0.17
+                  ],
+                  "footprint_m": [
+                    0.161,
+                    0.12
+                  ],
+                  "center_xy_m": [
+                    0.3805,
+                    0.23
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__drawer2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.222
+                  ],
+                  "footprint_m": [
+                    0.154,
+                    0.122
+                  ],
+                  "center_xy_m": [
+                    0.082,
+                    0.28300000000000003
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_02": "meta__drawer1_fillable_0_0_link",
+              "item_09": "meta__drawer2_fillable_0_0_link",
+              "item_07": "meta__drawer0_fillable_0_0_link",
+              "item_00": "meta__drawer1_fillable_0_0_link",
+              "item_01": "meta__drawer2_fillable_0_0_link",
+              "item_04": "meta__drawer0_fillable_0_0_link",
+              "item_05": "meta__drawer1_fillable_0_0_link",
+              "item_03": "meta__drawer2_fillable_0_0_link",
+              "item_08": "meta__drawer0_fillable_0_0_link",
+              "item_06": "meta__drawer2_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_02": "meta__drawer1_fillable_0_0_link",
+              "item_09": "meta__drawer2_fillable_0_0_link",
+              "item_07": "meta__drawer0_fillable_0_0_link",
+              "item_00": "meta__drawer1_fillable_0_0_link",
+              "item_01": "meta__drawer2_fillable_0_0_link",
+              "item_04": "meta__drawer0_fillable_0_0_link",
+              "item_05": "meta__drawer1_fillable_0_0_link",
+              "item_03": "meta__drawer2_fillable_0_0_link",
+              "item_08": "meta__drawer0_fillable_0_0_link",
+              "item_06": "meta__drawer2_fillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_02": "meta__drawer1_fillable_0_0_link",
+          "item_09": "meta__drawer2_fillable_0_0_link",
+          "item_07": "meta__drawer0_fillable_0_0_link",
+          "item_00": "meta__drawer1_fillable_0_0_link",
+          "item_01": "meta__drawer2_fillable_0_0_link",
+          "item_04": "meta__drawer0_fillable_0_0_link",
+          "item_05": "meta__drawer1_fillable_0_0_link",
+          "item_03": "meta__drawer2_fillable_0_0_link",
+          "item_08": "meta__drawer0_fillable_0_0_link",
+          "item_06": "meta__drawer2_fillable_0_0_link"
+        },
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [],
+      "parent_task_id": "P137",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_P137_01",
+        "parent_task_id": "P137",
+        "before_instruction": "Find discs 1 and 2 of City Lights among the living-room media storage and put both closed cases below the television.",
+        "after_instruction": "There is a sample on the cabinet top in front of you in the living room. Find two DVDs matching that sample in the living-room media storage and bring both to the cabinet top in front of you in the living room.",
+        "reason": "Preserves cardinality two while replacing fictional numbered films and unverified closed cases with same-model discs. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "dvd/lggrfa",
+        "target_assets": [
+          "dvd/lggrfa",
+          "dvd/lggrfa"
+        ]
+      },
+      "proposal_native_policy_signature": "54e310d67c2709059af81bec4ab688b7e5ef712bf1dd6e618e9868e567523d10",
+      "storage_model_experience": []
+    }
+  ]
+}

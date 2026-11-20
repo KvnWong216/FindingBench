@@ -1,0 +1,32 @@
+{
+  "method": "explicit_native_asset_side_pose_for_layout_authoring",
+  "source_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/all_remaining_20261113_28_P251/asset_P251_01/scenario.yaml",
+  "source_sha256": "c79074e7da9fd8d289f5a2bda7f4525a74d5699cf2452bbaa083f5c7486d1e6b",
+  "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_lane2_20261111/all_remaining_20261113_28_P251/asset_P251_01",
+  "edits": [
+    {
+      "entity": "item_00",
+      "asset": "mirror/rgbvxy",
+      "before_orientation_hint": null,
+      "after_orientation_hint_xyzw": [
+        0.0,
+        0.7071067811865475,
+        0.0,
+        0.7071067811865476
+      ],
+      "before_bbox_m": [
+        0.009363619804382325,
+        0.3651999816894531,
+        0.5019794616699219
+      ],
+      "after_bbox_m": [
+        0.5019794616699219,
+        0.3651999816894531,
+        0.009363619804382436
+      ]
+    }
+  ],
+  "reason": "Native metadata lacks stable poses; store long tools and boxed equipment on a broad side rather than forcing them upright. The actual collision mesh and all native acceptance gates are retained.",
+  "physical_validation_required": true,
+  "player_skill_change": false
+}

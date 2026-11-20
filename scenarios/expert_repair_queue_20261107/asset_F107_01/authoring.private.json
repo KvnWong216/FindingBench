@@ -1,0 +1,202 @@
+{
+  "id": "asset_F107_01",
+  "family": "semantic_F107",
+  "scene": "Beechwood_0_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_F107_01/scenario.yaml",
+  "scenario_sha256": "c7815bc6111268fa6858290ad5cd2ea6040cd1287c62a53961a71967511b7799",
+  "instruction": "There is a sample on the table in front of you in the kitchen. Find the bowl matching that sample among the kitchen dishes and bring it to the table in front of you in the kitchen.",
+  "target_key": "bowl/hitnkv",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+  "destination_receptacle": "breakfast_table_uhrsex_0",
+  "object_count": 12,
+  "distractor_count": 10,
+  "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+  "route": {
+    "start": [
+      0.25,
+      -8.55,
+      0.0
+    ],
+    "path_xy": [
+      [
+        0.25,
+        -8.55
+      ],
+      [
+        0.35000000000000003,
+        -8.55
+      ],
+      [
+        0.45,
+        -8.55
+      ],
+      [
+        0.55,
+        -8.55
+      ],
+      [
+        0.55,
+        -8.450000000000001
+      ],
+      [
+        0.55,
+        -8.35
+      ],
+      [
+        0.55,
+        -8.25
+      ],
+      [
+        0.55,
+        -8.15
+      ],
+      [
+        0.55,
+        -8.05
+      ],
+      [
+        0.55,
+        -7.95
+      ],
+      [
+        0.55,
+        -7.8500000000000005
+      ],
+      [
+        0.55,
+        -7.75
+      ]
+    ],
+    "length_m": 1.1,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "comparison_negative_0",
+    "comparison_negative_1",
+    "bottom_cabinet_no_top_qohxjq_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+        "volume_extents_m": {
+          "link_0": [
+            0.35826021432876587,
+            0.41759204864501953,
+            0.16683420538902283
+          ],
+          "link_1": [
+            0.3490593433380127,
+            0.4109954833984375,
+            0.15118098258972168
+          ],
+          "link_2": [
+            0.3429843783378601,
+            0.41287994384765625,
+            0.040989458560943604
+          ]
+        },
+        "native_links": {
+          "link_0": "link_0",
+          "link_1": "link_1",
+          "link_2": "link_2"
+        },
+        "geometry_source": "survey",
+        "geometry_provenance": {},
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_06": "link_0",
+          "comparison_negative_1": "link_1",
+          "item_00": "link_0",
+          "item_05": "link_0",
+          "item_04": "link_1",
+          "item_02": "link_0",
+          "item_08": "link_0",
+          "comparison_negative_0": "link_1",
+          "item_03": "link_2",
+          "item_01": "link_2",
+          "item_07": "link_2"
+        },
+        "component_allocation": {
+          "item_06": "link_0",
+          "comparison_negative_1": "link_1",
+          "item_00": "link_0",
+          "item_05": "link_0",
+          "item_04": "link_1",
+          "item_02": "link_0",
+          "item_08": "link_0",
+          "comparison_negative_0": "link_1",
+          "item_03": "link_2",
+          "item_01": "link_2",
+          "item_07": "link_2"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_06": "link_0",
+      "comparison_negative_1": "link_1",
+      "item_00": "link_0",
+      "item_05": "link_0",
+      "item_04": "link_1",
+      "item_02": "link_0",
+      "item_08": "link_0",
+      "comparison_negative_0": "link_1",
+      "item_03": "link_2",
+      "item_01": "link_2",
+      "item_07": "link_2"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "F107",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F107_01",
+    "parent_task_id": "F107",
+    "before_instruction": "Find the kitchen bowl containing the lemon, among the bowls of fruit, and move that bowl to the kitchen table beside the teapot.",
+    "after_instruction": "There is a sample on the table in front of you in the kitchen. Find the bowl matching that sample among the kitchen dishes and bring it to the table in front of you in the kitchen.",
+    "reason": "Explicitly replaces moving a fruit-containing bowl with same-model bowl matching because transporting an inserted lemon requires additional fit validation. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "bowl/hitnkv",
+    "target_assets": [
+      "bowl/hitnkv"
+    ]
+  },
+  "binding_sha256": "40e76365301b654a8fc572dd94fc73f8841e9a4e96e4685a692aa19cc948ffef"
+}

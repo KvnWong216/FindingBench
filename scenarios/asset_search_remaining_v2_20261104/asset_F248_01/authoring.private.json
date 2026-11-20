@@ -1,0 +1,313 @@
+{
+  "id": "asset_F248_01",
+  "family": "semantic_F248",
+  "scene": "Rs_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_F248_01/scenario.yaml",
+  "scenario_sha256": "d864928c59e993d0afe54e1aa4bd284cd2ee9c58dc9cacf622316210c5b39d87",
+  "instruction": "The coffee setup at the table in front of you in the living room in the living room needs a mug, coffee and sugar. Check what is there and fetch the missing item from the kitchen food storage.",
+  "target_key": "jar_of_sugar/rfzqei",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "bottom_cabinet_bamfsz_0",
+  "destination_receptacle": "coffee_table_fqluyq_0",
+  "object_count": 11,
+  "distractor_count": 8,
+  "source_survey_sha256": "24bd47925e994c3defe707f3d8a919b355cd46a7128d2b59d373bc2697d8185e",
+  "route": {
+    "start": [
+      0.4,
+      -1.6,
+      3.141592653589793
+    ],
+    "path_xy": [
+      [
+        0.4,
+        -1.6
+      ],
+      [
+        0.4,
+        -1.5
+      ],
+      [
+        0.4,
+        -1.4000000000000001
+      ],
+      [
+        0.4,
+        -1.3
+      ],
+      [
+        0.4,
+        -1.2000000000000002
+      ],
+      [
+        0.4,
+        -1.1
+      ],
+      [
+        0.4,
+        -1.0
+      ],
+      [
+        0.4,
+        -0.9
+      ],
+      [
+        0.4,
+        -0.8
+      ],
+      [
+        0.4,
+        -0.7000000000000001
+      ],
+      [
+        0.4,
+        -0.6000000000000001
+      ],
+      [
+        0.4,
+        -0.5
+      ],
+      [
+        0.4,
+        -0.4
+      ],
+      [
+        0.4,
+        -0.30000000000000004
+      ],
+      [
+        0.4,
+        -0.2
+      ],
+      [
+        0.4,
+        -0.1
+      ],
+      [
+        0.4,
+        0.0
+      ],
+      [
+        0.4,
+        0.1
+      ],
+      [
+        0.4,
+        0.2
+      ],
+      [
+        0.4,
+        0.30000000000000004
+      ],
+      [
+        0.4,
+        0.4
+      ],
+      [
+        0.4,
+        0.5
+      ],
+      [
+        0.4,
+        0.6000000000000001
+      ],
+      [
+        0.4,
+        0.7000000000000001
+      ],
+      [
+        0.4,
+        0.8
+      ],
+      [
+        0.4,
+        0.9
+      ],
+      [
+        0.4,
+        1.0
+      ],
+      [
+        0.5,
+        1.0
+      ],
+      [
+        0.6000000000000001,
+        1.0
+      ],
+      [
+        0.7000000000000001,
+        1.0
+      ],
+      [
+        0.7000000000000001,
+        1.1
+      ],
+      [
+        0.8,
+        1.1
+      ],
+      [
+        0.8,
+        1.2000000000000002
+      ],
+      [
+        0.9,
+        1.2000000000000002
+      ],
+      [
+        0.9,
+        1.3
+      ],
+      [
+        0.9,
+        1.4000000000000001
+      ],
+      [
+        0.9,
+        1.5
+      ],
+      [
+        0.9,
+        1.6
+      ],
+      [
+        0.9,
+        1.7000000000000002
+      ],
+      [
+        0.9,
+        1.8
+      ],
+      [
+        0.9,
+        1.9000000000000001
+      ],
+      [
+        0.9,
+        2.0
+      ],
+      [
+        0.9,
+        2.1
+      ],
+      [
+        0.9,
+        2.2
+      ],
+      [
+        0.8,
+        2.2
+      ],
+      [
+        0.7000000000000001,
+        2.2
+      ],
+      [
+        0.6000000000000001,
+        2.2
+      ],
+      [
+        0.5,
+        2.2
+      ],
+      [
+        0.4,
+        2.2
+      ],
+      [
+        0.30000000000000004,
+        2.2
+      ],
+      [
+        0.2,
+        2.2
+      ],
+      [
+        0.1,
+        2.2
+      ],
+      [
+        0.0,
+        2.2
+      ],
+      [
+        -0.1,
+        2.2
+      ],
+      [
+        -0.2,
+        2.2
+      ],
+      [
+        -0.30000000000000004,
+        2.2
+      ],
+      [
+        -0.4,
+        2.2
+      ],
+      [
+        -0.5,
+        2.2
+      ],
+      [
+        -0.6000000000000001,
+        2.2
+      ]
+    ],
+    "length_m": 5.8,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 3,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "initial_inventory_0",
+    "initial_inventory_1",
+    "bottom_cabinet_bamfsz_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "parent_task_id": "F248",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F248_01",
+    "parent_task_id": "F248",
+    "before_instruction": "The living room coffee tray needs mugs, coffee and sugar. The mugs and coffee are there; find the sugar jar in the kitchen food storage and bring it beside the tray.",
+    "after_instruction": "The coffee setup at the table in front of you in the living room in the living room needs a mug, coffee and sugar. Check what is there and fetch the missing item from the kitchen food storage.",
+    "reason": "Constructs mug and coffee at the destination; sugar is the uniquely missing native category. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "jar_of_sugar/rfzqei",
+    "target_assets": [
+      "jar_of_sugar/rfzqei"
+    ]
+  },
+  "binding_sha256": "4a2627c35168f9cea702c44fd05ad79d5bfa08c43a2db78889302ef729b93ed5"
+}

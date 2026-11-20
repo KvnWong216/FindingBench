@@ -1,0 +1,155 @@
+{
+  "id": "asset_P205_01",
+  "family": "semantic_P205",
+  "scene": "Wainscott_0_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P205_01/scenario.yaml",
+  "scenario_sha256": "297c971e72c666f1ee95c6285db087d4d91c690e13bb81dcb966e5d10728f135",
+  "instruction": "Collect all three toy cars from the bedroom toy storage and put them on the table in front of you in the living room in the living room for the pretend traffic scene.",
+  "target_key": "toy_car/ksijjl",
+  "target_entities": [
+    "item_00",
+    "item_01",
+    "item_02"
+  ],
+  "target_count": 3,
+  "source_room": "bedroom_0",
+  "destination_room": "living_room_2",
+  "source_receptacle": "bottom_cabinet_dajebq_0",
+  "destination_receptacle": "coffee_table_dnsjnv_0",
+  "object_count": 11,
+  "distractor_count": 8,
+  "source_survey_sha256": "bfc3f55c9661a7a599b91007a0d13bfe6624ef15110725894b31404980af12ee",
+  "route": {
+    "start": [
+      -3.2,
+      -2.9000000000000004,
+      3.141592653589793
+    ],
+    "path_xy": [
+      [
+        -3.2,
+        -2.9000000000000004
+      ],
+      [
+        -3.1,
+        -2.9000000000000004
+      ],
+      [
+        -3.0,
+        -2.9000000000000004
+      ],
+      [
+        -2.9000000000000004,
+        -2.9000000000000004
+      ],
+      [
+        -2.8000000000000003,
+        -2.9000000000000004
+      ],
+      [
+        -2.7,
+        -2.9000000000000004
+      ],
+      [
+        -2.6,
+        -2.9000000000000004
+      ],
+      [
+        -2.5,
+        -2.9000000000000004
+      ],
+      [
+        -2.4000000000000004,
+        -2.9000000000000004
+      ],
+      [
+        -2.4000000000000004,
+        -3.0
+      ],
+      [
+        -2.3000000000000003,
+        -3.0
+      ],
+      [
+        -2.2,
+        -3.0
+      ],
+      [
+        -2.2,
+        -3.1
+      ],
+      [
+        -2.1,
+        -3.1
+      ],
+      [
+        -2.1,
+        -3.2
+      ],
+      [
+        -2.1,
+        -3.3000000000000003
+      ],
+      [
+        -2.1,
+        -3.4000000000000004
+      ],
+      [
+        -2.1,
+        -3.5
+      ],
+      [
+        -2.0,
+        -3.5
+      ]
+    ],
+    "length_m": 1.8,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 14,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09",
+    "item_10",
+    "bottom_cabinet_dajebq_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "parent_task_id": "P205",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P205_01",
+    "parent_task_id": "P205",
+    "before_instruction": "Find all toy cars marked POLICE among bedroom toy storage and put them together on the living-room play mat.",
+    "after_instruction": "Collect all three toy cars from the bedroom toy storage and put them on the table in front of you in the living room in the living room for the pretend traffic scene.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; No verified native texture/model binding establishes the requested marking for POLICE-marked toy cars. Native categories are only candidates; required subtype, markings, quantity, or reference appearance remain unverified: POLICE-marked toy cars. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Uses a smaller existing native model without rescaling; large toy vehicle/chess board is not imported as a portable target.",
+    "target_asset": "toy_car/ksijjl",
+    "target_assets": [
+      "toy_car/ksijjl",
+      "toy_car/ksijjl",
+      "toy_car/ksijjl"
+    ]
+  },
+  "binding_sha256": "c29398437f443ec4c4954e139314d0e0e1c768c33e32a17c322f86d1889d9420"
+}

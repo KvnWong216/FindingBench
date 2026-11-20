@@ -1,0 +1,66 @@
+【直接交给下一位 agent 的 prompt｜FindingBench｜2026-11-20 JST】
+
+你接手 /home/ubuntu/ygwang/FindingBench 的机器人仿真评测。当前 IDE 可能开着 IP-VLA/asa-iteration 的教师标注与训练报告；那是另一个工作区。本周交付不依赖 IP-VLA 教师、学生训练或真机，不能把那边的实验计入本 benchmark。先核实本地证据，然后继续实施。用户目标：自 2026-11-20 JST 起一周内完成 benchmark v1 设计冻结、接通 MCP，并实际启动一批可复现的评测；11 月 27 日 JST 前交付。不需要从头造数据，也不要求一周内把 1000 条全部用模型刷完。
+
+一、研究问题与论文故事
+
+核心主张是解耦高层规划与低层执行，用固定的公共技能接口划定可对照边界。高层只凭自然语言、图像和交互历史选择技能和点位；低层负责点选落地、几何与安全检查、物理执行。两层分别留下证据，便于区分「策略不知道下一步该做什么」和「知道但当前机器人或执行器做不到」。研究贡献是可诊断、可比较的规划与执行分层；稠密布局是要研究的任务范式，RAB 提供可复用资产，不把造数据写成最大创新，也不预设分层一定提高成功率。
+
+任务范式是家庭协作式找物：找、辨认、取出、送达、尽量复原。例：人说“去厨房拿瓶酱油放在餐桌上”。桌上没有目标，机器人去厨房，记住已搜过哪个柜子；必要时移动遮挡，CHECK 区分酱油和醋，拿对物体后放到明确位置，尽量关门、放回挪开的东西。这是研究原型，不宣称 RAB 当前有酱油、车库或所有住宅房型。主任务文本只写自然请求，不提示“用 CHECK”“复位其他物品”“Then report completion.”。REPORT_DONE 是公共技能，可在接口文档中解释。显式安全或复位提醒仅用于诊断对照。导航是必要技能，近距离内多个候选／遮挡是主要难点。任务要求目标及数量实际存在、目的地无歧义、相似物有可见或 CHECK 可验证的判别依据。
+
+论文叙事：
+- 真实家庭找物挑战是不完全观测下的视觉识别、推理、记忆、主动观察、复位与物理约束。控制多余移动距离后，仍可因候选分支、遮挡和干扰对象产生难度。
+- 定位：早期 Mechanical Search / RAY 有稠密遮挡，不能说它们假定稀疏；它们的局域找物设定与家庭指令下取送、复原、现代高层模型及失败归因是互补的。HSC 可作“密集布局下表征困难”的候选文献，本工作问规划与执行如何分别限制表现。RAB 是复用基础，对比任务、接口和分析目标，不把资产写成自己造的。讨论 π0.5 等 VLA/WAM 时，只针对可核对的具体训练、数据和部署任务，不能笼统写所有模型假定稀疏。前述是查证线索，引用原文前复核。
+- 主要科学对照：同任务、起点、执行器、预算及观测，换高层模型或上下文；固定高层策略或冻结决策输入，在配对场景中改变明确定义的低层执行能力或使用受控的参照执行，比较哪些差距会消失。特权可达性检查、知道目标的原语回放只作工程诊断或上限，不是公平的视觉模型 baseline。换低层时固定动作语义、其余条件和版本；单模型低分或事后猜测不证明两层瓶颈的因果关系。
+- 数学支撑先读 docs/household_search_formalization.md。等先验、每次完美检查只辨明一个候选、成功须检查取得目标、候选间移动代价固定为零时，检查次数的期望为 (n+1)/2，最坏 n。可引用可分成本下按 q_i/p_i 排序的交换论证。真实动态开门、遮挡和搬动是部分可观测问题，不能套用该闭式最优。理论说明分支可以独立于距离产生复杂度，不证明现有 VLA 必然失败。若需经验结论，做同房间、同目标、同起点与距离匹配的少量疏／密配对，比较已冻结执行器下表现；不为这一额外对照拖延首批 MCP。
+
+二、已经做了什么，什么没有做
+
+默认 RAB 稠密版：runs/rab_dense_serial_20261119/combined_manifest.json。1000/1000 通过初始化和对应原生物理门槛，0 待修：872 双抽屉、123 开放区遮挡、5 冰箱；400 短程、600 跨区域或组合；824/147/26/3 条分别有 1/2/3/4 个目标。50 布局各 20 条；检查最终 placed 字段有 37 个物品模型 ID。50 布局同属 LIVING_STRAIGHT，结构审计有 6 组签名，不是 50 种房型。双抽屉占比高，292 条常温零食抽屉重绑定、5 条冰箱重绑定有账本。典型门槛：75 步初态稳定；开放区原生射线命中前景可移动遮挡与其后的目标；抽屉或冰箱在装载下原生开合。不是 1000 次抓放导航闭环、每条可达性证书或模型 SR。旧 BEHAVIOR 物体库和渲染缓存已退役，原配方及人类历史记录保留，只作历史；不重装旧资产、不重启旧增强、不混用两个版本。RAB 资产固定为 0.1.7。
+
+Spectator、编辑器、人工技能和 HTTP 已切 RAB，1000/1000 轻量巡检缓存复查通过，67 条相关回归通过。F087 底盘走约 1.38 m、终点误差约 5 mm；同次 F164/F275 有两条导航 UNSAFE，应先分类，不算模型规划失败。F251 实测 CHECK 四视图，真实夹爪抬罐约 9.5 cm、放到点选托盘误差约 2.7 cm，但 REPORT_DONE 为 false，这是技能正例而非任务成功。F262 技能 HTTP 能点选开关冰箱；P136、F054 在原生物理中验双抽屉与双门；P136 打开的抽屉保存后独立 PhysX 重载并渲染。现行 OPEN/CLOSE 是受约束的关节驱动，不是手抓把手。人工编辑通过独立重载也不自动成为正式样本；评测锁原清单、绑定 scene SHA，使用专用空修订目录。全量可玩性／闭环、模型 SR 和同口径人类难度尚未验收。
+
+当前协议 findingbench_rab_pinhole_v1，不是旧 BEHAVIOR 全景。公共九技能：MOVE_TO、TURN、OPEN、CLOSE、GRASP、PLACE、VIEW、CHECK、REPORT_DONE；默认 120 步是工程初值，冻结时明确记账。图像点从左上起、归一化 [0,1]，必须使用当前 scene frame_id；CHECK 是可见所选物体的隔离四视图，不可作为点选画面。AGENT 不用 spectator 或编辑器。当前 HTTP：GET /observation 取当前 RGB 和公开元数据；POST /action 提交动作并取反馈／终止；GET /state 为状态投影。scripts/rab_skills.py 是具体行为。
+
+最紧要的缺口：RAB 有 HTTP skill harness，但 src/rummagebench/adapters/mcp_server.py 的 stdio 工具仍以 scenarios/<id>/scenario.yaml 启动 OmniGibson；scripts/mcp_acceptance.py 断言旧八技能、OBSERVE 和旧字段，不能当作 RAB 通过。机器当前只有一张枚举 GPU 0 (3090)，旧默认 4 不适用；本机 ygbench 是 Python 3.11，已有 MCP 1.30.0，启动前复查运行状态和 GPU 占用。默认从 FindingBench 根目录 conda activate ygbench，python scripts/play_data.py F251 打开技能界面（8090）；python scripts/spectator.py --task F251 巡检（8091），加 --edit 编辑；技能诊断可用 --skills --run-output <newdir>。生产录像、几何、私有评分与日志不要经 MCP 传出。
+
+三、这一周冻结的 benchmark 合同
+
+1. 三个集合：原始 RAB 1K 库存、预先选定并验收的 pilot、排除／替补账本。提议 pilot 24–36 条，开放遮挡、抽屉、冰箱分层，兼顾单／多目标、短／跨区及不同背景。罕见冰箱可以超额抽样，单列该口径，不把 pilot 当 1K 的总体 SR。预先写固定候选及替补顺序；同室派生对、同家族或同语义模板以组切分，查结构签名、房间、资产、语义重复。先对纳入的 pilot 验公开点选下的找物到送达路径；特权脚本只证明受控原语或可行路径，不算真人数据。阻塞就记录物理／语义依据，按预定规则替换；不能偷偷换目标。暂不扩建房型、增数据或重跑全部 1K，除非发现系统性阻塞。
+2. 难度先按同一公共接口的人类参考步数和可完成性分层，记录人、试次、预算、成功数、分箱边界、必要开合／移挡。候选区域数、相似干扰、遮挡层和距离单独记录；不先用它们冒充人类难度。Human oracle 是可达到成本，不是已证明最优；已存在的同协议真人数据可重放，历史 BEHAVIOR 不混入。至少争取一个真人公开闭环；不足标分层 provisional，不把 agent 脚本叫人类或用合成结果填数。
+3. SR：指定目标数量全部到明确的目的地、受正确表面或容器支撑、静稳且释放；明确 REPORT_DONE、错误提交与预算末步终止顺序。复位不并入主任务 SR，除非显式诊断任务要求。ST 的 v1 提案是成功试次的完成耗时，另报成功步数和计时边界；若旧 ST 有其他含义，冻结文档用可读列名消歧。分开模型、工具、仿真耗时，报有效试次、成功数、超时、无效基础设施数和重跑数；SR 分母与排除规则预登记，不从成功者耗时推全体效率。主表 SR / ST / 复位，按人类难度或任务族报告样本数及置信区间；小样本只作 pilot，可按布局组 bootstrap 报不确定性。
+4. 复位复用 scripts/rab_restore.py 的连续相似度。非目标对象分别计正确承托关系、同容器坐标下位移／姿态误差、门或抽屉的实测位置／转角，聚合到 [0,1]。错支撑／掉落／缺失明确，目标离开原位不扣分；测得的机关状态不能用 drive 指令替代。冻结前用原样、轻微偏移、错格、门未关四种控制核尺度／缺失项。遮挡级联、多物堆叠要核承托识别，不把支持路径换名误计失败。
+5. 图 1：不确定度随技能步数下降的曲线。DER-n 只在预定义候选集与先验、可复核的观测排除规则成立时做：H_t = -sum p_t log p_t，DER-n = H_t - H_(t+n)，注明对数底、粒度与未知遮挡。不要用 GT 直接消除不确定性，也不要把自报置信度当标定 posterior。动态候选跟踪不足时，用可验证的剩余候选／排除过程，或把 DER 标 NOT RUN；不是交付阻塞项。
+6. 图 2：从 episode 成功／失败开始，区分未找到、错认、错送达／虚假完成、预算、执行阻塞；基础设施单列，复位低分独立。图 2b（原提案图 3）：所有提交动作中实际执行比例；在未执行中分别算不可达、风险／碰撞、动作／状态不适用（旧帧、占手等）、其他／未知。已驱动物理但后置条件失败，与前置拒绝分开；不要以一个公开 UNSAFE 直接推断具体根因。定义允许核对原日志，episode 与 action 分母分别写清。重复失败率本周不加，除非实际行为提示需要且能可靠判断状态和观测无实质变化。
+7. 诊断优先固定执行器比较普通指令 vs 显式“别碰掉东西／请复位”，以及短 vs 长历史；每次只改一项、保持公平预算。针孔 vs 全景、是否给深度 GT 单独版本化；带特权深度不混作 baseline。显式技能提醒同样是独立对照。第一周至少冻结对照设计，若余量只试一个，不延误 MCP。旧 BEHAVIOR 全景成绩不能直接作 RAB 针孔的配对控制。
+
+四、怎么把 MCP 接通，什么算完成
+
+实现显式 RAB stdio 入口（如 serve-mcp --backend rab 或独立模块），保留旧路可辨识。优先复用已经实测的 localhost HTTP skill worker；stdio 进程不 import Kit，只管理自己启动的进程并转发，稳定后再考虑 IPC。用清单解析任务 ID，不允许任意路径、文件读取、自由相机或编辑 API。每次 reset 新建 native world，同 ID 重置和换 ID 不继承状态。原生 stdout/stderr 落日志，stdio stdout 只输出 MCP JSON-RPC；启动和请求有超时、readiness、独立 TMPDIR、清理及错误分类。开始串行占一个 GPU worker，不停止别人的进程；基础设施重试有上限且保留失败记录。
+
+工具沿用 reset_episode、observe、act、episode_status：
+- reset_episode(task_id) 返回公开初始帧与新的 episode 身份；私有 manifest 固定清单 SHA、场景 SHA、依赖／执行器、horizon、seed 或明确的确定性政策。若 worker 不支持 seed，不默默吞掉也不声称生效。
+- observe 不扣步、不推进物理；MCP ImageContent 传原生 PNG，辅以结构化元数据。实测客户端能看到和使用图像，不把 base64 直接当一大段模型文字。CHECK 独立附图，不能成为 scene 点选帧。
+- act 直接传给权威执行器，运输层不代替模型改动作、挑坐标或提示。四个公共码：EXECUTED、INVALID_ACTION、OUT_OF_CAPABILITY、UNSAFE。细原因私有，除非专门的已登记反馈对照。每条被系统处理的提交（含过期帧）按冻结口径计一次；未提交、纯传输失败与基础设施失败分开。终止后拒绝后续物理动作并且不扣步；检查并修正当前 worker 的终止边界后再冻结。episode_status 公开运行、完成、失败或超时，不给目标身份、oracle 路径、失败私因和场景真值。工具响应成功与任务成功分开。
+- 先假 worker 测错误与进程生命周期，再用标准 MCP client 与真实 Kit 握手：列工具 → reset → observe → VIEW → 点选 CHECK 或 OPEN → 过期帧负控 → 当帧正常动作 → REPORT_DONE 与状态；加同 ID reset、换 ID、终止后拒绝、挂起进程回收、HTTP 与 MCP 的公开字段／帧和 PNG 一致性。覆盖真实正例 F251 抓放、F262 开关、F087 导航。另须实际验证至少一条 RAB 任务的公开找取送达成功轨迹；不能拿技能单测或特权回放代替。日志分离公开输入输出与私有评估，Worker 崩溃不归模型。
+- 用同一 MCP 客户端启动真实读图模型首批 baseline。优先已有本机模型或已经授权且有预算的模型，别等额外训练。冻结 checkpoint/endpoint、任务清单、预算、输入图像与上下文、模型重试和评估代码；记录原始动作、公开图像或哈希、工具应答、私有物理诊断、时间、任务终态和排除账本。先小批产出真实轨迹，再派发可恢复队列；“开始评测”的证据是实际模型 episode 落盘、有派发与退出标记，不是只建立空队列或真人示范。若无可用模型或授权，交付已实跑的真实 MCP 和可运行 runner，注明具体阻塞，不冒称模型已开跑。
+
+五、建议节奏与交付（JST）
+
+- 11/20–11/21：读证据；定研究问题、v1 主协议、SR/ST/复位与失败字典，列 pilot 候选和替补。立即改 RAB MCP 外壳，不等相关工作写完。
+- 11/22：真实 stdio 接通、图像/点选/reset、负控及终态；梳理 F164/F275 失败，修通用执行问题。跑一条真正公开可见下的找物到送达。
+- 11/23–11/24：冻结 pilot 与排除规则，补真人参考、人工公开诊断路径和正负控制；接可聚合 SR/ST/复位及两级 taxonomy 的 runner，缺真人标暂行分层。
+- 11/25–11/26：用 MCP 启动首批真实模型基线，先检查动作和终态日志；资源允许才在同一子集做一个诊断对照（优先约束提醒或记忆）。
+- 11/27 前交付：v1 设计、冻结 pilot 与哈希、MCP 启动和真实引擎验收指令、首批评测运行证据、主表/图的数据或明确缺项。按“实现／真实验收／未完成／下一步”汇报。工期紧时保住这条主线：同一 RAB 任务 → 可用 RGB → 真 stdio MCP → 原生执行 → 可核验终态 → 可复跑记录。全景、DER、额外低层对照、多模型和 1K 全量评测可延后。
+
+六、按优先级读取的本地证据（路径相对 FindingBench）
+
+- HANDOFF.md 最新两节、README.md 页首。下方旧 BEHAVIOR 章节的状态、技能数、评测模式和 MCP 命令是历史。
+- runs/rab_dense_serial_20261119/combined_manifest.json 及 serial_repair_verification.json：正式 1K、任务 ID、RAB episode 和独立物理凭证。
+- runs/rab_spectator_transfer_20261119/validation.json：缓存、编辑、技能证据索引。同目录 native_navigation_smoke.json、skill_trace7/、fridge_skill_trace/、native_mechanism_smoke.json、native_open_save_smoke.json 可追溯。
+- runs/rab_migration_20261118/diversity_audit_v2/diversity.json、migration_queue.jsonl：原布局多样性与配方来源，早期资产数不能当最终覆盖；references/RobotAgentBench 是固定上游来源。
+- docs/rab_spectator_skills.md，scripts/rab_skills.py、scripts/rab_spectator_data.py、scripts/rab_edit.py、scripts/rab_restore.py：当前入口、原生技能、锁定条目、复位参考。
+- src/rummagebench/adapters/mcp_server.py、scripts/mcp_acceptance.py、tests/unit/test_mcp_lifecycle.py、src/rummagebench/core/public_types.py：旧 MCP 外壳、生命周期测试和动作类型；把新入口、工具协议和验收显式版本化。
+- docs/household_search_formalization.md、EXPERIMENT_PLAN.md、docs/harness_experiment_disclosure_v42.md：搜索理论、历史实验与失败定义；不是 RAB 结果，不默认继承旧全景、OBSERVE 或旧 oracle 步数。
+
+现在先做三件事：从实测文件确认进度；建立 v1 协议和 pilot 草案并标出尚待冻结项；立即接第一条真实 RAB case 的 stdio MCP 并保留首次真结果。不要只回复一页计划。发现更新证据与本交接有冲突，记录来源和差异后继续推进。

@@ -1,0 +1,82 @@
+{
+  "id": "asset_F322_01",
+  "family": "semantic_F322",
+  "scene": "Merom_1_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_F322_01/scenario.yaml",
+  "scenario_sha256": "40994edc22be1b1cc950e1886886464752bec8f60be9f0a2935e6e6fa0ffb09c",
+  "instruction": "Find the tea-leaf container and a bottled tea in the kitchen food-storage area and bring both to the counter in front of you in the kitchen in the kitchen.",
+  "target_key": "bottle_of_tea_leaves/pfbtus",
+  "target_entities": [
+    "item_00",
+    "item_01"
+  ],
+  "target_count": 2,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "bottom_cabinet_slgzfc_0",
+  "destination_receptacle": "bottom_cabinet_slgzfc_0",
+  "object_count": 10,
+  "distractor_count": 8,
+  "source_survey_sha256": "1bcd77f7369c09f3ee939635132fc064795bb448af326a0f941bcbe3dbe0fd22",
+  "route": {
+    "start": [
+      -1.4500000000000002,
+      5.15,
+      3.141592653589793
+    ],
+    "path_xy": [
+      [
+        -1.4500000000000002,
+        5.15
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 42,
+    "destination_approach_count": 42,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09",
+    "bottom_cabinet_slgzfc_1",
+    "bottom_cabinet_slgzfc_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "parent_task_id": "F322",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F322_01",
+    "parent_task_id": "F322",
+    "before_instruction": "Find the tea-leaf container and a bottled tea in the pantry and put both beside the teapot on the kitchen counter.",
+    "after_instruction": "Find the tea-leaf container and a bottled tea in the kitchen food-storage area and bring both to the counter in front of you in the kitchen in the kitchen.",
+    "reason": "The identified delivery surface is grounded by the initial facing direction; decorative destination landmarks are omitted. Target identity, requested cardinality and source/destination room types are retained. Layout revision: the unbuilt pantry-room task is explicitly relocated to the kitchen food-storage area because surveyed pantry rooms lack two robot-accessible storage/delivery positions. Target models, counts, reference matching, destination inventory and goals are unchanged; this changes room scope and may shorten transport.",
+    "target_asset": "bottle_of_tea_leaves/pfbtus",
+    "target_assets": [
+      "bottle_of_tea_leaves/pfbtus",
+      "bottle_of_tea/yatmrs"
+    ]
+  },
+  "binding_sha256": "bbe9cc47cd9da08569df6945eebd1c5c19b10bf5d79f0241c00503dffece22c8"
+}

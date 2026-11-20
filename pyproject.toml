@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rummagebench"
+version = "0.1.0"
+description = "RummageBench: long-horizon embodied object-search benchmark (MVP)"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.5",
+    "pyyaml>=6.0",
+    "numpy<2",
+    "scipy>=1.10,<2",
+    "pillow>=10.0",
+]
+
+[project.optional-dependencies]
+mcp = ["mcp>=1.2,<2"]
+test = ["pytest>=7.0"]
+# Standalone OpenUSD parser only; does not install or launch Isaac Sim.
+indoor-cpu = ["usd-core>=24.8,<27"]
+# real kinematics + configuration-space collision (production feasibility)
+# pin 3/4 wheels require NumPy 2 through cmeel-boost; OmniGibson uses NumPy 1.
+# This tested wheel family provides the same URDF IK and hpp-fcl collision APIs.
+kinematics = ["pin>=2.7,<3"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "kinematics: optional Pinocchio/coal collision tests",
+    "local_assets: static checks requiring explicitly configured local assets",
+    "sim: integration tests that require the OmniGibson simulator and the BEHAVIOR dataset",
+]

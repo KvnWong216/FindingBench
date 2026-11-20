@@ -1,0 +1,81 @@
+{
+  "id": "asset_F334_01",
+  "family": "semantic_F334",
+  "scene": "Ihlen_1_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_F334_01/scenario.yaml",
+  "scenario_sha256": "04e24f5c78c1a0adf0b7a1d0a0f173c520ea9f42052bdd24cf56bfcd44676c67",
+  "instruction": "Find the one cumin jar among the pepper jars on the shelves in the kitchen in the kitchen food-storage area and bring it to the counter in front of you in the kitchen in the kitchen.",
+  "target_key": "jar_of_cumin/bpxhso",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "countertop_tpuwys_3",
+  "destination_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+  "object_count": 12,
+  "distractor_count": 11,
+  "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+  "route": {
+    "start": [
+      -3.9000000000000004,
+      4.7,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -3.9000000000000004,
+        4.7
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 37,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "required_negative_0",
+    "required_negative_1",
+    "required_negative_2"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "parent_task_id": "F334",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F334_01",
+    "parent_task_id": "F334",
+    "before_instruction": "Find the one cumin jar among the otherwise identical pepper jars on the pantry spice shelf and bring it to the kitchen counter beside the mortar.",
+    "after_instruction": "Find the one cumin jar among the pepper jars on the shelves in the kitchen in the kitchen food-storage area and bring it to the counter in front of you in the kitchen in the kitchen.",
+    "reason": "Constructs three peppercorn jars as required negatives and one native cumin target; retains ingredient odd-one-out search. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Layout revision: the unbuilt pantry-room task is explicitly relocated to the kitchen food-storage area because surveyed pantry rooms lack two robot-accessible storage/delivery positions. Target models, counts, reference matching, destination inventory and goals are unchanged; this changes room scope and may shorten transport.",
+    "target_asset": "jar_of_cumin/bpxhso",
+    "target_assets": [
+      "jar_of_cumin/bpxhso"
+    ]
+  },
+  "binding_sha256": "03af4a6394b792c638f72f23e85c33162cc3c8674f0e501b2185ad12c1ce6c60"
+}

@@ -1,0 +1,290 @@
+{
+  "method": "expert_reauthored_generic_storage_on_open_work_surface",
+  "source_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/reviewed_followup_263_P184/asset_P184_01/scenario.yaml",
+  "source_sha256": "97bc48334e9689cd7b7760c493c69d68812a5f7ed7fd3a28c3a5b89c4990ebdf",
+  "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/reviewed_followup_263_P184/asset_P184_01",
+  "relation_changes": [
+    {
+      "before": {
+        "entity": "item_00",
+        "relation": "inside",
+        "receptacle": "expert_storage_0"
+      },
+      "after": {
+        "entity": "item_00",
+        "relation": "on_top",
+        "receptacle": "item_07"
+      }
+    },
+    {
+      "before": {
+        "entity": "item_01",
+        "relation": "inside",
+        "receptacle": "expert_storage_0"
+      },
+      "after": {
+        "entity": "item_01",
+        "relation": "on_top",
+        "receptacle": "desk_iotfzl_0",
+        "position_xy": [
+          -1.1545,
+          -3.511
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_02",
+        "relation": "inside",
+        "receptacle": "expert_storage_0"
+      },
+      "after": {
+        "entity": "item_02",
+        "relation": "on_top",
+        "receptacle": "desk_iotfzl_0",
+        "position_xy": [
+          -1.3820000000000001,
+          -3.4335
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_03",
+        "relation": "inside",
+        "receptacle": "expert_storage_0"
+      },
+      "after": {
+        "entity": "item_03",
+        "relation": "on_top",
+        "receptacle": "item_04"
+      }
+    },
+    {
+      "before": {
+        "entity": "item_04",
+        "relation": "inside",
+        "receptacle": "expert_storage_0"
+      },
+      "after": {
+        "entity": "item_04",
+        "relation": "on_top",
+        "receptacle": "item_00"
+      }
+    },
+    {
+      "before": {
+        "entity": "item_05",
+        "relation": "inside",
+        "receptacle": "expert_storage_0"
+      },
+      "after": {
+        "entity": "item_05",
+        "relation": "on_top",
+        "receptacle": "item_02"
+      }
+    },
+    {
+      "before": {
+        "entity": "item_06",
+        "relation": "inside",
+        "receptacle": "expert_storage_0"
+      },
+      "after": {
+        "entity": "item_06",
+        "relation": "on_top",
+        "receptacle": "item_08"
+      }
+    },
+    {
+      "before": {
+        "entity": "item_07",
+        "relation": "inside",
+        "receptacle": "expert_storage_0"
+      },
+      "after": {
+        "entity": "item_07",
+        "relation": "on_top",
+        "receptacle": "desk_iotfzl_0",
+        "position_xy": [
+          -1.3945,
+          -3.0185
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_08",
+        "relation": "inside",
+        "receptacle": "expert_storage_0"
+      },
+      "after": {
+        "entity": "item_08",
+        "relation": "on_top",
+        "receptacle": "required_negative_0"
+      }
+    },
+    {
+      "before": {
+        "entity": "required_negative_0",
+        "relation": "inside",
+        "receptacle": "expert_storage_0"
+      },
+      "after": {
+        "entity": "required_negative_0",
+        "relation": "on_top",
+        "receptacle": "item_05"
+      }
+    }
+  ],
+  "removed_unused_authored_fixtures": [
+    "expert_storage_0",
+    "search_storage"
+  ],
+  "flat_stock_stacks": [
+    [
+      "item_02",
+      "item_05",
+      "required_negative_0",
+      "item_08",
+      "item_06"
+    ],
+    [
+      "item_07",
+      "item_00",
+      "item_04",
+      "item_03"
+    ]
+  ],
+  "stack_footprint_envelopes_m": {
+    "item_02": [
+      0.30802308654785154,
+      0.39477020263671875,
+      0.05024637597799301
+    ],
+    "item_07": [
+      0.2847599334716797,
+      0.38366065979003905,
+      0.07756710329279304
+    ]
+  },
+  "source_surface": "desk_iotfzl_0",
+  "plans": [
+    {
+      "receptacle": "desk_iotfzl_0",
+      "entities": [
+        "item_01",
+        "item_02",
+        "item_07"
+      ],
+      "solver": {
+        "status": "feasible_model",
+        "device": "cuda",
+        "backend": "torch_cuda_finite_csp",
+        "solve_seconds": 0.014810399152338505,
+        "nodes": 3,
+        "candidate_tests": 33410,
+        "search_orders_tried": 1,
+        "grid_m": 0.005,
+        "margin_m": 0.025,
+        "model": "upright boxes; yaw 0/90; single-layer independent bins; integer grid with convex centre halfspaces / fixed obstacles",
+        "physical_validation_required": true,
+        "assignment": {
+          "item_02": "surface",
+          "item_07": "surface",
+          "item_01": "surface"
+        },
+        "poses": {
+          "item_02": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.035,
+              0.025
+            ],
+            "footprint_m": [
+              0.31,
+              0.395
+            ],
+            "center_xy_m": [
+              0.19,
+              0.2225
+            ]
+          },
+          "item_07": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.035,
+              0.445
+            ],
+            "footprint_m": [
+              0.28500000000000003,
+              0.385
+            ],
+            "center_xy_m": [
+              0.1775,
+              0.6375000000000001
+            ]
+          },
+          "item_01": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.37,
+              0.025
+            ],
+            "footprint_m": [
+              0.095,
+              0.24
+            ],
+            "center_xy_m": [
+              0.4175,
+              0.145
+            ]
+          }
+        },
+        "authoring_spacing_attempts": [
+          {
+            "margin_m": 0.025,
+            "grid_m": 0.005,
+            "status": "feasible_model",
+            "reason": null
+          }
+        ]
+      },
+      "measured_scene_obstacles": [
+        [
+          -0.5270000000000001,
+          0.42900000000000027,
+          -0.737,
+          0.008000000000000007,
+          1.0030000000000001,
+          0.03700000000000003
+        ],
+        [
+          0.276,
+          0.9010000000000002,
+          0.0,
+          0.40900000000000003,
+          1.2480000000000002,
+          0.473
+        ],
+        [
+          0.123,
+          0.9810000000000003,
+          0.0,
+          0.244,
+          1.0740000000000003,
+          0.05400000000000005
+        ]
+      ],
+      "physical_validation_required": true
+    }
+  ],
+  "source_room": "living_room_0",
+  "reviewed_source_scope": " the living room books, ",
+  "reason": "Task names generic storage rather than an enclosed receptacle. Large household equipment and containers are stored on a real work surface among the same unchanged clutter; retain task meaning and all native physical checks.",
+  "physical_validation_required": true,
+  "human_completion_verified": false
+}

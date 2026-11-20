@@ -1,0 +1,136 @@
+id: asset_F061_01
+instruction: Find the apple in the fruit basket in this kitchen and put it on the
+  table in front of you.
+scene:
+  model: Wainscott_0_int
+  source: behavior
+  clearance_manifest: /home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/build/vla_difficulty_v2/clearance/Wainscott_0_int.json
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - 3.0
+    - 11.8
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - -0.7071067811865475
+    - 0.7071067811865476
+target:
+  entity: item_01
+  category: apple
+objects:
+- name: item_00
+  category: wicker_basket
+  model: dgkhyn
+- name: item_01
+  category: apple
+  model: zlxfxt
+- name: item_02
+  category: half_apple
+  model: jjaskz
+- name: item_03
+  category: mango
+  model: qqnarm
+- name: item_04
+  category: nectarine
+  model: frutec
+- name: item_05
+  category: orange
+  model: ucstpm
+- name: item_06
+  category: papaya
+  model: zsdzix
+- name: item_07
+  category: peach
+  model: wrutgk
+- name: item_08
+  category: pear
+  model: clvnqe
+- name: item_09
+  category: pineapple
+  model: ttviux
+placements:
+- entity: item_00
+  relation: on_top
+  receptacle: countertop_tpuwys_3
+- entity: item_01
+  relation: inside
+  receptacle: item_00
+- entity: item_02
+  relation: inside
+  receptacle: item_00
+- entity: item_03
+  relation: inside
+  receptacle: item_00
+- entity: item_04
+  relation: inside
+  receptacle: item_00
+- entity: item_05
+  relation: inside
+  receptacle: item_00
+- entity: item_06
+  relation: inside
+  receptacle: item_00
+- entity: item_07
+  relation: inside
+  receptacle: item_00
+- entity: item_08
+  relation: inside
+  receptacle: item_00
+- entity: item_09
+  relation: inside
+  receptacle: item_00
+initial_states: {}
+goal:
+- kind: on_top
+  entity: item_01
+  receptacle: coffee_table_dnsjnv_1
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

@@ -1,0 +1,104 @@
+{
+  "method": "replace_native_scene_source_at_same_site",
+  "edit": {
+    "entity": "bottom_cabinet_nddvba_0",
+    "replacement_entity": "replacement_bottom_cabinet_nddvba_0",
+    "before_asset": "bottom_cabinet/nddvba",
+    "after_asset": "bottom_cabinet/songes",
+    "before_aabb": [
+      [
+        5.893,
+        -4.914,
+        0.005
+      ],
+      [
+        6.5,
+        -4.131,
+        0.695
+      ]
+    ],
+    "after_aabb": [
+      [
+        5.9328807373046875,
+        -4.941715118408203,
+        -0.0
+      ],
+      [
+        6.460119262695313,
+        -4.103284881591797,
+        0.82936767578125
+      ]
+    ],
+    "source_sha256": "88997791e0e301ce27c0faf26d81a85690c028afb384c2e6bd9b18c42bca9524",
+    "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_lane2_20261111/reviewed_followup_028_U290/asset_U290_01",
+    "reason": "Replace failed source at its existing site; adding another fixture consumes its approach space",
+    "physical_validation_required": true
+  },
+  "initial_closed_state_retained": {
+    "open": false
+  },
+  "solver": {
+    "status": "feasible_model",
+    "device": "cuda",
+    "backend": "torch_cuda_finite_csp",
+    "solve_seconds": 0.0013858890160918236,
+    "nodes": 0,
+    "candidate_tests": 0,
+    "search_orders_tried": 0,
+    "grid_m": 0.001,
+    "margin_m": 0.015,
+    "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+    "physical_validation_required": true,
+    "assignment": {
+      "item_01": "meta__bottomdrawer_fillable_0_0_link",
+      "item_04": "meta__bottomdrawer_fillable_0_0_link"
+    },
+    "poses": {
+      "item_01": {
+        "bin": "meta__bottomdrawer_fillable_0_0_link",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.015
+        ],
+        "footprint_m": [
+          0.228,
+          0.111
+        ],
+        "center_xy_m": [
+          0.129,
+          0.07050000000000001
+        ]
+      },
+      "item_04": {
+        "bin": "meta__bottomdrawer_fillable_0_0_link",
+        "yaw_degrees": 90,
+        "lower_xy_m": [
+          0.015,
+          0.14100000000000001
+        ],
+        "footprint_m": [
+          0.048,
+          0.008
+        ],
+        "center_xy_m": [
+          0.039,
+          0.14500000000000002
+        ]
+      }
+    },
+    "constructive_witness": "single strip; exact quantized box and clearance checks"
+  },
+  "preserved": [
+    "instruction",
+    "goal",
+    "physical source site and room",
+    "initial source open/closed state",
+    "target",
+    "all task props",
+    "robot",
+    "spawn",
+    "all original relation kinds"
+  ],
+  "physical_validation_required": true
+}

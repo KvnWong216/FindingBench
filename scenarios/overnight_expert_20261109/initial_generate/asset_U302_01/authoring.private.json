@@ -1,0 +1,55 @@
+{
+  "id": "asset_U302_01",
+  "family": "semantic_U302",
+  "scene": "Beechwood_0_int",
+  "scenario": "scenarios/overnight_expert_20261109/initial_generate/asset_U302_01/scenario.yaml",
+  "scenario_sha256": "7c057256668303f4e357f55496e559283cacd218daee1d115835a64321d6ed5b",
+  "instruction": "Find the boxed ink cartridge in the cupboards in this private office and put it on the desk in front of you.",
+  "target_key": "boxed_ink_cartridge/oinelo",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "private_office_0",
+  "destination_room": "private_office_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "desk_rzyfxk_0",
+  "object_count": 1,
+  "distractor_count": 0,
+  "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+  "route": {
+    "start": [
+      4.45,
+      -2.5500000000000003,
+      0.0
+    ],
+    "path_xy": [
+      [
+        4.45,
+        -2.5500000000000003
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 21,
+    "destination_approach_count": 9,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate"
+}

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FindingBench · 场景编辑器</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#10161c;color:#e6edf3;font:14px system-ui,sans-serif}
+header{padding:12px 16px;background:#1a242e;display:flex;align-items:center;gap:12px;flex-wrap:wrap}strong{color:#89e5ba}
+button,input,select{font:inherit;color:inherit;background:#263442;border:1px solid #526476;border-radius:5px;padding:7px 10px}button{cursor:pointer}button:disabled{opacity:.4;cursor:default}.primary{background:#205947;border-color:#62c696}.danger{color:#ffaaaa}
+#instruction{padding:9px 16px;line-height:1.6}main{display:grid;grid-template-columns:295px 1fr;gap:10px;padding:0 12px}aside{background:#17222c;border-radius:6px;padding:12px;max-height:calc(100vh - 165px);overflow:auto}h3{font-size:14px;margin:10px 0}
+#query{width:100%}.searchrow{display:flex;gap:5px;margin-top:7px}#results{margin:10px 0}.asset{border:1px solid #354757;border-radius:5px;padding:8px;margin:5px 0;cursor:grab}.asset:hover{background:#293f4c}.asset.chosen{border-color:#89e5ba;background:#244d42}.asset small{color:#a5b6c5;display:block;font:11px ui-monospace,monospace;word-break:break-all;margin-top:3px}.muted{font-size:12px;line-height:1.7;color:#a9bbc9}
+#viewport{position:relative;background:#000;min-height:300px;cursor:crosshair;display:flex;align-items:center;justify-content:center;overflow:hidden}#image{display:block;width:100%;max-height:calc(100vh - 250px);object-fit:contain;user-select:none}#viewport:fullscreen{width:100vw;height:100vh}#viewport:fullscreen #image{max-height:100vh;height:100%}
+#overlay{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;background:#111a2222}#overlay span{background:#13202de6;padding:16px;border-radius:6px}#crosshair{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:none;font-size:25px;pointer-events:none}#selectionBox{display:none;position:absolute;border:2px solid #81efba;pointer-events:none;background:#6bd4a010}#selectionName{position:absolute;left:0;bottom:100%;font-size:11px;background:#173f32;color:#d5ffed;white-space:nowrap;padding:2px 4px}
+#versionNotice{padding:10px 16px;color:#ffd99b;background:#493719;display:none}details{margin:8px 0;color:#b7c8d7}pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px}#tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:10px 0}#message{padding:10px 0;color:#b5e4ce;white-space:pre-wrap;min-height:36px}#message.failure{color:#ffb4a8}#selected{line-height:1.6;overflow-wrap:anywhere}#telemetry{color:#91a9bb;font:12px ui-monospace,monospace;margin-top:8px}
+@media(max-width:850px){main{grid-template-columns:220px 1fr}header{gap:6px}aside{padding:8px}}
+</style>
+<header><strong>FindingBench · 场景编辑器</strong><span id="entry">正在加载…</span>
+<button id="mode">切换到飞行（WASD）</button><button id="home">回到初始视角</button><button id="fullscreen">全屏</button>
+<label>速度 <select id="speed"><option value="0.1">0.1 m/s</option><option value="0.3">0.3 m/s</option><option value="1" selected>1 m/s</option><option value="3">3 m/s</option><option value="8">8 m/s</option></select></label>
+<button id="save" class="primary" disabled>保存配置并更新缓存（Ctrl+S）</button><span id="dirty"></span></header>
+<div id="versionNotice"></div><div id="instruction"></div><main><aside>
+<h3 id="assetTitle">搜索原生资产</h3><input id="query" placeholder="酱油、纸巾盒、mug、型号…" autocomplete="off">
+<div class="searchrow"><button id="search">搜索</button><button id="prev">上一页</button><button id="next">下一页</button></div>
+<p id="count" class="muted">支持常用中文名、英文类别和型号</p>
+<label class="muted">水平朝向 <select id="yaw"><option value="keep">自动稳定姿态（保留水平朝向）</option><option>0</option><option>45</option><option>90</option><option>135</option><option>180</option><option>225</option><option>270</option><option>315</option></select></label>
+<div id="results"></div><button id="cancelAsset">取消待放置资产</button>
+<p class="muted">拖入画面或先选资产再点击任意表面。物品按稳定姿态沿竖直下方寻找承托面，不会贴着墙面倾斜；点击侧壁会先留出物品宽度的间隙。物体保持原始尺寸。不同型号可能有不同外观。</p>
+</aside><section><div id="viewport"><img id="image" src="/stream" draggable="false" alt="可编辑的原生家庭场景"><div id="selectionBox"><span id="selectionName"></span></div><div id="crosshair">+</div><div id="overlay"><span>正在加载原生场景，编辑模式首次加载需要等待…</span></div></div>
+<div id="tools"><button id="open" disabled>OPEN · 打开柜门</button><button id="close" disabled>CLOSE · 关闭柜门</button><button id="delete" class="danger" disabled>删除选中物体（Delete）</button></div>
+<div id="selected">尚未选中物体</div><div id="message" role="status" aria-live="polite"></div><details id="errorHistory" hidden><summary>最近失败的原因</summary><div id="errors"></div></details>
+<p class="muted">编辑：点击选中，按住并拖动已有物品。打开柜门后，可以直接在柜内层板上增删、移动物品。<br>飞行：WASD／鼠标移动，Space/E 上升，Shift/Q 下降，Ctrl 加速，Esc 返回编辑。保存包括当前柜门状态；任务目标和终点不可删除。</p><details><summary>常见提示是什么意思？</summary><p class="muted">空间重叠：当前姿态会碰到旁边物品，挪开一点或先腾出空位。<br>没有承托面：点击处正下方没有足够平的面，换个落点。<br>没有放稳／滑落：物品落下后还在动，或离开了那一层，往台面中间放。<br>挡住机器人起点：物品进入了机器人脚下或身体周围，放远一些。<br>重载不一致：重新打开无法还原当前设计，保存未发布。<br>缓存检查失败：用于快速浏览的文件有问题，保存未发布。<br>发生错误时可展开“最近失败的原因”，复制错误编号和技术详情。</p></details><div id="telemetry"></div>
+</section></main>
+<script>
+'use strict';
+const $=s=>document.querySelector(s),viewport=$('#viewport'),image=$('#image');
+const keys=new Set(),allowed=new Set(['KeyW','KeyA','KeyS','KeyD','Space','ControlLeft','ControlRight','KeyQ','KeyE','ShiftLeft','ShiftRight']);
+let ready=false,fly=false,dx=0,dy=0,reset=false,inputBusy=false,selectedAsset=null,offset=0,total=0,down=null,latest=null,searchVersion=0;
+const locked=()=>document.pointerLockElement===viewport;
+function release(){keys.clear();dx=dy=0;}
+function message(text){$('#message').textContent=text;}
+function networkMessage(error){return /fetch|network|timeout|abort|load failed/i.test(error.message)?'编辑器连接超时或中断。请确认终端里的编辑器仍在运行，然后重试。':error.message;}
+function errorHistory(ed){const items=ed.errors||[],root=$('#errors');$('#errorHistory').hidden=!items.length;root.replaceChildren();
+ for(const item of [...items].reverse()){const row=document.createElement('div'),p=document.createElement('p'),detail=document.createElement('details'),summary=document.createElement('summary'),raw=document.createElement('pre');
+ p.textContent=item.message;summary.textContent='技术详情 · 错误编号 '+item.id;raw.textContent=item.detail+'\n日志：'+item.log;detail.append(summary,raw);row.append(p,detail);root.append(row);}}
+
+function mode(){fly=locked();$('#mode').textContent=fly?'Esc 返回编辑':'切换到飞行（WASD）';$('#crosshair').style.display=fly?'block':'none';$('#selectionBox').style.display='none';$('#overlay').style.display=ready?'none':'grid';}
+$('#mode').onclick=()=>{if(!ready)return;if(locked())document.exitPointerLock();else viewport.requestPointerLock();};
+document.addEventListener('pointerlockchange',()=>{release();mode();});
+document.addEventListener('pointerlockerror',()=>message('鼠标捕获失败。请用 localhost 或 SSH 端口转发打开页面。'));
+document.addEventListener('mousemove',e=>{if(locked()){dx+=e.movementX;dy+=e.movementY;}});
+window.addEventListener('blur',release);document.addEventListener('visibilitychange',()=>{if(document.hidden){release();if(locked())document.exitPointerLock();}});
+document.addEventListener('keydown',e=>{
+ if((e.ctrlKey||e.metaKey)&&e.code==='KeyS'){e.preventDefault();if(!$('#save').disabled)command({op:'save'});return;}
+ if(e.target.matches('input,select,textarea'))return;
+ if(!locked()&&e.code==='Delete'){e.preventDefault();if(!$('#delete').disabled)command({op:'delete'});return;}
+ if(!locked())return;if(allowed.has(e.code)){keys.add(e.code);e.preventDefault();}if(e.code==='KeyR'&&!e.repeat){reset=true;release();}});
+document.addEventListener('keyup',e=>keys.delete(e.code));
+$('#home').onclick=()=>{reset=true;release();};$('#fullscreen').onclick=()=>{(document.fullscreenElement?document.exitFullscreen():viewport.requestFullscreen()).catch(e=>message(e.message));};
+viewport.addEventListener('wheel',e=>{if(!locked())return;e.preventDefault();const s=$('#speed');s.selectedIndex=Math.max(0,Math.min(s.options.length-1,s.selectedIndex+(e.deltaY<0?1:-1)));},{passive:false});
+async function command(body){if(!ready)return;try{const r=await fetch('/editor/command',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const d=await r.json();if(!r.ok)throw Error(d.error);message(body.op==='save'?'正在准备保存…':'正在执行编辑…');}catch(e){message(networkMessage(e));}}
+function pixel(e){const b=image.getBoundingClientRect(),ratio=(image.naturalWidth||16)/(image.naturalHeight||9);let w=b.width,h=b.height;
+ if(w/h>ratio)w=h*ratio;else h=w/ratio;const left=b.left+(b.width-w)/2,top=b.top+(b.height-h)/2;const p=[(e.clientX-left)/w,(e.clientY-top)/h];return p.every(v=>v>=0&&v<=1)?p:null;}
+function canEdit(){return ready&&!locked()&&!latest?.editor?.saving;}
+viewport.addEventListener('mousedown',e=>{if(e.button!==0||!canEdit())return;const p=pixel(e);if(!p)return;down={xy:p,x:e.clientX,y:e.clientY};e.preventDefault();});
+window.addEventListener('mouseup',e=>{if(!down)return;const start=down;down=null;if(!canEdit())return;const xy=pixel(e);if(!xy)return;
+ if(selectedAsset){command({op:'add',category:selectedAsset.category,model:selectedAsset.model,xy,yaw:$('#yaw').value==='keep'?0:Number($('#yaw').value)});selectedAsset=null;renderChosen();return;}
+ if(Math.hypot(e.clientX-start.x,e.clientY-start.y)>6)command({op:'move',from_xy:start.xy,xy,yaw:$('#yaw').value==='keep'?null:Number($('#yaw').value)});else command({op:'select',xy});});
+viewport.addEventListener('dragover',e=>{if(canEdit()){e.preventDefault();e.dataTransfer.dropEffect='copy';}});
+viewport.addEventListener('drop',e=>{e.preventDefault();if(!canEdit())return;const xy=pixel(e);if(!xy)return;try{const a=JSON.parse(e.dataTransfer.getData('application/x-behavior-asset'));command({op:'add',category:a.category,model:a.model,xy,yaw:$('#yaw').value==='keep'?0:Number($('#yaw').value)});selectedAsset=null;renderChosen();}catch(_){message('请从资产搜索结果拖入物体');}});
+function renderChosen(){document.querySelectorAll('.asset').forEach(n=>n.classList.toggle('chosen',selectedAsset?.category===n.dataset.category&&selectedAsset?.model===n.dataset.model));}
+$('#cancelAsset').onclick=()=>{selectedAsset=null;renderChosen();};
+async function search(){const version=++searchVersion;try{const r=await fetch('/editor/search?q='+encodeURIComponent($('#query').value)+'&offset='+offset);const d=await r.json();if(!r.ok)throw Error(d.error);if(version!==searchVersion)return;total=d.total;$('#count').textContent=`共 ${total} 个原生型号 · ${Math.min(offset+1,total)}–${Math.min(offset+d.items.length,total)}`;
+ $('#results').replaceChildren();for(const item of d.items){const el=document.createElement('div');el.className='asset';el.draggable=true;el.dataset.category=item.category;el.dataset.model=item.model;
+ const title=document.createElement('span');title.textContent=item.label;const detail=document.createElement('small');detail.textContent=item.category+' / '+item.model+(item.size?' · '+item.size.map(v=>(v*100).toFixed(1)).join('×')+' cm':'');el.append(title,detail);
+ el.onclick=()=>{selectedAsset=item;renderChosen();message('已选择 '+item.label+'，请点击落点上方的表面，或把此结果拖进去；物品会竖直向下放稳');};el.ondragstart=e=>{down=null;e.dataTransfer.setData('application/x-behavior-asset',JSON.stringify(item));e.dataTransfer.effectAllowed='copy';};$('#results').append(el);}renderChosen();$('#prev').disabled=offset===0;$('#next').disabled=offset+36>=total;
+ }catch(e){message(networkMessage(e));}}
+$('#search').onclick=()=>{offset=0;search();};$('#query').onkeydown=e=>{if(e.key==='Enter'){offset=0;search();}};$('#prev').onclick=()=>{offset=Math.max(0,offset-36);search();};$('#next').onclick=()=>{offset+=36;search();};
+for(const op of ['open','close','delete','save'])$('#'+op).onclick=()=>command({op});
+async function sendInput(){if(inputBusy||!ready)return;inputBusy=true;const body={keys:locked()?[...keys]:[],dx,dy,reset,speed:Number($('#speed').value)};dx=dy=0;reset=false;
+ try{const r=await fetch('/input',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),signal:AbortSignal.timeout(2000)});if(!r.ok)throw Error((await r.json()).error);}catch(e){release();message(networkMessage(e));}finally{inputBusy=false;}}
+setInterval(sendInput,50);
+function selectionBox(st){const box=$('#selectionBox'),sel=st.editor?.selected;if(!sel?.aabb||locked()||!st.position){box.style.display='none';return;}
+ const y=st.yaw*Math.PI/180,p=st.pitch*Math.PI/180,forward=[Math.cos(p)*Math.cos(y),Math.cos(p)*Math.sin(y),Math.sin(p)],right=[Math.sin(y),-Math.cos(y),0],up=[-Math.sin(p)*Math.cos(y),-Math.sin(p)*Math.sin(y),Math.cos(p)];const t=Math.tan((st.editor.fov||75)*Math.PI/360),aspect=st.editor.aspect||16/9,points=[];
+ for(const x of [0,1])for(const y of [0,1])for(const z of [0,1]){const v=[sel.aabb[x][0],sel.aabb[y][1],sel.aabb[z][2]].map((v,i)=>v-st.position[i]);const dot=a=>v.reduce((sum,v,i)=>sum+v*a[i],0),depth=dot(forward);if(depth<.01){box.style.display='none';return;}const k=st.editor.intrinsics;points.push(k?[(k[0][2]+k[0][0]*dot(right)/depth)/(st.editor.width||960),(k[1][2]-k[1][1]*dot(up)/depth)/(st.editor.height||640)]:[.5+dot(right)/(2*depth*t),.5-dot(up)*aspect/(2*depth*t)]);}
+ const ir=image.getBoundingClientRect(),vr=viewport.getBoundingClientRect();let w=ir.width,h=ir.height;if(w/h>aspect)w=h*aspect;else h=w/aspect;
+ const xs=points.map(v=>v[0]),ys=points.map(v=>v[1]);const x0=Math.max(0,Math.min(...xs)),x1=Math.min(1,Math.max(...xs)),y0=Math.max(0,Math.min(...ys)),y1=Math.min(1,Math.max(...ys));if(x1<=x0||y1<=y0){box.style.display='none';return;}
+ box.style.cssText=`display:block;left:${ir.left-vr.left+(ir.width-w)/2+x0*w}px;top:${ir.top-vr.top+(ir.height-h)/2+y0*h}px;width:${(x1-x0)*w}px;height:${(y1-y0)*h}px`;$('#selectionName').textContent=sel.category;
+}
+let searched=false;async function poll(){try{const r=await fetch('/state',{signal:AbortSignal.timeout(3000)});latest=await r.json();ready=latest.ready;const ed=latest.editor||{};$('#assetTitle').textContent='搜索 '+(latest.task.backend==='rab'?'RAB':'BEHAVIOR')+' 原生资产';
+ const old=ready&&!['gravity_rest_v2','rab_gravity_v1'].includes(ed.placement_mode);$('#versionNotice').style.display=old?'block':'none';$('#versionNotice').textContent=old?'当前窗口仍在运行旧版放置逻辑。这里还有未保存的修改时，请先保存；随后退出并重新启动编辑器，才能使用新的稳定姿态和竖直放置。':'';errorHistory(ed);
+ $('#entry').textContent='#'+latest.task.index+' '+latest.task.parent_task_id+' · '+latest.task.scene;$('#instruction').textContent=latest.task.instruction;$('#dirty').textContent=ed.saving?'保存验证中…':ed.dirty?'● 未保存':'已保存';$('#save').disabled=!ready||!ed.dirty||ed.saving;
+ $('#open').disabled=!ready||!ed.selected?.can_open||ed.saving;$('#close').disabled=$('#open').disabled;$('#delete').disabled=!ready||!ed.selected?.can_delete||ed.saving;
+ $('#selected').textContent=ed.selected?'选中：'+ed.selected.name+' · '+ed.selected.category+' / '+ed.selected.model+(ed.selected.can_open?(ed.selected.is_open?' · 已打开':' · 已关闭'):''):'尚未选中物体';if(ed.message)message(ed.message);$('#message').classList.toggle('failure',Boolean(ed.last_error)||ed.last_command?.ok===false);if(latest.error)message('场景运行异常，请保留终端里的错误信息供排查。');
+ if(latest.position)$('#telemetry').textContent='XYZ '+latest.position.map(v=>v.toFixed(2)).join(', ')+' · '+latest.render_fps.toFixed(1)+' fps';mode();selectionBox(latest);
+ if(ready&&!searched){searched=true;$('#query').value=latest.task.backend==='rab'?'':'纸巾盒';search();}
+ }catch(e){ready=false;release();message('编辑器连接中断，请检查终端。');}setTimeout(poll,650);}poll();
+window.addEventListener('beforeunload',e=>{if(latest?.editor?.dirty||latest?.editor?.saving){e.preventDefault();e.returnValue='';}});
+</script></html>

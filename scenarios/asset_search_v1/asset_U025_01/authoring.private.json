@@ -1,0 +1,75 @@
+{
+  "id": "asset_U025_01",
+  "family": "semantic_U025",
+  "scene": "Beechwood_0_int",
+  "scenario": "scenarios/asset_search_v1/asset_U025_01/scenario.yaml",
+  "scenario_sha256": "2ae64a0eff005852368e08ba090b50ed53541fe54505695b5bc98049a0ebb75f",
+  "instruction": "The printer needs ink. Find the boxed ink cartridge among the study's replacement supplies and put it on the desk in front of you in the study.",
+  "target_key": "boxed_ink_cartridge/oinelo",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "private_office_0",
+  "destination_room": "private_office_0",
+  "source_receptacle": "bottom_cabinet_nddvba_0",
+  "destination_receptacle": "desk_rzyfxk_1",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+  "route": {
+    "start": [
+      5.3500000000000005,
+      -3.95,
+      0.0
+    ],
+    "path_xy": [
+      [
+        5.3500000000000005,
+        -3.95
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 12,
+    "destination_approach_count": 13,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_immwzb_0",
+    "bottom_cabinet_nddvba_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "parent_task_id": "U025",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_U025_01",
+    "parent_task_id": "U025",
+    "before_instruction": "The printer needs ink. Find the boxed ink cartridge among the study's replacement supplies and put it beside the printer.",
+    "after_instruction": "The printer needs ink. Find the boxed ink cartridge among the study's replacement supplies and put it on the desk in front of you in the study.",
+    "reason": "Explicit first-tranche grounding: native storage and initial-facing destination replace uninstantiated decorative reference props; no new semantic-task count.",
+    "target_asset": "boxed_ink_cartridge/oinelo"
+  }
+}

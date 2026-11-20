@@ -1,0 +1,471 @@
+"""R04: shared goal/temporal condition checking.
+
+Data-driven goal predicates and temporal constraints are evaluated by ONE
+implementation (evaluation/goal_checker.py) consumed by REPORT_DONE; the
+legacy holding(target) default stays for goal-less scenarios. Missing
+required events never satisfy a temporal constraint, and the same terminal
+state with a different committed-event order can differ in outcome.
+"""
+
+from pathlib import Path
+
+from conftest import FakeBackend
+
+from rummagebench.core.scenario import (
+    GoalPredicateSpec,
+    TemporalConstraintSpec,
+    load_scenario,
+)
+from rummagebench.evaluation.goal_checker import check_goal, check_temporal
+from rummagebench.skills.report_done import goal_satisfied
+from rummagebench.state.benchmark_state import BenchmarkWorldState
+
+FIXTURE = Path(__file__).parent / "fixtures" / "mini.yaml"
+
+
+def _scenario():
+    return load_scenario(FIXTURE)
+
+
+def _backend(on_top: bool = False):
+    # on_top variant: knife rests on the countertop OUTSIDE cabinet_B's AABB
+    knife_lo_hi = (
+        ([3.5, 0.5, 0.7], [3.56, 0.56, 0.76]) if on_top
+        else ([3.02, 1.02, 0.32], [3.08, 1.08, 0.38])  # inside cabinet_B
+    )
+    knife_pose = [3.53, 0.53, 0.73] if on_top else [3.05, 1.05, 0.35]
+    return FakeBackend(
+        entities={
+            "target_knife": _entity("target_knife"),
+            "cabinet_B": _entity("cabinet_B", openable=True),
+            "countertop": _entity("countertop"),
+        },
+        anchors={"kitchen"},
+        poses={
+            "target_knife": knife_pose,
+            "cabinet_B": [3.0, 1.0, 0.45],
+            "countertop": [3.0, 1.0, 0.6],
+        },
+        aabbs={
+            "target_knife": knife_lo_hi,
+            "cabinet_B": ([2.7, 0.7, 0.0], [3.3, 1.3, 0.9]),
+            "countertop": ([2.4, 0.4, 0.5], [3.6, 1.6, 0.7]),
+        },
+    )
+
+
+def _entity(name: str, **kwargs):
+    from rummagebench.sim.base import EntityInfo
+
+    return EntityInfo(name=name, category="knife" if "knife" in name else "furniture",
+                      **kwargs)
+
+
+def test_legacy_default_is_holding_target():
+    scenario = _scenario()
+    state = BenchmarkWorldState()
+    assert not goal_satisfied(state, scenario)
+    state.grasp("target_knife", None)
+    assert goal_satisfied(state, scenario)
+
+
+def test_open_basin_goal_uses_native_inside_without_outer_box_guess():
+    scenario = _scenario()
+    scenario.goal = [GoalPredicateSpec(kind="inside", entity="target_knife", receptacle="cabinet_B")]
+    backend = _backend()
+    backend.receptacle_interior_regions = lambda entity: []
+    state = BenchmarkWorldState()
+    for value in (None, False):
+        backend.native_inside_relation = lambda entity, rec, v=value: v
+        assert not check_goal(state, scenario, backend).satisfied
+    backend.native_inside_relation = lambda entity, rec: True
+    assert check_goal(state, scenario, backend).satisfied
+    state.grasp("target_knife", None)
+    assert not check_goal(state, scenario, backend).satisfied
+
+
+def test_all_targets_inside_requires_every_item():
+    scenario = _scenario()
+    scenario.goal = [GoalPredicateSpec(kind="inside", entity=n, receptacle="cabinet_B")
+                     for n in ("target_knife", "second_item")]
+    backend = _backend()
+    original = backend.entity_aabb
+    backend.entity_aabb = lambda entity: original("target_knife" if entity == "second_item" else entity)
+    backend.receptacle_interior_regions = lambda entity: []
+    backend.native_inside_relation = lambda entity, rec: entity == "target_knife"
+    assert not check_goal(BenchmarkWorldState(), scenario, backend).satisfied
+    backend.native_inside_relation = lambda entity, rec: True
+    assert check_goal(BenchmarkWorldState(), scenario, backend).satisfied
+
+
+def test_goal_predicates_holding_open_closed():
+    scenario = _scenario()
+    scenario.goal = [
+        GoalPredicateSpec(kind="holding", entity="target_knife"),
+        GoalPredicateSpec(kind="closed", entity="cabinet_B"),
+    ]
+    backend = _backend()
+    state = BenchmarkWorldState()
+    state.grasp("target_knife", None)
+    result = check_goal(state, scenario, backend)
+    assert result.satisfied
+
+    backend.set_open("cabinet_B", True)
+    result = check_goal(state, scenario, backend)
+    assert not result.satisfied
+    assert result.predicates[1]["satisfied"] is False
+
+    scenario.goal = [GoalPredicateSpec(kind="open", entity="cabinet_B")]
+    assert check_goal(state, scenario, backend).satisfied
+
+
+def test_goal_predicates_inside_and_on_top():
+    """Round-6: the inside predicate is verified against the receptacle's
+    REGION. A CLOSED cabinet's region is its top surface — the inside
+    relation is then kind_mismatch (unmet, not a fault); OPENING the cabinet
+    makes the interior volume the region and the predicate verifiable."""
+    scenario = _scenario()
+    scenario.goal = [GoalPredicateSpec(kind="inside", entity="target_knife",
+                                       receptacle="cabinet_B")]
+    closed = _backend()
+    result = check_goal(BenchmarkWorldState(), scenario, closed)
+    assert not result.satisfied
+    assert result.predicates[0]["reason"] == "kind_mismatch"
+
+    opened = _backend()
+    opened.set_open("cabinet_B", True)  # region becomes the interior volume
+    assert check_goal(BenchmarkWorldState(), scenario, opened).satisfied
+    assert not check_goal(BenchmarkWorldState(), scenario,
+                          _backend(on_top=True)).satisfied
+
+    scenario.goal = [GoalPredicateSpec(kind="on_top", entity="target_knife",
+                                       receptacle="countertop")]
+    assert check_goal(BenchmarkWorldState(), scenario,
+                      _backend(on_top=True)).satisfied
+
+
+def test_on_top_support_matrix():
+    """Round-2 hardening: on_top requires an explicit support judgement —
+    resting on the support plane within a bidirectional tolerance. Floating
+    above the tabletop or penetrating into it is never success, and a
+    still-held object rests nowhere."""
+    from rummagebench.evaluation.goal_checker import _ON_TOP_Z_TOL
+
+    TOP = 0.7  # countertop support plane in the fixture below
+    scenario = _scenario()
+    scenario.goal = [GoalPredicateSpec(kind="on_top", entity="target_knife",
+                                       receptacle="countertop")]
+
+    def satisfied(knife_bottom_z: float, held: bool = False) -> bool:
+        backend = FakeBackend(
+            entities={
+                "target_knife": _entity("target_knife"),
+                "countertop": _entity("countertop"),
+                "cabinet_B": _entity("cabinet_B", openable=True),
+            },
+            anchors={"kitchen"},
+            poses={
+                "target_knife": [3.53, 0.53, knife_bottom_z + 0.03],
+                "countertop": [3.0, 1.0, 0.6],
+                "cabinet_B": [3.0, 1.0, 0.45],
+            },
+            aabbs={
+                "target_knife": ([3.5, 0.5, knife_bottom_z],
+                                 [3.56, 0.56, knife_bottom_z + 0.06]),
+                "countertop": ([2.4, 0.4, 0.5], [3.6, 1.6, 0.7]),
+                "cabinet_B": ([2.7, 0.7, 0.0], [3.3, 1.3, 0.9]),
+            },
+        )
+        state = BenchmarkWorldState()
+        if held:
+            state.grasp("target_knife", None)
+        return check_goal(state, scenario, backend).satisfied
+
+    # normal placement: bottom exactly on the support plane
+    assert satisfied(TOP)
+    # tolerance boundary (inclusive band): +/- TOL is still resting contact
+    assert satisfied(TOP + _ON_TOP_Z_TOL)
+    assert satisfied(TOP - _ON_TOP_Z_TOL)
+    # clearly floating above the tabletop: NOT supported
+    assert not satisfied(TOP + 0.30)
+    # sunk into the tabletop: NOT supported
+    assert not satisfied(TOP - 0.30)
+    # just outside the tolerance band on either side
+    assert not satisfied(TOP + _ON_TOP_Z_TOL + 1e-3)
+    assert not satisfied(TOP - _ON_TOP_Z_TOL - 1e-3)
+    # a still-held object cannot rest, even at exact contact height
+    assert not satisfied(TOP, held=True)
+
+
+def test_temporal_missing_event_never_satisfies():
+    scenario = _scenario()
+    scenario.temporal = [
+        TemporalConstraintSpec(kind="required_event", event="grasp_executed",
+                               entity="target_knife"),
+    ]
+    result = check_temporal([], scenario)  # nothing committed yet
+    assert not result.satisfied
+    # absence is not truth: an empty log cannot satisfy a required event
+    assert result.constraints[0]["event_index"] is None
+
+
+def test_temporal_before_ordering():
+    scenario = _scenario()
+    scenario.temporal = [
+        TemporalConstraintSpec(kind="before", event="grasp_executed",
+                               entity="target_knife",
+                               before_event="open_executed",
+                               before_entity="cabinet_B"),
+    ]
+    grasp_first = [
+        {"event": "grasp_executed", "entity": "target_knife"},
+        {"event": "open_executed", "entity": "cabinet_B"},
+    ]
+    open_first = [
+        {"event": "open_executed", "entity": "cabinet_B"},
+        {"event": "grasp_executed", "entity": "target_knife"},
+    ]
+    assert check_temporal(grasp_first, scenario).satisfied
+    assert not check_temporal(open_first, scenario).satisfied
+    # the reference event missing entirely cannot order anything
+    assert not check_temporal(
+        [{"event": "grasp_executed", "entity": "target_knife"}], scenario
+    ).satisfied
+
+
+def _visual_session(visual_backend, goal=None, temporal=None):
+    from rummagebench.core.visual_session import VisualProtocolSession
+
+    scenario = load_scenario(FIXTURE)
+    scenario.goal = list(goal or [])
+    scenario.temporal = list(temporal or [])
+    session = VisualProtocolSession(visual_backend, scenario)
+    session.reset()
+    return session
+
+
+def test_report_done_with_goal_spec_success(visual_session, visual_backend):
+    """Data-driven goal flows through the same checker as metrics: holding
+    the target reports SUCCESS (same outcome as the legacy default)."""
+    from rummagebench.core.scenario import AnchorSpec
+
+    session = _visual_session(
+        visual_backend, goal=[GoalPredicateSpec(kind="holding",
+                                                entity="target_knife")])
+    visual_backend.teleport_robot(AnchorSpec(position=[3.0, 1.0, 0.0],
+                                             orientation=[0.0, 0.0, 0.0, 1.0]))
+    visual_backend.set_open("cabinet_B", True)
+    visual_backend.frame_entities["target_knife"] = (24, 28, 10, 10)
+    session._capture_current()
+    r = session.step({"skill": "GRASP",
+                      "point": {"frame_id": session.observe().frame_id,
+                                "x": 0.46, "y": 0.52}})
+    assert r.feedback.code.value == "EXECUTED"
+    r = session.step({"skill": "REPORT_DONE"})
+    assert r.episode_status == "SUCCESS"
+
+
+def test_report_done_temporal_order_decides(visual_session, visual_backend):
+    """Same terminal state (holding the target, container open), different
+    committed-event order: grasp-before-open satisfies the 'before'
+    constraint, open-before-grasp fails it."""
+    from rummagebench.core.scenario import AnchorSpec
+
+    temporal = [TemporalConstraintSpec(
+        kind="before", event="grasp_executed", entity="target_knife",
+        before_event="open_executed", before_entity="cabinet_B")]
+
+    def run(open_first: bool):
+        session = _visual_session(visual_backend, temporal=temporal)
+        visual_backend.reset()
+        visual_backend.teleport_robot(AnchorSpec(position=[3.0, 1.0, 0.0],
+                                                 orientation=[0.0, 0.0, 0.0, 1.0]))
+        visual_backend.frame_entities["target_knife"] = (24, 28, 10, 10)
+        if not open_first:
+            # move the knife out of the closed cabinet so the FIRST event can
+            # be the grasp (the open happens afterwards, while holding)
+            visual_backend.poses["target_knife"] = [3.45, 1.45, 0.35]
+            visual_backend.aabbs["target_knife"] = ([3.4, 1.4, 0.32],
+                                                    [3.5, 1.5, 0.38])
+        session._capture_current()
+
+        def grasp():
+            r = session.step({"skill": "GRASP", "point": {
+                "frame_id": session.observe().frame_id, "x": 0.46, "y": 0.52}})
+            assert r.feedback.code.value == "EXECUTED", r.feedback
+
+        def open_cabinet():
+            r = session.step({"skill": "OPEN", "point": {
+                "frame_id": session.observe().frame_id, "x": 0.1, "y": 0.5}})
+            assert r.feedback.code.value == "EXECUTED", r.feedback
+
+        if open_first:
+            open_cabinet()
+            grasp()
+        else:
+            grasp()
+            open_cabinet()
+        return session.step({"skill": "REPORT_DONE"})
+
+    assert run(open_first=False).episode_status == "SUCCESS"
+    assert run(open_first=True).episode_status == "FAIL_FALSE_COMPLETION"
+
+
+# ---------------------------------------------------------------------------
+# Round-6: shared placement relation (region-authoritative, fault-aware)
+# ---------------------------------------------------------------------------
+
+
+class _InsetInteriorBackend(FakeBackend):
+    """cabinet region reports the INTERIOR volume (walls excluded), strictly
+    smaller than the entity's outer AABB."""
+
+    def receptacle_region(self, entity):
+        from rummagebench.feasibility.interaction_target import InteractionRegion
+
+        if entity == "cabinet_B":
+            return InteractionRegion(lo=[2.8, 0.8, 0.05], hi=[3.2, 1.2, 0.85],
+                                     kind="inside_volume")
+        return super().receptacle_region(entity)
+
+
+class _RootLinkPlaneBackend(FakeBackend):
+    """Fixed-furniture case: the region is the ROOT-LINK body top (plane
+    z=0.6), LOWER than the whole-entity AABB top (z=0.9)."""
+
+    def receptacle_region(self, entity):
+        from rummagebench.feasibility.interaction_target import InteractionRegion
+
+        if entity == "cabinet_B":
+            return InteractionRegion(lo=[2.7, 0.7, 0.0], hi=[3.3, 1.3, 0.6],
+                                     kind="top_surface")
+        return super().receptacle_region(entity)
+
+
+def _knife_state(held=False):
+    state = BenchmarkWorldState()
+    if held:
+        state.grasp("target_knife", None)
+    return state
+
+
+def test_goal_inside_outer_bbox_but_outside_interior_is_unmet():
+    """The object sits inside the receptacle's OUTER AABB but in the wall
+    zone outside the region's interior volume: the shared region-based
+    check rejects it (the pre-round-6 entity-AABB containment accepted it)."""
+    scenario = _scenario()
+    scenario.goal = [GoalPredicateSpec(kind="inside", entity="target_knife",
+                                       receptacle="cabinet_B")]
+    backend = _InsetInteriorBackend(
+        entities={
+            "target_knife": _entity("target_knife"),
+            "cabinet_B": _entity("cabinet_B", openable=True),
+        },
+        anchors={"kitchen"},
+        poses={"target_knife": [2.74, 1.0, 0.45], "cabinet_B": [3.0, 1.0, 0.45]},
+        aabbs={
+            "target_knife": ([2.71, 0.97, 0.42], [2.77, 1.03, 0.48]),
+            "cabinet_B": ([2.7, 0.7, 0.0], [3.3, 1.3, 0.9]),
+        },
+    )
+    result = check_goal(_knife_state(), scenario, backend)
+    assert not result.satisfied
+    assert result.predicates[0]["reason"] == "outside_volume"
+    assert result.fault is None  # normal relation miss, not a fault
+
+
+def test_goal_on_top_region_plane_differs_from_entity_top():
+    """The region's support plane (root-link top, z=0.6) differs from the
+    whole-entity AABB top (z=0.9): resting on the REGION plane satisfies
+    on_top; floating at the outer-box top does not."""
+    scenario = _scenario()
+    scenario.goal = [GoalPredicateSpec(kind="on_top", entity="target_knife",
+                                       receptacle="cabinet_B")]
+
+    def backend_with_knife_bottom(z_lo):
+        return _RootLinkPlaneBackend(
+            entities={
+                "target_knife": _entity("target_knife"),
+                "cabinet_B": _entity("cabinet_B", openable=True),
+            },
+            anchors={"kitchen"},
+            poses={"target_knife": [3.0, 1.0, z_lo + 0.03],
+                   "cabinet_B": [3.0, 1.0, 0.45]},
+            aabbs={
+                "target_knife": ([2.97, 0.97, z_lo], [3.03, 1.03, z_lo + 0.06]),
+                "cabinet_B": ([2.7, 0.7, 0.0], [3.3, 1.3, 0.9]),
+            },
+        )
+
+    assert check_goal(_knife_state(), scenario,
+                      backend_with_knife_bottom(0.6 + 0.01)).satisfied
+    assert not check_goal(_knife_state(), scenario,
+                          backend_with_knife_bottom(0.9 + 0.01)).satisfied
+
+
+def test_goal_held_object_is_still_held_unmet():
+    """A still-held object satisfies neither relation: BOTH the semantic
+    state and the backend holding state count as held."""
+    scenario = _scenario()
+    scenario.goal = [GoalPredicateSpec(kind="on_top", entity="target_knife",
+                                       receptacle="cabinet_B")]
+    backend = _RootLinkPlaneBackend(
+        entities={"target_knife": _entity("target_knife"),
+                  "cabinet_B": _entity("cabinet_B", openable=True)},
+        anchors={"kitchen"},
+        poses={"target_knife": [3.0, 1.0, 0.61], "cabinet_B": [3.0, 1.0, 0.45]},
+        aabbs={"target_knife": ([2.97, 0.97, 0.6], [3.03, 1.03, 0.66]),
+               "cabinet_B": ([2.7, 0.7, 0.0], [3.3, 1.3, 0.9])},
+    )
+    backend.holding_entity = "target_knife"  # backend signal
+    result = check_goal(_knife_state(held=True), scenario, backend)
+    assert not result.satisfied
+    assert result.predicates[0]["reason"] == "still_held"
+
+
+def test_goal_region_missing_is_fault_not_false_completion():
+    """A missing region is an evaluation FAULT: check_goal flags it and
+    goal_satisfied raises (run-invalid) instead of reporting a plain false
+    completion."""
+    import pytest
+
+    from rummagebench.core.errors import FeasibilityBackendError
+
+    scenario = _scenario()
+    scenario.goal = [GoalPredicateSpec(kind="on_top", entity="target_knife",
+                                       receptacle="cabinet_B")]
+    backend = _RootLinkPlaneBackend(
+        entities={"target_knife": _entity("target_knife"),
+                  "cabinet_B": _entity("cabinet_B", openable=True)},
+        anchors={"kitchen"},
+        poses={"target_knife": [3.0, 1.0, 0.61], "cabinet_B": [3.0, 1.0, 0.45]},
+        aabbs={"target_knife": ([2.97, 0.97, 0.6], [3.03, 1.03, 0.66]),
+               "cabinet_B": ([2.7, 0.7, 0.0], [3.3, 1.3, 0.9])},
+    )
+    backend.receptacle_region = lambda entity: None
+    result = check_goal(_knife_state(), scenario, backend)
+    assert result.fault == "region_missing"
+    assert not result.satisfied
+    with pytest.raises(FeasibilityBackendError, match="region_missing"):
+        goal_satisfied(_knife_state(), scenario, backend=backend)
+
+
+def test_goal_region_kind_mismatch_is_unmet_not_fault():
+    """An inside goal against a region that currently is a top surface:
+    relation unmet (kind_mismatch) — a normal model-facing outcome, not an
+    infrastructure fault."""
+    scenario = _scenario()
+    scenario.goal = [GoalPredicateSpec(kind="inside", entity="target_knife",
+                                       receptacle="cabinet_B")]
+    backend = _RootLinkPlaneBackend(
+        entities={"target_knife": _entity("target_knife"),
+                  "cabinet_B": _entity("cabinet_B", openable=True)},
+        anchors={"kitchen"},
+        poses={"target_knife": [3.0, 1.0, 0.61], "cabinet_B": [3.0, 1.0, 0.45]},
+        aabbs={"target_knife": ([2.97, 0.97, 0.6], [3.03, 1.03, 0.66]),
+               "cabinet_B": ([2.7, 0.7, 0.0], [3.3, 1.3, 0.9])},
+    )
+    result = check_goal(_knife_state(), scenario, backend)
+    assert not result.satisfied
+    assert result.predicates[0]["reason"] == "kind_mismatch"
+    assert result.fault is None

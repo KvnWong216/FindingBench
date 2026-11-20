@@ -1,0 +1,109 @@
+task_id: N041
+family: fetch
+scene: Wainscott_0_int
+source:
+  official_activity: clean_up_your_desk#0
+  official_activities_with_same_subgoal:
+  - clean_up_your_desk#0
+  official_subgoal: (inside folder.n.02 bookcase.n.01)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K Wainscott_0_int (+ clearance manifest)
+  object: BEHAVIOR-1K folder/lktggf
+start:
+  name: start_living_room_2_1
+  room: living_room_2
+  x: -2.09
+  y: -1.1
+  yaw: -1.702
+target:
+  entity: target_obj
+  category: folder
+  model: lktggf
+  noun: folder
+  colour_estimate: blue
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S1
+- S2
+missing_spatial_levels:
+- S3
+initial_states: {}
+spatial:
+  S1:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: breakfast_table_skczfi_2
+    room: living_room_2
+    location_phrase: null
+    grasp_hints:
+    - - -2.747
+      - -2.518
+      - 2.274
+    - - -2.606
+      - -2.559
+      - 2.363
+    - - -2.647
+      - -2.618
+      - 2.287
+    - - -2.848
+      - -2.618
+      - 2.099
+    extra_ops_vs_S1: []
+    probe_visibility_from_start:
+      px: 246
+      delta_e: 8.8
+    task_scope: single_room
+  S2:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: console_table_emeeke_1
+    room: living_room_2
+    location_phrase: null
+    grasp_hints:
+    - - -3.157
+      - -0.742
+      - 0.785
+    - - -3.207
+      - -0.792
+      - 0.785
+    - - -1.939
+      - -0.753
+      - 2.436
+    - - -3.257
+      - -0.641
+      - 0.587
+    extra_ops_vs_S1:
+    - search behind occluders
+    s2_kind: occluded
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    task_scope: single_room
+language:
+  L1: {}
+  L2: Pick up the folder and keep holding it.
+  L3: I'm working on clean up your desk and I need the folder. Could you get it for
+    me?
+available_language_levels:
+  S1:
+  - L2
+  - L3
+  S2:
+  - L2
+  - L3
+description_provenance:
+  missing_L1_reason: source location lacks an unambiguous description
+  missing_L1_spatial_levels:
+  - S1
+  - S2
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

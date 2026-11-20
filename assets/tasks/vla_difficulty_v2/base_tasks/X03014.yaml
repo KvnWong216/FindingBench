@@ -1,0 +1,115 @@
+task_id: X03014
+family: place_on
+scene: house_double_floor_lower
+source:
+  official_activity: setup_a_bar_for_a_cocktail_party#0
+  official_activities_with_same_subgoal:
+  - setup_a_bar_for_a_cocktail_party#0
+  official_subgoal: (ontop wine_bottle.n.01 countertop.n.01)
+  reuse: official sub-goal re-used as the task goal
+  scene: BEHAVIOR-1K house_double_floor_lower (+ clearance manifest)
+  object: BEHAVIOR-1K wine_bottle/inkqch
+start:
+  name: start_bathroom_0_0
+  room: bathroom_0
+  x: -2.36
+  y: 0.06
+  yaw: 0.0
+target:
+  entity: target_obj
+  category: wine_bottle
+  model: inkqch
+  noun: wine bottle
+  colour_estimate: black
+goal:
+- kind: on_top
+  entity: target_obj
+  receptacle: countertop_tpuwys_0
+place_hints:
+- - 5.23
+  - 5.38
+  - 0.785
+- - 5.18
+  - 6.133
+  - 0.0
+- - 5.13
+  - 5.681
+  - 0.263
+- - 5.08
+  - 6.636
+  - 0.0
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S2
+- S3
+missing_spatial_levels:
+- S1
+initial_states: {}
+spatial:
+  S2:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bottom_cabinet_qacthv_0
+    room: bathroom_0
+    location_phrase: the cabinet in the bathroom
+    grasp_hints:
+    - - -2.478
+      - -0.225
+      - -2.356
+    - - -2.378
+      - -0.125
+      - -2.356
+    - - -2.378
+      - -0.325
+      - -2.537
+    - - -2.529
+      - -0.075
+      - -2.191
+    extra_ops_vs_S1:
+    - search behind occluders
+    s2_kind: occluded
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    task_scope: cross_room
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bottom_cabinet_rhdbzv_0
+    room: living_room_0
+    location_phrase: the cabinet in the living room
+    grasp_hints:
+    - - 5.537
+      - 4.561
+      - 0.0
+    - - 5.437
+      - 4.252
+      - 0.389
+    - - 5.437
+      - 4.871
+      - -0.328
+    - - 5.387
+      - 4.201
+      - 0.423
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    task_scope: cross_room
+    route_from_start_steps: 15
+language:
+  L1:
+    S2: Go to the cabinet in the bathroom, pick up the wine bottle on it. Then put
+      it on the counter in the living room.
+    S3: Leave the bathroom, go to the cabinet in the living room, pick up the wine
+      bottle on it. Then put it on the counter in the living room.
+  L2: Place the wine bottle on the counter in the living room.
+  L3: I'm working on setup a bar for a cocktail party, so could you make sure the
+    wine bottle is on the counter in the living room?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

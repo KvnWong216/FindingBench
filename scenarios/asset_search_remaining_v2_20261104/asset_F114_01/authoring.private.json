@@ -1,0 +1,211 @@
+{
+  "id": "asset_F114_01",
+  "family": "semantic_F114",
+  "scene": "Pomaria_1_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_F114_01/scenario.yaml",
+  "scenario_sha256": "eee4275fa25c0b5d29ac4014a430bb52453d56e3143ed3fb65242f4211c2b49c",
+  "instruction": "Find a serving spatula and two table forks in the kitchen utensil storage and put all three on the table in front of you in the kitchen for the pie.",
+  "target_key": "spatula/bqsefv",
+  "target_entities": [
+    "item_00",
+    "item_01",
+    "item_02"
+  ],
+  "target_count": 3,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "bottom_cabinet_no_top_pluwfl_0",
+  "destination_receptacle": "breakfast_table_uhrsex_0",
+  "object_count": 11,
+  "distractor_count": 8,
+  "source_survey_sha256": "05d404c89ade70d34c89459d2b340c53ef49d49041a6624fcc9a997b8b7322b3",
+  "route": {
+    "start": [
+      -1.1500000000000001,
+      -2.85,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -1.1500000000000001,
+        -2.85
+      ],
+      [
+        -1.1500000000000001,
+        -2.95
+      ],
+      [
+        -1.1500000000000001,
+        -3.0500000000000003
+      ],
+      [
+        -1.05,
+        -3.0500000000000003
+      ],
+      [
+        -0.9500000000000001,
+        -3.0500000000000003
+      ],
+      [
+        -0.8500000000000001,
+        -3.0500000000000003
+      ],
+      [
+        -0.75,
+        -3.0500000000000003
+      ],
+      [
+        -0.65,
+        -3.0500000000000003
+      ],
+      [
+        -0.55,
+        -3.0500000000000003
+      ],
+      [
+        -0.45,
+        -3.0500000000000003
+      ],
+      [
+        -0.35000000000000003,
+        -3.0500000000000003
+      ],
+      [
+        -0.25,
+        -3.0500000000000003
+      ],
+      [
+        -0.15000000000000002,
+        -3.0500000000000003
+      ],
+      [
+        -0.05,
+        -3.0500000000000003
+      ],
+      [
+        0.05,
+        -3.0500000000000003
+      ],
+      [
+        0.15000000000000002,
+        -3.0500000000000003
+      ],
+      [
+        0.15000000000000002,
+        -2.95
+      ],
+      [
+        0.25,
+        -2.95
+      ],
+      [
+        0.25,
+        -2.85
+      ],
+      [
+        0.25,
+        -2.75
+      ],
+      [
+        0.25,
+        -2.6500000000000004
+      ],
+      [
+        0.25,
+        -2.5500000000000003
+      ],
+      [
+        0.25,
+        -2.45
+      ],
+      [
+        0.25,
+        -2.35
+      ],
+      [
+        0.35000000000000003,
+        -2.35
+      ],
+      [
+        0.35000000000000003,
+        -2.25
+      ],
+      [
+        0.35000000000000003,
+        -2.15
+      ],
+      [
+        0.35000000000000003,
+        -2.0500000000000003
+      ],
+      [
+        0.35000000000000003,
+        -1.9500000000000002
+      ],
+      [
+        0.35000000000000003,
+        -1.85
+      ],
+      [
+        0.35000000000000003,
+        -1.75
+      ],
+      [
+        0.35000000000000003,
+        -1.6500000000000001
+      ],
+      [
+        0.45,
+        -1.6500000000000001
+      ]
+    ],
+    "length_m": 3.2,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 38,
+    "destination_approach_count": 51,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09",
+    "item_10",
+    "bottom_cabinet_no_top_spojpj_0",
+    "bottom_cabinet_no_top_pluwfl_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "parent_task_id": "F114",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F114_01",
+    "parent_task_id": "F114",
+    "before_instruction": "Find a serving spatula and two table forks in the kitchen utensil storage and put all three beside the whole pie on the kitchen table.",
+    "after_instruction": "Find a serving spatula and two table forks in the kitchen utensil storage and put all three on the table in front of you in the kitchen for the pie.",
+    "reason": "The identified delivery surface is grounded by the initial facing direction; decorative destination landmarks are omitted. Target identity, requested cardinality and source/destination room types are retained.",
+    "target_asset": "spatula/bqsefv",
+    "target_assets": [
+      "spatula/bqsefv",
+      "tablefork/yuihyg",
+      "tablefork/yuihyg"
+    ]
+  },
+  "binding_sha256": "7cb5fa683c77c526e65f7994da283b50ff5cae61d60c4fb81c9420738e50917b"
+}

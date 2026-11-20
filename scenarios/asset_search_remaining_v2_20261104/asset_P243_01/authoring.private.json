@@ -1,0 +1,82 @@
+{
+  "id": "asset_P243_01",
+  "family": "semantic_P243",
+  "scene": "Pomaria_2_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P243_01/scenario.yaml",
+  "scenario_sha256": "9e10d668f43ea827993f969c0dfb746f1ee53a09498e5b2b729b86bdca98c7b8",
+  "instruction": "Bring both bath toys from the bathroom supplies to the counter in front of you in the bathroom for setting up the bath-time play area.",
+  "target_key": "beach_toy/wonucj",
+  "target_entities": [
+    "item_00",
+    "item_01"
+  ],
+  "target_count": 2,
+  "source_room": "bathroom_0",
+  "destination_room": "bathroom_0",
+  "source_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+  "destination_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+  "object_count": 10,
+  "distractor_count": 8,
+  "source_survey_sha256": "62e51428546de3c0a833496f29b3c3303a5b7156fd7ac39a8975412318ea7e2d",
+  "route": {
+    "start": [
+      -0.30000000000000004,
+      2.6,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -0.30000000000000004,
+        2.6
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 35,
+    "destination_approach_count": 35,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09",
+    "bottom_cabinet_no_top_qohxjq_1",
+    "bottom_cabinet_no_top_qohxjq_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "parent_task_id": "P243",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P243_01",
+    "parent_task_id": "P243",
+    "before_instruction": "Find two rigid toy boats among bathroom bath-supply storage and place one on each end of the dry bathtub rim.",
+    "after_instruction": "Bring both bath toys from the bathroom supplies to the counter in front of you in the bathroom for setting up the bath-time play area.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Missing complete set membership, quantities and/or attribute-specific native models for two rigid toy boats. Native categories are only candidates; required subtype, markings, quantity, or reference appearance remain unverified: two rigid toy boats. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+    "target_asset": "beach_toy/wonucj",
+    "target_assets": [
+      "beach_toy/wonucj",
+      "beach_toy/wonucj"
+    ]
+  },
+  "binding_sha256": "ae6782ee62d4ed1274234fbe543936e15c2ef6e0d14c46c396826b3e4cd4c8ad"
+}

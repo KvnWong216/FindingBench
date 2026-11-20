@@ -1,0 +1,77 @@
+{
+  "id": "asset_U128_01",
+  "family": "semantic_U128",
+  "scene": "Ihlen_0_int",
+  "scenario": "scenarios/asset_search_remaining_20261104/asset_U128_01/scenario.yaml",
+  "scenario_sha256": "adffc6d049430cd321751fcc901ae6c7ea48eba7a664ffc072ba37e0ade79217",
+  "instruction": "The work area needs its own light. Find the spare table lamp among the garage equipment and put it on the cabinet top in front of you in the garage.",
+  "target_key": "table_lamp/zpqejt",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "garage_0",
+  "destination_room": "garage_0",
+  "source_receptacle": "bottom_cabinet_jrhgeu_0",
+  "destination_receptacle": "bottom_cabinet_jrhgeu_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "4e67f717bc639fa8251f9cbf52bc0b8a96e19f8594526a196ad4548a95e97acd",
+  "route": {
+    "start": [
+      4.1000000000000005,
+      4.2,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        4.1000000000000005,
+        4.2
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_jrhgeu_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "parent_task_id": "U128",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_U128_01",
+    "parent_task_id": "U128",
+    "before_instruction": "The worktable needs its own light. Find the spare table lamp among the garage equipment and put it at the back of the worktable beside the cabinet.",
+    "after_instruction": "The work area needs its own light. Find the spare table lamp among the garage equipment and put it on the cabinet top in front of you in the garage.",
+    "reason": "Preserves object identity and purpose; explicitly grounds the destination as the initial-facing native surface instead of an uninstantiated decorative landmark.",
+    "target_asset": "table_lamp/zpqejt",
+    "target_assets": [
+      "table_lamp/zpqejt"
+    ]
+  }
+}

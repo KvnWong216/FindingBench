@@ -1,0 +1,102 @@
+task_id: X03002
+family: fetch
+scene: house_double_floor_lower
+source:
+  official_activity: picking_fruit_and_vegetables#0
+  official_activities_with_same_subgoal:
+  - picking_fruit_and_vegetables#0
+  official_subgoal: (inside zucchini.n.02 shopping_basket.n.01)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K house_double_floor_lower (+ clearance manifest)
+  object: BEHAVIOR-1K zucchini/ifvmal
+start:
+  name: start_bathroom_0_0
+  room: bathroom_0
+  x: -2.36
+  y: 0.06
+  yaw: 0.0
+target:
+  entity: target_obj
+  category: zucchini
+  model: ifvmal
+  noun: zucchini
+  colour_estimate: green
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S2
+- S3
+missing_spatial_levels:
+- S1
+initial_states: {}
+spatial:
+  S2:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bottom_cabinet_qacthv_0
+    room: bathroom_0
+    location_phrase: the cabinet in the bathroom
+    grasp_hints:
+    - - -2.478
+      - -0.225
+      - -2.356
+    - - -2.378
+      - -0.125
+      - -2.356
+    - - -2.378
+      - -0.325
+      - -2.537
+    - - -2.529
+      - -0.075
+      - -2.191
+    extra_ops_vs_S1:
+    - search behind occluders
+    s2_kind: occluded
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    task_scope: single_room
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: shelf_vanltx_0
+    room: living_room_0
+    location_phrase: the shelf in the living room
+    grasp_hints:
+    - - 3.738
+      - 6.829
+      - 2.369
+    - - 3.698
+      - 6.768
+      - 2.259
+    - - 3.838
+      - 6.93
+      - 2.591
+    - - 3.888
+      - 6.98
+      - 2.695
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    task_scope: cross_room
+    route_from_start_steps: 17
+language:
+  L1:
+    S2: Go to the cabinet in the bathroom, pick up the zucchini on it and hold it.
+    S3: Leave the bathroom, go to the shelf in the living room, pick up the zucchini
+      on it and hold it.
+  L2: Pick up the zucchini and keep holding it.
+  L3: I'm picking fruit and vegetables. Can you find the zucchini and hold it for
+    me?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

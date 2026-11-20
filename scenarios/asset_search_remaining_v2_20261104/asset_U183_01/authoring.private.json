@@ -1,0 +1,83 @@
+{
+  "id": "asset_U183_01",
+  "family": "semantic_U183",
+  "scene": "Wainscott_1_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_U183_01/scenario.yaml",
+  "scenario_sha256": "1a761eca83c04a3d71943a8c25ba0d68451162c070a7af19f4d0c3218c19475e",
+  "instruction": "Bring a crayon from the bedroom household storage craft supplies to the table in front of you in the bedroom in the bedroom for the child's drawing activity.",
+  "target_key": "crayon/xmysum",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bedroom_0",
+  "destination_room": "bedroom_0",
+  "source_receptacle": "bottom_cabinet_nnvyol_0",
+  "destination_receptacle": "breakfast_table_skczfi_2",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "7894c711eea34a656ee926a132d6563ce3833b5ddb45c126d0ce534dd2edca60",
+  "route": {
+    "start": [
+      -1.6500000000000001,
+      12.25,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -1.6500000000000001,
+        12.25
+      ],
+      [
+        -1.55,
+        12.25
+      ]
+    ],
+    "length_m": 0.1,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 47,
+    "destination_approach_count": 3,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_nnvyol_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "parent_task_id": "U183",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_U183_01",
+    "parent_task_id": "U183",
+    "before_instruction": "The crayon set on the child's desk is missing the color shown by its empty slot. Find that crayon among the storage room craft supplies and put it beside the set.",
+    "after_instruction": "Bring a crayon from the bedroom household storage craft supplies to the table in front of you in the bedroom in the bedroom for the child's drawing activity.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Native category metadata does not certify the stated target predicate: crayon matching empty color position. Color coded reference set and matching crayon required Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: storage_room/cabinet -> childs_room/table becomes bedroom/cabinet -> bedroom/table. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+    "target_asset": "crayon/xmysum",
+    "target_assets": [
+      "crayon/xmysum"
+    ]
+  },
+  "binding_sha256": "a28f99b71e4afd5f420dde45d67fd71a48d03d25eab698829ac40f75630e9118"
+}

@@ -1,0 +1,69 @@
+{
+  "status": "editorial_revision_physics_pending",
+  "revision_id": "expert_native_size_rebinding_20261114_U060",
+  "authorization": "user_approved_find_and_deliver_rewrite",
+  "reason": "Select the native 41.5-cm handheld paint roller instead of the 1.54-m extension roller. The same paint-roller instruction, target identity/count and all other objects are retained; this is a complete asset-model rebinding, never mesh scaling.",
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_v1/asset_U060_01/scenario.yaml",
+  "original_archive": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/pinpoint_20261114/U060/native_size_rebinding_v35/asset_U060_01/original_scenario.yaml",
+  "original_scenario_sha256": "ea2fca8a7303b02d203337fd1f74f56b72ba6309ad2351f32b6151171849f3f3",
+  "revised_scenario_sha256": "23f789cc40e0ca98c2a6a3968c035d787293c52a73368d8eca716140191abe60",
+  "before_instruction": "I'm painting a broad section of wall. Find the paint roller among the garage decorating supplies and set it on the cabinet top in front of you in the garage.",
+  "after_instruction": "I'm painting a broad section of wall. Find the paint roller among the garage decorating supplies and set it on the cabinet top in front of you in the garage.",
+  "object_changes": [
+    {
+      "before": {
+        "name": "item_00",
+        "category": "paint_roller",
+        "model": "nbwihe"
+      },
+      "after": {
+        "name": "item_00",
+        "category": "paint_roller",
+        "model": "jcqwrt"
+      },
+      "native_bbox_m": [
+        0.4146049041748047,
+        0.2574105987548828,
+        0.08264462661743165
+      ],
+      "metadata_sha256": "545543cf1a0eea82ad557ab4c042687ec344169bb9bf6396e5a409fe8e9edf0c",
+      "encrypted_asset_sha256": "c2b40e40c083a1bd4b1201d3b668fd6d9523075d16e8d7de3be3d555f0791c05"
+    }
+  ],
+  "surface_binding_changes": [],
+  "before_goal": [
+    {
+      "kind": "on_top",
+      "entity": "item_00",
+      "receptacle": "bottom_cabinet_jrhgeu_0"
+    }
+  ],
+  "after_goal": [
+    {
+      "kind": "on_top",
+      "entity": "item_00",
+      "receptacle": "bottom_cabinet_jrhgeu_0"
+    }
+  ],
+  "before_target": {
+    "entity": "item_00",
+    "category": "paint_roller"
+  },
+  "after_target": {
+    "entity": "item_00",
+    "category": "paint_roller"
+  },
+  "preserved": [
+    "find-and-deliver paradigm",
+    "goal entity and relation",
+    "scene",
+    "spawn",
+    "robot",
+    "skills",
+    "entity names and count",
+    "placement relations",
+    "target cardinality"
+  ],
+  "physical_validation_required": true,
+  "human_completion_verified": false
+}

@@ -1,0 +1,125 @@
+{
+  "id": "asset_F043_01",
+  "family": "semantic_F043",
+  "scene": "grocery_store_convenience",
+  "scenario": "scenarios/overnight_expert_20261109/generate/asset_F043_01/scenario.yaml",
+  "scenario_sha256": "a410196c21e3d49f16053c8f14179112d9a63ae58c06197a116263cb14940d6a",
+  "instruction": "Find all the bottle of water in the shelves in this grocery store and put them in the shopping basket on the table in front of you.",
+  "target_key": "bottle_of_water/suytyi",
+  "target_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04"
+  ],
+  "target_count": 4,
+  "source_room": "grocery_store_0",
+  "destination_room": "grocery_store_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "item_00",
+  "object_count": 12,
+  "distractor_count": 7,
+  "source_survey_sha256": "a2c547e08ae7b260e95d8b48eef0027668b5c06f7c674406f7ebc43f7ad37672",
+  "route": {
+    "start": [
+      1.6,
+      0.30000000000000004,
+      3.141592653589793
+    ],
+    "path_xy": [
+      [
+        1.6,
+        0.30000000000000004
+      ],
+      [
+        1.6,
+        0.2
+      ],
+      [
+        1.6,
+        0.1
+      ],
+      [
+        1.6,
+        0.0
+      ],
+      [
+        1.6,
+        -0.1
+      ],
+      [
+        1.6,
+        -0.2
+      ],
+      [
+        1.6,
+        -0.30000000000000004
+      ],
+      [
+        1.6,
+        -0.4
+      ],
+      [
+        1.5,
+        -0.4
+      ],
+      [
+        1.4000000000000001,
+        -0.4
+      ],
+      [
+        1.3,
+        -0.4
+      ],
+      [
+        1.2000000000000002,
+        -0.4
+      ],
+      [
+        1.1,
+        -0.4
+      ],
+      [
+        1.0,
+        -0.4
+      ],
+      [
+        0.9,
+        -0.4
+      ],
+      [
+        0.8,
+        -0.4
+      ]
+    ],
+    "length_m": 1.5,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_00",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09",
+    "item_10",
+    "item_11"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate"
+}

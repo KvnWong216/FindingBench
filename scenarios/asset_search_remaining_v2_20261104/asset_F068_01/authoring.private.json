@@ -1,0 +1,127 @@
+{
+  "id": "asset_F068_01",
+  "family": "semantic_F068",
+  "scene": "Ihlen_1_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_F068_01/scenario.yaml",
+  "scenario_sha256": "f4032f97e35db43c04b8c3043dde71c13ad374c7544137d0cea7e2ed9f6f56d1",
+  "instruction": "There is a sample on the table in front of you in the dining room. Find a saucer in the dining-room cupboard matching that sample, and put it on the table in front of you in the dining room.",
+  "target_key": "saucer/szzjzd",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "dining_room_0",
+  "destination_room": "dining_room_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "breakfast_table_uhrsex_0",
+  "object_count": 13,
+  "distractor_count": 10,
+  "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+  "route": {
+    "start": [
+      -4.4,
+      2.6,
+      0.0
+    ],
+    "path_xy": [
+      [
+        -4.4,
+        2.6
+      ],
+      [
+        -4.4,
+        2.5
+      ],
+      [
+        -4.4,
+        2.4000000000000004
+      ],
+      [
+        -4.4,
+        2.3000000000000003
+      ],
+      [
+        -4.4,
+        2.2
+      ],
+      [
+        -4.5,
+        2.2
+      ]
+    ],
+    "length_m": 0.5,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 5,
+    "destination_approach_count": 19,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "comparison_negative_0",
+    "comparison_negative_1",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_wskgxd_0",
+      "position_xy": [
+        -4.4,
+        0.9
+      ],
+      "aabb": [
+        [
+          -4.5671447601318365,
+          0.5577120208740234,
+          0.0
+        ],
+        [
+          -4.232855239868164,
+          1.2422879791259767,
+          0.6846599731445313
+        ]
+      ],
+      "room": "dining_room_0"
+    }
+  ],
+  "parent_task_id": "F068",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F068_01",
+    "parent_task_id": "F068",
+    "before_instruction": "Find a saucer in the dining room cupboards that matches the one beside the teapot on the dining table, and put it beside the second cup.",
+    "after_instruction": "There is a sample on the table in front of you in the dining room. Find a saucer in the dining-room cupboard matching that sample, and put it on the table in front of you in the dining room.",
+    "reason": "Instantiated identical-model reference preserves design matching; destination placement replaces an unconstructed second cup. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "saucer/szzjzd",
+    "target_assets": [
+      "saucer/szzjzd"
+    ]
+  },
+  "binding_sha256": "25c7cdffd6c09e223597378afaab5819c297f277a4eb677235f633ab5a1fae03"
+}

@@ -1,0 +1,171 @@
+{
+  "id": "asset_P133_01",
+  "family": "semantic_P133",
+  "scene": "Wainscott_0_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P133_01/scenario.yaml",
+  "scenario_sha256": "3ebba894ef8fa690f22a20433798274f4683a690d78f6eee5965a8d892fd7663",
+  "instruction": "There is a sample on the table in front of you in the bedroom. Find the hardback matching that sample among the living-room books and bring it to the table in front of you in the bedroom in the bedroom.",
+  "target_key": "hardback/tmlwev",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_2",
+  "destination_room": "bedroom_0",
+  "source_receptacle": "bottom_cabinet_jhymlr_0",
+  "destination_receptacle": "console_table_emeeke_0",
+  "object_count": 12,
+  "distractor_count": 10,
+  "source_survey_sha256": "bfc3f55c9661a7a599b91007a0d13bfe6624ef15110725894b31404980af12ee",
+  "route": {
+    "start": [
+      -1.6,
+      -5.300000000000001,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -1.6,
+        -5.300000000000001
+      ],
+      [
+        -1.6,
+        -5.2
+      ],
+      [
+        -1.6,
+        -5.1000000000000005
+      ],
+      [
+        -1.6,
+        -5.0
+      ],
+      [
+        -1.6,
+        -4.9
+      ],
+      [
+        -1.6,
+        -4.800000000000001
+      ],
+      [
+        -1.6,
+        -4.7
+      ],
+      [
+        -1.6,
+        -4.6000000000000005
+      ],
+      [
+        -1.6,
+        -4.5
+      ],
+      [
+        -1.6,
+        -4.4
+      ],
+      [
+        -1.6,
+        -4.3
+      ],
+      [
+        -1.6,
+        -4.2
+      ],
+      [
+        -1.6,
+        -4.1000000000000005
+      ],
+      [
+        -1.6,
+        -4.0
+      ],
+      [
+        -1.6,
+        -3.9000000000000004
+      ],
+      [
+        -1.7000000000000002,
+        -3.9000000000000004
+      ],
+      [
+        -1.7000000000000002,
+        -3.8000000000000003
+      ],
+      [
+        -1.7000000000000002,
+        -3.7
+      ],
+      [
+        -1.7000000000000002,
+        -3.6
+      ],
+      [
+        -1.7000000000000002,
+        -3.5
+      ],
+      [
+        -1.7000000000000002,
+        -3.4000000000000004
+      ],
+      [
+        -1.8,
+        -3.4000000000000004
+      ],
+      [
+        -1.9000000000000001,
+        -3.4000000000000004
+      ]
+    ],
+    "length_m": 2.2,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 6,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "comparison_negative_0",
+    "comparison_negative_1",
+    "bottom_cabinet_jhymlr_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "parent_task_id": "P133",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P133_01",
+    "parent_task_id": "P133",
+    "before_instruction": "Find the book immediately following volume 5 in the Fox Tales series among living-room storage; put it on the bedroom nightstand.",
+    "after_instruction": "There is a sample on the table in front of you in the bedroom. Find the hardback matching that sample among the living-room books and bring it to the table in front of you in the bedroom in the bedroom.",
+    "reason": "Replaces invented series succession with a physical hardback reference; no fictional volume numbers remain. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "hardback/tmlwev",
+    "target_assets": [
+      "hardback/tmlwev"
+    ]
+  },
+  "binding_sha256": "75362528418cbed8dda9069a41420326ac5c4426bd509bfa3b5d23b4c42562da"
+}

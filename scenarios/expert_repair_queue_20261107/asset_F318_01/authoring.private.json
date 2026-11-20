@@ -1,0 +1,150 @@
+{
+  "id": "asset_F318_01",
+  "family": "semantic_F318",
+  "scene": "Beechwood_0_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_F318_01/scenario.yaml",
+  "scenario_sha256": "e30cf0d5c13c36d5f5a1e48f846eda8c4ddb9e3e0fe44c9525ec3de2a582112a",
+  "instruction": "Find the teaspoon among the food containers on the living-room work table and return it to the counter in front of you in the kitchen in the kitchen.",
+  "target_key": "teaspoon/asapmn",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "breakfast_table_skczfi_0",
+  "destination_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+  "route": {
+    "start": [
+      0.9500000000000001,
+      -5.95,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        0.9500000000000001,
+        -5.95
+      ],
+      [
+        0.9500000000000001,
+        -6.050000000000001
+      ],
+      [
+        1.05,
+        -6.050000000000001
+      ],
+      [
+        1.1500000000000001,
+        -6.050000000000001
+      ],
+      [
+        1.25,
+        -6.050000000000001
+      ],
+      [
+        1.35,
+        -6.050000000000001
+      ],
+      [
+        1.4500000000000002,
+        -6.050000000000001
+      ],
+      [
+        1.55,
+        -6.050000000000001
+      ],
+      [
+        1.6500000000000001,
+        -6.050000000000001
+      ],
+      [
+        1.6500000000000001,
+        -6.15
+      ],
+      [
+        1.75,
+        -6.15
+      ],
+      [
+        1.75,
+        -6.25
+      ],
+      [
+        1.85,
+        -6.25
+      ],
+      [
+        1.9500000000000002,
+        -6.25
+      ],
+      [
+        2.0500000000000003,
+        -6.25
+      ],
+      [
+        2.15,
+        -6.25
+      ],
+      [
+        2.25,
+        -6.25
+      ]
+    ],
+    "length_m": 1.6,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [],
+    "prefer_alternative_layout": false,
+    "assignments": {},
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "F318",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F318_01",
+    "parent_task_id": "F318",
+    "before_instruction": "Find the teaspoon under the empty rigid food containers on the private office desk and put it on the kitchen counter beside the sink.",
+    "after_instruction": "Find the teaspoon among the food containers on the living-room work table and return it to the counter in front of you in the kitchen in the kitchen.",
+    "reason": "Removes unsupported beneath and empty-container predicates; retains desk cleanup search and room transfer. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Explicit spatial revision from ('private_office', 'desk', 'kitchen', 'counter') to ('living_room', 'table', 'kitchen', 'counter'): uses a room/storage pairing with previously found robot clearance and path evidence (7 prior recipes). Item sets, reference matching and inventory predicates are unchanged. Cross-room transfer is retained where the revised source and destination differ.",
+    "target_asset": "teaspoon/asapmn",
+    "target_assets": [
+      "teaspoon/asapmn"
+    ]
+  },
+  "binding_sha256": "2f1fec6e4c65b972ba661f81bda56a56f00c5dc5d02d5362367095c2d27d1fa7"
+}

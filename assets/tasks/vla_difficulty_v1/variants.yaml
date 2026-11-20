@@ -1,0 +1,35 @@
+# Variant index: every variant = base task x language level x spatial level.
+# A variant is fully determined by (task, L, S); its scenario is composed by
+# scripts/compile_vla_variants.py from common.yaml + base_tasks/<task>.yaml
+# (instruction = language[L][S] for L1, language[L] otherwise; target
+# placement = spatial[S].placement) into build/vla_difficulty_v1/<id>/.
+# Naming: <task_id>__<L>_<S>
+version: 2
+id_pattern: "{task_id}__{L}_{S}"
+tasks: [T01_knife_fetch, T02_mug_to_counter, T03_fork_to_drawer, T04_apple_to_counter]
+# active grid (2026-10-19): all four tasks. T03 was blocked until PLACE got
+# angled approaches into open drawers (user-approved 2026-10-19)
+active_tasks: [T01_knife_fetch, T02_mug_to_counter, T03_fork_to_drawer, T04_apple_to_counter]
+blocked_tasks: []
+superseded_tasks:   # see base_tasks/_superseded/README.md
+  T02_mug_to_table: breakfast-table goal not PLACE-feasible
+  T03_apple_to_fridge: no inside PLACE for fixed furniture; no base pose at the open fridge
+  T04_apple_to_living_room: no living-room surface PLACE-feasible
+  T04_apple_to_island: island PLACE depended on how the apple was grasped
+language_levels: [L1, L2, L3]
+spatial_levels: [S1, S2, S3]
+# first runnable 2x2 (Deliverable 5): L1/L2 x S1/S2 of T01
+first_prototype: [T01_knife_fetch__L1_S1, T01_knife_fetch__L2_S1, T01_knife_fetch__L1_S2, T01_knife_fetch__L2_S2]
+
+cells:   # 9 cells x 4 tasks = 36 variants
+  L1_S1: [T01_knife_fetch__L1_S1, T02_mug_to_counter__L1_S1, T03_fork_to_drawer__L1_S1, T04_apple_to_counter__L1_S1]
+  L1_S2: [T01_knife_fetch__L1_S2, T02_mug_to_counter__L1_S2, T03_fork_to_drawer__L1_S2, T04_apple_to_counter__L1_S2]
+  L1_S3: [T01_knife_fetch__L1_S3, T02_mug_to_counter__L1_S3, T03_fork_to_drawer__L1_S3, T04_apple_to_counter__L1_S3]
+  L2_S1: [T01_knife_fetch__L2_S1, T02_mug_to_counter__L2_S1, T03_fork_to_drawer__L2_S1, T04_apple_to_counter__L2_S1]
+  L2_S2: [T01_knife_fetch__L2_S2, T02_mug_to_counter__L2_S2, T03_fork_to_drawer__L2_S2, T04_apple_to_counter__L2_S2]
+  L2_S3: [T01_knife_fetch__L2_S3, T02_mug_to_counter__L2_S3, T03_fork_to_drawer__L2_S3, T04_apple_to_counter__L2_S3]
+  L3_S1: [T01_knife_fetch__L3_S1, T02_mug_to_counter__L3_S1, T03_fork_to_drawer__L3_S1, T04_apple_to_counter__L3_S1]
+  L3_S2: [T01_knife_fetch__L3_S2, T02_mug_to_counter__L3_S2, T03_fork_to_drawer__L3_S2, T04_apple_to_counter__L3_S2]
+  L3_S3: [T01_knife_fetch__L3_S3, T02_mug_to_counter__L3_S3, T03_fork_to_drawer__L3_S3, T04_apple_to_counter__L3_S3]
+
+# simulation status per variant: runs/vla_difficulty_v1/summary.md

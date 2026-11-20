@@ -1,0 +1,167 @@
+id: asset_F128_01
+instruction: Find strawberry jam in the kitchen preserve storage and bring it to the
+  table in front of you in the kitchen for the bread.
+scene:
+  model: Wainscott_0_int
+  source: behavior
+  clearance_manifest: /home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/build/vla_difficulty_v2/clearance/Wainscott_0_int.json
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - 3.0
+    - 11.8
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - -0.7071067811865475
+    - 0.7071067811865476
+target:
+  entity: item_00
+  category: jar_of_strawberry_jam
+objects:
+- name: item_00
+  category: jar_of_strawberry_jam
+  model: busiti
+- name: item_01
+  category: jar_of_honey
+  model: wdxfaq
+- name: item_02
+  category: jar_of_jam
+  model: vxjbjf
+- name: item_03
+  category: jar_of_jelly
+  model: ytlmmb
+- name: item_04
+  category: jelly_bean_jar
+  model: nftsal
+- name: item_05
+  category: jelly_jar
+  model: lrjoro
+- name: item_06
+  category: maple_syrup_jar
+  model: wigtue
+- name: item_07
+  category: peanut_butter_jar
+  model: xdxqxj
+- name: item_08
+  category: sugar_syrup_bottle
+  model: kdlbbq
+- name: expert_surface_70
+  category: bookcase
+  model: owvfik
+  fixed_base: true
+placements:
+- entity: item_00
+  relation: on_top
+  receptacle: expert_surface_70
+  position_xy:
+  - 3.1748793106079103
+  - 10.056015151977538
+- entity: item_01
+  relation: on_top
+  receptacle: expert_surface_70
+  position_xy:
+  - 3.02287931060791
+  - 9.54651515197754
+- entity: item_02
+  relation: on_top
+  receptacle: expert_surface_70
+  position_xy:
+  - 3.18237931060791
+  - 9.598015151977538
+- entity: item_03
+  relation: on_top
+  receptacle: expert_surface_70
+  position_xy:
+  - 3.20787931060791
+  - 9.48701515197754
+- entity: item_04
+  relation: on_top
+  receptacle: expert_surface_70
+  position_xy:
+  - 3.00437931060791
+  - 9.899015151977538
+- entity: item_05
+  relation: on_top
+  receptacle: expert_surface_70
+  position_xy:
+  - 3.1843793106079104
+  - 9.899015151977538
+- entity: item_06
+  relation: on_top
+  receptacle: expert_surface_70
+  position_xy:
+  - 3.02787931060791
+  - 9.74451515197754
+- entity: item_07
+  relation: on_top
+  receptacle: expert_surface_70
+  position_xy:
+  - 3.00437931060791
+  - 10.052015151977539
+- entity: item_08
+  relation: on_top
+  receptacle: expert_surface_70
+  position_xy:
+  - 3.19187931060791
+  - 9.698515151977539
+- entity: expert_surface_70
+  relation: on_top
+  receptacle: floors_ibjsgt_0
+  position_xy:
+  - 3.1
+  - 9.8
+initial_states: {}
+goal:
+- kind: on_top
+  entity: item_00
+  receptacle: coffee_table_dnsjnv_1
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

@@ -1,0 +1,224 @@
+{
+  "action": "expert",
+  "case": {
+    "id": "F040",
+    "record": {
+      "id": "asset_F040_01",
+      "family": "semantic_F040",
+      "scene": "Ihlen_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert_profile_repairs_20261108/asset_F040_01/scenario.yaml",
+      "scenario_sha256": "d1a00c5de4afc5a8ec18eb02cb5b3a0311833411544ac17cab39ff509cda97c7",
+      "instruction": "Find the packaged bread among the kitchen groceries and put it on the counter in front of you in the kitchen for breakfast.",
+      "target_key": "pack_of_bread/yehtiv",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "kitchen_0",
+      "destination_room": "kitchen_0",
+      "source_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+      "destination_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+      "object_count": 9,
+      "distractor_count": 8,
+      "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+      "route": {
+        "start": [
+          -3.9000000000000004,
+          4.7,
+          -1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            -3.9000000000000004,
+            4.7
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 37,
+        "destination_approach_count": 37,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "bottom_cabinet_no_top_qohxjq_1",
+        "bottom_cabinet_no_top_qohxjq_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+            "volume_extents_m": {
+              "link_0": [
+                0.35790157318115234,
+                0.41975927352905273,
+                0.17664214968681335
+              ],
+              "link_1": [
+                0.3487100601196289,
+                0.4131288528442383,
+                0.16006872057914734
+              ],
+              "link_2": [
+                0.34264087677001953,
+                0.415022611618042,
+                0.043399155139923096
+              ]
+            },
+            "native_links": {
+              "link_0": "link_0",
+              "link_1": "link_1",
+              "link_2": "link_2"
+            },
+            "geometry_source": "survey",
+            "geometry_provenance": {},
+            "status": "heuristic_fit",
+            "assignment": {
+              "item_00": "link_0",
+              "item_04": "link_1",
+              "item_02": "link_1",
+              "item_05": "link_1",
+              "item_03": "link_0",
+              "item_01": "link_2"
+            },
+            "component_allocation": {
+              "item_00": "link_0",
+              "item_04": "link_1",
+              "item_02": "link_1",
+              "item_05": "link_1",
+              "item_03": "link_0",
+              "item_01": "link_2"
+            }
+          },
+          {
+            "receptacle": "bottom_cabinet_no_top_qohxjq_1",
+            "volume_extents_m": {
+              "link_0": [
+                0.32920026779174805,
+                0.41975927352905273,
+                0.17664214968681335
+              ],
+              "link_1": [
+                0.32074594497680664,
+                0.4131288528442383,
+                0.16006872057914734
+              ],
+              "link_2": [
+                0.31516385078430176,
+                0.415022611618042,
+                0.043399155139923096
+              ]
+            },
+            "native_links": {
+              "link_0": "link_0",
+              "link_1": "link_1",
+              "link_2": "link_2"
+            },
+            "geometry_source": "survey",
+            "geometry_provenance": {},
+            "status": "heuristic_fit",
+            "assignment": {
+              "item_07": "link_2",
+              "item_08": "link_0",
+              "item_06": "link_1"
+            },
+            "component_allocation": {
+              "item_07": "link_2",
+              "item_08": "link_0",
+              "item_06": "link_1"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_00": "link_0",
+          "item_04": "link_1",
+          "item_02": "link_1",
+          "item_05": "link_1",
+          "item_03": "link_0",
+          "item_01": "link_2",
+          "item_07": "link_2",
+          "item_08": "link_0",
+          "item_06": "link_1"
+        },
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [],
+      "parent_task_id": "F040",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F040_01",
+        "parent_task_id": "F040",
+        "before_instruction": "Find the packaged bread among the kitchen groceries and put it beside the toaster on the counter.",
+        "after_instruction": "Find the packaged bread among the kitchen groceries and put it on the counter in front of you in the kitchen for breakfast.",
+        "reason": "Explicit first-tranche grounding: native storage and initial-facing destination replace uninstantiated decorative reference props; no new semantic-task count.",
+        "target_asset": "pack_of_bread/yehtiv",
+        "target_assets": [
+          "pack_of_bread/yehtiv"
+        ]
+      }
+    },
+    "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert_profile_repairs_20261108/asset_F040_01",
+    "error": "AUTHORING_SURFACE_BODY_BINDING",
+    "source_sha256": "d1a00c5de4afc5a8ec18eb02cb5b3a0311833411544ac17cab39ff509cda97c7",
+    "expert_diagnosis": {
+      "category": "native_placement",
+      "error": "AUTHORING_SURFACE_BODY_BINDING",
+      "native_rejections_in_current_queue": 0,
+      "first_blocker": {
+        "entity": "item_06",
+        "relation": "inside",
+        "receptacle": "bottom_cabinet_no_top_qohxjq_1"
+      },
+      "solver": null,
+      "support_measurements": {
+        "total": 0,
+        "planar": 0,
+        "reasons": {}
+      },
+      "first_contact": null,
+      "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert_profile_repairs_20261108/asset_F040_01/native_validation.log",
+      "inference_scope": "proposal/model diagnosis; native physics acceptance unchanged"
+    },
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "native_placement",
+      "reason": "AUTHORING_SURFACE_BODY_BINDING"
+    }
+  },
+  "out": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_09_F040_expert_af780492c411",
+  "variant": 93
+}

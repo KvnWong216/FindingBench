@@ -1,0 +1,152 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F046_01",
+      "family": "semantic_F046",
+      "scene": "grocery_store_convenience",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/initial_F046/asset_F046_01/scenario.yaml",
+      "scenario_sha256": "89fcc3f724c51de51f08bf45cf54ba72ea2836e7c237c1c38a3aaa8a2581fa40",
+      "instruction": "Find the cookie box labeled \"COOKIE\" with pictures of orange slices among the grocery store cookie packages and put it on the counter in front of you in the grocery store.",
+      "target_key": "box_of_cookies/levwda",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "grocery_store_0",
+      "destination_room": "grocery_store_0",
+      "source_receptacle": "search_storage",
+      "destination_receptacle": "delivery_surface",
+      "object_count": 11,
+      "distractor_count": 8,
+      "source_survey_sha256": "a2c547e08ae7b260e95d8b48eef0027668b5c06f7c674406f7ebc43f7ad37672",
+      "route": {
+        "start": [
+          0.0,
+          0.2,
+          0.0
+        ],
+        "path_xy": [
+          [
+            0.0,
+            0.2
+          ],
+          [
+            0.0,
+            0.1
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -0.1
+          ],
+          [
+            0.0,
+            -0.2
+          ]
+        ],
+        "length_m": 0.4,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "search_storage",
+          "category": "shelf",
+          "model": "vanltx",
+          "floor": "floors_rojznj_0",
+          "position_xy": [
+            0.2,
+            -1.4000000000000001
+          ],
+          "aabb": [
+            [
+              0.026926239013671888,
+              -1.992514587402344,
+              0.0
+            ],
+            [
+              0.37307376098632816,
+              -0.8074854125976564,
+              0.42811041259765625
+            ]
+          ],
+          "room": "grocery_store_0"
+        },
+        {
+          "name": "delivery_surface",
+          "category": "bottom_cabinet",
+          "model": "jrhgeu",
+          "floor": "floors_rojznj_0",
+          "position_xy": [
+            0.7000000000000001,
+            0.7000000000000001
+          ],
+          "aabb": [
+            [
+              0.5328552398681641,
+              0.3577120208740235,
+              0.0
+            ],
+            [
+              0.8671447601318361,
+              1.0422879791259767,
+              0.6846599731445313
+            ]
+          ],
+          "room": "grocery_store_0"
+        }
+      ],
+      "parent_task_id": "F046",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F046_01",
+        "parent_task_id": "F046",
+        "before_instruction": "Find the cookie box with the pickup tag Alex among the grocery store's reserved orders and put it on the checkout counter beside the empty shopping basket.",
+        "after_instruction": "Find the cookie box labeled \"COOKIE\" with pictures of orange slices among the grocery store cookie packages and put it on the counter in front of you in the grocery store.",
+        "reason": "The fictional Alex pickup tag is replaced by actual package text plus orange-slice illustrations; target remains one explicitly identifiable cookie package. Reserved-order context requires invented tags and is removed. Source/destination room types and requested cardinality are retained. The explicit delivery surface replaces decorative destination landmarks.",
+        "target_asset": "box_of_cookies/levwda",
+        "target_assets": [
+          "box_of_cookies/levwda"
+        ]
+      },
+      "binding_sha256": "dd01ecdc56611d4426e0e5a52ef2909cded30b4928b35a58e45e00245e7af833",
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    }
+  ]
+}

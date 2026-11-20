@@ -1,0 +1,479 @@
+[
+  {
+    "id": "asset_F003_01",
+    "parent_task_id": "F003",
+    "before_instruction": "I want the grated peel for later, not juice. Find the grater in the kitchen drawers or lower cupboards and put it on the cutting board beside the sink.",
+    "after_instruction": "I need grated citrus peel for later. Find the grater in the kitchen cupboards and put it on the counter in front of you in the kitchen.",
+    "reason": "Explicit first-tranche grounding: native storage and initial-facing destination replace uninstantiated decorative reference props; no new semantic-task count.",
+    "target_asset": "grater/jlkowf",
+    "target_assets": [
+      "grater/jlkowf"
+    ]
+  },
+  {
+    "id": "asset_F008_01",
+    "parent_task_id": "F008",
+    "before_instruction": "I need baking powder for the recipe on the kitchen table. Find it in the baking cupboard and put the container beside the recipe book; leave the baking soda there.",
+    "after_instruction": "I need baking powder for a recipe. Find it in the kitchen cupboards and put the container on the table in front of you in the kitchen; leave the baking soda there.",
+    "reason": "Explicit first-tranche grounding: native storage and initial-facing destination replace uninstantiated decorative reference props; no new semantic-task count.",
+    "target_asset": "baking_powder_jar/lgopij",
+    "target_assets": [
+      "baking_powder_jar/lgopij"
+    ]
+  },
+  {
+    "id": "asset_F019_01",
+    "parent_task_id": "F019",
+    "before_instruction": "Find the vinegar bottle among the oils and sauces in the kitchen and put it beside the empty mixing bowl on the counter.",
+    "after_instruction": "Find the vinegar bottle among the kitchen oils and sauces and put it on the counter in front of you in the kitchen.",
+    "reason": "The identified delivery surface is grounded by the initial facing direction; decorative destination landmarks are omitted. Target identity, requested cardinality and source/destination room types are retained.",
+    "target_asset": "bottle_of_vinegar/snzyfk",
+    "target_assets": [
+      "bottle_of_vinegar/snzyfk"
+    ]
+  },
+  {
+    "id": "asset_F001_01",
+    "parent_task_id": "F001",
+    "before_instruction": "I have a bowl ready on the kitchen table but nothing suitable for soup. Find a soup spoon in the crowded kitchen utensil storage and put it beside that bowl.",
+    "after_instruction": "I need a soup spoon for the place setting. Find one among the kitchen utensils and bring it to the table in front of you in the kitchen.",
+    "reason": "The identified delivery surface is grounded by the initial facing direction; decorative destination landmarks are omitted. Target identity, requested cardinality and source/destination room types are retained.",
+    "target_asset": "soupspoon/wrctgd",
+    "target_assets": [
+      "soupspoon/wrctgd"
+    ]
+  },
+  {
+    "id": "asset_F041_01",
+    "parent_task_id": "F041",
+    "before_instruction": "Find the champagne bottle in the pantry drink storage and set it on the pantry packing table beside the gift box.",
+    "after_instruction": "Find the champagne bottle in the kitchen drink-storage area and bring it to the table in front of you in the kitchen for packing.",
+    "reason": "The identified delivery surface is grounded by the initial facing direction; decorative destination landmarks are omitted. Target identity, requested cardinality and source/destination room types are retained. Layout revision: the unbuilt pantry-room task is explicitly relocated to the kitchen food-storage area because surveyed pantry rooms lack two robot-accessible storage/delivery positions. Target models, counts, reference matching, destination inventory and goals are unchanged; this changes room scope and may shorten transport.",
+    "target_asset": "bottle_of_champagne/mjpyvh",
+    "target_assets": [
+      "bottle_of_champagne/mjpyvh"
+    ]
+  },
+  {
+    "id": "asset_F067_01",
+    "parent_task_id": "F067",
+    "before_instruction": "Find a table fork, table knife and teaspoon in the kitchen cutlery storage and put the three together beside the lone plate on the kitchen table.",
+    "after_instruction": "Find a table fork, a table knife and a teaspoon among the kitchen cutlery and put all three on the table in front of you in the kitchen.",
+    "reason": "Explicit first-tranche grounding: native storage and initial-facing destination replace uninstantiated decorative reference props; no new semantic-task count.",
+    "target_asset": "tablefork/uodzrq",
+    "target_assets": [
+      "tablefork/uodzrq",
+      "table_knife/oceyno",
+      "teaspoon/vgbcmo"
+    ]
+  },
+  {
+    "id": "asset_F071_01",
+    "parent_task_id": "F071",
+    "before_instruction": "The round food-container lid is on the kitchen counter. Find its matching container base in the kitchen cupboards and put the base beside the lid.",
+    "after_instruction": "There is a sample on the counter in front of you in the kitchen. Find a food container matching that sample in the kitchen cupboards and place it on the counter in front of you in the kitchen.",
+    "reason": "Revised complementary lid-fit inference into matching an instantiated container of the same model. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "tupperware/mkstwr",
+    "target_assets": [
+      "tupperware/mkstwr"
+    ]
+  },
+  {
+    "id": "asset_F072_01",
+    "parent_task_id": "F072",
+    "before_instruction": "Find a kitchen bowl smaller than the mixing bowl on the counter, small enough to nest inside it, and place it beside that mixing bowl.",
+    "after_instruction": "There is a sample on the counter in front of you in the kitchen. Find a bowl matching that sample in the kitchen cupboard and bring it to the counter in front of you in the kitchen.",
+    "reason": "Replaces unverified nesting fit into a mixing bowl with direct native-model matching. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "bowl/fiarri",
+    "target_assets": [
+      "bowl/fiarri"
+    ]
+  },
+  {
+    "id": "asset_F073_01",
+    "parent_task_id": "F073",
+    "before_instruction": "Find a tray in the kitchen storage with enough flat space for the two plates already on the kitchen table, and set it beside them.",
+    "after_instruction": "Find a serving tray in the kitchen storage and bring it to the table in front of you in the kitchen so I can carry the dishes.",
+    "reason": "Removed unverified two-plate capacity requirement; retained serving-tray use and kitchen retrieval. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "tray/spopfj",
+    "target_assets": [
+      "tray/spopfj"
+    ]
+  },
+  {
+    "id": "asset_F079_01",
+    "parent_task_id": "F079",
+    "before_instruction": "Find a cereal box with no visible dents or tears among the kitchen groceries and put it beside the gift basket on the kitchen table.",
+    "after_instruction": "There is a sample on the table in front of you in the kitchen. Find a cereal box matching that sample in the kitchen breakfast storage and bring it to the table in front of you in the kitchen.",
+    "reason": "Replaced unsupported dents/tears inspection with reference-based cereal product selection. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "box_of_cereal/wrlalk",
+    "target_assets": [
+      "box_of_cereal/wrlalk"
+    ]
+  },
+  {
+    "id": "asset_F082_01",
+    "parent_task_id": "F082",
+    "before_instruction": "Look through the kitchen breakfast cupboards for strawberry jam. Bring a jar to the toast plate on the table; if there is none, bring honey instead.",
+    "after_instruction": "Find strawberry jam and honey in the kitchen breakfast cupboards and bring both to the table in front of you in the kitchen for toast.",
+    "reason": "Explicitly revises absence fallback into a breakfast-spread pair with both targets required. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "jar_of_strawberry_jam/busiti",
+    "target_assets": [
+      "jar_of_strawberry_jam/busiti",
+      "honey_jar/dhgtvg"
+    ]
+  },
+  {
+    "id": "asset_F092_01",
+    "parent_task_id": "F092",
+    "before_instruction": "Breakfast needs a bowl, a spoon and a cereal box. The bowl and spoon are on the kitchen table; find the missing item in the kitchen cupboards and bring it beside them.",
+    "after_instruction": "Breakfast at the table in front of you in the kitchen needs a bowl, a teaspoon and a cereal box. Check what is already there, then find the missing item in the kitchen cupboards and bring it over.",
+    "reason": "Constructs a bowl and teaspoon at the destination; cereal is the unique missing target without leaking the answer. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "box_of_cereal/sgirte",
+    "target_assets": [
+      "box_of_cereal/sgirte"
+    ]
+  },
+  {
+    "id": "asset_F096_01",
+    "parent_task_id": "F096",
+    "before_instruction": "Find a cereal box and an empty bowl in the kitchen cupboards and put both at the place nearest the kitchen window.",
+    "after_instruction": "Find a cereal box and an empty bowl in the kitchen cupboards and put both on the table in front of you in the kitchen.",
+    "reason": "Explicit first-tranche grounding: native storage and initial-facing destination replace uninstantiated decorative reference props; no new semantic-task count.",
+    "target_asset": "box_of_cereal/wdkcbu",
+    "target_assets": [
+      "box_of_cereal/wdkcbu",
+      "bowl/ajzltc"
+    ]
+  },
+  {
+    "id": "asset_F107_01",
+    "parent_task_id": "F107",
+    "before_instruction": "Find the kitchen bowl containing the lemon, among the bowls of fruit, and move that bowl to the kitchen table beside the teapot.",
+    "after_instruction": "There is a sample on the table in front of you in the kitchen. Find the bowl matching that sample among the kitchen dishes and bring it to the table in front of you in the kitchen.",
+    "reason": "Explicitly replaces moving a fruit-containing bowl with same-model bowl matching because transporting an inserted lemon requires additional fit validation. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "bowl/hitnkv",
+    "target_assets": [
+      "bowl/hitnkv"
+    ]
+  },
+  {
+    "id": "asset_F109_01",
+    "parent_task_id": "F109",
+    "before_instruction": "Find a jar of whole peppercorns and a bottle of ground black pepper in the kitchen spice storage and put both beside the mortar on the counter.",
+    "after_instruction": "Find a jar of peppercorns and a bottle of black pepper in the kitchen spice storage and bring both to the counter in front of you in the kitchen.",
+    "reason": "Preserves two distinct native ingredient categories but removes the unverified ground-versus-whole visual state claim. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "jar_of_peppercorns/gkakwk",
+    "target_assets": [
+      "jar_of_peppercorns/gkakwk",
+      "bottle_of_black_pepper/ydzzrv"
+    ]
+  },
+  {
+    "id": "asset_F111_01",
+    "parent_task_id": "F111",
+    "before_instruction": "Find a bottle of water and a box of granola bars in the kitchen grocery storage and put both beside the lunch box on the kitchen table.",
+    "after_instruction": "Find a bottle of water and a box of granola bars in the kitchen grocery storage and put both on the table in front of you in the kitchen for lunch.",
+    "reason": "The identified delivery surface is grounded by the initial facing direction; decorative destination landmarks are omitted. Target identity, requested cardinality and source/destination room types are retained.",
+    "target_asset": "bottle_of_water/qaceen",
+    "target_assets": [
+      "bottle_of_water/qaceen",
+      "box_of_granola_bars/tqwhvz"
+    ]
+  },
+  {
+    "id": "asset_F120_01",
+    "parent_task_id": "F120",
+    "before_instruction": "The ketchup bottle on the kitchen table is the one I want another of. Find a bottle of that same product in the kitchen cupboards and put it beside the reference.",
+    "after_instruction": "There is a sample on the table in front of you in the kitchen. Find another ketchup bottle matching that sample in the kitchen cupboards and place it on the table in front of you in the kitchen.",
+    "reason": "Same-native-model reference preserves the requested matching product without relying on fictional label text. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "bottle_of_catsup/ialodu",
+    "target_assets": [
+      "bottle_of_catsup/ialodu"
+    ]
+  },
+  {
+    "id": "asset_F124_01",
+    "parent_task_id": "F124",
+    "before_instruction": "Find a cereal box whose top is still sealed among the kitchen breakfast supplies and put it on the shelf above the kitchen table.",
+    "after_instruction": "Find a cereal box in the kitchen breakfast storage and bring it to the table in front of you in the kitchen for tomorrow's breakfast.",
+    "reason": "Removes the unverified sealed-top predicate and changes unsupported shelf-above-table delivery to the grounded table. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "box_of_cereal/yorray",
+    "target_assets": [
+      "box_of_cereal/yorray"
+    ]
+  },
+  {
+    "id": "asset_F126_01",
+    "parent_task_id": "F126",
+    "before_instruction": "Find maple syrup in the pantry and bring it to the pantry packing table. If there is no maple syrup, bring the honey jar instead.",
+    "after_instruction": "Find maple syrup and honey in the kitchen food-storage area and bring both to the table in front of you in the kitchen for choosing a pancake topping.",
+    "reason": "Replaces absence-dependent fallback with a two-product choice preparation task; both native targets are required. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Layout revision: the unbuilt pantry-room task is explicitly relocated to the kitchen food-storage area because surveyed pantry rooms lack two robot-accessible storage/delivery positions. Target models, counts, reference matching, destination inventory and goals are unchanged; this changes room scope and may shorten transport.",
+    "target_asset": "maple_syrup_jar/wigtue",
+    "target_assets": [
+      "maple_syrup_jar/wigtue",
+      "honey_jar/dhgtvg"
+    ]
+  },
+  {
+    "id": "asset_F128_01",
+    "parent_task_id": "F128",
+    "before_instruction": "Find the strawberry jam in the pantry preserve storage, not peanut butter, and put it beside the plain bread on the pantry table.",
+    "after_instruction": "Find strawberry jam in the kitchen preserve storage and bring it to the table in front of you in the kitchen for the bread.",
+    "reason": "Retains strawberry-jam identity; does not require a separately constructed peanut-butter contrast or bread landmark. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Layout revision: the unbuilt pantry-room task is explicitly relocated to the kitchen food-storage area because surveyed pantry rooms lack two robot-accessible storage/delivery positions. Target models, counts, reference matching, destination inventory and goals are unchanged; this changes room scope and may shorten transport.",
+    "target_asset": "jar_of_strawberry_jam/busiti",
+    "target_assets": [
+      "jar_of_strawberry_jam/busiti"
+    ]
+  },
+  {
+    "id": "asset_F135_01",
+    "parent_task_id": "F135",
+    "before_instruction": "Find three empty bowls in the kitchen cupboards. Put two beside the chips on the living room coffee table and one beside the fruit on the living room side table.",
+    "after_instruction": "Find three bowls in the kitchen cupboards and bring them to the table in front of you in the living room in the living room for snacks.",
+    "reason": "Preserves three-bowl retrieval and cross-room transport; explicitly merges two separate delivery surfaces and removes the empty-content predicate. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "bowl/kasebx",
+    "target_assets": [
+      "bowl/kasebx",
+      "bowl/kasebx",
+      "bowl/kasebx"
+    ]
+  },
+  {
+    "id": "asset_F136_01",
+    "parent_task_id": "F136",
+    "before_instruction": "Find a table fork in the kitchen utensil drawers and put it beside the cake plate on the living room coffee table.",
+    "after_instruction": "Find a table fork in the kitchen utensil drawers and bring it to the table in front of you in the living room in the living room for cake.",
+    "reason": "The identified delivery surface is grounded by the initial facing direction; decorative destination landmarks are omitted. Target identity, requested cardinality and source/destination room types are retained.",
+    "target_asset": "tablefork/ptqjqv",
+    "target_assets": [
+      "tablefork/ptqjqv"
+    ]
+  },
+  {
+    "id": "asset_F139_01",
+    "parent_task_id": "F139",
+    "before_instruction": "Find a cereal box in the pantry narrow enough to fit the empty gap between the coffee jar and the flour box on the kitchen shelf, and put it in that gap.",
+    "after_instruction": "There is a sample on the cabinet top in front of you in the kitchen. Find the cereal box matching that sample in the kitchen food-storage area and bring it to the cabinet top in front of you in the kitchen in the kitchen.",
+    "reason": "Replaces unconstructed gap-fit selection with exact native-package matching and shared-surface delivery. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Layout revision: the unbuilt pantry-room task is explicitly relocated to the kitchen food-storage area because surveyed pantry rooms lack two robot-accessible storage/delivery positions. Target models, counts, reference matching, destination inventory and goals are unchanged; this changes room scope and may shorten transport.",
+    "target_asset": "box_of_cereal/hosfhj",
+    "target_assets": [
+      "box_of_cereal/hosfhj"
+    ]
+  },
+  {
+    "id": "asset_F151_01",
+    "parent_task_id": "F151",
+    "before_instruction": "Find the bowl in the kitchen cupboard closest in size to the bowl on the living room coffee table, and put it beside that bowl.",
+    "after_instruction": "There is a sample on the table in front of you in the living room. Find a bowl matching that sample in the kitchen cupboards and bring it to the table in front of you in the living room in the living room.",
+    "reason": "Closest-size comparison becomes exact same-model matching to an instantiated bowl; room transfer and reference use remain. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "bowl/eawgwj",
+    "target_assets": [
+      "bowl/eawgwj"
+    ]
+  },
+  {
+    "id": "asset_F154_01",
+    "parent_task_id": "F154",
+    "before_instruction": "Find the lunch box among the bags and rigid storage bins in the child's room and put it on the kitchen counter beside the sink.",
+    "after_instruction": "Find the lunch box among the toys and storage containers in the living-room cabinet and bring it to the counter in front of you in the kitchen in the kitchen.",
+    "reason": "The identified delivery surface is grounded by the initial facing direction; decorative destination landmarks are omitted. Target identity, requested cardinality and source/destination room types are retained. Explicit spatial revision from ('childs_room', 'cabinet', 'kitchen', 'counter') to ('living_room', 'cabinet', 'kitchen', 'counter'): uses a room/storage pairing with previously found robot clearance and path evidence (1 prior recipes). Item sets, reference matching and inventory predicates are unchanged. Cross-room transfer is retained where the revised source and destination differ.",
+    "target_asset": "lunch_box/adxzhe",
+    "target_assets": [
+      "lunch_box/adxzhe"
+    ]
+  },
+  {
+    "id": "asset_F155_01",
+    "parent_task_id": "F155",
+    "before_instruction": "Find the honey jar between the flour box and the cocoa jar on the pantry shelves, and put it beside the recipe book on the kitchen table.",
+    "after_instruction": "Find the honey jar in the kitchen baking supplies and bring it to the table in front of you in the kitchen in the kitchen for the recipe.",
+    "reason": "Removes unsupported between-flour-and-cocoa relation; retains the pantry-to-kitchen ingredient task. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Layout revision: the unbuilt pantry-room task is explicitly relocated to the kitchen food-storage area because surveyed pantry rooms lack two robot-accessible storage/delivery positions. Target models, counts, reference matching, destination inventory and goals are unchanged; this changes room scope and may shorten transport.",
+    "target_asset": "honey_jar/dhgtvg",
+    "target_assets": [
+      "honey_jar/dhgtvg"
+    ]
+  },
+  {
+    "id": "asset_F158_01",
+    "parent_task_id": "F158",
+    "before_instruction": "Find the chocolate sauce in the kitchen cupboards and bring the bottle to the dessert bowls on the living room coffee table.",
+    "after_instruction": "Find the chocolate sauce in the kitchen cupboards and bring it to the table in front of you in the living room in the living room for dessert.",
+    "reason": "Explicit first-tranche grounding: native storage and initial-facing destination replace uninstantiated decorative reference props; no new semantic-task count.",
+    "target_asset": "bottle_of_chocolate_sauce/tsyldw",
+    "target_assets": [
+      "bottle_of_chocolate_sauce/tsyldw"
+    ]
+  },
+  {
+    "id": "asset_F166_01",
+    "parent_task_id": "F166",
+    "before_instruction": "Find an empty bowl in the kitchen cupboards and put it on the bedroom bedside table beside the book.",
+    "after_instruction": "Find a bowl in the kitchen cupboards and bring it to the table in front of you in the living room in the living room for a snack.",
+    "reason": "Explicitly removes empty-content condition while retaining snack-bowl transport. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Explicit spatial revision from ('kitchen', 'cabinet', 'bedroom', 'table') to ('kitchen', 'cabinet', 'living_room', 'table'): uses a room/storage pairing with previously found robot clearance and path evidence (19 prior recipes). Item sets, reference matching and inventory predicates are unchanged. Cross-room transfer is retained where the revised source and destination differ.",
+    "target_asset": "bowl/dalyim",
+    "target_assets": [
+      "bowl/dalyim"
+    ]
+  },
+  {
+    "id": "asset_F178_01",
+    "parent_task_id": "F178",
+    "before_instruction": "Find an empty bowl and a teaspoon in the kitchen storage and bring both to the bedroom bedside table beside the yogurt cup.",
+    "after_instruction": "Find a bowl and a teaspoon in the kitchen storage and bring both to the table in front of you in the living room in the living room for breakfast.",
+    "reason": "Preserves both requested objects and bedroom transfer; removes unverified bowl emptiness and decorative yogurt cup. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Explicit spatial revision from ('kitchen', 'cabinet', 'bedroom', 'table') to ('kitchen', 'cabinet', 'living_room', 'table'): uses a room/storage pairing with previously found robot clearance and path evidence (19 prior recipes). Item sets, reference matching and inventory predicates are unchanged. Cross-room transfer is retained where the revised source and destination differ.",
+    "target_asset": "bowl/fwdfeg",
+    "target_assets": [
+      "bowl/fwdfeg",
+      "teaspoon/wzsvzv"
+    ]
+  },
+  {
+    "id": "asset_F182_01",
+    "parent_task_id": "F182",
+    "before_instruction": "Find the lid fitting the Dutch oven on the kitchen counter among the cookware in the storage room and put it beside that pot.",
+    "after_instruction": "There is a sample on the counter in front of you in the kitchen. Find a pot lid matching that sample among the kitchen cookware and bring it to the counter in front of you in the kitchen.",
+    "reason": "Replaces unverified Dutch-oven compatibility with a real matching-lid sample; source storage room retained. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Explicit spatial revision from ('storage_room', 'cabinet', 'kitchen', 'counter') to ('kitchen', 'cabinet', 'kitchen', 'counter'): uses a room/storage pairing with previously found robot clearance and path evidence (20 prior recipes). Item sets, reference matching and inventory predicates are unchanged. This is now local preparation rather than cross-room transport.",
+    "target_asset": "lid/obuzeh",
+    "target_assets": [
+      "lid/obuzeh"
+    ]
+  },
+  {
+    "id": "asset_F188_01",
+    "parent_task_id": "F188",
+    "before_instruction": "Find a tray in the kitchen storage large enough for the teapot and four cups on the dining room sideboard and set it beside them.",
+    "after_instruction": "Find a serving tray among the items on the kitchen counter and bring it to the table in front of you in the dining room in the dining room for the tea service.",
+    "reason": "Removes unverified capacity for four cups and a teapot; native tray transport remains. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Explicit spatial revision from ('kitchen', 'cabinet', 'dining_room', 'cabinet') to ('kitchen', 'counter', 'dining_room', 'table'): uses a room/storage pairing with previously found robot clearance and path evidence (1 prior recipes). Item sets, reference matching and inventory predicates are unchanged. Cross-room transfer is retained where the revised source and destination differ.",
+    "target_asset": "tray/yqtlhy",
+    "target_assets": [
+      "tray/yqtlhy"
+    ]
+  },
+  {
+    "id": "asset_F189_01",
+    "parent_task_id": "F189",
+    "before_instruction": "Find a tray among the kitchen boards and pans that can hold the plate and mug on the bedroom bedside table, and place it beside the bed.",
+    "after_instruction": "Find a tray among the kitchen boards and pans and bring it to the table in front of you in the living room in the living room for breakfast on the sofa.",
+    "reason": "Removes unsupported plate-and-mug fit test; preserves practical bedroom serving use. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Explicit spatial revision from ('kitchen', 'cabinet', 'bedroom', 'table') to ('kitchen', 'cabinet', 'living_room', 'table'): uses a room/storage pairing with previously found robot clearance and path evidence (19 prior recipes). Item sets, reference matching and inventory predicates are unchanged. Cross-room transfer is retained where the revised source and destination differ.",
+    "target_asset": "tray/coqeme",
+    "target_assets": [
+      "tray/coqeme"
+    ]
+  },
+  {
+    "id": "asset_F197_01",
+    "parent_task_id": "F197",
+    "before_instruction": "The juice bottle on the private office desk is the product I want. Find another bottle of it in the kitchen drink storage and put it beside the reference bottle.",
+    "after_instruction": "There is a sample on the table in front of you in the living room. Find another juice bottle matching that sample in the kitchen drink storage and bring it to the table in front of you in the living room in the living room while I work.",
+    "reason": "Physical same-model sample preserves product matching; the exact target is grounded visually rather than by an invented label. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Explicit spatial revision from ('kitchen', 'cabinet', 'private_office', 'desk') to ('kitchen', 'cabinet', 'living_room', 'table'): uses a room/storage pairing with previously found robot clearance and path evidence (19 prior recipes). Item sets, reference matching and inventory predicates are unchanged. Cross-room transfer is retained where the revised source and destination differ.",
+    "target_asset": "bottle_of_apple_juice/xvrbdy",
+    "target_assets": [
+      "bottle_of_apple_juice/xvrbdy"
+    ]
+  },
+  {
+    "id": "asset_F201_01",
+    "parent_task_id": "F201",
+    "before_instruction": "Find a bottle labeled water among the pantry drinks and put it beside the exercise notebook on the living room table.",
+    "after_instruction": "Find the bottle labeled \"OXA-WATER\" among the kitchen drink supplies and bring it to the table in front of you in the living room.",
+    "reason": "The water-label requirement is grounded in the actual readable OXA-WATER label. Source/destination room types and requested cardinality are retained. The explicit delivery surface replaces decorative destination landmarks. Layout revision: the unbuilt pantry-room task is explicitly relocated to the kitchen food-storage area because surveyed pantry rooms lack two robot-accessible storage/delivery positions. Target models, counts, reference matching, destination inventory and goals are unchanged; this changes room scope and may shorten transport.",
+    "target_asset": "bottle_of_water/sxffiv",
+    "target_assets": [
+      "bottle_of_water/sxffiv"
+    ]
+  },
+  {
+    "id": "asset_F206_01",
+    "parent_task_id": "F206",
+    "before_instruction": "Find an undamaged box of chocolates among the kitchen sweets and put it beside the gift bag on the entryway table.",
+    "after_instruction": "There is a sample on the table in front of you in the entryway. Find a chocolate box matching that sample among the kitchen sweets and bring it to the table in front of you in the entryway in the entryway.",
+    "reason": "Revises unsupported damage inspection into native-product matching while preserving gift-preparation transport. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "box_of_chocolates/bdvkbh",
+    "target_assets": [
+      "box_of_chocolates/bdvkbh"
+    ]
+  },
+  {
+    "id": "asset_F208_01",
+    "parent_task_id": "F208",
+    "before_instruction": "Find a cookie box with an untorn front among the kitchen groceries and put it beside the camera on the dining room sideboard.",
+    "after_instruction": "There is a sample on the cabinet top in front of you in the dining room. Find the cookie box matching that sample among the kitchen groceries and bring it to the cabinet top in front of you in the dining room in the dining room for a photograph.",
+    "reason": "Replaces unverified untorn-front quality criterion with a native product sample. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "box_of_cookies/jtalxs",
+    "target_assets": [
+      "box_of_cookies/jtalxs"
+    ]
+  },
+  {
+    "id": "asset_F215_01",
+    "parent_task_id": "F215",
+    "before_instruction": "Look for a box of crackers in the kitchen food storage and bring it to the living room coffee table. If there are no crackers, bring a box of cookies instead.",
+    "after_instruction": "Find a cracker box and a cookie box in the kitchen food storage and bring both to the table in front of you in the living room in the living room for snacks.",
+    "reason": "Changes fallback-dependent one-product retrieval into an explicit two-snack AND goal. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "box_of_crackers/cmdigf",
+    "target_assets": [
+      "box_of_crackers/cmdigf",
+      "box_of_cookies/nirfva"
+    ]
+  },
+  {
+    "id": "asset_F218_01",
+    "parent_task_id": "F218",
+    "before_instruction": "Find either a bottle of water or a bottle of apple juice in the pantry and put one beside the reading chair on the living room side table.",
+    "after_instruction": "Find a bottle of water and a bottle of apple juice in the kitchen food-storage area and bring both to the table in front of you in the living room in the living room.",
+    "reason": "Revises optional one-of-two drink selection into a two-drink delivery task. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Layout revision: the unbuilt pantry-room task is explicitly relocated to the kitchen food-storage area because surveyed pantry rooms lack two robot-accessible storage/delivery positions. Target models, counts, reference matching, destination inventory and goals are unchanged; this changes room scope and may shorten transport.",
+    "target_asset": "bottle_of_water/sxffiv",
+    "target_assets": [
+      "bottle_of_water/sxffiv",
+      "bottle_of_apple_juice/xvrbdy"
+    ]
+  },
+  {
+    "id": "asset_F221_01",
+    "parent_task_id": "F221",
+    "before_instruction": "Find tomato sauce in the kitchen food cupboard, not tomato paste, and put the jar beside the pasta serving bowl on the dining room sideboard.",
+    "after_instruction": "Find tomato sauce in the kitchen food cupboard, not tomato paste, and bring the jar to the cabinet top in front of you in the dining room in the dining room.",
+    "reason": "The identified delivery surface is grounded by the initial facing direction; decorative destination landmarks are omitted. Target identity, requested cardinality and source/destination room types are retained.",
+    "target_asset": "tomato_sauce_jar/krfzqk",
+    "target_assets": [
+      "tomato_sauce_jar/krfzqk"
+    ]
+  },
+  {
+    "id": "asset_F232_01",
+    "parent_task_id": "F232",
+    "before_instruction": "Find all the lunch boxes among the rigid bins in the child's room and put them beside the sink on the kitchen counter.",
+    "after_instruction": "Find all the lunch boxes in the cupboard in the living room among the living-room toys and bring them to the counter in front of you in the kitchen in the kitchen.",
+    "reason": "Constructs two target lunch boxes; source scope is a real cabinet rather than invented rigid bins. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Explicit spatial revision from ('childs_room', 'cabinet', 'kitchen', 'counter') to ('living_room', 'cabinet', 'kitchen', 'counter'): uses a room/storage pairing with previously found robot clearance and path evidence (1 prior recipes). Item sets, reference matching and inventory predicates are unchanged. Cross-room transfer is retained where the revised source and destination differ.",
+    "target_asset": "lunch_box/adxzhe",
+    "target_assets": [
+      "lunch_box/adxzhe",
+      "lunch_box/adxzhe"
+    ]
+  },
+  {
+    "id": "asset_F233_01",
+    "parent_task_id": "F233",
+    "before_instruction": "The glass on the dining room sideboard is the reference. Find every matching glass in the kitchen cupboards and put them beside it.",
+    "after_instruction": "There is a sample on the cabinet top in front of you in the dining room. Find every glass in the kitchen cupboards matching that sample in the dining room and bring them to the cabinet top in front of you in the dining room.",
+    "reason": "Three target copies plus a native-model sample implement exhaustive matching collection. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "water_glass/cdteyb",
+    "target_assets": [
+      "water_glass/cdteyb",
+      "water_glass/cdteyb",
+      "water_glass/cdteyb"
+    ]
+  },
+  {
+    "id": "asset_F260_01",
+    "parent_task_id": "F260",
+    "before_instruction": "Find the coffee can among the kitchen drink supplies and put it beside the open notebook on the private office desk.",
+    "after_instruction": "Find the coffee can among the kitchen drink supplies and bring it to the table in front of you in the living room in the living room for the work break.",
+    "reason": "The identified delivery surface is grounded by the initial facing direction; decorative destination landmarks are omitted. Target identity, requested cardinality and source/destination room types are retained. Explicit spatial revision from ('kitchen', 'cabinet', 'private_office', 'desk') to ('kitchen', 'cabinet', 'living_room', 'table'): uses a room/storage pairing with previously found robot clearance and path evidence (19 prior recipes). Item sets, reference matching and inventory predicates are unchanged. Cross-room transfer is retained where the revised source and destination differ.",
+    "target_asset": "can_of_coffee/poteji",
+    "target_assets": [
+      "can_of_coffee/poteji"
+    ]
+  }
+]

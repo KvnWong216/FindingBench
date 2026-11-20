@@ -1,0 +1,444 @@
+{
+  "tasks": [
+    {
+      "id": "asset_P155_01",
+      "family": "semantic_P155",
+      "scene": "Wainscott_0_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/candidate_5b00024d0971_P155/asset_P155_01/scenario.yaml",
+      "scenario_sha256": "5b00024d0971a32d8b693c9e57a095802c65a9742508028966aae61cc0ed82fe",
+      "instruction": "There is a sample on the table in front of you in the bedroom. Find the portable game console matching that sample in the living-room media cabinet and bring it to the table in front of you in the bedroom in the bedroom.",
+      "target_key": "portable_game_console/muwcnf",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "living_room_2",
+      "destination_room": "bedroom_0",
+      "source_receptacle": "expert_storage_0",
+      "destination_receptacle": "console_table_emeeke_0",
+      "object_count": 11,
+      "distractor_count": 8,
+      "source_survey_sha256": "bfc3f55c9661a7a599b91007a0d13bfe6624ef15110725894b31404980af12ee",
+      "route": {
+        "start": [
+          -1.6,
+          -5.300000000000001,
+          -1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            -1.6,
+            -5.300000000000001
+          ],
+          [
+            -1.7000000000000002,
+            -5.300000000000001
+          ],
+          [
+            -1.8,
+            -5.300000000000001
+          ],
+          [
+            -1.9000000000000001,
+            -5.300000000000001
+          ],
+          [
+            -1.9000000000000001,
+            -5.2
+          ],
+          [
+            -1.9000000000000001,
+            -5.1000000000000005
+          ],
+          [
+            -1.9000000000000001,
+            -5.0
+          ],
+          [
+            -1.9000000000000001,
+            -4.9
+          ],
+          [
+            -1.9000000000000001,
+            -4.800000000000001
+          ],
+          [
+            -1.9000000000000001,
+            -4.7
+          ],
+          [
+            -1.9000000000000001,
+            -4.6000000000000005
+          ],
+          [
+            -1.9000000000000001,
+            -4.5
+          ],
+          [
+            -1.9000000000000001,
+            -4.4
+          ],
+          [
+            -1.9000000000000001,
+            -4.3
+          ],
+          [
+            -1.9000000000000001,
+            -4.2
+          ],
+          [
+            -1.9000000000000001,
+            -4.1000000000000005
+          ],
+          [
+            -1.9000000000000001,
+            -4.0
+          ],
+          [
+            -1.9000000000000001,
+            -3.9000000000000004
+          ],
+          [
+            -1.9000000000000001,
+            -3.8000000000000003
+          ],
+          [
+            -1.9000000000000001,
+            -3.7
+          ],
+          [
+            -1.9000000000000001,
+            -3.6
+          ],
+          [
+            -1.9000000000000001,
+            -3.5
+          ],
+          [
+            -1.9000000000000001,
+            -3.4000000000000004
+          ]
+        ],
+        "length_m": 2.2,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 25,
+        "destination_approach_count": 6,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "comparison_sample",
+        "bottom_cabinet_jhymlr_0",
+        "expert_storage_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [
+        {
+          "name": "expert_storage_0",
+          "category": "bottom_cabinet_no_top",
+          "model": "vzzafs",
+          "floor": "floors_dggxhh_0",
+          "position_xy": [
+            -2.3000000000000003,
+            -2.6
+          ],
+          "aabb": [
+            [
+              -2.6263640594482425,
+              -2.8264886016845705,
+              0.0
+            ],
+            [
+              -1.973635940551758,
+              -2.3735113983154297,
+              0.8682071838378906
+            ]
+          ],
+          "room": "living_room_2"
+        }
+      ],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "expert_storage_0",
+            "volume_extents_m": {
+              "meta__base_link_fillable_0_0_link": [
+                0.5315370221138,
+                0.39102343478868673,
+                0.6658233661651611
+              ]
+            },
+            "native_links": {
+              "meta__base_link_fillable_0_0_link": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet_no_top/vzzafs",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "b4daa08616feaef1a73fc5cb01bcd60c278fad77ff3d5bda42d007a631e01515",
+              "metadata_sha256": "f0ba45ae134ef2c37866c9bb0186200606042fb03eafed9783116a94253ac4bf",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.022854147013276815,
+              "nodes": 9,
+              "candidate_tests": 1303669,
+              "search_orders_tried": 1,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_03": "meta__base_link_fillable_0_0_link",
+                "item_07": "meta__base_link_fillable_0_0_link",
+                "item_02": "meta__base_link_fillable_0_0_link",
+                "item_05": "meta__base_link_fillable_0_0_link",
+                "item_00": "meta__base_link_fillable_0_0_link",
+                "item_08": "meta__base_link_fillable_0_0_link",
+                "item_01": "meta__base_link_fillable_0_0_link",
+                "item_06": "meta__base_link_fillable_0_0_link",
+                "item_04": "meta__base_link_fillable_0_0_link"
+              },
+              "poses": {
+                "item_03": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.124,
+                    0.129
+                  ],
+                  "center_xy_m": [
+                    0.067,
+                    0.0695
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.134,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.024,
+                    0.024
+                  ],
+                  "center_xy_m": [
+                    0.146,
+                    0.017
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.163,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.077,
+                    0.138
+                  ],
+                  "center_xy_m": [
+                    0.2015,
+                    0.074
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.245,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.115,
+                    0.097
+                  ],
+                  "center_xy_m": [
+                    0.3025,
+                    0.0535
+                  ]
+                },
+                "item_00": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.365,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.085,
+                    0.096
+                  ],
+                  "center_xy_m": [
+                    0.40750000000000003,
+                    0.053
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.455,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.031,
+                    0.096
+                  ],
+                  "center_xy_m": [
+                    0.47050000000000003,
+                    0.053
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.365,
+                    0.106
+                  ],
+                  "footprint_m": [
+                    0.05,
+                    0.079
+                  ],
+                  "center_xy_m": [
+                    0.39,
+                    0.1455
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.42,
+                    0.106
+                  ],
+                  "footprint_m": [
+                    0.049,
+                    0.065
+                  ],
+                  "center_xy_m": [
+                    0.4445,
+                    0.1385
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.491,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.015,
+                    0.035
+                  ],
+                  "center_xy_m": [
+                    0.4985,
+                    0.0225
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_00": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link",
+              "item_01": "meta__base_link_fillable_0_0_link",
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_00": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link",
+              "item_01": "meta__base_link_fillable_0_0_link",
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link"
+        },
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [],
+      "parent_task_id": "P155",
+      "tier": "long",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_P155_01",
+        "parent_task_id": "P155",
+        "before_instruction": "Find the portable console labeled Finley among living-room media and sideboard storage; put it on the bedroom nightstand by the door.",
+        "after_instruction": "There is a sample on the table in front of you in the bedroom. Find the portable game console matching that sample in the living-room media cabinet and bring it to the table in front of you in the bedroom in the bedroom.",
+        "reason": "Replaces fictional Finley name label with physical-reference console matching. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "portable_game_console/muwcnf",
+        "target_assets": [
+          "portable_game_console/muwcnf"
+        ]
+      },
+      "binding_sha256": "d4d21a71624c631d0317beba642ccf9e4af9d1944626646d30b7bd65f2bd0342",
+      "proposal_native_policy_signature": "54e310d67c2709059af81bec4ab688b7e5ef712bf1dd6e618e9868e567523d10",
+      "storage_model_experience": []
+    }
+  ]
+}

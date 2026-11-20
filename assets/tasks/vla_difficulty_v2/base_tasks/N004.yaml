@@ -1,0 +1,109 @@
+task_id: N004
+family: fetch
+scene: Wainscott_0_int
+source:
+  official_activity: buying_groceries_for_a_feast#0
+  official_activities_with_same_subgoal:
+  - buying_groceries_for_a_feast#0
+  official_subgoal: (inside grocery.n.02 shopping_cart.n.01)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K Wainscott_0_int (+ clearance manifest)
+  object: BEHAVIOR-1K bottle_of_sage/bterim
+start:
+  name: start_living_room_2_1
+  room: living_room_2
+  x: -2.09
+  y: -1.1
+  yaw: -1.702
+target:
+  entity: target_obj
+  category: bottle_of_sage
+  model: bterim
+  noun: bottle of sage
+  colour_estimate: green
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S1
+- S2
+missing_spatial_levels:
+- S3
+initial_states: {}
+spatial:
+  S1:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bottom_cabinet_jhymlr_0
+    room: living_room_2
+    location_phrase: null
+    grasp_hints:
+    - - -1.852
+      - -2.1
+      - -0.019
+    - - -1.952
+      - -2.401
+      - 0.319
+    - - -2.002
+      - -2.854
+      - 0.785
+    - - -2.002
+      - -2.251
+      - 0.072
+    extra_ops_vs_S1: []
+    probe_visibility_from_start:
+      px: 336
+      delta_e: 52.9
+    task_scope: single_room
+  S2:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: console_table_emeeke_1
+    room: living_room_2
+    location_phrase: null
+    grasp_hints:
+    - - -3.157
+      - -0.742
+      - 0.785
+    - - -3.207
+      - -0.792
+      - 0.785
+    - - -1.939
+      - -0.753
+      - 2.436
+    - - -3.257
+      - -0.641
+      - 0.587
+    extra_ops_vs_S1:
+    - search behind occluders
+    s2_kind: occluded
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    task_scope: single_room
+language:
+  L1: {}
+  L2: Pick up the bottle of sage and keep holding it.
+  L3: I'm buying groceries for a feast and I need the bottle of sage. Could you get
+    it for me?
+available_language_levels:
+  S1:
+  - L2
+  - L3
+  S2:
+  - L2
+  - L3
+description_provenance:
+  missing_L1_reason: source location lacks an unambiguous description
+  missing_L1_spatial_levels:
+  - S1
+  - S2
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

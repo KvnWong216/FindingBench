@@ -1,0 +1,134 @@
+{
+  "id": "asset_P191_01",
+  "family": "semantic_P191",
+  "scene": "Pomaria_2_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_P191_01/scenario.yaml",
+  "scenario_sha256": "ac6c4ebf748a07f4c7daccde3fd7dfe32b8c86d63ceaf8218946efd018738cf8",
+  "instruction": "Find a lid matching the sample on the counter in front of you in the bathroom among the bathroom vanity supplies and put it beside the sample for the travel kit.",
+  "target_key": "lid/geesvf",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bathroom_0",
+  "destination_room": "bathroom_0",
+  "source_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+  "destination_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+  "object_count": 8,
+  "distractor_count": 6,
+  "source_survey_sha256": "62e51428546de3c0a833496f29b3c3303a5b7156fd7ac39a8975412318ea7e2d",
+  "route": {
+    "start": [
+      -0.30000000000000004,
+      2.6,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -0.30000000000000004,
+        2.6
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 35,
+    "destination_approach_count": 35,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "comparison_sample",
+    "required_negative_0",
+    "bottom_cabinet_no_top_qohxjq_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+        "volume_extents_m": {
+          "link_0": [
+            0.3510851711034775,
+            0.38876521587371826,
+            0.17664214968681335
+          ],
+          "link_1": [
+            0.3420683443546295,
+            0.3826245069503784,
+            0.16006872057914734
+          ],
+          "link_2": [
+            0.33611486852169037,
+            0.38437843322753906,
+            0.043399155139923096
+          ]
+        },
+        "native_links": {
+          "link_0": "link_0",
+          "link_1": "link_1",
+          "link_2": "link_2"
+        },
+        "geometry_source": "survey",
+        "geometry_provenance": {},
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_00": "link_0",
+          "item_04": "link_0",
+          "item_02": "link_0",
+          "required_negative_0": "link_0",
+          "item_01": "link_0",
+          "item_05": "link_0",
+          "item_03": "link_0"
+        },
+        "component_allocation": {
+          "item_00": "link_0",
+          "item_04": "link_0",
+          "item_02": "link_0",
+          "required_negative_0": "link_0",
+          "item_01": "link_0",
+          "item_05": "link_0",
+          "item_03": "link_0"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {},
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "P191",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P191_01",
+    "parent_task_id": "P191",
+    "before_instruction": "Find the rigid lid matching the oval travel soap dish beside the bathroom sink among vanity drawers; put it beside that dish.",
+    "after_instruction": "Find a lid matching the sample on the counter in front of you in the bathroom among the bathroom vanity supplies and put it beside the sample for the travel kit.",
+    "reason": "Retains matching-based retrieval through a physical same-native-model sample on the delivery surface. Any original cross-object compatibility, photo or consumable-state requirement is explicitly replaced with visible product/shape matching. Original source and destination rooms preserved; forced native distractor creates a real competing selection.",
+    "target_asset": "lid/geesvf",
+    "target_assets": [
+      "lid/geesvf"
+    ]
+  },
+  "binding_sha256": "4ac7547b1dcf16b2835668f20e7b531eb1d4764d8143fb4c9f0f9aa1d1b398c6"
+}

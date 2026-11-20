@@ -1,0 +1,231 @@
+{
+  "id": "asset_P235_02",
+  "family": "semantic_P235",
+  "scene": "Wainscott_1_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P235_02/scenario.yaml",
+  "scenario_sha256": "ccb90b9189c8ac90b8435fe33092655529da12a87caf8d8f6f469e4626592dea",
+  "instruction": "Find the toothpaste marked \"100 ml\" among the bedroom travel supplies and put it on the counter in front of you in the bathroom in the bathroom.",
+  "target_key": "tube_of_toothpaste/vsclsj",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bedroom_0",
+  "destination_room": "bathroom_0",
+  "source_receptacle": "bottom_cabinet_jhymlr_1",
+  "destination_receptacle": "bottom_cabinet_nnvyol_1",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "7894c711eea34a656ee926a132d6563ce3833b5ddb45c126d0ce534dd2edca60",
+  "route": {
+    "start": [
+      0.9500000000000001,
+      9.35,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        0.9500000000000001,
+        9.35
+      ],
+      [
+        0.9500000000000001,
+        9.450000000000001
+      ],
+      [
+        0.9500000000000001,
+        9.55
+      ],
+      [
+        0.9500000000000001,
+        9.65
+      ],
+      [
+        0.9500000000000001,
+        9.75
+      ],
+      [
+        0.9500000000000001,
+        9.850000000000001
+      ],
+      [
+        0.9500000000000001,
+        9.950000000000001
+      ],
+      [
+        0.9500000000000001,
+        10.05
+      ],
+      [
+        0.9500000000000001,
+        10.15
+      ],
+      [
+        0.9500000000000001,
+        10.25
+      ],
+      [
+        0.9500000000000001,
+        10.350000000000001
+      ],
+      [
+        0.8500000000000001,
+        10.350000000000001
+      ],
+      [
+        0.75,
+        10.350000000000001
+      ],
+      [
+        0.65,
+        10.350000000000001
+      ],
+      [
+        0.55,
+        10.350000000000001
+      ],
+      [
+        0.45,
+        10.350000000000001
+      ],
+      [
+        0.35000000000000003,
+        10.350000000000001
+      ],
+      [
+        0.25,
+        10.350000000000001
+      ],
+      [
+        0.15000000000000002,
+        10.350000000000001
+      ],
+      [
+        0.05,
+        10.350000000000001
+      ],
+      [
+        -0.05,
+        10.350000000000001
+      ],
+      [
+        -0.15000000000000002,
+        10.350000000000001
+      ],
+      [
+        -0.25,
+        10.350000000000001
+      ],
+      [
+        -0.25,
+        10.25
+      ],
+      [
+        -0.35000000000000003,
+        10.25
+      ],
+      [
+        -0.35000000000000003,
+        10.15
+      ],
+      [
+        -0.45,
+        10.15
+      ],
+      [
+        -0.45,
+        10.05
+      ],
+      [
+        -0.45,
+        9.950000000000001
+      ],
+      [
+        -0.45,
+        9.850000000000001
+      ],
+      [
+        -0.45,
+        9.75
+      ],
+      [
+        -0.45,
+        9.65
+      ],
+      [
+        -0.45,
+        9.55
+      ],
+      [
+        -0.45,
+        9.450000000000001
+      ],
+      [
+        -0.45,
+        9.35
+      ],
+      [
+        -0.55,
+        9.35
+      ],
+      [
+        -0.65,
+        9.35
+      ],
+      [
+        -0.75,
+        9.35
+      ],
+      [
+        -0.8500000000000001,
+        9.35
+      ]
+    ],
+    "length_m": 3.8,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 60,
+    "destination_approach_count": 33,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_bamfsz_2",
+    "bottom_cabinet_jhymlr_1"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "parent_task_id": "P235",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P235_02",
+    "parent_task_id": "P235",
+    "before_instruction": "Find the toothpaste marked 100 mL among bedroom travel and grooming storage and place it beside the bathroom toothbrush cup.",
+    "after_instruction": "Find the toothpaste marked \"100 ml\" among the bedroom travel supplies and put it on the counter in front of you in the bathroom in the bathroom.",
+    "reason": "The requested volume is present on the original texture; no identity substitution. Delivery is grounded on the unique initial-facing handoff support in the original destination room.",
+    "target_asset": "tube_of_toothpaste/vsclsj",
+    "target_assets": [
+      "tube_of_toothpaste/vsclsj"
+    ]
+  },
+  "binding_sha256": "d814a4aa97e8f72338b44141faca2046bcddc65204d46ae23ede68d2ea2711fb"
+}

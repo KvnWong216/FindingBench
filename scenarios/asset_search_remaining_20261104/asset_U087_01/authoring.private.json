@@ -1,0 +1,77 @@
+{
+  "id": "asset_U087_01",
+  "family": "semantic_U087",
+  "scene": "Wainscott_1_int",
+  "scenario": "scenarios/asset_search_remaining_20261104/asset_U087_01/scenario.yaml",
+  "scenario_sha256": "c2236cb9654a945f77fcb87f15cf83f26ee3957e2afcf308e318b2472ff59acf",
+  "instruction": "I need disinfectant for the utility worktop. Find it among the utility room cleaning supplies and put it on the counter in front of you in the utility room.",
+  "target_key": "bottle_of_disinfectant/ucqzck",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "utility_room_0",
+  "destination_room": "utility_room_0",
+  "source_receptacle": "bottom_cabinet_bamfsz_0",
+  "destination_receptacle": "bottom_cabinet_bamfsz_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "7894c711eea34a656ee926a132d6563ce3833b5ddb45c126d0ce534dd2edca60",
+  "route": {
+    "start": [
+      1.05,
+      6.95,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        1.05,
+        6.95
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 20,
+    "destination_approach_count": 20,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_bamfsz_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "parent_task_id": "U087",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_U087_01",
+    "parent_task_id": "U087",
+    "before_instruction": "I need the disinfectant for the utility worktop. Find it among the cleaning supplies and put it beside the sink.",
+    "after_instruction": "I need disinfectant for the utility worktop. Find it among the utility room cleaning supplies and put it on the counter in front of you in the utility room.",
+    "reason": "Preserves object identity and purpose; explicitly grounds the destination as the initial-facing native surface instead of an uninstantiated decorative landmark.",
+    "target_asset": "bottle_of_disinfectant/ucqzck",
+    "target_assets": [
+      "bottle_of_disinfectant/ucqzck"
+    ]
+  }
+}

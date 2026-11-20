@@ -1,0 +1,356 @@
+{
+  "action": "expert",
+  "case": {
+    "id": "F293",
+    "record": {
+      "id": "asset_F293_01",
+      "family": "semantic_F293",
+      "scene": "Beechwood_0_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert_repair_queue_20261107/asset_F293_01/scenario.yaml",
+      "scenario_sha256": "99d84616b27bd22ce62e6fe5bf02722cc6c86a5c1465f2435e9b384915f9f8a0",
+      "instruction": "Find the soup spoon among the toys in the living-room cabinet and bring it to the counter in front of you in the kitchen in the kitchen.",
+      "target_key": "soupspoon/wrctgd",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "living_room_0",
+      "destination_room": "kitchen_0",
+      "source_receptacle": "bottom_cabinet_immwzb_1",
+      "destination_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+      "object_count": 9,
+      "distractor_count": 8,
+      "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+      "route": {
+        "start": [
+          0.9500000000000001,
+          -5.95,
+          -1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            0.9500000000000001,
+            -5.95
+          ],
+          [
+            0.9500000000000001,
+            -6.050000000000001
+          ],
+          [
+            1.05,
+            -6.050000000000001
+          ],
+          [
+            1.1500000000000001,
+            -6.050000000000001
+          ],
+          [
+            1.25,
+            -6.050000000000001
+          ],
+          [
+            1.35,
+            -6.050000000000001
+          ],
+          [
+            1.4500000000000002,
+            -6.050000000000001
+          ],
+          [
+            1.55,
+            -6.050000000000001
+          ],
+          [
+            1.6500000000000001,
+            -6.050000000000001
+          ],
+          [
+            1.6500000000000001,
+            -6.15
+          ],
+          [
+            1.75,
+            -6.15
+          ],
+          [
+            1.75,
+            -6.25
+          ],
+          [
+            1.85,
+            -6.25
+          ],
+          [
+            1.9500000000000002,
+            -6.25
+          ],
+          [
+            2.0500000000000003,
+            -6.25
+          ],
+          [
+            2.15,
+            -6.25
+          ],
+          [
+            2.25,
+            -6.25
+          ],
+          [
+            2.35,
+            -6.25
+          ],
+          [
+            2.45,
+            -6.25
+          ],
+          [
+            2.5500000000000003,
+            -6.25
+          ],
+          [
+            2.6500000000000004,
+            -6.25
+          ],
+          [
+            2.75,
+            -6.25
+          ],
+          [
+            2.85,
+            -6.25
+          ],
+          [
+            2.95,
+            -6.25
+          ],
+          [
+            3.0500000000000003,
+            -6.25
+          ],
+          [
+            3.1500000000000004,
+            -6.25
+          ],
+          [
+            3.25,
+            -6.25
+          ],
+          [
+            3.35,
+            -6.25
+          ],
+          [
+            3.45,
+            -6.25
+          ],
+          [
+            3.5500000000000003,
+            -6.25
+          ],
+          [
+            3.6500000000000004,
+            -6.25
+          ],
+          [
+            3.75,
+            -6.25
+          ],
+          [
+            3.85,
+            -6.25
+          ],
+          [
+            3.95,
+            -6.25
+          ],
+          [
+            4.05,
+            -6.25
+          ],
+          [
+            4.15,
+            -6.25
+          ],
+          [
+            4.25,
+            -6.25
+          ],
+          [
+            4.3500000000000005,
+            -6.25
+          ],
+          [
+            4.45,
+            -6.25
+          ],
+          [
+            4.55,
+            -6.25
+          ],
+          [
+            4.65,
+            -6.25
+          ],
+          [
+            4.75,
+            -6.25
+          ],
+          [
+            4.8500000000000005,
+            -6.25
+          ],
+          [
+            4.95,
+            -6.25
+          ],
+          [
+            5.050000000000001,
+            -6.25
+          ]
+        ],
+        "length_m": 4.4,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "bottom_cabinet_immwzb_1"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_immwzb_1",
+            "volume_extents_m": {
+              "link_2": [
+                0.4339632987976074,
+                1.0581302642822266,
+                0.11316221952438354
+              ]
+            },
+            "native_links": {
+              "link_2": "link_2"
+            },
+            "geometry_source": "survey",
+            "geometry_provenance": {},
+            "status": "heuristic_fit",
+            "assignment": {
+              "item_00": "link_2",
+              "item_02": "link_2",
+              "item_08": "link_2",
+              "item_03": "link_2",
+              "item_06": "link_2",
+              "item_04": "link_2",
+              "item_05": "link_2",
+              "item_01": "link_2",
+              "item_07": "link_2"
+            },
+            "component_allocation": {
+              "item_00": "link_2",
+              "item_02": "link_2",
+              "item_08": "link_2",
+              "item_03": "link_2",
+              "item_06": "link_2",
+              "item_04": "link_2",
+              "item_05": "link_2",
+              "item_01": "link_2",
+              "item_07": "link_2"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_00": "link_2",
+          "item_02": "link_2",
+          "item_08": "link_2",
+          "item_03": "link_2",
+          "item_06": "link_2",
+          "item_04": "link_2",
+          "item_05": "link_2",
+          "item_01": "link_2",
+          "item_07": "link_2"
+        },
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [],
+      "parent_task_id": "F293",
+      "tier": "long",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F293_01",
+        "parent_task_id": "F293",
+        "before_instruction": "Find the soup spoon among the rigid toys in the child's room storage boxes and put it beside the bowl on the kitchen table.",
+        "after_instruction": "Find the soup spoon among the toys in the living-room cabinet and bring it to the counter in front of you in the kitchen in the kitchen.",
+        "reason": "The identified delivery surface is grounded by the initial facing direction; decorative destination landmarks are omitted. Target identity, requested cardinality and source/destination room types are retained. Explicit spatial revision from ('childs_room', 'cabinet', 'kitchen', 'table') to ('living_room', 'cabinet', 'kitchen', 'counter'): uses a room/storage pairing with previously found robot clearance and path evidence (1 prior recipes). Item sets, reference matching and inventory predicates are unchanged. Cross-room transfer is retained where the revised source and destination differ.",
+        "target_asset": "soupspoon/wrctgd",
+        "target_assets": [
+          "soupspoon/wrctgd"
+        ]
+      },
+      "binding_sha256": "a2beb9dbe51c51f0fb2373b613a2fbd2636e438291708799f5ce87e3ce0ccf9d"
+    },
+    "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert_repair_queue_20261107/asset_F293_01",
+    "error": "AUTHORING_SURFACE_BODY_BINDING",
+    "source_sha256": "99d84616b27bd22ce62e6fe5bf02722cc6c86a5c1465f2435e9b384915f9f8a0",
+    "expert_diagnosis": {
+      "category": "native_placement",
+      "error": "AUTHORING_SURFACE_BODY_BINDING",
+      "native_rejections_in_current_queue": 0,
+      "first_blocker": {
+        "entity": "item_07",
+        "relation": "inside",
+        "receptacle": "bottom_cabinet_immwzb_1"
+      },
+      "solver": null,
+      "support_measurements": {
+        "total": 0,
+        "planar": 0,
+        "reasons": {}
+      },
+      "first_contact": null,
+      "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert_repair_queue_20261107/asset_F293_01/native_validation.log",
+      "inference_scope": "proposal/model diagnosis; native physics acceptance unchanged"
+    },
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "native_placement",
+      "reason": "AUTHORING_SURFACE_BODY_BINDING"
+    }
+  },
+  "out": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_20_F293_expert_e70806ed6e2a",
+  "variant": 93
+}

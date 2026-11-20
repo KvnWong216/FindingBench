@@ -1,0 +1,236 @@
+{
+  "action": "expert",
+  "case": {
+    "id": "P251",
+    "record": {
+      "id": "asset_P251_01",
+      "family": "semantic_P251",
+      "scene": "Beechwood_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_P251_01/scenario.yaml",
+      "scenario_sha256": "26814885f28bd0aca7920b9689d833c0107f773065d294ad87890b1f80f41fd3",
+      "instruction": "Fetch the mirror from the bedroom vanity supplies and put it on the counter in front of you in the bathroom in the bathroom for getting ready.",
+      "target_key": "mirror/rgbvxy",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "bedroom_0",
+      "destination_room": "bathroom_1",
+      "source_receptacle": "bottom_cabinet_nddvba_0",
+      "destination_receptacle": "bottom_cabinet_no_top_pluwfl_0",
+      "object_count": 9,
+      "distractor_count": 8,
+      "source_survey_sha256": "e6788ca8219b4da8643d87d4deebe4595aa9d5f15520af27b74393574b33a410",
+      "route": {
+        "start": [
+          -6.9,
+          -2.9000000000000004,
+          -1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            -6.9,
+            -2.9000000000000004
+          ],
+          [
+            -6.9,
+            -2.8000000000000003
+          ],
+          [
+            -6.800000000000001,
+            -2.8000000000000003
+          ],
+          [
+            -6.7,
+            -2.8000000000000003
+          ],
+          [
+            -6.6000000000000005,
+            -2.8000000000000003
+          ],
+          [
+            -6.5,
+            -2.8000000000000003
+          ],
+          [
+            -6.4,
+            -2.8000000000000003
+          ],
+          [
+            -6.300000000000001,
+            -2.8000000000000003
+          ],
+          [
+            -6.2,
+            -2.8000000000000003
+          ],
+          [
+            -6.1000000000000005,
+            -2.8000000000000003
+          ],
+          [
+            -6.0,
+            -2.8000000000000003
+          ],
+          [
+            -5.9,
+            -2.8000000000000003
+          ],
+          [
+            -5.800000000000001,
+            -2.8000000000000003
+          ],
+          [
+            -5.7,
+            -2.8000000000000003
+          ],
+          [
+            -5.6000000000000005,
+            -2.8000000000000003
+          ],
+          [
+            -5.5,
+            -2.8000000000000003
+          ],
+          [
+            -5.4,
+            -2.8000000000000003
+          ],
+          [
+            -5.300000000000001,
+            -2.8000000000000003
+          ],
+          [
+            -5.2,
+            -2.8000000000000003
+          ],
+          [
+            -5.1000000000000005,
+            -2.8000000000000003
+          ],
+          [
+            -5.0,
+            -2.8000000000000003
+          ],
+          [
+            -4.9,
+            -2.8000000000000003
+          ],
+          [
+            -4.800000000000001,
+            -2.8000000000000003
+          ],
+          [
+            -4.7,
+            -2.8000000000000003
+          ],
+          [
+            -4.6000000000000005,
+            -2.8000000000000003
+          ],
+          [
+            -4.5,
+            -2.8000000000000003
+          ],
+          [
+            -4.4,
+            -2.8000000000000003
+          ],
+          [
+            -4.3,
+            -2.8000000000000003
+          ],
+          [
+            -4.2,
+            -2.8000000000000003
+          ]
+        ],
+        "length_m": 2.8,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 34,
+        "destination_approach_count": 36,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "bottom_cabinet_nddvba_1",
+        "bottom_cabinet_nddvba_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [],
+      "parent_task_id": "P251",
+      "tier": "long",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_P251_01",
+        "parent_task_id": "P251",
+        "before_instruction": "Find the handheld mirror with the largest reflective face among bedroom vanity storage and put it on the bathroom counter below the wall mirror.",
+        "after_instruction": "Fetch the mirror from the bedroom vanity supplies and put it on the counter in front of you in the bathroom in the bathroom for getting ready.",
+        "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Missing constructed comparison/count evidence and distractor set for largest-face handheld mirror. Native categories are only candidates; required subtype, markings, quantity, or reference appearance remain unverified: largest-face handheld mirror. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+        "target_asset": "mirror/rgbvxy",
+        "target_assets": [
+          "mirror/rgbvxy"
+        ]
+      },
+      "binding_sha256": "377fecc4efd2ba7568b61860c11edc5b0d951bd6dcccf4831bdb69bae8b6648d"
+    },
+    "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_gpu_new_20261106/asset_P251_01",
+    "error": "placement failed verification after physics settled: ['item_00 inside bottom_cabinet_nddvba_0', 'item_01 inside bottom_cabinet_nddvba_0', 'item_02 inside bottom_cabinet_nddvba_0', 'item_03 inside bottom_cabinet_nddvba_0', 'item_04 inside bottom_cabinet_nddvba_0', 'item_05 inside bottom_cabinet_nddvba_0', 'item_06 inside bottom_cabinet_nddvba_1', 'item_07 inside bottom_cabinet_nddvba_1', 'item_08 inside bottom_cabinet_nddvba_1']",
+    "source_sha256": "26814885f28bd0aca7920b9689d833c0107f773065d294ad87890b1f80f41fd3",
+    "expert_diagnosis": {
+      "category": "native_placement",
+      "error": "placement failed verification after physics settled: ['item_00 inside bottom_cabinet_nddvba_0', 'item_01 inside bottom_cabinet_nddvba_0', 'item_02 inside bottom_cabinet_nddvba_0', 'item_03 inside bottom_cabinet_nddvba_0', 'item_04 inside bottom_cabinet_nddvba_0', 'item_05 inside bottom_cabinet_nddvba_0', 'item_06 inside bottom_cabinet_nddvba_1', 'item_07 inside bottom_cabinet_nddvba_1', 'item_08 inside bottom_cabinet_nddvba_1']",
+      "native_rejections_in_current_queue": 0,
+      "first_blocker": {
+        "entity": "item_05",
+        "relation": "inside",
+        "receptacle": "bottom_cabinet_nddvba_0"
+      },
+      "solver": null,
+      "support_measurements": {
+        "total": 0,
+        "planar": 0,
+        "reasons": {}
+      },
+      "first_contact": null,
+      "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_gpu_new_20261106/asset_P251_01/native_validation.log",
+      "inference_scope": "proposal/model diagnosis; native physics acceptance unchanged"
+    },
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "native_placement",
+      "reason": "placement failed verification after physics settled: ['item_00 inside bottom_cabinet_nddvba_0', 'item_01 inside bottom_cabinet_nddvba_0', 'item_02 inside bottom_cabinet_nddvba_0', 'item_03 inside bottom_cabinet_nddvba_0', 'item_04 inside bottom_cabinet_nddvba_0', 'item_05 inside bottom_cabinet_nddvba_0', 'item_06 inside bottom_cabinet_nddvba_1', 'item_07 inside bottom_cabinet_nddvba_1', 'item_08 inside bottom_cabinet_nddvba_1']"
+    }
+  },
+  "out": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_28_P251_expert_a374ba97efaf",
+  "variant": 93
+}

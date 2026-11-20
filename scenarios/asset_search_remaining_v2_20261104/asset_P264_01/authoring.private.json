@@ -1,0 +1,80 @@
+{
+  "id": "asset_P264_01",
+  "family": "semantic_P264",
+  "scene": "Benevolence_2_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P264_01/scenario.yaml",
+  "scenario_sha256": "18c29ec8d272568d0b40e651450871681e683bb02599d587afedf80b84528851",
+  "instruction": "Retrieve the wristwatch from the bedroom accessories and put it on the cabinet top in front of you in the bedroom for getting ready to go out.",
+  "target_key": "watch/ghobzn",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bedroom_1",
+  "destination_room": "bedroom_1",
+  "source_receptacle": "bottom_cabinet_jrhgeu_0",
+  "destination_receptacle": "bottom_cabinet_jrhgeu_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "a5aecce586f71d5c55e54407ca135508aa6adf0cf04829a58057df06a25a855d",
+  "route": {
+    "start": [
+      1.25,
+      -1.4500000000000002,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        1.25,
+        -1.4500000000000002
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 35,
+    "destination_approach_count": 35,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_slgzfc_0",
+    "bottom_cabinet_jrhgeu_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "parent_task_id": "P264",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P264_01",
+    "parent_task_id": "P264",
+    "before_instruction": "Find the wristwatch with Roman numerals among bedroom accessory storage and place it beside the standing mirror.",
+    "after_instruction": "Retrieve the wristwatch from the bedroom accessories and put it on the cabinet top in front of you in the bedroom for getting ready to go out.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Native category metadata does not certify the stated target predicate: Roman-numeral wristwatch. Native categories are only candidates; required subtype, markings, quantity, or reference appearance remain unverified: Roman-numeral wristwatch. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+    "target_asset": "watch/ghobzn",
+    "target_assets": [
+      "watch/ghobzn"
+    ]
+  },
+  "binding_sha256": "5a4b77485880c1ff27bc1e3bef4a7653f0b71f4d5d41cbfd6f976665bab39606"
+}

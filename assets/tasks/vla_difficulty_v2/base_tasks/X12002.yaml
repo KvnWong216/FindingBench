@@ -1,0 +1,78 @@
+task_id: X12002
+family: place_on
+scene: Ihlen_1_int
+source:
+  official_activity: installing_a_modem#0
+  official_activities_with_same_subgoal:
+  - installing_a_modem#0
+  official_subgoal: (ontop modem.n.01 cabinet.n.01)
+  reuse: official sub-goal re-used as the task goal
+  scene: BEHAVIOR-1K Ihlen_1_int
+  object: BEHAVIOR-1K modem/axqxsv
+start:
+  name: start_living_room_0_0
+  room: living_room_0
+  x: 0.33
+  y: 0.22
+  yaw: 0.046
+target:
+  entity: target_obj
+  category: modem
+  model: axqxsv
+  noun: modem
+  colour_estimate: blue
+goal:
+- kind: on_top
+  entity: target_obj
+  receptacle: bottom_cabinet_jrhgeu_2
+place_hints:
+- - 1.246
+  - -0.124
+  - -1.042
+- - 1.703
+  - -0.074
+  - -1.45
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S1
+missing_spatial_levels:
+- S2
+- S3
+initial_states: {}
+spatial:
+  S1:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: coffee_table_gcollb_0
+    room: living_room_0
+    location_phrase: the coffee table in the living room
+    grasp_hints:
+    - - 2.011
+      - 0.16
+      - 0.785
+    - - 1.961
+      - 0.311
+      - 0.565
+    - - 1.911
+      - 0.261
+      - 0.587
+    - - 1.911
+      - 0.462
+      - 0.319
+    extra_ops_vs_S1: []
+    probe_visibility_from_start:
+      px: 112
+      delta_e: 27.2
+    task_scope: single_room
+language:
+  L1:
+    S1: Go to the coffee table in the living room, pick up the modem on it. Then put
+      it on the cabinet in the living room.
+  L2: Put the modem on the cabinet in the living room.
+  L3: I'm installing a modem. The modem should end up on the cabinet in the living
+    room -- could you take care of it?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

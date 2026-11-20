@@ -1,0 +1,218 @@
+{
+  "status": "static_screened_physics_pending",
+  "expert_policy": {
+    "method": "relocate_storage",
+    "clear_unstated_links": true,
+    "plan_surfaces": true,
+    "runtime_changes": [
+      "closed_native_bbox_XY",
+      "disjoint_measured_support_patches",
+      "bounded_CUDA_candidate_domains"
+    ],
+    "original_instruction_retained": true,
+    "explicit_location_scope_retained": true,
+    "diagnosis": "surface_or_timeout",
+    "reason": "placement failed verification after physics settled: ['item_02 on_top search_storage', 'item_06 on_top search_storage']"
+  },
+  "removed_compiler_links": [],
+  "centered_container_placements": [],
+  "explicit_surface_plans": [
+    {
+      "receptacle": "search_storage",
+      "entities": [
+        "item_00",
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08"
+      ],
+      "solver": {
+        "status": "feasible_model",
+        "device": "cuda",
+        "backend": "torch_cuda_finite_csp",
+        "solve_seconds": 0.007933574728667736,
+        "nodes": 0,
+        "candidate_tests": 0,
+        "grid_m": 0.001,
+        "margin_m": 0.025,
+        "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+        "physical_validation_required": true,
+        "assignment": {
+          "item_00": "surface",
+          "item_01": "surface",
+          "item_02": "surface",
+          "item_03": "surface",
+          "item_04": "surface",
+          "item_05": "surface",
+          "item_06": "surface",
+          "item_07": "surface",
+          "item_08": "surface"
+        },
+        "poses": {
+          "item_00": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.025,
+              0.025
+            ],
+            "footprint_m": [
+              0.042,
+              0.042
+            ],
+            "center_xy_m": [
+              0.046,
+              0.046
+            ]
+          },
+          "item_01": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.025,
+              0.092
+            ],
+            "footprint_m": [
+              0.052000000000000005,
+              0.052000000000000005
+            ],
+            "center_xy_m": [
+              0.051000000000000004,
+              0.118
+            ]
+          },
+          "item_02": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.025,
+              0.169
+            ],
+            "footprint_m": [
+              0.09,
+              0.09
+            ],
+            "center_xy_m": [
+              0.07,
+              0.21400000000000002
+            ]
+          },
+          "item_03": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.025,
+              0.28400000000000003
+            ],
+            "footprint_m": [
+              0.08600000000000001,
+              0.08600000000000001
+            ],
+            "center_xy_m": [
+              0.068,
+              0.327
+            ]
+          },
+          "item_04": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.025,
+              0.395
+            ],
+            "footprint_m": [
+              0.091,
+              0.091
+            ],
+            "center_xy_m": [
+              0.07050000000000001,
+              0.4405
+            ]
+          },
+          "item_05": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.025,
+              0.511
+            ],
+            "footprint_m": [
+              0.052000000000000005,
+              0.052000000000000005
+            ],
+            "center_xy_m": [
+              0.051000000000000004,
+              0.537
+            ]
+          },
+          "item_06": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.025,
+              0.588
+            ],
+            "footprint_m": [
+              0.09,
+              0.09
+            ],
+            "center_xy_m": [
+              0.07,
+              0.633
+            ]
+          },
+          "item_07": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.025,
+              0.7030000000000001
+            ],
+            "footprint_m": [
+              0.08600000000000001,
+              0.08600000000000001
+            ],
+            "center_xy_m": [
+              0.068,
+              0.7460000000000001
+            ]
+          },
+          "item_08": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.025,
+              0.8140000000000001
+            ],
+            "footprint_m": [
+              0.091,
+              0.091
+            ],
+            "center_xy_m": [
+              0.07050000000000001,
+              0.8595
+            ]
+          }
+        },
+        "constructive_witness": "single strip; exact quantized box and clearance checks"
+      },
+      "physical_validation_required": true
+    }
+  ],
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/overnight_expert_20261109/direct/asset_U099_01/scenario.yaml",
+  "original_sha256": "30e2b79329a3226dbd8a2a625e085d8d1faec1c8116c34a4a98b6749d1a35fef",
+  "diagnosis_directory": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/overnight_expert_20261109/direct/asset_U099_01",
+  "preserved": [
+    "instruction",
+    "goal",
+    "target",
+    "robot",
+    "spawn",
+    "all original assets",
+    "relation types"
+  ]
+}

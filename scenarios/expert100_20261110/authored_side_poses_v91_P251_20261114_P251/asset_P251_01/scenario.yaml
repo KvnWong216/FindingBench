@@ -1,0 +1,139 @@
+id: asset_P251_01
+instruction: Fetch the mirror from the bedroom vanity supplies and put it on the counter
+  in front of you in the bathroom in the bathroom for getting ready.
+scene:
+  model: Beechwood_1_int
+  source: behavior
+  clearance_manifest: /home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/build/vla_difficulty_v2/clearance/Beechwood_1_int.json
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - -6.9
+    - -2.9000000000000004
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - -0.7071067811865475
+    - 0.7071067811865476
+target:
+  entity: item_00
+  category: mirror
+objects:
+- name: item_00
+  category: mirror
+  model: rgbvxy
+- name: item_01
+  category: bottle_of_lotion
+  model: tkryrh
+- name: item_02
+  category: bottle_of_perfume
+  model: ipurzb
+- name: item_03
+  category: bottle_of_powder
+  model: vfabau
+- name: item_04
+  category: bottle_of_skin_cream
+  model: ynwxtx
+- name: item_05
+  category: cleansing_bottle
+  model: ovjhuf
+- name: item_06
+  category: deodorant_atomizer
+  model: utjfug
+- name: item_07
+  category: deodorant_stick
+  model: albeyc
+- name: item_08
+  category: jade_roller
+  model: chplbu
+placements:
+- entity: item_00
+  relation: inside
+  receptacle: bottom_cabinet_nddvba_0
+  orientation_hint_xyzw:
+  - 0.0
+  - 0.7071067811865475
+  - 0.0
+  - 0.7071067811865476
+- entity: item_01
+  relation: inside
+  receptacle: bottom_cabinet_nddvba_0
+- entity: item_02
+  relation: inside
+  receptacle: bottom_cabinet_nddvba_0
+- entity: item_03
+  relation: inside
+  receptacle: bottom_cabinet_nddvba_0
+- entity: item_04
+  relation: inside
+  receptacle: bottom_cabinet_nddvba_0
+- entity: item_05
+  relation: inside
+  receptacle: bottom_cabinet_nddvba_0
+- entity: item_06
+  relation: inside
+  receptacle: bottom_cabinet_nddvba_1
+- entity: item_07
+  relation: inside
+  receptacle: bottom_cabinet_nddvba_1
+- entity: item_08
+  relation: inside
+  receptacle: bottom_cabinet_nddvba_1
+initial_states:
+  bottom_cabinet_nddvba_1:
+    open: false
+  bottom_cabinet_nddvba_0:
+    open: false
+goal:
+- kind: on_top
+  entity: item_00
+  receptacle: countertop_tpuwys_1
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

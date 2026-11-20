@@ -1,0 +1,304 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F016_01",
+      "family": "semantic_F016",
+      "scene": "grocery_store_convenience",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/basket_support_v14_F016/asset_F016_01/scenario.yaml",
+      "scenario_sha256": "6511f402da5f0db7dc245aca21746d50e0422f158b3714613d3069fd50258ab9",
+      "instruction": "The shopping in the shopping basket in front of you in the grocery store should include milk, crackers and an apple. Find the missing item on the grocery shelves and add it to the shopping basket in front of you in the grocery store.",
+      "target_key": "apple/rizrsp",
+      "target_entities": [
+        "item_01"
+      ],
+      "target_count": 1,
+      "source_room": "grocery_store_0",
+      "destination_room": "grocery_store_0",
+      "source_receptacle": "search_storage",
+      "destination_receptacle": "item_00",
+      "object_count": 14,
+      "distractor_count": 8,
+      "source_survey_sha256": "a2c547e08ae7b260e95d8b48eef0027668b5c06f7c674406f7ebc43f7ad37672",
+      "route": {
+        "start": [
+          1.6,
+          0.30000000000000004,
+          3.141592653589793
+        ],
+        "path_xy": [
+          [
+            1.6,
+            0.30000000000000004
+          ],
+          [
+            1.6,
+            0.2
+          ],
+          [
+            1.6,
+            0.1
+          ],
+          [
+            1.6,
+            0.0
+          ],
+          [
+            1.6,
+            -0.1
+          ],
+          [
+            1.6,
+            -0.2
+          ],
+          [
+            1.6,
+            -0.30000000000000004
+          ],
+          [
+            1.6,
+            -0.4
+          ],
+          [
+            1.5,
+            -0.4
+          ],
+          [
+            1.4000000000000001,
+            -0.4
+          ],
+          [
+            1.3,
+            -0.4
+          ],
+          [
+            1.2000000000000002,
+            -0.4
+          ],
+          [
+            1.1,
+            -0.4
+          ],
+          [
+            1.0,
+            -0.4
+          ],
+          [
+            0.9,
+            -0.4
+          ],
+          [
+            0.8,
+            -0.4
+          ]
+        ],
+        "length_m": 1.5,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_00",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "item_09",
+        "initial_inventory_0",
+        "initial_inventory_1"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "search_storage",
+          "category": "shelf",
+          "model": "vanltx",
+          "floor": "floors_rojznj_0",
+          "position_xy": [
+            0.2,
+            -1.4000000000000001
+          ],
+          "aabb": [
+            [
+              0.026926239013671888,
+              -1.992514587402344,
+              0.0
+            ],
+            [
+              0.37307376098632816,
+              -0.8074854125976564,
+              0.42811041259765625
+            ]
+          ],
+          "room": "grocery_store_0"
+        },
+        {
+          "name": "delivery_surface",
+          "category": "breakfast_table",
+          "model": "iaritq",
+          "floor": "floors_rojznj_0",
+          "position_xy": [
+            0.7000000000000001,
+            0.7000000000000001
+          ],
+          "aabb": [
+            [
+              0.3489997100830079,
+              0.3494537658691407,
+              0.0
+            ],
+            [
+              1.0510002899169923,
+              1.0505462341308593,
+              0.7490009155273437
+            ]
+          ],
+          "room": "grocery_store_0"
+        }
+      ],
+      "parent_task_id": "F016",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F016_01",
+        "parent_task_id": "F016",
+        "before_instruction": "My shopping basket should contain milk, crackers and apples, but one is still missing. Find the missing item in the grocery store and put it in the basket parked beside the checkout.",
+        "after_instruction": "The shopping in the shopping basket in front of you in the grocery store should include milk, crackers and an apple. Find the missing item on the grocery shelves and add it to the shopping basket in front of you in the grocery store.",
+        "reason": "Destination inventory explicitly contains milk and crackers, leaving the apple as the unique missing category; inference is preserved without naming the answer. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "apple/rizrsp",
+        "target_assets": [
+          "apple/rizrsp"
+        ]
+      },
+      "binding_sha256": "c44e7ed56f1fcd715903e260869f9670eab80667b446c8bbb158ab15c93cbf72",
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "item_00",
+            "volume_extents_m": {
+              "meta__base_link_openfillable_0_0_link": [
+                0.54239067029953,
+                0.3574627299308777,
+                0.5728350430478137
+              ]
+            },
+            "native_links": {
+              "meta__base_link_openfillable_0_0_link": "meta__base_link_openfillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "shopping_basket/nedrsh",
+              "scale": [
+                1.0,
+                1.0,
+                1.0
+              ],
+              "metadata_sha256": "81ae6e4fb6c17c9417ff94217d33fe634b26672c84b92d201a03b0b6a68a631e",
+              "encrypted_asset_sha256": "bb340aa2669a7e5476003c73dc5b0344d8ce34de8eeb4db7abf79d903d92f65a",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.4096125070936978,
+              "nodes": 2,
+              "candidate_tests": 99,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "initial_inventory_0": "meta__base_link_openfillable_0_0_link",
+                "initial_inventory_1": "meta__base_link_openfillable_0_0_link"
+              },
+              "poses": {
+                "initial_inventory_0": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.165,
+                    0.295
+                  ],
+                  "center_xy_m": [
+                    0.08750000000000001,
+                    0.1525
+                  ]
+                },
+                "initial_inventory_1": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.17500000000000002,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.064,
+                    0.146
+                  ],
+                  "center_xy_m": [
+                    0.20700000000000002,
+                    0.078
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "initial_inventory_0": "meta__base_link_openfillable_0_0_link",
+              "initial_inventory_1": "meta__base_link_openfillable_0_0_link"
+            },
+            "component_allocation": {
+              "initial_inventory_0": "meta__base_link_openfillable_0_0_link",
+              "initial_inventory_1": "meta__base_link_openfillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "initial_inventory_0": "meta__base_link_openfillable_0_0_link",
+          "initial_inventory_1": "meta__base_link_openfillable_0_0_link"
+        },
+        "physical_validation_required": true
+      },
+      "support_asset_changes": [
+        {
+          "instruction_sha256": "151c9888b73e5dde6b328679767c846a72cc2defbd49e451e0e1a3aa130c3174",
+          "entity": "item_00",
+          "original_object": {
+            "name": "item_00",
+            "category": "shopping_basket",
+            "model": "vsxhsv"
+          },
+          "replacement": {
+            "name": "item_00",
+            "category": "shopping_basket",
+            "model": "nedrsh"
+          },
+          "reason": "Native larger shopping basket holds the full required inventory in the joint static size model; preserve native size, every target and every distractor. Independent physics and reload still required."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+# Hand-written commonsense placement priors (TASK_TIERS_PLAN plan E).
+# BDDL activities are cooking / cleaning heavy: outside kitchens almost no
+# (object, slot class, room type) triple reaches the evidence threshold, so
+# bedrooms, bathrooms, offices, ... never generated tasks. Each group approves
+# every category x slot_class x room_type combination with provenance
+# `source: manual` (evidence_count stays 0; BDDL evidence is never invented).
+# Merged by scripts/tasks/02_mine_priors.py after review_v1.yaml.
+# Categories must also pass the eligibility rules (rigid, 2-35 cm, <= 3 kg);
+# thin items (pens, toothbrushes, keys, phones) are excluded there.
+reviewer: claude-draft, user-reviewed 2026-10-06
+status: approved_by_user_2026-10-06
+groups:
+- name: office_storage_and_desk
+  room_types: [private_office, shared_office]
+  slot_classes: [cabinet_storage, desk, table]
+  categories: [stapler, calculator, notebook, folder, pencil_case,
+               cellulose_tape_dispenser, mouse, ruler, eyeglasses, battery]
+- name: office_desk_top
+  room_types: [private_office, shared_office]
+  slot_classes: [desk, table]
+  categories: [coffee_cup, mug, alarm_clock, desk_phone, pencil_holder]
+
+- name: bedroom_storage_and_surfaces
+  room_types: [bedroom]
+  slot_classes: [cabinet_storage, table, desk, countertop]
+  categories: [eyeglasses, sunglasses, lipstick, hairbrush, bottle_of_perfume,
+               tube_of_lotion, notebook, battery, gaming_controller]
+- name: bedroom_surfaces
+  room_types: [bedroom]
+  slot_classes: [table, desk, countertop]
+  categories: [alarm_clock, beeswax_candle, pillar_candle, mug, coffee_cup]
+
+- name: bathroom_storage_and_surfaces
+  room_types: [bathroom]
+  slot_classes: [cabinet_storage, countertop, table]
+  categories: [bar_soap, tube_of_toothpaste, hairbrush, bottle_of_lotion,
+               shampoo_bottle, bottle_of_medicine, lipstick, bottle_of_perfume,
+               jar_of_bath_salt, bottle_of_sunscreen]
+- name: bathroom_surfaces
+  room_types: [bathroom]
+  slot_classes: [countertop, table]
+  categories: [soap_dish, soap_dispenser]
+
+- name: living_room_surfaces
+  room_types: [living_room, television_room]
+  slot_classes: [table, countertop]
+  categories: [gaming_controller, coaster, mug, coffee_cup, beeswax_candle,
+               pillar_candle, board_game, notebook, eyeglasses, alarm_clock]
+- name: living_room_storage
+  room_types: [living_room, television_room]
+  slot_classes: [cabinet_storage]
+  categories: [board_game, gaming_controller, coaster, beeswax_candle, battery]
+
+- name: playroom
+  room_types: [playroom, childs_room]
+  slot_classes: [cabinet_storage, table, desk, countertop]
+  categories: [toy_figure, toy_dice, tennis_ball, beach_toy, board_game,
+               notebook, pencil_case]
+
+- name: storage_and_utility
+  room_types: [storage_room, utility_room, closet]
+  slot_classes: [cabinet_storage, table, countertop]
+  categories: [hammer, screwdriver, flashlight, battery, scrub_brush,
+               spray_bottle, detergent_bottle]
+
+- name: hallway_drop_zone
+  room_types: [corridor, entryway]
+  slot_classes: [table, cabinet_storage]
+  categories: [keys, sunglasses, eyeglasses, flashlight, notebook]

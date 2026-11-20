@@ -1,0 +1,115 @@
+{
+  "id": "asset_F091_01",
+  "family": "semantic_F091",
+  "scene": "Pomaria_1_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_F091_01/scenario.yaml",
+  "scenario_sha256": "5481c88549c82bd9f7be2a553a45d073365200920f13e15984c101d0cae9fea8",
+  "instruction": "There is a sample on the table in front of you in the kitchen. Find the mustard bottle matching that sample in the kitchen storage and bring it to the table in front of you in the kitchen for sandwiches.",
+  "target_key": "bottle_of_mustard/sjasxe",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "bottom_cabinet_no_top_vzzafs_0",
+  "destination_receptacle": "breakfast_table_uhrsex_0",
+  "object_count": 11,
+  "distractor_count": 9,
+  "source_survey_sha256": "05d404c89ade70d34c89459d2b340c53ef49d49041a6624fcc9a997b8b7322b3",
+  "route": {
+    "start": [
+      -1.05,
+      -0.8500000000000001,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -1.05,
+        -0.8500000000000001
+      ],
+      [
+        -1.05,
+        -0.75
+      ],
+      [
+        -1.05,
+        -0.65
+      ],
+      [
+        -1.05,
+        -0.55
+      ],
+      [
+        -1.05,
+        -0.45
+      ],
+      [
+        -1.05,
+        -0.35000000000000003
+      ],
+      [
+        -1.05,
+        -0.25
+      ],
+      [
+        -1.1500000000000001,
+        -0.25
+      ],
+      [
+        -1.25,
+        -0.25
+      ]
+    ],
+    "length_m": 0.8,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 51,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "comparison_negative_0",
+    "bottom_cabinet_jrhgeu_0",
+    "bottom_cabinet_no_top_vzzafs_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "parent_task_id": "F091",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F091_01",
+    "parent_task_id": "F091",
+    "before_instruction": "There are several mustard bottles in the kitchen. Find the one beside the lunch box in the kitchen storage area and put it beside the sandwich plate on the table.",
+    "after_instruction": "There is a sample on the table in front of you in the kitchen. Find the mustard bottle matching that sample in the kitchen storage and bring it to the table in front of you in the kitchen for sandwiches.",
+    "reason": "Replaces an unconstructed lunch-box spatial relation with same-product visual matching. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "bottle_of_mustard/sjasxe",
+    "target_assets": [
+      "bottle_of_mustard/sjasxe"
+    ]
+  },
+  "binding_sha256": "512138faba69e4890d1600336480c1a7c7fb6916036d33df138c5983b437886e"
+}

@@ -1,0 +1,47 @@
+# Design only. Not wired into the evaluator; do not treat as a runnable config.
+status: design_only
+id: feedback_embodiment_ablation_v1
+feedback_levels:
+  outcome: [executed, failed]
+  reason: outcome_plus_sanitized_execution_reason
+embodiment_levels:
+  none: existing_skill_contract_only
+  basic: static_body_and_camera_spec_plus_measured_local_self_state
+  workspace: basic_plus_scene_independent_offline_kinematic_workspace
+primary_cells:
+  - [outcome, none]
+  - [reason, none]
+  - [outcome, basic]
+  - [reason, basic]
+secondary_cells:
+  - [outcome, workspace]
+  - [reason, workspace]
+controls:
+  max_steps: 60
+  max_new_tokens: 1024
+  seed: 0
+  model_calls_per_step: 1
+  action_repair: false
+  verifier: false
+  retry: false
+  same_initial_state: true
+  same_images_and_action_physics: true
+  new_output_roots: true
+workspace_requirements:
+  frame: robot_base
+  sources: [robot_urdf, joint_limits, self_collision_geometry]
+  no_scene_geometry: true
+  no_task_targets: true
+  no_object_reachability_labels: true
+  expose_sampling_and_orientation_assumptions: true
+  no_feasibility_guarantee: true
+metrics:
+  - success_rate
+  - execution_failure_categories
+  - repeated_failed_action_rate
+  - distinct_failed_action_recovery
+  - successful_manipulations
+  - steps
+  - model_calls
+  - input_and_output_tokens
+  - inference_time

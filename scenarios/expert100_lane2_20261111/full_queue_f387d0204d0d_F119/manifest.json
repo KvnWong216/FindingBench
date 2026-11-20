@@ -1,0 +1,1955 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F119_01",
+      "family": "semantic_F119",
+      "scene": "Pomaria_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/full_queue_f387d0204d0d_F119/asset_F119_01/scenario.yaml",
+      "scenario_sha256": "5b4469332b740b465c60e6cde7ec4ff3ec728e078f7bb0d544109da17d507ef1",
+      "instruction": "Find a saucepot in the kitchen lower cupboards and bring it to the counter in front of you in the kitchen for the soup.",
+      "target_key": "saucepot/wfryvm",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "kitchen_0",
+      "destination_room": "kitchen_0",
+      "source_receptacle": "bottom_cabinet_no_top_spojpj_0",
+      "destination_receptacle": "countertop_tpuwys_0",
+      "object_count": 9,
+      "distractor_count": 8,
+      "source_survey_sha256": "05d404c89ade70d34c89459d2b340c53ef49d49041a6624fcc9a997b8b7322b3",
+      "route": {
+        "start": [
+          -0.15000000000000002,
+          -0.15000000000000002,
+          1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            -0.15000000000000002,
+            -0.15000000000000002
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 44,
+        "destination_approach_count": 44,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "bottom_cabinet_no_top_vdedzt_0",
+        "bottom_cabinet_no_top_spojpj_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_no_top_spojpj_0",
+            "volume_extents_m": {
+              "meta__base_link_fillable_0_0_link#component:0": [
+                0.35033681313938847,
+                0.6392195652484614,
+                0.18953295525318237
+              ],
+              "meta__base_link_fillable_0_0_link#component:1": [
+                0.35164461075437115,
+                0.640758512756965,
+                0.21256367339399113
+              ],
+              "meta__base_link_fillable_0_0_link#component:2": [
+                0.354999108665639,
+                0.6416463648511828,
+                0.2198864892525212
+              ]
+            },
+            "native_links": {
+              "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet_no_top/spojpj",
+              "scale": [
+                0.9020320773124695,
+                1.0823547840118408,
+                1.5013837814331055
+              ],
+              "encrypted_asset_sha256": "b1a8387eba4405101e82da8fc1a934432b2f15dfaf23df29ca85b10f676830d9",
+              "metadata_sha256": "821af7f29773bfc2aa846ad7360069c7f643f3d0cf7d09e47400953b401bb4e3",
+              "root_orientation": [
+                0.0,
+                0.0,
+                0.7071068286895752,
+                -0.7071067094802856
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "assignment": {
+              "item_00": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "item_01": "meta__base_link_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_00": "meta__base_link_fillable_0_0_link#component:0",
+              "item_02": "meta__base_link_fillable_0_0_link#component:1",
+              "item_04": "meta__base_link_fillable_0_0_link#component:2",
+              "item_05": "meta__base_link_fillable_0_0_link#component:1",
+              "item_03": "meta__base_link_fillable_0_0_link#component:1",
+              "item_01": "meta__base_link_fillable_0_0_link#component:1"
+            }
+          },
+          {
+            "receptacle": "bottom_cabinet_no_top_vdedzt_0",
+            "volume_extents_m": {
+              "meta__base_link_fillable_0_0_link#component:0": [
+                0.34823689720480944,
+                0.7288007442155852,
+                0.20119088413516306
+              ],
+              "meta__base_link_fillable_0_0_link#component:1": [
+                0.361059543106247,
+                0.7293259758439963,
+                0.21677330555427446
+              ],
+              "meta__base_link_fillable_0_0_link#component:2": [
+                0.35166844011523574,
+                0.7215718036804594,
+                0.18142758126029188
+              ]
+            },
+            "native_links": {
+              "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet_no_top/vdedzt",
+              "scale": [
+                0.9020318984985352,
+                1.2223000526428223,
+                1.4746999740600586
+              ],
+              "encrypted_asset_sha256": "f08f18ef2ff048b07a32617ae129452ac26d7050ef8c44cde1bbb98f77942b49",
+              "metadata_sha256": "a7e223349347b4b299798d7bff84e5ad22a3884e15abf01b55aabbdc86c7efcc",
+              "root_orientation": [
+                1.2048985809087753e-08,
+                1.2048992026336691e-08,
+                -0.7071066498756409,
+                0.70710688829422
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "assignment": {
+              "item_07": "meta__base_link_fillable_0_0_link",
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_07": "meta__base_link_fillable_0_0_link#component:2",
+              "item_06": "meta__base_link_fillable_0_0_link#component:1",
+              "item_08": "meta__base_link_fillable_0_0_link#component:0"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [
+        {
+          "scene": "Ihlen_1_int",
+          "source": "bottom_cabinet_no_top_qohxjq_0",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.35790157318115234,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.3487100601196289,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.34264087677001953,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "item_04",
+                  "item_05"
+                ]
+              },
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_1",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.32920026779174805,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.32074594497680664,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.31516385078430176,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "heuristic_fit",
+                "assignment": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                },
+                "component_allocation": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                }
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Ihlen_1_int",
+          "source": "bottom_cabinet_no_top_qohxjq_1",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_1",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.32920026779174805,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.32074594497680664,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.31516385078430176,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "item_04",
+                  "item_05"
+                ]
+              },
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.35790157318115234,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.3487100601196289,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.34264087677001953,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "heuristic_fit",
+                "assignment": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                },
+                "component_allocation": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                }
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Ihlen_1_int",
+          "source": "bottom_cabinet_no_top_qohxjq_0",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.35790157318115234,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.3487100601196289,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.34264087677001953,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "item_04",
+                  "item_05"
+                ]
+              },
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_1",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.32920026779174805,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.32074594497680664,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.31516385078430176,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "heuristic_fit",
+                "assignment": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                },
+                "component_allocation": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                }
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Ihlen_1_int",
+          "source": "bottom_cabinet_no_top_qohxjq_0",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.35790157318115234,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.3487100601196289,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.34264087677001953,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "item_04",
+                  "item_05"
+                ]
+              },
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_1",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.32920026779174805,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.32074594497680664,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.31516385078430176,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "heuristic_fit",
+                "assignment": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                },
+                "component_allocation": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                }
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Ihlen_1_int",
+          "source": "bottom_cabinet_no_top_qohxjq_1",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_1",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.32920026779174805,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.32074594497680664,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.31516385078430176,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "item_04",
+                  "item_05"
+                ]
+              },
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.35790157318115234,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.3487100601196289,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.34264087677001953,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "heuristic_fit",
+                "assignment": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                },
+                "component_allocation": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                }
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Ihlen_1_int",
+          "source": "bottom_cabinet_no_top_qohxjq_1",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_1",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.32920026779174805,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.32074594497680664,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.31516385078430176,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "item_04",
+                  "item_05"
+                ]
+              },
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.35790157318115234,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.3487100601196289,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.34264087677001953,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "heuristic_fit",
+                "assignment": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                },
+                "component_allocation": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                }
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Ihlen_1_int",
+          "source": "bottom_cabinet_no_top_qohxjq_1",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_1",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.32920026779174805,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.32074594497680664,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.31516385078430176,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "item_04",
+                  "item_05"
+                ]
+              },
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.35790157318115234,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.3487100601196289,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.34264087677001953,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "heuristic_fit",
+                "assignment": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                },
+                "component_allocation": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                }
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Ihlen_1_int",
+          "source": "bottom_cabinet_no_top_qohxjq_1",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_1",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.32920026779174805,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.32074594497680664,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.31516385078430176,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "item_04",
+                  "item_05"
+                ]
+              },
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.35790157318115234,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.3487100601196289,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.34264087677001953,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "heuristic_fit",
+                "assignment": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                },
+                "component_allocation": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                }
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Ihlen_1_int",
+          "source": "bottom_cabinet_no_top_qohxjq_0",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.35790157318115234,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.3487100601196289,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.34264087677001953,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "item_04",
+                  "item_05"
+                ]
+              },
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_1",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.32920026779174805,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.32074594497680664,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.31516385078430176,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "heuristic_fit",
+                "assignment": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                },
+                "component_allocation": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                }
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Ihlen_1_int",
+          "source": "bottom_cabinet_no_top_qohxjq_1",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_1",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.32920026779174805,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.32074594497680664,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.31516385078430176,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "item_04",
+                  "item_05"
+                ]
+              },
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.35790157318115234,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.3487100601196289,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.34264087677001953,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "heuristic_fit",
+                "assignment": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                },
+                "component_allocation": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                }
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Ihlen_1_int",
+          "source": "bottom_cabinet_no_top_qohxjq_1",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_1",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.32920026779174805,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.32074594497680664,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.31516385078430176,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "item_04",
+                  "item_05"
+                ]
+              },
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.35790157318115234,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.3487100601196289,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.34264087677001953,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "heuristic_fit",
+                "assignment": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                },
+                "component_allocation": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                }
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Ihlen_1_int",
+          "source": "bottom_cabinet_no_top_qohxjq_0",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.35790157318115234,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.3487100601196289,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.34264087677001953,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "item_04",
+                  "item_05"
+                ]
+              },
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_1",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.32920026779174805,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.32074594497680664,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.31516385078430176,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "heuristic_fit",
+                "assignment": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                },
+                "component_allocation": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                }
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Ihlen_1_int",
+          "source": "bottom_cabinet_no_top_qohxjq_0",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.35790157318115234,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.3487100601196289,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.34264087677001953,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "item_04",
+                  "item_05"
+                ]
+              },
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_1",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.32920026779174805,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.32074594497680664,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.31516385078430176,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "heuristic_fit",
+                "assignment": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                },
+                "component_allocation": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                }
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Ihlen_1_int",
+          "source": "bottom_cabinet_no_top_qohxjq_1",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_1",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.32920026779174805,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.32074594497680664,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.31516385078430176,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "item_04",
+                  "item_05"
+                ]
+              },
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.35790157318115234,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.3487100601196289,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.34264087677001953,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "heuristic_fit",
+                "assignment": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                },
+                "component_allocation": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                }
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Ihlen_1_int",
+          "source": "bottom_cabinet_no_top_qohxjq_0",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.35790157318115234,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.3487100601196289,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.34264087677001953,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "item_04",
+                  "item_05"
+                ]
+              },
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_1",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.32920026779174805,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.32074594497680664,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.31516385078430176,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "heuristic_fit",
+                "assignment": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                },
+                "component_allocation": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                }
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Ihlen_1_int",
+          "source": "bottom_cabinet_no_top_qohxjq_0",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.35790157318115234,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.3487100601196289,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.34264087677001953,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "item_04",
+                  "item_05"
+                ]
+              },
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_1",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.32920026779174805,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.32074594497680664,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.31516385078430176,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "heuristic_fit",
+                "assignment": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                },
+                "component_allocation": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                }
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Ihlen_1_int",
+          "source": "bottom_cabinet_no_top_qohxjq_1",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_1",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.32920026779174805,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.32074594497680664,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.31516385078430176,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "item_04",
+                  "item_05"
+                ]
+              },
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.35790157318115234,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.3487100601196289,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.34264087677001953,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "heuristic_fit",
+                "assignment": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                },
+                "component_allocation": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                }
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Ihlen_1_int",
+          "source": "bottom_cabinet_no_top_qohxjq_0",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.35790157318115234,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.3487100601196289,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.34264087677001953,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "item_04",
+                  "item_05"
+                ]
+              },
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_1",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.32920026779174805,
+                    0.41975927352905273,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.32074594497680664,
+                    0.4131288528442383,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.31516385078430176,
+                    0.415022611618042,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "heuristic_fit",
+                "assignment": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                },
+                "component_allocation": {
+                  "item_07": "link_0",
+                  "item_06": "link_1",
+                  "item_08": "link_2"
+                }
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        },
+        {
+          "scene": "Pomaria_1_int",
+          "source": "bottom_cabinet_no_top_qohxjq_0",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+                "volume_extents_m": {
+                  "link_0": [
+                    0.4118990898132324,
+                    0.4385376572608948,
+                    0.17664214968681335
+                  ],
+                  "link_1": [
+                    0.4053926467895508,
+                    0.42620396614074707,
+                    0.16006872057914734
+                  ],
+                  "link_2": [
+                    0.4058542251586914,
+                    0.41711151599884033,
+                    0.043399155139923096
+                  ]
+                },
+                "native_links": {
+                  "link_0": "link_0",
+                  "link_1": "link_1",
+                  "link_2": "link_2"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "item_04",
+                  "item_05"
+                ]
+              },
+              {
+                "receptacle": "bottom_cabinet_no_top_vzzafs_0",
+                "volume_extents_m": {
+                  "meta__base_link_fillable_0_0_link": [
+                    0.4682353269382784,
+                    0.35746334360017995,
+                    0.6820272216287624
+                  ]
+                },
+                "native_links": {
+                  "meta__base_link_fillable_0_0_link": "meta__base_link_fillable_0_0_link"
+                },
+                "geometry_source": "offline_asset_hint",
+                "geometry_provenance": {
+                  "asset": "bottom_cabinet_no_top/vzzafs",
+                  "scale": [
+                    0.880458414554596,
+                    0.9137324690818787,
+                    1.0244098901748657
+                  ],
+                  "encrypted_asset_sha256": "b4daa08616feaef1a73fc5cb01bcd60c278fad77ff3d5bda42d007a631e01515",
+                  "metadata_sha256": "f0ba45ae134ef2c37866c9bb0186200606042fb03eafed9783116a94253ac4bf",
+                  "root_orientation": [
+                    0.0,
+                    0.0,
+                    0.9999911785125732,
+                    -0.004201833158731461
+                  ],
+                  "coordinates": "size_only_not_world_positions",
+                  "physical_validation_required": true
+                },
+                "status": "unknown",
+                "native_sampling_required": true,
+                "reason": "No conservative upright joint packing found; alternate poses require native sampling",
+                "entities": [
+                  "item_06",
+                  "item_07",
+                  "item_08"
+                ]
+              }
+            ],
+            "prefer_alternative_layout": true,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        }
+      ],
+      "parent_task_id": "F119",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F119_01",
+        "parent_task_id": "F119",
+        "before_instruction": "Find the pot with a handle on each side in the kitchen lower cupboards and set it beside the single-handled saucepan on the counter.",
+        "after_instruction": "Find a saucepot in the kitchen lower cupboards and bring it to the counter in front of you in the kitchen for the soup.",
+        "reason": "Replaces unverified handle-count selection with a specific native cookware category. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "saucepot/wfryvm",
+        "target_assets": [
+          "saucepot/wfryvm"
+        ]
+      },
+      "binding_sha256": "6c9a45cedafc66cb04f300273195a94b26535b48b714d4b4cfffd313e12b63c9",
+      "surface_binding_revision": {
+        "status": "surface_body_binding_corrected_physics_pending",
+        "changes": [
+          {
+            "field": "goal",
+            "entity": "item_00",
+            "before": "bottom_cabinet_no_top_spojpj_0",
+            "after": "countertop_tpuwys_0"
+          }
+        ],
+        "destination_approach_patch": {
+          "contact_body": "countertop_tpuwys_0",
+          "above_fixture": "bottom_cabinet_no_top_spojpj_0",
+          "aabb": [
+            [
+              -0.189,
+              0.421,
+              0.902
+            ],
+            [
+              0.48,
+              0.832,
+              0.92
+            ]
+          ],
+          "scope": "private route proposal to a subset of the actual slab; no synthetic body"
+        },
+        "geometry": {
+          "bottom_cabinet_no_top_spojpj_0": {
+            "before": [
+              [
+                -0.189,
+                0.418,
+                0.002
+              ],
+              [
+                0.48,
+                0.832,
+                0.897
+              ]
+            ],
+            "after": [
+              [
+                -0.977,
+                0.421,
+                0.902
+              ],
+              [
+                1.048,
+                0.878,
+                0.92
+              ]
+            ]
+          }
+        },
+        "source_survey": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/vla_difficulty_v2/_survey/Pomaria_1_int.json",
+        "source_survey_sha256": "05d404c89ade70d34c89459d2b340c53ef49d49041a6624fcc9a997b8b7322b3",
+        "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert_repair_queue_20261107/asset_F119_01/scenario.yaml",
+        "original_scenario_sha256": "340938057a533eddf0d3af3b589487ebc7f4568ce34a217ef8bea880122f33a1",
+        "reason": "Native OnTop requires touching the named body; a separate measured slab covers the named cabinet.",
+        "preserved": [
+          "instruction",
+          "all object models and counts",
+          "target identities",
+          "relation kinds",
+          "spawn",
+          "robot and skills",
+          "physical delivery location"
+        ],
+        "physical_validation_required": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,456 @@
+{
+  "tasks": [
+    {
+      "id": "asset_U054_01",
+      "family": "semantic_U054",
+      "scene": "Ihlen_0_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/initial_U054/asset_U054_01/scenario.yaml",
+      "scenario_sha256": "d5a66bfbe6767df4df896c7bb5f9c1e666f990f6061c05d0009e6782eb882be6",
+      "instruction": "I'm preparing to adjust a wooden recess. Find a chisel in the garage tool storage and bring it to the cabinet top in front of you in the garage.",
+      "target_key": "chisel/tuqmpz",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "garage_0",
+      "destination_room": "garage_0",
+      "source_receptacle": "expert_storage_0",
+      "destination_receptacle": "bottom_cabinet_jrhgeu_0",
+      "object_count": 10,
+      "distractor_count": 8,
+      "source_survey_sha256": "4e67f717bc639fa8251f9cbf52bc0b8a96e19f8594526a196ad4548a95e97acd",
+      "route": {
+        "start": [
+          4.1000000000000005,
+          4.2,
+          1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            4.1000000000000005,
+            4.2
+          ],
+          [
+            4.1000000000000005,
+            4.1000000000000005
+          ],
+          [
+            4.1000000000000005,
+            4.0
+          ],
+          [
+            4.1000000000000005,
+            3.9000000000000004
+          ],
+          [
+            4.1000000000000005,
+            3.8000000000000003
+          ],
+          [
+            4.1000000000000005,
+            3.7
+          ],
+          [
+            4.1000000000000005,
+            3.6
+          ],
+          [
+            4.1000000000000005,
+            3.5
+          ],
+          [
+            4.1000000000000005,
+            3.4000000000000004
+          ],
+          [
+            4.1000000000000005,
+            3.3000000000000003
+          ],
+          [
+            4.1000000000000005,
+            3.2
+          ],
+          [
+            4.1000000000000005,
+            3.1
+          ],
+          [
+            4.1000000000000005,
+            3.0
+          ],
+          [
+            4.1000000000000005,
+            2.9000000000000004
+          ],
+          [
+            4.1000000000000005,
+            2.8000000000000003
+          ],
+          [
+            4.1000000000000005,
+            2.7
+          ],
+          [
+            4.1000000000000005,
+            2.6
+          ],
+          [
+            4.1000000000000005,
+            2.5
+          ],
+          [
+            4.0,
+            2.5
+          ],
+          [
+            3.9000000000000004,
+            2.5
+          ],
+          [
+            3.8000000000000003,
+            2.5
+          ],
+          [
+            3.7,
+            2.5
+          ],
+          [
+            3.6,
+            2.5
+          ],
+          [
+            3.5,
+            2.5
+          ],
+          [
+            3.4000000000000004,
+            2.5
+          ]
+        ],
+        "length_m": 2.4,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "bottom_cabinet_jrhgeu_0",
+        "expert_storage_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "parent_task_id": "U054",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_U054_01",
+        "parent_task_id": "U054",
+        "before_instruction": "I'm preparing to adjust a wooden recess. Search the garage hand tools for a chisel and bring it to the center of the worktable.",
+        "after_instruction": "I'm preparing to adjust a wooden recess. Find a chisel in the garage tool storage and bring it to the cabinet top in front of you in the garage.",
+        "reason": "Explicit first-tranche grounding: native storage and initial-facing destination replace uninstantiated decorative reference props; no new semantic-task count.",
+        "target_asset": "chisel/tuqmpz"
+      },
+      "inserted_furniture": [
+        {
+          "name": "expert_storage_0",
+          "category": "bottom_cabinet",
+          "model": "dajebq",
+          "floor": "floors_bryjan_0",
+          "position_xy": [
+            3.1,
+            1.6
+          ],
+          "aabb": [
+            [
+              2.961060386657715,
+              1.3360371780395508,
+              0.0
+            ],
+            [
+              3.238939613342285,
+              1.8639628219604494,
+              0.9145297546386719
+            ]
+          ],
+          "room": "garage_0"
+        }
+      ],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "expert_storage_0",
+            "volume_extents_m": {
+              "meta__base_link_fillable_0_0_link#component:0": [
+                0.2440516312122345,
+                0.5125341825048377,
+                0.13458084654808045
+              ],
+              "meta__base_link_fillable_0_0_link#component:1": [
+                0.24405373227596283,
+                0.5123842768187601,
+                0.1346781949188458
+              ],
+              "meta__base_link_fillable_0_0_link#component:2": [
+                0.24405271899700165,
+                0.5123388872641652,
+                0.1357869952257571
+              ],
+              "meta__base_link_fillable_0_0_link#component:3": [
+                0.24888872694969177,
+                0.5120856575395358,
+                0.1768033955810424
+              ],
+              "meta__base_link_fillable_0_0_link#component:4": [
+                0.24906036588729497,
+                0.5120864920045876,
+                0.1644937996260858
+              ]
+            },
+            "native_links": {
+              "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:3": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:4": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet/dajebq",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "79b9d218ade6a8e9097bec53cc4384b06a832160355ecbbe34512413fb816773",
+              "metadata_sha256": "0ce33b960ac13e706b0f2b3b2609e9c88845c42987414e3ed291c2d38f58fda1",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.04742840584367514,
+              "nodes": 9,
+              "candidate_tests": 4646736,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_02": "meta__base_link_fillable_0_0_link#component:4",
+                "item_05": "meta__base_link_fillable_0_0_link#component:3",
+                "item_08": "meta__base_link_fillable_0_0_link#component:0",
+                "item_03": "meta__base_link_fillable_0_0_link#component:1",
+                "item_06": "meta__base_link_fillable_0_0_link#component:2",
+                "item_00": "meta__base_link_fillable_0_0_link#component:1",
+                "item_01": "meta__base_link_fillable_0_0_link#component:2",
+                "item_04": "meta__base_link_fillable_0_0_link#component:2",
+                "item_07": "meta__base_link_fillable_0_0_link#component:2"
+              },
+              "poses": {
+                "item_02": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:4",
+                  "yaw_degrees": 90,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.083,
+                    0.34500000000000003
+                  ],
+                  "center_xy_m": [
+                    0.0465,
+                    0.1775
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:3",
+                  "yaw_degrees": 90,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.083,
+                    0.34500000000000003
+                  ],
+                  "center_xy_m": [
+                    0.0465,
+                    0.1775
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 90,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.083,
+                    0.34500000000000003
+                  ],
+                  "center_xy_m": [
+                    0.0465,
+                    0.1775
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 90,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.046,
+                    0.259
+                  ],
+                  "center_xy_m": [
+                    0.028,
+                    0.1345
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:2",
+                  "yaw_degrees": 90,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.046,
+                    0.259
+                  ],
+                  "center_xy_m": [
+                    0.028,
+                    0.1345
+                  ]
+                },
+                "item_00": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 90,
+                  "lower_xy_m": [
+                    0.056,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.024,
+                    0.23900000000000002
+                  ],
+                  "center_xy_m": [
+                    0.068,
+                    0.1245
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:2",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.056,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.036000000000000004,
+                    0.009000000000000001
+                  ],
+                  "center_xy_m": [
+                    0.074,
+                    0.0095
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:2",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.097,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.036000000000000004,
+                    0.009000000000000001
+                  ],
+                  "center_xy_m": [
+                    0.115,
+                    0.0095
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:2",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.138,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.036000000000000004,
+                    0.009000000000000001
+                  ],
+                  "center_xy_m": [
+                    0.156,
+                    0.0095
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_02": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link",
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_00": "meta__base_link_fillable_0_0_link",
+              "item_01": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_02": "meta__base_link_fillable_0_0_link#component:4",
+              "item_05": "meta__base_link_fillable_0_0_link#component:3",
+              "item_08": "meta__base_link_fillable_0_0_link#component:0",
+              "item_03": "meta__base_link_fillable_0_0_link#component:1",
+              "item_06": "meta__base_link_fillable_0_0_link#component:2",
+              "item_00": "meta__base_link_fillable_0_0_link#component:1",
+              "item_01": "meta__base_link_fillable_0_0_link#component:2",
+              "item_04": "meta__base_link_fillable_0_0_link#component:2",
+              "item_07": "meta__base_link_fillable_0_0_link#component:2"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    }
+  ]
+}

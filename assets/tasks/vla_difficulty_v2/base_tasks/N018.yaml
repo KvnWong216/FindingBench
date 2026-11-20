@@ -1,0 +1,78 @@
+task_id: N018
+family: fetch
+scene: Pomaria_1_int
+source:
+  official_activity: buy_meat_from_a_butcher#0
+  official_activities_with_same_subgoal:
+  - buy_meat_from_a_butcher#0
+  official_subgoal: (ontop bratwurst.n.01 checkout.n.03)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K Pomaria_1_int (+ clearance manifest)
+  object: BEHAVIOR-1K bratwurst/pqfrrn
+start:
+  name: start_kitchen_0_0
+  room: kitchen_0
+  x: -0.72
+  y: -0.38
+  yaw: -2.903
+target:
+  entity: target_obj
+  category: bratwurst
+  model: pqfrrn
+  noun: bratwurst
+  colour_estimate: red
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S3
+missing_spatial_levels:
+- S1
+- S2
+initial_states: {}
+spatial:
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bookcase_owvfik_1
+    room: living_room_0
+    location_phrase: null
+    grasp_hints:
+    - - -12.37
+      - 0.4
+      - 1.865
+    - - -12.571
+      - 0.4
+      - 1.586
+    - - -12.621
+      - 0.35
+      - 1.571
+    - - -12.822
+      - 0.35
+      - 1.377
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start: null
+    task_scope: cross_room
+    route_from_start_steps: 17
+language:
+  L1: {}
+  L2: Get the bratwurst and hold on to it.
+  L3: I'm working on buy meat from a butcher and I need the bratwurst. Could you get
+    it for me?
+available_language_levels:
+  S3:
+  - L2
+  - L3
+description_provenance:
+  missing_L1_reason: source location lacks an unambiguous description
+  missing_L1_spatial_levels:
+  - S3
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

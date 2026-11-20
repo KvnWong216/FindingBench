@@ -1,0 +1,71 @@
+task_id: T02_mug_to_counter
+task_name: 把马克杯放到走廊门旁的台面上 (put the mug on the counter by the hallway door)
+family: fetch_and_place
+source:
+  findingbench: scenarios/knife_search_001/scenario.yaml   # scene, mug model dhnxww, drawer qohxjq_0/link_2
+  official_behavior_analogue: >
+    set_up_a_coffee_station_in_your_kitchen (ontop on a kitchen counter);
+    same goal form, different scene — not a direct reuse
+  replaces: _superseded/T02_mug_to_table.yaml (breakfast-table goal not PLACE-feasible)
+
+target: {entity: target_mug, category: mug, model: dhnxww}
+goal:
+  # certified 2026-10-18 (round4_goals_mug.json): PLACE feasible after a real grasp,
+  # 10-step route from the island. Counter under the wall cupboards, beside the hallway door.
+  - {kind: on_top, entity: target_mug, receptacle: countertop_tpuwys_0}
+
+background_objects:
+  - {name: bg_bowl,       category: bowl,          model: adciys}
+  - {name: bg_tablespoon, category: tablespoon,    model: huudhe}
+  - {name: bg_tablefork,  category: tablefork,     model: flexrc}
+  - {name: bg_apple,      category: apple,         model: agveuv}
+  - {name: bg_cutting_board, category: cutting_board, model: aibvew}
+  - {name: bg_plate,      category: plate,         model: aewthq}
+background_placements:     # identical to the certification run
+  - {entity: bg_bowl,          relation: inside, receptacle: bottom_cabinet_no_top_spojpj_0}
+  - {entity: bg_tablespoon,    relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: bg_tablefork,     relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: bg_apple,         relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: bg_cutting_board, relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: bg_plate,         relation: on_top, receptacle: breakfast_table_uhrsex_0}
+initial_states:
+  bottom_cabinet_no_top_qohxjq_0: {open: false}
+  bottom_cabinet_no_top_spojpj_0: {open: false}
+
+spatial:   # same target locations as T01
+  S1:
+    placement: {entity: target_mug, relation: on_top, receptacle: countertop_tpuwys_4}
+    room: kitchen_0
+    location_phrase: the kitchen island
+    extra_ops_vs_S1: []
+  S2:
+    placement: {entity: target_mug, relation: inside, receptacle: bottom_cabinet_no_top_qohxjq_0, link: link_2}
+    room: kitchen_0
+    location_phrase: the top drawer of the cabinet next to the hallway door
+    extra_ops_vs_S1: [OPEN]
+    confound_note: the drawer is directly under the goal counter, so the carry is shorter than in S1/S3
+  S3:
+    # position_xy pins the hidden far end of the 1.7 m shelf: the sampler put the mug / apple at
+    # x~3.8 where they were visible from the start (35 / 30 px, 2026-10-18 runs); x~4.3-4.6 was 0 px
+    placement: {entity: target_mug, relation: on_top, receptacle: bookcase_owvfik_1, position_xy: [4.45, -5.45]}
+    room: living_room_0
+    location_phrase: the low shelf under the TV in the living room
+    extra_ops_vs_S1: [cross-room navigation (open-plan), longer carry back]
+
+language:
+  L1:
+    S1: Go to the kitchen island and pick up the mug on it. Then carry it to the counter next to the hallway door, place it on the counter, and report that you are done.
+    S2: Go to the top drawer of the cabinet next to the hallway door and open it. Pick up the mug inside. Then place it on the counter above that cabinet and report that you are done.
+    S3: Go to the living room and pick up the mug on the low shelf under the TV. Then bring it back to the kitchen, place it on the counter next to the hallway door, and report that you are done.
+  L2: Put the mug on the counter next to the hallway door.
+  L3: I'll make my coffee at the counter by the hallway door in a minute. Could you have my mug waiting for me there?
+
+l3_ambiguity_check:
+  competing_interpretations: [teacup, other cups, the island counter]
+  resolution: teacup removed in every variant ("my mug" = the only mug); the location is named, so the island is excluded
+  residual_risk: 'the phrase "waiting for me" might be read as handing it over — not in the skill library'
+
+verification_status:   # 2026-10-18
+  S1/S2/S3 grasp locations: certified with the mug (round1, round3)
+  goal countertop_tpuwys_0: PLACE certified after a real grasp (round4)
+  end-to-end scripted runs: see runs/vla_difficulty_v1/summary.md

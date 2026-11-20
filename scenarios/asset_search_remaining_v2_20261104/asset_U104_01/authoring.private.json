@@ -1,0 +1,130 @@
+{
+  "id": "asset_U104_01",
+  "family": "semantic_U104",
+  "scene": "Pomaria_0_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_U104_01/scenario.yaml",
+  "scenario_sha256": "5652758c39719f6929d43eed78a1bc8e6b7705cc76d3d8d38109ff2e5d9c0c0c",
+  "instruction": "Bring the paint bottle matching the sample on the desk in front of you in the study from the study hobby supplies and put it beside the sample.",
+  "target_key": "bottle_of_paint/volzrj",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "private_office_0",
+  "destination_room": "private_office_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 13,
+  "distractor_count": 9,
+  "source_survey_sha256": "5f126672121f241779c0ea9705424fa8ac90469f422772fc224ad7184f7883fc",
+  "route": {
+    "start": [
+      -5.9,
+      -1.0,
+      3.141592653589793
+    ],
+    "path_xy": [
+      [
+        -5.9,
+        -1.0
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 8,
+    "destination_approach_count": 6,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "required_negative_0",
+    "bottom_cabinet_no_top_spojpj_0",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_elvhyh_0",
+      "position_xy": [
+        -6.4,
+        -1.8
+      ],
+      "aabb": [
+        [
+          -6.5671447601318365,
+          -2.142287979125977,
+          0.0
+        ],
+        [
+          -6.232855239868164,
+          -1.4577120208740235,
+          0.6846599731445313
+        ]
+      ],
+      "room": "private_office_0"
+    },
+    {
+      "name": "delivery_surface",
+      "category": "desk",
+      "model": "tmluxa",
+      "floor": "floors_elvhyh_0",
+      "position_xy": [
+        -6.7,
+        -0.5
+      ],
+      "aabb": [
+        [
+          -6.95371273803711,
+          -0.8538818969726563,
+          0.0
+        ],
+        [
+          -6.44628726196289,
+          -0.14611810302734374,
+          0.7001053161621094
+        ]
+      ],
+      "room": "private_office_0"
+    }
+  ],
+  "parent_task_id": "U104",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_U104_01",
+    "parent_task_id": "U104",
+    "before_instruction": "I need the paint that matches the sample on my model. Search the study's hobby paints and put the matching bottle beside the model on the desk.",
+    "after_instruction": "Bring the paint bottle matching the sample on the desk in front of you in the study from the study hobby supplies and put it beside the sample.",
+    "reason": "Retains matching-based retrieval through a physical same-native-model sample on the delivery surface. Any original cross-object compatibility, photo or consumable-state requirement is explicitly replaced with visible product/shape matching. Original source and destination rooms preserved; forced native distractor creates a real competing selection.",
+    "target_asset": "bottle_of_paint/volzrj",
+    "target_assets": [
+      "bottle_of_paint/volzrj"
+    ]
+  },
+  "binding_sha256": "ee532b19b282595b773b9c325c37c5675b33a073fae6b128d0c02cc450721c62"
+}

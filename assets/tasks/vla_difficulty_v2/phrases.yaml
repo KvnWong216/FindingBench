@@ -1,0 +1,581 @@
+# DRAFT from scripts/v2/make_phrases.py -- review by hand (room names, landmarks).
+Beechwood_0_int:
+  rooms:
+    corridor_0: hallway
+    kitchen_0: kitchen
+    living_room_0: living room
+    private_office_0: office
+  furniture:
+    bookcase_njwsoa_0:
+      noun: bookcase
+      room: private_office_0
+    bookcase_vgzdul_0:
+      noun: bookcase
+      room: living_room_0
+    bottom_cabinet_immwzb_1:
+      noun: cabinet
+      room: living_room_0
+      drawers:
+        link_2: top drawer
+    bottom_cabinet_no_top_pluwfl_0:
+      noun: wide cabinet under the island counter
+      room: kitchen_0
+      drawers:
+        link_1: top drawer
+    bottom_cabinet_no_top_qohxjq_0:
+      noun: narrow cabinet under the island counter
+      room: kitchen_0
+      drawers:
+        link_2: top drawer
+        link_1: second drawer from the top
+        link_0: third drawer from the top
+    bottom_cabinet_rvpunw_0:
+      noun: cabinet next to the microwave
+      room: kitchen_0
+      drawers:
+        dof_rootd_aa001_t: top drawer
+        dof_rootd_aa002_t: second drawer from the top
+    countertop_tpuwys_0:
+      noun: island counter
+      room: kitchen_0
+    countertop_tpuwys_3:
+      noun: counter next to the dishwasher
+      room: kitchen_0
+Beechwood_1_int:
+  rooms:
+    bathroom_1: bathroom
+    bedroom_0: bedroom
+  furniture:
+    bookcase_vgzdul_0:
+      noun: bookcase
+      room: bathroom_1
+    bottom_cabinet_no_top_pluwfl_0:
+      noun: cabinet next to the mirror
+      room: bathroom_1
+      drawers:
+        link_1: top drawer
+    countertop_tpuwys_1:
+      noun: counter next to the mirror
+      room: bathroom_1
+Benevolence_2_int:
+  rooms:
+    bedroom_0: bedroom
+  furniture:
+    countertop_tpuwys_1:
+      noun: counter
+      room: bedroom_0
+Ihlen_0_int:
+  rooms:
+    bathroom_0: bathroom
+    garage_0: garage
+    storage_room_0: storage room with the washing machine
+  furniture:
+    bookcase_njwsoa_1:
+      noun: bookcase
+      room: garage_0
+    bookcase_njwsoa_2:
+      noun: bookcase
+      room: storage_room_0
+    bookcase_owvfik_0:
+      noun: bookcase
+      room: bathroom_0
+    bottom_cabinet_jrhgeu_0:
+      noun: cabinet
+      room: garage_0
+    breakfast_table_skczfi_0:
+      noun: table
+      room: storage_room_0
+Ihlen_1_int:
+  rooms:
+    living_room_0: living room
+  furniture:
+    bottom_cabinet_jrhgeu_2:
+      noun: cabinet
+      room: living_room_0
+    coffee_table_gcollb_0:
+      noun: coffee table
+      room: living_room_0
+Merom_1_int:
+  rooms:
+    dining_room_0: dining room
+    kitchen_0: kitchen
+    living_room_0: living room
+  furniture:
+    bookcase_owvfik_0:
+      noun: bookcase next to the fridge
+      room: kitchen_0
+    bookcase_vgzdul_0:
+      noun: bookcase farthest from the fridge
+      room: kitchen_0
+      description_evidence:
+        kind: farthest_landmark
+        landmark: fridge_xyejdx_0
+        distances_m:
+          bookcase_owvfik_0: 0.01100000000000012
+          bookcase_vgzdul_0: 0.577
+    bottom_cabinet_jhymlr_0:
+      noun: cabinet
+      room: living_room_0
+    bottom_cabinet_slgzfc_0:
+      noun: cabinet closest to the sink
+      room: kitchen_0
+      description_evidence:
+        kind: nearest_landmark
+        landmark: furniture_sink_czyfhq_0
+        distances_m:
+          bottom_cabinet_slgzfc_0: 0.0259999999999998
+          bottom_cabinet_slgzfc_1: 0.5459999999999994
+          bottom_cabinet_slgzfc_2: 0.6100000000000003
+    bottom_cabinet_slgzfc_1:
+      noun: cabinet farthest from the dishwasher
+      room: kitchen_0
+      description_evidence:
+        kind: farthest_landmark
+        landmark: dishwasher_dngvvi_0
+        distances_m:
+          bottom_cabinet_slgzfc_0: 0.9249999999999998
+          bottom_cabinet_slgzfc_1: 1.4449999999999994
+          bottom_cabinet_slgzfc_2: 0.019000000000000128
+    bottom_cabinet_slgzfc_2:
+      noun: cabinet closest to the dishwasher
+      room: kitchen_0
+      description_evidence:
+        kind: nearest_landmark
+        landmark: dishwasher_dngvvi_0
+        distances_m:
+          bottom_cabinet_slgzfc_0: 0.9249999999999998
+          bottom_cabinet_slgzfc_1: 1.4449999999999994
+          bottom_cabinet_slgzfc_2: 0.019000000000000128
+    breakfast_table_skczfi_0:
+      noun: table
+      room: dining_room_0
+    coffee_table_fqluyq_0:
+      noun: coffee table
+      room: living_room_0
+Pomaria_0_int:
+  rooms:
+    private_office_0: office
+  furniture:
+    countertop_tpuwys_0:
+      noun: counter
+      room: private_office_0
+Pomaria_1_int:
+  rooms:
+    bathroom_0: bathroom
+    corridor_0: hallway
+    kitchen_0: kitchen
+    living_room_0: living room
+    utility_room_0: utility room
+  furniture:
+    bookcase_vgzdul_0:
+      noun: bookcase
+      room: corridor_0
+    bottom_cabinet_bamfsz_0:
+      noun: cabinet
+      room: utility_room_0
+      drawers:
+        link_4: top drawer
+        link_3: second drawer from the top
+        link_2: third drawer from the top
+        link_1: fourth drawer from the top
+    bottom_cabinet_jrhgeu_0:
+      noun: cabinet next to the microwave
+      room: kitchen_0
+    bottom_cabinet_no_top_pluwfl_0:
+      noun: cabinet farthest from the dishwasher
+      room: kitchen_0
+      description_evidence:
+        kind: farthest_landmark
+        landmark: dishwasher_dngvvi_0
+        distances_m:
+          bottom_cabinet_jrhgeu_0: 2.268628881064507
+          bottom_cabinet_no_top_bmsclc_0: 0.20739334608419813
+          bottom_cabinet_no_top_bmsclc_1: 0.0259999999999998
+          bottom_cabinet_no_top_pluwfl_0: 4.804864202035266
+          bottom_cabinet_no_top_qohxjq_0: 0.019999999999999796
+          bottom_cabinet_no_top_spojpj_0: 4.470624676709061
+          bottom_cabinet_no_top_ufhpbn_0: 1.1924583850181103
+          bottom_cabinet_no_top_vdedzt_0: 3.7688791437242983
+          bottom_cabinet_no_top_vzzafs_0: 1.662336006949257
+      drawers:
+        link_1: top drawer
+    breakfast_table_uhrsex_0:
+      noun: table
+      room: kitchen_0
+    coffee_table_dnsjnv_0:
+      noun: coffee table
+      room: corridor_0
+    coffee_table_gpkbiw_0:
+      noun: widest coffee table
+      room: living_room_0
+      description_evidence:
+        kind: widest
+        dimensions_m:
+          coffee_table_gcollb_0: 0.6899999999999995
+          coffee_table_gpkbiw_0: 1.453
+    countertop_tpuwys_1:
+      noun: counter farthest from the dishwasher
+      room: kitchen_0
+      description_evidence:
+        kind: farthest_landmark
+        landmark: dishwasher_dngvvi_0
+        distances_m:
+          countertop_tpuwys_0: 3.7764290010537733
+          countertop_tpuwys_1: 4.801822258268209
+          countertop_tpuwys_2: 0.0
+          countertop_tpuwys_3: 0.20199999999999996
+          countertop_tpuwys_4: 1.5539999999999998
+          countertop_tpuwys_5: 1.2140988427636359
+    countertop_tpuwys_2:
+      noun: counter closest to the fridge
+      room: kitchen_0
+      description_evidence:
+        kind: nearest_landmark
+        landmark: fridge_xyejdx_0
+        distances_m:
+          countertop_tpuwys_0: 2.942
+          countertop_tpuwys_1: 4.42
+          countertop_tpuwys_2: 0.914
+          countertop_tpuwys_3: 2.363
+          countertop_tpuwys_4: 1.3632446588928928
+          countertop_tpuwys_5: 2.541901060230315
+    countertop_tpuwys_4:
+      noun: counter closest to the microwave
+      room: kitchen_0
+      description_evidence:
+        kind: nearest_landmark
+        landmark: microwave_bfbeeb_0
+        distances_m:
+          countertop_tpuwys_0: 2.0580000000000003
+          countertop_tpuwys_1: 3.536
+          countertop_tpuwys_2: 1.1730515760187186
+          countertop_tpuwys_3: 2.5788617644224363
+          countertop_tpuwys_4: 0.8372365257201815
+          countertop_tpuwys_5: 2.5900069497976257
+Pomaria_2_int:
+  rooms:
+    bathroom_0: bathroom
+    bedroom_0: bedroom
+  furniture:
+    bookcase_owvfik_0:
+      noun: bookcase next to the TV
+      room: bedroom_0
+    bookcase_vgzdul_0:
+      noun: bookcase next to the bed
+      room: bedroom_0
+    bottom_cabinet_no_top_qohxjq_0:
+      noun: corner cabinet next to the sinks
+      room: bathroom_0
+      drawers:
+        link_2: top drawer
+        link_1: second drawer from the top
+        link_0: third drawer from the top
+    bottom_cabinet_no_top_qohxjq_1:
+      noun: cabinet between the two sinks
+      room: bathroom_0
+      drawers:
+        link_2: top drawer
+        link_1: second drawer from the top
+        link_0: third drawer from the top
+    bottom_cabinet_rntwkg_0:
+      noun: cabinet
+      room: bedroom_0
+      drawers:
+        link_5: top drawer
+        link_4: second drawer from the top
+        link_3: third drawer from the top
+        link_2: fourth drawer from the top
+Rs_int:
+  rooms:
+    entryway_0: entryway
+    kitchen_0: kitchen
+    living_room_0: living room
+  furniture:
+    bottom_cabinet_bamfsz_0:
+      noun: cabinet next to the dishwasher
+      room: kitchen_0
+      drawers:
+        link_4: top drawer
+        link_3: second drawer from the top
+        link_2: third drawer from the top
+        link_1: fourth drawer from the top
+    bottom_cabinet_bamfsz_1:
+      noun: cabinet next to the floor lamp
+      room: living_room_0
+      drawers:
+        link_4: top drawer
+        link_3: second drawer from the top
+        link_2: third drawer from the top
+        link_1: fourth drawer from the top
+    bottom_cabinet_slgzfc_1:
+      noun: cabinet next to the oven
+      room: kitchen_0
+      drawers:
+        link_4: top drawer
+        link_3: second drawer from the top
+        link_2: third drawer from the top
+        link_1: fourth drawer from the top
+    countertop_tpuwys_0:
+      noun: counter
+      room: living_room_0
+Wainscott_0_int:
+  rooms:
+    bathroom_1: bathroom with the sink
+    bedroom_0: bedroom
+    corridor_0: hallway
+    dining_room_0: dining room
+    kitchen_0: kitchen
+    living_room_1: living room with the floor lamp
+  furniture:
+    bookcase_owvfik_0:
+      noun: bookcase
+      room: kitchen_0
+    bottom_cabinet_bamfsz_0:
+      noun: cabinet closest to the fridge
+      room: kitchen_0
+      description_evidence:
+        kind: nearest_landmark
+        landmark: fridge_dszchb_0
+        distances_m:
+          bottom_cabinet_bamfsz_0: 0.029000000000000803
+          bottom_cabinet_no_top_bmsclc_0: 0.9160000000000004
+          bottom_cabinet_no_top_pluwfl_0: 1.1300000000000008
+          bottom_cabinet_no_top_pluwfl_1: 2.3062211515810884
+          bottom_cabinet_no_top_pluwfl_2: 1.5069999999999997
+          bottom_cabinet_no_top_qohxjq_0: 3.0931462946326995
+          bottom_cabinet_no_top_qohxjq_1: 3.0229999999999997
+          bottom_cabinet_no_top_qohxjq_2: 1.064
+      drawers:
+        link_4: top drawer
+        link_3: second drawer from the top
+        link_2: third drawer from the top
+        link_1: fourth drawer from the top
+    bottom_cabinet_dajebq_0:
+      noun: cabinet
+      room: bedroom_0
+    bottom_cabinet_jrhgeu_0:
+      noun: cabinet
+      room: living_room_1
+    bottom_cabinet_lwjdmj_0:
+      noun: cabinet
+      room: dining_room_0
+    bottom_cabinet_no_top_qohxjq_0:
+      noun: cabinet next to the dishwasher
+      room: kitchen_0
+      drawers:
+        link_2: top drawer
+        link_1: second drawer from the top
+        link_0: third drawer from the top
+    breakfast_table_skczfi_0:
+      noun: table
+      room: bedroom_0
+    breakfast_table_skczfi_3:
+      noun: table
+      room: living_room_1
+    breakfast_table_zypvuv_0:
+      noun: table
+      room: dining_room_0
+    coffee_table_dnsjnv_1:
+      noun: coffee table
+      room: kitchen_0
+    coffee_table_gpkbiw_0:
+      noun: coffee table
+      room: living_room_1
+    console_table_emeeke_0:
+      noun: console table
+      room: bedroom_0
+    console_table_emeeke_2:
+      noun: console table
+      room: living_room_1
+    countertop_tpuwys_1:
+      noun: counter next to the dishwasher
+      room: kitchen_0
+    countertop_tpuwys_4:
+      noun: counter farthest from the dishwasher
+      room: kitchen_0
+      description_evidence:
+        kind: farthest_landmark
+        landmark: dishwasher_dngvvi_0
+        distances_m:
+          countertop_tpuwys_0: 1.0310000000000006
+          countertop_tpuwys_1: 0.0
+          countertop_tpuwys_2: 0.4803009473236541
+          countertop_tpuwys_3: 2.106684599079795
+          countertop_tpuwys_4: 3.1124463047577224
+          countertop_tpuwys_5: 1.0584337485171185
+          countertop_tpuwys_6: 1.671227692446484
+          countertop_tpuwys_7: 1.2664221255173966
+    countertop_tpuwys_6:
+      noun: counter closest to the coffee table
+      room: kitchen_0
+      description_evidence:
+        kind: nearest_landmark
+        landmark: coffee_table_dnsjnv_1
+        distances_m:
+          countertop_tpuwys_0: 1.6004255684036044
+          countertop_tpuwys_1: 3.1818518193027154
+          countertop_tpuwys_2: 4.119
+          countertop_tpuwys_3: 4.14727199493836
+          countertop_tpuwys_4: 4.13160319972768
+          countertop_tpuwys_5: 2.3689999999999998
+          countertop_tpuwys_6: 1.2189999999999999
+          countertop_tpuwys_7: 1.7989999999999995
+Wainscott_1_int:
+  rooms:
+    bathroom_0: bathroom
+    bedroom_0: bedroom
+    utility_room_0: utility room
+  furniture:
+    bottom_cabinet_nnvyol_0:
+      noun: cabinet
+      room: bedroom_0
+    countertop_tpuwys_0:
+      noun: counter
+      room: bathroom_0
+hotel_suite_large:
+  rooms:
+    bathroom_0: bathroom
+    bedroom_0: bedroom
+  furniture:
+    nightstand_maeowc_0:
+      noun: nightstand next to the desk
+      room: bedroom_0
+    nightstand_maeowc_2:
+      noun: nightstand farthest from the desk
+      room: bedroom_0
+    shelf_aqtmhm_0:
+      noun: lower shelf next to the TV
+      room: bedroom_0
+    shelf_cbidyu_0:
+      noun: shelf next to the mirror
+      room: bathroom_0
+    shelf_nbmidu_0:
+      noun: upper shelf next to the TV
+      room: bedroom_0
+    shelf_rglkkf_0:
+      noun: long low shelf next to the sink
+      room: bathroom_0
+    shelf_xogqqm_0:
+      noun: top shelf of the four-level shelf rack
+      room: bathroom_0
+    shelf_xogqqm_2:
+      noun: third shelf from the top of the four-level shelf rack
+      room: bathroom_0
+house_double_floor_lower:
+  rooms:
+    bathroom_0: bathroom
+    corridor_0: hallway
+    garage_0: garage
+    kitchen_0: kitchen
+    living_room_0: living room
+  furniture:
+    bar_byvbuc_0:
+      noun: bar counter next to the fridge
+      room: kitchen_0
+    bar_egwapq_0:
+      noun: bar counter next to the dishwasher
+      room: kitchen_0
+    bottom_cabinet_qacthv_0:
+      noun: cabinet
+      room: bathroom_0
+    bottom_cabinet_rhdbzv_0:
+      noun: cabinet
+      room: living_room_0
+    countertop_tpuwys_0:
+      noun: counter
+      room: living_room_0
+    shelf_vanltx_0:
+      noun: shelf
+      room: living_room_0
+house_double_floor_upper:
+  rooms:
+    bathroom_0: bathroom
+    bedroom_0: bedroom with the maps on the wall
+    bedroom_1: bedroom with the wall shelves
+    bedroom_2: bedroom with the room divider
+    living_room_0: living room
+  furniture:
+    bookcase_bsvnni_0:
+      noun: bookcase next to the bed
+      room: bedroom_2
+    bookcase_eckdny_0:
+      noun: bookcase next to the desk
+      room: bedroom_2
+    bookcase_kdnyfh_0:
+      noun: bookcase next to the floor lamp
+      room: bedroom_0
+    bookcase_kmuacd_0:
+      noun: bookcase next to the desk
+      room: bedroom_0
+    bottom_cabinet_jhymlr_0:
+      noun: cabinet
+      room: bathroom_0
+    desk_aduafr_0:
+      noun: desk
+      room: bedroom_0
+    desk_iotfzl_0:
+      noun: desk
+      room: living_room_0
+    desk_uqcmzf_0:
+      noun: desk
+      room: bedroom_2
+    shelf_sapyzl_0:
+      noun: upper wall shelf
+      room: bedroom_1
+    shelf_sapyzl_1:
+      noun: lower wall shelf
+      room: bedroom_1
+Merom_0_int:
+  rooms:
+    utility_room_0: utility room
+  furniture:
+    breakfast_table_skczfi_0:
+      noun: table
+      room: utility_room_0
+house_single_floor:
+  rooms:
+    bathroom_1: bathroom
+    bedroom_0: bedroom
+    corridor_0: hallway
+    entryway_0: entryway
+    kitchen_0: kitchen
+    utility_room_0: utility room
+  furniture:
+    bar_udatjt_0:
+      noun: bar counter
+      room: kitchen_0
+    bottom_cabinet_fancyy_0:
+      noun: cabinet next to the oven
+      room: kitchen_0
+    bottom_cabinet_no_top_gjeoer_0:
+      noun: cabinet next to the microwave
+      room: kitchen_0
+    bottom_cabinet_no_top_rkgjer_0:
+      noun: cabinet next to the dishwasher
+      room: kitchen_0
+    bottom_cabinet_rhdbzv_1:
+      noun: cabinet next to the mirror
+      room: entryway_0
+    countertop_fjkase_0:
+      noun: counter next to the washing machine
+      room: utility_room_0
+    countertop_kelker_0:
+      noun: counter next to the microwave
+      room: kitchen_0
+    countertop_kelzer_0:
+      noun: counter next to the dishwasher
+      room: kitchen_0
+    shelf_fjozhc_0:
+      noun: shelf
+      room: bathroom_1
+hotel_suite_small:
+  rooms:
+    bathroom_0: bathroom
+    bedroom_0: bedroom
+  furniture:
+    desk_sjugsf_0:
+      noun: desk
+      room: bedroom_0
+    shelf_kxvbui_0:
+      noun: shelf
+      room: bathroom_0

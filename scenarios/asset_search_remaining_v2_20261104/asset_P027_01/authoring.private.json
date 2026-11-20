@@ -1,0 +1,105 @@
+{
+  "id": "asset_P027_01",
+  "family": "semantic_P027",
+  "scene": "Ihlen_1_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P027_01/scenario.yaml",
+  "scenario_sha256": "60f363627d9cabb8a0c882e2c88fb66b35db586c6e478aebe4208efb0420a4ed",
+  "instruction": "There is a sample on the table in front of you in the living room. Find the jigsaw puzzle matching that sample among the living-room games and bring it to the table in front of you in the living room.",
+  "target_key": "jigsaw_puzzle/antykn",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "bottom_cabinet_jrhgeu_2",
+  "destination_receptacle": "coffee_table_gcollb_0",
+  "object_count": 10,
+  "distractor_count": 8,
+  "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+  "route": {
+    "start": [
+      1.9000000000000001,
+      0.2,
+      0.0
+    ],
+    "path_xy": [
+      [
+        1.9000000000000001,
+        0.2
+      ],
+      [
+        1.9000000000000001,
+        0.1
+      ],
+      [
+        1.9000000000000001,
+        0.0
+      ],
+      [
+        1.8,
+        0.0
+      ],
+      [
+        1.8,
+        -0.1
+      ],
+      [
+        1.7000000000000002,
+        -0.1
+      ],
+      [
+        1.6,
+        -0.1
+      ]
+    ],
+    "length_m": 0.6,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 1,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "bottom_cabinet_jrhgeu_2"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "parent_task_id": "P027",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P027_01",
+    "parent_task_id": "P027",
+    "before_instruction": "Find the jigsaw box marked 24 pieces among the living-room cabinet games and put it on the floor mat in front of the sofa.",
+    "after_instruction": "There is a sample on the table in front of you in the living room. Find the jigsaw puzzle matching that sample among the living-room games and bring it to the table in front of you in the living room.",
+    "reason": "Removes unverified 24-piece text and box form; reference identifies native puzzle and grounded table replaces floor-mat goal. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "jigsaw_puzzle/antykn",
+    "target_assets": [
+      "jigsaw_puzzle/antykn"
+    ]
+  },
+  "binding_sha256": "d6dacb74a608e8d60a717121424a90f95c4d3d3a49d57be58554f97b8f82d526"
+}

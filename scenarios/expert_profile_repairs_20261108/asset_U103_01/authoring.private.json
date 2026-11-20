@@ -1,0 +1,174 @@
+{
+  "id": "asset_U103_01",
+  "family": "semantic_U103",
+  "scene": "Beechwood_0_int",
+  "scenario": "scenarios/expert_profile_repairs_20261108/asset_U103_01/scenario.yaml",
+  "scenario_sha256": "b8abde8fd372d1096fba66d64639b4f5ecb6323970a096707dc513560ac06ea1",
+  "instruction": "I'm making an ink drawing. Find the ink bottle among the study art supplies and put it on the desk in front of you in the study.",
+  "target_key": "ink_bottle/gcyvrx",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "private_office_0",
+  "destination_room": "private_office_0",
+  "source_receptacle": "bottom_cabinet_nddvba_0",
+  "destination_receptacle": "desk_rzyfxk_1",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+  "route": {
+    "start": [
+      5.3500000000000005,
+      -3.95,
+      0.0
+    ],
+    "path_xy": [
+      [
+        5.3500000000000005,
+        -3.95
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 12,
+    "destination_approach_count": 13,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_immwzb_0",
+    "bottom_cabinet_nddvba_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_nddvba_0",
+        "volume_extents_m": {
+          "link_1": [
+            0.4922184944152832,
+            0.6675968170166016,
+            0.11884426325559616
+          ],
+          "link_2": [
+            0.4922189712524414,
+            0.6675968170166016,
+            0.11884427070617676
+          ],
+          "link_3": [
+            0.492215633392334,
+            0.6675968170166016,
+            0.042536258697509766
+          ],
+          "link_4": [
+            0.492215633392334,
+            0.6675968170166016,
+            0.042536258697509766
+          ]
+        },
+        "native_links": {
+          "link_1": "link_1",
+          "link_2": "link_2",
+          "link_3": "link_3",
+          "link_4": "link_4"
+        },
+        "geometry_source": "survey",
+        "geometry_provenance": {},
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_00": "link_2",
+          "item_04": "link_3",
+          "item_05": "link_4",
+          "item_03": "link_4",
+          "item_01": "link_1",
+          "item_02": "link_4"
+        },
+        "component_allocation": {
+          "item_00": "link_2",
+          "item_04": "link_3",
+          "item_05": "link_4",
+          "item_03": "link_4",
+          "item_01": "link_1",
+          "item_02": "link_4"
+        }
+      },
+      {
+        "receptacle": "bottom_cabinet_immwzb_0",
+        "volume_extents_m": {
+          "link_2": [
+            0.636721134185791,
+            0.3476138114929199,
+            0.09202057123184204
+          ]
+        },
+        "native_links": {
+          "link_2": "link_2"
+        },
+        "geometry_source": "survey",
+        "geometry_provenance": {},
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_06": "link_2",
+          "item_07": "link_2",
+          "item_08": "link_2"
+        },
+        "component_allocation": {
+          "item_06": "link_2",
+          "item_07": "link_2",
+          "item_08": "link_2"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_00": "link_2",
+      "item_04": "link_3",
+      "item_05": "link_4",
+      "item_03": "link_4",
+      "item_01": "link_1",
+      "item_02": "link_4",
+      "item_06": "link_2",
+      "item_07": "link_2",
+      "item_08": "link_2"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "U103",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_U103_01",
+    "parent_task_id": "U103",
+    "before_instruction": "I'm making an ink drawing. Find the ink bottle among the study's art supplies and put it beside the pen holder on the desk.",
+    "after_instruction": "I'm making an ink drawing. Find the ink bottle among the study art supplies and put it on the desk in front of you in the study.",
+    "reason": "Explicit first-tranche grounding: native storage and initial-facing destination replace uninstantiated decorative reference props; no new semantic-task count.",
+    "target_asset": "ink_bottle/gcyvrx",
+    "target_assets": [
+      "ink_bottle/gcyvrx"
+    ]
+  }
+}

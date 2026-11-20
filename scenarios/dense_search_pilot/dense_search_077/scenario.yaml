@@ -1,0 +1,135 @@
+id: dense_search_077
+instruction: Find the carrot in the shopping basket in this kitchen and put it on
+  the counter in front of you.
+scene:
+  model: Ihlen_1_int
+  source: behavior
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  init_anchor: start
+  base_half_extent: 0.25
+  include_sensor_names: null
+anchors:
+  start:
+    position:
+    - -3.7
+    - 4.9
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - -0.8616235690360581
+    - 0.5075478551639887
+target:
+  entity: item_01
+  category: carrot
+objects:
+- name: item_00
+  category: shopping_basket
+  model: vsxhsv
+- name: item_01
+  category: carrot
+  model: nktmff
+- name: item_02
+  category: chili
+  model: agecro
+- name: item_03
+  category: bell_pepper
+  model: ggurxn
+- name: item_04
+  category: apple
+  model: agveuv
+- name: item_05
+  category: orange
+  model: nlygru
+- name: item_06
+  category: chili
+  model: agecro
+- name: item_07
+  category: bell_pepper
+  model: ggurxn
+- name: item_08
+  category: apple
+  model: agveuv
+- name: item_09
+  category: orange
+  model: nlygru
+placements:
+- entity: item_00
+  relation: on_top
+  receptacle: bottom_cabinet_no_top_qohxjq_0
+- entity: item_01
+  relation: inside
+  receptacle: item_00
+- entity: item_02
+  relation: inside
+  receptacle: item_00
+- entity: item_03
+  relation: inside
+  receptacle: item_00
+- entity: item_04
+  relation: inside
+  receptacle: item_00
+- entity: item_05
+  relation: inside
+  receptacle: item_00
+- entity: item_06
+  relation: inside
+  receptacle: item_00
+- entity: item_07
+  relation: inside
+  receptacle: item_00
+- entity: item_08
+  relation: inside
+  receptacle: item_00
+- entity: item_09
+  relation: inside
+  receptacle: item_00
+initial_states: {}
+goal:
+- kind: on_top
+  entity: item_01
+  receptacle: countertop_tpuwys_3
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

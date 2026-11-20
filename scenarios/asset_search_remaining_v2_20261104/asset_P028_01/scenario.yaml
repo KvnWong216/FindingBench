@@ -1,0 +1,131 @@
+id: asset_P028_01
+instruction: Find the bookend in the living-room cabinet and bring it to the table
+  in front of you in the living room for arranging books.
+scene:
+  model: Merom_1_int
+  source: behavior
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - 2.75
+    - 7.15
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - 0.0
+    - 1.0
+target:
+  entity: item_00
+  category: bookend
+objects:
+- name: item_00
+  category: bookend
+  model: huxmnl
+- name: item_01
+  category: seashell
+  model: nalnmu
+- name: item_02
+  category: snow_globe
+  model: owteks
+- name: item_03
+  category: statue
+  model: tuldri
+- name: item_04
+  category: trophy
+  model: ayuubt
+- name: item_05
+  category: vase
+  model: zwekzu
+- name: item_06
+  category: bell
+  model: oshurh
+- name: item_07
+  category: candle_holder
+  model: wiufnv
+- name: item_08
+  category: conch
+  model: dovqcj
+placements:
+- entity: item_00
+  relation: inside
+  receptacle: bottom_cabinet_jhymlr_0
+- entity: item_01
+  relation: inside
+  receptacle: bottom_cabinet_jhymlr_0
+- entity: item_02
+  relation: inside
+  receptacle: bottom_cabinet_jhymlr_0
+- entity: item_03
+  relation: inside
+  receptacle: bottom_cabinet_jhymlr_0
+- entity: item_04
+  relation: inside
+  receptacle: bottom_cabinet_jhymlr_0
+- entity: item_05
+  relation: inside
+  receptacle: bottom_cabinet_jhymlr_0
+- entity: item_06
+  relation: inside
+  receptacle: bottom_cabinet_jhymlr_0
+- entity: item_07
+  relation: inside
+  receptacle: bottom_cabinet_jhymlr_0
+- entity: item_08
+  relation: inside
+  receptacle: bottom_cabinet_jhymlr_0
+initial_states:
+  bottom_cabinet_jhymlr_0:
+    open: false
+goal:
+- kind: on_top
+  entity: item_00
+  receptacle: coffee_table_fqluyq_0
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

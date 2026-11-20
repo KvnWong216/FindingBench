@@ -1,0 +1,225 @@
+{
+  "id": "asset_P194_01",
+  "family": "semantic_P194",
+  "scene": "house_double_floor_upper",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P194_01/scenario.yaml",
+  "scenario_sha256": "482dee052ff08c284b4ba2692dda8da904410e794abc8e8490341d05693f0c08",
+  "instruction": "Bring a lid matching the sample on the cabinet top in front of you in the bedroom in the bedroom from the living room game storage and put it beside the sample.",
+  "target_key": "lid/gploju",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_0",
+  "destination_room": "bedroom_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 13,
+  "distractor_count": 9,
+  "source_survey_sha256": "bad4111136351f4ccb189cc8da21449e65bb285de15b8c94024c1d045abd820a",
+  "route": {
+    "start": [
+      -3.4000000000000004,
+      0.8,
+      3.141592653589793
+    ],
+    "path_xy": [
+      [
+        -3.4000000000000004,
+        0.8
+      ],
+      [
+        -3.4000000000000004,
+        0.7000000000000001
+      ],
+      [
+        -3.4000000000000004,
+        0.6000000000000001
+      ],
+      [
+        -3.3000000000000003,
+        0.6000000000000001
+      ],
+      [
+        -3.2,
+        0.6000000000000001
+      ],
+      [
+        -3.1,
+        0.6000000000000001
+      ],
+      [
+        -3.0,
+        0.6000000000000001
+      ],
+      [
+        -2.9000000000000004,
+        0.6000000000000001
+      ],
+      [
+        -2.8000000000000003,
+        0.6000000000000001
+      ],
+      [
+        -2.7,
+        0.6000000000000001
+      ],
+      [
+        -2.6,
+        0.6000000000000001
+      ],
+      [
+        -2.5,
+        0.6000000000000001
+      ],
+      [
+        -2.4000000000000004,
+        0.6000000000000001
+      ],
+      [
+        -2.3000000000000003,
+        0.6000000000000001
+      ],
+      [
+        -2.2,
+        0.6000000000000001
+      ],
+      [
+        -2.1,
+        0.6000000000000001
+      ],
+      [
+        -2.0,
+        0.6000000000000001
+      ],
+      [
+        -1.9000000000000001,
+        0.6000000000000001
+      ],
+      [
+        -1.8,
+        0.6000000000000001
+      ],
+      [
+        -1.7000000000000002,
+        0.6000000000000001
+      ],
+      [
+        -1.6,
+        0.6000000000000001
+      ],
+      [
+        -1.5,
+        0.6000000000000001
+      ],
+      [
+        -1.4000000000000001,
+        0.6000000000000001
+      ],
+      [
+        -1.3,
+        0.6000000000000001
+      ],
+      [
+        -1.2000000000000002,
+        0.6000000000000001
+      ]
+    ],
+    "length_m": 2.4,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "required_negative_0",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_rfqizg_0",
+      "position_xy": [
+        -0.30000000000000004,
+        0.1
+      ],
+      "aabb": [
+        [
+          -0.467144760131836,
+          -0.24228797912597658,
+          0.0
+        ],
+        [
+          -0.1328552398681641,
+          0.4422879791259766,
+          0.6846599731445313
+        ]
+      ],
+      "room": "living_room_0"
+    },
+    {
+      "name": "delivery_surface",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_nlswvt_0",
+      "position_xy": [
+        -4.1000000000000005,
+        1.3
+      ],
+      "aabb": [
+        [
+          -4.267144760131837,
+          0.9577120208740235,
+          0.0
+        ],
+        [
+          -3.9328552398681644,
+          1.6422879791259766,
+          0.6846599731445313
+        ]
+      ],
+      "room": "bedroom_0"
+    }
+  ],
+  "parent_task_id": "P194",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P194_01",
+    "parent_task_id": "P194",
+    "before_instruction": "Find the rigid lid labeled Chess Pieces among living-room game storage and put it beside the open box on the bedroom play table.",
+    "after_instruction": "Bring a lid matching the sample on the cabinet top in front of you in the bedroom in the bedroom from the living room game storage and put it beside the sample.",
+    "reason": "Retains matching-based retrieval through a physical same-native-model sample on the delivery surface. Any original cross-object compatibility, photo or consumable-state requirement is explicitly replaced with visible product/shape matching. Original source and destination rooms preserved; forced native distractor creates a real competing selection.",
+    "target_asset": "lid/gploju",
+    "target_assets": [
+      "lid/gploju"
+    ]
+  },
+  "binding_sha256": "98fdc11254c4dc16d0c4c05c9d66a1aee1f53710b273b2465d733b9dbd013af8"
+}

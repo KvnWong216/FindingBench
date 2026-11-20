@@ -1,0 +1,170 @@
+{
+  "action": "expert",
+  "case": {
+    "id": "U115",
+    "record": {
+      "id": "asset_U115_01",
+      "family": "semantic_U115",
+      "scene": "Merom_0_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_U115_01/scenario.yaml",
+      "scenario_sha256": "858ef30b42f9bf66aa1ac3386d00d538ceb142df8d83635bfb9c439d672ce1a0",
+      "instruction": "I need a container for the household spares. Retrieve a storage box from the storage room and set it on the table in front of you in the storage room for checking its capacity.",
+      "target_key": "storage_box/izcglf",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "storage_room_0",
+      "destination_room": "storage_room_0",
+      "source_receptacle": "search_storage",
+      "destination_receptacle": "delivery_surface",
+      "object_count": 11,
+      "distractor_count": 8,
+      "source_survey_sha256": "432c3be0b4dd33aa136873f8d072cfc232afe601bfa0f68e3b7489a89af8f0f5",
+      "route": {
+        "start": [
+          -0.55,
+          9.35,
+          0.0
+        ],
+        "path_xy": [
+          [
+            -0.55,
+            9.35
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 15,
+        "destination_approach_count": 15,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "search_storage"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "search_storage",
+          "category": "bottom_cabinet",
+          "model": "songes",
+          "floor": "floors_getzeg_0",
+          "position_xy": [
+            -1.85,
+            9.450000000000001
+          ],
+          "aabb": [
+            [
+              -2.1136192626953125,
+              9.030784881591797,
+              0.0
+            ],
+            [
+              -1.5863807373046876,
+              9.869215118408205,
+              0.82936767578125
+            ]
+          ],
+          "room": "storage_room_0"
+        },
+        {
+          "name": "delivery_surface",
+          "category": "breakfast_table",
+          "model": "iaritq",
+          "floor": "floors_getzeg_0",
+          "position_xy": [
+            0.45,
+            9.450000000000001
+          ],
+          "aabb": [
+            [
+              0.09899971008300784,
+              9.099453765869141,
+              0.0
+            ],
+            [
+              0.8010002899169921,
+              9.800546234130861,
+              0.7490009155273437
+            ]
+          ],
+          "room": "storage_room_0"
+        }
+      ],
+      "parent_task_id": "U115",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_U115_01",
+        "parent_task_id": "U115",
+        "before_instruction": "I need a box that will hold the tall item on the storage room table upright. Search the stored containers for one with enough height and place it beside that item.",
+        "after_instruction": "I need a container for the household spares. Retrieve a storage box from the storage room and set it on the table in front of you in the storage room for checking its capacity.",
+        "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Missing constructed comparison/count evidence and distractor set for box taller than reference object. Reference object and varied open box dimensions required Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+        "target_asset": "storage_box/izcglf",
+        "target_assets": [
+          "storage_box/izcglf"
+        ]
+      },
+      "binding_sha256": "002aeac3cc2a0c42b3454a11c60f194bd9a55b8cd2eef89468fcc4d775e2503a"
+    },
+    "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_gpu_new_20261106/asset_U115_01",
+    "error": "placement failed verification after physics settled: ['item_00 inside search_storage', 'item_01 inside search_storage', 'item_02 inside search_storage', 'item_03 inside search_storage', 'item_04 inside search_storage', 'item_05 inside search_storage', 'item_06 inside search_storage', 'item_07 inside search_storage', 'item_08 inside search_storage']",
+    "source_sha256": "858ef30b42f9bf66aa1ac3386d00d538ceb142df8d83635bfb9c439d672ce1a0",
+    "expert_diagnosis": {
+      "category": "native_placement",
+      "error": "placement failed verification after physics settled: ['item_00 inside search_storage', 'item_01 inside search_storage', 'item_02 inside search_storage', 'item_03 inside search_storage', 'item_04 inside search_storage', 'item_05 inside search_storage', 'item_06 inside search_storage', 'item_07 inside search_storage', 'item_08 inside search_storage']",
+      "native_rejections_in_current_queue": 0,
+      "first_blocker": {
+        "entity": "item_00",
+        "relation": "inside",
+        "receptacle": "search_storage"
+      },
+      "solver": null,
+      "support_measurements": {
+        "total": 0,
+        "planar": 0,
+        "reasons": {}
+      },
+      "first_contact": null,
+      "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_gpu_new_20261106/asset_U115_01/native_validation.log",
+      "inference_scope": "proposal/model diagnosis; native physics acceptance unchanged"
+    },
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "native_placement",
+      "reason": "placement failed verification after physics settled: ['item_00 inside search_storage', 'item_01 inside search_storage', 'item_02 inside search_storage', 'item_03 inside search_storage', 'item_04 inside search_storage', 'item_05 inside search_storage', 'item_06 inside search_storage', 'item_07 inside search_storage', 'item_08 inside search_storage']"
+    }
+  },
+  "out": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_30_U115_expert_f86172c17f2f",
+  "variant": 93
+}

@@ -1,0 +1,277 @@
+{
+  "id": "asset_F233_01",
+  "family": "semantic_F233",
+  "scene": "house_single_floor",
+  "scenario": "scenarios/remaining_layout_repairs_20261108/asset_F233_01/scenario.yaml",
+  "scenario_sha256": "766c705e11cddd05fa0fdaa8dac90a6e54b96f273d13d6470be03a1679a94a80",
+  "instruction": "There is a sample on the cabinet top in front of you in the dining room. Find every glass in the kitchen cupboards matching that sample in the dining room and bring them to the cabinet top in front of you in the dining room.",
+  "target_key": "water_glass/cdteyb",
+  "target_entities": [
+    "item_00",
+    "item_01",
+    "item_02"
+  ],
+  "target_count": 3,
+  "source_room": "kitchen_0",
+  "destination_room": "dining_room_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 16,
+  "distractor_count": 10,
+  "source_survey_sha256": "14714104a089f0a43cdebe256d01d697215fe5627c0e2fcb55a030a71a1fb2a5",
+  "route": {
+    "start": [
+      6.300000000000001,
+      1.9000000000000001,
+      3.141592653589793
+    ],
+    "path_xy": [
+      [
+        6.300000000000001,
+        1.9000000000000001
+      ],
+      [
+        6.300000000000001,
+        1.8
+      ],
+      [
+        6.4,
+        1.8
+      ],
+      [
+        6.5,
+        1.8
+      ],
+      [
+        6.6000000000000005,
+        1.8
+      ],
+      [
+        6.7,
+        1.8
+      ],
+      [
+        6.800000000000001,
+        1.8
+      ],
+      [
+        6.9,
+        1.8
+      ],
+      [
+        7.0,
+        1.8
+      ],
+      [
+        7.1000000000000005,
+        1.8
+      ],
+      [
+        7.2,
+        1.8
+      ],
+      [
+        7.300000000000001,
+        1.8
+      ],
+      [
+        7.4,
+        1.8
+      ],
+      [
+        7.5,
+        1.8
+      ],
+      [
+        7.6000000000000005,
+        1.8
+      ],
+      [
+        7.7,
+        1.8
+      ],
+      [
+        7.800000000000001,
+        1.8
+      ],
+      [
+        7.9,
+        1.8
+      ],
+      [
+        8.0,
+        1.8
+      ]
+    ],
+    "length_m": 1.8,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 15,
+    "destination_approach_count": 18,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09",
+    "item_10",
+    "comparison_sample",
+    "comparison_negative_0",
+    "comparison_negative_1",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_khjmrr_0",
+      "position_xy": [
+        9.200000000000001,
+        1.8
+      ],
+      "aabb": [
+        [
+          9.032855239868166,
+          1.4577120208740235,
+          -0.0
+        ],
+        [
+          9.367144760131836,
+          2.142287979125977,
+          0.6846599731445313
+        ]
+      ],
+      "room": "kitchen_0"
+    },
+    {
+      "name": "delivery_surface",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_khjmrr_0",
+      "position_xy": [
+        5.5,
+        1.9000000000000001
+      ],
+      "aabb": [
+        [
+          5.332855239868164,
+          1.5577120208740236,
+          -0.0
+        ],
+        [
+          5.667144760131836,
+          2.242287979125977,
+          0.6846599731445313
+        ]
+      ],
+      "room": "dining_room_0"
+    }
+  ],
+  "layout_preflight": {
+    "status": "unknown",
+    "findings": [
+      {
+        "receptacle": "search_storage",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.23922629249095917,
+            0.18965983357072802,
+            0.5851681912193236
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.23877585313392102,
+            0.19861903381347656,
+            0.5853487684532628
+          ],
+          "meta__base_link_fillable_0_0_link#component:2": [
+            0.23817441952228546,
+            0.189000270903126,
+            0.5853966732025147
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet/jrhgeu",
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "encrypted_asset_sha256": "70d166224352a46e63c008e4d1b5af6bec5bfdfc27f6b21dad220cca350bc871",
+          "metadata_sha256": "838fad16a0dc49e7be965c08b9de0d54b477a05592b32eb05d6519a940331708",
+          "root_orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "unknown",
+        "native_sampling_required": true,
+        "reason": "No conservative upright joint packing found; alternate poses require native sampling",
+        "entities": [
+          "item_00",
+          "item_01",
+          "item_02",
+          "item_03",
+          "item_04",
+          "item_05",
+          "item_06",
+          "item_07",
+          "item_08",
+          "item_09",
+          "item_10",
+          "comparison_negative_0",
+          "comparison_negative_1"
+        ]
+      }
+    ],
+    "prefer_alternative_layout": true,
+    "assignments": {},
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "F233",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F233_01",
+    "parent_task_id": "F233",
+    "before_instruction": "The glass on the dining room sideboard is the reference. Find every matching glass in the kitchen cupboards and put them beside it.",
+    "after_instruction": "There is a sample on the cabinet top in front of you in the dining room. Find every glass in the kitchen cupboards matching that sample in the dining room and bring them to the cabinet top in front of you in the dining room.",
+    "reason": "Three target copies plus a native-model sample implement exhaustive matching collection. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "water_glass/cdteyb",
+    "target_assets": [
+      "water_glass/cdteyb",
+      "water_glass/cdteyb",
+      "water_glass/cdteyb"
+    ]
+  },
+  "binding_sha256": "452a34abe40a83c9225fb8e439d559c8b4c4e9152c8fe3284bdd97251bbb921c"
+}

@@ -1,0 +1,86 @@
+{
+  "id": "asset_F128_01",
+  "family": "semantic_F128",
+  "scene": "Pomaria_1_int",
+  "scenario": "scenarios/remaining_layout_repairs_20261108/asset_F128_01/scenario.yaml",
+  "scenario_sha256": "c3e6ae0f870d0bbf5243ab1da141e31377e2b1d94f4fcdd109031c17cda19e2b",
+  "instruction": "Find strawberry jam in the kitchen preserve storage and bring it to the table in front of you in the kitchen for the bread.",
+  "target_key": "jar_of_strawberry_jam/busiti",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "countertop_tpuwys_4",
+  "destination_receptacle": "breakfast_table_uhrsex_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "05d404c89ade70d34c89459d2b340c53ef49d49041a6624fcc9a997b8b7322b3",
+  "route": {
+    "start": [
+      -1.1500000000000001,
+      -2.85,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -1.1500000000000001,
+        -2.85
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 51,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [],
+    "prefer_alternative_layout": false,
+    "assignments": {},
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "F128",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F128_01",
+    "parent_task_id": "F128",
+    "before_instruction": "Find the strawberry jam in the pantry preserve storage, not peanut butter, and put it beside the plain bread on the pantry table.",
+    "after_instruction": "Find strawberry jam in the kitchen preserve storage and bring it to the table in front of you in the kitchen for the bread.",
+    "reason": "Retains strawberry-jam identity; does not require a separately constructed peanut-butter contrast or bread landmark. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Layout revision: the unbuilt pantry-room task is explicitly relocated to the kitchen food-storage area because surveyed pantry rooms lack two robot-accessible storage/delivery positions. Target models, counts, reference matching, destination inventory and goals are unchanged; this changes room scope and may shorten transport.",
+    "target_asset": "jar_of_strawberry_jam/busiti",
+    "target_assets": [
+      "jar_of_strawberry_jam/busiti"
+    ]
+  },
+  "binding_sha256": "ad26f15b7cf18f9df7475066d3ae425b69e141b9b6b9881dd60e126fe4b3dfaa"
+}

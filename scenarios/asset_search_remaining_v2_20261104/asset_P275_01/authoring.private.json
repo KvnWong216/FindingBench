@@ -1,0 +1,76 @@
+{
+  "id": "asset_P275_01",
+  "family": "semantic_P275",
+  "scene": "Pomaria_2_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P275_01/scenario.yaml",
+  "scenario_sha256": "c2c64f8e38394b2c637dde5b41432a8dd4d216590f5aa9da27795a8b32cf03ec",
+  "instruction": "Bring the portable game console from the bedroom electronics to the cabinet top in front of you in the bedroom for playing during the break.",
+  "target_key": "portable_game_console/muwcnf",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bedroom_0",
+  "destination_room": "bedroom_0",
+  "source_receptacle": "bottom_cabinet_rntwkg_0",
+  "destination_receptacle": "bottom_cabinet_rntwkg_0",
+  "object_count": 6,
+  "distractor_count": 5,
+  "source_survey_sha256": "62e51428546de3c0a833496f29b3c3303a5b7156fd7ac39a8975412318ea7e2d",
+  "route": {
+    "start": [
+      -2.3000000000000003,
+      -2.5,
+      0.0
+    ],
+    "path_xy": [
+      [
+        -2.3000000000000003,
+        -2.5
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 2,
+    "destination_approach_count": 2,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "bottom_cabinet_rntwkg_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "parent_task_id": "P275",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P275_01",
+    "parent_task_id": "P275",
+    "before_instruction": "Find the portable console with two circular control sticks among bedroom electronics drawers and put it beside the reading chair.",
+    "after_instruction": "Bring the portable game console from the bedroom electronics to the cabinet top in front of you in the bedroom for playing during the break.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; No verified native texture/model binding establishes the requested marking for dual-stick portable console. Native categories are only candidates; required subtype, markings, quantity, or reference appearance remain unverified: dual-stick portable console. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+    "target_asset": "portable_game_console/muwcnf",
+    "target_assets": [
+      "portable_game_console/muwcnf"
+    ]
+  },
+  "binding_sha256": "cc4762861d218d289dadac68631fcaa55303d1d8a2ad421e1ffab6f8be03bc94"
+}

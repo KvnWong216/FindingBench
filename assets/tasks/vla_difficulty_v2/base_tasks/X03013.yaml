@@ -1,0 +1,89 @@
+task_id: X03013
+family: place_in
+scene: house_double_floor_lower
+source:
+  official_activity: unloading_shopping_from_car#0
+  official_activities_with_same_subgoal:
+  - unloading_shopping_from_car#0
+  official_subgoal: (inside grocery.n.02 cabinet.n.01)
+  reuse: official sub-goal re-used as the task goal
+  scene: BEHAVIOR-1K house_double_floor_lower (+ clearance manifest)
+  object: BEHAVIOR-1K box_of_crackers/cmdigf
+start:
+  name: start_garage_0_1
+  room: garage_0
+  x: -7.06
+  y: 4.16
+  yaw: 0.176
+target:
+  entity: target_obj
+  category: box_of_crackers
+  model: cmdigf
+  noun: box of crackers
+  colour_estimate: red
+goal:
+- kind: inside
+  entity: target_obj
+  receptacle: bottom_cabinet_qacthv_0
+place_hints:
+- - -2.461
+  - 0.144
+  - -2.356
+- - -2.461
+  - -0.259
+  - -3.037
+- - -3.066
+  - 0.144
+  - -1.571
+- - -2.411
+  - -0.209
+  - -2.949
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S3
+missing_spatial_levels:
+- S1
+- S2
+initial_states:
+  bottom_cabinet_qacthv_0:
+    open: false
+spatial:
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bottom_cabinet_rhdbzv_0
+    room: living_room_0
+    location_phrase: the cabinet in the living room
+    grasp_hints:
+    - - 5.537
+      - 4.561
+      - 0.0
+    - - 5.437
+      - 4.252
+      - 0.389
+    - - 5.437
+      - 4.871
+      - -0.328
+    - - 5.387
+      - 4.201
+      - 0.423
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    task_scope: cross_room
+    route_from_start_steps: 21
+language:
+  L1:
+    S3: First go and open the cabinet in the bathroom. Leave the garage, go to the
+      cabinet in the living room, pick up the box of crackers on it. Then put it in
+      the cabinet in the bathroom.
+  L2: Put the box of crackers in the cabinet in the bathroom.
+  L3: I'm unloading shopping from car. Could you store the box of crackers in the
+    cabinet in the bathroom for me?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

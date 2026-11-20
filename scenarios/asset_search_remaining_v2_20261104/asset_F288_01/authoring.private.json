@@ -1,0 +1,82 @@
+{
+  "id": "asset_F288_01",
+  "family": "semantic_F288",
+  "scene": "Pomaria_1_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_F288_01/scenario.yaml",
+  "scenario_sha256": "0552d202492fbbb2f3bebe7c77ff4605571cb4605c6fdf5abb488c893acacc1f",
+  "instruction": "There is a sample on the table in front of you in the kitchen. Find an olive-oil bottle matching that sample in the kitchen food-storage area and bring it to the table in front of you in the kitchen in the kitchen.",
+  "target_key": "bottle_of_olive_oil/ksxqkk",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "countertop_tpuwys_4",
+  "destination_receptacle": "breakfast_table_uhrsex_0",
+  "object_count": 12,
+  "distractor_count": 10,
+  "source_survey_sha256": "05d404c89ade70d34c89459d2b340c53ef49d49041a6624fcc9a997b8b7322b3",
+  "route": {
+    "start": [
+      -1.1500000000000001,
+      -2.85,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -1.1500000000000001,
+        -2.85
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 51,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "comparison_negative_0",
+    "comparison_negative_1"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "parent_task_id": "F288",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F288_01",
+    "parent_task_id": "F288",
+    "before_instruction": "The new olive oil bottle is on the kitchen table. Find the older bottle of olive oil stored in the pantry and put it beside the new one.",
+    "after_instruction": "There is a sample on the table in front of you in the kitchen. Find an olive-oil bottle matching that sample in the kitchen food-storage area and bring it to the table in front of you in the kitchen in the kitchen.",
+    "reason": "Replaces unobservable older-versus-new state with same-native-product matching. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Layout revision: the unbuilt pantry-room task is explicitly relocated to the kitchen food-storage area because surveyed pantry rooms lack two robot-accessible storage/delivery positions. Target models, counts, reference matching, destination inventory and goals are unchanged; this changes room scope and may shorten transport.",
+    "target_asset": "bottle_of_olive_oil/ksxqkk",
+    "target_assets": [
+      "bottle_of_olive_oil/ksxqkk"
+    ]
+  },
+  "binding_sha256": "f7a1c195a430773afdc0d17ef5453e61e5fac2c75e5a60f7c9bedc0d03a205f6"
+}

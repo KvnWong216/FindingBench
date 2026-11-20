@@ -1,0 +1,428 @@
+{
+  "tasks": [
+    {
+      "id": "asset_P017_01",
+      "family": "semantic_P017",
+      "scene": "house_double_floor_upper",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/candidate_4c4f1d766378_P017/asset_P017_01/scenario.yaml",
+      "scenario_sha256": "4c4f1d76637845c9db55a7909c29171409afb2821b992d9234c4ced06d7d29fa",
+      "instruction": "There is a sample on the cabinet top in front of you in the bedroom. Find the wristwatch matching that sample in the bedroom nightstand storage and put it on the cabinet top in front of you in the bedroom.",
+      "target_key": "watch/ghobzn",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "bedroom_2",
+      "destination_room": "bedroom_2",
+      "source_receptacle": "expert_storage_310",
+      "destination_receptacle": "bottom_cabinet_nddvba_0",
+      "object_count": 11,
+      "distractor_count": 8,
+      "source_survey_sha256": "bad4111136351f4ccb189cc8da21449e65bb285de15b8c94024c1d045abd820a",
+      "route": {
+        "start": [
+          5.2,
+          -3.8000000000000003,
+          -1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            5.2,
+            -3.8000000000000003
+          ],
+          [
+            5.1000000000000005,
+            -3.8000000000000003
+          ],
+          [
+            5.0,
+            -3.8000000000000003
+          ],
+          [
+            4.9,
+            -3.8000000000000003
+          ],
+          [
+            4.800000000000001,
+            -3.8000000000000003
+          ],
+          [
+            4.7,
+            -3.8000000000000003
+          ],
+          [
+            4.6000000000000005,
+            -3.8000000000000003
+          ],
+          [
+            4.5,
+            -3.8000000000000003
+          ],
+          [
+            4.4,
+            -3.8000000000000003
+          ],
+          [
+            4.4,
+            -3.7
+          ],
+          [
+            4.3,
+            -3.7
+          ],
+          [
+            4.3,
+            -3.6
+          ],
+          [
+            4.3,
+            -3.5
+          ],
+          [
+            4.3,
+            -3.4000000000000004
+          ],
+          [
+            4.3,
+            -3.3000000000000003
+          ],
+          [
+            4.3,
+            -3.2
+          ]
+        ],
+        "length_m": 1.5,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 5,
+        "destination_approach_count": 61,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "comparison_sample",
+        "bottom_cabinet_nddvba_0",
+        "expert_storage_310"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [
+        {
+          "name": "expert_storage_310",
+          "category": "bottom_cabinet_no_top",
+          "model": "vzzafs",
+          "floor": "floors_dcxicr_0",
+          "position_xy": [
+            3.3000000000000003,
+            -2.2
+          ],
+          "aabb": [
+            [
+              2.973635940551758,
+              -2.4264886016845706,
+              0.0
+            ],
+            [
+              3.6263640594482425,
+              -1.9735113983154298,
+              0.8682071838378906
+            ]
+          ],
+          "room": "bedroom_2"
+        }
+      ],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "expert_storage_310",
+            "volume_extents_m": {
+              "meta__base_link_fillable_0_0_link": [
+                0.5315370221138,
+                0.39102343478868673,
+                0.6658233661651611
+              ]
+            },
+            "native_links": {
+              "meta__base_link_fillable_0_0_link": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet_no_top/vzzafs",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "b4daa08616feaef1a73fc5cb01bcd60c278fad77ff3d5bda42d007a631e01515",
+              "metadata_sha256": "f0ba45ae134ef2c37866c9bb0186200606042fb03eafed9783116a94253ac4bf",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.0014611082151532173,
+              "nodes": 0,
+              "candidate_tests": 0,
+              "search_orders_tried": 0,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_00": "meta__base_link_fillable_0_0_link",
+                "item_01": "meta__base_link_fillable_0_0_link",
+                "item_02": "meta__base_link_fillable_0_0_link",
+                "item_03": "meta__base_link_fillable_0_0_link",
+                "item_04": "meta__base_link_fillable_0_0_link",
+                "item_05": "meta__base_link_fillable_0_0_link",
+                "item_06": "meta__base_link_fillable_0_0_link",
+                "item_07": "meta__base_link_fillable_0_0_link",
+                "item_08": "meta__base_link_fillable_0_0_link"
+              },
+              "poses": {
+                "item_00": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.05,
+                    0.039
+                  ],
+                  "center_xy_m": [
+                    0.030000000000000002,
+                    0.0245
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.049
+                  ],
+                  "footprint_m": [
+                    0.012,
+                    0.012
+                  ],
+                  "center_xy_m": [
+                    0.011,
+                    0.055
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.066
+                  ],
+                  "footprint_m": [
+                    0.019,
+                    0.019
+                  ],
+                  "center_xy_m": [
+                    0.014499999999999999,
+                    0.0755
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.09
+                  ],
+                  "footprint_m": [
+                    0.024,
+                    0.024
+                  ],
+                  "center_xy_m": [
+                    0.017,
+                    0.102
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.11900000000000001
+                  ],
+                  "footprint_m": [
+                    0.016,
+                    0.015
+                  ],
+                  "center_xy_m": [
+                    0.013000000000000001,
+                    0.1265
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.139
+                  ],
+                  "footprint_m": [
+                    0.005,
+                    0.004
+                  ],
+                  "center_xy_m": [
+                    0.0075,
+                    0.14100000000000001
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.148
+                  ],
+                  "footprint_m": [
+                    0.03,
+                    0.03
+                  ],
+                  "center_xy_m": [
+                    0.02,
+                    0.16299999999999998
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.183
+                  ],
+                  "footprint_m": [
+                    0.053,
+                    0.015
+                  ],
+                  "center_xy_m": [
+                    0.0315,
+                    0.1905
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.203
+                  ],
+                  "footprint_m": [
+                    0.011,
+                    0.011
+                  ],
+                  "center_xy_m": [
+                    0.010499999999999999,
+                    0.20850000000000002
+                  ]
+                }
+              },
+              "constructive_witness": "single strip; exact quantized box and clearance checks"
+            },
+            "assignment": {
+              "item_00": "meta__base_link_fillable_0_0_link",
+              "item_01": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link",
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_00": "meta__base_link_fillable_0_0_link",
+              "item_01": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link",
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link",
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link"
+        },
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [
+        {
+          "scene": "Pomaria_2_int",
+          "source": "bottom_cabinet_rntwkg_0",
+          "reason": "Previously failed source layout"
+        },
+        {
+          "scene": "house_double_floor_upper",
+          "source": "bottom_cabinet_nddvba_0",
+          "reason": "Previously failed source layout"
+        }
+      ],
+      "parent_task_id": "P017",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_P017_01",
+        "parent_task_id": "P017",
+        "before_instruction": "Find the wristwatch with a round face in the bedroom nightstand storage and put it on top of the dresser.",
+        "after_instruction": "There is a sample on the cabinet top in front of you in the bedroom. Find the wristwatch matching that sample in the bedroom nightstand storage and put it on the cabinet top in front of you in the bedroom.",
+        "reason": "Replaces unverified round-face shape with native-model matching. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "watch/ghobzn",
+        "target_assets": [
+          "watch/ghobzn"
+        ]
+      },
+      "binding_sha256": "9112ff8707bf064e60cf0ad9f04d8d407398fe36377f7bda9237b8647557d6b1",
+      "proposal_native_policy_signature": "54e310d67c2709059af81bec4ab688b7e5ef712bf1dd6e618e9868e567523d10",
+      "storage_model_experience": []
+    }
+  ]
+}

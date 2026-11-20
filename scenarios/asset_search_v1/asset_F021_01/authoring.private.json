@@ -1,0 +1,106 @@
+{
+  "id": "asset_F021_01",
+  "family": "semantic_F021",
+  "scene": "grocery_store_convenience",
+  "scenario": "scenarios/asset_search_v1/asset_F021_01/scenario.yaml",
+  "scenario_sha256": "41429e0aec88d55fcd38af38387bbe9ae238b355551cd377b282926cdff51cd8",
+  "instruction": "Find a granola-bar box marked as containing at least five bars among the grocery store snacks and put it in the shopping basket on the table in front of you in the grocery store.",
+  "target_key": "box_of_granola_bars/awombj",
+  "target_entities": [
+    "item_01"
+  ],
+  "target_count": 1,
+  "source_room": "grocery_store_0",
+  "destination_room": "grocery_store_0",
+  "source_receptacle": "grocery_shelf_pbjodr_3",
+  "destination_receptacle": "item_00",
+  "object_count": 10,
+  "distractor_count": 8,
+  "source_survey_sha256": "a2c547e08ae7b260e95d8b48eef0027668b5c06f7c674406f7ebc43f7ad37672",
+  "route": {
+    "start": [
+      3.1,
+      -2.6,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        3.1,
+        -2.6
+      ],
+      [
+        3.1,
+        -2.5
+      ],
+      [
+        3.1,
+        -2.4000000000000004
+      ],
+      [
+        3.1,
+        -2.3000000000000003
+      ],
+      [
+        3.1,
+        -2.2
+      ],
+      [
+        3.1,
+        -2.1
+      ],
+      [
+        3.1,
+        -2.0
+      ],
+      [
+        3.1,
+        -1.9000000000000001
+      ],
+      [
+        3.1,
+        -1.8
+      ]
+    ],
+    "length_m": 0.8,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_00",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "parent_task_id": "F021",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F021_01",
+    "parent_task_id": "F021",
+    "before_instruction": "Find a granola-bar box marked as containing at least five bars among the grocery store snacks and put it in the shopping basket beside the checkout.",
+    "after_instruction": "Find a granola-bar box marked as containing at least five bars among the grocery store snacks and put it in the shopping basket on the table in front of you in the grocery store.",
+    "reason": "Explicit first-tranche grounding: native storage and initial-facing destination replace uninstantiated decorative reference props; no new semantic-task count.",
+    "target_asset": "box_of_granola_bars/awombj"
+  }
+}

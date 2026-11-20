@@ -1,0 +1,180 @@
+{
+  "id": "asset_P112_01",
+  "family": "semantic_P112",
+  "scene": "Wainscott_1_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_P112_01/scenario.yaml",
+  "scenario_sha256": "ac0f281de2bb4719ff1be44c7d6ebf845ddb036eeb92fcf6621d4ece9c39ef8e",
+  "instruction": "Find the phone and portable game console in the bedroom storage and bring both to the table in front of you in the bedroom for charging later.",
+  "target_key": "cell_phone/dbhfuh",
+  "target_entities": [
+    "item_00",
+    "item_01"
+  ],
+  "target_count": 2,
+  "source_room": "bedroom_0",
+  "destination_room": "bedroom_0",
+  "source_receptacle": "bottom_cabinet_nnvyol_0",
+  "destination_receptacle": "breakfast_table_skczfi_2",
+  "object_count": 10,
+  "distractor_count": 8,
+  "source_survey_sha256": "7894c711eea34a656ee926a132d6563ce3833b5ddb45c126d0ce534dd2edca60",
+  "route": {
+    "start": [
+      -1.6500000000000001,
+      12.25,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -1.6500000000000001,
+        12.25
+      ],
+      [
+        -1.55,
+        12.25
+      ]
+    ],
+    "length_m": 0.1,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 47,
+    "destination_approach_count": 3,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09",
+    "bottom_cabinet_nnvyol_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_nnvyol_0",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.3966507231608152,
+            0.6310247979390966,
+            0.3343766506221162
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.3996685581629198,
+            0.6310357640069337,
+            0.4390722118043223
+          ],
+          "meta__base_link_fillable_0_0_link#component:2": [
+            0.3996629760583388,
+            0.6310478865737359,
+            0.4313127568062473
+          ],
+          "meta__base_link_fillable_0_0_link#component:3": [
+            0.3966576676838318,
+            0.6310504975881241,
+            0.35144540129198537
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:3": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet/nnvyol",
+          "scale": [
+            1.3446524143218994,
+            2.0859787464141846,
+            2.052330493927002
+          ],
+          "encrypted_asset_sha256": "887a4818b174c0f04c36ec47839e426d6a59dd79bd95d4f28953d8d57a8d4162",
+          "metadata_sha256": "b96561d74ef50f76cdb25ad30017bd50cc0bd225355dd685dc54ec19cde2d678",
+          "root_orientation": [
+            -0.0001456280442653224,
+            -0.0001420076296199113,
+            0.9298031330108643,
+            -0.3680572509765625
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_09": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link",
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_04": "meta__base_link_fillable_0_0_link#component:0",
+          "item_09": "meta__base_link_fillable_0_0_link#component:3",
+          "item_05": "meta__base_link_fillable_0_0_link#component:3",
+          "item_02": "meta__base_link_fillable_0_0_link#component:2",
+          "item_07": "meta__base_link_fillable_0_0_link#component:1",
+          "item_08": "meta__base_link_fillable_0_0_link#component:2",
+          "item_01": "meta__base_link_fillable_0_0_link#component:2",
+          "item_00": "meta__base_link_fillable_0_0_link#component:1",
+          "item_06": "meta__base_link_fillable_0_0_link#component:2",
+          "item_03": "meta__base_link_fillable_0_0_link#component:2"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_04": "meta__base_link_fillable_0_0_link",
+      "item_09": "meta__base_link_fillable_0_0_link",
+      "item_05": "meta__base_link_fillable_0_0_link",
+      "item_02": "meta__base_link_fillable_0_0_link",
+      "item_07": "meta__base_link_fillable_0_0_link",
+      "item_08": "meta__base_link_fillable_0_0_link",
+      "item_01": "meta__base_link_fillable_0_0_link",
+      "item_00": "meta__base_link_fillable_0_0_link",
+      "item_06": "meta__base_link_fillable_0_0_link",
+      "item_03": "meta__base_link_fillable_0_0_link"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "P112",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P112_01",
+    "parent_task_id": "P112",
+    "before_instruction": "Find the phone and handheld console bearing Avery's name in bedroom storage; put them on the nightstand by the window.",
+    "after_instruction": "Find the phone and portable game console in the bedroom storage and bring both to the table in front of you in the bedroom for charging later.",
+    "reason": "Preserves two devices; removes fictional Avery owner labels and unconstructed window landmark. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "cell_phone/dbhfuh",
+    "target_assets": [
+      "cell_phone/dbhfuh",
+      "portable_game_console/muwcnf"
+    ]
+  },
+  "binding_sha256": "794f2e8ad44862dc3d4b14a38c45671e921c73c34ac08b7a92c68dd718a50794"
+}

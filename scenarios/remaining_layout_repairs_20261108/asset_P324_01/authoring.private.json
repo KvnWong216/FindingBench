@@ -1,0 +1,187 @@
+{
+  "id": "asset_P324_01",
+  "family": "semantic_P324",
+  "scene": "house_double_floor_lower",
+  "scenario": "scenarios/remaining_layout_repairs_20261108/asset_P324_01/scenario.yaml",
+  "scenario_sha256": "bf6bbe3f1dc1fa4fe78c85e4760c75a2253d7d68cc0ed274321f6389e50e27be",
+  "instruction": "Bring one hardback and one paperback from the living room books to the table in front of you in the living room for the reading bag.",
+  "target_key": "hardback/xkjctf",
+  "target_entities": [
+    "item_00",
+    "item_01"
+  ],
+  "target_count": 2,
+  "source_room": "living_room_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "bottom_cabinet_rhdbzv_0",
+  "destination_receptacle": "coffee_table_koagbh_0",
+  "object_count": 10,
+  "distractor_count": 8,
+  "source_survey_sha256": "0a3f401e7605a056f40f88d913d8c052476ef760acf457ac11cb1f76abbe581f",
+  "route": {
+    "start": [
+      4.15,
+      3.95,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        4.15,
+        3.95
+      ],
+      [
+        4.25,
+        3.95
+      ],
+      [
+        4.3500000000000005,
+        3.95
+      ],
+      [
+        4.45,
+        3.95
+      ],
+      [
+        4.55,
+        3.95
+      ],
+      [
+        4.65,
+        3.95
+      ],
+      [
+        4.75,
+        3.95
+      ],
+      [
+        4.8500000000000005,
+        3.95
+      ],
+      [
+        4.95,
+        3.95
+      ],
+      [
+        5.050000000000001,
+        3.95
+      ],
+      [
+        5.15,
+        3.95
+      ]
+    ],
+    "length_m": 1.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09",
+    "bottom_cabinet_rhdbzv_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_rhdbzv_0",
+        "volume_extents_m": {
+          "left_drawer": [
+            0.3034677505493164,
+            0.9855995178222656,
+            0.2205941453576088
+          ],
+          "right_drawer": [
+            0.2968716621398926,
+            1.1522061824798584,
+            0.2322199046611786
+          ]
+        },
+        "native_links": {
+          "left_drawer": "left_drawer",
+          "right_drawer": "right_drawer"
+        },
+        "geometry_source": "survey",
+        "geometry_provenance": {},
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_07": "right_drawer",
+          "item_04": "left_drawer",
+          "item_02": "right_drawer",
+          "item_08": "right_drawer",
+          "item_00": "right_drawer",
+          "item_05": "right_drawer",
+          "item_01": "right_drawer",
+          "item_03": "left_drawer",
+          "item_09": "right_drawer",
+          "item_06": "left_drawer"
+        },
+        "component_allocation": {
+          "item_07": "right_drawer",
+          "item_04": "left_drawer",
+          "item_02": "right_drawer",
+          "item_08": "right_drawer",
+          "item_00": "right_drawer",
+          "item_05": "right_drawer",
+          "item_01": "right_drawer",
+          "item_03": "left_drawer",
+          "item_09": "right_drawer",
+          "item_06": "left_drawer"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_07": "right_drawer",
+      "item_04": "left_drawer",
+      "item_02": "right_drawer",
+      "item_08": "right_drawer",
+      "item_00": "right_drawer",
+      "item_05": "right_drawer",
+      "item_01": "right_drawer",
+      "item_03": "left_drawer",
+      "item_09": "right_drawer",
+      "item_06": "left_drawer"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "P324",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P324_01",
+    "parent_task_id": "P324",
+    "before_instruction": "Find the books labeled Property of Sasha among living-room books and put them on the side table nearest the doorway.",
+    "after_instruction": "Bring one hardback and one paperback from the living room books to the table in front of you in the living room for the reading bag.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; No verified native texture/model binding establishes the requested marking for Sasha-labeled books. Native categories are only candidates; required subtype, markings, quantity, or reference appearance remain unverified: Sasha-labeled books. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+    "target_asset": "hardback/xkjctf",
+    "target_assets": [
+      "hardback/xkjctf",
+      "paperback_book/nozsed"
+    ]
+  },
+  "binding_sha256": "0f622080e4a92650f8ab6924e55106ac0e0f6c1fbc7d17679d972a9c6ebe312f"
+}

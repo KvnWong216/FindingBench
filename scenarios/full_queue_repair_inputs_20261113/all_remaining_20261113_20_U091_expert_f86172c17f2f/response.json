@@ -1,0 +1,423 @@
+{
+  "status": "proposed",
+  "record": {
+    "id": "asset_U091_01",
+    "family": "semantic_U091",
+    "scene": "house_double_floor_lower",
+    "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_20_U091_expert_f86172c17f2f/asset_U091_01/scenario.yaml",
+    "scenario_sha256": "b8e90e43252b43c36c1636c09e963be9b015345b72fcdad58f50cf027bce4d19",
+    "instruction": "I'm planting a small pot. Find the hand trowel among the garden supplies and put it on the table in front of you in the garden.",
+    "target_key": "trowel/ematag",
+    "target_entities": [
+      "item_00"
+    ],
+    "target_count": 1,
+    "source_room": "garden_0",
+    "destination_room": "garden_0",
+    "source_receptacle": "search_storage",
+    "destination_receptacle": "delivery_surface",
+    "object_count": 11,
+    "distractor_count": 8,
+    "source_survey_sha256": "0a3f401e7605a056f40f88d913d8c052476ef760acf457ac11cb1f76abbe581f",
+    "route": {
+      "start": [
+        16.45,
+        3.5500000000000003,
+        3.141592653589793
+      ],
+      "path_xy": [
+        [
+          16.45,
+          3.5500000000000003
+        ],
+        [
+          16.55,
+          3.5500000000000003
+        ],
+        [
+          16.650000000000002,
+          3.5500000000000003
+        ],
+        [
+          16.75,
+          3.5500000000000003
+        ],
+        [
+          16.85,
+          3.5500000000000003
+        ],
+        [
+          16.95,
+          3.5500000000000003
+        ],
+        [
+          17.05,
+          3.5500000000000003
+        ],
+        [
+          17.150000000000002,
+          3.5500000000000003
+        ],
+        [
+          17.25,
+          3.5500000000000003
+        ],
+        [
+          17.35,
+          3.5500000000000003
+        ],
+        [
+          17.45,
+          3.5500000000000003
+        ],
+        [
+          17.55,
+          3.5500000000000003
+        ],
+        [
+          17.650000000000002,
+          3.5500000000000003
+        ],
+        [
+          17.75,
+          3.5500000000000003
+        ],
+        [
+          17.85,
+          3.5500000000000003
+        ],
+        [
+          17.95,
+          3.5500000000000003
+        ]
+      ],
+      "length_m": 1.5,
+      "grid_m": 0.1,
+      "base_radius_m": 0.38355339059327376,
+      "endpoint_free_patch_radius_m": 0.2,
+      "source_approach_count": 64,
+      "destination_approach_count": 64,
+      "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+    },
+    "status": "static_screened_physics_pending",
+    "human_reference_steps": null,
+    "required_gates": [
+      "fresh_native_initialization",
+      "stable_dense_layout",
+      "target_CHECK_identifiability",
+      "all_yaw_live_navigation_and_tolerant_endpoints",
+      "reachable_open_grasp_place",
+      "initial_goal_false",
+      "human_completion"
+    ],
+    "restoration_entities": [
+      "item_01",
+      "item_02",
+      "item_03",
+      "item_04",
+      "item_05",
+      "item_06",
+      "item_07",
+      "item_08",
+      "search_storage"
+    ],
+    "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+    "inserted_furniture": [
+      {
+        "name": "delivery_surface",
+        "category": "breakfast_table",
+        "model": "iaritq",
+        "floor": "floors_ghetev_0",
+        "position_xy": [
+          15.55,
+          3.95
+        ],
+        "aabb": [
+          [
+            15.198999710083008,
+            3.599453765869141,
+            0.014
+          ],
+          [
+            15.901000289916993,
+            4.300546234130859,
+            0.7630009155273437
+          ]
+        ],
+        "room": "garden_0"
+      },
+      {
+        "name": "search_storage",
+        "category": "bookcase",
+        "model": "xsfeyi",
+        "floor": "floors_ghetev_0",
+        "position_xy": [
+          18.75,
+          3.85
+        ],
+        "aabb": [
+          [
+            18.55,
+            3.0783118286132813,
+            0.014
+          ],
+          [
+            18.95,
+            4.621688171386719,
+            0.8140000000000001
+          ]
+        ],
+        "room": "garden_0"
+      }
+    ],
+    "parent_task_id": "U091",
+    "tier": "short",
+    "physics_status": "pending",
+    "adaptation": {
+      "id": "asset_U091_01",
+      "parent_task_id": "U091",
+      "before_instruction": "I'm planting a small pot. Find the hand trowel among the garden supplies and put it on the garden table beside the empty plant pot.",
+      "after_instruction": "I'm planting a small pot. Find the hand trowel among the garden supplies and put it on the table in front of you in the garden.",
+      "reason": "Preserves object identity and purpose; explicitly grounds the destination as the initial-facing native surface instead of an uninstantiated decorative landmark.",
+      "target_asset": "trowel/ematag",
+      "target_assets": [
+        "trowel/ematag"
+      ]
+    },
+    "binding_sha256": "d12d9bcff9fd7400de12418d886d23112f1e04d5eac58a0cae7cfddbf78f6249",
+    "layout_preflight": {
+      "status": "heuristic_fit",
+      "findings": [],
+      "prefer_alternative_layout": false,
+      "assignments": {},
+      "physical_validation_required": true
+    }
+  },
+  "evidence": {
+    "status": "static_screened_physics_pending",
+    "method": "joint_native_open_shelf_layout",
+    "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/overnight_expert_20261109/direct/asset_U091_01/scenario.yaml",
+    "old_storage": "search_storage",
+    "new_storage": {
+      "name": "search_storage",
+      "category": "bookcase",
+      "model": "xsfeyi",
+      "floor": "floors_ghetev_0",
+      "position_xy": [
+        18.75,
+        3.85
+      ],
+      "aabb": [
+        [
+          18.55,
+          3.0783118286132813,
+          0.014
+        ],
+        [
+          18.95,
+          4.621688171386719,
+          0.8140000000000001
+        ]
+      ],
+      "room": "garden_0"
+    },
+    "replaced_auxiliary_fixture": true,
+    "delivery_entity": "delivery_surface",
+    "private_route_destination_anchor": "delivery_surface",
+    "solver": {
+      "status": "feasible_model",
+      "device": "cuda",
+      "backend": "torch_cuda_finite_csp",
+      "solve_seconds": 0.46522211097180843,
+      "nodes": 9,
+      "candidate_tests": 177442,
+      "search_orders_tried": 1,
+      "grid_m": 0.001,
+      "margin_m": 0.025,
+      "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+      "physical_validation_required": true,
+      "assignment": {
+        "item_02": "surface",
+        "item_06": "surface",
+        "item_03": "surface",
+        "item_07": "surface",
+        "item_00": "surface",
+        "item_04": "surface",
+        "item_08": "surface",
+        "item_01": "surface",
+        "item_05": "surface"
+      },
+      "poses": {
+        "item_02": {
+          "bin": "surface",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.025,
+            0.025
+          ],
+          "footprint_m": [
+            0.271,
+            0.368
+          ],
+          "center_xy_m": [
+            0.1605,
+            0.209
+          ]
+        },
+        "item_06": {
+          "bin": "surface",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.025,
+            0.418
+          ],
+          "footprint_m": [
+            0.271,
+            0.368
+          ],
+          "center_xy_m": [
+            0.1605,
+            0.602
+          ]
+        },
+        "item_03": {
+          "bin": "surface",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.025,
+            0.811
+          ],
+          "footprint_m": [
+            0.164,
+            0.164
+          ],
+          "center_xy_m": [
+            0.107,
+            0.893
+          ]
+        },
+        "item_07": {
+          "bin": "surface",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.025,
+            1.0
+          ],
+          "footprint_m": [
+            0.164,
+            0.164
+          ],
+          "center_xy_m": [
+            0.107,
+            1.082
+          ]
+        },
+        "item_00": {
+          "bin": "surface",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.025,
+            1.189
+          ],
+          "footprint_m": [
+            0.28,
+            0.047
+          ],
+          "center_xy_m": [
+            0.165,
+            1.2125000000000001
+          ]
+        },
+        "item_04": {
+          "bin": "surface",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.025,
+            1.2610000000000001
+          ],
+          "footprint_m": [
+            0.17400000000000002,
+            0.03
+          ],
+          "center_xy_m": [
+            0.112,
+            1.276
+          ]
+        },
+        "item_08": {
+          "bin": "surface",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.025,
+            1.316
+          ],
+          "footprint_m": [
+            0.17400000000000002,
+            0.03
+          ],
+          "center_xy_m": [
+            0.112,
+            1.331
+          ]
+        },
+        "item_01": {
+          "bin": "surface",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.321,
+            0.025
+          ],
+          "footprint_m": [
+            0.035,
+            0.036000000000000004
+          ],
+          "center_xy_m": [
+            0.3385,
+            0.043000000000000003
+          ]
+        },
+        "item_05": {
+          "bin": "surface",
+          "yaw_degrees": 0,
+          "lower_xy_m": [
+            0.321,
+            0.08600000000000001
+          ],
+          "footprint_m": [
+            0.035,
+            0.036000000000000004
+          ],
+          "center_xy_m": [
+            0.3385,
+            0.10400000000000001
+          ]
+        }
+      }
+    },
+    "physical_validation_required": true,
+    "coordinate_proposal": "offline_rectangle_XY",
+    "preserved": [
+      "instruction",
+      "goal",
+      "target",
+      "robot",
+      "spawn",
+      "all task items and counts",
+      "all placement relations"
+    ],
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "surface_or_timeout",
+      "reason": "placement failed verification after physics settled: ['item_00 on_top search_storage', 'item_01 on_top search_storage', 'item_03 on_top search_storage', 'item_04 on_top search_storage', 'item_05 on_top search_storage', 'item_06 on_top search_storage', 'item_07 on_top search_storage', 'item_08 on_top search_storage']"
+    }
+  }
+}

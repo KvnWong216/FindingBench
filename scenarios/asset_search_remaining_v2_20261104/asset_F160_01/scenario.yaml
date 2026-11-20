@@ -1,0 +1,134 @@
+id: asset_F160_01
+instruction: Find a can of corn in the kitchen food-storage cupboard and bring it
+  to the table in front of you in the dining room in the dining room for the shopping
+  list.
+scene:
+  model: house_single_floor
+  source: behavior
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - 9.3
+    - 2.8000000000000003
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - 1.0
+    - 6.123233995736766e-17
+target:
+  entity: item_00
+  category: can_of_corn
+objects:
+- name: item_00
+  category: can_of_corn
+  model: kwwlfn
+- name: item_01
+  category: tomato_paste_can
+  model: krarex
+- name: item_02
+  category: can_of_cat_food
+  model: omiuox
+- name: item_03
+  category: can_of_dog_food
+  model: rgwfxq
+- name: item_04
+  category: can_of_tomato_paste
+  model: sqqdzb
+- name: item_05
+  category: canned_food
+  model: cbmndg
+- name: item_06
+  category: cat_food_tin
+  model: rclizj
+- name: item_07
+  category: chickpea_can
+  model: jeqtzg
+- name: item_08
+  category: dog_food_can
+  model: vxxcvg
+placements:
+- entity: item_00
+  relation: inside
+  receptacle: bottom_cabinet_no_top_gjeoer_0
+- entity: item_01
+  relation: inside
+  receptacle: bottom_cabinet_no_top_gjeoer_0
+- entity: item_02
+  relation: inside
+  receptacle: bottom_cabinet_no_top_gjeoer_0
+- entity: item_03
+  relation: inside
+  receptacle: bottom_cabinet_no_top_gjeoer_0
+- entity: item_04
+  relation: inside
+  receptacle: bottom_cabinet_no_top_gjeoer_0
+- entity: item_05
+  relation: inside
+  receptacle: bottom_cabinet_no_top_gjeoer_0
+- entity: item_06
+  relation: inside
+  receptacle: bottom_cabinet_no_top_rkgjer_0
+- entity: item_07
+  relation: inside
+  receptacle: bottom_cabinet_no_top_rkgjer_0
+- entity: item_08
+  relation: inside
+  receptacle: bottom_cabinet_no_top_rkgjer_0
+initial_states:
+  bottom_cabinet_no_top_rkgjer_0:
+    open: false
+  bottom_cabinet_no_top_gjeoer_0:
+    open: false
+goal:
+- kind: on_top
+  entity: item_00
+  receptacle: breakfast_table_rhjoby_0
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

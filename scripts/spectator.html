@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FindingBench · Spectator</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#101418;color:#e8edf1;font:14px system-ui,sans-serif}
+header{padding:12px 18px;background:#192127;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+strong{color:#86efbf}button,a,select{font:inherit;color:inherit;background:#293740;border:1px solid #52606b;border-radius:5px;padding:6px 10px;text-decoration:none;cursor:pointer}
+#instruction{padding:10px 18px;line-height:1.5}#viewport{position:relative;margin:auto;max-width:1600px;min-height:320px;background:#000;cursor:crosshair;overflow:hidden}
+#viewport:fullscreen{max-width:none;width:100vw;height:100vh;display:flex;align-items:center;justify-content:center}
+#image{display:block;width:100%;max-height:calc(100vh - 180px);object-fit:contain;user-select:none}
+#viewport:fullscreen #image{max-height:100vh;height:100%;object-fit:contain}
+#overlay{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;text-align:center}
+#overlay span{padding:18px 24px;background:#101418c9;border-radius:8px;line-height:1.8}
+#crosshair{display:none;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:24px;color:#fff;text-shadow:0 0 3px #000;pointer-events:none}
+footer{padding:10px 18px;color:#adbac4;line-height:1.8}#error{color:#ffacac;white-space:pre-wrap}#telemetry{font:12px ui-monospace,monospace}
+</style>
+<header><strong>FindingBench · Spectator</strong><span id="entry">Loading task…</span>
+<label>Speed <select id="speed"><option value="0.1">0.1 m/s · fine</option><option value="0.3">0.3 m/s</option><option value="1" selected>1 m/s</option><option value="3">3 m/s</option><option value="8">8 m/s</option></select></label>
+<button id="home">Reset camera (R)</button><button id="fullscreen">Fullscreen (F)</button>
+<a href="/frame.jpg" download="spectator.jpg">Save image</a></header>
+<div id="instruction"></div><div id="error"></div>
+<div id="viewport"><img id="image" src="/stream" draggable="false" alt="Frozen scene free camera">
+<div id="crosshair">+</div><div id="overlay"><span>Loading the frozen scene…<br>The scene may take a few minutes to load.</span></div></div>
+<footer>Click image to capture mouse · WASD fly/strafe · Space / E up · Shift / Q down · Ctrl faster · Mouse look · Wheel speed · R reset · F fullscreen · Esc release mouse<br>
+Privileged dataset inspection. Camera passes through geometry. Objects, robot and physics remain frozen. This is not a human evaluation episode.
+<div id="telemetry"></div></footer>
+<script>
+'use strict';
+const viewport=document.querySelector('#viewport'),overlay=document.querySelector('#overlay'),crosshair=document.querySelector('#crosshair');
+const keys=new Set(),allowed=new Set(['KeyW','KeyA','KeyS','KeyD','Space','ControlLeft','ControlRight','KeyQ','KeyE','ShiftLeft','ShiftRight']);
+let dx=0,dy=0,reset=false,ready=false,inFlight=false;
+const locked=()=>document.pointerLockElement===viewport;
+function release(){keys.clear();dx=dy=0;}
+function updateOverlay(){overlay.style.display=locked()?'none':'grid';crosshair.style.display=locked()?'block':'none';
+overlay.firstElementChild.textContent=ready?'Click to fly · Esc to release mouse':'Loading the frozen scene…';}
+viewport.addEventListener('click',()=>{if(ready&&!locked())viewport.requestPointerLock();});
+document.addEventListener('pointerlockchange',()=>{if(!locked())release();else dx=dy=0;updateOverlay();});
+document.addEventListener('pointerlockerror',()=>{document.querySelector('#error').textContent='Mouse capture failed. Open this page on localhost (or use an SSH port forward), then click the image again.';});
+document.addEventListener('mousemove',e=>{if(locked()){dx+=e.movementX;dy+=e.movementY;}});
+viewport.addEventListener('wheel',e=>{if(!locked())return;e.preventDefault();const speed=document.querySelector('#speed');speed.selectedIndex=Math.max(0,Math.min(speed.options.length-1,speed.selectedIndex+(e.deltaY<0?1:-1)));},{passive:false});
+document.addEventListener('keydown',e=>{if(!locked())return;if(e.code==='Escape'){release();document.exitPointerLock();return;}if(allowed.has(e.code)){e.preventDefault();keys.add(e.code);}
+if(!e.repeat&&e.code==='KeyR'){reset=true;release();}if(!e.repeat&&e.code==='KeyF')toggleFullscreen();});
+document.addEventListener('keyup',e=>{keys.delete(e.code);if(locked())e.preventDefault();});
+window.addEventListener('blur',release);document.addEventListener('visibilitychange',()=>{if(document.hidden){release();if(locked())document.exitPointerLock();}});
+document.querySelector('#home').onclick=()=>{reset=true;release();};
+function toggleFullscreen(){(document.fullscreenElement?document.exitFullscreen():viewport.requestFullscreen()).catch(e=>{document.querySelector('#error').textContent=e.message;});}
+document.querySelector('#fullscreen').onclick=toggleFullscreen;
+async function sendInput(){if(inFlight||!ready)return;inFlight=true;
+const body={keys:locked()?[...keys]:[],dx,dy,reset,speed:Number(document.querySelector('#speed').value)};dx=dy=0;reset=false;
+try{const r=await fetch('/input',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),signal:AbortSignal.timeout(1500)});
+if(!r.ok)throw Error((await r.json()).error);}
+catch(e){release();document.querySelector('#error').textContent='Camera connection: '+e.message;}finally{inFlight=false;}}
+setInterval(sendInput,50);
+async function poll(){try{const r=await fetch('/state',{signal:AbortSignal.timeout(3000)});const st=await r.json();ready=st.ready;
+document.querySelector('#entry').textContent='#'+st.task.index+' '+st.task.parent_task_id+' · '+st.task.scene;
+document.querySelector('#instruction').textContent=st.task.instruction;
+if(st.error)document.querySelector('#error').textContent=st.error;
+if(st.position)document.querySelector('#telemetry').textContent='XYZ (m): '+st.position.map(x=>x.toFixed(2)).join(', ')+' | yaw '+st.yaw.toFixed(1)+'° | pitch '+st.pitch.toFixed(1)+'° | render '+st.render_fps.toFixed(1)+' fps | physics tick '+st.physics_tick+' (frozen)';
+updateOverlay();}catch(e){release();ready=false;document.querySelector('#error').textContent='Viewer disconnected. Check the terminal.';}setTimeout(poll,1000);}poll();
+</script>
+</html>

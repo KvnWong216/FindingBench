@@ -1,0 +1,40 @@
+Traceback (most recent call last):
+  File "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scripts/v2/expert_storage_repair.py", line 2461, in handle
+    return request(payload)
+           ^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scripts/v2/expert_storage_repair.py", line 2401, in request
+    result,info=expert_proposal(row,case['evidence'],out,policy=case['expert_policy'],variant=payload.get('variant',10))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scripts/v2/expert_storage_repair.py", line 2255, in expert_proposal
+    corrected=repair_covered_surface_binding(row,evidence,out)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scripts/v2/expert_storage_repair.py", line 1164, in repair_covered_surface_binding
+    route=replay.route(result['source_receptacle'],result['source_room'],result['destination_receptacle'],result['destination_room'])
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scripts/v2/generate_dense_pilot.py", line 156, in route
+    starts=self.approaches(destination,droom);ends=self.approaches(source,sroom)
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scripts/v2/generate_dense_pilot.py", line 144, in approaches
+    row=self.entities[name];lo,hi=np.array(row['aabb'][0]),np.array(row['aabb'][1]);out=[]
+        ~~~~~~~~~~~~~^^^^^^
+KeyError: 'item_00'
+Traceback (most recent call last):
+  File "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scripts/v2/expert_storage_repair.py", line 2461, in handle
+    def handle(payload):
+                       ^^
+  File "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scripts/v2/expert_storage_repair.py", line 2401, in request
+    return dict(signature=None,reason='Proposal/runtime infrastructure failure; no evidence to blacklist source geometry')
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scripts/v2/expert_storage_repair.py", line 2255, in expert_proposal
+    (directory/'expert_intervention.json').write_text(json.dumps(journal,indent=2))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scripts/v2/expert_storage_repair.py", line 1164, in repair_covered_surface_binding
+    # selecting the first 64 approaches to the body's whole-house AABB.
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scripts/v2/generate_dense_pilot.py", line 156, in route
+    starts=self.approaches(destination,droom);ends=self.approaches(source,sroom)
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scripts/v2/generate_dense_pilot.py", line 144, in approaches
+    row=self.entities[name];lo,hi=np.array(row['aabb'][0]),np.array(row['aabb'][1]);out=[]
+        ~~~~~~~~~~~~~^^^^^^
+KeyError: 'item_00'

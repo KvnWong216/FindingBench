@@ -1,0 +1,256 @@
+{
+  "id": "asset_P159_01",
+  "family": "semantic_P159",
+  "scene": "Wainscott_0_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_P159_01/scenario.yaml",
+  "scenario_sha256": "486a72b8a3d8bcac7c9d1c4d68d5d43c510921b417181224656375d6678a0477",
+  "instruction": "There is a sample on the table in front of you in the bedroom. Find the portable game console matching that sample in the living-room media storage and bring it to the table in front of you in the bedroom in the bedroom.",
+  "target_key": "portable_game_console/muwcnf",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_2",
+  "destination_room": "bedroom_0",
+  "source_receptacle": "bottom_cabinet_jhymlr_0",
+  "destination_receptacle": "console_table_emeeke_0",
+  "object_count": 10,
+  "distractor_count": 8,
+  "source_survey_sha256": "bfc3f55c9661a7a599b91007a0d13bfe6624ef15110725894b31404980af12ee",
+  "route": {
+    "start": [
+      -1.6,
+      -5.300000000000001,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -1.6,
+        -5.300000000000001
+      ],
+      [
+        -1.7000000000000002,
+        -5.300000000000001
+      ],
+      [
+        -1.8,
+        -5.300000000000001
+      ],
+      [
+        -1.9000000000000001,
+        -5.300000000000001
+      ],
+      [
+        -1.9000000000000001,
+        -5.2
+      ],
+      [
+        -1.9000000000000001,
+        -5.1000000000000005
+      ],
+      [
+        -1.9000000000000001,
+        -5.0
+      ],
+      [
+        -1.9000000000000001,
+        -4.9
+      ],
+      [
+        -1.9000000000000001,
+        -4.800000000000001
+      ],
+      [
+        -1.9000000000000001,
+        -4.7
+      ],
+      [
+        -1.9000000000000001,
+        -4.6000000000000005
+      ],
+      [
+        -1.9000000000000001,
+        -4.5
+      ],
+      [
+        -1.9000000000000001,
+        -4.4
+      ],
+      [
+        -1.9000000000000001,
+        -4.3
+      ],
+      [
+        -1.9000000000000001,
+        -4.2
+      ],
+      [
+        -1.9000000000000001,
+        -4.1000000000000005
+      ],
+      [
+        -1.9000000000000001,
+        -4.0
+      ],
+      [
+        -1.9000000000000001,
+        -3.9000000000000004
+      ],
+      [
+        -1.9000000000000001,
+        -3.8000000000000003
+      ],
+      [
+        -1.9000000000000001,
+        -3.7
+      ],
+      [
+        -1.9000000000000001,
+        -3.6
+      ],
+      [
+        -1.9000000000000001,
+        -3.5
+      ],
+      [
+        -1.9000000000000001,
+        -3.4000000000000004
+      ]
+    ],
+    "length_m": 2.2,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 6,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "bottom_cabinet_jhymlr_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_jhymlr_0",
+        "volume_extents_m": {
+          "link_0": [
+            0.4039824604988098,
+            0.7194783687591553,
+            0.11852405220270157
+          ],
+          "link_1": [
+            0.40398257970809937,
+            0.7194693088531494,
+            0.11852410435676575
+          ],
+          "link_2": [
+            0.4039824604988098,
+            0.7194690704345703,
+            0.059297025203704834
+          ],
+          "link_3": [
+            0.4039822816848755,
+            0.7194781303405762,
+            0.11852405965328217
+          ],
+          "link_4": [
+            0.4039825201034546,
+            0.7194690704345703,
+            0.11852407455444336
+          ],
+          "link_5": [
+            0.4039822816848755,
+            0.7194689512252808,
+            0.05929696559906006
+          ]
+        },
+        "native_links": {
+          "link_0": "link_0",
+          "link_1": "link_1",
+          "link_2": "link_2",
+          "link_3": "link_3",
+          "link_4": "link_4",
+          "link_5": "link_5"
+        },
+        "geometry_source": "survey",
+        "geometry_provenance": {},
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_02": "link_0",
+          "item_07": "link_3",
+          "item_01": "link_5",
+          "item_06": "link_2",
+          "item_04": "link_5",
+          "item_05": "link_2",
+          "item_03": "link_1",
+          "item_08": "link_4",
+          "item_00": "link_1"
+        },
+        "component_allocation": {
+          "item_02": "link_0",
+          "item_07": "link_3",
+          "item_01": "link_5",
+          "item_06": "link_2",
+          "item_04": "link_5",
+          "item_05": "link_2",
+          "item_03": "link_1",
+          "item_08": "link_4",
+          "item_00": "link_1"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_02": "link_0",
+      "item_07": "link_3",
+      "item_01": "link_5",
+      "item_06": "link_2",
+      "item_04": "link_5",
+      "item_05": "link_2",
+      "item_03": "link_1",
+      "item_08": "link_4",
+      "item_00": "link_1"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "P159",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P159_01",
+    "parent_task_id": "P159",
+    "before_instruction": "Find the empty rigid case whose molded recess matches the console on the bedroom nightstand among living-room media storage; put it beside the console.",
+    "after_instruction": "There is a sample on the table in front of you in the bedroom. Find the portable game console matching that sample in the living-room media storage and bring it to the table in front of you in the bedroom in the bedroom.",
+    "reason": "Replaces nonexistent molded console-case fit with matching the native console itself; no empty-case state is claimed. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "portable_game_console/muwcnf",
+    "target_assets": [
+      "portable_game_console/muwcnf"
+    ]
+  },
+  "binding_sha256": "f7208d0e2dc73ef8477938fd512ce3a0cb6e26bc43b4d90203c4d1109c052e02"
+}

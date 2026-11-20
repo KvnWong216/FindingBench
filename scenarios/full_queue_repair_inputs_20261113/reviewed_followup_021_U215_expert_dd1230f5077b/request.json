@@ -1,0 +1,303 @@
+{
+  "action": "expert",
+  "case": {
+    "id": "U215",
+    "record": {
+      "id": "asset_U215_01",
+      "family": "semantic_U215",
+      "scene": "house_double_floor_lower",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/all_remaining_20261113_15_U215/asset_U215_01/scenario.yaml",
+      "scenario_sha256": "00e2ece231122a8279a6898ff710a71436ab3b221a3fbd28b5e94c7558a20b15",
+      "instruction": "I need the spare showerhead to compare with the bathroom fitting. Find it among the garage plumbing supplies and bring it to the counter in front of you in the bathroom in the bathroom.",
+      "target_key": "showerhead/hukknl",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "garage_0",
+      "destination_room": "bathroom_0",
+      "source_receptacle": "search_storage",
+      "destination_receptacle": "bottom_cabinet_qacthv_0",
+      "object_count": 10,
+      "distractor_count": 8,
+      "source_survey_sha256": "0a3f401e7605a056f40f88d913d8c052476ef760acf457ac11cb1f76abbe581f",
+      "route": {
+        "start": [
+          -2.75,
+          0.05,
+          -1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            -2.75,
+            0.05
+          ],
+          [
+            -2.75,
+            0.15000000000000002
+          ],
+          [
+            -2.75,
+            0.25
+          ],
+          [
+            -2.6500000000000004,
+            0.25
+          ],
+          [
+            -2.6500000000000004,
+            0.35000000000000003
+          ],
+          [
+            -2.5500000000000003,
+            0.35000000000000003
+          ],
+          [
+            -2.5500000000000003,
+            0.45
+          ],
+          [
+            -2.5500000000000003,
+            0.55
+          ],
+          [
+            -2.45,
+            0.55
+          ],
+          [
+            -2.45,
+            0.65
+          ],
+          [
+            -2.45,
+            0.75
+          ],
+          [
+            -2.45,
+            0.8500000000000001
+          ],
+          [
+            -2.45,
+            0.9500000000000001
+          ],
+          [
+            -2.45,
+            1.05
+          ],
+          [
+            -2.45,
+            1.1500000000000001
+          ],
+          [
+            -2.45,
+            1.25
+          ],
+          [
+            -2.45,
+            1.35
+          ],
+          [
+            -2.45,
+            1.4500000000000002
+          ],
+          [
+            -2.45,
+            1.55
+          ],
+          [
+            -2.45,
+            1.6500000000000001
+          ],
+          [
+            -2.45,
+            1.75
+          ],
+          [
+            -2.5500000000000003,
+            1.75
+          ],
+          [
+            -2.6500000000000004,
+            1.75
+          ],
+          [
+            -2.75,
+            1.75
+          ],
+          [
+            -2.85,
+            1.75
+          ],
+          [
+            -2.95,
+            1.75
+          ],
+          [
+            -3.0500000000000003,
+            1.75
+          ],
+          [
+            -3.1500000000000004,
+            1.75
+          ],
+          [
+            -3.1500000000000004,
+            1.85
+          ],
+          [
+            -3.25,
+            1.85
+          ],
+          [
+            -3.35,
+            1.85
+          ],
+          [
+            -3.35,
+            1.9500000000000002
+          ],
+          [
+            -3.35,
+            2.0500000000000003
+          ],
+          [
+            -3.35,
+            2.15
+          ],
+          [
+            -3.45,
+            2.15
+          ],
+          [
+            -3.45,
+            2.25
+          ],
+          [
+            -3.45,
+            2.35
+          ],
+          [
+            -3.45,
+            2.45
+          ],
+          [
+            -3.45,
+            2.5500000000000003
+          ],
+          [
+            -3.45,
+            2.6500000000000004
+          ],
+          [
+            -3.45,
+            2.75
+          ],
+          [
+            -3.45,
+            2.85
+          ],
+          [
+            -3.35,
+            2.85
+          ]
+        ],
+        "length_m": 4.2,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 39,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "search_storage",
+          "category": "shelf",
+          "model": "vanltx",
+          "floor": "floors_nbxnpk_0",
+          "position_xy": [
+            -3.6500000000000004,
+            4.05
+          ],
+          "aabb": [
+            [
+              -3.8230737609863286,
+              3.457485412597656,
+              -0.0
+            ],
+            [
+              -3.476926239013672,
+              4.642514587402344,
+              0.42811041259765625
+            ]
+          ],
+          "room": "garage_0"
+        }
+      ],
+      "parent_task_id": "U215",
+      "tier": "long",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_U215_01",
+        "parent_task_id": "U215",
+        "before_instruction": "I need the spare showerhead to compare with the bathroom fitting. Find it among the garage plumbing supplies and put it on the bathroom counter beside the sink.",
+        "after_instruction": "I need the spare showerhead to compare with the bathroom fitting. Find it among the garage plumbing supplies and bring it to the counter in front of you in the bathroom in the bathroom.",
+        "reason": "Preserves requested target identities, multiplicity and source/destination rooms; replaces only the uninstantiated delivery landmark with the uniquely initial-facing native surface.",
+        "target_asset": "showerhead/hukknl",
+        "target_assets": [
+          "showerhead/hukknl"
+        ]
+      },
+      "binding_sha256": "04c2f3474c26377c5e5682634cf1a431308dd30d5a9cd3b502ac94f060ef2d62",
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    },
+    "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/all_remaining_20261113_15_U215/asset_U215_01",
+    "accepted": false,
+    "error": "placement failed verification after physics settled: ['item_00 on_top search_storage', 'item_01 on_top search_storage', 'item_04 on_top search_storage', 'item_06 on_top search_storage', 'item_07 on_top search_storage', 'item_08 on_top search_storage']",
+    "source": "reviewed_polling_probe_all_remaining_20261113_15",
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "surface_or_timeout",
+      "reason": "placement failed verification after physics settled: ['item_00 on_top search_storage', 'item_01 on_top search_storage', 'item_04 on_top search_storage', 'item_06 on_top search_storage', 'item_07 on_top search_storage', 'item_08 on_top search_storage']"
+    }
+  },
+  "out": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_021_U215_expert_dd1230f5077b",
+  "variant": 93
+}

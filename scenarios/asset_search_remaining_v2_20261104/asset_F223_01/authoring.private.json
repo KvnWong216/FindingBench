@@ -1,0 +1,247 @@
+{
+  "id": "asset_F223_01",
+  "family": "semantic_F223",
+  "scene": "Wainscott_0_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_F223_01/scenario.yaml",
+  "scenario_sha256": "4ed5ae22f1074fac7e6084d2ac5ced4dfe2d5cf7c22bc802c22984de5ecb7b96",
+  "instruction": "Find a can of sardines in the kitchen food storage, not fish-flavored pet food, and bring it to the table in front of you in the dining room in the dining room.",
+  "target_key": "can_of_sardines/dpgmry",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "dining_room_0",
+  "source_receptacle": "bottom_cabinet_bamfsz_0",
+  "destination_receptacle": "breakfast_table_zypvuv_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "bfc3f55c9661a7a599b91007a0d13bfe6624ef15110725894b31404980af12ee",
+  "route": {
+    "start": [
+      3.2,
+      7.5,
+      0.0
+    ],
+    "path_xy": [
+      [
+        3.2,
+        7.5
+      ],
+      [
+        3.2,
+        7.6000000000000005
+      ],
+      [
+        3.2,
+        7.7
+      ],
+      [
+        3.1,
+        7.7
+      ],
+      [
+        3.1,
+        7.800000000000001
+      ],
+      [
+        3.1,
+        7.9
+      ],
+      [
+        3.0,
+        7.9
+      ],
+      [
+        3.0,
+        8.0
+      ],
+      [
+        3.0,
+        8.1
+      ],
+      [
+        3.0,
+        8.200000000000001
+      ],
+      [
+        3.0,
+        8.3
+      ],
+      [
+        3.0,
+        8.4
+      ],
+      [
+        3.0,
+        8.5
+      ],
+      [
+        3.0,
+        8.6
+      ],
+      [
+        3.0,
+        8.700000000000001
+      ],
+      [
+        3.0,
+        8.8
+      ],
+      [
+        3.0,
+        8.9
+      ],
+      [
+        3.0,
+        9.0
+      ],
+      [
+        3.0,
+        9.1
+      ],
+      [
+        3.0,
+        9.200000000000001
+      ],
+      [
+        3.0,
+        9.3
+      ],
+      [
+        3.0,
+        9.4
+      ],
+      [
+        3.0,
+        9.5
+      ],
+      [
+        3.0,
+        9.600000000000001
+      ],
+      [
+        3.1,
+        9.600000000000001
+      ],
+      [
+        3.2,
+        9.600000000000001
+      ],
+      [
+        3.3000000000000003,
+        9.600000000000001
+      ],
+      [
+        3.4000000000000004,
+        9.600000000000001
+      ],
+      [
+        3.5,
+        9.600000000000001
+      ],
+      [
+        3.6,
+        9.600000000000001
+      ],
+      [
+        3.7,
+        9.600000000000001
+      ],
+      [
+        3.8000000000000003,
+        9.600000000000001
+      ],
+      [
+        3.9000000000000004,
+        9.600000000000001
+      ],
+      [
+        4.0,
+        9.600000000000001
+      ],
+      [
+        4.1000000000000005,
+        9.600000000000001
+      ],
+      [
+        4.2,
+        9.600000000000001
+      ],
+      [
+        4.3,
+        9.600000000000001
+      ],
+      [
+        4.4,
+        9.600000000000001
+      ],
+      [
+        4.5,
+        9.600000000000001
+      ],
+      [
+        4.6000000000000005,
+        9.600000000000001
+      ],
+      [
+        4.7,
+        9.600000000000001
+      ],
+      [
+        4.800000000000001,
+        9.600000000000001
+      ],
+      [
+        4.9,
+        9.600000000000001
+      ]
+    ],
+    "length_m": 4.2,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 25,
+    "destination_approach_count": 37,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_no_top_bmsclc_0",
+    "bottom_cabinet_bamfsz_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "parent_task_id": "F223",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F223_01",
+    "parent_task_id": "F223",
+    "before_instruction": "Find a can of sardines in the kitchen food storage, not a fish-flavored pet-food can, and put it beside the crackers on the dining table.",
+    "after_instruction": "Find a can of sardines in the kitchen food storage, not fish-flavored pet food, and bring it to the table in front of you in the dining room in the dining room.",
+    "reason": "The identified delivery surface is grounded by the initial facing direction; decorative destination landmarks are omitted. Target identity, requested cardinality and source/destination room types are retained.",
+    "target_asset": "can_of_sardines/dpgmry",
+    "target_assets": [
+      "can_of_sardines/dpgmry"
+    ]
+  },
+  "binding_sha256": "5860ad948b46424cfc0dc516e3ea288533ec9233a70931d7c1bdc4a1d00a0edb"
+}

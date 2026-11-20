@@ -1,0 +1,69 @@
+{
+  "status": "editorial_revision_physics_pending",
+  "revision_id": "expert_household_component_rebinding_20261114_U215",
+  "authorization": "user_approved_find_and_deliver_rewrite",
+  "reason": "All native showerhead assets are 70 cm to 196 cm complete mounted assemblies, rather than loose handheld showerheads. Replace the unsupported detachable-component intent with a native 10.9-cm pipe fitting. Preserve the garage-plumbing-to-bathroom delivery setting, every distractor, object count, all relations and goal; journal the deliberate semantic revision instead of claiming a whole installed fixture is a loose showerhead.",
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/reviewed_followup_231_U215/asset_U215_01/scenario.yaml",
+  "original_archive": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_255_U215_expert_045c4d9b6573/_editorial/asset_U215_01/original_scenario.yaml",
+  "original_scenario_sha256": "650b1132740b9aac04782cbe6d9049b61d7921f6f6d6d4963deab3687cf43e75",
+  "revised_scenario_sha256": "904868e8e27c7b4345d5ec2bd75ad9a88b44eb9df9dea51deabd19b4e0dbc186",
+  "before_instruction": "I need the spare showerhead to compare with the bathroom fitting. Find it among the garage plumbing supplies and bring it to the counter in front of you in the bathroom in the bathroom.",
+  "after_instruction": "I need the spare pipe fitting to compare with the bathroom fitting. Find it among the garage plumbing supplies and bring it to the counter in front of you in the bathroom in the bathroom.",
+  "object_changes": [
+    {
+      "before": {
+        "name": "item_00",
+        "category": "showerhead",
+        "model": "hukknl"
+      },
+      "after": {
+        "name": "item_00",
+        "category": "pipe",
+        "model": "odqmuk"
+      },
+      "native_bbox_m": [
+        0.09802245712280273,
+        0.10852450561523437,
+        0.07796247100830078
+      ],
+      "metadata_sha256": "95fc32b9e96f0fd128e24ef0f1b595cc8f972a83f873edcceb66515470af984f",
+      "encrypted_asset_sha256": "0ff1e67defbce3ebc11db54538fc65acb186843200ff8164f21f0a6cc147b3a4"
+    }
+  ],
+  "surface_binding_changes": [],
+  "before_goal": [
+    {
+      "kind": "on_top",
+      "entity": "item_00",
+      "receptacle": "bottom_cabinet_qacthv_0"
+    }
+  ],
+  "after_goal": [
+    {
+      "kind": "on_top",
+      "entity": "item_00",
+      "receptacle": "bottom_cabinet_qacthv_0"
+    }
+  ],
+  "before_target": {
+    "entity": "item_00",
+    "category": "showerhead"
+  },
+  "after_target": {
+    "entity": "item_00",
+    "category": "pipe"
+  },
+  "preserved": [
+    "find-and-deliver paradigm",
+    "goal entity and relation",
+    "scene",
+    "spawn",
+    "robot",
+    "skills",
+    "entity names and count",
+    "placement relations",
+    "target cardinality"
+  ],
+  "physical_validation_required": true,
+  "human_completion_verified": false
+}

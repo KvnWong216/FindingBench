@@ -1,0 +1,516 @@
+{
+  "method": "expert_reauthored_generic_storage_on_open_work_surface",
+  "source_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_F217_01/scenario.yaml",
+  "source_sha256": "7a85cd57c9f4eeea1ed9e9c099b04dda4c3851bac5a0e43bb579b04bbe4eda93",
+  "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_full_20261105/asset_F217_01",
+  "relation_changes": [
+    {
+      "before": {
+        "entity": "item_00",
+        "relation": "on_top",
+        "receptacle": "bottom_cabinet_no_top_gjeoer_0"
+      },
+      "after": {
+        "entity": "item_00",
+        "relation": "on_top",
+        "receptacle": "countertop_kelker_0",
+        "position_xy": [
+          4.093,
+          -2.041
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_01",
+        "relation": "inside",
+        "receptacle": "item_00"
+      },
+      "after": {
+        "entity": "item_01",
+        "relation": "on_top",
+        "receptacle": "countertop_kelker_0",
+        "position_xy": [
+          4.148,
+          -1.351
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_02",
+        "relation": "inside",
+        "receptacle": "item_00"
+      },
+      "after": {
+        "entity": "item_02",
+        "relation": "on_top",
+        "receptacle": "countertop_kelker_0",
+        "position_xy": [
+          4.383,
+          -2.091
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_03",
+        "relation": "inside",
+        "receptacle": "item_00"
+      },
+      "after": {
+        "entity": "item_03",
+        "relation": "on_top",
+        "receptacle": "countertop_kelker_0",
+        "position_xy": [
+          3.9905,
+          -1.5535
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_04",
+        "relation": "inside",
+        "receptacle": "item_00"
+      },
+      "after": {
+        "entity": "item_04",
+        "relation": "on_top",
+        "receptacle": "countertop_kelker_0",
+        "position_xy": [
+          4.438,
+          -1.8685
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_05",
+        "relation": "inside",
+        "receptacle": "item_00"
+      },
+      "after": {
+        "entity": "item_05",
+        "relation": "on_top",
+        "receptacle": "countertop_kelker_0",
+        "position_xy": [
+          4.293,
+          -1.366
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_06",
+        "relation": "inside",
+        "receptacle": "item_00"
+      },
+      "after": {
+        "entity": "item_06",
+        "relation": "on_top",
+        "receptacle": "countertop_kelker_0",
+        "position_xy": [
+          4.288,
+          -1.5285000000000002
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_07",
+        "relation": "inside",
+        "receptacle": "item_00"
+      },
+      "after": {
+        "entity": "item_07",
+        "relation": "on_top",
+        "receptacle": "countertop_kelker_0",
+        "position_xy": [
+          4.0355,
+          -1.7710000000000001
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_08",
+        "relation": "inside",
+        "receptacle": "item_00"
+      },
+      "after": {
+        "entity": "item_08",
+        "relation": "on_top",
+        "receptacle": "countertop_kelker_0",
+        "position_xy": [
+          4.288,
+          -1.7735
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_09",
+        "relation": "inside",
+        "receptacle": "item_00"
+      },
+      "after": {
+        "entity": "item_09",
+        "relation": "on_top",
+        "receptacle": "countertop_kelker_0",
+        "position_xy": [
+          3.9755,
+          -1.3935
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_10",
+        "relation": "inside",
+        "receptacle": "item_00"
+      },
+      "after": {
+        "entity": "item_10",
+        "relation": "on_top",
+        "receptacle": "countertop_kelker_0",
+        "position_xy": [
+          4.3605,
+          -1.9585000000000001
+        ]
+      }
+    }
+  ],
+  "removed_unused_authored_fixtures": [],
+  "flat_stock_stacks": [],
+  "stack_footprint_envelopes_m": {},
+  "source_surface": "countertop_kelker_0",
+  "plans": [
+    {
+      "receptacle": "countertop_kelker_0",
+      "entities": [
+        "item_00",
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "item_09",
+        "item_10"
+      ],
+      "solver": {
+        "status": "feasible_model",
+        "device": "cuda",
+        "backend": "torch_cuda_finite_csp",
+        "solve_seconds": 0.04017742304131389,
+        "nodes": 11,
+        "candidate_tests": 1061218,
+        "search_orders_tried": 1,
+        "grid_m": 0.005,
+        "margin_m": 0.025,
+        "model": "upright boxes; yaw 0/90; single-layer independent bins; integer grid with convex centre halfspaces / fixed obstacles",
+        "physical_validation_required": true,
+        "assignment": {
+          "item_00": "surface",
+          "item_07": "surface",
+          "item_08": "surface",
+          "item_06": "surface",
+          "item_02": "surface",
+          "item_03": "surface",
+          "item_09": "surface",
+          "item_01": "surface",
+          "item_10": "surface",
+          "item_05": "surface",
+          "item_04": "surface"
+        },
+        "poses": {
+          "item_00": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.04,
+              0.04
+            ],
+            "footprint_m": [
+              0.37,
+              0.24
+            ],
+            "center_xy_m": [
+              0.225,
+              0.16
+            ]
+          },
+          "item_07": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.04,
+              0.305
+            ],
+            "footprint_m": [
+              0.255,
+              0.25
+            ],
+            "center_xy_m": [
+              0.1675,
+              0.43
+            ]
+          },
+          "item_08": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.32,
+              0.305
+            ],
+            "footprint_m": [
+              0.2,
+              0.245
+            ],
+            "center_xy_m": [
+              0.42,
+              0.4275
+            ]
+          },
+          "item_06": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.32,
+              0.5750000000000001
+            ],
+            "footprint_m": [
+              0.2,
+              0.195
+            ],
+            "center_xy_m": [
+              0.42,
+              0.6725
+            ]
+          },
+          "item_02": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.435,
+              0.04
+            ],
+            "footprint_m": [
+              0.16,
+              0.14
+            ],
+            "center_xy_m": [
+              0.515,
+              0.11
+            ]
+          },
+          "item_03": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.04,
+              0.58
+            ],
+            "footprint_m": [
+              0.165,
+              0.135
+            ],
+            "center_xy_m": [
+              0.1225,
+              0.6475
+            ]
+          },
+          "item_09": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.04,
+              0.74
+            ],
+            "footprint_m": [
+              0.135,
+              0.135
+            ],
+            "center_xy_m": [
+              0.1075,
+              0.8075
+            ]
+          },
+          "item_01": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.2,
+              0.795
+            ],
+            "footprint_m": [
+              0.16,
+              0.11
+            ],
+            "center_xy_m": [
+              0.28,
+              0.85
+            ]
+          },
+          "item_10": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.435,
+              0.20500000000000002
+            ],
+            "footprint_m": [
+              0.115,
+              0.075
+            ],
+            "center_xy_m": [
+              0.4925,
+              0.2425
+            ]
+          },
+          "item_05": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.385,
+              0.795
+            ],
+            "footprint_m": [
+              0.08,
+              0.08
+            ],
+            "center_xy_m": [
+              0.425,
+              0.835
+            ]
+          },
+          "item_04": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.545,
+              0.305
+            ],
+            "footprint_m": [
+              0.05,
+              0.055
+            ],
+            "center_xy_m": [
+              0.5700000000000001,
+              0.3325
+            ]
+          }
+        },
+        "authoring_spacing_attempts": [
+          {
+            "margin_m": 0.025,
+            "grid_m": 0.005,
+            "status": "feasible_model",
+            "reason": null
+          }
+        ]
+      },
+      "measured_scene_obstacles": [
+        [
+          0.15700000000000047,
+          2.753,
+          -0.0030000000000000027,
+          0.581,
+          3.245,
+          0.30199999999999994
+        ],
+        [
+          0.051000000000000156,
+          1.288,
+          -0.0020000000000000018,
+          0.5550000000000002,
+          2.101,
+          0.02400000000000002
+        ],
+        [
+          0.018000000000000238,
+          3.3070000000000004,
+          0.02100000000000002,
+          0.027000000000000135,
+          3.387,
+          0.10099999999999998
+        ],
+        [
+          0.018000000000000238,
+          3.223,
+          0.02100000000000002,
+          0.027000000000000135,
+          3.303,
+          0.10099999999999998
+        ],
+        [
+          -0.5309999999999997,
+          3.201,
+          -0.889,
+          0.014000000000000234,
+          3.404,
+          2.165
+        ],
+        [
+          -0.21199999999999974,
+          0.004999999999999893,
+          -0.889,
+          0.014000000000000234,
+          3.201,
+          2.165
+        ],
+        [
+          -0.21999999999999975,
+          -0.41400000000000015,
+          -0.889,
+          0.7900000000000005,
+          0.0129999999999999,
+          2.165
+        ]
+      ],
+      "physical_validation_required": true
+    }
+  ],
+  "source_room": "kitchen_0",
+  "reviewed_initial_placement": {
+    "before": {
+      "position": [
+        9.3,
+        2.8000000000000003,
+        0.0053
+      ],
+      "orientation": [
+        0,
+        0,
+        1.0,
+        6.123233995736766e-17
+      ]
+    },
+    "after": {
+      "position": [
+        9.1,
+        2.4000000000000004,
+        0.0053
+      ],
+      "orientation": [
+        0.0,
+        0.0,
+        0.9627614585383315,
+        0.27035231449563096
+      ]
+    },
+    "reason": "Keep a unique forward delivery table after explicitly reauthoring generic source storage on a work surface.",
+    "displacement_m": 0.4472135954999583,
+    "same_initial_room": true,
+    "physical_validation_required": true
+  },
+  "reviewed_open_source_relayout": true,
+  "reviewed_surface_yaw_proposals": true,
+  "reviewed_source_scope": " the kitchen bread supplies ",
+  "reason": "The task names unqualified source stock. Reauthor its initial arrangement on a real work surface, retaining the exact instruction, goal, native props and counts; journal every support relation and initial-pose change and rerun all native physical checks.",
+  "physical_validation_required": true,
+  "human_completion_verified": false
+}

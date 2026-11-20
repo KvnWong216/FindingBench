@@ -1,0 +1,79 @@
+task_id: T04_apple_to_island
+task_name: 把苹果拿到厨房岛台上 (bring the apple to the kitchen island)
+family: fetch_and_place
+replaces_in_grid: T03_apple_to_fridge   # blocked: PLACE cannot realise inside(fixed furniture)
+source:
+  findingbench: scenarios/knife_search_001/scenario.yaml   # scene, apple model agveuv, drawer qohxjq_0/link_2
+  official_behavior_analogue: >
+    bringing_water / moving_boxes_to_storage (relocate an object onto a surface,
+    possibly from another room); same goal form, different scene
+  replaces: _superseded/T04_apple_to_living_room.yaml (no living-room surface is PLACE-feasible)
+
+target: {entity: target_apple, category: apple, model: agveuv}
+goal:
+  # certified 2026-10-18 (round3_mug.json): PLACE feasible on the island after a real grasp
+  - {kind: on_top, entity: target_apple, receptacle: countertop_tpuwys_4}
+
+background_objects:   # same as T03 (only fruit = the target apple)
+  - {name: bg_bowl,       category: bowl,          model: adciys}
+  - {name: bg_teacup,     category: teacup,        model: cpozxi}
+  - {name: bg_tablespoon, category: tablespoon,    model: huudhe}
+  - {name: bg_tablefork,  category: tablefork,     model: flexrc}
+  - {name: bg_mug,        category: mug,           model: dhnxww}
+  - {name: bg_cutting_board, category: cutting_board, model: aibvew}
+  - {name: bg_plate,      category: plate,         model: aewthq}
+background_placements:
+  - {entity: bg_bowl,          relation: inside, receptacle: bottom_cabinet_no_top_spojpj_0}
+  - {entity: bg_teacup,        relation: inside, receptacle: bottom_cabinet_no_top_spojpj_0}
+  - {entity: bg_tablespoon,    relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: bg_tablefork,     relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: bg_mug,           relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: bg_cutting_board, relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: bg_plate,         relation: on_top, receptacle: breakfast_table_uhrsex_0}
+initial_states:
+  bottom_cabinet_no_top_qohxjq_0: {open: false}
+  bottom_cabinet_no_top_spojpj_0: {open: false}
+
+spatial:
+  S1:
+    # the island is the goal, so S1 uses another visible counter (mug there: 72 px
+    # from the start, GRASP 6-step route — round2_mug.json). countertop_tpuwys_0 was
+    # tried first: the apple grasped there could not be PLACEd on the island from
+    # any pose, including two where island PLACE succeeded after other grasps
+    # (COLLISION, runs/vla_difficulty_v1/_history/T04_apple_to_island__L2_S1_*).
+    placement: {entity: target_apple, relation: on_top, receptacle: countertop_tpuwys_3}
+    room: kitchen_0
+    location_phrase: the counter next to the sink
+    extra_ops_vs_S1: []
+  S2:
+    placement: {entity: target_apple, relation: inside, receptacle: bottom_cabinet_no_top_qohxjq_0, link: link_2}
+    room: kitchen_0
+    location_phrase: the top drawer of the cabinet next to the hallway door
+    extra_ops_vs_S1: [OPEN]
+    naturalness_note: an apple in a drawer is a counterfactual location; record when comparing L3
+  S3:
+    # position_xy pins the hidden far end of the 1.7 m shelf: the sampler put the mug / apple at
+    # x~3.8 where they were visible from the start (35 / 30 px, 2026-10-18 runs); x~4.3-4.6 was 0 px
+    placement: {entity: target_apple, relation: on_top, receptacle: bookcase_owvfik_1, position_xy: [4.45, -5.45]}
+    room: living_room_0
+    location_phrase: the low shelf under the TV in the living room
+    extra_ops_vs_S1: [cross-room navigation (open-plan), longer carry back]
+
+language:
+  L1:
+    S1: Go to the counter next to the sink and pick up the apple on it. Then carry it to the kitchen island, place it on the island, and report that you are done.
+    S2: Go to the top drawer of the cabinet next to the hallway door and open it. Pick up the apple inside. Then carry it to the kitchen island, place it on the island, and report that you are done.
+    S3: Go to the living room and pick up the apple on the low shelf under the TV. Then bring it back to the kitchen island, place it on the island, and report that you are done.
+  L2: Put the apple on the kitchen island.
+  L3: I'm going to slice some fruit for a snack at the kitchen island. Could you bring the apple over there for me?
+
+l3_ambiguity_check:
+  competing_interpretations: [other fruit, the cutting board, handing it over]
+  resolution: >
+    the apple is the only fruit; the location (island) is named; the cutting board is on
+    the other counter and is not the requested object; handing over is not in the skill library
+  residual_risk: 'the word "slice" might suggest also bringing the cutting board — goal checks the apple only'
+
+verification_status:   # 2026-10-18
+  grasp locations: certified with the mug; the apple itself first runs in the T04 variants
+  goal countertop_tpuwys_4: PLACE certified after a real grasp (mug, round3)

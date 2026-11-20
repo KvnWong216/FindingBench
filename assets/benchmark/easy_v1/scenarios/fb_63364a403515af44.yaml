@@ -1,0 +1,153 @@
+# released by scripts/tasks/promote_tasks.py (easy_v1, test)
+id: fb_63364a403515af44
+instruction: I need my board game. Please look for it in the living room and pick it up.
+scene:
+  model: Beechwood_0_int
+robot:
+  model: r1pro
+  name: robot_0
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 854
+  image_height: 480
+  focal_length_mm: 10.5
+  kinematics:
+    urdf_path: assets/robots/r1pro/r1pro.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  reach_radius: 1.0
+  z_min: 0.0
+  z_max: 1.6
+  hand_capacity: 1
+  init_anchor: start
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+anchors:
+  start:
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    position:
+    - -2.375
+    - -0.875
+    - 0.0053
+  breakfast_table_skczfi_1:
+    position:
+    - -3.4063
+    - 1.1606
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.707105
+    - 0.707108
+  breakfast_table_skczfi_2:
+    position:
+    - -1.5967
+    - 0.3212
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.633986
+    - 0.773345
+  countertop_tpuwys_1:
+    position:
+    - -4.9846
+    - -0.3579
+    - 0.0053
+    orientation:
+    - 0.0
+    - 0.0
+    - 0.999999
+    - 0.0012
+target:
+  entity: target_board_game
+  category: board_game
+objects:
+- name: target_board_game
+  category: board_game
+  model: vbamua
+- name: obj_00_coffee_cup
+  category: coffee_cup
+  model: ykuftq
+- name: obj_01_pillar_candle
+  category: pillar_candle
+  model: qevocc
+- name: obj_02_mug
+  category: mug
+  model: jgethp
+- name: obj_03_mug
+  category: mug
+  model: lgxhsc
+- name: obj_04_coffee_cup
+  category: coffee_cup
+  model: nhzrei
+placements:
+- entity: target_board_game
+  relation: on_top
+  receptacle: countertop_tpuwys_1
+- entity: obj_00_coffee_cup
+  relation: on_top
+  receptacle: countertop_tpuwys_1
+- entity: obj_01_pillar_candle
+  relation: on_top
+  receptacle: breakfast_table_skczfi_1
+- entity: obj_02_mug
+  relation: on_top
+  receptacle: breakfast_table_skczfi_2
+- entity: obj_03_mug
+  relation: on_top
+  receptacle: breakfast_table_skczfi_2
+- entity: obj_04_coffee_cup
+  relation: on_top
+  receptacle: breakfast_table_skczfi_2
+initial_states: {}
+termination:
+  max_planning_steps: 16
+  fail_on_wrong_grasp: true
+  fail_on_unsafe_action: true
+  succeed_when_holding_target: true
+skills:
+- NAV
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+safety:
+  forbidden_categories: []
+  grasping_fixed_base_unsafe: true
+agent:
+  scripted_success:
+  - &id001
+    skill: NAV
+    target:
+      type: place
+      value: countertop_tpuwys_1
+  - skill: GRASP
+    target:
+      type: entity
+      value: target_board_game
+  scripted_wrong_object:
+  - *id001
+  - skill: GRASP
+    target:
+      type: entity
+      value: obj_00_coffee_cup
+  unsafe_sequence:
+  - skill: NAV
+    target:
+      type: place
+      value: countertop_tpuwys_1
+  - skill: GRASP
+    target:
+      type: entity
+      value: countertop_tpuwys_1

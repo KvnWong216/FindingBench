@@ -1,0 +1,558 @@
+{
+  "action": "expert",
+  "case": {
+    "id": "P134",
+    "record": {
+      "id": "asset_P134_01",
+      "family": "semantic_P134",
+      "scene": "house_double_floor_upper",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/full_queue_565ddf0abdcd_P134/asset_P134_01/scenario.yaml",
+      "scenario_sha256": "68588d9139222541d81fc1541d6f0c4f7a4163c29d3374d57c7034312ceceabe",
+      "instruction": "There is a sample on the cabinet top in front of you in the living room. Find a DVD matching that sample in the bedroom media drawers and bring it to the cabinet top in front of you in the living room in the living room.",
+      "target_key": "dvd/lggrfa",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "bedroom_0",
+      "destination_room": "living_room_0",
+      "source_receptacle": "expert_storage_80",
+      "destination_receptacle": "delivery_surface",
+      "object_count": 9,
+      "distractor_count": 4,
+      "source_survey_sha256": "bad4111136351f4ccb189cc8da21449e65bb285de15b8c94024c1d045abd820a",
+      "route": {
+        "start": [
+          -1.0,
+          -0.4,
+          0.0
+        ],
+        "path_xy": [
+          [
+            -1.0,
+            -0.4
+          ],
+          [
+            -1.1,
+            -0.4
+          ],
+          [
+            -1.2000000000000002,
+            -0.4
+          ],
+          [
+            -1.3,
+            -0.4
+          ],
+          [
+            -1.4000000000000001,
+            -0.4
+          ],
+          [
+            -1.5,
+            -0.4
+          ],
+          [
+            -1.6,
+            -0.4
+          ],
+          [
+            -1.7000000000000002,
+            -0.4
+          ],
+          [
+            -1.8,
+            -0.4
+          ],
+          [
+            -1.9000000000000001,
+            -0.4
+          ],
+          [
+            -1.9000000000000001,
+            -0.30000000000000004
+          ],
+          [
+            -1.9000000000000001,
+            -0.2
+          ],
+          [
+            -1.9000000000000001,
+            -0.1
+          ],
+          [
+            -2.0,
+            -0.1
+          ],
+          [
+            -2.0,
+            0.0
+          ],
+          [
+            -2.0,
+            0.1
+          ],
+          [
+            -2.1,
+            0.1
+          ],
+          [
+            -2.1,
+            0.2
+          ],
+          [
+            -2.2,
+            0.2
+          ],
+          [
+            -2.3000000000000003,
+            0.2
+          ],
+          [
+            -2.4000000000000004,
+            0.2
+          ],
+          [
+            -2.5,
+            0.2
+          ],
+          [
+            -2.6,
+            0.2
+          ],
+          [
+            -2.7,
+            0.2
+          ],
+          [
+            -2.8000000000000003,
+            0.2
+          ],
+          [
+            -2.9000000000000004,
+            0.2
+          ],
+          [
+            -3.0,
+            0.2
+          ],
+          [
+            -3.1,
+            0.2
+          ],
+          [
+            -3.2,
+            0.2
+          ],
+          [
+            -3.3000000000000003,
+            0.2
+          ],
+          [
+            -3.4000000000000004,
+            0.2
+          ],
+          [
+            -3.5,
+            0.2
+          ],
+          [
+            -3.6,
+            0.2
+          ],
+          [
+            -3.7,
+            0.2
+          ],
+          [
+            -3.7,
+            0.30000000000000004
+          ],
+          [
+            -3.8000000000000003,
+            0.30000000000000004
+          ],
+          [
+            -3.8000000000000003,
+            0.4
+          ],
+          [
+            -3.9000000000000004,
+            0.4
+          ],
+          [
+            -3.9000000000000004,
+            0.5
+          ],
+          [
+            -3.9000000000000004,
+            0.6000000000000001
+          ]
+        ],
+        "length_m": 3.9,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 2,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "comparison_sample",
+        "search_storage",
+        "expert_storage_80"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [
+        {
+          "name": "search_storage",
+          "category": "bottom_cabinet_no_top",
+          "model": "qohxjq",
+          "floor": "floors_nlswvt_0",
+          "position_xy": [
+            -4.1000000000000005,
+            1.3
+          ],
+          "aabb": [
+            [
+              -4.326488624572755,
+              1.112822250366211,
+              0.0
+            ],
+            [
+              -3.8735113754272468,
+              1.487177749633789,
+              0.6150122375488282
+            ]
+          ],
+          "room": "bedroom_0"
+        },
+        {
+          "name": "delivery_surface",
+          "category": "bottom_cabinet",
+          "model": "jrhgeu",
+          "floor": "floors_rfqizg_0",
+          "position_xy": [
+            -0.30000000000000004,
+            0.1
+          ],
+          "aabb": [
+            [
+              -0.467144760131836,
+              -0.24228797912597658,
+              0.0
+            ],
+            [
+              -0.1328552398681641,
+              0.4422879791259766,
+              0.6846599731445313
+            ]
+          ],
+          "room": "living_room_0"
+        },
+        {
+          "name": "expert_storage_80",
+          "category": "bottom_cabinet_no_top",
+          "model": "ncgmqr",
+          "floor": "floors_nlswvt_0",
+          "position_xy": [
+            -5.1000000000000005,
+            1.3
+          ],
+          "aabb": [
+            [
+              -5.411869705200196,
+              1.091652801513672,
+              0.0
+            ],
+            [
+              -4.788130294799805,
+              1.5083471984863281,
+              0.6957286682128906
+            ]
+          ],
+          "room": "bedroom_0"
+        }
+      ],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "expert_storage_80",
+            "volume_extents_m": {
+              "meta__drawer0_fillable_0_0_link": [
+                0.5233886344018981,
+                0.39358985018730164,
+                0.14444891703128815
+              ],
+              "meta__drawer1_fillable_0_0_link": [
+                0.5237021703720093,
+                0.39821761441230774,
+                0.14396608537536593
+              ],
+              "meta__drawer2_fillable_0_0_link": [
+                0.5186685735186505,
+                0.3985025246143341,
+                0.28758682544270653
+              ]
+            },
+            "native_links": {
+              "meta__drawer0_fillable_0_0_link": "meta__drawer0_fillable_0_0_link",
+              "meta__drawer1_fillable_0_0_link": "meta__drawer1_fillable_0_0_link",
+              "meta__drawer2_fillable_0_0_link": "meta__drawer2_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet_no_top/ncgmqr",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "654ec43b4fbdc16ab935e47e394df2e4452ea2ef8e5df804fc94faba3196f5a7",
+              "metadata_sha256": "4f69836ec4373a572ddb8592f3f5f5e84e399b02a8b6553a4147db5c12cdb121",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.011285546235740185,
+              "nodes": 5,
+              "candidate_tests": 4017,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_00": "meta__drawer1_fillable_0_0_link",
+                "item_01": "meta__drawer2_fillable_0_0_link",
+                "item_02": "meta__drawer0_fillable_0_0_link",
+                "item_04": "meta__drawer1_fillable_0_0_link",
+                "item_03": "meta__drawer0_fillable_0_0_link"
+              },
+              "poses": {
+                "item_00": {
+                  "bin": "meta__drawer1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.14400000000000002,
+                    0.14400000000000002
+                  ],
+                  "center_xy_m": [
+                    0.077,
+                    0.077
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__drawer2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.194,
+                    0.131
+                  ],
+                  "center_xy_m": [
+                    0.10200000000000001,
+                    0.07050000000000001
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__drawer0_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.163,
+                    0.132
+                  ],
+                  "center_xy_m": [
+                    0.08650000000000001,
+                    0.07100000000000001
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__drawer1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.154,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.161,
+                    0.12
+                  ],
+                  "center_xy_m": [
+                    0.23450000000000001,
+                    0.065
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__drawer0_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.17300000000000001,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.152,
+                    0.111
+                  ],
+                  "center_xy_m": [
+                    0.249,
+                    0.0605
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_00": "meta__drawer1_fillable_0_0_link",
+              "item_01": "meta__drawer2_fillable_0_0_link",
+              "item_02": "meta__drawer0_fillable_0_0_link",
+              "item_04": "meta__drawer1_fillable_0_0_link",
+              "item_03": "meta__drawer0_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_00": "meta__drawer1_fillable_0_0_link",
+              "item_01": "meta__drawer2_fillable_0_0_link",
+              "item_02": "meta__drawer0_fillable_0_0_link",
+              "item_04": "meta__drawer1_fillable_0_0_link",
+              "item_03": "meta__drawer0_fillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [],
+      "parent_task_id": "P134",
+      "tier": "long",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_P134_01",
+        "parent_task_id": "P134",
+        "before_instruction": "Find disc 2 of Sea Voyage among the bedroom media drawers and put its closed case beside disc 1 on the living-room TV cabinet.",
+        "after_instruction": "There is a sample on the cabinet top in front of you in the living room. Find a DVD matching that sample in the bedroom media drawers and bring it to the cabinet top in front of you in the living room in the living room.",
+        "reason": "Replaces fictional numbered disc relation and unverified case closure with actual native DVD matching. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "dvd/lggrfa",
+        "target_assets": [
+          "dvd/lggrfa"
+        ]
+      },
+      "binding_sha256": "21a7dfd2ce772da93608d47f5d39d68dff99743edd95f2cd140821313faabaf9",
+      "proposal_native_policy_signature": "638901e57b44747045bd55ed10084fe82451f1075c4c28aa6f0af555449b389c"
+    },
+    "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/full_queue_565ddf0abdcd_P134/asset_P134_01",
+    "error": "placement failed verification after physics settled: ['item_00 inside expert_storage_80', 'item_04 inside expert_storage_80', 'comparison_sample on_top delivery_surface']",
+    "source_sha256": "0d9213de7d9eaa6303877df532f1c84590a079ab9489f6818dee9d1c06d2637d",
+    "expert_diagnosis": {
+      "category": "surface_or_timeout",
+      "error": "placement failed verification after physics settled: ['item_00 inside expert_storage_80', 'item_04 inside expert_storage_80', 'comparison_sample on_top delivery_surface']",
+      "native_rejections_in_current_queue": 0,
+      "first_blocker": {
+        "entity": "comparison_sample",
+        "receptacle": "delivery_surface",
+        "relation": "on_top",
+        "link": null,
+        "attempt": 1
+      },
+      "solver": {
+        "receptacle": "expert_storage_80",
+        "deferred_thin_entities": [
+          "item_00",
+          "item_04"
+        ],
+        "status": "feasible_model",
+        "device": "cuda",
+        "backend": "torch_cuda_finite_csp",
+        "solve_seconds": 0.035954935010522604,
+        "nodes": 1,
+        "candidate_tests": 70861,
+        "search_orders_tried": 1,
+        "grid_m": 0.001,
+        "margin_m": 0.015,
+        "model": "upright boxes; yaw 0/90; single-layer shared physical cavity groups; integer grid with convex centre halfspaces / fixed obstacles",
+        "physical_validation_required": true,
+        "assignment": {
+          "item_02": "meta__drawer0_fillable_0_0_link#mesh:0#support_patch:0"
+        },
+        "poses": {
+          "item_02": {
+            "bin": "meta__drawer0_fillable_0_0_link#mesh:0#support_patch:0",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.015,
+              0.015
+            ],
+            "footprint_m": [
+              0.163,
+              0.132
+            ],
+            "center_xy_m": [
+              0.0965,
+              0.081
+            ]
+          }
+        }
+      },
+      "support_measurements": {
+        "total": 0,
+        "planar": 0,
+        "reasons": {}
+      },
+      "first_contact": null,
+      "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/full_queue_565ddf0abdcd_P134/asset_P134_01/native_validation.log",
+      "inference_scope": "proposal/model diagnosis; native physics acceptance unchanged"
+    },
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "surface_or_timeout",
+      "reason": "placement failed verification after physics settled: ['item_00 inside expert_storage_80', 'item_04 inside expert_storage_80', 'comparison_sample on_top delivery_surface']"
+    }
+  },
+  "out": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_19_P134_expert_1ae92718691b",
+  "variant": 93
+}

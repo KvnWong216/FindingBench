@@ -1,0 +1,246 @@
+{
+  "status": "static_screened_physics_pending",
+  "method": "joint_native_open_surface_layout",
+  "source_kind": "shelf",
+  "initial_goal_overlap_repaired": false,
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/household_component_U283_20261114_U283/asset_U283_01/scenario.yaml",
+  "old_storage": "search_storage",
+  "new_storage": {
+    "name": "search_storage",
+    "category": "coffee_table",
+    "model": "hmwkkt",
+    "floor": "floors_ghetev_0",
+    "position_xy": [
+      18.85,
+      3.25
+    ],
+    "aabb": [
+      [
+        18.698696968078615,
+        3.061937080383301,
+        0.014
+      ],
+      [
+        19.00130303192139,
+        3.438062919616699,
+        0.46882726287841797
+      ]
+    ],
+    "room": "garden_0"
+  },
+  "replaced_auxiliary_fixture": true,
+  "delivery_entity": "delivery_surface",
+  "private_route_destination_anchor": "delivery_surface",
+  "solver": {
+    "status": "feasible_model",
+    "device": "cuda",
+    "backend": "torch_cuda_finite_csp",
+    "solve_seconds": 0.05337958782911301,
+    "nodes": 10,
+    "candidate_tests": 121536,
+    "search_orders_tried": 1,
+    "grid_m": 0.001,
+    "margin_m": 0.015,
+    "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+    "physical_validation_required": true,
+    "assignment": {
+      "item_03": "surface",
+      "comparison_negative_0": "surface",
+      "item_05": "surface",
+      "item_00": "surface",
+      "item_02": "surface",
+      "item_08": "surface",
+      "item_04": "surface",
+      "item_01": "surface",
+      "item_07": "surface",
+      "item_06": "surface"
+    },
+    "poses": {
+      "item_03": {
+        "bin": "surface",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.015
+        ],
+        "footprint_m": [
+          0.098,
+          0.148
+        ],
+        "center_xy_m": [
+          0.064,
+          0.089
+        ]
+      },
+      "comparison_negative_0": {
+        "bin": "surface",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.128,
+          0.015
+        ],
+        "footprint_m": [
+          0.113,
+          0.07100000000000001
+        ],
+        "center_xy_m": [
+          0.1845,
+          0.0505
+        ]
+      },
+      "item_05": {
+        "bin": "surface",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.128,
+          0.101
+        ],
+        "footprint_m": [
+          0.113,
+          0.07100000000000001
+        ],
+        "center_xy_m": [
+          0.1845,
+          0.1365
+        ]
+      },
+      "item_00": {
+        "bin": "surface",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.187
+        ],
+        "footprint_m": [
+          0.108,
+          0.062
+        ],
+        "center_xy_m": [
+          0.069,
+          0.218
+        ]
+      },
+      "item_02": {
+        "bin": "surface",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.138,
+          0.187
+        ],
+        "footprint_m": [
+          0.081,
+          0.08
+        ],
+        "center_xy_m": [
+          0.1785,
+          0.227
+        ]
+      },
+      "item_08": {
+        "bin": "surface",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.264
+        ],
+        "footprint_m": [
+          0.081,
+          0.08
+        ],
+        "center_xy_m": [
+          0.0555,
+          0.304
+        ]
+      },
+      "item_04": {
+        "bin": "surface",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.256,
+          0.015
+        ],
+        "footprint_m": [
+          0.026000000000000002,
+          0.096
+        ],
+        "center_xy_m": [
+          0.269,
+          0.063
+        ]
+      },
+      "item_01": {
+        "bin": "surface",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.256,
+          0.126
+        ],
+        "footprint_m": [
+          0.008,
+          0.122
+        ],
+        "center_xy_m": [
+          0.26,
+          0.187
+        ]
+      },
+      "item_07": {
+        "bin": "surface",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.279,
+          0.126
+        ],
+        "footprint_m": [
+          0.008,
+          0.122
+        ],
+        "center_xy_m": [
+          0.28300000000000003,
+          0.187
+        ]
+      },
+      "item_06": {
+        "bin": "surface",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.234,
+          0.263
+        ],
+        "footprint_m": [
+          0.051000000000000004,
+          0.021
+        ],
+        "center_xy_m": [
+          0.2595,
+          0.2735
+        ]
+      }
+    },
+    "authoring_spacing_attempts": [
+      {
+        "margin_m": 0.025,
+        "grid_m": 0.001,
+        "status": "infeasible_model",
+        "reason": "Total inflated footprint exceeds total bin area"
+      },
+      {
+        "margin_m": 0.015,
+        "grid_m": 0.001,
+        "status": "feasible_model",
+        "reason": null
+      }
+    ]
+  },
+  "physical_validation_required": true,
+  "coordinate_proposal": "offline_rectangle_XY",
+  "preserved": [
+    "instruction",
+    "goal",
+    "target",
+    "robot",
+    "spawn",
+    "all task items and counts",
+    "all placement relations"
+  ]
+}

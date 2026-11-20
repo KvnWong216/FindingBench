@@ -1,0 +1,182 @@
+{
+  "id": "asset_P057_01",
+  "family": "semantic_P057",
+  "scene": "hotel_suite_large",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P057_01/scenario.yaml",
+  "scenario_sha256": "793ee153e5ad79108d9746a2e0f2c90105c007b2e065e0b84c2aa8cb27c1e706",
+  "instruction": "Find the bar of soap in the bedroom travel-supply drawer and bring it to the counter in front of you in the bathroom in the bathroom.",
+  "target_key": "bar_soap/ofargb",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bedroom_0",
+  "destination_room": "bathroom_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 11,
+  "distractor_count": 8,
+  "source_survey_sha256": "06ad52b50e10b1cfb9813fac870a242888a7b8090e9b315f09f4b2237c9a12b8",
+  "route": {
+    "start": [
+      -0.7000000000000001,
+      2.8000000000000003,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -0.7000000000000001,
+        2.8000000000000003
+      ],
+      [
+        -0.7000000000000001,
+        2.7
+      ],
+      [
+        -0.7000000000000001,
+        2.6
+      ],
+      [
+        -0.7000000000000001,
+        2.5
+      ],
+      [
+        -0.7000000000000001,
+        2.4000000000000004
+      ],
+      [
+        -0.7000000000000001,
+        2.3000000000000003
+      ],
+      [
+        -0.7000000000000001,
+        2.2
+      ],
+      [
+        -0.7000000000000001,
+        2.1
+      ],
+      [
+        -0.7000000000000001,
+        2.0
+      ],
+      [
+        -0.7000000000000001,
+        1.9000000000000001
+      ],
+      [
+        -0.7000000000000001,
+        1.8
+      ],
+      [
+        -0.7000000000000001,
+        1.7000000000000002
+      ],
+      [
+        -0.6000000000000001,
+        1.7000000000000002
+      ],
+      [
+        -0.5,
+        1.7000000000000002
+      ],
+      [
+        -0.4,
+        1.7000000000000002
+      ]
+    ],
+    "length_m": 1.4,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 56,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "nightstand",
+      "model": "uudzva",
+      "floor": "floors_nwjrkc_0",
+      "position_xy": [
+        0.8,
+        1.3
+      ],
+      "aabb": [
+        [
+          0.625,
+          1.0700000228881836,
+          -0.006
+        ],
+        [
+          0.9750000000000001,
+          1.5299999771118165,
+          0.6940004272460938
+        ]
+      ],
+      "room": "bedroom_0"
+    },
+    {
+      "name": "delivery_surface",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_kudtlk_0",
+      "position_xy": [
+        -0.9,
+        3.7
+      ],
+      "aabb": [
+        [
+          -1.067144760131836,
+          3.3577120208740237,
+          0.028
+        ],
+        [
+          -0.732855239868164,
+          4.042287979125977,
+          0.7126599731445313
+        ]
+      ],
+      "room": "bathroom_0"
+    }
+  ],
+  "parent_task_id": "P057",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P057_01",
+    "parent_task_id": "P057",
+    "before_instruction": "Find the solid bar of soap in the bedroom travel-supply drawer and place it in the bathroom soap dish beside the sink.",
+    "after_instruction": "Find the bar of soap in the bedroom travel-supply drawer and bring it to the counter in front of you in the bathroom in the bathroom.",
+    "reason": "Retains the native soap-bar form while replacing an unconstructed soap dish with a grounded surface. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "bar_soap/ofargb",
+    "target_assets": [
+      "bar_soap/ofargb"
+    ]
+  },
+  "binding_sha256": "01aaf96a10479112c3d8817dd3ab772568343d1175e759d5247972b84a0de781"
+}

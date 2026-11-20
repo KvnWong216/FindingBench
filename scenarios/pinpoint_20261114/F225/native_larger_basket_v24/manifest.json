@@ -1,0 +1,402 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F225_01",
+      "family": "semantic_F225",
+      "scene": "house_double_floor_lower",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/pinpoint_20261114/F225/native_larger_basket_v24/asset_F225_01/scenario.yaml",
+      "scenario_sha256": "c0cfb0e2364de101e97b91f4e1f7f83734145f9147c760ac03b79e539be06a4f",
+      "instruction": "Find a banana and an apple in the kitchen produce storage and bring both to the table in front of you in the living room in the living room for a snack.",
+      "target_key": "banana/znakxm",
+      "target_entities": [
+        "item_01",
+        "item_02"
+      ],
+      "target_count": 2,
+      "source_room": "kitchen_0",
+      "destination_room": "living_room_0",
+      "source_receptacle": "item_00",
+      "destination_receptacle": "coffee_table_koagbh_0",
+      "object_count": 11,
+      "distractor_count": 8,
+      "source_survey_sha256": "0a3f401e7605a056f40f88d913d8c052476ef760acf457ac11cb1f76abbe581f",
+      "route": {
+        "start": [
+          4.15,
+          3.95,
+          1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            4.15,
+            3.95
+          ],
+          [
+            4.15,
+            3.85
+          ],
+          [
+            4.15,
+            3.75
+          ],
+          [
+            4.15,
+            3.6500000000000004
+          ],
+          [
+            4.15,
+            3.5500000000000003
+          ],
+          [
+            4.15,
+            3.45
+          ],
+          [
+            4.15,
+            3.35
+          ],
+          [
+            4.15,
+            3.25
+          ],
+          [
+            4.15,
+            3.1500000000000004
+          ],
+          [
+            4.15,
+            3.0500000000000003
+          ],
+          [
+            4.15,
+            2.95
+          ],
+          [
+            4.15,
+            2.85
+          ]
+        ],
+        "length_m": 1.1,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_00",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "item_09",
+        "item_10"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [],
+      "parent_task_id": "F225",
+      "tier": "long",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F225_01",
+        "parent_task_id": "F225",
+        "before_instruction": "Find a banana and a different kind of whole fruit in the kitchen produce storage and put both beside the book on the living room coffee table.",
+        "after_instruction": "Find a banana and an apple in the kitchen produce storage and bring both to the table in front of you in the living room in the living room for a snack.",
+        "reason": "Concretizes the second different fruit as apple; retains two-category AND goal and cross-room delivery. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "banana/znakxm",
+        "target_assets": [
+          "banana/znakxm",
+          "apple/hwrflj"
+        ]
+      },
+      "binding_sha256": "0d498e79ba4e85a176c88d2476e0e3f2a4200fde51162c5b9d31cfe84149bd6b",
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "item_00",
+            "volume_extents_m": {
+              "meta__base_link_openfillable_0_0_link": [
+                0.54239067029953,
+                0.3574627299308777,
+                0.5728350430478137
+              ]
+            },
+            "native_links": {
+              "meta__base_link_openfillable_0_0_link": "meta__base_link_openfillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "shopping_basket/nedrsh",
+              "scale": [
+                1.0,
+                1.0,
+                1.0
+              ],
+              "metadata_sha256": "81ae6e4fb6c17c9417ff94217d33fe634b26672c84b92d201a03b0b6a68a631e",
+              "encrypted_asset_sha256": "bb340aa2669a7e5476003c73dc5b0344d8ce34de8eeb4db7abf79d903d92f65a",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.0535376351326704,
+              "nodes": 10,
+              "candidate_tests": 864156,
+              "search_orders_tried": 1,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_01": "meta__base_link_openfillable_0_0_link",
+                "item_06": "meta__base_link_openfillable_0_0_link",
+                "item_04": "meta__base_link_openfillable_0_0_link",
+                "item_08": "meta__base_link_openfillable_0_0_link",
+                "item_07": "meta__base_link_openfillable_0_0_link",
+                "item_05": "meta__base_link_openfillable_0_0_link",
+                "item_02": "meta__base_link_openfillable_0_0_link",
+                "item_10": "meta__base_link_openfillable_0_0_link",
+                "item_03": "meta__base_link_openfillable_0_0_link",
+                "item_09": "meta__base_link_openfillable_0_0_link"
+              },
+              "poses": {
+                "item_01": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.18,
+                    0.093
+                  ],
+                  "center_xy_m": [
+                    0.095,
+                    0.051500000000000004
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.19,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.16,
+                    0.093
+                  ],
+                  "center_xy_m": [
+                    0.27,
+                    0.051500000000000004
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.355,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.115,
+                    0.11
+                  ],
+                  "center_xy_m": [
+                    0.41250000000000003,
+                    0.06
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.10300000000000001
+                  ],
+                  "footprint_m": [
+                    0.105,
+                    0.108
+                  ],
+                  "center_xy_m": [
+                    0.0575,
+                    0.157
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.115,
+                    0.10300000000000001
+                  ],
+                  "footprint_m": [
+                    0.09,
+                    0.088
+                  ],
+                  "center_xy_m": [
+                    0.16,
+                    0.147
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.21,
+                    0.10300000000000001
+                  ],
+                  "footprint_m": [
+                    0.073,
+                    0.079
+                  ],
+                  "center_xy_m": [
+                    0.2465,
+                    0.14250000000000002
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.28800000000000003,
+                    0.12
+                  ],
+                  "footprint_m": [
+                    0.067,
+                    0.077
+                  ],
+                  "center_xy_m": [
+                    0.3215,
+                    0.1585
+                  ]
+                },
+                "item_10": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.36,
+                    0.12
+                  ],
+                  "footprint_m": [
+                    0.07200000000000001,
+                    0.064
+                  ],
+                  "center_xy_m": [
+                    0.396,
+                    0.152
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.47500000000000003,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.057,
+                    0.057
+                  ],
+                  "center_xy_m": [
+                    0.5035000000000001,
+                    0.0335
+                  ]
+                },
+                "item_09": {
+                  "bin": "meta__base_link_openfillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.47500000000000003,
+                    0.067
+                  ],
+                  "footprint_m": [
+                    0.061,
+                    0.039
+                  ],
+                  "center_xy_m": [
+                    0.5055000000000001,
+                    0.08650000000000001
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_01": "meta__base_link_openfillable_0_0_link",
+              "item_06": "meta__base_link_openfillable_0_0_link",
+              "item_04": "meta__base_link_openfillable_0_0_link",
+              "item_08": "meta__base_link_openfillable_0_0_link",
+              "item_07": "meta__base_link_openfillable_0_0_link",
+              "item_05": "meta__base_link_openfillable_0_0_link",
+              "item_02": "meta__base_link_openfillable_0_0_link",
+              "item_10": "meta__base_link_openfillable_0_0_link",
+              "item_03": "meta__base_link_openfillable_0_0_link",
+              "item_09": "meta__base_link_openfillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_01": "meta__base_link_openfillable_0_0_link",
+              "item_06": "meta__base_link_openfillable_0_0_link",
+              "item_04": "meta__base_link_openfillable_0_0_link",
+              "item_08": "meta__base_link_openfillable_0_0_link",
+              "item_07": "meta__base_link_openfillable_0_0_link",
+              "item_05": "meta__base_link_openfillable_0_0_link",
+              "item_02": "meta__base_link_openfillable_0_0_link",
+              "item_10": "meta__base_link_openfillable_0_0_link",
+              "item_03": "meta__base_link_openfillable_0_0_link",
+              "item_09": "meta__base_link_openfillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_01": "meta__base_link_openfillable_0_0_link",
+          "item_06": "meta__base_link_openfillable_0_0_link",
+          "item_04": "meta__base_link_openfillable_0_0_link",
+          "item_08": "meta__base_link_openfillable_0_0_link",
+          "item_07": "meta__base_link_openfillable_0_0_link",
+          "item_05": "meta__base_link_openfillable_0_0_link",
+          "item_02": "meta__base_link_openfillable_0_0_link",
+          "item_10": "meta__base_link_openfillable_0_0_link",
+          "item_03": "meta__base_link_openfillable_0_0_link",
+          "item_09": "meta__base_link_openfillable_0_0_link"
+        },
+        "physical_validation_required": true
+      },
+      "support_asset_changes": [
+        {
+          "instruction_sha256": "4f3e5665ec6ead71324a4545c2c3f159885f6fd47d9576e951e6113b4bbd1545",
+          "entity": "item_00",
+          "original_object": {
+            "name": "item_00",
+            "category": "shopping_basket",
+            "model": "vsxhsv"
+          },
+          "replacement": {
+            "name": "item_00",
+            "category": "shopping_basket",
+            "model": "nedrsh"
+          },
+          "reason": "The small native basket contains ten fruits including a watermelon; the conservative size model cannot pack one layer and the unchanged native-runtime counterfactual is being retained separately. Propose the real larger native shopping basket already strictly validated for F016, at unchanged scale, preserving the full inventory, source counter, natural instruction, targets, goals and spawn. No physical gate relaxed; independent init/reload mandatory."
+        }
+      ]
+    }
+  ]
+}

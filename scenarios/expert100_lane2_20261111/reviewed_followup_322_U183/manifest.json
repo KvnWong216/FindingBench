@@ -1,0 +1,413 @@
+{
+  "tasks": [
+    {
+      "id": "asset_U183_01",
+      "family": "semantic_U183",
+      "scene": "Wainscott_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/reviewed_followup_322_U183/asset_U183_01/scenario.yaml",
+      "scenario_sha256": "7c06907012cc5ad72bdd78c4b9f34513665549626ed8923c406758eb66ff3fd6",
+      "instruction": "Bring a crayon from the bedroom household storage craft supplies to the table in front of you in the bedroom in the bedroom for the child's drawing activity.",
+      "target_key": "crayon/xmysum",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "bedroom_0",
+      "destination_room": "bedroom_0",
+      "source_receptacle": "replacement_bottom_cabinet_nnvyol_0",
+      "destination_receptacle": "breakfast_table_skczfi_2",
+      "object_count": 10,
+      "distractor_count": 8,
+      "source_survey_sha256": "7894c711eea34a656ee926a132d6563ce3833b5ddb45c126d0ce534dd2edca60",
+      "route": {
+        "start": [
+          -1.6500000000000001,
+          12.25,
+          1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            -1.6500000000000001,
+            12.25
+          ],
+          [
+            -1.55,
+            12.25
+          ],
+          [
+            -1.4500000000000002,
+            12.25
+          ]
+        ],
+        "length_m": 0.2,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 41,
+        "destination_approach_count": 3,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "replacement_bottom_cabinet_nnvyol_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "replacement_bottom_cabinet_nnvyol_0",
+          "category": "wardrobe",
+          "model": "brimns",
+          "floor": "floors_sfyruj_0",
+          "position_xy": [
+            -0.40950000000000003,
+            13.279
+          ],
+          "aabb": [
+            [
+              -0.6695450134277344,
+              12.887999969482422,
+              0.0
+            ],
+            [
+              -0.14945498657226564,
+              13.670000030517578,
+              1.9049998779296875
+            ]
+          ],
+          "room": "bedroom_0"
+        }
+      ],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "replacement_bottom_cabinet_nnvyol_0",
+            "volume_extents_m": {
+              "meta__base_link_fillable_0_0_link#component:0": [
+                0.46800010991096497,
+                0.7500002864599307,
+                1.103999973461032
+              ],
+              "meta__base_link_fillable_0_0_link#component:1": [
+                0.4680001237988505,
+                0.3669997589923316,
+                0.7060000839233347
+              ],
+              "meta__base_link_fillable_0_0_link#component:2": [
+                0.46800006622075796,
+                0.36900001085549583,
+                0.3523999531745805
+              ],
+              "meta__base_link_fillable_0_0_link#component:3": [
+                0.4680000939965272,
+                0.36900001085549583,
+                0.32359911148552034
+              ]
+            },
+            "native_links": {
+              "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:3": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "wardrobe/brimns",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "3371793f298fc9f2f52a109285b48b4b4fad82c8fd0181e8c4bef124cc805566",
+              "metadata_sha256": "e74c8b7aade07f8443440e3dd73b5836c1ef5e9634387ecad985bad851a5e353",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.09059131192043424,
+              "nodes": 9,
+              "candidate_tests": 67644,
+              "search_orders_tried": 1,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_03": "meta__base_link_fillable_0_0_link#component:0",
+                "item_07": "meta__base_link_fillable_0_0_link#component:0",
+                "item_04": "meta__base_link_fillable_0_0_link#component:2",
+                "item_08": "meta__base_link_fillable_0_0_link#component:3",
+                "item_01": "meta__base_link_fillable_0_0_link#component:1",
+                "item_05": "meta__base_link_fillable_0_0_link#component:1",
+                "item_02": "meta__base_link_fillable_0_0_link#component:1",
+                "item_06": "meta__base_link_fillable_0_0_link#component:1",
+                "item_00": "meta__base_link_fillable_0_0_link#component:1"
+              },
+              "poses": {
+                "item_03": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.331,
+                    0.331
+                  ],
+                  "center_xy_m": [
+                    0.1705,
+                    0.1705
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.341
+                  ],
+                  "footprint_m": [
+                    0.331,
+                    0.331
+                  ],
+                  "center_xy_m": [
+                    0.1705,
+                    0.5065000000000001
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:2",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.291,
+                    0.312
+                  ],
+                  "center_xy_m": [
+                    0.1505,
+                    0.161
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:3",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.291,
+                    0.312
+                  ],
+                  "center_xy_m": [
+                    0.1505,
+                    0.161
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.094,
+                    0.20500000000000002
+                  ],
+                  "center_xy_m": [
+                    0.052000000000000005,
+                    0.1075
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.10400000000000001,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.094,
+                    0.20500000000000002
+                  ],
+                  "center_xy_m": [
+                    0.151,
+                    0.1075
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.203,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.063,
+                    0.194
+                  ],
+                  "center_xy_m": [
+                    0.23450000000000001,
+                    0.10200000000000001
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.271,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.063,
+                    0.194
+                  ],
+                  "center_xy_m": [
+                    0.3025,
+                    0.10200000000000001
+                  ]
+                },
+                "item_00": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.339,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.109,
+                    0.01
+                  ],
+                  "center_xy_m": [
+                    0.3935,
+                    0.01
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link",
+              "item_01": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link",
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_00": "meta__base_link_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_03": "meta__base_link_fillable_0_0_link#component:0",
+              "item_07": "meta__base_link_fillable_0_0_link#component:0",
+              "item_04": "meta__base_link_fillable_0_0_link#component:2",
+              "item_08": "meta__base_link_fillable_0_0_link#component:3",
+              "item_01": "meta__base_link_fillable_0_0_link#component:1",
+              "item_05": "meta__base_link_fillable_0_0_link#component:1",
+              "item_02": "meta__base_link_fillable_0_0_link#component:1",
+              "item_06": "meta__base_link_fillable_0_0_link#component:1",
+              "item_00": "meta__base_link_fillable_0_0_link#component:1"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link",
+          "item_00": "meta__base_link_fillable_0_0_link"
+        },
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [],
+      "parent_task_id": "U183",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_U183_01",
+        "parent_task_id": "U183",
+        "before_instruction": "The crayon set on the child's desk is missing the color shown by its empty slot. Find that crayon among the storage room craft supplies and put it beside the set.",
+        "after_instruction": "Bring a crayon from the bedroom household storage craft supplies to the table in front of you in the bedroom in the bedroom for the child's drawing activity.",
+        "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Native category metadata does not certify the stated target predicate: crayon matching empty color position. Color coded reference set and matching crayon required Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: storage_room/cabinet -> childs_room/table becomes bedroom/cabinet -> bedroom/table. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+        "target_asset": "crayon/xmysum",
+        "target_assets": [
+          "crayon/xmysum"
+        ]
+      },
+      "binding_sha256": "a28f99b71e4afd5f420dde45d67fd71a48d03d25eab698829ac40f75630e9118",
+      "scene_fixture_replacements": [
+        {
+          "entity": "bottom_cabinet_nnvyol_0",
+          "replacement_entity": "replacement_bottom_cabinet_nnvyol_0",
+          "before_asset": "bottom_cabinet/nnvyol",
+          "after_asset": "wardrobe/brimns",
+          "before_aabb": [
+            [
+              -0.796,
+              12.887,
+              0.012
+            ],
+            [
+              -0.023,
+              13.671,
+              1.888
+            ]
+          ],
+          "after_aabb": [
+            [
+              -0.6695450134277344,
+              12.887999969482422,
+              0.0
+            ],
+            [
+              -0.14945498657226564,
+              13.670000030517578,
+              1.9049998779296875
+            ]
+          ],
+          "source_sha256": "1a761eca83c04a3d71943a8c25ba0d68451162c070a7af19f4d0c3218c19475e",
+          "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/reviewed_followup_011_U183/asset_U183_01",
+          "reason": "Replace failed source at its existing site; adding another fixture consumes its approach space",
+          "physical_validation_required": true
+        }
+      ]
+    }
+  ]
+}

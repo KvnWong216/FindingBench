@@ -1,0 +1,198 @@
+{
+  "id": "asset_F019_01",
+  "family": "semantic_F019",
+  "scene": "Ihlen_1_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_F019_01/scenario.yaml",
+  "scenario_sha256": "00540864b0bb9db5806ecf7a05fe5907a623f943f492155a1f028bbcccc099ac",
+  "instruction": "Find the vinegar bottle among the kitchen oils and sauces and put it on the counter in front of you in the kitchen.",
+  "target_key": "bottle_of_vinegar/snzyfk",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+  "destination_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+  "route": {
+    "start": [
+      -3.9000000000000004,
+      4.7,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -3.9000000000000004,
+        4.7
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 37,
+    "destination_approach_count": 37,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_no_top_bmsclc_0",
+    "bottom_cabinet_no_top_qohxjq_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+        "volume_extents_m": {
+          "link_0": [
+            0.35790157318115234,
+            0.41975927352905273,
+            0.17664214968681335
+          ],
+          "link_1": [
+            0.3487100601196289,
+            0.4131288528442383,
+            0.16006872057914734
+          ],
+          "link_2": [
+            0.34264087677001953,
+            0.415022611618042,
+            0.043399155139923096
+          ]
+        },
+        "native_links": {
+          "link_0": "link_0",
+          "link_1": "link_1",
+          "link_2": "link_2"
+        },
+        "geometry_source": "survey",
+        "geometry_provenance": {},
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_01": "link_0",
+          "item_02": "link_0",
+          "item_03": "link_0",
+          "item_04": "link_0",
+          "item_05": "link_0",
+          "item_00": "link_1"
+        },
+        "component_allocation": {
+          "item_01": "link_0",
+          "item_02": "link_0",
+          "item_03": "link_0",
+          "item_04": "link_0",
+          "item_05": "link_0",
+          "item_00": "link_1"
+        }
+      },
+      {
+        "receptacle": "bottom_cabinet_no_top_bmsclc_0",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.47927960887161203,
+            0.15108391054579973,
+            0.16951489316406687
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.4716778794962295,
+            0.14986097842756857,
+            0.15654393858310867
+          ],
+          "meta__base_link_openfillable_0_0_link": [
+            0.4825949186851848,
+            0.15108749245124195,
+            0.27361854362452687
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_openfillable_0_0_link": "meta__base_link_openfillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet_no_top/bmsclc",
+          "scale": [
+            1.256575107574463,
+            1.151558756828308,
+            1.4873191118240356
+          ],
+          "encrypted_asset_sha256": "ff61b79a8ab91412ce4398d35b742b6d16ec744c7e191346ce87791a7837b7df",
+          "metadata_sha256": "fd75a078189bd8689ecc8e2a8c54db2923f73ca9431b6783db4e1d37b91855c5",
+          "root_orientation": [
+            5.455373930374208e-09,
+            1.062177901189898e-08,
+            0.001196039724163711,
+            0.9999992847442627
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_06": "meta__base_link_openfillable_0_0_link",
+          "item_08": "meta__base_link_openfillable_0_0_link",
+          "item_07": "meta__base_link_openfillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_06": "meta__base_link_openfillable_0_0_link",
+          "item_08": "meta__base_link_openfillable_0_0_link",
+          "item_07": "meta__base_link_openfillable_0_0_link"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_01": "link_0",
+      "item_02": "link_0",
+      "item_03": "link_0",
+      "item_04": "link_0",
+      "item_05": "link_0",
+      "item_00": "link_1",
+      "item_06": "meta__base_link_openfillable_0_0_link",
+      "item_08": "meta__base_link_openfillable_0_0_link",
+      "item_07": "meta__base_link_openfillable_0_0_link"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "F019",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F019_01",
+    "parent_task_id": "F019",
+    "before_instruction": "Find the vinegar bottle among the oils and sauces in the kitchen and put it beside the empty mixing bowl on the counter.",
+    "after_instruction": "Find the vinegar bottle among the kitchen oils and sauces and put it on the counter in front of you in the kitchen.",
+    "reason": "The identified delivery surface is grounded by the initial facing direction; decorative destination landmarks are omitted. Target identity, requested cardinality and source/destination room types are retained.",
+    "target_asset": "bottle_of_vinegar/snzyfk",
+    "target_assets": [
+      "bottle_of_vinegar/snzyfk"
+    ]
+  },
+  "binding_sha256": "9fb99d64f379b6796bc231bfbf75340f3ee9c9dd18f465a541a140a6227813ea"
+}

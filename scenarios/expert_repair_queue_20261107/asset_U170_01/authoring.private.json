@@ -1,0 +1,224 @@
+{
+  "id": "asset_U170_01",
+  "family": "semantic_U170",
+  "scene": "house_double_floor_upper",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_U170_01/scenario.yaml",
+  "scenario_sha256": "91c66289767cde1a81d0ab1468fd4a2b6185b390edf05e6a72a6d76c30b92438",
+  "instruction": "Find a spare bulb among the living room household storage electrical supplies matching the sample on the table in front of you in the bedroom, and bring it to the same surface.",
+  "target_key": "light_bulb/kfmkwd",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_0",
+  "destination_room": "bedroom_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 13,
+  "distractor_count": 9,
+  "source_survey_sha256": "bad4111136351f4ccb189cc8da21449e65bb285de15b8c94024c1d045abd820a",
+  "route": {
+    "start": [
+      -3.2,
+      0.9,
+      3.141592653589793
+    ],
+    "path_xy": [
+      [
+        -3.2,
+        0.9
+      ],
+      [
+        -3.2,
+        0.8
+      ],
+      [
+        -3.2,
+        0.7000000000000001
+      ],
+      [
+        -3.2,
+        0.6000000000000001
+      ],
+      [
+        -3.1,
+        0.6000000000000001
+      ],
+      [
+        -3.0,
+        0.6000000000000001
+      ],
+      [
+        -2.9000000000000004,
+        0.6000000000000001
+      ],
+      [
+        -2.8000000000000003,
+        0.6000000000000001
+      ],
+      [
+        -2.7,
+        0.6000000000000001
+      ],
+      [
+        -2.6,
+        0.6000000000000001
+      ],
+      [
+        -2.5,
+        0.6000000000000001
+      ],
+      [
+        -2.4000000000000004,
+        0.6000000000000001
+      ],
+      [
+        -2.3000000000000003,
+        0.6000000000000001
+      ],
+      [
+        -2.2,
+        0.6000000000000001
+      ],
+      [
+        -2.1,
+        0.6000000000000001
+      ],
+      [
+        -2.0,
+        0.6000000000000001
+      ],
+      [
+        -1.9000000000000001,
+        0.6000000000000001
+      ],
+      [
+        -1.8,
+        0.6000000000000001
+      ],
+      [
+        -1.7000000000000002,
+        0.6000000000000001
+      ],
+      [
+        -1.6,
+        0.6000000000000001
+      ],
+      [
+        -1.5,
+        0.6000000000000001
+      ],
+      [
+        -1.4000000000000001,
+        0.6000000000000001
+      ],
+      [
+        -1.3,
+        0.6000000000000001
+      ]
+    ],
+    "length_m": 2.2,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 58,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "comparison_negative_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "shelf",
+      "model": "vanltx",
+      "floor": "floors_rfqizg_0",
+      "position_xy": [
+        -0.30000000000000004,
+        0.1
+      ],
+      "aabb": [
+        [
+          -0.47307376098632814,
+          -0.4925145874023438,
+          0.0
+        ],
+        [
+          -0.12692623901367192,
+          0.6925145874023437,
+          0.42811041259765625
+        ]
+      ],
+      "room": "living_room_0"
+    },
+    {
+      "name": "delivery_surface",
+      "category": "breakfast_table",
+      "model": "iaritq",
+      "floor": "floors_nlswvt_0",
+      "position_xy": [
+        -4.1000000000000005,
+        1.3
+      ],
+      "aabb": [
+        [
+          -4.451000289916992,
+          0.9494537658691407,
+          0.0
+        ],
+        [
+          -3.7489997100830084,
+          1.6505462341308594,
+          0.7490009155273437
+        ]
+      ],
+      "room": "bedroom_0"
+    }
+  ],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [],
+    "prefer_alternative_layout": false,
+    "assignments": {},
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "U170",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_U170_01",
+    "parent_task_id": "U170",
+    "before_instruction": "I need a spare bulb matching the loose bulb on the bedroom dresser. Search the storage room's electrical supplies and put a matching bulb beside the sample.",
+    "after_instruction": "Find a spare bulb among the living room household storage electrical supplies matching the sample on the table in front of you in the bedroom, and bring it to the same surface.",
+    "reason": "Preserves the source/destination room types and the single-source-object matching requirement. Grounds the comparison sample on the uniquely initial-facing handoff surface; reference is not a goal target. Delivery is onto the reference-bearing surface; no unimplemented beside-distance predicate is claimed. Exact same-model sample and different-model negatives are explicitly instantiated. Layout revision uses a surveyed feasible geometry pair: storage_room/shelf -> bedroom/cabinet becomes living_room/shelf -> bedroom/table. Native target models, quantities, reference criteria and distractors are unchanged. Cross-room transport remains explicit. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+    "target_asset": "light_bulb/kfmkwd",
+    "target_assets": [
+      "light_bulb/kfmkwd"
+    ]
+  },
+  "binding_sha256": "c2ffebbf39ae40c28338f8638c5f53a91c1a7d040426d102238a2720e6708be5"
+}

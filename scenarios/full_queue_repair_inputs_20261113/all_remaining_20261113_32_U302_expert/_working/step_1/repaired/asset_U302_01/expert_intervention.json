@@ -1,0 +1,99 @@
+{
+  "status": "static_screened_physics_pending",
+  "old_storage": "bottom_cabinet_immwzb_0",
+  "reused_native_storage": "bottom_cabinet_nddvba_0",
+  "released_compiler_links": [
+    {
+      "entity": "item_06",
+      "previous_link": "link_1"
+    },
+    {
+      "entity": "item_07",
+      "previous_link": "link_3"
+    },
+    {
+      "entity": "item_08",
+      "previous_link": "link_2"
+    }
+  ],
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_32_U302_expert/_working/step_1/asset_U302_01/scenario.yaml",
+  "diagnosis_directory": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/asset_search_gpu_new_20261106/asset_U302_01",
+  "solver": {
+    "status": "feasible_model",
+    "device": "cuda",
+    "backend": "torch_cuda_finite_csp",
+    "solve_seconds": 0.024424853269010782,
+    "nodes": 3,
+    "candidate_tests": 160,
+    "search_orders_tried": 1,
+    "grid_m": 0.001,
+    "margin_m": 0.015,
+    "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+    "physical_validation_required": true,
+    "assignment": {
+      "item_06": "link_1",
+      "item_08": "link_2",
+      "item_07": "link_3"
+    },
+    "poses": {
+      "item_06": {
+        "bin": "link_1",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.015
+        ],
+        "footprint_m": [
+          0.311,
+          0.219
+        ],
+        "center_xy_m": [
+          0.1705,
+          0.1245
+        ]
+      },
+      "item_08": {
+        "bin": "link_2",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.015
+        ],
+        "footprint_m": [
+          0.311,
+          0.219
+        ],
+        "center_xy_m": [
+          0.1705,
+          0.1245
+        ]
+      },
+      "item_07": {
+        "bin": "link_3",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.015
+        ],
+        "footprint_m": [
+          0.211,
+          0.291
+        ],
+        "center_xy_m": [
+          0.1205,
+          0.1605
+        ]
+      }
+    }
+  },
+  "preserved": [
+    "instruction",
+    "goal",
+    "target",
+    "robot",
+    "spawn",
+    "all original assets",
+    "furniture geometry",
+    "relation types"
+  ]
+}

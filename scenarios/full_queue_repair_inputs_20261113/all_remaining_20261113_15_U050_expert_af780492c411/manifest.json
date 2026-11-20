@@ -1,0 +1,514 @@
+{
+  "tasks": [
+    {
+      "id": "asset_U050_01",
+      "family": "semantic_U050",
+      "scene": "Ihlen_0_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_15_U050_expert_af780492c411/asset_U050_01/scenario.yaml",
+      "scenario_sha256": "bb753b370f5f5558361364feefab0c42868ba185a782d2f1a7760805045e8360",
+      "instruction": "I'm measuring a shelf bracket. Find a ruler in the garage tool storage and place it on the cabinet top in front of you in the garage.",
+      "target_key": "ruler/ujizkx",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "garage_0",
+      "destination_room": "garage_0",
+      "source_receptacle": "expert_storage_93",
+      "destination_receptacle": "bottom_cabinet_jrhgeu_0",
+      "object_count": 11,
+      "distractor_count": 8,
+      "source_survey_sha256": "4e67f717bc639fa8251f9cbf52bc0b8a96e19f8594526a196ad4548a95e97acd",
+      "route": {
+        "start": [
+          4.1000000000000005,
+          4.2,
+          1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            4.1000000000000005,
+            4.2
+          ],
+          [
+            4.1000000000000005,
+            4.1000000000000005
+          ],
+          [
+            4.1000000000000005,
+            4.0
+          ],
+          [
+            4.1000000000000005,
+            3.9000000000000004
+          ],
+          [
+            4.1000000000000005,
+            3.8000000000000003
+          ],
+          [
+            4.1000000000000005,
+            3.7
+          ],
+          [
+            4.1000000000000005,
+            3.6
+          ],
+          [
+            4.1000000000000005,
+            3.5
+          ],
+          [
+            4.1000000000000005,
+            3.4000000000000004
+          ],
+          [
+            4.1000000000000005,
+            3.3000000000000003
+          ],
+          [
+            4.1000000000000005,
+            3.2
+          ],
+          [
+            4.1000000000000005,
+            3.1
+          ],
+          [
+            4.1000000000000005,
+            3.0
+          ],
+          [
+            4.1000000000000005,
+            2.9000000000000004
+          ],
+          [
+            4.0,
+            2.9000000000000004
+          ],
+          [
+            3.9000000000000004,
+            2.9000000000000004
+          ],
+          [
+            3.8000000000000003,
+            2.9000000000000004
+          ],
+          [
+            3.7,
+            2.9000000000000004
+          ]
+        ],
+        "length_m": 1.7,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "bottom_cabinet_jrhgeu_0",
+        "expert_storage_0",
+        "expert_storage_93"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "parent_task_id": "U050",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_U050_01",
+        "parent_task_id": "U050",
+        "before_instruction": "I'm measuring a short shelf bracket. Look through the garage's tool storage for a ruler and place it beside the toolbox on the worktable.",
+        "after_instruction": "I'm measuring a shelf bracket. Find a ruler in the garage tool storage and place it on the cabinet top in front of you in the garage.",
+        "reason": "Explicit first-tranche grounding: native storage and initial-facing destination replace uninstantiated decorative reference props; no new semantic-task count.",
+        "target_asset": "ruler/ujizkx"
+      },
+      "inserted_furniture": [
+        {
+          "name": "expert_storage_0",
+          "category": "bottom_cabinet",
+          "model": "wesxdp",
+          "floor": "floors_bryjan_0",
+          "position_xy": [
+            3.1,
+            0.2
+          ],
+          "aabb": [
+            [
+              2.8617115478515625,
+              -0.026488845825195312,
+              0.0
+            ],
+            [
+              3.3382884521484377,
+              0.4264888458251953,
+              0.856023681640625
+            ]
+          ],
+          "room": "garage_0"
+        },
+        {
+          "name": "expert_storage_93",
+          "category": "bottom_cabinet_no_top",
+          "model": "vzzafs",
+          "floor": "floors_bryjan_0",
+          "position_xy": [
+            3.1,
+            2.1
+          ],
+          "aabb": [
+            [
+              2.773635940551758,
+              1.8735113983154297,
+              0.0
+            ],
+            [
+              3.4263640594482423,
+              2.3264886016845705,
+              0.8682071838378906
+            ]
+          ],
+          "room": "garage_0"
+        }
+      ],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "expert_storage_93",
+            "volume_extents_m": {
+              "meta__base_link_fillable_0_0_link": [
+                0.5315370221138,
+                0.39102343478868673,
+                0.6658233661651611
+              ]
+            },
+            "native_links": {
+              "meta__base_link_fillable_0_0_link": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet_no_top/vzzafs",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "b4daa08616feaef1a73fc5cb01bcd60c278fad77ff3d5bda42d007a631e01515",
+              "metadata_sha256": "f0ba45ae134ef2c37866c9bb0186200606042fb03eafed9783116a94253ac4bf",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.001756385900080204,
+              "nodes": 0,
+              "candidate_tests": 0,
+              "search_orders_tried": 0,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_00": "meta__base_link_fillable_0_0_link",
+                "item_04": "meta__base_link_fillable_0_0_link",
+                "item_08": "meta__base_link_fillable_0_0_link"
+              },
+              "poses": {
+                "item_00": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 90,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.332,
+                    0.027
+                  ],
+                  "center_xy_m": [
+                    0.171,
+                    0.0185
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.037
+                  ],
+                  "footprint_m": [
+                    0.11800000000000001,
+                    0.11800000000000001
+                  ],
+                  "center_xy_m": [
+                    0.064,
+                    0.096
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.16
+                  ],
+                  "footprint_m": [
+                    0.11800000000000001,
+                    0.11800000000000001
+                  ],
+                  "center_xy_m": [
+                    0.064,
+                    0.219
+                  ]
+                }
+              },
+              "constructive_witness": "single strip; exact quantized box and clearance checks"
+            },
+            "assignment": {
+              "item_00": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_00": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link"
+            }
+          },
+          {
+            "receptacle": "expert_storage_0",
+            "volume_extents_m": {
+              "meta__link_1_fillable_0_0_link": [
+                0.3880328793525696,
+                0.3880316872596741,
+                0.07700005736947224
+              ],
+              "meta__link_2_fillable_0_0_link": [
+                0.38803289765021476,
+                0.3880316872596741,
+                0.07700003278255463
+              ],
+              "meta__base_link_fillable_0_0_link#component:0": [
+                0.417535377993125,
+                0.4257661063671112,
+                0.23001430523395539
+              ],
+              "meta__base_link_fillable_0_0_link#component:1": [
+                0.41753574800491333,
+                0.4257661063671112,
+                0.27279886198043823
+              ]
+            },
+            "native_links": {
+              "meta__link_1_fillable_0_0_link": "meta__link_1_fillable_0_0_link",
+              "meta__link_2_fillable_0_0_link": "meta__link_2_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet/wesxdp",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "6527935cb6927adf84f4c73f370ee2dadf102d4a4b9f84dfc3097b8d7559a6f3",
+              "metadata_sha256": "a371a3628a5184d45b6e07d78fec17b435442c4cce37dafc7be05fc18ba3f5b2",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.06160967377945781,
+              "nodes": 6,
+              "candidate_tests": 11020,
+              "search_orders_tried": 1,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_01": "meta__base_link_fillable_0_0_link#component:0",
+                "item_05": "meta__base_link_fillable_0_0_link#component:1",
+                "item_03": "meta__link_1_fillable_0_0_link",
+                "item_07": "meta__link_2_fillable_0_0_link",
+                "item_02": "meta__link_1_fillable_0_0_link",
+                "item_06": "meta__link_2_fillable_0_0_link"
+              },
+              "poses": {
+                "item_01": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.255,
+                    0.271
+                  ],
+                  "center_xy_m": [
+                    0.1325,
+                    0.1405
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.255,
+                    0.271
+                  ],
+                  "center_xy_m": [
+                    0.1325,
+                    0.1405
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__link_1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.248,
+                    0.059000000000000004
+                  ],
+                  "center_xy_m": [
+                    0.129,
+                    0.0345
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__link_2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.248,
+                    0.059000000000000004
+                  ],
+                  "center_xy_m": [
+                    0.129,
+                    0.0345
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__link_1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.069
+                  ],
+                  "footprint_m": [
+                    0.14400000000000002,
+                    0.022
+                  ],
+                  "center_xy_m": [
+                    0.077,
+                    0.08
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__link_2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.069
+                  ],
+                  "footprint_m": [
+                    0.14400000000000002,
+                    0.022
+                  ],
+                  "center_xy_m": [
+                    0.077,
+                    0.08
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_01": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_03": "meta__link_1_fillable_0_0_link",
+              "item_07": "meta__link_2_fillable_0_0_link",
+              "item_02": "meta__link_1_fillable_0_0_link",
+              "item_06": "meta__link_2_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_01": "meta__base_link_fillable_0_0_link#component:0",
+              "item_05": "meta__base_link_fillable_0_0_link#component:1",
+              "item_03": "meta__link_1_fillable_0_0_link",
+              "item_07": "meta__link_2_fillable_0_0_link",
+              "item_02": "meta__link_1_fillable_0_0_link",
+              "item_06": "meta__link_2_fillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__link_1_fillable_0_0_link",
+          "item_07": "meta__link_2_fillable_0_0_link",
+          "item_02": "meta__link_1_fillable_0_0_link",
+          "item_06": "meta__link_2_fillable_0_0_link"
+        },
+        "physical_validation_required": true
+      },
+      "proposal_native_policy_signature": "638901e57b44747045bd55ed10084fe82451f1075c4c28aa6f0af555449b389c",
+      "storage_model_experience": []
+    }
+  ]
+}

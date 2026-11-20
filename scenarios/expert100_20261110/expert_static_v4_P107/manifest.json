@@ -1,0 +1,514 @@
+{
+  "tasks": [
+    {
+      "id": "asset_P107_01",
+      "family": "semantic_P107",
+      "scene": "hotel_suite_large",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/expert_static_v4_P107/asset_P107_01/scenario.yaml",
+      "scenario_sha256": "eecef6c9d234352cbc41399e0e1b84a20aae39e6d8673f8ad619068d4279512c",
+      "instruction": "Find a comb, a makeup mirror and a razor among the bathroom vanity supplies and put all three on the counter in front of you in the bathroom for grooming.",
+      "target_key": "comb/nybyjz",
+      "target_entities": [
+        "item_00",
+        "item_01",
+        "item_02"
+      ],
+      "target_count": 3,
+      "source_room": "bathroom_0",
+      "destination_room": "bathroom_0",
+      "source_receptacle": "expert_storage_50",
+      "destination_receptacle": "delivery_surface",
+      "object_count": 14,
+      "distractor_count": 8,
+      "source_survey_sha256": "06ad52b50e10b1cfb9813fac870a242888a7b8090e9b315f09f4b2237c9a12b8",
+      "route": {
+        "start": [
+          0.0,
+          4.3,
+          0.0
+        ],
+        "path_xy": [
+          [
+            0.0,
+            4.3
+          ],
+          [
+            -0.1,
+            4.3
+          ],
+          [
+            -0.2,
+            4.3
+          ],
+          [
+            -0.30000000000000004,
+            4.3
+          ],
+          [
+            -0.4,
+            4.3
+          ],
+          [
+            -0.5,
+            4.3
+          ],
+          [
+            -0.6000000000000001,
+            4.3
+          ],
+          [
+            -0.6000000000000001,
+            4.4
+          ],
+          [
+            -0.7000000000000001,
+            4.4
+          ],
+          [
+            -0.8,
+            4.4
+          ],
+          [
+            -0.9,
+            4.4
+          ],
+          [
+            -1.0,
+            4.4
+          ],
+          [
+            -1.1,
+            4.4
+          ],
+          [
+            -1.2000000000000002,
+            4.4
+          ],
+          [
+            -1.3,
+            4.4
+          ]
+        ],
+        "length_m": 1.4,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 28,
+        "destination_approach_count": 41,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "item_09",
+        "item_10",
+        "search_storage",
+        "expert_storage_50"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "search_storage",
+          "category": "nightstand",
+          "model": "uudzva",
+          "floor": "floors_kudtlk_0",
+          "position_xy": [
+            -0.9,
+            3.7
+          ],
+          "aabb": [
+            [
+              -1.075,
+              3.4700000228881835,
+              0.028
+            ],
+            [
+              -0.725,
+              3.929999977111817,
+              0.7280004272460938
+            ]
+          ],
+          "room": "bathroom_0"
+        },
+        {
+          "name": "delivery_surface",
+          "category": "bottom_cabinet",
+          "model": "jrhgeu",
+          "floor": "floors_kudtlk_0",
+          "position_xy": [
+            0.7000000000000001,
+            3.8000000000000003
+          ],
+          "aabb": [
+            [
+              0.5328552398681641,
+              3.4577120208740237,
+              0.028
+            ],
+            [
+              0.8671447601318361,
+              4.142287979125977,
+              0.7126599731445313
+            ]
+          ],
+          "room": "bathroom_0"
+        },
+        {
+          "name": "expert_storage_50",
+          "category": "wardrobe",
+          "model": "brimns",
+          "floor": "floors_kudtlk_0",
+          "position_xy": [
+            -2.2,
+            3.6
+          ],
+          "aabb": [
+            [
+              -2.4600450134277345,
+              3.208999969482422,
+              0.028
+            ],
+            [
+              -1.9399549865722658,
+              3.9910000305175783,
+              1.9329998779296875
+            ]
+          ],
+          "room": "bathroom_0"
+        }
+      ],
+      "parent_task_id": "P107",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_P107_01",
+        "parent_task_id": "P107",
+        "before_instruction": "Find a comb, the razor in its closed case, and the handheld mirror among bathroom storage; place them together on the counter below the mirror.",
+        "after_instruction": "Find a comb, a makeup mirror and a razor among the bathroom vanity supplies and put all three on the counter in front of you in the bathroom for grooming.",
+        "reason": "Preserves all three native objects while removing an unconstructed razor case and unverified handheld mirror subtype. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "comb/nybyjz",
+        "target_assets": [
+          "comb/nybyjz",
+          "makeup_mirror/vtccbu",
+          "razor/jocsgp"
+        ]
+      },
+      "binding_sha256": "6d69c315ff159da3450bd97fea24ad4439e1745b21e6f225f3e53dde92606501",
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "expert_storage_50",
+            "volume_extents_m": {
+              "meta__base_link_fillable_0_0_link#component:0": [
+                0.46800010991096497,
+                0.7500002864599307,
+                1.103999973461032
+              ],
+              "meta__base_link_fillable_0_0_link#component:1": [
+                0.4680001237988505,
+                0.3669997589923316,
+                0.7060000839233347
+              ],
+              "meta__base_link_fillable_0_0_link#component:2": [
+                0.46800006622075796,
+                0.36900001085549583,
+                0.3523999531745805
+              ],
+              "meta__base_link_fillable_0_0_link#component:3": [
+                0.4680000939965272,
+                0.36900001085549583,
+                0.32359911148552034
+              ]
+            },
+            "native_links": {
+              "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:3": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "wardrobe/brimns",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "3371793f298fc9f2f52a109285b48b4b4fad82c8fd0181e8c4bef124cc805566",
+              "metadata_sha256": "e74c8b7aade07f8443440e3dd73b5836c1ef5e9634387ecad985bad851a5e353",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.0592633499763906,
+              "nodes": 11,
+              "candidate_tests": 1446445,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_01": "meta__base_link_fillable_0_0_link#component:0",
+                "item_09": "meta__base_link_fillable_0_0_link#component:2",
+                "item_10": "meta__base_link_fillable_0_0_link#component:3",
+                "item_06": "meta__base_link_fillable_0_0_link#component:1",
+                "item_03": "meta__base_link_fillable_0_0_link#component:1",
+                "item_08": "meta__base_link_fillable_0_0_link#component:0",
+                "item_04": "meta__base_link_fillable_0_0_link#component:1",
+                "item_07": "meta__base_link_fillable_0_0_link#component:3",
+                "item_05": "meta__base_link_fillable_0_0_link#component:0",
+                "item_00": "meta__base_link_fillable_0_0_link#component:2",
+                "item_02": "meta__base_link_fillable_0_0_link#component:1"
+              },
+              "poses": {
+                "item_01": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.178,
+                    0.586
+                  ],
+                  "center_xy_m": [
+                    0.094,
+                    0.298
+                  ]
+                },
+                "item_09": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:2",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.248,
+                    0.248
+                  ],
+                  "center_xy_m": [
+                    0.129,
+                    0.129
+                  ]
+                },
+                "item_10": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:3",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.199,
+                    0.199
+                  ],
+                  "center_xy_m": [
+                    0.1045,
+                    0.1045
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.18,
+                    0.18
+                  ],
+                  "center_xy_m": [
+                    0.095,
+                    0.095
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.19,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.033,
+                    0.033
+                  ],
+                  "center_xy_m": [
+                    0.20650000000000002,
+                    0.021500000000000002
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.188,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.126,
+                    0.277
+                  ],
+                  "center_xy_m": [
+                    0.251,
+                    0.14350000000000002
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.228,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.136,
+                    0.203
+                  ],
+                  "center_xy_m": [
+                    0.296,
+                    0.1065
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:3",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.209,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.181,
+                    0.135
+                  ],
+                  "center_xy_m": [
+                    0.2995,
+                    0.0725
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.319,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.063,
+                    0.194
+                  ],
+                  "center_xy_m": [
+                    0.35050000000000003,
+                    0.10200000000000001
+                  ]
+                },
+                "item_00": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:2",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.258,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.107,
+                    0.031
+                  ],
+                  "center_xy_m": [
+                    0.3115,
+                    0.0205
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.369,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.068,
+                    0.021
+                  ],
+                  "center_xy_m": [
+                    0.403,
+                    0.0155
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_01": "meta__base_link_fillable_0_0_link",
+              "item_09": "meta__base_link_fillable_0_0_link",
+              "item_10": "meta__base_link_fillable_0_0_link",
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_00": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_01": "meta__base_link_fillable_0_0_link#component:0",
+              "item_09": "meta__base_link_fillable_0_0_link#component:2",
+              "item_10": "meta__base_link_fillable_0_0_link#component:3",
+              "item_06": "meta__base_link_fillable_0_0_link#component:1",
+              "item_03": "meta__base_link_fillable_0_0_link#component:1",
+              "item_08": "meta__base_link_fillable_0_0_link#component:0",
+              "item_04": "meta__base_link_fillable_0_0_link#component:1",
+              "item_07": "meta__base_link_fillable_0_0_link#component:3",
+              "item_05": "meta__base_link_fillable_0_0_link#component:0",
+              "item_00": "meta__base_link_fillable_0_0_link#component:2",
+              "item_02": "meta__base_link_fillable_0_0_link#component:1"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_09": "meta__base_link_fillable_0_0_link",
+          "item_10": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link"
+        },
+        "physical_validation_required": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "id": "asset_P314_02",
+  "family": "semantic_P314",
+  "scene": "house_double_floor_upper",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P314_02/scenario.yaml",
+  "scenario_sha256": "5e4fde5f2d6214126916654951debcd2857b7de64fd1a87123a6af3b3fac8492",
+  "instruction": "Find the sunscreen bottle marked SPF 30 among the bathroom cupboard supplies and put it on the counter in front of you in the bathroom.",
+  "target_key": "bottle_of_sunscreen/prlrwi",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bathroom_0",
+  "destination_room": "bathroom_0",
+  "source_receptacle": "bottom_cabinet_jhymlr_0",
+  "destination_receptacle": "bottom_cabinet_jhymlr_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "bad4111136351f4ccb189cc8da21449e65bb285de15b8c94024c1d045abd820a",
+  "route": {
+    "start": [
+      1.2000000000000002,
+      2.0,
+      0.0
+    ],
+    "path_xy": [
+      [
+        1.2000000000000002,
+        2.0
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 28,
+    "destination_approach_count": 28,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_jhymlr_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "parent_task_id": "P314",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P314_02",
+    "parent_task_id": "P314",
+    "before_instruction": "Find the sunscreen bottle marked SPF 30 among bathroom cupboards and place it on the mirror shelf.",
+    "after_instruction": "Find the sunscreen bottle marked SPF 30 among the bathroom cupboard supplies and put it on the counter in front of you in the bathroom.",
+    "reason": "Preserves requested target identities, multiplicity and source/destination rooms; replaces only the uninstantiated delivery landmark with the uniquely initial-facing native surface.",
+    "target_asset": "bottle_of_sunscreen/prlrwi",
+    "target_assets": [
+      "bottle_of_sunscreen/prlrwi"
+    ]
+  },
+  "binding_sha256": "0ffd3355a96c1dfe6b619dad8dd1269200da0f3f391dbf6a396253ce030304d1"
+}

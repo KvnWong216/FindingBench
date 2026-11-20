@@ -1,0 +1,64 @@
+{
+  "id": "dense_search_079",
+  "family": "fridge_food",
+  "scene": "Merom_1_int",
+  "scenario": "scenarios/dense_search_pilot/dense_search_079/scenario.yaml",
+  "scenario_sha256": "9daab5d16c0de0fe6baeed580acaa27965cf9182bd52efd5413866153d1b8c75",
+  "instruction": "Find the pork chop in the kitchen fridge and put it in the kitchen sink in front of you.",
+  "target_key": "pork",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "fridge_xyejdx_0",
+  "destination_receptacle": "furniture_sink_czyfhq_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "1bcd77f7369c09f3ee939635132fc064795bb448af326a0f941bcbe3dbe0fd22",
+  "route": {
+    "start": [
+      -1.25,
+      4.8500000000000005,
+      -3.13197756529009
+    ],
+    "path_xy": [
+      [
+        -1.25,
+        4.8500000000000005
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.5956854249492382,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 2,
+    "destination_approach_count": 2,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "fridge_xyejdx_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "robot_model": "g1_bench"
+}

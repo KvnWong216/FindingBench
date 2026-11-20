@@ -1,0 +1,476 @@
+{
+  "status": "proposed",
+  "record": {
+    "id": "asset_F063_01",
+    "family": "semantic_F063",
+    "scene": "Beechwood_0_int",
+    "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_10_F063_expert/asset_F063_01/scenario.yaml",
+    "scenario_sha256": "e0579c6e02755ceb55607be45fd0d428fab51b39deccc617ca8d41b3aabceb0e",
+    "instruction": "Find the roasting pan in the kitchen lower cupboards and put it on the counter in front of you in the kitchen.",
+    "target_key": "roasting_pan/nrecsa",
+    "target_entities": [
+      "item_00"
+    ],
+    "target_count": 1,
+    "source_room": "kitchen_0",
+    "destination_room": "kitchen_0",
+    "source_receptacle": "bottom_cabinet_no_top_spojpj_0",
+    "destination_receptacle": "countertop_tpuwys_2",
+    "object_count": 9,
+    "distractor_count": 8,
+    "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+    "route": {
+      "start": [
+        -2.0500000000000003,
+        -7.550000000000001,
+        3.141592653589793
+      ],
+      "path_xy": [
+        [
+          -2.0500000000000003,
+          -7.550000000000001
+        ]
+      ],
+      "length_m": 0.0,
+      "grid_m": 0.1,
+      "base_radius_m": 0.38355339059327376,
+      "endpoint_free_patch_radius_m": 0.2,
+      "source_approach_count": 64,
+      "destination_approach_count": 64,
+      "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+    },
+    "status": "static_screened_physics_pending",
+    "human_reference_steps": null,
+    "required_gates": [
+      "fresh_native_initialization",
+      "stable_dense_layout",
+      "target_CHECK_identifiability",
+      "all_yaw_live_navigation_and_tolerant_endpoints",
+      "reachable_open_grasp_place",
+      "initial_goal_false",
+      "human_completion"
+    ],
+    "restoration_entities": [
+      "item_01",
+      "item_02",
+      "item_03",
+      "item_04",
+      "item_05",
+      "item_06",
+      "item_07",
+      "item_08",
+      "bottom_cabinet_no_top_spojpj_1",
+      "bottom_cabinet_no_top_spojpj_0"
+    ],
+    "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+    "inserted_furniture": [],
+    "layout_preflight": {
+      "status": "heuristic_fit",
+      "findings": [
+        {
+          "receptacle": "bottom_cabinet_no_top_spojpj_0",
+          "volume_extents_m": {
+            "meta__base_link_fillable_0_0_link#component:0": [
+              0.5207541439556291,
+              0.7053030264824561,
+              0.17911914148513677
+            ],
+            "meta__base_link_fillable_0_0_link#component:1": [
+              0.5227017573190094,
+              0.7070015720064096,
+              0.20087095049054082
+            ],
+            "meta__base_link_fillable_0_0_link#component:2": [
+              0.5276973811713306,
+              0.7079814996467177,
+              0.20778712613745862
+            ]
+          },
+          "native_links": {
+            "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+            "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+            "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+          },
+          "geometry_source": "offline_asset_hint",
+          "geometry_provenance": {
+            "asset": "bottom_cabinet_no_top/spojpj",
+            "scale": [
+              1.3433345556259155,
+              1.1946014165878296,
+              1.4180110692977905
+            ],
+            "encrypted_asset_sha256": "b1a8387eba4405101e82da8fc1a934432b2f15dfaf23df29ca85b10f676830d9",
+            "metadata_sha256": "821af7f29773bfc2aa846ad7360069c7f643f3d0cf7d09e47400953b401bb4e3",
+            "root_orientation": [
+              0.0,
+              0.0,
+              -0.0003452669770922512,
+              0.9999999403953552
+            ],
+            "coordinates": "size_only_not_world_positions",
+            "physical_validation_required": true
+          },
+          "status": "heuristic_fit",
+          "assignment": {
+            "item_05": "meta__base_link_fillable_0_0_link",
+            "item_04": "meta__base_link_fillable_0_0_link",
+            "item_02": "meta__base_link_fillable_0_0_link",
+            "item_03": "meta__base_link_fillable_0_0_link",
+            "item_00": "meta__base_link_fillable_0_0_link",
+            "item_01": "meta__base_link_fillable_0_0_link"
+          },
+          "component_allocation": {
+            "item_05": "meta__base_link_fillable_0_0_link#component:0",
+            "item_04": "meta__base_link_fillable_0_0_link#component:1",
+            "item_02": "meta__base_link_fillable_0_0_link#component:2",
+            "item_03": "meta__base_link_fillable_0_0_link#component:1",
+            "item_00": "meta__base_link_fillable_0_0_link#component:0",
+            "item_01": "meta__base_link_fillable_0_0_link#component:2"
+          }
+        },
+        {
+          "receptacle": "bottom_cabinet_no_top_spojpj_1",
+          "volume_extents_m": {
+            "meta__base_link_fillable_0_0_link#component:0": [
+              0.5204984199165115,
+              0.7531039860750895,
+              0.17911914148513677
+            ],
+            "meta__base_link_fillable_0_0_link#component:1": [
+              0.5224450731881762,
+              0.7549179755867688,
+              0.20087095049054082
+            ],
+            "meta__base_link_fillable_0_0_link#component:2": [
+              0.5274382344074289,
+              0.7559645053598338,
+              0.20778712613745862
+            ]
+          },
+          "native_links": {
+            "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+            "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+            "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+          },
+          "geometry_source": "offline_asset_hint",
+          "geometry_provenance": {
+            "asset": "bottom_cabinet_no_top/spojpj",
+            "scale": [
+              1.342672348022461,
+              1.2757941484451294,
+              1.4180110692977905
+            ],
+            "encrypted_asset_sha256": "b1a8387eba4405101e82da8fc1a934432b2f15dfaf23df29ca85b10f676830d9",
+            "metadata_sha256": "821af7f29773bfc2aa846ad7360069c7f643f3d0cf7d09e47400953b401bb4e3",
+            "root_orientation": [
+              0.0,
+              0.0,
+              -0.0003452669770922512,
+              0.9999999403953552
+            ],
+            "coordinates": "size_only_not_world_positions",
+            "physical_validation_required": true
+          },
+          "status": "heuristic_fit",
+          "assignment": {
+            "item_06": "meta__base_link_fillable_0_0_link",
+            "item_08": "meta__base_link_fillable_0_0_link",
+            "item_07": "meta__base_link_fillable_0_0_link"
+          },
+          "component_allocation": {
+            "item_06": "meta__base_link_fillable_0_0_link#component:0",
+            "item_08": "meta__base_link_fillable_0_0_link#component:1",
+            "item_07": "meta__base_link_fillable_0_0_link#component:2"
+          }
+        }
+      ],
+      "prefer_alternative_layout": false,
+      "assignments": {},
+      "physical_validation_required": true
+    },
+    "rejected_layout_candidates": [
+      {
+        "scene": "Rs_int",
+        "source": "bottom_cabinet_bamfsz_0",
+        "preflight": {
+          "status": "rejected_candidate",
+          "findings": [
+            {
+              "receptacle": "bottom_cabinet_bamfsz_0",
+              "volume_extents_m": {
+                "link_1": [
+                  0.6015068292617798,
+                  0.5179393291473389,
+                  0.26259466260671616
+                ],
+                "link_2": [
+                  0.6117739677429199,
+                  0.5139126777648926,
+                  0.11220884323120117
+                ],
+                "link_3": [
+                  0.6105971336364746,
+                  0.5106301307678223,
+                  0.04014790058135986
+                ],
+                "link_4": [
+                  0.6108721494674683,
+                  0.5098047256469727,
+                  0.04014790058135986
+                ]
+              },
+              "native_links": {
+                "link_1": "link_1",
+                "link_2": "link_2",
+                "link_3": "link_3",
+                "link_4": "link_4"
+              },
+              "geometry_source": "survey",
+              "geometry_provenance": {},
+              "status": "rejected_candidate",
+              "native_sampling_required": false,
+              "reason": "No conservative upright joint packing found",
+              "entities": [
+                "item_00",
+                "item_01",
+                "item_02",
+                "item_03",
+                "item_04",
+                "item_05",
+                "item_06",
+                "item_07",
+                "item_08"
+              ]
+            }
+          ],
+          "prefer_alternative_layout": false,
+          "assignments": {},
+          "physical_validation_required": true
+        }
+      },
+      {
+        "scene": "Beechwood_0_int",
+        "source": "bottom_cabinet_no_top_qohxjq_0",
+        "preflight": {
+          "status": "rejected_candidate",
+          "findings": [
+            {
+              "receptacle": "bottom_cabinet_no_top_qohxjq_0",
+              "volume_extents_m": {
+                "link_0": [
+                  0.35826021432876587,
+                  0.41759204864501953,
+                  0.16683420538902283
+                ],
+                "link_1": [
+                  0.3490593433380127,
+                  0.4109954833984375,
+                  0.15118098258972168
+                ],
+                "link_2": [
+                  0.3429843783378601,
+                  0.41287994384765625,
+                  0.040989458560943604
+                ]
+              },
+              "native_links": {
+                "link_0": "link_0",
+                "link_1": "link_1",
+                "link_2": "link_2"
+              },
+              "geometry_source": "survey",
+              "geometry_provenance": {},
+              "status": "rejected_candidate",
+              "native_sampling_required": false,
+              "reason": "No conservative upright joint packing found",
+              "entities": [
+                "item_00",
+                "item_01",
+                "item_02",
+                "item_03",
+                "item_04",
+                "item_05",
+                "item_06",
+                "item_07",
+                "item_08"
+              ]
+            }
+          ],
+          "prefer_alternative_layout": false,
+          "assignments": {},
+          "physical_validation_required": true
+        }
+      }
+    ],
+    "parent_task_id": "F063",
+    "tier": "short",
+    "physics_status": "pending",
+    "adaptation": {
+      "id": "asset_F063_01",
+      "parent_task_id": "F063",
+      "before_instruction": "Find the roasting pan in the kitchen lower cupboards and put it on the clear counter beside the oven.",
+      "after_instruction": "Find the roasting pan in the kitchen lower cupboards and put it on the counter in front of you in the kitchen.",
+      "reason": "Explicit first-tranche grounding: native storage and initial-facing destination replace uninstantiated decorative reference props; no new semantic-task count.",
+      "target_asset": "roasting_pan/nrecsa",
+      "target_assets": [
+        "roasting_pan/nrecsa"
+      ]
+    },
+    "surface_binding_revision": {
+      "status": "surface_body_binding_corrected_physics_pending",
+      "changes": [
+        {
+          "field": "goal",
+          "entity": "item_00",
+          "before": "bottom_cabinet_no_top_spojpj_0",
+          "after": "countertop_tpuwys_2"
+        }
+      ],
+      "destination_approach_patch": {
+        "contact_body": "countertop_tpuwys_2",
+        "above_fixture": "bottom_cabinet_no_top_spojpj_0",
+        "aabb": [
+          [
+            -3.221,
+            -7.601,
+            0.851
+          ],
+          [
+            -2.618,
+            -6.863,
+            0.87
+          ]
+        ],
+        "scope": "private route proposal to a subset of the actual slab; no synthetic body"
+      },
+      "geometry": {
+        "bottom_cabinet_no_top_spojpj_0": {
+          "before": [
+            [
+              -3.235,
+              -7.601,
+              0.001
+            ],
+            [
+              -2.618,
+              -6.863,
+              0.847
+            ]
+          ],
+          "after": [
+            [
+              -3.221,
+              -8.399,
+              0.851
+            ],
+            [
+              -2.612,
+              -6.857,
+              0.87
+            ]
+          ]
+        }
+      },
+      "source_survey": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/vla_difficulty_v2/_survey/Beechwood_0_int.json",
+      "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+      "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert_profile_repairs_20261108/asset_F063_01/scenario.yaml",
+      "original_scenario_sha256": "d12019ed9579994905036a2707054eb7d7c354f39dab3678575134132403bc82",
+      "reason": "Native OnTop requires touching the named body; a separate measured slab covers the named cabinet.",
+      "preserved": [
+        "instruction",
+        "all object models and counts",
+        "target identities",
+        "relation kinds",
+        "spawn",
+        "robot and skills",
+        "physical delivery location"
+      ],
+      "physical_validation_required": true
+    }
+  },
+  "evidence": {
+    "status": "surface_body_binding_corrected_physics_pending",
+    "changes": [
+      {
+        "field": "goal",
+        "entity": "item_00",
+        "before": "bottom_cabinet_no_top_spojpj_0",
+        "after": "countertop_tpuwys_2"
+      }
+    ],
+    "destination_approach_patch": {
+      "contact_body": "countertop_tpuwys_2",
+      "above_fixture": "bottom_cabinet_no_top_spojpj_0",
+      "aabb": [
+        [
+          -3.221,
+          -7.601,
+          0.851
+        ],
+        [
+          -2.618,
+          -6.863,
+          0.87
+        ]
+      ],
+      "scope": "private route proposal to a subset of the actual slab; no synthetic body"
+    },
+    "geometry": {
+      "bottom_cabinet_no_top_spojpj_0": {
+        "before": [
+          [
+            -3.235,
+            -7.601,
+            0.001
+          ],
+          [
+            -2.618,
+            -6.863,
+            0.847
+          ]
+        ],
+        "after": [
+          [
+            -3.221,
+            -8.399,
+            0.851
+          ],
+          [
+            -2.612,
+            -6.857,
+            0.87
+          ]
+        ]
+      }
+    },
+    "source_survey": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/vla_difficulty_v2/_survey/Beechwood_0_int.json",
+    "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+    "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert_profile_repairs_20261108/asset_F063_01/scenario.yaml",
+    "original_scenario_sha256": "d12019ed9579994905036a2707054eb7d7c354f39dab3678575134132403bc82",
+    "reason": "Native OnTop requires touching the named body; a separate measured slab covers the named cabinet.",
+    "preserved": [
+      "instruction",
+      "all object models and counts",
+      "target identities",
+      "relation kinds",
+      "spawn",
+      "robot and skills",
+      "physical delivery location"
+    ],
+    "physical_validation_required": true,
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": false,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "native_placement",
+      "reason": "AUTHORING_SURFACE_BODY_BINDING"
+    }
+  }
+}

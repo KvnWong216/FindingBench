@@ -1,0 +1,125 @@
+{
+  "action": "expert",
+  "case": {
+    "id": "F083",
+    "record": {
+      "id": "asset_F083_01",
+      "family": "semantic_F083",
+      "scene": "Pomaria_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_F083_01/scenario.yaml",
+      "scenario_sha256": "53e8a303fb91cacd30049c7de31ceafb48f364221b1c2ca2283048e17406c2aa",
+      "instruction": "Find an apple and a banana among the kitchen fruit supplies and bring both to the table in front of you in the kitchen for lunch.",
+      "target_key": "apple/obixxh",
+      "target_entities": [
+        "item_01",
+        "item_02"
+      ],
+      "target_count": 2,
+      "source_room": "kitchen_0",
+      "destination_room": "kitchen_0",
+      "source_receptacle": "item_00",
+      "destination_receptacle": "breakfast_table_uhrsex_0",
+      "object_count": 11,
+      "distractor_count": 8,
+      "source_survey_sha256": "05d404c89ade70d34c89459d2b340c53ef49d49041a6624fcc9a997b8b7322b3",
+      "route": {
+        "start": [
+          -1.1500000000000001,
+          -2.85,
+          1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            -1.1500000000000001,
+            -2.85
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 51,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_00",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "item_09",
+        "item_10"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [],
+      "parent_task_id": "F083",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F083_01",
+        "parent_task_id": "F083",
+        "before_instruction": "Find either an apple or a banana among the kitchen fruit containers and put one beside the lunch box on the kitchen table.",
+        "after_instruction": "Find an apple and a banana among the kitchen fruit supplies and bring both to the table in front of you in the kitchen for lunch.",
+        "reason": "Revises optional one-of-two fruit selection into two-fruit preparation; both categories are explicit and required. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "apple/obixxh",
+        "target_assets": [
+          "apple/obixxh",
+          "banana/verqwv"
+        ]
+      },
+      "binding_sha256": "23050c52fea4c5a124af91151032c3b22946bd3e3bf79329c751a4c9e8764edd"
+    },
+    "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/stability_repairs_20261108/asset_F083_01",
+    "error": "LAYOUT_NOT_CONVERGED: see settling.private.json",
+    "source_sha256": "53e8a303fb91cacd30049c7de31ceafb48f364221b1c2ca2283048e17406c2aa",
+    "expert_diagnosis": {
+      "category": "resting_state",
+      "error": "LAYOUT_NOT_CONVERGED: see settling.private.json",
+      "native_rejections_in_current_queue": 0,
+      "first_blocker": {
+        "entity": "item_06",
+        "relation": "inside",
+        "receptacle": "item_00"
+      },
+      "solver": null,
+      "support_measurements": {
+        "total": 0,
+        "planar": 0,
+        "reasons": {}
+      },
+      "first_contact": null,
+      "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/stability_repairs_20261108/asset_F083_01/native_validation.log",
+      "inference_scope": "proposal/model diagnosis; native physics acceptance unchanged"
+    },
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "resting_state",
+      "reason": "LAYOUT_NOT_CONVERGED: see settling.private.json"
+    }
+  },
+  "out": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_247_F083_expert_93b6de61b4a1",
+  "variant": 93
+}

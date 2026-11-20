@@ -1,0 +1,141 @@
+{
+  "status": "static_screened_physics_pending",
+  "old_storage": "expert_storage_81",
+  "new_storage": {
+    "name": "expert_storage_81",
+    "category": "bottom_cabinet_no_top",
+    "model": "vdedzt",
+    "floor": "floors_kwnype_0",
+    "position_xy": [
+      -1.9000000000000001,
+      3.6
+    ],
+    "aabb": [
+      [
+        -2.126488662719727,
+        3.2852655029296876,
+        0.0
+      ],
+      [
+        -1.6735113372802735,
+        3.9147344970703126,
+        0.6032413330078125
+      ]
+    ],
+    "room": "dining_room_0"
+  },
+  "released_compiler_links": [
+    {
+      "entity": "item_06",
+      "previous_link": "meta__base_link_fillable_0_0_link"
+    },
+    {
+      "entity": "item_07",
+      "previous_link": "meta__base_link_fillable_0_0_link"
+    },
+    {
+      "entity": "item_08",
+      "previous_link": "meta__base_link_fillable_0_0_link"
+    }
+  ],
+  "replaced_failed_auxiliary_fixture": true,
+  "previous_auxiliary_asset": {
+    "category": "bottom_cabinet_no_top",
+    "model": "gjrero"
+  },
+  "conservative_opening_clearance_m": 0.0,
+  "opening_sweep_requires_native_measurement": true,
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/all_remaining_20261113_03_F118/asset_F118_01/scenario.yaml",
+  "original_sha256": "9867819649bc2fc9f1fd879bbcbb1a65474fccda9b4d2fa38bd44e455e05a931",
+  "diagnosis_directory": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/all_remaining_20261113_03_F118/asset_F118_01",
+  "solver": {
+    "status": "feasible_model",
+    "device": "cuda",
+    "backend": "torch_cuda_finite_csp",
+    "solve_seconds": 0.01708558900281787,
+    "nodes": 3,
+    "candidate_tests": 114,
+    "search_orders_tried": 1,
+    "grid_m": 0.001,
+    "margin_m": 0.015,
+    "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+    "physical_validation_required": true,
+    "assignment": {
+      "item_06": "meta__base_link_fillable_0_0_link#component:2",
+      "item_07": "meta__base_link_fillable_0_0_link#component:0#support_patch:0",
+      "item_08": "meta__base_link_fillable_0_0_link#component:0#support_patch:0"
+    },
+    "poses": {
+      "item_06": {
+        "bin": "meta__base_link_fillable_0_0_link#component:2",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.015
+        ],
+        "footprint_m": [
+          0.261,
+          0.361
+        ],
+        "center_xy_m": [
+          0.1455,
+          0.1955
+        ]
+      },
+      "item_07": {
+        "bin": "meta__base_link_fillable_0_0_link#component:0#support_patch:0",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.015
+        ],
+        "footprint_m": [
+          0.17,
+          0.176
+        ],
+        "center_xy_m": [
+          0.1,
+          0.10300000000000001
+        ]
+      },
+      "item_08": {
+        "bin": "meta__base_link_fillable_0_0_link#component:0#support_patch:0",
+        "yaw_degrees": 0,
+        "lower_xy_m": [
+          0.015,
+          0.20600000000000002
+        ],
+        "footprint_m": [
+          0.093,
+          0.093
+        ],
+        "center_xy_m": [
+          0.0615,
+          0.2525
+        ]
+      }
+    }
+  },
+  "variant": 93,
+  "task_local_model_experience": [
+    {
+      "inventory_sha256": "d138e4f3ae1a9c69e19f1dedffcdbe2f3cd4661547c5f21135bb4fec72ac5ed7",
+      "asset": "bottom_cabinet_no_top/vzzafs",
+      "reason": "Two items forced into one bin have no non-overlapping orientation pair",
+      "native_policy_signature": "638901e57b44747045bd55ed10084fe82451f1075c4c28aa6f0af555449b389c",
+      "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/full_queue_d768444abfb5_F118/asset_F118_01/native_validation.log",
+      "scenario_sha256": "7e6e61cb20663bc60a3b690a2af10f503ac04aaaf5720764baf7f08544bf38a1",
+      "scope": "same task and unchanged inventory; try another model first, never exclude the asset globally"
+    }
+  ],
+  "removed_uninstantiated_open_state": null,
+  "preserved": [
+    "instruction",
+    "goal",
+    "target",
+    "robot",
+    "spawn",
+    "all task items and counts",
+    "relation types"
+  ]
+}

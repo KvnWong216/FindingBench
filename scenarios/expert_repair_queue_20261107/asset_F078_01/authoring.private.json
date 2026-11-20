@@ -1,0 +1,207 @@
+{
+  "id": "asset_F078_01",
+  "family": "semantic_F078",
+  "scene": "Merom_1_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_F078_01/scenario.yaml",
+  "scenario_sha256": "af3ead6d490241987864f20af8e7b671e870fc53575eee0e8429f53063bce9f7",
+  "instruction": "There is a sample on the counter in front of you in the kitchen. Find the milk carton matching that sample in the kitchen refrigerator and put it on the counter in front of you in the kitchen.",
+  "target_key": "box_of_milk/ahmgjv",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "fridge_xyejdx_0",
+  "destination_receptacle": "bottom_cabinet_slgzfc_2",
+  "object_count": 10,
+  "distractor_count": 8,
+  "source_survey_sha256": "1bcd77f7369c09f3ee939635132fc064795bb448af326a0f941bcbe3dbe0fd22",
+  "route": {
+    "start": [
+      -1.85,
+      2.95,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -1.85,
+        2.95
+      ],
+      [
+        -1.75,
+        2.95
+      ],
+      [
+        -1.6500000000000001,
+        2.95
+      ],
+      [
+        -1.55,
+        2.95
+      ],
+      [
+        -1.4500000000000002,
+        2.95
+      ],
+      [
+        -1.4500000000000002,
+        3.0500000000000003
+      ],
+      [
+        -1.4500000000000002,
+        3.1500000000000004
+      ],
+      [
+        -1.4500000000000002,
+        3.25
+      ]
+    ],
+    "length_m": 0.7,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 54,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "fridge_xyejdx_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "fridge_xyejdx_0",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.6751573505714471,
+            0.6923544381925144,
+            0.1520151221574697
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.6751575409981778,
+            0.6923545846599712,
+            0.2645695578733007
+          ],
+          "meta__base_link_fillable_0_0_link#component:2": [
+            0.6751579218516393,
+            0.6923533396865882,
+            0.33850971657473866
+          ],
+          "meta__base_link_fillable_0_0_link#component:3": [
+            0.6751577748388204,
+            0.692355609932169,
+            0.2751379805410806
+          ],
+          "meta__base_link_fillable_0_0_link#component:4": [
+            0.675159552154921,
+            0.6923546373195275,
+            0.2974273236016959
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:3": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:4": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "fridge/xyejdx",
+          "scale": [
+            1.0649434328079224,
+            1.2286580801010132,
+            1.0076937675476074
+          ],
+          "encrypted_asset_sha256": "68ee7a6a4f96bedf063175b3337e79cb2160d24b2828f243110e16b3690747ad",
+          "metadata_sha256": "2affb1d2fafb5bdcd9697ef76ec306cbcba81e7d17d67d2f93c75409b65e364f",
+          "root_orientation": [
+            9.519525292489561e-07,
+            -7.17545731276914e-07,
+            0.9999971389770508,
+            0.0024034513626247644
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_07": "meta__base_link_fillable_0_0_link#component:2",
+          "item_01": "meta__base_link_fillable_0_0_link#component:1",
+          "item_00": "meta__base_link_fillable_0_0_link#component:0",
+          "item_02": "meta__base_link_fillable_0_0_link#component:3",
+          "item_05": "meta__base_link_fillable_0_0_link#component:4",
+          "item_03": "meta__base_link_fillable_0_0_link#component:3",
+          "item_04": "meta__base_link_fillable_0_0_link#component:4",
+          "item_08": "meta__base_link_fillable_0_0_link#component:3",
+          "item_06": "meta__base_link_fillable_0_0_link#component:1"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_07": "meta__base_link_fillable_0_0_link",
+      "item_01": "meta__base_link_fillable_0_0_link",
+      "item_00": "meta__base_link_fillable_0_0_link",
+      "item_02": "meta__base_link_fillable_0_0_link",
+      "item_05": "meta__base_link_fillable_0_0_link",
+      "item_03": "meta__base_link_fillable_0_0_link",
+      "item_04": "meta__base_link_fillable_0_0_link",
+      "item_08": "meta__base_link_fillable_0_0_link",
+      "item_06": "meta__base_link_fillable_0_0_link"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "F078",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F078_01",
+    "parent_task_id": "F078",
+    "before_instruction": "Among the milk cartons in the kitchen refrigerator, find the one with the earliest printed date and put it on the counter beside the cereal box.",
+    "after_instruction": "There is a sample on the counter in front of you in the kitchen. Find the milk carton matching that sample in the kitchen refrigerator and put it on the counter in front of you in the kitchen.",
+    "reason": "Revised unsupported earliest-date ordering into matching the requested native milk product. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "box_of_milk/ahmgjv",
+    "target_assets": [
+      "box_of_milk/ahmgjv"
+    ]
+  },
+  "binding_sha256": "26b18e18f01a6d4a9b18c2ab60a15ae4b74a4452ce3df310bd100868a745830e"
+}

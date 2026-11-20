@@ -1,0 +1,106 @@
+{
+  "method": "reviewed_reference_fixture_capacity_exchange",
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/pinpoint_20261115/F311/source_capacity_v76/reference_after/asset_F311_01/scenario.yaml",
+  "source_sha256": "9ccd0464ab0ed98b2a18708d0466d716bfb65d522d915a8479840bd9a5585ce1",
+  "before_fixture": {
+    "name": "delivery_surface",
+    "category": "bottom_cabinet_no_top",
+    "model": "pluwfl",
+    "floor": "floors_khjmrr_0",
+    "position_xy": [
+      5.5,
+      1.9000000000000001
+    ],
+    "aabb": [
+      [
+        5.273604804992676,
+        1.5329611968994141,
+        -0.0
+      ],
+      [
+        5.726395195007324,
+        2.267038803100586,
+        0.602992431640625
+      ]
+    ],
+    "room": "dining_room_0"
+  },
+  "after_fixture": {
+    "name": "delivery_surface",
+    "category": "bottom_cabinet",
+    "model": "songes",
+    "floor": "floors_khjmrr_0",
+    "position_xy": [
+      5.5,
+      1.9000000000000001
+    ],
+    "aabb": [
+      [
+        5.236380737304687,
+        1.480784881591797,
+        -0.0
+      ],
+      [
+        5.763619262695313,
+        2.319215118408203,
+        0.82936767578125
+      ]
+    ],
+    "room": "dining_room_0"
+  },
+  "plans": [
+    {
+      "receptacle": "delivery_surface",
+      "entities": [
+        "comparison_sample"
+      ],
+      "solver": {
+        "status": "feasible_model",
+        "device": "cuda",
+        "backend": "torch_cuda_finite_csp",
+        "solve_seconds": 0.0018885540775954723,
+        "nodes": 0,
+        "candidate_tests": 0,
+        "search_orders_tried": 0,
+        "grid_m": 0.001,
+        "margin_m": 0.025,
+        "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+        "physical_validation_required": true,
+        "assignment": {
+          "comparison_sample": "surface"
+        },
+        "poses": {
+          "comparison_sample": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.025,
+              0.025
+            ],
+            "footprint_m": [
+              0.311,
+              0.462
+            ],
+            "center_xy_m": [
+              0.1805,
+              0.256
+            ]
+          }
+        },
+        "constructive_witness": "single strip; exact quantized box and clearance checks",
+        "authoring_spacing_attempts": [
+          {
+            "margin_m": 0.025,
+            "grid_m": 0.001,
+            "status": "feasible_model",
+            "reason": null
+          }
+        ]
+      },
+      "measured_scene_obstacles": [],
+      "physical_validation_required": true
+    }
+  ],
+  "reason": "Use a real native fixture matching the cabinet-top instruction and enough real surface for all distinct matching samples. Preserve the exact delivery site, reference assets, task/goal and robot spawn.",
+  "physical_validation_required": true
+}

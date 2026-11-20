@@ -1,0 +1,451 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F197_01",
+      "family": "semantic_F197",
+      "scene": "Beechwood_0_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/candidate_dec4c24c48d4_F197/asset_F197_01/scenario.yaml",
+      "scenario_sha256": "dec4c24c48d4e81ccc245581c84f8cd33876eb6cb73687797a1aa3d73b1f5ff2",
+      "instruction": "There is a sample on the table in front of you in the living room. Find another juice bottle matching that sample in the kitchen drink storage and bring it to the table in front of you in the living room in the living room while I work.",
+      "target_key": "bottle_of_apple_juice/xvrbdy",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "kitchen_0",
+      "destination_room": "living_room_0",
+      "source_receptacle": "expert_storage_310",
+      "destination_receptacle": "breakfast_table_skczfi_0",
+      "object_count": 11,
+      "distractor_count": 8,
+      "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+      "route": {
+        "start": [
+          3.5500000000000003,
+          -6.95,
+          -3.141592653589793
+        ],
+        "path_xy": [
+          [
+            3.5500000000000003,
+            -6.95
+          ],
+          [
+            3.45,
+            -6.95
+          ],
+          [
+            3.35,
+            -6.95
+          ],
+          [
+            3.35,
+            -6.8500000000000005
+          ],
+          [
+            3.25,
+            -6.8500000000000005
+          ],
+          [
+            3.25,
+            -6.75
+          ],
+          [
+            3.1500000000000004,
+            -6.75
+          ],
+          [
+            3.0500000000000003,
+            -6.75
+          ],
+          [
+            2.95,
+            -6.75
+          ],
+          [
+            2.85,
+            -6.75
+          ],
+          [
+            2.75,
+            -6.75
+          ],
+          [
+            2.75,
+            -6.65
+          ],
+          [
+            2.6500000000000004,
+            -6.65
+          ],
+          [
+            2.6500000000000004,
+            -6.550000000000001
+          ],
+          [
+            2.5500000000000003,
+            -6.550000000000001
+          ],
+          [
+            2.5500000000000003,
+            -6.45
+          ],
+          [
+            2.45,
+            -6.45
+          ],
+          [
+            2.45,
+            -6.3500000000000005
+          ],
+          [
+            2.35,
+            -6.3500000000000005
+          ],
+          [
+            2.25,
+            -6.3500000000000005
+          ],
+          [
+            2.15,
+            -6.3500000000000005
+          ],
+          [
+            2.15,
+            -6.25
+          ]
+        ],
+        "length_m": 2.1,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 21,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "bottom_cabinet_no_top_pluwfl_0",
+        "comparison_sample",
+        "expert_storage_310"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [
+        {
+          "name": "expert_storage_310",
+          "category": "bottom_cabinet_no_top",
+          "model": "ncgmqr",
+          "floor": "floors_sktjer_0",
+          "position_xy": [
+            1.4500000000000002,
+            -5.65
+          ],
+          "aabb": [
+            [
+              1.1381302947998049,
+              -5.858347198486329,
+              -0.0
+            ],
+            [
+              1.7618697052001955,
+              -5.441652801513672,
+              0.6957286682128906
+            ]
+          ],
+          "room": "kitchen_0"
+        }
+      ],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "expert_storage_310",
+            "volume_extents_m": {
+              "meta__drawer0_fillable_0_0_link": [
+                0.5233886344018981,
+                0.39358985018730164,
+                0.14444891703128815
+              ],
+              "meta__drawer1_fillable_0_0_link": [
+                0.5237021703720093,
+                0.39821761441230774,
+                0.14396608537536593
+              ],
+              "meta__drawer2_fillable_0_0_link": [
+                0.5186685735186505,
+                0.3985025246143341,
+                0.28758682544270653
+              ]
+            },
+            "native_links": {
+              "meta__drawer0_fillable_0_0_link": "meta__drawer0_fillable_0_0_link",
+              "meta__drawer1_fillable_0_0_link": "meta__drawer1_fillable_0_0_link",
+              "meta__drawer2_fillable_0_0_link": "meta__drawer2_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet_no_top/ncgmqr",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "654ec43b4fbdc16ab935e47e394df2e4452ea2ef8e5df804fc94faba3196f5a7",
+              "metadata_sha256": "4f69836ec4373a572ddb8592f3f5f5e84e399b02a8b6553a4147db5c12cdb121",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.023820423055440187,
+              "nodes": 9,
+              "candidate_tests": 419120,
+              "search_orders_tried": 1,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_07": "meta__drawer2_fillable_0_0_link",
+                "item_03": "meta__drawer2_fillable_0_0_link",
+                "item_04": "meta__drawer2_fillable_0_0_link",
+                "item_02": "meta__drawer2_fillable_0_0_link",
+                "item_08": "meta__drawer2_fillable_0_0_link",
+                "item_00": "meta__drawer2_fillable_0_0_link",
+                "item_01": "meta__drawer2_fillable_0_0_link",
+                "item_05": "meta__drawer2_fillable_0_0_link",
+                "item_06": "meta__drawer1_fillable_0_0_link"
+              },
+              "poses": {
+                "item_07": {
+                  "bin": "meta__drawer2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.092,
+                    0.092
+                  ],
+                  "center_xy_m": [
+                    0.051000000000000004,
+                    0.051000000000000004
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__drawer2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.10200000000000001,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.078,
+                    0.078
+                  ],
+                  "center_xy_m": [
+                    0.14100000000000001,
+                    0.044
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__drawer2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.185,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.077,
+                    0.077
+                  ],
+                  "center_xy_m": [
+                    0.2235,
+                    0.043500000000000004
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__drawer2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.267,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.073,
+                    0.073
+                  ],
+                  "center_xy_m": [
+                    0.3035,
+                    0.0415
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__drawer2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.34500000000000003,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.073,
+                    0.073
+                  ],
+                  "center_xy_m": [
+                    0.3815,
+                    0.0415
+                  ]
+                },
+                "item_00": {
+                  "bin": "meta__drawer2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.423,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.044,
+                    0.044
+                  ],
+                  "center_xy_m": [
+                    0.445,
+                    0.027
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__drawer2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.423,
+                    0.054
+                  ],
+                  "footprint_m": [
+                    0.044,
+                    0.044
+                  ],
+                  "center_xy_m": [
+                    0.445,
+                    0.076
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__drawer2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.267,
+                    0.083
+                  ],
+                  "footprint_m": [
+                    0.051000000000000004,
+                    0.055
+                  ],
+                  "center_xy_m": [
+                    0.2925,
+                    0.1105
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__drawer1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.19,
+                    0.07100000000000001
+                  ],
+                  "center_xy_m": [
+                    0.1,
+                    0.0405
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_07": "meta__drawer2_fillable_0_0_link",
+              "item_03": "meta__drawer2_fillable_0_0_link",
+              "item_04": "meta__drawer2_fillable_0_0_link",
+              "item_02": "meta__drawer2_fillable_0_0_link",
+              "item_08": "meta__drawer2_fillable_0_0_link",
+              "item_00": "meta__drawer2_fillable_0_0_link",
+              "item_01": "meta__drawer2_fillable_0_0_link",
+              "item_05": "meta__drawer2_fillable_0_0_link",
+              "item_06": "meta__drawer1_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_07": "meta__drawer2_fillable_0_0_link",
+              "item_03": "meta__drawer2_fillable_0_0_link",
+              "item_04": "meta__drawer2_fillable_0_0_link",
+              "item_02": "meta__drawer2_fillable_0_0_link",
+              "item_08": "meta__drawer2_fillable_0_0_link",
+              "item_00": "meta__drawer2_fillable_0_0_link",
+              "item_01": "meta__drawer2_fillable_0_0_link",
+              "item_05": "meta__drawer2_fillable_0_0_link",
+              "item_06": "meta__drawer1_fillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_07": "meta__drawer2_fillable_0_0_link",
+          "item_03": "meta__drawer2_fillable_0_0_link",
+          "item_04": "meta__drawer2_fillable_0_0_link",
+          "item_02": "meta__drawer2_fillable_0_0_link",
+          "item_08": "meta__drawer2_fillable_0_0_link",
+          "item_00": "meta__drawer2_fillable_0_0_link",
+          "item_01": "meta__drawer2_fillable_0_0_link",
+          "item_05": "meta__drawer2_fillable_0_0_link",
+          "item_06": "meta__drawer1_fillable_0_0_link"
+        },
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [],
+      "parent_task_id": "F197",
+      "tier": "long",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F197_01",
+        "parent_task_id": "F197",
+        "before_instruction": "The juice bottle on the private office desk is the product I want. Find another bottle of it in the kitchen drink storage and put it beside the reference bottle.",
+        "after_instruction": "There is a sample on the table in front of you in the living room. Find another juice bottle matching that sample in the kitchen drink storage and bring it to the table in front of you in the living room in the living room while I work.",
+        "reason": "Physical same-model sample preserves product matching; the exact target is grounded visually rather than by an invented label. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Explicit spatial revision from ('kitchen', 'cabinet', 'private_office', 'desk') to ('kitchen', 'cabinet', 'living_room', 'table'): uses a room/storage pairing with previously found robot clearance and path evidence (19 prior recipes). Item sets, reference matching and inventory predicates are unchanged. Cross-room transfer is retained where the revised source and destination differ.",
+        "target_asset": "bottle_of_apple_juice/xvrbdy",
+        "target_assets": [
+          "bottle_of_apple_juice/xvrbdy"
+        ]
+      },
+      "proposal_native_policy_signature": "54e310d67c2709059af81bec4ab688b7e5ef712bf1dd6e618e9868e567523d10",
+      "storage_model_experience": []
+    }
+  ]
+}

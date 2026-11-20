@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FindingBench · RAB 技能</title>
+<style>
+body{margin:0;background:#121923;color:#e1e8f0;font:15px system-ui,sans-serif}main{margin:1.5rem auto;width:min(96%,1000px)}header{font-size:1.35rem;color:#92ebcb}
+#frame{display:block;width:100%;cursor:crosshair;background:#010306;min-height:10rem}
+#buttons{margin:1rem 0;display:flex;gap:.4rem;flex-wrap:wrap}button,input{background:#243548;color:#e1e8f0;border:1px solid #557385;padding:.5rem;border-radius:.3rem;font:inherit}
+button:hover,button[aria-pressed=true]{background:#2e685f}input{width:4rem}#inspection{max-width:100%}#status{min-height:1.6em;color:#9cdcc9}
+</style>
+<main><header>FindingBench · RAB 技能</header><p id="instruction">正在加载 RAB 环境…</p>
+<img id="frame" alt="机器人视角"><div id="buttons"></div>
+<div>VIEW：
+<label>偏航 <input id="yaw" type="number" min="-180" max="180" value="0"></label>
+<label>俯仰 <input id="pitch" type="number" min="-90" max="90" value="-12"></label>
+<label>缩放 <input id="zoom" type="number" min="1" max="4" step=".2" value="1"></label>
+<button id="view">更新视角</button> · TURN：
+<button id="left">左转</button> <button id="right">右转</button> <button id="back">转身</button></div>
+<p id="status" role="status"></p><figure id="check" hidden><figcaption>CHECK：物体外观的四个视角，不能用于点选。</figcaption><img id="inspection" alt="物体外观"></figure>
+<button id="done">REPORT_DONE</button></main>
+<script>
+const $=id=>document.getElementById(id);
+const notes={MOVE_TO:'移动至',OPEN:'打开',CLOSE:'关闭',GRASP:'抓取',PLACE:'放置',CHECK:'查看'};
+let active=null,obs=null,busy=false,terminal=false,seenFrame=null;
+for(const [s,name] of Object.entries(notes)){
+ const button=document.createElement('button');button.textContent=s+' · '+name;button.id=s;
+ button.onclick=()=>{active=s;for(const k of Object.keys(notes))$(k).setAttribute('aria-pressed',String(k===s));$('status').textContent='点选机器人画面中的目标';};
+ $('buttons').append(button);
+}
+async function observe(){
+ const r=await fetch('/observation');const data=await r.json();
+ if(!data.observation)return;
+ const next=data.observation;
+ $('instruction').textContent=next.instruction+'  ·  '+next.planning_step+'/'+next.max_planning_steps;
+ if(next.frame_id===seenFrame)return;
+ const src='data:image/png;base64,'+next.image_png_b64;
+ const image=new Image();image.src=src;await image.decode();
+ $('frame').src=src;obs=next;seenFrame=next.frame_id;terminal=Boolean(data.result?.terminal);
+ $('check').hidden=!next.inspection_view;
+ if(next.inspection_view)$('inspection').src='data:image/png;base64,'+next.inspection_view.image_png_b64;
+}
+async function act(action){
+ if(!obs||busy||terminal)return;busy=true;
+ $('status').textContent='执行中…';
+ try{
+  const r=await fetch('/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(action)});
+  const data=await r.json();if(!r.ok)throw Error(data.error);terminal=Boolean(data.terminal);
+  $('status').textContent=data.feedback.code+' · '+data.feedback.message+
+   (data.success!==undefined?' · 送达 '+(data.success?'成功':'未完成')+' · 复位 '+(data.restoration?.toFixed(3)??'无'):'');
+  await observe();
+ }catch(e){$('status').textContent=e.message;}finally{busy=false;}
+}
+$('frame').onclick=e=>{if(!active||!obs)return;const f=$('frame').getBoundingClientRect();act({skill:active,point:{frame_id:obs.frame_id,x:(e.clientX-f.left)/f.width,y:(e.clientY-f.top)/f.height}});};
+$('view').onclick=()=>act({skill:'VIEW',yaw:+$('yaw').value,pitch:+$('pitch').value,zoom:+$('zoom').value});
+for(const d of ['left','right','back'])$(d).onclick=()=>act({skill:'TURN',direction:d});
+$('done').onclick=()=>act({skill:'REPORT_DONE'});
+async function startup(){try{await observe();}catch(e){$('status').textContent=e.message;}if(!obs)setTimeout(startup,550);}startup();
+</script></html>

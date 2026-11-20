@@ -1,0 +1,80 @@
+{
+  "id": "asset_P234_01",
+  "family": "semantic_P234",
+  "scene": "Pomaria_2_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P234_01/scenario.yaml",
+  "scenario_sha256": "8fa48d081abcf1fb0bbb8c4d6df1e14b3497e3bcf9d0775384064ad312ed4435",
+  "instruction": "Retrieve the toothpaste from the bathroom cupboard and put it on the counter in front of you in the bathroom for the morning routine.",
+  "target_key": "tube_of_toothpaste/vsclsj",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bathroom_0",
+  "destination_room": "bathroom_0",
+  "source_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+  "destination_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "62e51428546de3c0a833496f29b3c3303a5b7156fd7ac39a8975412318ea7e2d",
+  "route": {
+    "start": [
+      -0.30000000000000004,
+      2.6,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -0.30000000000000004,
+        2.6
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 35,
+    "destination_approach_count": 35,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_no_top_qohxjq_1",
+    "bottom_cabinet_no_top_qohxjq_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "parent_task_id": "P234",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P234_01",
+    "parent_task_id": "P234",
+    "before_instruction": "Find the toothpaste tube with the same brand and flavor as the carton beside the bathroom sink among cupboard tubes; place it next to that carton.",
+    "after_instruction": "Retrieve the toothpaste from the bathroom cupboard and put it on the counter in front of you in the bathroom for the morning routine.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Missing explicit reference entity and validated target-reference correspondence for brand-and-flavor-matched toothpaste. Native categories are only candidates; required subtype, markings, quantity, or reference appearance remain unverified: brand-and-flavor-matched toothpaste. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+    "target_asset": "tube_of_toothpaste/vsclsj",
+    "target_assets": [
+      "tube_of_toothpaste/vsclsj"
+    ]
+  },
+  "binding_sha256": "4e83f9b8934ea80bff78218696f173569b0804a9008b08ca9fecd12332b6f9d1"
+}

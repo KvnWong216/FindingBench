@@ -1,0 +1,447 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F282_01",
+      "family": "semantic_F282",
+      "scene": "Beechwood_0_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_20_F282_expert_7187dd1c4ccb/asset_F282_01/scenario.yaml",
+      "scenario_sha256": "a4ccec2a62d3fe15b639e43f188bcf81c86e41e5287bde8f148b8284c93fe744",
+      "instruction": "Find the lunch box among the books and storage containers in the living-room cabinet and bring it to the counter in front of you in the kitchen in the kitchen.",
+      "target_key": "lunch_box/adxzhe",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "living_room_0",
+      "destination_room": "kitchen_0",
+      "source_receptacle": "bottom_cabinet_immwzb_1",
+      "destination_receptacle": "countertop_tpuwys_0",
+      "object_count": 9,
+      "distractor_count": 8,
+      "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+      "route": {
+        "start": [
+          0.9500000000000001,
+          -5.95,
+          -1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            0.9500000000000001,
+            -5.95
+          ],
+          [
+            0.9500000000000001,
+            -6.050000000000001
+          ],
+          [
+            1.05,
+            -6.050000000000001
+          ],
+          [
+            1.1500000000000001,
+            -6.050000000000001
+          ],
+          [
+            1.25,
+            -6.050000000000001
+          ],
+          [
+            1.35,
+            -6.050000000000001
+          ],
+          [
+            1.4500000000000002,
+            -6.050000000000001
+          ],
+          [
+            1.55,
+            -6.050000000000001
+          ],
+          [
+            1.6500000000000001,
+            -6.050000000000001
+          ],
+          [
+            1.6500000000000001,
+            -6.15
+          ],
+          [
+            1.75,
+            -6.15
+          ],
+          [
+            1.75,
+            -6.25
+          ],
+          [
+            1.85,
+            -6.25
+          ],
+          [
+            1.9500000000000002,
+            -6.25
+          ],
+          [
+            2.0500000000000003,
+            -6.25
+          ],
+          [
+            2.15,
+            -6.25
+          ],
+          [
+            2.25,
+            -6.25
+          ],
+          [
+            2.35,
+            -6.25
+          ],
+          [
+            2.45,
+            -6.25
+          ],
+          [
+            2.5500000000000003,
+            -6.25
+          ],
+          [
+            2.6500000000000004,
+            -6.25
+          ],
+          [
+            2.75,
+            -6.25
+          ],
+          [
+            2.85,
+            -6.25
+          ],
+          [
+            2.95,
+            -6.25
+          ],
+          [
+            3.0500000000000003,
+            -6.25
+          ],
+          [
+            3.1500000000000004,
+            -6.25
+          ],
+          [
+            3.25,
+            -6.25
+          ],
+          [
+            3.35,
+            -6.25
+          ],
+          [
+            3.45,
+            -6.25
+          ],
+          [
+            3.5500000000000003,
+            -6.25
+          ],
+          [
+            3.6500000000000004,
+            -6.25
+          ],
+          [
+            3.75,
+            -6.25
+          ],
+          [
+            3.85,
+            -6.25
+          ],
+          [
+            3.95,
+            -6.25
+          ],
+          [
+            4.05,
+            -6.25
+          ],
+          [
+            4.15,
+            -6.25
+          ],
+          [
+            4.25,
+            -6.25
+          ],
+          [
+            4.3500000000000005,
+            -6.25
+          ],
+          [
+            4.45,
+            -6.25
+          ],
+          [
+            4.55,
+            -6.25
+          ],
+          [
+            4.65,
+            -6.25
+          ],
+          [
+            4.75,
+            -6.25
+          ],
+          [
+            4.8500000000000005,
+            -6.25
+          ],
+          [
+            4.95,
+            -6.25
+          ],
+          [
+            5.050000000000001,
+            -6.25
+          ]
+        ],
+        "length_m": 4.4,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "bottom_cabinet_immwzb_1"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_immwzb_1",
+            "volume_extents_m": {
+              "link_2": [
+                0.4339632987976074,
+                1.0581302642822266,
+                0.11316221952438354
+              ]
+            },
+            "native_links": {
+              "link_2": "link_2"
+            },
+            "geometry_source": "survey",
+            "geometry_provenance": {},
+            "status": "heuristic_fit",
+            "assignment": {
+              "item_00": "link_2",
+              "item_01": "link_2",
+              "item_02": "link_2",
+              "item_03": "link_2",
+              "item_04": "link_2",
+              "item_05": "link_2",
+              "item_06": "link_2",
+              "item_07": "link_2",
+              "item_08": "link_2"
+            },
+            "component_allocation": {
+              "item_00": "link_2",
+              "item_01": "link_2",
+              "item_02": "link_2",
+              "item_03": "link_2",
+              "item_04": "link_2",
+              "item_05": "link_2",
+              "item_06": "link_2",
+              "item_07": "link_2",
+              "item_08": "link_2"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_00": "link_2",
+          "item_01": "link_2",
+          "item_02": "link_2",
+          "item_03": "link_2",
+          "item_04": "link_2",
+          "item_05": "link_2",
+          "item_06": "link_2",
+          "item_07": "link_2",
+          "item_08": "link_2"
+        },
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [
+        {
+          "scene": "Rs_int",
+          "source": "bottom_cabinet_bamfsz_1",
+          "preflight": {
+            "status": "rejected_candidate",
+            "findings": [
+              {
+                "receptacle": "bottom_cabinet_bamfsz_1",
+                "volume_extents_m": {
+                  "link_1": [
+                    0.33487772941589355,
+                    0.370966374874115,
+                    0.20883751660585403
+                  ],
+                  "link_2": [
+                    0.3371378183364868,
+                    0.3809979259967804,
+                    0.0892288088798523
+                  ],
+                  "link_3": [
+                    0.3351621627807617,
+                    0.37633565068244934,
+                    0.03191465139389038
+                  ],
+                  "link_4": [
+                    0.3346196413040161,
+                    0.38081181049346924,
+                    0.03191465139389038
+                  ]
+                },
+                "native_links": {
+                  "link_1": "link_1",
+                  "link_2": "link_2",
+                  "link_3": "link_3",
+                  "link_4": "link_4"
+                },
+                "geometry_source": "survey",
+                "geometry_provenance": {},
+                "status": "rejected_candidate",
+                "native_sampling_required": false,
+                "reason": "No conservative upright joint packing found",
+                "entities": [
+                  "item_00",
+                  "item_01",
+                  "item_02",
+                  "item_03",
+                  "item_04",
+                  "item_05",
+                  "item_06",
+                  "item_07",
+                  "item_08"
+                ]
+              }
+            ],
+            "prefer_alternative_layout": false,
+            "assignments": {},
+            "physical_validation_required": true
+          }
+        }
+      ],
+      "parent_task_id": "F282",
+      "tier": "long",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F282_01",
+        "parent_task_id": "F282",
+        "before_instruction": "Find the lunch box among the books and rigid containers in the private office and put it beside the refrigerator on the kitchen counter.",
+        "after_instruction": "Find the lunch box among the books and storage containers in the living-room cabinet and bring it to the counter in front of you in the kitchen in the kitchen.",
+        "reason": "The identified delivery surface is grounded by the initial facing direction; decorative destination landmarks are omitted. Target identity, requested cardinality and source/destination room types are retained. Explicit spatial revision from ('private_office', 'cabinet', 'kitchen', 'counter') to ('living_room', 'cabinet', 'kitchen', 'counter'): uses a room/storage pairing with previously found robot clearance and path evidence (1 prior recipes). Item sets, reference matching and inventory predicates are unchanged. Cross-room transfer is retained where the revised source and destination differ.",
+        "target_asset": "lunch_box/adxzhe",
+        "target_assets": [
+          "lunch_box/adxzhe"
+        ]
+      },
+      "binding_sha256": "c924845fd63e5b1a0ec1e6d29aab8c3e68fb882f1c7cea9233ed3e82ac87ad2d",
+      "surface_binding_revision": {
+        "status": "surface_body_binding_corrected_physics_pending",
+        "changes": [
+          {
+            "field": "goal",
+            "entity": "item_00",
+            "before": "bottom_cabinet_no_top_qohxjq_0",
+            "after": "countertop_tpuwys_0"
+          }
+        ],
+        "destination_approach_patch": {
+          "contact_body": "countertop_tpuwys_0",
+          "above_fixture": "bottom_cabinet_no_top_qohxjq_0",
+          "aabb": [
+            [
+              0.869,
+              -7.091,
+              0.851
+            ],
+            [
+              1.368,
+              -6.509,
+              0.87
+            ]
+          ],
+          "scope": "private route proposal to a subset of the actual slab; no synthetic body"
+        },
+        "geometry": {
+          "bottom_cabinet_no_top_qohxjq_0": {
+            "before": [
+              [
+                0.869,
+                -7.094,
+                0.001
+              ],
+              [
+                1.368,
+                -6.509,
+                0.848
+              ]
+            ],
+            "after": [
+              [
+                -0.169,
+                -7.091,
+                0.851
+              ],
+              [
+                1.407,
+                -6.494,
+                0.87
+              ]
+            ]
+          }
+        },
+        "source_survey": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/vla_difficulty_v2/_survey/Beechwood_0_int.json",
+        "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+        "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert_repair_queue_20261107/asset_F282_01/scenario.yaml",
+        "original_scenario_sha256": "7208fdd1f04aa492be1b37b360f0a8626f50193611750031f24bf70a3f8218e2",
+        "reason": "Native OnTop requires touching the named body; a separate measured slab covers the named cabinet.",
+        "preserved": [
+          "instruction",
+          "all object models and counts",
+          "target identities",
+          "relation kinds",
+          "spawn",
+          "robot and skills",
+          "physical delivery location"
+        ],
+        "physical_validation_required": true
+      }
+    }
+  ]
+}

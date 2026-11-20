@@ -1,0 +1,170 @@
+{
+  "id": "asset_F241_01",
+  "family": "semantic_F241",
+  "scene": "Beechwood_0_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_F241_01/scenario.yaml",
+  "scenario_sha256": "dbde250632cd4e5fffb6da461e4dd26eff2f6bb6507d38ca55471198f3cef5d9",
+  "instruction": "Find the chocolate box among the kitchen food-storage shelves and bring it to the table in front of you in the living room in the living room for tea.",
+  "target_key": "box_of_chocolates/bdvkbh",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "countertop_tpuwys_0",
+  "destination_receptacle": "breakfast_table_skczfi_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+  "route": {
+    "start": [
+      3.5500000000000003,
+      -6.95,
+      -3.141592653589793
+    ],
+    "path_xy": [
+      [
+        3.5500000000000003,
+        -6.95
+      ],
+      [
+        3.45,
+        -6.95
+      ],
+      [
+        3.35,
+        -6.95
+      ],
+      [
+        3.35,
+        -6.8500000000000005
+      ],
+      [
+        3.25,
+        -6.8500000000000005
+      ],
+      [
+        3.25,
+        -6.75
+      ],
+      [
+        3.1500000000000004,
+        -6.75
+      ],
+      [
+        3.0500000000000003,
+        -6.75
+      ],
+      [
+        2.95,
+        -6.75
+      ],
+      [
+        2.85,
+        -6.75
+      ],
+      [
+        2.75,
+        -6.75
+      ],
+      [
+        2.75,
+        -6.65
+      ],
+      [
+        2.6500000000000004,
+        -6.65
+      ],
+      [
+        2.6500000000000004,
+        -6.550000000000001
+      ],
+      [
+        2.5500000000000003,
+        -6.550000000000001
+      ],
+      [
+        2.5500000000000003,
+        -6.45
+      ],
+      [
+        2.45,
+        -6.45
+      ],
+      [
+        2.45,
+        -6.3500000000000005
+      ],
+      [
+        2.35,
+        -6.3500000000000005
+      ],
+      [
+        2.25,
+        -6.3500000000000005
+      ],
+      [
+        2.15,
+        -6.3500000000000005
+      ],
+      [
+        2.0500000000000003,
+        -6.3500000000000005
+      ],
+      [
+        1.9500000000000002,
+        -6.3500000000000005
+      ],
+      [
+        1.9500000000000002,
+        -6.25
+      ]
+    ],
+    "length_m": 2.3,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "parent_task_id": "F241",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F241_01",
+    "parent_task_id": "F241",
+    "before_instruction": "The chocolates may be in either pantry shelving unit. Find the box and bring it to the tea tray on the living room coffee table.",
+    "after_instruction": "Find the chocolate box among the kitchen food-storage shelves and bring it to the table in front of you in the living room in the living room for tea.",
+    "reason": "Drops the unsupported exact count of shelving units; preserves pantry search and living-room service. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface. Layout revision: the unbuilt pantry-room task is explicitly relocated to the kitchen food-storage area because surveyed pantry rooms lack two robot-accessible storage/delivery positions. Target models, counts, reference matching, destination inventory and goals are unchanged; this changes room scope and may shorten transport.",
+    "target_asset": "box_of_chocolates/bdvkbh",
+    "target_assets": [
+      "box_of_chocolates/bdvkbh"
+    ]
+  },
+  "binding_sha256": "d90dbb508ea6c9944d1a79bbd976c4c45ae6e45590bf2890b8c3e4ee0fd2401d"
+}

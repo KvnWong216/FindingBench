@@ -1,0 +1,67 @@
+# VLA difficulty v1 — the two experimental axes.
+# Levels are EXPERIMENTAL CONDITIONS, not a presumed performance ordering.
+version: 1
+
+language:
+  L1:
+    name: explicit_procedure
+    zh: 明确操作指令
+    rule: >
+      Names the target object, its location for the current spatial condition,
+      and every required action step in order (navigate, open if needed,
+      grasp, place if needed, report done).
+    note: >
+      L1 tells the agent WHERE the object is, so under L1 the spatial axis
+      measures execution/navigation given a known location, not discovery.
+      Under L2/L3 the spatial axis also includes discovery.
+  L2:
+    name: goal_directed
+    zh: 目标导向指令
+    rule: Names the target object and the final goal state only; no location, no steps.
+  L3:
+    name: abstract_intent
+    zh: 抽象意图指令
+    rule: >
+      Describes the user's need without naming the goal predicate directly.
+      Must admit exactly one interpretation in the task's scene; competing
+      interpretations are removed from the scene (see each task's
+      l3_ambiguity_check), identically for every variant.
+
+spatial:
+  S1:
+    name: directly_visible
+    zh: 初始直接可见
+    gates:  # checked in simulation before a variant is accepted
+      target_room_equals_start_room: true
+      # counted in the start panorama (2048x1024 equirectangular, equal-angle
+      # pixels, robot body included as occluder). A flat table knife at 2.4 m
+      # unoccluded = 37 px, so 100 px is unreachable; threshold 20 px. The best
+      # 640x480 VIEW count is recorded too but not gated (edge stretching).
+      start_panorama_target_visible_pixels_min: 20
+      open_required: false
+  S2:
+    name: occluded_local_search
+    zh: 同房间遮挡/容器内
+    gates:
+      target_room_equals_start_room: true
+      start_panorama_and_view_target_visible_pixels_max: 0
+      open_required: true          # container must have a closed top/door
+      revealed_visibility_min: 0.60
+  S3:
+    name: multi_room_search
+    zh: 跨房间搜索
+    gates:
+      target_room_equals_start_room: false
+      start_panorama_and_view_target_visible_pixels_max: 0
+      open_required: false         # keep S3 = navigation only, not navigation + container
+
+# Held constant across ALL variants of one base task
+controlled:
+  - scene and background objects (same models, same placements)
+  - robot, start pose, camera/panorama
+  - public skill library and feedback protocol (agent-visual-v2)
+  - goal predicate (success condition)
+  - planning-step budget
+varied:
+  - instruction text (language axis)
+  - target initial placement (spatial axis)

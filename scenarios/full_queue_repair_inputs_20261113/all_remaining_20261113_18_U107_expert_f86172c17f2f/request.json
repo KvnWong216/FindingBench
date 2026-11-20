@@ -1,0 +1,510 @@
+{
+  "action": "expert",
+  "case": {
+    "id": "U107",
+    "record": {
+      "id": "asset_U107_01",
+      "family": "semantic_U107",
+      "scene": "Beechwood_0_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/full_queue_565ddf0abdcd_U107/asset_U107_01/scenario.yaml",
+      "scenario_sha256": "dd498c5b1b52aac116c7379300479112fe0fd933303cc6140424dbce39e0ba30",
+      "instruction": "Bring a clamp from the study hobby tools to the desk in front of you in the study; I am preparing to hold the model parts together.",
+      "target_key": "clamp/feswhy",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "private_office_0",
+      "destination_room": "private_office_0",
+      "source_receptacle": "expert_storage_0",
+      "destination_receptacle": "desk_rzyfxk_1",
+      "object_count": 11,
+      "distractor_count": 8,
+      "source_survey_sha256": "607980f63f55d8edf3da1222b4c8897c0f1902f043304a314740f0f39d449448",
+      "route": {
+        "start": [
+          5.3500000000000005,
+          -3.95,
+          0.0
+        ],
+        "path_xy": [
+          [
+            5.3500000000000005,
+            -3.95
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 32,
+        "destination_approach_count": 9,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "bottom_cabinet_immwzb_0",
+        "bottom_cabinet_nddvba_0",
+        "expert_storage_0",
+        "expert_storage_80"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "expert_storage_0",
+          "category": "bottom_cabinet",
+          "model": "nnvyol",
+          "floor": "floors_jniagb_0",
+          "position_xy": [
+            4.3500000000000005,
+            -3.5500000000000003
+          ],
+          "aabb": [
+            [
+              4.180179168701172,
+              -3.711363090515137,
+              -0.0
+            ],
+            [
+              4.519820831298829,
+              -3.3886369094848634,
+              0.9145700073242188
+            ]
+          ],
+          "room": "private_office_0"
+        },
+        {
+          "name": "expert_storage_80",
+          "category": "bottom_cabinet_no_top",
+          "model": "vzzafs",
+          "floor": "floors_jniagb_0",
+          "position_xy": [
+            3.85,
+            -4.3500000000000005
+          ],
+          "aabb": [
+            [
+              3.523635940551758,
+              -4.576488601684571,
+              -0.0
+            ],
+            [
+              4.176364059448242,
+              -4.12351139831543,
+              0.8682071838378906
+            ]
+          ],
+          "room": "private_office_0"
+        }
+      ],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "expert_storage_0",
+            "volume_extents_m": {
+              "meta__base_link_fillable_0_0_link#component:0": [
+                0.2954964597225189,
+                0.30354899661388957,
+                0.16395084154605866
+              ],
+              "meta__base_link_fillable_0_0_link#component:1": [
+                0.2977407832145691,
+                0.3035542536510747,
+                0.21496385406621954
+              ],
+              "meta__base_link_fillable_0_0_link#component:2": [
+                0.2977366318781185,
+                0.3035600651037671,
+                0.21118305218219757
+              ],
+              "meta__base_link_fillable_0_0_link#component:3": [
+                0.29550162427132176,
+                0.3035613168012701,
+                0.1722676066676494
+              ]
+            },
+            "native_links": {
+              "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:3": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet/nnvyol",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "887a4818b174c0f04c36ec47839e426d6a59dd79bd95d4f28953d8d57a8d4162",
+              "metadata_sha256": "b96561d74ef50f76cdb25ad30017bd50cc0bd225355dd685dc54ec19cde2d678",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.03995117172598839,
+              "nodes": 6,
+              "candidate_tests": 244854,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_00": "meta__base_link_fillable_0_0_link#component:1",
+                "item_01": "meta__base_link_fillable_0_0_link#component:2",
+                "item_04": "meta__base_link_fillable_0_0_link#component:0",
+                "item_03": "meta__base_link_fillable_0_0_link#component:3",
+                "item_05": "meta__base_link_fillable_0_0_link#component:3",
+                "item_02": "meta__base_link_fillable_0_0_link#component:3"
+              },
+              "poses": {
+                "item_00": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.258,
+                    0.11
+                  ],
+                  "center_xy_m": [
+                    0.134,
+                    0.06
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:2",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.228,
+                    0.111
+                  ],
+                  "center_xy_m": [
+                    0.11900000000000001,
+                    0.0605
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:0",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.154,
+                    0.045
+                  ],
+                  "center_xy_m": [
+                    0.082,
+                    0.0275
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:3",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.23900000000000002,
+                    0.024
+                  ],
+                  "center_xy_m": [
+                    0.1245,
+                    0.017
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:3",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.249,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.008,
+                    0.048
+                  ],
+                  "center_xy_m": [
+                    0.253,
+                    0.029
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:3",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.034
+                  ],
+                  "footprint_m": [
+                    0.036000000000000004,
+                    0.009000000000000001
+                  ],
+                  "center_xy_m": [
+                    0.023,
+                    0.0385
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_00": "meta__base_link_fillable_0_0_link",
+              "item_01": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_00": "meta__base_link_fillable_0_0_link#component:1",
+              "item_01": "meta__base_link_fillable_0_0_link#component:2",
+              "item_04": "meta__base_link_fillable_0_0_link#component:0",
+              "item_03": "meta__base_link_fillable_0_0_link#component:3",
+              "item_05": "meta__base_link_fillable_0_0_link#component:3",
+              "item_02": "meta__base_link_fillable_0_0_link#component:3"
+            }
+          },
+          {
+            "receptacle": "expert_storage_80",
+            "volume_extents_m": {
+              "meta__base_link_fillable_0_0_link": [
+                0.5315370221138,
+                0.39102343478868673,
+                0.6658233661651611
+              ]
+            },
+            "native_links": {
+              "meta__base_link_fillable_0_0_link": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet_no_top/vzzafs",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "b4daa08616feaef1a73fc5cb01bcd60c278fad77ff3d5bda42d007a631e01515",
+              "metadata_sha256": "f0ba45ae134ef2c37866c9bb0186200606042fb03eafed9783116a94253ac4bf",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.0010302071459591389,
+              "nodes": 0,
+              "candidate_tests": 0,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_06": "meta__base_link_fillable_0_0_link",
+                "item_07": "meta__base_link_fillable_0_0_link",
+                "item_08": "meta__base_link_fillable_0_0_link"
+              },
+              "poses": {
+                "item_06": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.228,
+                    0.111
+                  ],
+                  "center_xy_m": [
+                    0.11900000000000001,
+                    0.0605
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.121
+                  ],
+                  "footprint_m": [
+                    0.036000000000000004,
+                    0.009000000000000001
+                  ],
+                  "center_xy_m": [
+                    0.023000000000000003,
+                    0.1255
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__base_link_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.135
+                  ],
+                  "footprint_m": [
+                    0.23900000000000002,
+                    0.024
+                  ],
+                  "center_xy_m": [
+                    0.12450000000000001,
+                    0.14700000000000002
+                  ]
+                }
+              },
+              "constructive_witness": "single strip; exact quantized box and clearance checks"
+            },
+            "assignment": {
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link",
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link"
+        },
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [],
+      "parent_task_id": "U107",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_U107_01",
+        "parent_task_id": "U107",
+        "before_instruction": "I need a clamp small enough for the model on my desk. Search the study's hobby tools and put the smallest clamp beside the model.",
+        "after_instruction": "Bring a clamp from the study hobby tools to the desk in front of you in the study; I am preparing to hold the model parts together.",
+        "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Missing constructed comparison/count evidence and distractor set for small clamp. Multiple clamp sizes and reference model required; clamp: only one native model; requested within-category size alternatives are not established Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+        "target_asset": "clamp/feswhy",
+        "target_assets": [
+          "clamp/feswhy"
+        ]
+      },
+      "binding_sha256": "ec352426ade95968a1bf802646e3e7bb73c5b665610edf2443a8cabdcb09ee4d",
+      "proposal_native_policy_signature": "638901e57b44747045bd55ed10084fe82451f1075c4c28aa6f0af555449b389c"
+    },
+    "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/full_queue_565ddf0abdcd_U107/asset_U107_01",
+    "error": "EXPERT_LAYOUT_UNRESOLVED: infeasible_model No allowed bin/orientation fits an item",
+    "source_sha256": "04c1163db443b10f674686dae2cb91d3cb28c1e24139c4b850ce02ea9262e83a",
+    "expert_diagnosis": {
+      "category": "restricted_packing",
+      "error": "EXPERT_LAYOUT_UNRESOLVED: infeasible_model No allowed bin/orientation fits an item",
+      "native_rejections_in_current_queue": 0,
+      "first_blocker": {
+        "entity": "item_01",
+        "relation": "inside",
+        "receptacle": "expert_storage_0"
+      },
+      "solver": {
+        "receptacle": "expert_storage_0",
+        "deferred_thin_entities": [],
+        "status": "infeasible_model",
+        "device": "cuda",
+        "backend": "torch_cuda_finite_csp",
+        "solve_seconds": 0.0010331920348107815,
+        "nodes": 0,
+        "candidate_tests": 0,
+        "search_orders_tried": 0,
+        "grid_m": 0.001,
+        "margin_m": 0.015,
+        "model": "upright boxes; yaw 0/90; single-layer independent bins; integer grid with convex centre halfspaces / fixed obstacles",
+        "physical_validation_required": true,
+        "reason": "No allowed bin/orientation fits an item",
+        "blocking_entities": [
+          "item_01",
+          "item_05"
+        ]
+      },
+      "support_measurements": {
+        "total": 4,
+        "planar": 4,
+        "reasons": {
+          "measured_plane": 4
+        }
+      },
+      "first_contact": null,
+      "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/full_queue_565ddf0abdcd_U107/asset_U107_01/native_validation.log",
+      "inference_scope": "proposal/model diagnosis; native physics acceptance unchanged"
+    },
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "restricted_packing",
+      "reason": "EXPERT_LAYOUT_UNRESOLVED: infeasible_model No allowed bin/orientation fits an item"
+    }
+  },
+  "out": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_18_U107_expert_f86172c17f2f",
+  "variant": 93
+}

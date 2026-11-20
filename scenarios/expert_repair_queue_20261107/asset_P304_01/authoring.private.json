@@ -1,0 +1,212 @@
+{
+  "id": "asset_P304_01",
+  "family": "semantic_P304",
+  "scene": "house_single_floor",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_P304_01/scenario.yaml",
+  "scenario_sha256": "9965577cdea424a287ff9af81e49a10ad57f63ed9d35b812cf40f71277956fb1",
+  "instruction": "Bring the keys from the entryway storage to the table in front of you in the entryway before we leave.",
+  "target_key": "keys/olymng",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "entryway_0",
+  "destination_room": "entryway_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 11,
+  "distractor_count": 8,
+  "source_survey_sha256": "14714104a089f0a43cdebe256d01d697215fe5627c0e2fcb55a030a71a1fb2a5",
+  "route": {
+    "start": [
+      -0.2,
+      0.6000000000000001,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -0.2,
+        0.6000000000000001
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 36,
+    "destination_approach_count": 37,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "bottom_cabinet_no_top",
+      "model": "qohxjq",
+      "floor": "floors_khjmrr_0",
+      "position_xy": [
+        -0.1,
+        -0.6000000000000001
+      ],
+      "aabb": [
+        [
+          -0.3264886245727539,
+          -0.7871777496337892,
+          -0.0
+        ],
+        [
+          0.1264886245727539,
+          -0.412822250366211,
+          0.6150122375488282
+        ]
+      ],
+      "room": "entryway_0"
+    },
+    {
+      "name": "delivery_surface",
+      "category": "breakfast_table",
+      "model": "iaritq",
+      "floor": "floors_khjmrr_0",
+      "position_xy": [
+        0.2,
+        1.5
+      ],
+      "aabb": [
+        [
+          -0.15100028991699216,
+          1.1494537658691406,
+          -0.0
+        ],
+        [
+          0.5510002899169921,
+          1.8505462341308594,
+          0.7490009155273437
+        ]
+      ],
+      "room": "entryway_0"
+    }
+  ],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "search_storage",
+        "volume_extents_m": {
+          "meta__link_0_fillable_0_0_link": [
+            0.3292657296876389,
+            0.2706094343662262,
+            0.12410529661492387
+          ],
+          "meta__link_1_fillable_0_0_link": [
+            0.3240965170235477,
+            0.2637109417915344,
+            0.11264877776358184
+          ],
+          "meta__link_2_fillable_0_0_link": [
+            0.32557296347618103,
+            0.2591561855925264,
+            0.032000005364418105
+          ]
+        },
+        "native_links": {
+          "meta__link_0_fillable_0_0_link": "meta__link_0_fillable_0_0_link",
+          "meta__link_1_fillable_0_0_link": "meta__link_1_fillable_0_0_link",
+          "meta__link_2_fillable_0_0_link": "meta__link_2_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet_no_top/qohxjq",
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "encrypted_asset_sha256": "cca0104a6d0c365538622fdb04a559025851e0dd44d517440e7287f803d4f3d7",
+          "metadata_sha256": "ccbcb382882e37c1a1b62095b631247ae63f535c9960b59ad7d0dd43284fff7d",
+          "root_orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_06": "meta__link_0_fillable_0_0_link",
+          "item_08": "meta__link_1_fillable_0_0_link",
+          "item_02": "meta__link_1_fillable_0_0_link",
+          "item_03": "meta__link_0_fillable_0_0_link",
+          "item_00": "meta__link_2_fillable_0_0_link",
+          "item_01": "meta__link_2_fillable_0_0_link",
+          "item_04": "meta__link_2_fillable_0_0_link",
+          "item_07": "meta__link_2_fillable_0_0_link",
+          "item_05": "meta__link_2_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_06": "meta__link_0_fillable_0_0_link",
+          "item_08": "meta__link_1_fillable_0_0_link",
+          "item_02": "meta__link_1_fillable_0_0_link",
+          "item_03": "meta__link_0_fillable_0_0_link",
+          "item_00": "meta__link_2_fillable_0_0_link",
+          "item_01": "meta__link_2_fillable_0_0_link",
+          "item_04": "meta__link_2_fillable_0_0_link",
+          "item_07": "meta__link_2_fillable_0_0_link",
+          "item_05": "meta__link_2_fillable_0_0_link"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_06": "meta__link_0_fillable_0_0_link",
+      "item_08": "meta__link_1_fillable_0_0_link",
+      "item_02": "meta__link_1_fillable_0_0_link",
+      "item_03": "meta__link_0_fillable_0_0_link",
+      "item_00": "meta__link_2_fillable_0_0_link",
+      "item_01": "meta__link_2_fillable_0_0_link",
+      "item_04": "meta__link_2_fillable_0_0_link",
+      "item_07": "meta__link_2_fillable_0_0_link",
+      "item_05": "meta__link_2_fillable_0_0_link"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "P304",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P304_01",
+    "parent_task_id": "P304",
+    "before_instruction": "Find the ring holding exactly two keys and a square tag among entryway console drawers and put it in the door-side dish.",
+    "after_instruction": "Bring the keys from the entryway storage to the table in front of you in the entryway before we leave.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Missing constructed comparison/count evidence and distractor set for two-key square-tag ring. Native categories are only candidates; required subtype, markings, quantity, or reference appearance remain unverified: two-key square-tag ring. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+    "target_asset": "keys/olymng",
+    "target_assets": [
+      "keys/olymng"
+    ]
+  },
+  "binding_sha256": "41c672e95440549c09e60aa58102bbdd0cc06cd69ffbb14a1a4b3707eec89ede"
+}

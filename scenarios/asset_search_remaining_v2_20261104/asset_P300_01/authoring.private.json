@@ -1,0 +1,110 @@
+{
+  "id": "asset_P300_01",
+  "family": "semantic_P300",
+  "scene": "Merom_0_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P300_01/scenario.yaml",
+  "scenario_sha256": "40d64cedb0d3949aab549f89989c1edbb49711bdcbc50cef13f18c47d502ff23",
+  "instruction": "Bring the toy vehicle matching the sample on the table in front of you in the living room from the living room toys and put it beside that sample for the construction game.",
+  "target_key": "toy_car/nhtywr",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "coffee_table_dnsjnv_0",
+  "object_count": 12,
+  "distractor_count": 9,
+  "source_survey_sha256": "432c3be0b4dd33aa136873f8d072cfc232afe601bfa0f68e3b7489a89af8f0f5",
+  "route": {
+    "start": [
+      3.0500000000000003,
+      8.05,
+      0.0
+    ],
+    "path_xy": [
+      [
+        3.0500000000000003,
+        8.05
+      ],
+      [
+        3.0500000000000003,
+        7.95
+      ]
+    ],
+    "length_m": 0.1,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 17,
+    "destination_approach_count": 47,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "required_negative_0",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "nightstand",
+      "model": "roxnbe",
+      "floor": "floors_lqngig_0",
+      "position_xy": [
+        3.25,
+        8.950000000000001
+      ],
+      "aabb": [
+        [
+          2.9847496185302735,
+          8.562388870239259,
+          0.0
+        ],
+        [
+          3.5152503814697265,
+          9.337611129760743,
+          0.7000010070800782
+        ]
+      ],
+      "room": "living_room_0"
+    }
+  ],
+  "parent_task_id": "P300",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P300_01",
+    "parent_task_id": "P300",
+    "before_instruction": "Find the toy crane with a rigid raised boom among living-room toy drawers and put it beside the toy building on the play mat.",
+    "after_instruction": "Bring the toy vehicle matching the sample on the table in front of you in the living room from the living room toys and put it beside that sample for the construction game.",
+    "reason": "Retains matching-based retrieval through a physical same-native-model sample on the delivery surface. Any original cross-object compatibility, photo or consumable-state requirement is explicitly replaced with visible product/shape matching. Original source and destination rooms preserved; forced native distractor creates a real competing selection.",
+    "target_asset": "toy_car/nhtywr",
+    "target_assets": [
+      "toy_car/nhtywr"
+    ]
+  },
+  "binding_sha256": "de4725481d4eebfaaac4035e6395c6566a2fcd603fde6960c5acaee70338837b"
+}

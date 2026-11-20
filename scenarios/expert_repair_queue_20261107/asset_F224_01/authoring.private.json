@@ -1,0 +1,379 @@
+{
+  "id": "asset_F224_01",
+  "family": "semantic_F224",
+  "scene": "Wainscott_0_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_F224_01/scenario.yaml",
+  "scenario_sha256": "61975c6965d2b3aa873438102a9ab014f00a53b217df54ef4b4d4c8b501de11e",
+  "instruction": "There is a sample on the table in front of you in the dining room. Find one jam jar matching that sample and one strawberry-jam jar in the kitchen breakfast cupboard, and bring both to the table in front of you in the dining room in the dining room.",
+  "target_key": "jar_of_jam/vxjbjf",
+  "target_entities": [
+    "item_00",
+    "item_01"
+  ],
+  "target_count": 2,
+  "source_room": "kitchen_0",
+  "destination_room": "dining_room_0",
+  "source_receptacle": "bottom_cabinet_bamfsz_0",
+  "destination_receptacle": "breakfast_table_zypvuv_0",
+  "object_count": 11,
+  "distractor_count": 8,
+  "source_survey_sha256": "bfc3f55c9661a7a599b91007a0d13bfe6624ef15110725894b31404980af12ee",
+  "route": {
+    "start": [
+      3.2,
+      7.5,
+      0.0
+    ],
+    "path_xy": [
+      [
+        3.2,
+        7.5
+      ],
+      [
+        3.2,
+        7.6000000000000005
+      ],
+      [
+        3.2,
+        7.7
+      ],
+      [
+        3.1,
+        7.7
+      ],
+      [
+        3.1,
+        7.800000000000001
+      ],
+      [
+        3.1,
+        7.9
+      ],
+      [
+        3.0,
+        7.9
+      ],
+      [
+        3.0,
+        8.0
+      ],
+      [
+        3.0,
+        8.1
+      ],
+      [
+        3.0,
+        8.200000000000001
+      ],
+      [
+        3.0,
+        8.3
+      ],
+      [
+        3.0,
+        8.4
+      ],
+      [
+        3.0,
+        8.5
+      ],
+      [
+        3.0,
+        8.6
+      ],
+      [
+        3.0,
+        8.700000000000001
+      ],
+      [
+        3.0,
+        8.8
+      ],
+      [
+        3.0,
+        8.9
+      ],
+      [
+        3.0,
+        9.0
+      ],
+      [
+        3.0,
+        9.1
+      ],
+      [
+        3.0,
+        9.200000000000001
+      ],
+      [
+        3.0,
+        9.3
+      ],
+      [
+        3.0,
+        9.4
+      ],
+      [
+        3.1,
+        9.4
+      ],
+      [
+        3.1,
+        9.5
+      ],
+      [
+        3.2,
+        9.5
+      ],
+      [
+        3.2,
+        9.600000000000001
+      ],
+      [
+        3.3000000000000003,
+        9.600000000000001
+      ],
+      [
+        3.4000000000000004,
+        9.600000000000001
+      ],
+      [
+        3.5,
+        9.600000000000001
+      ],
+      [
+        3.6,
+        9.600000000000001
+      ],
+      [
+        3.7,
+        9.600000000000001
+      ],
+      [
+        3.8000000000000003,
+        9.600000000000001
+      ],
+      [
+        3.9000000000000004,
+        9.600000000000001
+      ],
+      [
+        4.0,
+        9.600000000000001
+      ],
+      [
+        4.1000000000000005,
+        9.600000000000001
+      ],
+      [
+        4.2,
+        9.600000000000001
+      ],
+      [
+        4.3,
+        9.600000000000001
+      ],
+      [
+        4.4,
+        9.600000000000001
+      ],
+      [
+        4.5,
+        9.600000000000001
+      ],
+      [
+        4.6000000000000005,
+        9.600000000000001
+      ],
+      [
+        4.7,
+        9.600000000000001
+      ],
+      [
+        4.800000000000001,
+        9.600000000000001
+      ],
+      [
+        4.9,
+        9.600000000000001
+      ]
+    ],
+    "length_m": 4.2,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 25,
+    "destination_approach_count": 37,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09",
+    "comparison_sample",
+    "bottom_cabinet_no_top_bmsclc_0",
+    "bottom_cabinet_bamfsz_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_bamfsz_0",
+        "volume_extents_m": {
+          "link_1": [
+            0.7086267471313477,
+            0.5976886749267578,
+            0.3580216318368912
+          ],
+          "link_2": [
+            0.7207221984863281,
+            0.5930309295654297,
+            0.15297281742095947
+          ],
+          "link_3": [
+            0.7193360328674316,
+            0.5892429351806641,
+            0.05471789836883545
+          ],
+          "link_4": [
+            0.7196598052978516,
+            0.5882902145385742,
+            0.05471789836883545
+          ]
+        },
+        "native_links": {
+          "link_1": "link_1",
+          "link_2": "link_2",
+          "link_3": "link_3",
+          "link_4": "link_4"
+        },
+        "geometry_source": "survey",
+        "geometry_provenance": {},
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_06": "link_1",
+          "item_02": "link_1",
+          "item_04": "link_1",
+          "item_01": "link_1",
+          "item_03": "link_2",
+          "item_05": "link_2",
+          "item_00": "link_2"
+        },
+        "component_allocation": {
+          "item_06": "link_1",
+          "item_02": "link_1",
+          "item_04": "link_1",
+          "item_01": "link_1",
+          "item_03": "link_2",
+          "item_05": "link_2",
+          "item_00": "link_2"
+        }
+      },
+      {
+        "receptacle": "bottom_cabinet_no_top_bmsclc_0",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.5954132447274365,
+            0.15888239279716854,
+            0.16951489316406687
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.5859618313204182,
+            0.15759548989641808,
+            0.15654393858310867
+          ],
+          "meta__base_link_openfillable_0_0_link": [
+            0.5995352493494235,
+            0.15888616206975129,
+            0.27361854362452687
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_openfillable_0_0_link": "meta__base_link_openfillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet_no_top/bmsclc",
+          "scale": [
+            1.5623301267623901,
+            1.2117960453033447,
+            1.4873191118240356
+          ],
+          "encrypted_asset_sha256": "ff61b79a8ab91412ce4398d35b742b6d16ec744c7e191346ce87791a7837b7df",
+          "metadata_sha256": "fd75a078189bd8689ecc8e2a8c54db2923f73ca9431b6783db4e1d37b91855c5",
+          "root_orientation": [
+            -3.7252885221050747e-09,
+            1.164153573540716e-08,
+            0.707106351852417,
+            0.7071071863174438
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_09": "meta__base_link_openfillable_0_0_link",
+          "item_08": "meta__base_link_openfillable_0_0_link",
+          "item_07": "meta__base_link_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_09": "meta__base_link_openfillable_0_0_link",
+          "item_08": "meta__base_link_openfillable_0_0_link",
+          "item_07": "meta__base_link_fillable_0_0_link#component:1"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_06": "link_1",
+      "item_02": "link_1",
+      "item_04": "link_1",
+      "item_01": "link_1",
+      "item_03": "link_2",
+      "item_05": "link_2",
+      "item_00": "link_2",
+      "item_09": "meta__base_link_openfillable_0_0_link",
+      "item_08": "meta__base_link_openfillable_0_0_link",
+      "item_07": "meta__base_link_fillable_0_0_link"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "F224",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F224_01",
+    "parent_task_id": "F224",
+    "before_instruction": "Find two different kinds of jam in the kitchen breakfast cupboard and put them beside the toast plate on the dining table.",
+    "after_instruction": "There is a sample on the table in front of you in the dining room. Find one jam jar matching that sample and one strawberry-jam jar in the kitchen breakfast cupboard, and bring both to the table in front of you in the dining room in the dining room.",
+    "reason": "Preserves two jam targets without asserting that an unverified generic jam label is a different flavor; one target is grounded by physical sample and one by native category. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "jar_of_jam/vxjbjf",
+    "target_assets": [
+      "jar_of_jam/vxjbjf",
+      "jar_of_strawberry_jam/busiti"
+    ]
+  },
+  "binding_sha256": "553cba7477cd959c26f3ead54094685056288af39efdd0747d2e940a0a73c08d"
+}

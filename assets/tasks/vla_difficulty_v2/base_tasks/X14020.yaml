@@ -1,0 +1,72 @@
+task_id: X14020
+family: fetch
+scene: Merom_0_int
+source:
+  official_activity: buy_alcohol#0
+  official_activities_with_same_subgoal:
+  - buy_alcohol#0
+  official_subgoal: (ontop bottle__of__wine.n.01 checkout.n.03)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K Merom_0_int
+  object: BEHAVIOR-1K bottle_of_wine/xzipsi
+start:
+  name: start_utility_room_0_1
+  room: utility_room_0
+  x: -0.09
+  y: 0.47
+  yaw: 2.045
+target:
+  entity: target_obj
+  category: bottle_of_wine
+  model: xzipsi
+  noun: bottle of wine
+  colour_estimate: red
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S1
+missing_spatial_levels:
+- S2
+- S3
+initial_states: {}
+spatial:
+  S1:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: breakfast_table_skczfi_0
+    room: utility_room_0
+    location_phrase: the table in the utility room
+    grasp_hints:
+    - - -1.397
+      - -0.213
+      - 3.142
+    - - -1.347
+      - -0.163
+      - 3.142
+    - - -1.297
+      - 0.089
+      - -2.823
+    - - -1.297
+      - -0.313
+      - 3.001
+    extra_ops_vs_S1: []
+    probe_visibility_from_start:
+      px: 161
+      delta_e: 5.7
+    task_scope: single_room
+language:
+  L1:
+    S1: Go to the table in the utility room, pick up the bottle of wine on it and
+      hold it.
+  L2: Pick up the bottle of wine and keep holding it.
+  L3: I'm working on buy alcohol. Can you find the bottle of wine and hold it for
+    me?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

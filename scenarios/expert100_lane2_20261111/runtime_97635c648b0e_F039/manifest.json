@@ -1,0 +1,200 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F039_01",
+      "family": "semantic_F039",
+      "scene": "grocery_store_convenience",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/runtime_97635c648b0e_F039/asset_F039_01/scenario.yaml",
+      "scenario_sha256": "9736eeaae764077ea55b9915c289a57d4c6cbba9317b298348185777b621b267",
+      "instruction": "Find a carton of almond milk and a bottle of soy milk on the grocery drink shelves and put both in the shopping basket in front of you in the grocery store so we can try them.",
+      "target_key": "box_of_almond_milk/oiiqwq",
+      "target_entities": [
+        "item_01",
+        "item_02"
+      ],
+      "target_count": 2,
+      "source_room": "grocery_store_0",
+      "destination_room": "grocery_store_0",
+      "source_receptacle": "search_storage",
+      "destination_receptacle": "item_00",
+      "object_count": 13,
+      "distractor_count": 8,
+      "source_survey_sha256": "a2c547e08ae7b260e95d8b48eef0027668b5c06f7c674406f7ebc43f7ad37672",
+      "route": {
+        "start": [
+          1.6,
+          0.30000000000000004,
+          3.141592653589793
+        ],
+        "path_xy": [
+          [
+            1.6,
+            0.30000000000000004
+          ],
+          [
+            1.6,
+            0.2
+          ],
+          [
+            1.6,
+            0.1
+          ],
+          [
+            1.6,
+            0.0
+          ],
+          [
+            1.6,
+            -0.1
+          ],
+          [
+            1.6,
+            -0.2
+          ],
+          [
+            1.6,
+            -0.30000000000000004
+          ],
+          [
+            1.6,
+            -0.4
+          ],
+          [
+            1.5,
+            -0.4
+          ],
+          [
+            1.4000000000000001,
+            -0.4
+          ],
+          [
+            1.3,
+            -0.4
+          ],
+          [
+            1.2000000000000002,
+            -0.4
+          ],
+          [
+            1.1,
+            -0.4
+          ],
+          [
+            1.0,
+            -0.4
+          ],
+          [
+            0.9,
+            -0.4
+          ],
+          [
+            0.8,
+            -0.4
+          ]
+        ],
+        "length_m": 1.5,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_00",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "item_09",
+        "item_10"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "search_storage",
+          "category": "shelf",
+          "model": "vanltx",
+          "floor": "floors_rojznj_0",
+          "position_xy": [
+            0.2,
+            -1.4000000000000001
+          ],
+          "aabb": [
+            [
+              0.026926239013671888,
+              -1.992514587402344,
+              0.0
+            ],
+            [
+              0.37307376098632816,
+              -0.8074854125976564,
+              0.42811041259765625
+            ]
+          ],
+          "room": "grocery_store_0"
+        },
+        {
+          "name": "delivery_surface",
+          "category": "breakfast_table",
+          "model": "iaritq",
+          "floor": "floors_rojznj_0",
+          "position_xy": [
+            0.7000000000000001,
+            0.7000000000000001
+          ],
+          "aabb": [
+            [
+              0.3489997100830079,
+              0.3494537658691407,
+              0.0
+            ],
+            [
+              1.0510002899169923,
+              1.0505462341308593,
+              0.7490009155273437
+            ]
+          ],
+          "room": "grocery_store_0"
+        }
+      ],
+      "parent_task_id": "F039",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F039_01",
+        "parent_task_id": "F039",
+        "before_instruction": "Find almond milk on the grocery store drink shelves and put a carton in the basket beside the checkout. If there is none, bring a bottle of soy milk instead.",
+        "after_instruction": "Find a carton of almond milk and a bottle of soy milk on the grocery drink shelves and put both in the shopping basket in front of you in the grocery store so we can try them.",
+        "reason": "Revises absence-dependent fallback into a two-product tasting purchase; preserves the native alternative categories but changes OR to an explicit AND task. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "box_of_almond_milk/oiiqwq",
+        "target_assets": [
+          "box_of_almond_milk/oiiqwq",
+          "bottle_of_soy_milk/lyxwhd"
+        ]
+      },
+      "binding_sha256": "85ed041ede283215a4fd90e260aaaebb5d9a178df7fa9b02149238fbc3e6a285",
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      },
+      "proposal_native_policy_signature": "97635c648b0eaa957645ce3cfe9f2c99facb19589fe121fc3c074d69b0963d46"
+    }
+  ]
+}

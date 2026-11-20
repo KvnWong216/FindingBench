@@ -1,0 +1,694 @@
+{
+  "tasks": [
+    {
+      "id": "asset_U161_01",
+      "family": "semantic_U161",
+      "scene": "Rs_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/reviewed_work_stock_v66_U161_20261115_U161/asset_U161_01/scenario.yaml",
+      "scenario_sha256": "88209aa42d1ce79956d179ecade7d08fded2f21185c9e0f858fac1943666dcbd",
+      "instruction": "Bring a bulldog clip from the living room workspace stationery to the table in front of you in the entryway in the entryway for the temporary notice.",
+      "target_key": "bulldog_clip/cqxnkn",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "living_room_0",
+      "destination_room": "entryway_0",
+      "source_receptacle": "coffee_table_fqluyq_0",
+      "destination_receptacle": "delivery_surface",
+      "object_count": 11,
+      "distractor_count": 9,
+      "source_survey_sha256": "24bd47925e994c3defe707f3d8a919b355cd46a7128d2b59d373bc2697d8185e",
+      "route": {
+        "start": [
+          1.0,
+          1.8,
+          1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            1.0,
+            1.8
+          ],
+          [
+            1.0,
+            1.7000000000000002
+          ],
+          [
+            1.0,
+            1.6
+          ],
+          [
+            1.0,
+            1.5
+          ],
+          [
+            1.0,
+            1.4000000000000001
+          ],
+          [
+            1.0,
+            1.3
+          ],
+          [
+            1.0,
+            1.2000000000000002
+          ],
+          [
+            1.0,
+            1.1
+          ],
+          [
+            1.0,
+            1.0
+          ],
+          [
+            1.0,
+            0.9
+          ],
+          [
+            1.0,
+            0.8
+          ],
+          [
+            1.0,
+            0.7000000000000001
+          ],
+          [
+            1.0,
+            0.6000000000000001
+          ],
+          [
+            1.0,
+            0.5
+          ],
+          [
+            1.0,
+            0.4
+          ],
+          [
+            1.0,
+            0.30000000000000004
+          ],
+          [
+            0.9,
+            0.30000000000000004
+          ],
+          [
+            0.9,
+            0.2
+          ],
+          [
+            0.8,
+            0.2
+          ],
+          [
+            0.8,
+            0.1
+          ],
+          [
+            0.7000000000000001,
+            0.1
+          ],
+          [
+            0.6000000000000001,
+            0.1
+          ],
+          [
+            0.5,
+            0.1
+          ],
+          [
+            0.4,
+            0.1
+          ],
+          [
+            0.30000000000000004,
+            0.1
+          ],
+          [
+            0.2,
+            0.1
+          ],
+          [
+            0.1,
+            0.1
+          ]
+        ],
+        "length_m": 2.6,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 12,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "bottom_cabinet_bamfsz_1",
+        "drawer_support_1dee263f"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "delivery_surface",
+          "category": "breakfast_table",
+          "model": "iaritq",
+          "floor": "floors_gjemfr_0",
+          "position_xy": [
+            1.2000000000000002,
+            2.8000000000000003
+          ],
+          "aabb": [
+            [
+              0.848999710083008,
+              2.4494537658691407,
+              -0.0
+            ],
+            [
+              1.5510002899169923,
+              3.15054623413086,
+              0.7490009155273437
+            ]
+          ],
+          "room": "entryway_0"
+        }
+      ],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [],
+      "parent_task_id": "U161",
+      "tier": "long",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_U161_01",
+        "parent_task_id": "U161",
+        "before_instruction": "The hallway notice needs a removable clip. Find a bulldog clip in the study with jaws wide enough for the support on the corridor console and put it beside that support.",
+        "after_instruction": "Bring a bulldog clip from the living room workspace stationery to the table in front of you in the entryway in the entryway for the temporary notice.",
+        "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Missing constructed comparison/count evidence and distractor set for bulldog clip wide enough for notice support. Reference support and varied clip openings required; bulldog_clip: only one native model; requested within-category size alternatives are not established Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: private_office/cabinet -> corridor/table becomes living_room/cabinet -> entryway/table. Native target models, quantities, reference criteria and distractors are unchanged. Cross-room transport remains explicit. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+        "target_asset": "bulldog_clip/cqxnkn",
+        "target_assets": [
+          "bulldog_clip/cqxnkn"
+        ]
+      },
+      "binding_sha256": "f729773afec44ac158c0eebbe147806769233afb9228f3fe0dc234f8a86a52b4",
+      "proposal_native_policy_signature": "638901e57b44747045bd55ed10084fe82451f1075c4c28aa6f0af555449b389c",
+      "storage_model_experience": [],
+      "drawer_liner_repairs": [
+        {
+          "receptacle": "search_storage",
+          "entity": "drawer_support_1dee263f",
+          "asset": "notebook/umxsmd",
+          "extent_m": [
+            0.0680947608947754,
+            0.10996357345581055,
+            0.014094959735870362
+          ],
+          "observed_unplaceable_thin_entities": [
+            "item_02",
+            "item_03"
+          ],
+          "native_empty_fixed_domains": {
+            "item_02": [],
+            "item_03": []
+          },
+          "source_sha256": "e78ff1e776f4a7df2e1191151aba74b6c4158fa6327bea7e5a4d820b2bf271df",
+          "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_lane2_20261111/all_remaining_20261113_20_U161/asset_U161_01",
+          "physical_validation_required": true
+        }
+      ],
+      "scene_fixture_replacements": [
+        {
+          "entity": "expert_storage_93",
+          "replacement_entity": "expert_storage_93",
+          "before_asset": "bottom_cabinet_no_top/vzzafs",
+          "after_asset": "bottom_cabinet_no_top/wtnrwl",
+          "before_aabb": [
+            [
+              0.7736359405517579,
+              0.3735113983154298,
+              -0.0
+            ],
+            [
+              1.4263640594482423,
+              0.8264886016845704,
+              0.8682071838378906
+            ]
+          ],
+          "after_aabb": [
+            [
+              0.7712769927978517,
+              0.3735113906860352,
+              -0.0
+            ],
+            [
+              1.4287230072021484,
+              0.826488609313965,
+              0.8178758544921875
+            ]
+          ],
+          "source_sha256": "26993f78caf92a04cb915226e126cbff289ddbf76c9eb942553b065f90e60993",
+          "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_lane2_20261111/native_support_U161_20261114_U161/asset_U161_01",
+          "reason": "Replace failed source at its existing site; adding another fixture consumes its approach space",
+          "physical_validation_required": true
+        }
+      ],
+      "source_layout_revisions": [
+        {
+          "method": "expert_reauthored_generic_storage_on_open_work_surface",
+          "source_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/reviewed_followup_340_U161/asset_U161_01/scenario.yaml",
+          "source_sha256": "47c60785a51ce0d017aecfffcfda1dd003cfce2caa29fdbaade05f71e9534c7b",
+          "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_lane2_20261111/reviewed_followup_340_U161/asset_U161_01",
+          "relation_changes": [
+            {
+              "before": {
+                "entity": "item_00",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_00",
+                "relation": "on_top",
+                "receptacle": "coffee_table_fqluyq_0",
+                "position_xy": [
+                  -0.655,
+                  -1.8005
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_01",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_01",
+                "relation": "on_top",
+                "receptacle": "coffee_table_fqluyq_0",
+                "position_xy": [
+                  -0.37250000000000005,
+                  -1.8105
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_02",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_02",
+                "relation": "on_top",
+                "receptacle": "coffee_table_fqluyq_0",
+                "position_xy": [
+                  -0.525,
+                  -1.8105
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_03",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_03",
+                "relation": "on_top",
+                "receptacle": "coffee_table_fqluyq_0",
+                "position_xy": [
+                  -0.6075,
+                  -1.808
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_04",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_04",
+                "relation": "on_top",
+                "receptacle": "coffee_table_fqluyq_0",
+                "position_xy": [
+                  -0.44,
+                  -1.808
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_05",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "item_05",
+                "relation": "on_top",
+                "receptacle": "coffee_table_fqluyq_0",
+                "position_xy": [
+                  -0.3425,
+                  -1.8105
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_06",
+                "relation": "inside",
+                "receptacle": "expert_storage_93"
+              },
+              "after": {
+                "entity": "item_06",
+                "relation": "on_top",
+                "receptacle": "coffee_table_fqluyq_0",
+                "position_xy": [
+                  -0.48000000000000004,
+                  -1.8105
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_07",
+                "relation": "inside",
+                "receptacle": "expert_storage_93"
+              },
+              "after": {
+                "entity": "item_07",
+                "relation": "on_top",
+                "receptacle": "coffee_table_fqluyq_0",
+                "position_xy": [
+                  -0.5675,
+                  -1.808
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "item_08",
+                "relation": "inside",
+                "receptacle": "bottom_cabinet_bamfsz_1"
+              },
+              "after": {
+                "entity": "item_08",
+                "relation": "on_top",
+                "receptacle": "coffee_table_fqluyq_0",
+                "position_xy": [
+                  -0.405,
+                  -1.808
+                ]
+              }
+            },
+            {
+              "before": {
+                "entity": "drawer_support_1dee263f",
+                "relation": "inside",
+                "receptacle": "search_storage"
+              },
+              "after": {
+                "entity": "drawer_support_1dee263f",
+                "relation": "on_top",
+                "receptacle": "coffee_table_fqluyq_0",
+                "position_xy": [
+                  -0.73,
+                  -1.758
+                ]
+              }
+            }
+          ],
+          "removed_unused_authored_fixtures": [
+            "expert_storage_93",
+            "search_storage"
+          ],
+          "flat_stock_stacks": [],
+          "stack_footprint_envelopes_m": {},
+          "source_surface": "coffee_table_fqluyq_0",
+          "plans": [
+            {
+              "receptacle": "coffee_table_fqluyq_0",
+              "entities": [
+                "item_00",
+                "item_01",
+                "item_02",
+                "item_03",
+                "item_04",
+                "item_05",
+                "item_06",
+                "item_07",
+                "item_08",
+                "drawer_support_1dee263f"
+              ],
+              "solver": {
+                "status": "feasible_model",
+                "device": "cuda",
+                "backend": "torch_cuda_finite_csp",
+                "solve_seconds": 0.026183099951595068,
+                "nodes": 10,
+                "candidate_tests": 262404,
+                "search_orders_tried": 1,
+                "grid_m": 0.005,
+                "margin_m": 0.025,
+                "model": "upright boxes; yaw 0/90; single-layer independent bins; integer grid with convex centre halfspaces / fixed obstacles",
+                "physical_validation_required": true,
+                "assignment": {
+                  "drawer_support_1dee263f": "surface",
+                  "item_00": "surface",
+                  "item_03": "surface",
+                  "item_07": "surface",
+                  "item_02": "surface",
+                  "item_06": "surface",
+                  "item_04": "surface",
+                  "item_08": "surface",
+                  "item_01": "surface",
+                  "item_05": "surface"
+                },
+                "poses": {
+                  "drawer_support_1dee263f": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.025,
+                      0.025
+                    ],
+                    "footprint_m": [
+                      0.07,
+                      0.11
+                    ],
+                    "center_xy_m": [
+                      0.06,
+                      0.08
+                    ]
+                  },
+                  "item_00": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.12,
+                      0.025
+                    ],
+                    "footprint_m": [
+                      0.03,
+                      0.025
+                    ],
+                    "center_xy_m": [
+                      0.135,
+                      0.0375
+                    ]
+                  },
+                  "item_03": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.17500000000000002,
+                      0.025
+                    ],
+                    "footprint_m": [
+                      0.015,
+                      0.01
+                    ],
+                    "center_xy_m": [
+                      0.1825,
+                      0.03
+                    ]
+                  },
+                  "item_07": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.215,
+                      0.025
+                    ],
+                    "footprint_m": [
+                      0.015,
+                      0.01
+                    ],
+                    "center_xy_m": [
+                      0.2225,
+                      0.03
+                    ]
+                  },
+                  "item_02": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.255,
+                      0.025
+                    ],
+                    "footprint_m": [
+                      0.02,
+                      0.005
+                    ],
+                    "center_xy_m": [
+                      0.265,
+                      0.0275
+                    ]
+                  },
+                  "item_06": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.3,
+                      0.025
+                    ],
+                    "footprint_m": [
+                      0.02,
+                      0.005
+                    ],
+                    "center_xy_m": [
+                      0.31,
+                      0.0275
+                    ]
+                  },
+                  "item_04": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.34500000000000003,
+                      0.025
+                    ],
+                    "footprint_m": [
+                      0.01,
+                      0.01
+                    ],
+                    "center_xy_m": [
+                      0.35000000000000003,
+                      0.03
+                    ]
+                  },
+                  "item_08": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.38,
+                      0.025
+                    ],
+                    "footprint_m": [
+                      0.01,
+                      0.01
+                    ],
+                    "center_xy_m": [
+                      0.385,
+                      0.03
+                    ]
+                  },
+                  "item_01": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.41500000000000004,
+                      0.025
+                    ],
+                    "footprint_m": [
+                      0.005,
+                      0.005
+                    ],
+                    "center_xy_m": [
+                      0.4175,
+                      0.0275
+                    ]
+                  },
+                  "item_05": {
+                    "bin": "surface",
+                    "yaw_degrees": 0,
+                    "lower_xy_m": [
+                      0.445,
+                      0.025
+                    ],
+                    "footprint_m": [
+                      0.005,
+                      0.005
+                    ],
+                    "center_xy_m": [
+                      0.4475,
+                      0.0275
+                    ]
+                  }
+                },
+                "authoring_spacing_attempts": [
+                  {
+                    "margin_m": 0.025,
+                    "grid_m": 0.005,
+                    "status": "feasible_model",
+                    "reason": null
+                  }
+                ]
+              },
+              "measured_scene_obstacles": [
+                [
+                  0.08200000000000007,
+                  0.16800000000000015,
+                  -0.0020000000000000018,
+                  0.30900000000000005,
+                  0.4770000000000001,
+                  0.007000000000000006
+                ],
+                [
+                  0.17100000000000004,
+                  0.8370000000000002,
+                  -0.0020000000000000018,
+                  0.5940000000000001,
+                  1.219,
+                  0.16100000000000003
+                ]
+              ],
+              "physical_validation_required": true
+            }
+          ],
+          "source_room": "living_room_0",
+          "reviewed_source_scope": " the living room workspace stationery ",
+          "reason": "Task names generic storage rather than an enclosed receptacle. Large household equipment and containers are stored on a real work surface among the same unchanged clutter; retain task meaning and all native physical checks.",
+          "physical_validation_required": true,
+          "human_completion_verified": false
+        }
+      ]
+    }
+  ]
+}

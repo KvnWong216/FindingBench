@@ -1,0 +1,74 @@
+task_id: X01003
+family: fetch
+scene: Rs_int
+source:
+  official_activity: buying_groceries_for_a_feast#0
+  official_activities_with_same_subgoal:
+  - buying_groceries_for_a_feast#0
+  official_subgoal: (inside grocery.n.02 shopping_cart.n.01)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K Rs_int (+ clearance manifest)
+  object: BEHAVIOR-1K box_of_wagashi/mlmrwy
+start:
+  name: start_entryway_0_0
+  room: entryway_0
+  x: 1.04
+  y: 2.19
+  yaw: 0.0
+target:
+  entity: target_obj
+  category: box_of_wagashi
+  model: mlmrwy
+  noun: box of wagashi
+  colour_estimate: orange
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S3
+missing_spatial_levels:
+- S1
+- S2
+initial_states: {}
+spatial:
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bottom_cabinet_bamfsz_1
+    room: living_room_0
+    location_phrase: the cabinet next to the floor lamp in the living room
+    grasp_hints:
+    - - -1.085
+      - 0.023
+      - -2.356
+    - - -1.035
+      - 0.073
+      - -2.356
+    - - -0.985
+      - 0.123
+      - -2.356
+    - - -0.985
+      - -0.078
+      - -2.537
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    task_scope: cross_room
+    route_from_start_steps: 7
+language:
+  L1:
+    S3: Leave the entryway, go to the cabinet next to the floor lamp in the living
+      room, pick up the box of wagashi on it and hold it.
+  L2: Get the box of wagashi and hold on to it.
+  L3: I'm buying groceries for a feast and I need the box of wagashi. Could you get
+    it for me?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

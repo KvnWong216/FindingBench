@@ -1,0 +1,377 @@
+{
+  "tasks": [
+    {
+      "id": "asset_U178_01",
+      "family": "semantic_U178",
+      "scene": "Wainscott_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/reviewed_followup_092_U178/asset_U178_01/scenario.yaml",
+      "scenario_sha256": "e72f72d2f208f4e9baf0a2e1a3a3fe51ad7f29cda0b0f85f57414e21c3495dca",
+      "instruction": "Bring the mousetrap from the utility room storage pest supplies to the counter in front of you in the utility room in the utility room for the maintenance kit.",
+      "target_key": "mousetrap/mwfwsv",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "utility_room_0",
+      "destination_room": "utility_room_0",
+      "source_receptacle": "expert_storage_0",
+      "destination_receptacle": "bottom_cabinet_bamfsz_0",
+      "object_count": 10,
+      "distractor_count": 8,
+      "source_survey_sha256": "7894c711eea34a656ee926a132d6563ce3833b5ddb45c126d0ce534dd2edca60",
+      "route": {
+        "start": [
+          1.05,
+          6.95,
+          1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            1.05,
+            6.95
+          ]
+        ],
+        "length_m": 0.0,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 16,
+        "destination_approach_count": 16,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "bottom_cabinet_bamfsz_0",
+        "expert_storage_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "expert_storage_0",
+          "category": "bottom_cabinet",
+          "model": "immwzb",
+          "floor": "floors_byoazk_0",
+          "position_xy": [
+            0.75,
+            5.8500000000000005
+          ],
+          "aabb": [
+            [
+              0.5235068817138672,
+              5.633530570983887,
+              0.0
+            ],
+            [
+              0.9764931182861328,
+              6.066469429016114,
+              0.5443244018554687
+            ]
+          ],
+          "room": "utility_room_0"
+        }
+      ],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "expert_storage_0",
+            "volume_extents_m": {
+              "meta__link_2_fillable_0_0_link": [
+                0.36887836050987244,
+                0.36918976497650147,
+                0.075174387216568
+              ],
+              "meta__base_link_fillable_0_0_link#component:0": [
+                0.3969184896076172,
+                0.4054322798252106,
+                0.16104483199119568
+              ],
+              "meta__base_link_fillable_0_0_link#component:1": [
+                0.3969190197860899,
+                0.4056317645421095,
+                0.20574754071235657
+              ]
+            },
+            "native_links": {
+              "meta__link_2_fillable_0_0_link": "meta__link_2_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+              "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet/immwzb",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "c44b57974c551c3ff7c227c11cdc52dd64395cabc65e9ac9a1a5636f9fdca856",
+              "metadata_sha256": "8fb9322491c6b1ab3db018afe5d7a68d49125920fd88492706e9f94fdb2b542e",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.002545239869505167,
+              "nodes": 0,
+              "candidate_tests": 0,
+              "search_orders_tried": 0,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_00": "meta__base_link_fillable_0_0_link#component:1",
+                "item_01": "meta__base_link_fillable_0_0_link#component:1",
+                "item_02": "meta__base_link_fillable_0_0_link#component:1",
+                "item_03": "meta__base_link_fillable_0_0_link#component:1",
+                "item_04": "meta__base_link_fillable_0_0_link#component:1",
+                "item_05": "meta__base_link_fillable_0_0_link#component:1",
+                "item_06": "meta__base_link_fillable_0_0_link#component:1",
+                "item_07": "meta__base_link_fillable_0_0_link#component:1",
+                "item_08": "meta__base_link_fillable_0_0_link#component:1"
+              },
+              "poses": {
+                "item_00": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.109,
+                    0.05
+                  ],
+                  "center_xy_m": [
+                    0.0595,
+                    0.030000000000000002
+                  ]
+                },
+                "item_01": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.06
+                  ],
+                  "footprint_m": [
+                    0.004,
+                    0.004
+                  ],
+                  "center_xy_m": [
+                    0.007,
+                    0.062
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.069
+                  ],
+                  "footprint_m": [
+                    0.042,
+                    0.041
+                  ],
+                  "center_xy_m": [
+                    0.026000000000000002,
+                    0.08950000000000001
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.115
+                  ],
+                  "footprint_m": [
+                    0.047,
+                    0.047
+                  ],
+                  "center_xy_m": [
+                    0.0285,
+                    0.1385
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.167
+                  ],
+                  "footprint_m": [
+                    0.042,
+                    0.041
+                  ],
+                  "center_xy_m": [
+                    0.026000000000000002,
+                    0.1875
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.213
+                  ],
+                  "footprint_m": [
+                    0.004,
+                    0.004
+                  ],
+                  "center_xy_m": [
+                    0.007,
+                    0.215
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.222
+                  ],
+                  "footprint_m": [
+                    0.042,
+                    0.041
+                  ],
+                  "center_xy_m": [
+                    0.026000000000000002,
+                    0.2425
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.268
+                  ],
+                  "footprint_m": [
+                    0.047,
+                    0.047
+                  ],
+                  "center_xy_m": [
+                    0.0285,
+                    0.29150000000000004
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__base_link_fillable_0_0_link#component:1",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.32
+                  ],
+                  "footprint_m": [
+                    0.042,
+                    0.041
+                  ],
+                  "center_xy_m": [
+                    0.026000000000000002,
+                    0.3405
+                  ]
+                }
+              },
+              "constructive_witness": "single strip; exact quantized box and clearance checks"
+            },
+            "assignment": {
+              "item_00": "meta__base_link_fillable_0_0_link",
+              "item_01": "meta__base_link_fillable_0_0_link",
+              "item_02": "meta__base_link_fillable_0_0_link",
+              "item_03": "meta__base_link_fillable_0_0_link",
+              "item_04": "meta__base_link_fillable_0_0_link",
+              "item_05": "meta__base_link_fillable_0_0_link",
+              "item_06": "meta__base_link_fillable_0_0_link",
+              "item_07": "meta__base_link_fillable_0_0_link",
+              "item_08": "meta__base_link_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_00": "meta__base_link_fillable_0_0_link#component:1",
+              "item_01": "meta__base_link_fillable_0_0_link#component:1",
+              "item_02": "meta__base_link_fillable_0_0_link#component:1",
+              "item_03": "meta__base_link_fillable_0_0_link#component:1",
+              "item_04": "meta__base_link_fillable_0_0_link#component:1",
+              "item_05": "meta__base_link_fillable_0_0_link#component:1",
+              "item_06": "meta__base_link_fillable_0_0_link#component:1",
+              "item_07": "meta__base_link_fillable_0_0_link#component:1",
+              "item_08": "meta__base_link_fillable_0_0_link#component:1"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_00": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_06": "meta__base_link_fillable_0_0_link",
+          "item_07": "meta__base_link_fillable_0_0_link",
+          "item_08": "meta__base_link_fillable_0_0_link"
+        },
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [],
+      "parent_task_id": "U178",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_U178_01",
+        "parent_task_id": "U178",
+        "before_instruction": "The space behind the utility cabinet is narrow. Find the smallest mousetrap among the storage room's pest supplies and put it on the utility counter beside the door.",
+        "after_instruction": "Bring the mousetrap from the utility room storage pest supplies to the counter in front of you in the utility room in the utility room for the maintenance kit.",
+        "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Missing constructed comparison/count evidence and distractor set for small mousetrap. Multiple unarmed rigid trap sizes required; mousetrap: only one native model; requested within-category size alternatives are not established Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Layout revision uses a surveyed feasible geometry pair: storage_room/cabinet -> utility_room/counter becomes utility_room/cabinet -> utility_room/counter. Native target models, quantities, reference criteria and distractors are unchanged. This is now a local preparation task, not a cross-room transport task. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+        "target_asset": "mousetrap/mwfwsv",
+        "target_assets": [
+          "mousetrap/mwfwsv"
+        ]
+      },
+      "binding_sha256": "dce5d631eed841c26575422f4a7d8f941faa93f4372efb0cce65ad311c758642",
+      "proposal_native_policy_signature": "638901e57b44747045bd55ed10084fe82451f1075c4c28aa6f0af555449b389c",
+      "storage_model_experience": [
+        {
+          "inventory_sha256": "3178424037223fae7505242ef71d94b8f44182f862f14b61a7baa62cae2e6694",
+          "asset": "bottom_cabinet/jrhgeu",
+          "reason": "No allowed bin/orientation fits an item",
+          "native_policy_signature": "70bed8d4013007fdceb7d61e05f62e8f527f932285630c9d0705582f0dc99eed",
+          "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/reviewed_followup_041_U178/asset_U178_01/native_validation.log",
+          "scenario_sha256": "993a00e375b92c9055d88a15ce7d79c5d029076b6d0d07b43ec10f7438cc76bf",
+          "scope": "same task and unchanged inventory; try another model first, never exclude the asset globally"
+        }
+      ]
+    }
+  ]
+}

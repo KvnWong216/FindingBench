@@ -1,0 +1,289 @@
+{
+  "action": "expert",
+  "case": {
+    "id": "P251",
+    "record": {
+      "id": "asset_P251_01",
+      "family": "semantic_P251",
+      "scene": "Beechwood_1_int",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/all_remaining_20261113_28_P251/asset_P251_01/scenario.yaml",
+      "scenario_sha256": "c79074e7da9fd8d289f5a2bda7f4525a74d5699cf2452bbaa083f5c7486d1e6b",
+      "instruction": "Fetch the mirror from the bedroom vanity supplies and put it on the counter in front of you in the bathroom in the bathroom for getting ready.",
+      "target_key": "mirror/rgbvxy",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "bedroom_0",
+      "destination_room": "bathroom_1",
+      "source_receptacle": "bottom_cabinet_nddvba_0",
+      "destination_receptacle": "countertop_tpuwys_1",
+      "object_count": 9,
+      "distractor_count": 8,
+      "source_survey_sha256": "e6788ca8219b4da8643d87d4deebe4595aa9d5f15520af27b74393574b33a410",
+      "route": {
+        "start": [
+          -6.9,
+          -2.9000000000000004,
+          -1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            -6.9,
+            -2.9000000000000004
+          ],
+          [
+            -6.800000000000001,
+            -2.9000000000000004
+          ],
+          [
+            -6.7,
+            -2.9000000000000004
+          ],
+          [
+            -6.6000000000000005,
+            -2.9000000000000004
+          ],
+          [
+            -6.5,
+            -2.9000000000000004
+          ],
+          [
+            -6.4,
+            -2.9000000000000004
+          ],
+          [
+            -6.300000000000001,
+            -2.9000000000000004
+          ],
+          [
+            -6.2,
+            -2.9000000000000004
+          ],
+          [
+            -6.1000000000000005,
+            -2.9000000000000004
+          ],
+          [
+            -6.0,
+            -2.9000000000000004
+          ],
+          [
+            -5.9,
+            -2.9000000000000004
+          ],
+          [
+            -5.800000000000001,
+            -2.9000000000000004
+          ],
+          [
+            -5.7,
+            -2.9000000000000004
+          ],
+          [
+            -5.6000000000000005,
+            -2.9000000000000004
+          ],
+          [
+            -5.5,
+            -2.9000000000000004
+          ],
+          [
+            -5.4,
+            -2.9000000000000004
+          ],
+          [
+            -5.300000000000001,
+            -2.9000000000000004
+          ],
+          [
+            -5.2,
+            -2.9000000000000004
+          ],
+          [
+            -5.1000000000000005,
+            -2.9000000000000004
+          ],
+          [
+            -5.0,
+            -2.9000000000000004
+          ],
+          [
+            -4.9,
+            -2.9000000000000004
+          ],
+          [
+            -4.9,
+            -2.8000000000000003
+          ],
+          [
+            -4.800000000000001,
+            -2.8000000000000003
+          ],
+          [
+            -4.7,
+            -2.8000000000000003
+          ],
+          [
+            -4.6000000000000005,
+            -2.8000000000000003
+          ],
+          [
+            -4.5,
+            -2.8000000000000003
+          ],
+          [
+            -4.4,
+            -2.8000000000000003
+          ],
+          [
+            -4.3,
+            -2.8000000000000003
+          ],
+          [
+            -4.2,
+            -2.8000000000000003
+          ]
+        ],
+        "length_m": 2.8,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 34,
+        "destination_approach_count": 36,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "bottom_cabinet_nddvba_1",
+        "bottom_cabinet_nddvba_0"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [],
+      "parent_task_id": "P251",
+      "tier": "long",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_P251_01",
+        "parent_task_id": "P251",
+        "before_instruction": "Find the handheld mirror with the largest reflective face among bedroom vanity storage and put it on the bathroom counter below the wall mirror.",
+        "after_instruction": "Fetch the mirror from the bedroom vanity supplies and put it on the counter in front of you in the bathroom in the bathroom for getting ready.",
+        "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Missing constructed comparison/count evidence and distractor set for largest-face handheld mirror. Native categories are only candidates; required subtype, markings, quantity, or reference appearance remain unverified: largest-face handheld mirror. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+        "target_asset": "mirror/rgbvxy",
+        "target_assets": [
+          "mirror/rgbvxy"
+        ]
+      },
+      "binding_sha256": "377fecc4efd2ba7568b61860c11edc5b0d951bd6dcccf4831bdb69bae8b6648d",
+      "surface_binding_revision": {
+        "status": "surface_body_binding_corrected_physics_pending",
+        "changes": [
+          {
+            "field": "goal",
+            "entity": "item_00",
+            "before": "bottom_cabinet_no_top_pluwfl_0",
+            "after": "countertop_tpuwys_1"
+          }
+        ],
+        "destination_approach_patch": {
+          "contact_body": "countertop_tpuwys_1",
+          "above_fixture": "bottom_cabinet_no_top_pluwfl_0",
+          "aabb": [
+            [
+              -7.635,
+              -3.999,
+              0.553
+            ],
+            [
+              -6.647,
+              -3.483,
+              0.572
+            ]
+          ],
+          "scope": "private route proposal to a subset of the actual slab; no synthetic body"
+        },
+        "geometry": {
+          "bottom_cabinet_no_top_pluwfl_0": {
+            "before": [
+              [
+                -7.635,
+                -3.999,
+                0.005
+              ],
+              [
+                -6.646,
+                -3.471,
+                0.549
+              ]
+            ],
+            "after": [
+              [
+                -7.675,
+                -4.01,
+                0.553
+              ],
+              [
+                -6.647,
+                -3.483,
+                0.572
+              ]
+            ]
+          }
+        },
+        "source_survey": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/vla_difficulty_v2/_survey/Beechwood_1_int.json",
+        "source_survey_sha256": "e6788ca8219b4da8643d87d4deebe4595aa9d5f15520af27b74393574b33a410",
+        "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_P251_01/scenario.yaml",
+        "original_scenario_sha256": "26814885f28bd0aca7920b9689d833c0107f773065d294ad87890b1f80f41fd3",
+        "reason": "Native OnTop requires touching the named body; a separate measured slab covers the named cabinet.",
+        "preserved": [
+          "instruction",
+          "all object models and counts",
+          "target identities",
+          "relation kinds",
+          "spawn",
+          "robot and skills",
+          "physical delivery location"
+        ],
+        "physical_validation_required": true
+      }
+    },
+    "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_lane2_20261111/all_remaining_20261113_28_P251/asset_P251_01",
+    "accepted": false,
+    "error": "EXPERT_LAYOUT_UNRESOLVED: infeasible_model No allowed bin/orientation fits an item",
+    "source": "reviewed_polling_probe_all_remaining_20261113_28",
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "restricted_packing",
+      "reason": "EXPERT_LAYOUT_UNRESOLVED: infeasible_model No allowed bin/orientation fits an item"
+    }
+  },
+  "out": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_029_P251_expert_75209046bce2",
+  "variant": 93
+}

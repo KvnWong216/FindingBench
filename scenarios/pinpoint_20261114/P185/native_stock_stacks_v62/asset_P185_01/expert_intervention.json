@@ -1,0 +1,325 @@
+{
+  "method": "expert_reauthored_generic_storage_on_open_work_surface",
+  "source_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_20261110/proven_cabinet_v54_P185_20261114_P185/asset_P185_01/scenario.yaml",
+  "source_sha256": "ad9c08d9978f57f0d92fdf5389ddec5ca585446f3f915000074ba0d7b6c9d125",
+  "evidence": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/expert100_20261110/proven_cabinet_v54_P185_20261114_P185/asset_P185_01",
+  "relation_changes": [
+    {
+      "before": {
+        "entity": "item_00",
+        "relation": "inside",
+        "receptacle": "expert_storage_80"
+      },
+      "after": {
+        "entity": "item_00",
+        "relation": "on_top",
+        "receptacle": "item_05"
+      }
+    },
+    {
+      "before": {
+        "entity": "item_01",
+        "relation": "inside",
+        "receptacle": "expert_storage_80"
+      },
+      "after": {
+        "entity": "item_01",
+        "relation": "on_top",
+        "receptacle": "breakfast_table_skczfi_0",
+        "position_xy": [
+          -4.2505,
+          -6.452
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_02",
+        "relation": "inside",
+        "receptacle": "expert_storage_80"
+      },
+      "after": {
+        "entity": "item_02",
+        "relation": "on_top",
+        "receptacle": "item_07"
+      }
+    },
+    {
+      "before": {
+        "entity": "item_03",
+        "relation": "inside",
+        "receptacle": "expert_storage_80"
+      },
+      "after": {
+        "entity": "item_03",
+        "relation": "on_top",
+        "receptacle": "item_04"
+      }
+    },
+    {
+      "before": {
+        "entity": "item_04",
+        "relation": "inside",
+        "receptacle": "expert_storage_80"
+      },
+      "after": {
+        "entity": "item_04",
+        "relation": "on_top",
+        "receptacle": "item_02"
+      }
+    },
+    {
+      "before": {
+        "entity": "item_05",
+        "relation": "inside",
+        "receptacle": "expert_storage_80"
+      },
+      "after": {
+        "entity": "item_05",
+        "relation": "on_top",
+        "receptacle": "breakfast_table_skczfi_0",
+        "position_xy": [
+          -4.4479999999999995,
+          -5.4245
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_06",
+        "relation": "inside",
+        "receptacle": "expert_storage_80"
+      },
+      "after": {
+        "entity": "item_06",
+        "relation": "on_top",
+        "receptacle": "required_negative_0"
+      }
+    },
+    {
+      "before": {
+        "entity": "item_07",
+        "relation": "inside",
+        "receptacle": "expert_storage_80"
+      },
+      "after": {
+        "entity": "item_07",
+        "relation": "on_top",
+        "receptacle": "breakfast_table_skczfi_0",
+        "position_xy": [
+          -4.452999999999999,
+          -6.3795
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_08",
+        "relation": "inside",
+        "receptacle": "expert_storage_80"
+      },
+      "after": {
+        "entity": "item_08",
+        "relation": "on_top",
+        "receptacle": "breakfast_table_skczfi_0",
+        "position_xy": [
+          -4.150499999999999,
+          -6.452
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "required_negative_0",
+        "relation": "inside",
+        "receptacle": "expert_storage_80"
+      },
+      "after": {
+        "entity": "required_negative_0",
+        "relation": "on_top",
+        "receptacle": "item_00"
+      }
+    }
+  ],
+  "removed_unused_authored_fixtures": [
+    "expert_storage_80"
+  ],
+  "flat_stock_stacks": [
+    [
+      "item_07",
+      "item_02",
+      "item_04",
+      "item_03"
+    ],
+    [
+      "item_05",
+      "item_00",
+      "required_negative_0",
+      "item_06"
+    ]
+  ],
+  "stack_footprint_envelopes_m": {
+    "item_07": [
+      0.29699996948242186,
+      0.38366065979003905,
+      0.07176213520392775
+    ],
+    "item_05": [
+      0.30802713012695315,
+      0.23129173278808593,
+      0.04652036780118942
+    ]
+  },
+  "source_surface": "breakfast_table_skczfi_0",
+  "plans": [
+    {
+      "receptacle": "breakfast_table_skczfi_0",
+      "entities": [
+        "item_01",
+        "item_05",
+        "item_07",
+        "item_08"
+      ],
+      "solver": {
+        "status": "feasible_model",
+        "device": "cuda",
+        "backend": "torch_cuda_finite_csp",
+        "solve_seconds": 0.011502012144774199,
+        "nodes": 4,
+        "candidate_tests": 62158,
+        "search_orders_tried": 1,
+        "grid_m": 0.005,
+        "margin_m": 0.005,
+        "model": "upright boxes; yaw 0/90; single-layer independent bins; integer grid with convex centre halfspaces / fixed obstacles",
+        "physical_validation_required": true,
+        "assignment": {
+          "item_07": "surface",
+          "item_05": "surface",
+          "item_01": "surface",
+          "item_08": "surface"
+        },
+        "poses": {
+          "item_07": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.005,
+              0.005
+            ],
+            "footprint_m": [
+              0.3,
+              0.385
+            ],
+            "center_xy_m": [
+              0.155,
+              0.1975
+            ]
+          },
+          "item_05": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.005,
+              1.035
+            ],
+            "footprint_m": [
+              0.31,
+              0.23500000000000001
+            ],
+            "center_xy_m": [
+              0.16,
+              1.1525
+            ]
+          },
+          "item_01": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.31,
+              0.005
+            ],
+            "footprint_m": [
+              0.095,
+              0.24
+            ],
+            "center_xy_m": [
+              0.3575,
+              0.125
+            ]
+          },
+          "item_08": {
+            "bin": "surface",
+            "yaw_degrees": 0,
+            "lower_xy_m": [
+              0.41000000000000003,
+              0.005
+            ],
+            "footprint_m": [
+              0.095,
+              0.24
+            ],
+            "center_xy_m": [
+              0.4575,
+              0.125
+            ]
+          }
+        },
+        "authoring_spacing_attempts": [
+          {
+            "margin_m": 0.025,
+            "grid_m": 0.005,
+            "status": "infeasible_model",
+            "reason": "No static convex/obstacle domain fits an item"
+          },
+          {
+            "margin_m": 0.025,
+            "grid_m": 0.001,
+            "status": "infeasible_model",
+            "reason": "No static convex/obstacle domain fits an item"
+          },
+          {
+            "margin_m": 0.015,
+            "grid_m": 0.005,
+            "status": "infeasible_model",
+            "reason": "Exhausted finite normal-pattern search tree"
+          },
+          {
+            "margin_m": 0.015,
+            "grid_m": 0.001,
+            "status": "infeasible_model",
+            "reason": "Exhausted finite normal-pattern search tree"
+          },
+          {
+            "margin_m": 0.005,
+            "grid_m": 0.005,
+            "status": "feasible_model",
+            "reason": null
+          }
+        ]
+      },
+      "measured_scene_obstacles": [
+        [
+          0.48099999999999987,
+          0.3959999999999999,
+          -0.809,
+          0.9689999999999999,
+          0.899,
+          0.08599999999999997
+        ],
+        [
+          0.04899999999999949,
+          0.42300000000000004,
+          0.0,
+          0.32699999999999996,
+          1.0270000000000001,
+          0.2679999999999999
+        ]
+      ],
+      "physical_validation_required": true
+    }
+  ],
+  "source_room": "bedroom_0",
+  "reason": "Task names generic storage rather than an enclosed receptacle. Large household equipment and containers are stored on a real work surface among the same unchanged clutter; retain task meaning and all native physical checks.",
+  "physical_validation_required": true,
+  "human_completion_verified": false
+}

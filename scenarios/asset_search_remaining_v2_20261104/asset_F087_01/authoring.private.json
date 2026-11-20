@@ -1,0 +1,110 @@
+{
+  "id": "asset_F087_01",
+  "family": "semantic_F087",
+  "scene": "Pomaria_1_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_F087_01/scenario.yaml",
+  "scenario_sha256": "775926617a09b1e8aa96c3c24c42a5a14b29db8881574d197f0c02e27dbb0bb8",
+  "instruction": "Find every table fork among the dishes on the table in the kitchen in the kitchen and move them to the counter in front of you in the kitchen.",
+  "target_key": "tablefork/flexrc",
+  "target_entities": [
+    "item_00",
+    "item_01",
+    "item_02"
+  ],
+  "target_count": 3,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "breakfast_table_uhrsex_0",
+  "destination_receptacle": "countertop_tpuwys_4",
+  "object_count": 11,
+  "distractor_count": 8,
+  "source_survey_sha256": "05d404c89ade70d34c89459d2b340c53ef49d49041a6624fcc9a997b8b7322b3",
+  "route": {
+    "start": [
+      -1.35,
+      -0.15000000000000002,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -1.35,
+        -0.15000000000000002
+      ],
+      [
+        -1.35,
+        -0.25
+      ],
+      [
+        -1.35,
+        -0.35000000000000003
+      ],
+      [
+        -1.25,
+        -0.35000000000000003
+      ],
+      [
+        -1.25,
+        -0.45
+      ],
+      [
+        -1.1500000000000001,
+        -0.45
+      ],
+      [
+        -1.1500000000000001,
+        -0.55
+      ],
+      [
+        -1.05,
+        -0.55
+      ]
+    ],
+    "length_m": 0.7,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 51,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09",
+    "item_10"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "parent_task_id": "F087",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F087_01",
+    "parent_task_id": "F087",
+    "before_instruction": "Find every table fork among the dishes on the kitchen serving tray and put the forks together beside the knife block on the counter.",
+    "after_instruction": "Find every table fork among the dishes on the table in the kitchen in the kitchen and move them to the counter in front of you in the kitchen.",
+    "reason": "Instantiates a complete three-fork set on a real table; removes the unsupported serving-tray landmark while preserving exhaustive cleanup. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "tablefork/flexrc",
+    "target_assets": [
+      "tablefork/flexrc",
+      "tablefork/flexrc",
+      "tablefork/flexrc"
+    ]
+  },
+  "binding_sha256": "3bb2ed9130a53b9dd443f7f9a6d5aae787f1977de7343b50139da8fb5dede0d7"
+}

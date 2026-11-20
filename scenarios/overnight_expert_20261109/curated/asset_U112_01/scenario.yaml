@@ -1,0 +1,155 @@
+id: asset_U112_01
+instruction: I need a wide-mouthed beaker for a tabletop experiment. Find it among
+  the study science supplies and put it on the desk in front of you in the study.
+scene:
+  model: Beechwood_0_int
+  source: behavior
+  clearance_manifest: /home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/build/vla_difficulty_v2/clearance/Beechwood_0_int.json
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - 5.3500000000000005
+    - -3.95
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - 0.0
+    - 1.0
+target:
+  entity: item_00
+  category: beaker
+objects:
+- name: item_00
+  category: beaker
+  model: rhohgs
+- name: item_01
+  category: test_tube
+  model: apybok
+- name: item_02
+  category: test_tube_holder
+  model: twrtcq
+- name: item_03
+  category: test_tube
+  model: apybok
+- name: item_04
+  category: test_tube_holder
+  model: twrtcq
+- name: item_05
+  category: test_tube
+  model: apybok
+- name: item_06
+  category: test_tube_holder
+  model: twrtcq
+- name: item_07
+  category: test_tube
+  model: apybok
+- name: item_08
+  category: test_tube_holder
+  model: twrtcq
+- name: expert_storage_0
+  category: bottom_cabinet
+  model: jrhgeu
+  fixed_base: true
+placements:
+- entity: item_00
+  relation: inside
+  receptacle: bottom_cabinet_nddvba_0
+  link: link_2
+- entity: item_01
+  relation: inside
+  receptacle: bottom_cabinet_nddvba_0
+  link: link_3
+- entity: item_02
+  relation: inside
+  receptacle: bottom_cabinet_nddvba_0
+  link: link_4
+- entity: item_03
+  relation: inside
+  receptacle: bottom_cabinet_nddvba_0
+  link: link_4
+- entity: item_04
+  relation: inside
+  receptacle: bottom_cabinet_nddvba_0
+  link: link_3
+- entity: item_05
+  relation: inside
+  receptacle: bottom_cabinet_nddvba_0
+  link: link_3
+- entity: item_06
+  relation: inside
+  receptacle: expert_storage_0
+  link: meta__base_link_fillable_0_0_link
+- entity: item_07
+  relation: inside
+  receptacle: expert_storage_0
+  link: meta__base_link_fillable_0_0_link
+- entity: item_08
+  relation: inside
+  receptacle: expert_storage_0
+  link: meta__base_link_fillable_0_0_link
+- entity: expert_storage_0
+  relation: on_top
+  receptacle: floors_jniagb_0
+  position_xy:
+  - 4.3500000000000005
+  - -3.5500000000000003
+initial_states:
+  bottom_cabinet_immwzb_0:
+    open: false
+  bottom_cabinet_nddvba_0:
+    open: false
+  expert_storage_0:
+    open: false
+goal:
+- kind: on_top
+  entity: item_00
+  receptacle: desk_rzyfxk_1
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

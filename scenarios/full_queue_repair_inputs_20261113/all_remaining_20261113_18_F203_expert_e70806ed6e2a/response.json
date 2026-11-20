@@ -1,0 +1,257 @@
+{
+  "status": "proposed",
+  "record": {
+    "id": "asset_F203_01",
+    "family": "semantic_F203",
+    "scene": "Ihlen_1_int",
+    "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_18_F203_expert_e70806ed6e2a/asset_F203_01/scenario.yaml",
+    "scenario_sha256": "966d8f0ecc5ab048135ecbe92753839083f57a4f41c5ea84cfcd3ace2d2cd39d",
+    "instruction": "I want to compare two plant-based drinks before restocking. Find an almond-milk carton and a soy-milk carton among the kitchen food-storage supplies and bring both to the counter in front of you in the kitchen.",
+    "target_key": "box_of_almond_milk/oiiqwq",
+    "target_entities": [
+      "item_00",
+      "item_01"
+    ],
+    "target_count": 2,
+    "source_room": "kitchen_0",
+    "destination_room": "kitchen_0",
+    "source_receptacle": "bottom_cabinet_no_top_ufhpbn_0",
+    "destination_receptacle": "countertop_tpuwys_4",
+    "object_count": 10,
+    "distractor_count": 8,
+    "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+    "route": {
+      "start": [
+        -4.5,
+        6.7,
+        -1.5707963267948966
+      ],
+      "path_xy": [
+        [
+          -4.5,
+          6.7
+        ],
+        [
+          -4.4,
+          6.7
+        ]
+      ],
+      "length_m": 0.1,
+      "grid_m": 0.1,
+      "base_radius_m": 0.38355339059327376,
+      "endpoint_free_patch_radius_m": 0.2,
+      "source_approach_count": 45,
+      "destination_approach_count": 46,
+      "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+    },
+    "status": "static_screened_physics_pending",
+    "human_reference_steps": null,
+    "required_gates": [
+      "fresh_native_initialization",
+      "stable_dense_layout",
+      "target_CHECK_identifiability",
+      "all_yaw_live_navigation_and_tolerant_endpoints",
+      "reachable_open_grasp_place",
+      "initial_goal_false",
+      "human_completion"
+    ],
+    "restoration_entities": [
+      "item_02",
+      "item_03",
+      "item_04",
+      "item_05",
+      "item_06",
+      "item_07",
+      "item_08",
+      "item_09",
+      "bottom_cabinet_no_top_bmsclc_0",
+      "bottom_cabinet_no_top_ufhpbn_0"
+    ],
+    "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+    "inserted_furniture": [],
+    "parent_task_id": "F203",
+    "tier": "short",
+    "physics_status": "pending",
+    "adaptation": {
+      "id": "asset_F203_01",
+      "parent_task_id": "F203",
+      "before_instruction": "I want to compare two plant-based drinks before restocking. Find an almond-milk carton and a soy-milk carton in the pantry and bring both to the counter in the kitchen.",
+      "after_instruction": "I want to compare two plant-based drinks before restocking. Find an almond-milk carton and a soy-milk carton among the kitchen food-storage supplies and bring both to the counter in front of you in the kitchen.",
+      "reason": "Printed date ordering cannot be supported by the native evidence and repeated another task. Replace that condition with an explicit restocking comparison between two native drink categories; keep reserve-stock and shopping context. Layout revision: Replace pantry-room origin with the kitchen food-storage area. The two contrasting drink targets and restocking-comparison need are unchanged; transport becomes within-room.",
+      "target_asset": "box_of_almond_milk/oiiqwq",
+      "target_assets": [
+        "box_of_almond_milk/oiiqwq",
+        "carton_of_soy_milk/orgyvw"
+      ]
+    },
+    "binding_sha256": "3c8b3cd2010a63eb98a5f9135dc9bdeb8f5724407aa2e523c86688e76416be2e",
+    "surface_binding_revision": {
+      "status": "surface_body_binding_corrected_physics_pending",
+      "changes": [
+        {
+          "field": "goal",
+          "entity": "item_00",
+          "before": "bottom_cabinet_no_top_ufhpbn_0",
+          "after": "countertop_tpuwys_4"
+        },
+        {
+          "field": "goal",
+          "entity": "item_01",
+          "before": "bottom_cabinet_no_top_ufhpbn_0",
+          "after": "countertop_tpuwys_4"
+        }
+      ],
+      "destination_approach_patch": {
+        "contact_body": "countertop_tpuwys_4",
+        "above_fixture": "bottom_cabinet_no_top_ufhpbn_0",
+        "aabb": [
+          [
+            -5.057,
+            5.849,
+            0.901
+          ],
+          [
+            -4.49,
+            6.137,
+            0.92
+          ]
+        ],
+        "scope": "private route proposal to a subset of the actual slab; no synthetic body"
+      },
+      "geometry": {
+        "bottom_cabinet_no_top_ufhpbn_0": {
+          "before": [
+            [
+              -5.057,
+              5.849,
+              0.005
+            ],
+            [
+              -4.48,
+              6.151,
+              0.894
+            ]
+          ],
+          "after": [
+            [
+              -5.059,
+              5.242,
+              0.901
+            ],
+            [
+              -4.49,
+              6.137,
+              0.92
+            ]
+          ]
+        }
+      },
+      "source_survey": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/vla_difficulty_v2/_survey/Ihlen_1_int.json",
+      "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+      "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_F203_01/scenario.yaml",
+      "original_scenario_sha256": "9f47fd5a940d66ba0c5c69b7b1c88830283b19691cdbde9b251ab218f1f58273",
+      "reason": "Native OnTop requires touching the named body; a separate measured slab covers the named cabinet.",
+      "preserved": [
+        "instruction",
+        "all object models and counts",
+        "target identities",
+        "relation kinds",
+        "spawn",
+        "robot and skills",
+        "physical delivery location"
+      ],
+      "physical_validation_required": true
+    }
+  },
+  "evidence": {
+    "status": "surface_body_binding_corrected_physics_pending",
+    "changes": [
+      {
+        "field": "goal",
+        "entity": "item_00",
+        "before": "bottom_cabinet_no_top_ufhpbn_0",
+        "after": "countertop_tpuwys_4"
+      },
+      {
+        "field": "goal",
+        "entity": "item_01",
+        "before": "bottom_cabinet_no_top_ufhpbn_0",
+        "after": "countertop_tpuwys_4"
+      }
+    ],
+    "destination_approach_patch": {
+      "contact_body": "countertop_tpuwys_4",
+      "above_fixture": "bottom_cabinet_no_top_ufhpbn_0",
+      "aabb": [
+        [
+          -5.057,
+          5.849,
+          0.901
+        ],
+        [
+          -4.49,
+          6.137,
+          0.92
+        ]
+      ],
+      "scope": "private route proposal to a subset of the actual slab; no synthetic body"
+    },
+    "geometry": {
+      "bottom_cabinet_no_top_ufhpbn_0": {
+        "before": [
+          [
+            -5.057,
+            5.849,
+            0.005
+          ],
+          [
+            -4.48,
+            6.151,
+            0.894
+          ]
+        ],
+        "after": [
+          [
+            -5.059,
+            5.242,
+            0.901
+          ],
+          [
+            -4.49,
+            6.137,
+            0.92
+          ]
+        ]
+      }
+    },
+    "source_survey": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/vla_difficulty_v2/_survey/Ihlen_1_int.json",
+    "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+    "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/asset_search_remaining_v2_20261104/asset_F203_01/scenario.yaml",
+    "original_scenario_sha256": "9f47fd5a940d66ba0c5c69b7b1c88830283b19691cdbde9b251ab218f1f58273",
+    "reason": "Native OnTop requires touching the named body; a separate measured slab covers the named cabinet.",
+    "preserved": [
+      "instruction",
+      "all object models and counts",
+      "target identities",
+      "relation kinds",
+      "spawn",
+      "robot and skills",
+      "physical delivery location"
+    ],
+    "physical_validation_required": true,
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "native_placement",
+      "reason": "AUTHORING_SURFACE_BODY_BINDING"
+    }
+  }
+}

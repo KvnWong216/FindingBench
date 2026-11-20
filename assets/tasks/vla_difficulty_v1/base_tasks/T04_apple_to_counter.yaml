@@ -1,0 +1,71 @@
+task_id: T04_apple_to_counter
+task_name: 把苹果放到走廊门旁的台面上 (put the apple on the counter by the hallway door)
+family: fetch_and_place
+source:
+  findingbench: scenarios/knife_search_001/scenario.yaml   # scene, apple model agveuv, drawer qohxjq_0/link_2
+  official_behavior_analogue: >
+    bringing_water / moving_boxes_to_storage (relocate an object onto a surface,
+    possibly from another room); same goal form, different scene
+  replaces: _superseded/T04_apple_to_island.yaml (island PLACE depended on the grasp)
+
+target: {entity: target_apple, category: apple, model: agveuv}
+goal:
+  # chosen because PLACE here succeeded after grasps from all three S locations
+  # (mug: T02 L2_S1/S2/S3, 2026-10-18) — the least grasp-sensitive certified surface
+  - {kind: on_top, entity: target_apple, receptacle: countertop_tpuwys_0}
+
+background_objects:   # the apple is the only fruit; no mug (T02 uses it)
+  - {name: bg_bowl,       category: bowl,          model: adciys}
+  - {name: bg_teacup,     category: teacup,        model: cpozxi}
+  - {name: bg_tablespoon, category: tablespoon,    model: huudhe}
+  - {name: bg_tablefork,  category: tablefork,     model: flexrc}
+  - {name: bg_cutting_board, category: cutting_board, model: aibvew}
+  - {name: bg_plate,      category: plate,         model: aewthq}
+background_placements:   # same counter clutter as T02 (where PLACE was certified)
+  - {entity: bg_bowl,          relation: inside, receptacle: bottom_cabinet_no_top_spojpj_0}
+  - {entity: bg_teacup,        relation: inside, receptacle: bottom_cabinet_no_top_spojpj_0}
+  - {entity: bg_tablespoon,    relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: bg_tablefork,     relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: bg_cutting_board, relation: on_top, receptacle: countertop_tpuwys_0}
+  - {entity: bg_plate,         relation: on_top, receptacle: breakfast_table_uhrsex_0}
+initial_states:
+  bottom_cabinet_no_top_qohxjq_0: {open: false}
+  bottom_cabinet_no_top_spojpj_0: {open: false}
+
+spatial:   # identical to T01 / T02
+  S1:
+    placement: {entity: target_apple, relation: on_top, receptacle: countertop_tpuwys_4}
+    room: kitchen_0
+    location_phrase: the kitchen island
+    extra_ops_vs_S1: []
+  S2:
+    placement: {entity: target_apple, relation: inside, receptacle: bottom_cabinet_no_top_qohxjq_0, link: link_2}
+    room: kitchen_0
+    location_phrase: the top drawer of the cabinet next to the hallway door
+    extra_ops_vs_S1: [OPEN]
+    naturalness_note: an apple in a drawer is a counterfactual location; record when comparing L3
+    confound_note: the drawer is directly under the goal counter, so the carry is shorter than in S1/S3
+  S3:
+    placement: {entity: target_apple, relation: on_top, receptacle: bookcase_owvfik_1, position_xy: [4.45, -5.45]}
+    room: living_room_0
+    location_phrase: the low shelf under the TV in the living room
+    extra_ops_vs_S1: [cross-room navigation (open-plan), longer carry back]
+
+language:
+  L1:
+    S1: Go to the kitchen island and pick up the apple on it. Then carry it to the counter next to the hallway door, place it on the counter, and report that you are done.
+    S2: Go to the top drawer of the cabinet next to the hallway door and open it. Pick up the apple inside. Then place it on the counter above that cabinet and report that you are done.
+    S3: Go to the living room and pick up the apple on the low shelf under the TV. Then bring it back to the kitchen, place it on the counter next to the hallway door, and report that you are done.
+  L2: Put the apple on the counter next to the hallway door.
+  L3: I'm going to cut up some fruit at the counter by the hallway door. Could you bring the apple over there for me?
+
+l3_ambiguity_check:
+  competing_interpretations: [other fruit, the cutting board, handing it over]
+  resolution: >
+    the apple is the only fruit; the location is named; the cutting board is already
+    on that counter; handing over is not in the skill library
+  residual_risk: 'the phrase "cut up" might suggest fetching a knife too — no knife in this task; goal checks the apple only'
+
+verification_status:   # 2026-10-18
+  locations: same as T01/T02 (certified)
+  goal countertop_tpuwys_0: PLACE succeeded after grasps from S1/S2/S3 with the mug

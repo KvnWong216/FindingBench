@@ -1,0 +1,87 @@
+{
+  "id": "asset_P332_01",
+  "family": "semantic_P332",
+  "scene": "Ihlen_1_int",
+  "scenario": "scenarios/overnight_expert_20261109/initial_generate/asset_P332_01/scenario.yaml",
+  "scenario_sha256": "a10e20e71801ce264158f0e7ae85d81e5887b09cdc965bf9928391ece1a47111",
+  "instruction": "Find the storage box in the drawers in this living room and put it on the table in front of you.",
+  "target_key": "storage_box/bwbpvg",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "coffee_table_gcollb_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+  "route": {
+    "start": [
+      1.9000000000000001,
+      0.2,
+      0.0
+    ],
+    "path_xy": [
+      [
+        1.9000000000000001,
+        0.2
+      ],
+      [
+        1.8,
+        0.2
+      ],
+      [
+        1.7000000000000002,
+        0.2
+      ],
+      [
+        1.6,
+        0.2
+      ],
+      [
+        1.5,
+        0.2
+      ],
+      [
+        1.4000000000000001,
+        0.2
+      ],
+      [
+        1.3,
+        0.2
+      ]
+    ],
+    "length_m": 0.6,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate"
+}

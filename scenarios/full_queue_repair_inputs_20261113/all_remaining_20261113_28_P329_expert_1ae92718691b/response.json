@@ -1,0 +1,498 @@
+{
+  "status": "proposed",
+  "record": {
+    "id": "asset_P329_01",
+    "family": "semantic_P329",
+    "scene": "Beechwood_1_int",
+    "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/all_remaining_20261113_28_P329_expert_1ae92718691b/asset_P329_01/scenario.yaml",
+    "scenario_sha256": "5596fbbcfbf8e24e3b6529a79a27f82345c307f238c7cf8f3dada3514b886f60",
+    "instruction": "Retrieve a tray from the bedroom belongings and put it on the counter in front of you in the bathroom in the bathroom for keeping the rings together.",
+    "target_key": "tray/glwebh",
+    "target_entities": [
+      "item_00"
+    ],
+    "target_count": 1,
+    "source_room": "bedroom_0",
+    "destination_room": "bathroom_1",
+    "source_receptacle": "bottom_cabinet_nddvba_0",
+    "destination_receptacle": "countertop_tpuwys_1",
+    "object_count": 9,
+    "distractor_count": 8,
+    "source_survey_sha256": "e6788ca8219b4da8643d87d4deebe4595aa9d5f15520af27b74393574b33a410",
+    "route": {
+      "start": [
+        -6.9,
+        -2.9000000000000004,
+        -1.5707963267948966
+      ],
+      "path_xy": [
+        [
+          -6.9,
+          -2.9000000000000004
+        ],
+        [
+          -6.800000000000001,
+          -2.9000000000000004
+        ],
+        [
+          -6.7,
+          -2.9000000000000004
+        ],
+        [
+          -6.6000000000000005,
+          -2.9000000000000004
+        ],
+        [
+          -6.5,
+          -2.9000000000000004
+        ],
+        [
+          -6.4,
+          -2.9000000000000004
+        ],
+        [
+          -6.300000000000001,
+          -2.9000000000000004
+        ],
+        [
+          -6.2,
+          -2.9000000000000004
+        ],
+        [
+          -6.1000000000000005,
+          -2.9000000000000004
+        ],
+        [
+          -6.0,
+          -2.9000000000000004
+        ],
+        [
+          -5.9,
+          -2.9000000000000004
+        ],
+        [
+          -5.800000000000001,
+          -2.9000000000000004
+        ],
+        [
+          -5.7,
+          -2.9000000000000004
+        ],
+        [
+          -5.6000000000000005,
+          -2.9000000000000004
+        ],
+        [
+          -5.5,
+          -2.9000000000000004
+        ],
+        [
+          -5.4,
+          -2.9000000000000004
+        ],
+        [
+          -5.300000000000001,
+          -2.9000000000000004
+        ],
+        [
+          -5.2,
+          -2.9000000000000004
+        ],
+        [
+          -5.1000000000000005,
+          -2.9000000000000004
+        ],
+        [
+          -5.0,
+          -2.9000000000000004
+        ],
+        [
+          -4.9,
+          -2.9000000000000004
+        ],
+        [
+          -4.9,
+          -2.8000000000000003
+        ],
+        [
+          -4.800000000000001,
+          -2.8000000000000003
+        ],
+        [
+          -4.7,
+          -2.8000000000000003
+        ],
+        [
+          -4.6000000000000005,
+          -2.8000000000000003
+        ],
+        [
+          -4.5,
+          -2.8000000000000003
+        ],
+        [
+          -4.4,
+          -2.8000000000000003
+        ],
+        [
+          -4.3,
+          -2.8000000000000003
+        ],
+        [
+          -4.2,
+          -2.8000000000000003
+        ]
+      ],
+      "length_m": 2.8,
+      "grid_m": 0.1,
+      "base_radius_m": 0.38355339059327376,
+      "endpoint_free_patch_radius_m": 0.2,
+      "source_approach_count": 34,
+      "destination_approach_count": 36,
+      "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+    },
+    "status": "static_screened_physics_pending",
+    "human_reference_steps": null,
+    "required_gates": [
+      "fresh_native_initialization",
+      "stable_dense_layout",
+      "target_CHECK_identifiability",
+      "all_yaw_live_navigation_and_tolerant_endpoints",
+      "reachable_open_grasp_place",
+      "initial_goal_false",
+      "human_completion"
+    ],
+    "restoration_entities": [
+      "item_01",
+      "item_02",
+      "item_03",
+      "item_04",
+      "item_05",
+      "item_06",
+      "item_07",
+      "item_08",
+      "bottom_cabinet_nddvba_1",
+      "bottom_cabinet_nddvba_0"
+    ],
+    "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+    "inserted_furniture": [],
+    "layout_preflight": {
+      "status": "heuristic_fit",
+      "findings": [
+        {
+          "receptacle": "bottom_cabinet_nddvba_0",
+          "volume_extents_m": {
+            "meta__link_1_fillable_0_0_link": [
+              0.3780027396787049,
+              0.5332169307413903,
+              0.10393695188401042
+            ],
+            "meta__link_2_fillable_0_0_link": [
+              0.37800281196895225,
+              0.5332113053344286,
+              0.10393682497651668
+            ],
+            "meta__link_3_fillable_0_0_link": [
+              0.3779939659230863,
+              0.5332112780151779,
+              0.038533148011303336
+            ],
+            "meta__link_4_fillable_0_0_link": [
+              0.3779940351388356,
+              0.5332112621838481,
+              0.038533116069326745
+            ]
+          },
+          "native_links": {
+            "meta__link_1_fillable_0_0_link": "meta__link_1_fillable_0_0_link",
+            "meta__link_2_fillable_0_0_link": "meta__link_2_fillable_0_0_link",
+            "meta__link_3_fillable_0_0_link": "meta__link_3_fillable_0_0_link",
+            "meta__link_4_fillable_0_0_link": "meta__link_4_fillable_0_0_link"
+          },
+          "geometry_source": "offline_asset_hint",
+          "geometry_provenance": {
+            "asset": "bottom_cabinet/nddvba",
+            "scale": [
+              1.0248277187347412,
+              1.4478932619094849,
+              1.4534152746200562
+            ],
+            "encrypted_asset_sha256": "6ff8653025807a2f6edd83d48c584657b31965ecae2419b068b44ddae208d13c",
+            "metadata_sha256": "9bd27ab4ef373b120a118033c812e77ffffab8cbb9726ccf2b79d94fb79dbf37",
+            "root_orientation": [
+              8.127631800545175e-15,
+              -2.7891404463797898e-11,
+              5.108985629878311e-16,
+              1.0
+            ],
+            "coordinates": "size_only_not_world_positions",
+            "physical_validation_required": true
+          },
+          "status": "heuristic_fit",
+          "assignment": {
+            "item_05": "meta__link_1_fillable_0_0_link",
+            "item_02": "meta__link_2_fillable_0_0_link",
+            "item_04": "meta__link_2_fillable_0_0_link",
+            "item_00": "meta__link_4_fillable_0_0_link",
+            "item_03": "meta__link_3_fillable_0_0_link",
+            "item_01": "meta__link_3_fillable_0_0_link"
+          },
+          "component_allocation": {
+            "item_05": "meta__link_1_fillable_0_0_link",
+            "item_02": "meta__link_2_fillable_0_0_link",
+            "item_04": "meta__link_2_fillable_0_0_link",
+            "item_00": "meta__link_4_fillable_0_0_link",
+            "item_03": "meta__link_3_fillable_0_0_link",
+            "item_01": "meta__link_3_fillable_0_0_link"
+          }
+        },
+        {
+          "receptacle": "bottom_cabinet_nddvba_1",
+          "volume_extents_m": {
+            "meta__link_1_fillable_0_0_link": [
+              0.3780027396787049,
+              0.5332169307413903,
+              0.10393695188401042
+            ],
+            "meta__link_2_fillable_0_0_link": [
+              0.37800281196895225,
+              0.5332113053344286,
+              0.10393682497651668
+            ],
+            "meta__link_3_fillable_0_0_link": [
+              0.3779939659230863,
+              0.5332112780151779,
+              0.038533148011303336
+            ],
+            "meta__link_4_fillable_0_0_link": [
+              0.3779940351388356,
+              0.5332112621838481,
+              0.038533116069326745
+            ]
+          },
+          "native_links": {
+            "meta__link_1_fillable_0_0_link": "meta__link_1_fillable_0_0_link",
+            "meta__link_2_fillable_0_0_link": "meta__link_2_fillable_0_0_link",
+            "meta__link_3_fillable_0_0_link": "meta__link_3_fillable_0_0_link",
+            "meta__link_4_fillable_0_0_link": "meta__link_4_fillable_0_0_link"
+          },
+          "geometry_source": "offline_asset_hint",
+          "geometry_provenance": {
+            "asset": "bottom_cabinet/nddvba",
+            "scale": [
+              1.0248277187347412,
+              1.4478932619094849,
+              1.4534152746200562
+            ],
+            "encrypted_asset_sha256": "6ff8653025807a2f6edd83d48c584657b31965ecae2419b068b44ddae208d13c",
+            "metadata_sha256": "9bd27ab4ef373b120a118033c812e77ffffab8cbb9726ccf2b79d94fb79dbf37",
+            "root_orientation": [
+              8.127631800545175e-15,
+              -2.7891404463797898e-11,
+              5.108985629878311e-16,
+              1.0
+            ],
+            "coordinates": "size_only_not_world_positions",
+            "physical_validation_required": true
+          },
+          "status": "heuristic_fit",
+          "assignment": {
+            "item_06": "meta__link_1_fillable_0_0_link",
+            "item_08": "meta__link_2_fillable_0_0_link",
+            "item_07": "meta__link_4_fillable_0_0_link"
+          },
+          "component_allocation": {
+            "item_06": "meta__link_1_fillable_0_0_link",
+            "item_08": "meta__link_2_fillable_0_0_link",
+            "item_07": "meta__link_4_fillable_0_0_link"
+          }
+        }
+      ],
+      "prefer_alternative_layout": false,
+      "assignments": {
+        "item_05": "meta__link_1_fillable_0_0_link",
+        "item_02": "meta__link_2_fillable_0_0_link",
+        "item_04": "meta__link_2_fillable_0_0_link",
+        "item_00": "meta__link_4_fillable_0_0_link",
+        "item_03": "meta__link_3_fillable_0_0_link",
+        "item_01": "meta__link_3_fillable_0_0_link",
+        "item_06": "meta__link_1_fillable_0_0_link",
+        "item_08": "meta__link_2_fillable_0_0_link",
+        "item_07": "meta__link_4_fillable_0_0_link"
+      },
+      "physical_validation_required": true
+    },
+    "rejected_layout_candidates": [],
+    "parent_task_id": "P329",
+    "tier": "long",
+    "physics_status": "pending",
+    "adaptation": {
+      "id": "asset_P329_01",
+      "parent_task_id": "P329",
+      "before_instruction": "Find the rigid ring holder with two upright cones among bedroom dresser storage and place it on the bathroom mirror shelf.",
+      "after_instruction": "Retrieve a tray from the bedroom belongings and put it on the counter in front of you in the bathroom in the bathroom for keeping the rings together.",
+      "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; No target model allocated for two-cone ring holder. No two-cone ring holder was identified. A candle holder or large furniture stand is not a verified ring-holder substitute. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+      "target_asset": "tray/glwebh",
+      "target_assets": [
+        "tray/glwebh"
+      ]
+    },
+    "binding_sha256": "29d8e57a8f70c283eee2232c7aaf6a58c70640f877c9ddebb08a02a78e894b5d",
+    "surface_binding_revision": {
+      "status": "surface_body_binding_corrected_physics_pending",
+      "changes": [
+        {
+          "field": "goal",
+          "entity": "item_00",
+          "before": "bottom_cabinet_no_top_pluwfl_0",
+          "after": "countertop_tpuwys_1"
+        }
+      ],
+      "destination_approach_patch": {
+        "contact_body": "countertop_tpuwys_1",
+        "above_fixture": "bottom_cabinet_no_top_pluwfl_0",
+        "aabb": [
+          [
+            -7.635,
+            -3.999,
+            0.553
+          ],
+          [
+            -6.647,
+            -3.483,
+            0.572
+          ]
+        ],
+        "scope": "private route proposal to a subset of the actual slab; no synthetic body"
+      },
+      "geometry": {
+        "bottom_cabinet_no_top_pluwfl_0": {
+          "before": [
+            [
+              -7.635,
+              -3.999,
+              0.005
+            ],
+            [
+              -6.646,
+              -3.471,
+              0.549
+            ]
+          ],
+          "after": [
+            [
+              -7.675,
+              -4.01,
+              0.553
+            ],
+            [
+              -6.647,
+              -3.483,
+              0.572
+            ]
+          ]
+        }
+      },
+      "source_survey": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/vla_difficulty_v2/_survey/Beechwood_1_int.json",
+      "source_survey_sha256": "e6788ca8219b4da8643d87d4deebe4595aa9d5f15520af27b74393574b33a410",
+      "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert_repair_queue_20261107/asset_P329_01/scenario.yaml",
+      "original_scenario_sha256": "deeafc2dc3b968677e0f2cfe67de724235d21849f61eb91f67590d361e99e31c",
+      "reason": "Native OnTop requires touching the named body; a separate measured slab covers the named cabinet.",
+      "preserved": [
+        "instruction",
+        "all object models and counts",
+        "target identities",
+        "relation kinds",
+        "spawn",
+        "robot and skills",
+        "physical delivery location"
+      ],
+      "physical_validation_required": true
+    }
+  },
+  "evidence": {
+    "status": "surface_body_binding_corrected_physics_pending",
+    "changes": [
+      {
+        "field": "goal",
+        "entity": "item_00",
+        "before": "bottom_cabinet_no_top_pluwfl_0",
+        "after": "countertop_tpuwys_1"
+      }
+    ],
+    "destination_approach_patch": {
+      "contact_body": "countertop_tpuwys_1",
+      "above_fixture": "bottom_cabinet_no_top_pluwfl_0",
+      "aabb": [
+        [
+          -7.635,
+          -3.999,
+          0.553
+        ],
+        [
+          -6.647,
+          -3.483,
+          0.572
+        ]
+      ],
+      "scope": "private route proposal to a subset of the actual slab; no synthetic body"
+    },
+    "geometry": {
+      "bottom_cabinet_no_top_pluwfl_0": {
+        "before": [
+          [
+            -7.635,
+            -3.999,
+            0.005
+          ],
+          [
+            -6.646,
+            -3.471,
+            0.549
+          ]
+        ],
+        "after": [
+          [
+            -7.675,
+            -4.01,
+            0.553
+          ],
+          [
+            -6.647,
+            -3.483,
+            0.572
+          ]
+        ]
+      }
+    },
+    "source_survey": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/runs/vla_difficulty_v2/_survey/Beechwood_1_int.json",
+    "source_survey_sha256": "e6788ca8219b4da8643d87d4deebe4595aa9d5f15520af27b74393574b33a410",
+    "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert_repair_queue_20261107/asset_P329_01/scenario.yaml",
+    "original_scenario_sha256": "deeafc2dc3b968677e0f2cfe67de724235d21849f61eb91f67590d361e99e31c",
+    "reason": "Native OnTop requires touching the named body; a separate measured slab covers the named cabinet.",
+    "preserved": [
+      "instruction",
+      "all object models and counts",
+      "target identities",
+      "relation kinds",
+      "spawn",
+      "robot and skills",
+      "physical delivery location"
+    ],
+    "physical_validation_required": true,
+    "expert_policy": {
+      "method": "relocate_storage",
+      "clear_unstated_links": true,
+      "plan_surfaces": true,
+      "runtime_changes": [
+        "closed_native_bbox_XY",
+        "disjoint_measured_support_patches",
+        "bounded_CUDA_candidate_domains"
+      ],
+      "original_instruction_retained": true,
+      "explicit_location_scope_retained": true,
+      "diagnosis": "native_placement",
+      "reason": "AUTHORING_SURFACE_BODY_BINDING"
+    }
+  }
+}

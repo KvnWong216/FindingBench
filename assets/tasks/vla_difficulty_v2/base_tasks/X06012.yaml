@@ -1,0 +1,74 @@
+task_id: X06012
+family: fetch
+scene: Wainscott_1_int
+source:
+  official_activity: make_an_egg_tomato_and_toast_breakfast#0
+  official_activities_with_same_subgoal:
+  - make_an_egg_tomato_and_toast_breakfast#0
+  official_subgoal: (ontop avocado.n.01 toast.n.01)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K Wainscott_1_int (+ clearance manifest)
+  object: BEHAVIOR-1K avocado/arswzs
+start:
+  name: start_bedroom_0_1
+  room: bedroom_0
+  x: -1.08
+  y: 12.06
+  yaw: -1.545
+target:
+  entity: target_obj
+  category: avocado
+  model: arswzs
+  noun: avocado
+  colour_estimate: yellow
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S3
+missing_spatial_levels:
+- S1
+- S2
+initial_states: {}
+spatial:
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: countertop_tpuwys_0
+    room: bathroom_0
+    location_phrase: the counter in the bathroom
+    grasp_hints:
+    - - 4.672
+      - 11.971
+      - 0.403
+    - - 4.622
+      - 11.921
+      - 0.435
+    - - 4.622
+      - 12.122
+      - 0.194
+    - - 4.572
+      - 12.072
+      - 0.242
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    task_scope: cross_room
+    route_from_start_steps: 11
+language:
+  L1:
+    S3: Leave the bedroom, go to the counter in the bathroom, pick up the avocado
+      on it and hold it.
+  L2: Pick up the avocado and keep holding it.
+  L3: I'm working on make an egg tomato and toast breakfast. Can you find the avocado
+    and hold it for me?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

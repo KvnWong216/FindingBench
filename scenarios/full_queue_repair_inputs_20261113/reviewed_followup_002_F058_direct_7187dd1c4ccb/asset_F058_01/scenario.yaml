@@ -1,0 +1,159 @@
+id: asset_F058_01
+instruction: Find a sardine can for human food among the grocery-store tins and put
+  it in the shopping basket in front of you in the grocery store. The cat-food cans
+  are not on my list.
+scene:
+  model: grocery_store_convenience
+  source: behavior
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - 1.6
+    - 0.30000000000000004
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - 1.0
+    - 6.123233995736766e-17
+target:
+  entity: item_01
+  category: can_of_sardines
+objects:
+- name: item_00
+  category: shopping_basket
+  model: vsxhsv
+- name: item_01
+  category: can_of_sardines
+  model: dpgmry
+- name: item_02
+  category: bird_feed_bag
+  model: dpxnlc
+- name: item_03
+  category: pellet_food_bag
+  model: jgyqpd
+- name: item_04
+  category: petfood_bag
+  model: fhfqys
+- name: item_05
+  category: can_of_tomato_paste
+  model: sqqdzb
+- name: item_06
+  category: can_of_tomatoes
+  model: ckdouu
+- name: item_07
+  category: canned_food
+  model: ycbspm
+- name: item_08
+  category: cat_food_tin
+  model: rclizj
+- name: item_09
+  category: chickpea_can
+  model: jeqtzg
+- name: search_storage
+  category: shelf
+  model: vanltx
+  fixed_base: true
+- name: delivery_surface
+  category: breakfast_table
+  model: iaritq
+  fixed_base: true
+placements:
+- entity: item_00
+  relation: on_top
+  receptacle: delivery_surface
+  position_xy:
+  - 0.7000000000000002
+  - 0.7
+- entity: item_01
+  relation: on_top
+  receptacle: search_storage
+- entity: item_02
+  relation: on_top
+  receptacle: search_storage
+- entity: item_03
+  relation: on_top
+  receptacle: search_storage
+- entity: item_04
+  relation: on_top
+  receptacle: search_storage
+- entity: item_05
+  relation: on_top
+  receptacle: search_storage
+- entity: item_06
+  relation: on_top
+  receptacle: search_storage
+- entity: item_07
+  relation: on_top
+  receptacle: search_storage
+- entity: item_08
+  relation: on_top
+  receptacle: search_storage
+- entity: item_09
+  relation: on_top
+  receptacle: search_storage
+- entity: search_storage
+  relation: on_top
+  receptacle: floors_rojznj_0
+  position_xy:
+  - 0.2
+  - -1.4000000000000001
+- entity: delivery_surface
+  relation: on_top
+  receptacle: floors_rojznj_0
+  position_xy:
+  - 0.7000000000000001
+  - 0.7000000000000001
+initial_states: {}
+goal:
+- kind: inside
+  entity: item_01
+  receptacle: item_00
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

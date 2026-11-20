@@ -1,0 +1,112 @@
+{
+  "id": "asset_F085_01",
+  "family": "semantic_F085",
+  "scene": "house_double_floor_lower",
+  "scenario": "scenarios/serial_repairs_20261109/asset_F085_01/scenario.yaml",
+  "scenario_sha256": "726ecfa626cdbad1a3a88eda39c040b998e978a4722a21fd00cd63cc19af99cb",
+  "instruction": "Find all the apple in the shopping basket in this kitchen and put them on the table in front of you.",
+  "target_key": "apple/ymhxqk",
+  "target_entities": [
+    "item_01",
+    "item_02"
+  ],
+  "target_count": 2,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "item_00",
+  "destination_receptacle": "breakfast_table_xftrki_0",
+  "object_count": 11,
+  "distractor_count": 8,
+  "source_survey_sha256": "0a3f401e7605a056f40f88d913d8c052476ef760acf457ac11cb1f76abbe581f",
+  "route": {
+    "start": [
+      5.050000000000001,
+      2.6500000000000004,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        5.050000000000001,
+        2.6500000000000004
+      ],
+      [
+        5.050000000000001,
+        2.5500000000000003
+      ],
+      [
+        5.050000000000001,
+        2.45
+      ],
+      [
+        5.15,
+        2.45
+      ],
+      [
+        5.25,
+        2.45
+      ],
+      [
+        5.3500000000000005,
+        2.45
+      ],
+      [
+        5.45,
+        2.45
+      ],
+      [
+        5.45,
+        2.35
+      ],
+      [
+        5.550000000000001,
+        2.35
+      ],
+      [
+        5.550000000000001,
+        2.25
+      ],
+      [
+        5.550000000000001,
+        2.15
+      ],
+      [
+        5.550000000000001,
+        2.0500000000000003
+      ],
+      [
+        5.65,
+        2.0500000000000003
+      ]
+    ],
+    "length_m": 1.2,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_00",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09",
+    "item_10"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate"
+}

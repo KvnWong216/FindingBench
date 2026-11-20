@@ -1,0 +1,80 @@
+{
+  "id": "asset_P216_01",
+  "family": "semantic_P216",
+  "scene": "Pomaria_2_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P216_01/scenario.yaml",
+  "scenario_sha256": "306ce2aaf2518edc810d16752aeb9dd00a83584d39916d1f9c35f962e7bdedb5",
+  "instruction": "Bring the headset from the bathroom belongings to the counter in front of you in the bathroom so I can gather the listening equipment.",
+  "target_key": "headset/oytuam",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bathroom_0",
+  "destination_room": "bathroom_0",
+  "source_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+  "destination_receptacle": "bottom_cabinet_no_top_qohxjq_0",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "62e51428546de3c0a833496f29b3c3303a5b7156fd7ac39a8975412318ea7e2d",
+  "route": {
+    "start": [
+      -0.30000000000000004,
+      2.6,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -0.30000000000000004,
+        2.6
+      ]
+    ],
+    "length_m": 0.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 35,
+    "destination_approach_count": 35,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_no_top_qohxjq_1",
+    "bottom_cabinet_no_top_qohxjq_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [],
+  "parent_task_id": "P216",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P216_01",
+    "parent_task_id": "P216",
+    "before_instruction": "Find the rigid earpiece marked R among the bathroom vanity belongings and place it beside the L earpiece on the mirror shelf.",
+    "after_instruction": "Bring the headset from the bathroom belongings to the counter in front of you in the bathroom so I can gather the listening equipment.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; No target model allocated for R-labeled rigid earpiece. The viewed native headset atlas depicts a whole over-ear headset; it is not a detached R earpiece. A separate right piece and visible side mark remain missing. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+    "target_asset": "headset/oytuam",
+    "target_assets": [
+      "headset/oytuam"
+    ]
+  },
+  "binding_sha256": "536f0b205d086a594010dac605f4ce8247cf24c829453f9d76819b755a9c4ca8"
+}

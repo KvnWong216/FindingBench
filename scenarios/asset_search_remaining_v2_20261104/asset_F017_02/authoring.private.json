@@ -1,0 +1,85 @@
+{
+  "id": "asset_F017_02",
+  "family": "semantic_F017",
+  "scene": "Wainscott_0_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_F017_02/scenario.yaml",
+  "scenario_sha256": "0e24d0f12215db7f48f763ec8cb950a9c0cdca10019b94b140a56e5effc9aae1",
+  "instruction": "Find the serving tablespoon among the dishes on the kitchen counter and bring it to the table in front of you in the kitchen.",
+  "target_key": "tablespoon/ubuhoz",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "kitchen_0",
+  "source_receptacle": "countertop_tpuwys_6",
+  "destination_receptacle": "coffee_table_dnsjnv_1",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "bfc3f55c9661a7a599b91007a0d13bfe6624ef15110725894b31404980af12ee",
+  "route": {
+    "start": [
+      3.0,
+      11.8,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        3.0,
+        11.8
+      ],
+      [
+        3.0,
+        11.700000000000001
+      ],
+      [
+        3.1,
+        11.700000000000001
+      ]
+    ],
+    "length_m": 0.2,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 59,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "parent_task_id": "F017",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F017_02",
+    "parent_task_id": "F017",
+    "before_instruction": "The kitchen table was cleared in a hurry. Find the serving tablespoon among the dishes on the counter and put it in the empty utensil tray on the table.",
+    "after_instruction": "Find the serving tablespoon among the dishes on the kitchen counter and bring it to the table in front of you in the kitchen.",
+    "reason": "Explicit surface-search revision: use supported surveyed furniture and an initial-facing delivery surface; remove unsupported decorative destination references. Preserve target categories, target count, source and destination room types. Empty-vessel state must be established by construction, not inferred from its label.",
+    "target_asset": "tablespoon/ubuhoz",
+    "target_assets": [
+      "tablespoon/ubuhoz"
+    ]
+  },
+  "binding_sha256": "5c44cf214acc69525a81d29dd32275fed149934e15cbea4875b017d07c9d6ebc"
+}

@@ -1,0 +1,711 @@
+{
+  "tasks": [
+    {
+      "id": "asset_P169_01",
+      "family": "semantic_P169",
+      "scene": "house_double_floor_upper",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/full_queue_repair_inputs_20261113/reviewed_followup_250_P169_expert_9b41da66c8ec/asset_P169_01/scenario.yaml",
+      "scenario_sha256": "324404e415694dc8f82621a3d3a6b312abe284e853a3b5a6f048a8570583f874",
+      "instruction": "Retrieve the chess set from the living room games and put it on the cabinet top in front of you in the bedroom in the bedroom for playing chess.",
+      "target_key": "chess_set/nzgefv",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "living_room_0",
+      "destination_room": "bedroom_0",
+      "source_receptacle": "expert_storage_93",
+      "destination_receptacle": "delivery_surface",
+      "object_count": 13,
+      "distractor_count": 8,
+      "source_survey_sha256": "bad4111136351f4ccb189cc8da21449e65bb285de15b8c94024c1d045abd820a",
+      "route": {
+        "start": [
+          -4.7,
+          1.9000000000000001,
+          -1.5707963267948966
+        ],
+        "path_xy": [
+          [
+            -4.7,
+            1.9000000000000001
+          ],
+          [
+            -4.7,
+            1.8
+          ],
+          [
+            -4.7,
+            1.7000000000000002
+          ],
+          [
+            -4.7,
+            1.6
+          ],
+          [
+            -4.800000000000001,
+            1.6
+          ],
+          [
+            -4.800000000000001,
+            1.5
+          ],
+          [
+            -4.800000000000001,
+            1.4000000000000001
+          ],
+          [
+            -4.800000000000001,
+            1.3
+          ],
+          [
+            -4.800000000000001,
+            1.2000000000000002
+          ],
+          [
+            -4.800000000000001,
+            1.1
+          ],
+          [
+            -4.800000000000001,
+            1.0
+          ],
+          [
+            -4.800000000000001,
+            0.9
+          ],
+          [
+            -4.7,
+            0.9
+          ],
+          [
+            -4.7,
+            0.8
+          ],
+          [
+            -4.6000000000000005,
+            0.8
+          ],
+          [
+            -4.6000000000000005,
+            0.7000000000000001
+          ],
+          [
+            -4.5,
+            0.7000000000000001
+          ],
+          [
+            -4.4,
+            0.7000000000000001
+          ],
+          [
+            -4.3,
+            0.7000000000000001
+          ],
+          [
+            -4.2,
+            0.7000000000000001
+          ],
+          [
+            -4.2,
+            0.6000000000000001
+          ],
+          [
+            -4.1000000000000005,
+            0.6000000000000001
+          ],
+          [
+            -4.1000000000000005,
+            0.5
+          ],
+          [
+            -4.0,
+            0.5
+          ],
+          [
+            -3.9000000000000004,
+            0.5
+          ],
+          [
+            -3.9000000000000004,
+            0.4
+          ],
+          [
+            -3.8000000000000003,
+            0.4
+          ],
+          [
+            -3.8000000000000003,
+            0.30000000000000004
+          ],
+          [
+            -3.7,
+            0.30000000000000004
+          ],
+          [
+            -3.7,
+            0.2
+          ],
+          [
+            -3.6,
+            0.2
+          ],
+          [
+            -3.5,
+            0.2
+          ],
+          [
+            -3.4000000000000004,
+            0.2
+          ],
+          [
+            -3.3000000000000003,
+            0.2
+          ],
+          [
+            -3.2,
+            0.2
+          ],
+          [
+            -3.1,
+            0.2
+          ],
+          [
+            -3.0,
+            0.2
+          ],
+          [
+            -2.9000000000000004,
+            0.2
+          ],
+          [
+            -2.8000000000000003,
+            0.2
+          ],
+          [
+            -2.7,
+            0.2
+          ],
+          [
+            -2.6,
+            0.2
+          ],
+          [
+            -2.5,
+            0.2
+          ],
+          [
+            -2.4000000000000004,
+            0.2
+          ],
+          [
+            -2.3000000000000003,
+            0.2
+          ],
+          [
+            -2.2,
+            0.2
+          ],
+          [
+            -2.1,
+            0.2
+          ],
+          [
+            -2.1,
+            0.1
+          ],
+          [
+            -2.0,
+            0.1
+          ],
+          [
+            -2.0,
+            0.0
+          ],
+          [
+            -2.0,
+            -0.1
+          ],
+          [
+            -1.9000000000000001,
+            -0.1
+          ],
+          [
+            -1.8,
+            -0.1
+          ]
+        ],
+        "length_m": 5.1,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 58,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "search_storage",
+        "expert_storage_80",
+        "expert_storage_93"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "inserted_furniture": [
+        {
+          "name": "search_storage",
+          "category": "bottom_cabinet",
+          "model": "slgzfc",
+          "floor": "floors_rfqizg_0",
+          "position_xy": [
+            -0.30000000000000004,
+            0.1
+          ],
+          "aabb": [
+            [
+              -0.5264886932373047,
+              -0.11527645874023437,
+              0.0
+            ],
+            [
+              -0.07351130676269535,
+              0.31527645874023436,
+              0.542425048828125
+            ]
+          ],
+          "room": "living_room_0"
+        },
+        {
+          "name": "delivery_surface",
+          "category": "bottom_cabinet",
+          "model": "ttmejh",
+          "floor": "floors_nlswvt_0",
+          "position_xy": [
+            -4.1000000000000005,
+            1.3
+          ],
+          "aabb": [
+            [
+              -4.32673373413086,
+              1.1137042541503908,
+              0.0
+            ],
+            [
+              -3.873266265869141,
+              1.4862957458496093,
+              0.6124353637695312
+            ]
+          ],
+          "room": "bedroom_0"
+        },
+        {
+          "name": "expert_storage_80",
+          "category": "bottom_cabinet_no_top",
+          "model": "ncgmqr",
+          "floor": "floors_rfqizg_0",
+          "position_xy": [
+            1.0,
+            0.0
+          ],
+          "aabb": [
+            [
+              0.6881302947998047,
+              -0.20834719848632813,
+              0.0
+            ],
+            [
+              1.3118697052001953,
+              0.20834719848632813,
+              0.6957286682128906
+            ]
+          ],
+          "room": "living_room_0"
+        },
+        {
+          "name": "expert_storage_93",
+          "category": "bottom_cabinet",
+          "model": "bamfsz",
+          "floor": "floors_rfqizg_0",
+          "position_xy": [
+            -1.9000000000000001,
+            -1.3
+          ],
+          "aabb": [
+            [
+              -2.1265421752929687,
+              -1.5152805709838868,
+              0.0
+            ],
+            [
+              -1.6734578247070313,
+              -1.0847194290161133,
+              0.5425187683105469
+            ]
+          ],
+          "room": "living_room_0"
+        }
+      ],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [
+          {
+            "receptacle": "expert_storage_93",
+            "volume_extents_m": {
+              "meta__link_1_fillable_0_0_link": [
+                0.3636389226425012,
+                0.35760286045074463,
+                0.16590549134926458
+              ],
+              "meta__link_2_fillable_0_0_link": [
+                0.36083231040335595,
+                0.36367266964912415,
+                0.07200003650784437
+              ],
+              "meta__link_3_fillable_0_0_link": [
+                0.35854086937132057,
+                0.36297681522369385,
+                0.02700003399327411
+              ],
+              "meta__link_4_fillable_0_0_link": [
+                0.3579644626368419,
+                0.3631394166946411,
+                0.02700004433095321
+              ]
+            },
+            "native_links": {
+              "meta__link_1_fillable_0_0_link": "meta__link_1_fillable_0_0_link",
+              "meta__link_2_fillable_0_0_link": "meta__link_2_fillable_0_0_link",
+              "meta__link_3_fillable_0_0_link": "meta__link_3_fillable_0_0_link",
+              "meta__link_4_fillable_0_0_link": "meta__link_4_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet/bamfsz",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "a98da154c304668361e5daeed5844eaa1be5f88f30decc62c51ab146be91c60a",
+              "metadata_sha256": "799c29283726b3515c27196518d33b0888e653b894de2626a32ddd77cbc461a1",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.07913103001192212,
+              "nodes": 5,
+              "candidate_tests": 4290,
+              "search_orders_tried": 1,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_00": "meta__link_2_fillable_0_0_link",
+                "item_06": "meta__link_1_fillable_0_0_link",
+                "item_02": "meta__link_3_fillable_0_0_link",
+                "item_08": "meta__link_4_fillable_0_0_link",
+                "item_03": "meta__link_3_fillable_0_0_link"
+              },
+              "poses": {
+                "item_00": {
+                  "bin": "meta__link_2_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.278,
+                    0.278
+                  ],
+                  "center_xy_m": [
+                    0.14400000000000002,
+                    0.14400000000000002
+                  ]
+                },
+                "item_06": {
+                  "bin": "meta__link_1_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.133,
+                    0.223
+                  ],
+                  "center_xy_m": [
+                    0.07150000000000001,
+                    0.1165
+                  ]
+                },
+                "item_02": {
+                  "bin": "meta__link_3_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.195,
+                    0.146
+                  ],
+                  "center_xy_m": [
+                    0.10250000000000001,
+                    0.078
+                  ]
+                },
+                "item_08": {
+                  "bin": "meta__link_4_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.195,
+                    0.146
+                  ],
+                  "center_xy_m": [
+                    0.10250000000000001,
+                    0.078
+                  ]
+                },
+                "item_03": {
+                  "bin": "meta__link_3_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.20500000000000002,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.033,
+                    0.025
+                  ],
+                  "center_xy_m": [
+                    0.2215,
+                    0.0175
+                  ]
+                }
+              }
+            },
+            "assignment": {
+              "item_00": "meta__link_2_fillable_0_0_link",
+              "item_06": "meta__link_1_fillable_0_0_link",
+              "item_02": "meta__link_3_fillable_0_0_link",
+              "item_08": "meta__link_4_fillable_0_0_link",
+              "item_03": "meta__link_3_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_00": "meta__link_2_fillable_0_0_link",
+              "item_06": "meta__link_1_fillable_0_0_link",
+              "item_02": "meta__link_3_fillable_0_0_link",
+              "item_08": "meta__link_4_fillable_0_0_link",
+              "item_03": "meta__link_3_fillable_0_0_link"
+            }
+          },
+          {
+            "receptacle": "expert_storage_80",
+            "volume_extents_m": {
+              "meta__drawer0_fillable_0_0_link": [
+                0.5233886344018981,
+                0.39358985018730164,
+                0.14444891703128815
+              ],
+              "meta__drawer1_fillable_0_0_link": [
+                0.5237021703720093,
+                0.39821761441230774,
+                0.14396608537536593
+              ],
+              "meta__drawer2_fillable_0_0_link": [
+                0.5186685735186505,
+                0.3985025246143341,
+                0.28758682544270653
+              ]
+            },
+            "native_links": {
+              "meta__drawer0_fillable_0_0_link": "meta__drawer0_fillable_0_0_link",
+              "meta__drawer1_fillable_0_0_link": "meta__drawer1_fillable_0_0_link",
+              "meta__drawer2_fillable_0_0_link": "meta__drawer2_fillable_0_0_link"
+            },
+            "geometry_source": "offline_asset_hint",
+            "geometry_provenance": {
+              "asset": "bottom_cabinet_no_top/ncgmqr",
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "encrypted_asset_sha256": "654ec43b4fbdc16ab935e47e394df2e4452ea2ef8e5df804fc94faba3196f5a7",
+              "metadata_sha256": "4f69836ec4373a572ddb8592f3f5f5e84e399b02a8b6553a4147db5c12cdb121",
+              "root_orientation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "coordinates": "size_only_not_world_positions",
+              "physical_validation_required": true
+            },
+            "status": "heuristic_fit",
+            "solver": {
+              "status": "feasible_model",
+              "device": "cuda",
+              "backend": "torch_cuda_finite_csp",
+              "solve_seconds": 0.0038433987647295,
+              "nodes": 0,
+              "candidate_tests": 0,
+              "search_orders_tried": 0,
+              "grid_m": 0.001,
+              "margin_m": 0.005,
+              "model": "upright boxes; yaw 0/90; single-layer independent bins; normal-pattern integer coordinates",
+              "physical_validation_required": true,
+              "assignment": {
+                "item_01": "meta__drawer0_fillable_0_0_link",
+                "item_04": "meta__drawer0_fillable_0_0_link",
+                "item_05": "meta__drawer0_fillable_0_0_link",
+                "item_07": "meta__drawer0_fillable_0_0_link"
+              },
+              "poses": {
+                "item_01": {
+                  "bin": "meta__drawer0_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.005
+                  ],
+                  "footprint_m": [
+                    0.027,
+                    0.016
+                  ],
+                  "center_xy_m": [
+                    0.0185,
+                    0.013000000000000001
+                  ]
+                },
+                "item_04": {
+                  "bin": "meta__drawer0_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.026000000000000002
+                  ],
+                  "footprint_m": [
+                    0.042,
+                    0.042
+                  ],
+                  "center_xy_m": [
+                    0.026000000000000002,
+                    0.047
+                  ]
+                },
+                "item_05": {
+                  "bin": "meta__drawer0_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.073
+                  ],
+                  "footprint_m": [
+                    0.024,
+                    0.018000000000000002
+                  ],
+                  "center_xy_m": [
+                    0.017,
+                    0.08199999999999999
+                  ]
+                },
+                "item_07": {
+                  "bin": "meta__drawer0_fillable_0_0_link",
+                  "yaw_degrees": 0,
+                  "lower_xy_m": [
+                    0.005,
+                    0.096
+                  ],
+                  "footprint_m": [
+                    0.027,
+                    0.016
+                  ],
+                  "center_xy_m": [
+                    0.0185,
+                    0.10400000000000001
+                  ]
+                }
+              },
+              "constructive_witness": "single strip; exact quantized box and clearance checks"
+            },
+            "assignment": {
+              "item_01": "meta__drawer0_fillable_0_0_link",
+              "item_04": "meta__drawer0_fillable_0_0_link",
+              "item_05": "meta__drawer0_fillable_0_0_link",
+              "item_07": "meta__drawer0_fillable_0_0_link"
+            },
+            "component_allocation": {
+              "item_01": "meta__drawer0_fillable_0_0_link",
+              "item_04": "meta__drawer0_fillable_0_0_link",
+              "item_05": "meta__drawer0_fillable_0_0_link",
+              "item_07": "meta__drawer0_fillable_0_0_link"
+            }
+          }
+        ],
+        "prefer_alternative_layout": false,
+        "assignments": {
+          "item_00": "meta__link_2_fillable_0_0_link",
+          "item_06": "meta__link_1_fillable_0_0_link",
+          "item_02": "meta__link_3_fillable_0_0_link",
+          "item_08": "meta__link_4_fillable_0_0_link",
+          "item_03": "meta__link_3_fillable_0_0_link",
+          "item_01": "meta__drawer0_fillable_0_0_link",
+          "item_04": "meta__drawer0_fillable_0_0_link",
+          "item_05": "meta__drawer0_fillable_0_0_link",
+          "item_07": "meta__drawer0_fillable_0_0_link"
+        },
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [],
+      "parent_task_id": "P169",
+      "tier": "long",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_P169_01",
+        "parent_task_id": "P169",
+        "before_instruction": "Find the black and white knight pieces among living-room game storage and place them on the bedroom bedside table beside the small board.",
+        "after_instruction": "Retrieve the chess set from the living room games and put it on the cabinet top in front of you in the bedroom in the bedroom for playing chess.",
+        "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; Missing complete set membership, quantities and/or attribute-specific native models for black and white knights. Whole chess_set availability does not establish separately graspable black and white knight objects. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made. Uses a smaller existing native model without rescaling; large toy vehicle/chess board is not imported as a portable target.",
+        "target_asset": "chess_set/nzgefv",
+        "target_assets": [
+          "chess_set/nzgefv"
+        ]
+      },
+      "storage_model_experience": []
+    }
+  ]
+}

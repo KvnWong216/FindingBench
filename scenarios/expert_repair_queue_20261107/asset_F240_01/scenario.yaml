@@ -1,0 +1,140 @@
+id: asset_F240_01
+instruction: Find the soup ladle in the drawers in the kitchen and put it on the cabinet
+  in front of you.
+scene:
+  model: house_single_floor
+  source: behavior
+robot:
+  model: g1_bench
+  name: robot_0
+  panorama:
+    head_link: head_link
+    mount_frame_link: torso_link
+    offset:
+    - 0
+    - 0
+    - 0.57
+    face_size: 512
+    width: 2048
+    height: 1024
+  obs_modalities:
+  - rgb
+  - depth_linear
+  - seg_instance
+  image_width: 640
+  image_height: 480
+  kinematics:
+    urdf_path: build/robots/g1_bench/g1_bench_validated.urdf
+    base_link: base_link
+    end_effector_link: right_eef_link
+    controlled_joints: auto
+    joint_limits_source: urdf
+    ik_seed: 0
+  base_half_extent: 0.25
+  include_sensor_names: null
+  init_anchor: start
+anchors:
+  start:
+    position:
+    - 6.300000000000001
+    - 1.9000000000000001
+    - 0.0053
+    orientation:
+    - 0
+    - 0
+    - 1.0
+    - 6.123233995736766e-17
+target:
+  entity: item_00
+  category: soup_ladle
+objects:
+- name: item_00
+  category: soup_ladle
+  model: gxsrhh
+- name: item_01
+  category: meat_thermometer
+  model: idugwc
+- name: item_02
+  category: parer
+  model: lwpdhi
+- name: item_03
+  category: pastry_cutter
+  model: fconda
+- name: item_04
+  category: portafilter
+  model: obdthu
+- name: item_05
+  category: scoop
+  model: oaghrf
+- name: item_06
+  category: meat_thermometer
+  model: idugwc
+- name: item_07
+  category: parer
+  model: lwpdhi
+- name: item_08
+  category: pastry_cutter
+  model: fconda
+placements:
+- entity: item_00
+  relation: inside
+  receptacle: search_storage
+  link: meta__link_2_fillable_0_0_link
+- entity: item_01
+  relation: inside
+  receptacle: search_storage
+  link: meta__link_2_fillable_0_0_link
+- entity: item_02
+  relation: inside
+  receptacle: search_storage
+  link: meta__link_2_fillable_0_0_link
+- entity: item_03
+  relation: inside
+  receptacle: search_storage
+  link: meta__link_2_fillable_0_0_link
+- entity: item_04
+  relation: inside
+  receptacle: search_storage
+  link: meta__link_2_fillable_0_0_link
+- entity: item_05
+  relation: inside
+  receptacle: search_storage
+  link: meta__link_2_fillable_0_0_link
+- entity: item_06
+  relation: inside
+  receptacle: search_storage
+  link: meta__link_2_fillable_0_0_link
+- entity: item_07
+  relation: inside
+  receptacle: search_storage
+  link: meta__link_2_fillable_0_0_link
+- entity: item_08
+  relation: inside
+  receptacle: search_storage
+  link: meta__link_2_fillable_0_0_link
+initial_states:
+  search_storage:
+    open: false
+goal:
+- kind: on_top
+  entity: item_00
+  receptacle: delivery_surface
+termination:
+  max_planning_steps: 200
+  fail_on_wrong_grasp: false
+  fail_on_unsafe_action: false
+  succeed_when_holding_target: false
+feasibility:
+  backend: pinocchio
+  mode: endpoint
+skills:
+- MOVE_TO
+- TURN
+- VIEW
+- CHECK
+- OPEN
+- CLOSE
+- GRASP
+- PLACE
+- REPORT_DONE
+expose_available_skills: false

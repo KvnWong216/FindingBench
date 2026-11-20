@@ -1,0 +1,79 @@
+task_id: N057
+family: fetch
+scene: Wainscott_0_int
+source:
+  official_activity: store_produce#0
+  official_activities_with_same_subgoal:
+  - store_produce#0
+  official_subgoal: (inside mango.n.02 electric_refrigerator.n.01)
+  reuse: official sub-goal object; goal = holding (the fetch half of the sub-goal,
+    not an official terminal predicate)
+  scene: BEHAVIOR-1K Wainscott_0_int (+ clearance manifest)
+  object: BEHAVIOR-1K mango/toddjy
+start:
+  name: start_corridor_0_0
+  room: corridor_0
+  x: 0.11
+  y: 3.5
+  yaw: -1.712
+target:
+  entity: target_obj
+  category: mango
+  model: toddjy
+  noun: mango
+  colour_estimate: yellow
+goal:
+- kind: holding
+  entity: target_obj
+place_hints: []
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S3
+missing_spatial_levels:
+- S1
+- S2
+initial_states: {}
+spatial:
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: console_table_emeeke_1
+    room: living_room_2
+    location_phrase: null
+    grasp_hints:
+    - - -3.157
+      - -0.742
+      - 0.785
+    - - -3.207
+      - -0.792
+      - 0.785
+    - - -1.939
+      - -0.753
+      - 2.436
+    - - -3.257
+      - -0.641
+      - 0.587
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    task_scope: cross_room
+    route_from_start_steps: 10
+language:
+  L1: {}
+  L2: Pick up the mango and keep holding it.
+  L3: I'm working on store produce and I need the mango. Could you get it for me?
+available_language_levels:
+  S3:
+  - L2
+  - L3
+description_provenance:
+  missing_L1_reason: source location lacks an unambiguous description
+  missing_L1_spatial_levels:
+  - S3
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

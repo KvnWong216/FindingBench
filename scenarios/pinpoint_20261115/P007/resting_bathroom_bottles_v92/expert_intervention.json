@@ -1,0 +1,54 @@
+{
+  "method": "reviewed_native_inside_resting_poses",
+  "original_recipe": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/pinpoint_20261115/P007/floor_basket_v90/scenario.yaml",
+  "reason": "Direct floor support removes most moving-contact instability. The liquid-soap bottle and soap dispenser still oscillate; test actual side-resting native poses for those two props only.",
+  "changes": [
+    {
+      "before": {
+        "entity": "item_04",
+        "relation": "inside",
+        "receptacle": "item_00"
+      },
+      "after": {
+        "entity": "item_04",
+        "relation": "inside",
+        "receptacle": "item_00",
+        "orientation_hint_xyzw": [
+          -0.7071067811865475,
+          0.0,
+          0.0,
+          0.7071067811865476
+        ]
+      }
+    },
+    {
+      "before": {
+        "entity": "item_09",
+        "relation": "inside",
+        "receptacle": "item_00"
+      },
+      "after": {
+        "entity": "item_09",
+        "relation": "inside",
+        "receptacle": "item_00",
+        "orientation_hint_xyzw": [
+          -0.7071067811865475,
+          0.0,
+          0.0,
+          0.7071067811865476
+        ]
+      }
+    }
+  ],
+  "native_diagnosis": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/pinpoint_20261115/P007/resting_bathroom_bottles_v92/diagnosed_native_motion.private.json",
+  "preserved": [
+    "instruction",
+    "goal",
+    "target and reference sample",
+    "every native asset and count",
+    "all Inside relations",
+    "floor basket and spawn"
+  ],
+  "physical_validation_required": true,
+  "human_completion_verified": false
+}

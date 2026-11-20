@@ -1,0 +1,396 @@
+{
+  "id": "asset_F151_01",
+  "family": "semantic_F151",
+  "scene": "Rs_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_F151_01/scenario.yaml",
+  "scenario_sha256": "cddd9ba6c8269c7ee34991e4e46adec6fc41cc11e8e94182deb281861377619d",
+  "instruction": "There is a sample on the table in front of you in the living room. Find a bowl matching that sample in the kitchen cupboards and bring it to the table in front of you in the living room in the living room.",
+  "target_key": "bowl/eawgwj",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "kitchen_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "bottom_cabinet_bamfsz_0",
+  "destination_receptacle": "coffee_table_fqluyq_0",
+  "object_count": 12,
+  "distractor_count": 10,
+  "source_survey_sha256": "24bd47925e994c3defe707f3d8a919b355cd46a7128d2b59d373bc2697d8185e",
+  "route": {
+    "start": [
+      0.4,
+      -1.6,
+      3.141592653589793
+    ],
+    "path_xy": [
+      [
+        0.4,
+        -1.6
+      ],
+      [
+        0.4,
+        -1.5
+      ],
+      [
+        0.4,
+        -1.4000000000000001
+      ],
+      [
+        0.4,
+        -1.3
+      ],
+      [
+        0.4,
+        -1.2000000000000002
+      ],
+      [
+        0.4,
+        -1.1
+      ],
+      [
+        0.4,
+        -1.0
+      ],
+      [
+        0.4,
+        -0.9
+      ],
+      [
+        0.4,
+        -0.8
+      ],
+      [
+        0.4,
+        -0.7000000000000001
+      ],
+      [
+        0.4,
+        -0.6000000000000001
+      ],
+      [
+        0.4,
+        -0.5
+      ],
+      [
+        0.4,
+        -0.4
+      ],
+      [
+        0.4,
+        -0.30000000000000004
+      ],
+      [
+        0.4,
+        -0.2
+      ],
+      [
+        0.4,
+        -0.1
+      ],
+      [
+        0.4,
+        0.0
+      ],
+      [
+        0.4,
+        0.1
+      ],
+      [
+        0.4,
+        0.2
+      ],
+      [
+        0.4,
+        0.30000000000000004
+      ],
+      [
+        0.4,
+        0.4
+      ],
+      [
+        0.4,
+        0.5
+      ],
+      [
+        0.4,
+        0.6000000000000001
+      ],
+      [
+        0.4,
+        0.7000000000000001
+      ],
+      [
+        0.4,
+        0.8
+      ],
+      [
+        0.4,
+        0.9
+      ],
+      [
+        0.4,
+        1.0
+      ],
+      [
+        0.5,
+        1.0
+      ],
+      [
+        0.6000000000000001,
+        1.0
+      ],
+      [
+        0.7000000000000001,
+        1.0
+      ],
+      [
+        0.7000000000000001,
+        1.1
+      ],
+      [
+        0.8,
+        1.1
+      ],
+      [
+        0.8,
+        1.2000000000000002
+      ],
+      [
+        0.9,
+        1.2000000000000002
+      ],
+      [
+        0.9,
+        1.3
+      ],
+      [
+        0.9,
+        1.4000000000000001
+      ],
+      [
+        0.9,
+        1.5
+      ],
+      [
+        0.9,
+        1.6
+      ],
+      [
+        0.9,
+        1.7000000000000002
+      ],
+      [
+        0.9,
+        1.8
+      ],
+      [
+        0.9,
+        1.9000000000000001
+      ],
+      [
+        0.8,
+        1.9000000000000001
+      ],
+      [
+        0.8,
+        2.0
+      ],
+      [
+        0.7000000000000001,
+        2.0
+      ],
+      [
+        0.7000000000000001,
+        2.1
+      ],
+      [
+        0.6000000000000001,
+        2.1
+      ],
+      [
+        0.5,
+        2.1
+      ],
+      [
+        0.4,
+        2.1
+      ],
+      [
+        0.30000000000000004,
+        2.1
+      ],
+      [
+        0.2,
+        2.1
+      ],
+      [
+        0.1,
+        2.1
+      ],
+      [
+        0.0,
+        2.1
+      ],
+      [
+        -0.1,
+        2.1
+      ],
+      [
+        -0.2,
+        2.1
+      ],
+      [
+        -0.30000000000000004,
+        2.1
+      ],
+      [
+        -0.4,
+        2.1
+      ],
+      [
+        -0.5,
+        2.1
+      ],
+      [
+        -0.6000000000000001,
+        2.1
+      ],
+      [
+        -0.6000000000000001,
+        2.2
+      ]
+    ],
+    "length_m": 5.8,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 3,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "comparison_negative_0",
+    "comparison_negative_1",
+    "bottom_cabinet_bamfsz_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_bamfsz_0",
+        "volume_extents_m": {
+          "link_1": [
+            0.6015068292617798,
+            0.5179393291473389,
+            0.26259466260671616
+          ],
+          "link_2": [
+            0.6117739677429199,
+            0.5139126777648926,
+            0.11220884323120117
+          ],
+          "link_3": [
+            0.6105971336364746,
+            0.5106301307678223,
+            0.04014790058135986
+          ],
+          "link_4": [
+            0.6108721494674683,
+            0.5098047256469727,
+            0.04014790058135986
+          ]
+        },
+        "native_links": {
+          "link_1": "link_1",
+          "link_2": "link_2",
+          "link_3": "link_3",
+          "link_4": "link_4"
+        },
+        "geometry_source": "survey",
+        "geometry_provenance": {},
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_02": "link_1",
+          "comparison_negative_1": "link_1",
+          "item_04": "link_1",
+          "item_08": "link_1",
+          "item_03": "link_1",
+          "item_06": "link_2",
+          "item_05": "link_2",
+          "item_00": "link_2",
+          "item_01": "link_2",
+          "comparison_negative_0": "link_2",
+          "item_07": "link_2"
+        },
+        "component_allocation": {
+          "item_02": "link_1",
+          "comparison_negative_1": "link_1",
+          "item_04": "link_1",
+          "item_08": "link_1",
+          "item_03": "link_1",
+          "item_06": "link_2",
+          "item_05": "link_2",
+          "item_00": "link_2",
+          "item_01": "link_2",
+          "comparison_negative_0": "link_2",
+          "item_07": "link_2"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_02": "link_1",
+      "comparison_negative_1": "link_1",
+      "item_04": "link_1",
+      "item_08": "link_1",
+      "item_03": "link_1",
+      "item_06": "link_2",
+      "item_05": "link_2",
+      "item_00": "link_2",
+      "item_01": "link_2",
+      "comparison_negative_0": "link_2",
+      "item_07": "link_2"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "F151",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F151_01",
+    "parent_task_id": "F151",
+    "before_instruction": "Find the bowl in the kitchen cupboard closest in size to the bowl on the living room coffee table, and put it beside that bowl.",
+    "after_instruction": "There is a sample on the table in front of you in the living room. Find a bowl matching that sample in the kitchen cupboards and bring it to the table in front of you in the living room in the living room.",
+    "reason": "Closest-size comparison becomes exact same-model matching to an instantiated bowl; room transfer and reference use remain. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "bowl/eawgwj",
+    "target_assets": [
+      "bowl/eawgwj"
+    ]
+  },
+  "binding_sha256": "baea44c67209105092dd107f68a128bd4576487a36313bcaa107613e3bfdb8dd"
+}

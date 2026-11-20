@@ -1,0 +1,121 @@
+{
+  "id": "asset_P239_01",
+  "family": "semantic_P239",
+  "scene": "Pomaria_2_int",
+  "scenario": "scenarios/overnight_expert_20261109/initial_generate/asset_P239_01/scenario.yaml",
+  "scenario_sha256": "bcc8a7a386917a261372fb99c222dfa94863ccff4fea72f009b1aace8212b8f4",
+  "instruction": "Find all the razor in the cupboards in the bathroom and put them on the cabinet in front of you.",
+  "target_key": "razor/jocsgp",
+  "target_entities": [
+    "item_00",
+    "item_01"
+  ],
+  "target_count": 2,
+  "source_room": "bathroom_0",
+  "destination_room": "bedroom_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 10,
+  "distractor_count": 8,
+  "source_survey_sha256": "62e51428546de3c0a833496f29b3c3303a5b7156fd7ac39a8975412318ea7e2d",
+  "route": {
+    "start": [
+      -1.8,
+      1.0,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        -1.8,
+        1.0
+      ],
+      [
+        -1.7000000000000002,
+        1.0
+      ],
+      [
+        -1.6,
+        1.0
+      ],
+      [
+        -1.5,
+        1.0
+      ],
+      [
+        -1.5,
+        1.1
+      ],
+      [
+        -1.5,
+        1.2000000000000002
+      ],
+      [
+        -1.5,
+        1.3
+      ],
+      [
+        -1.5,
+        1.4000000000000001
+      ],
+      [
+        -1.5,
+        1.5
+      ],
+      [
+        -1.5,
+        1.6
+      ],
+      [
+        -1.5,
+        1.7000000000000002
+      ],
+      [
+        -1.5,
+        1.8
+      ],
+      [
+        -1.5,
+        1.9000000000000001
+      ],
+      [
+        -1.5,
+        2.0
+      ],
+      [
+        -1.5,
+        2.1
+      ]
+    ],
+    "length_m": 1.4,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 20,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09",
+    "bottom_cabinet_no_top_qohxjq_0",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate"
+}

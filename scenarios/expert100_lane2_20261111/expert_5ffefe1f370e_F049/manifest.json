@@ -1,0 +1,165 @@
+{
+  "tasks": [
+    {
+      "id": "asset_F049_01",
+      "family": "semantic_F049",
+      "scene": "grocery_store_convenience",
+      "scenario": "/home/ubuntu/ygwang/FindingBench_20261016_200444/workspace/scenarios/expert100_lane2_20261111/expert_5ffefe1f370e_F049/asset_F049_01/scenario.yaml",
+      "scenario_sha256": "ab82d808a3caa524c37bec611b5addb57545877840e6e98411a9c3a62259832b",
+      "instruction": "There is a sample on the counter in front of you in the grocery store. Find a chocolate box matching that sample among the grocery store sweets and place it on the counter in front of you in the grocery store.",
+      "target_key": "box_of_chocolates/bdvkbh",
+      "target_entities": [
+        "item_00"
+      ],
+      "target_count": 1,
+      "source_room": "grocery_store_0",
+      "destination_room": "grocery_store_0",
+      "source_receptacle": "search_storage",
+      "destination_receptacle": "delivery_surface",
+      "object_count": 12,
+      "distractor_count": 8,
+      "source_survey_sha256": "a2c547e08ae7b260e95d8b48eef0027668b5c06f7c674406f7ebc43f7ad37672",
+      "route": {
+        "start": [
+          0.0,
+          0.2,
+          0.0
+        ],
+        "path_xy": [
+          [
+            0.0,
+            0.2
+          ],
+          [
+            0.0,
+            0.1
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            -0.1
+          ],
+          [
+            0.0,
+            -0.2
+          ],
+          [
+            0.1,
+            -0.2
+          ],
+          [
+            0.2,
+            -0.2
+          ]
+        ],
+        "length_m": 0.6,
+        "grid_m": 0.1,
+        "base_radius_m": 0.38355339059327376,
+        "endpoint_free_patch_radius_m": 0.2,
+        "source_approach_count": 64,
+        "destination_approach_count": 64,
+        "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+      },
+      "status": "static_screened_physics_pending",
+      "human_reference_steps": null,
+      "required_gates": [
+        "fresh_native_initialization",
+        "stable_dense_layout",
+        "target_CHECK_identifiability",
+        "all_yaw_live_navigation_and_tolerant_endpoints",
+        "reachable_open_grasp_place",
+        "initial_goal_false",
+        "human_completion"
+      ],
+      "restoration_entities": [
+        "item_01",
+        "item_02",
+        "item_03",
+        "item_04",
+        "item_05",
+        "item_06",
+        "item_07",
+        "item_08",
+        "comparison_sample",
+        "search_storage"
+      ],
+      "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+      "reference_entity": "comparison_sample",
+      "inserted_furniture": [
+        {
+          "name": "delivery_surface",
+          "category": "bottom_cabinet",
+          "model": "jrhgeu",
+          "floor": "floors_rojznj_0",
+          "position_xy": [
+            0.7000000000000001,
+            0.7000000000000001
+          ],
+          "aabb": [
+            [
+              0.5328552398681641,
+              0.3577120208740235,
+              0.0
+            ],
+            [
+              0.8671447601318361,
+              1.0422879791259767,
+              0.6846599731445313
+            ]
+          ],
+          "room": "grocery_store_0"
+        },
+        {
+          "name": "search_storage",
+          "category": "shelf",
+          "model": "vanltx",
+          "floor": "floors_rojznj_0",
+          "position_xy": [
+            0.5,
+            -1.4000000000000001
+          ],
+          "aabb": [
+            [
+              0.3269262390136719,
+              -1.992514587402344,
+              0.0
+            ],
+            [
+              0.6730737609863281,
+              -0.8074854125976564,
+              0.42811041259765625
+            ]
+          ],
+          "room": "grocery_store_0"
+        }
+      ],
+      "layout_preflight": {
+        "status": "heuristic_fit",
+        "findings": [],
+        "prefer_alternative_layout": false,
+        "assignments": {},
+        "physical_validation_required": true
+      },
+      "rejected_layout_candidates": [],
+      "parent_task_id": "F049",
+      "tier": "short",
+      "physics_status": "pending",
+      "adaptation": {
+        "id": "asset_F049_01",
+        "parent_task_id": "F049",
+        "before_instruction": "Find a box of chocolates without visible dents or tears among the grocery store sweets and put it beside the gift basket on the checkout counter.",
+        "after_instruction": "There is a sample on the counter in front of you in the grocery store. Find a chocolate box matching that sample among the grocery store sweets and place it on the counter in front of you in the grocery store.",
+        "reason": "Replaced unsupported damage inspection with same-product visual matching; no intact-packaging claim remains. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+        "target_asset": "box_of_chocolates/bdvkbh",
+        "target_assets": [
+          "box_of_chocolates/bdvkbh"
+        ]
+      },
+      "binding_sha256": "21335e58526938f0ca153cb75c3fde6d0d20a60f7c40b01538b261de7e44edc9",
+      "proposal_native_policy_signature": "97635c648b0eaa957645ce3cfe9f2c99facb19589fe121fc3c074d69b0963d46"
+    }
+  ]
+}

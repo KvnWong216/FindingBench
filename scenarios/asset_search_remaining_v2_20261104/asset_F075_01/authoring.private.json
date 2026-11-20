@@ -1,0 +1,125 @@
+{
+  "id": "asset_F075_01",
+  "family": "semantic_F075",
+  "scene": "Ihlen_1_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_F075_01/scenario.yaml",
+  "scenario_sha256": "72f387ba528f10b163fc8d9b2534ded514c8448e5aad8d4bddf4a7f609251103",
+  "instruction": "Find two drinking glasses in the dining-room cupboard and bring both to the table in front of you in the dining room for drinks.",
+  "target_key": "water_glass/imsnkt",
+  "target_entities": [
+    "item_00",
+    "item_01"
+  ],
+  "target_count": 2,
+  "source_room": "dining_room_0",
+  "destination_room": "dining_room_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "breakfast_table_uhrsex_0",
+  "object_count": 11,
+  "distractor_count": 8,
+  "source_survey_sha256": "1a702db22df63853f9902f593df34e2e97a3458a639e8ae21c78578fa521db5d",
+  "route": {
+    "start": [
+      -4.4,
+      2.6,
+      0.0
+    ],
+    "path_xy": [
+      [
+        -4.4,
+        2.6
+      ],
+      [
+        -4.4,
+        2.5
+      ],
+      [
+        -4.4,
+        2.4000000000000004
+      ],
+      [
+        -4.4,
+        2.3000000000000003
+      ],
+      [
+        -4.4,
+        2.2
+      ],
+      [
+        -4.5,
+        2.2
+      ]
+    ],
+    "length_m": 0.5,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 5,
+    "destination_approach_count": 19,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "item_09",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_wskgxd_0",
+      "position_xy": [
+        -4.4,
+        0.9
+      ],
+      "aabb": [
+        [
+          -4.5671447601318365,
+          0.5577120208740234,
+          0.0
+        ],
+        [
+          -4.232855239868164,
+          1.2422879791259767,
+          0.6846599731445313
+        ]
+      ],
+      "room": "dining_room_0"
+    }
+  ],
+  "parent_task_id": "F075",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_F075_01",
+    "parent_task_id": "F075",
+    "before_instruction": "Find two drinking glasses without stems in the dining room cupboard and put them on the tray at the end of the dining table.",
+    "after_instruction": "Find two drinking glasses in the dining-room cupboard and bring both to the table in front of you in the dining room for drinks.",
+    "reason": "Preserves two-glass delivery; removes unverified stemlessness and an unconstructed tray destination. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "water_glass/imsnkt",
+    "target_assets": [
+      "water_glass/imsnkt",
+      "water_glass/imsnkt"
+    ]
+  },
+  "binding_sha256": "fc3b85447e91b94d7837f4b002221fcae12f80b13fed50520274227c87b76b03"
+}

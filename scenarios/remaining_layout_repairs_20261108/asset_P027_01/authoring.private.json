@@ -1,0 +1,184 @@
+{
+  "id": "asset_P027_01",
+  "family": "semantic_P027",
+  "scene": "house_double_floor_lower",
+  "scenario": "scenarios/remaining_layout_repairs_20261108/asset_P027_01/scenario.yaml",
+  "scenario_sha256": "140039415063a421dacf9a69f216cdbd198c93ef4a272413f682317e8beeea95",
+  "instruction": "There is a sample on the table in front of you in the living room. Find the jigsaw puzzle matching that sample among the living-room games and bring it to the table in front of you in the living room.",
+  "target_key": "jigsaw_puzzle/antykn",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "living_room_0",
+  "destination_room": "living_room_0",
+  "source_receptacle": "bottom_cabinet_rhdbzv_0",
+  "destination_receptacle": "coffee_table_koagbh_0",
+  "object_count": 10,
+  "distractor_count": 8,
+  "source_survey_sha256": "0a3f401e7605a056f40f88d913d8c052476ef760acf457ac11cb1f76abbe581f",
+  "route": {
+    "start": [
+      4.15,
+      3.95,
+      1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        4.15,
+        3.95
+      ],
+      [
+        4.25,
+        3.95
+      ],
+      [
+        4.3500000000000005,
+        3.95
+      ],
+      [
+        4.45,
+        3.95
+      ],
+      [
+        4.55,
+        3.95
+      ],
+      [
+        4.65,
+        3.95
+      ],
+      [
+        4.75,
+        3.95
+      ],
+      [
+        4.8500000000000005,
+        3.95
+      ],
+      [
+        4.95,
+        3.95
+      ],
+      [
+        5.050000000000001,
+        3.95
+      ],
+      [
+        5.15,
+        3.95
+      ]
+    ],
+    "length_m": 1.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 64,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "bottom_cabinet_rhdbzv_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_rhdbzv_0",
+        "volume_extents_m": {
+          "left_drawer": [
+            0.3034677505493164,
+            0.9855995178222656,
+            0.2205941453576088
+          ],
+          "right_drawer": [
+            0.2968716621398926,
+            1.1522061824798584,
+            0.2322199046611786
+          ]
+        },
+        "native_links": {
+          "left_drawer": "left_drawer",
+          "right_drawer": "right_drawer"
+        },
+        "geometry_source": "survey",
+        "geometry_provenance": {},
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_06": "right_drawer",
+          "item_01": "left_drawer",
+          "item_07": "left_drawer",
+          "item_03": "left_drawer",
+          "item_04": "left_drawer",
+          "item_05": "left_drawer",
+          "item_02": "left_drawer",
+          "item_08": "right_drawer",
+          "item_00": "right_drawer"
+        },
+        "component_allocation": {
+          "item_06": "right_drawer",
+          "item_01": "left_drawer",
+          "item_07": "left_drawer",
+          "item_03": "left_drawer",
+          "item_04": "left_drawer",
+          "item_05": "left_drawer",
+          "item_02": "left_drawer",
+          "item_08": "right_drawer",
+          "item_00": "right_drawer"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_06": "right_drawer",
+      "item_01": "left_drawer",
+      "item_07": "left_drawer",
+      "item_03": "left_drawer",
+      "item_04": "left_drawer",
+      "item_05": "left_drawer",
+      "item_02": "left_drawer",
+      "item_08": "right_drawer",
+      "item_00": "right_drawer"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "P027",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P027_01",
+    "parent_task_id": "P027",
+    "before_instruction": "Find the jigsaw box marked 24 pieces among the living-room cabinet games and put it on the floor mat in front of the sofa.",
+    "after_instruction": "There is a sample on the table in front of you in the living room. Find the jigsaw puzzle matching that sample among the living-room games and bring it to the table in front of you in the living room.",
+    "reason": "Removes unverified 24-piece text and box form; reference identifies native puzzle and grounded table replaces floor-mat goal. Source and destination room types are unchanged. Delivery is grounded by the identified destination surface.",
+    "target_asset": "jigsaw_puzzle/antykn",
+    "target_assets": [
+      "jigsaw_puzzle/antykn"
+    ]
+  },
+  "binding_sha256": "d6dacb74a608e8d60a717121424a90f95c4d3d3a49d57be58554f97b8f82d526"
+}

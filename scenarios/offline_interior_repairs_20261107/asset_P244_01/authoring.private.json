@@ -1,0 +1,732 @@
+{
+  "id": "asset_P244_01",
+  "family": "semantic_P244",
+  "scene": "Wainscott_1_int",
+  "scenario": "scenarios/offline_interior_repairs_20261107/asset_P244_01/scenario.yaml",
+  "scenario_sha256": "600e970bf4b13fd09ce9496f303a8285f9698a5d18ba2ce332cf9aa93a6d5775",
+  "instruction": "Bring the bath toy matching the sample on the counter in front of you in the bathroom in the bathroom from the bedroom toys and put it beside that sample.",
+  "target_key": "beach_toy/kjoafi",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bedroom_0",
+  "destination_room": "bathroom_0",
+  "source_receptacle": "bottom_cabinet_nnvyol_0",
+  "destination_receptacle": "bottom_cabinet_nnvyol_1",
+  "object_count": 11,
+  "distractor_count": 9,
+  "source_survey_sha256": "7894c711eea34a656ee926a132d6563ce3833b5ddb45c126d0ce534dd2edca60",
+  "route": {
+    "start": [
+      0.9500000000000001,
+      9.35,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        0.9500000000000001,
+        9.35
+      ],
+      [
+        0.8500000000000001,
+        9.35
+      ],
+      [
+        0.75,
+        9.35
+      ],
+      [
+        0.65,
+        9.35
+      ],
+      [
+        0.65,
+        9.450000000000001
+      ],
+      [
+        0.65,
+        9.55
+      ],
+      [
+        0.65,
+        9.65
+      ],
+      [
+        0.65,
+        9.75
+      ],
+      [
+        0.65,
+        9.850000000000001
+      ],
+      [
+        0.65,
+        9.950000000000001
+      ],
+      [
+        0.65,
+        10.05
+      ],
+      [
+        0.65,
+        10.15
+      ],
+      [
+        0.55,
+        10.15
+      ],
+      [
+        0.55,
+        10.25
+      ],
+      [
+        0.45,
+        10.25
+      ],
+      [
+        0.45,
+        10.350000000000001
+      ],
+      [
+        0.35000000000000003,
+        10.350000000000001
+      ],
+      [
+        0.25,
+        10.350000000000001
+      ],
+      [
+        0.15000000000000002,
+        10.350000000000001
+      ],
+      [
+        0.05,
+        10.350000000000001
+      ],
+      [
+        -0.05,
+        10.350000000000001
+      ],
+      [
+        -0.15000000000000002,
+        10.350000000000001
+      ],
+      [
+        -0.25,
+        10.350000000000001
+      ],
+      [
+        -0.35000000000000003,
+        10.350000000000001
+      ],
+      [
+        -0.45,
+        10.350000000000001
+      ],
+      [
+        -0.55,
+        10.350000000000001
+      ],
+      [
+        -0.55,
+        10.450000000000001
+      ],
+      [
+        -0.55,
+        10.55
+      ],
+      [
+        -0.55,
+        10.65
+      ],
+      [
+        -0.55,
+        10.75
+      ],
+      [
+        -0.55,
+        10.850000000000001
+      ],
+      [
+        -0.55,
+        10.950000000000001
+      ],
+      [
+        -0.55,
+        11.05
+      ],
+      [
+        -0.55,
+        11.15
+      ],
+      [
+        -0.55,
+        11.25
+      ],
+      [
+        -0.55,
+        11.350000000000001
+      ],
+      [
+        -0.55,
+        11.450000000000001
+      ],
+      [
+        -0.55,
+        11.55
+      ],
+      [
+        -0.55,
+        11.65
+      ],
+      [
+        -0.55,
+        11.75
+      ],
+      [
+        -0.55,
+        11.850000000000001
+      ]
+    ],
+    "length_m": 4.0,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 47,
+    "destination_approach_count": 33,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "required_negative_0",
+    "bottom_cabinet_nnvyol_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "layout_preflight": {
+    "status": "unknown",
+    "findings": [
+      {
+        "receptacle": "bottom_cabinet_nnvyol_0",
+        "status": "unknown",
+        "reason": "Missing dimensions or matching surveyed links"
+      }
+    ],
+    "assignments": {},
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [
+    {
+      "scene": "Beechwood_1_int",
+      "source": "bottom_cabinet_nddvba_0",
+      "preflight": {
+        "status": "rejected_candidate",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_nddvba_0",
+            "status": "rejected_candidate",
+            "reason": "No conservative upright joint packing found",
+            "entities": [
+              "item_00",
+              "item_01",
+              "item_02",
+              "item_03",
+              "item_04",
+              "item_05",
+              "required_negative_0"
+            ]
+          },
+          {
+            "receptacle": "bottom_cabinet_nddvba_1",
+            "status": "heuristic_fit",
+            "assignment": {
+              "item_08": "meta__link_1_fillable_0_0_link",
+              "item_07": "meta__link_2_fillable_0_0_link",
+              "item_06": "meta__link_4_fillable_0_0_link"
+            }
+          }
+        ],
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    },
+    {
+      "scene": "Beechwood_1_int",
+      "source": "bottom_cabinet_nddvba_0",
+      "preflight": {
+        "status": "rejected_candidate",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_nddvba_0",
+            "status": "rejected_candidate",
+            "reason": "No conservative upright joint packing found",
+            "entities": [
+              "item_00",
+              "item_01",
+              "item_02",
+              "item_03",
+              "item_04",
+              "item_05",
+              "required_negative_0"
+            ]
+          },
+          {
+            "receptacle": "bottom_cabinet_nddvba_1",
+            "status": "heuristic_fit",
+            "assignment": {
+              "item_08": "meta__link_1_fillable_0_0_link",
+              "item_07": "meta__link_2_fillable_0_0_link",
+              "item_06": "meta__link_4_fillable_0_0_link"
+            }
+          }
+        ],
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    },
+    {
+      "scene": "Beechwood_1_int",
+      "source": "bottom_cabinet_nddvba_0",
+      "preflight": {
+        "status": "rejected_candidate",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_nddvba_0",
+            "status": "rejected_candidate",
+            "reason": "No conservative upright joint packing found",
+            "entities": [
+              "item_00",
+              "item_01",
+              "item_02",
+              "item_03",
+              "item_04",
+              "item_05",
+              "required_negative_0"
+            ]
+          },
+          {
+            "receptacle": "bottom_cabinet_nddvba_1",
+            "status": "heuristic_fit",
+            "assignment": {
+              "item_08": "meta__link_1_fillable_0_0_link",
+              "item_07": "meta__link_2_fillable_0_0_link",
+              "item_06": "meta__link_4_fillable_0_0_link"
+            }
+          }
+        ],
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    },
+    {
+      "scene": "Beechwood_1_int",
+      "source": "bottom_cabinet_nddvba_0",
+      "preflight": {
+        "status": "rejected_candidate",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_nddvba_0",
+            "status": "rejected_candidate",
+            "reason": "No conservative upright joint packing found",
+            "entities": [
+              "item_00",
+              "item_01",
+              "item_02",
+              "item_03",
+              "item_04",
+              "item_05",
+              "required_negative_0"
+            ]
+          },
+          {
+            "receptacle": "bottom_cabinet_nddvba_1",
+            "status": "heuristic_fit",
+            "assignment": {
+              "item_08": "meta__link_1_fillable_0_0_link",
+              "item_07": "meta__link_2_fillable_0_0_link",
+              "item_06": "meta__link_4_fillable_0_0_link"
+            }
+          }
+        ],
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    },
+    {
+      "scene": "Beechwood_1_int",
+      "source": "bottom_cabinet_slgzfc_0",
+      "preflight": {
+        "status": "rejected_candidate",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_slgzfc_0",
+            "status": "rejected_candidate",
+            "reason": "No conservative upright joint packing found",
+            "entities": [
+              "item_00",
+              "item_01",
+              "item_02",
+              "item_03",
+              "item_04",
+              "item_05",
+              "required_negative_0"
+            ]
+          },
+          {
+            "receptacle": "bottom_cabinet_jhymlr_1",
+            "status": "heuristic_fit",
+            "assignment": {
+              "item_08": "meta__link_0_fillable_0_0_link",
+              "item_07": "meta__link_2_fillable_0_0_link",
+              "item_06": "meta__link_5_fillable_0_0_link"
+            }
+          }
+        ],
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    },
+    {
+      "scene": "Beechwood_1_int",
+      "source": "bottom_cabinet_slgzfc_0",
+      "preflight": {
+        "status": "rejected_candidate",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_slgzfc_0",
+            "status": "rejected_candidate",
+            "reason": "No conservative upright joint packing found",
+            "entities": [
+              "item_00",
+              "item_01",
+              "item_02",
+              "item_03",
+              "item_04",
+              "item_05",
+              "required_negative_0"
+            ]
+          },
+          {
+            "receptacle": "bottom_cabinet_jhymlr_1",
+            "status": "heuristic_fit",
+            "assignment": {
+              "item_08": "meta__link_0_fillable_0_0_link",
+              "item_07": "meta__link_2_fillable_0_0_link",
+              "item_06": "meta__link_5_fillable_0_0_link"
+            }
+          }
+        ],
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    },
+    {
+      "scene": "Beechwood_1_int",
+      "source": "bottom_cabinet_jhymlr_1",
+      "preflight": {
+        "status": "rejected_candidate",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_jhymlr_1",
+            "status": "rejected_candidate",
+            "reason": "No conservative upright joint packing found",
+            "entities": [
+              "item_00",
+              "item_01",
+              "item_02",
+              "item_03",
+              "item_04",
+              "item_05",
+              "required_negative_0"
+            ]
+          },
+          {
+            "receptacle": "bottom_cabinet_slgzfc_0",
+            "status": "heuristic_fit",
+            "assignment": {
+              "item_08": "meta__link_3_fillable_0_0_link",
+              "item_07": "meta__link_1_fillable_0_0_link",
+              "item_06": "meta__link_2_fillable_0_0_link"
+            }
+          }
+        ],
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    },
+    {
+      "scene": "Beechwood_1_int",
+      "source": "bottom_cabinet_jhymlr_1",
+      "preflight": {
+        "status": "rejected_candidate",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_jhymlr_1",
+            "status": "rejected_candidate",
+            "reason": "No conservative upright joint packing found",
+            "entities": [
+              "item_00",
+              "item_01",
+              "item_02",
+              "item_03",
+              "item_04",
+              "item_05",
+              "required_negative_0"
+            ]
+          },
+          {
+            "receptacle": "bottom_cabinet_slgzfc_0",
+            "status": "heuristic_fit",
+            "assignment": {
+              "item_08": "meta__link_3_fillable_0_0_link",
+              "item_07": "meta__link_1_fillable_0_0_link",
+              "item_06": "meta__link_2_fillable_0_0_link"
+            }
+          }
+        ],
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    },
+    {
+      "scene": "Beechwood_1_int",
+      "source": "bottom_cabinet_slgzfc_0",
+      "preflight": {
+        "status": "rejected_candidate",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_slgzfc_0",
+            "status": "rejected_candidate",
+            "reason": "No conservative upright joint packing found",
+            "entities": [
+              "item_00",
+              "item_01",
+              "item_02",
+              "item_03",
+              "item_04",
+              "item_05",
+              "required_negative_0"
+            ]
+          },
+          {
+            "receptacle": "bottom_cabinet_jhymlr_1",
+            "status": "heuristic_fit",
+            "assignment": {
+              "item_08": "meta__link_0_fillable_0_0_link",
+              "item_07": "meta__link_2_fillable_0_0_link",
+              "item_06": "meta__link_5_fillable_0_0_link"
+            }
+          }
+        ],
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    },
+    {
+      "scene": "Beechwood_1_int",
+      "source": "bottom_cabinet_slgzfc_0",
+      "preflight": {
+        "status": "rejected_candidate",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_slgzfc_0",
+            "status": "rejected_candidate",
+            "reason": "No conservative upright joint packing found",
+            "entities": [
+              "item_00",
+              "item_01",
+              "item_02",
+              "item_03",
+              "item_04",
+              "item_05",
+              "required_negative_0"
+            ]
+          },
+          {
+            "receptacle": "bottom_cabinet_jhymlr_1",
+            "status": "heuristic_fit",
+            "assignment": {
+              "item_08": "meta__link_0_fillable_0_0_link",
+              "item_07": "meta__link_2_fillable_0_0_link",
+              "item_06": "meta__link_5_fillable_0_0_link"
+            }
+          }
+        ],
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    },
+    {
+      "scene": "Beechwood_1_int",
+      "source": "bottom_cabinet_jhymlr_1",
+      "preflight": {
+        "status": "rejected_candidate",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_jhymlr_1",
+            "status": "rejected_candidate",
+            "reason": "No conservative upright joint packing found",
+            "entities": [
+              "item_00",
+              "item_01",
+              "item_02",
+              "item_03",
+              "item_04",
+              "item_05",
+              "required_negative_0"
+            ]
+          },
+          {
+            "receptacle": "bottom_cabinet_slgzfc_0",
+            "status": "heuristic_fit",
+            "assignment": {
+              "item_08": "meta__link_3_fillable_0_0_link",
+              "item_07": "meta__link_1_fillable_0_0_link",
+              "item_06": "meta__link_2_fillable_0_0_link"
+            }
+          }
+        ],
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    },
+    {
+      "scene": "Beechwood_1_int",
+      "source": "bottom_cabinet_jhymlr_1",
+      "preflight": {
+        "status": "rejected_candidate",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_jhymlr_1",
+            "status": "rejected_candidate",
+            "reason": "No conservative upright joint packing found",
+            "entities": [
+              "item_00",
+              "item_01",
+              "item_02",
+              "item_03",
+              "item_04",
+              "item_05",
+              "required_negative_0"
+            ]
+          },
+          {
+            "receptacle": "bottom_cabinet_slgzfc_0",
+            "status": "heuristic_fit",
+            "assignment": {
+              "item_08": "meta__link_3_fillable_0_0_link",
+              "item_07": "meta__link_1_fillable_0_0_link",
+              "item_06": "meta__link_2_fillable_0_0_link"
+            }
+          }
+        ],
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    },
+    {
+      "scene": "Wainscott_1_int",
+      "source": "bottom_cabinet_jhymlr_1",
+      "preflight": {
+        "status": "rejected_candidate",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_jhymlr_1",
+            "status": "rejected_candidate",
+            "reason": "No conservative upright joint packing found",
+            "entities": [
+              "item_00",
+              "item_01",
+              "item_02",
+              "item_03",
+              "item_04",
+              "item_05",
+              "required_negative_0"
+            ]
+          },
+          {
+            "receptacle": "bottom_cabinet_bamfsz_2",
+            "status": "heuristic_fit",
+            "assignment": {
+              "item_07": "meta__link_2_fillable_0_0_link",
+              "item_06": "meta__link_2_fillable_0_0_link",
+              "item_08": "meta__link_3_fillable_0_0_link"
+            }
+          }
+        ],
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    },
+    {
+      "scene": "Wainscott_1_int",
+      "source": "bottom_cabinet_jhymlr_1",
+      "preflight": {
+        "status": "rejected_candidate",
+        "findings": [
+          {
+            "receptacle": "bottom_cabinet_jhymlr_1",
+            "status": "rejected_candidate",
+            "reason": "No conservative upright joint packing found",
+            "entities": [
+              "item_00",
+              "item_01",
+              "item_02",
+              "item_03",
+              "item_04",
+              "item_05",
+              "required_negative_0"
+            ]
+          },
+          {
+            "receptacle": "bottom_cabinet_bamfsz_2",
+            "status": "heuristic_fit",
+            "assignment": {
+              "item_07": "meta__link_2_fillable_0_0_link",
+              "item_06": "meta__link_2_fillable_0_0_link",
+              "item_08": "meta__link_3_fillable_0_0_link"
+            }
+          }
+        ],
+        "assignments": {},
+        "physical_validation_required": true
+      }
+    }
+  ],
+  "parent_task_id": "P244",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P244_01",
+    "parent_task_id": "P244",
+    "before_instruction": "Find the rigid turtle-shaped bath toy with a star on its shell among bedroom toys and place it on the bathroom tub rim beside the tap.",
+    "after_instruction": "Bring the bath toy matching the sample on the counter in front of you in the bathroom in the bathroom from the bedroom toys and put it beside that sample.",
+    "reason": "Retains matching-based retrieval through a physical same-native-model sample on the delivery surface. Any original cross-object compatibility, photo or consumable-state requirement is explicitly replaced with visible product/shape matching. Original source and destination rooms preserved; forced native distractor creates a real competing selection.",
+    "target_asset": "beach_toy/kjoafi",
+    "target_assets": [
+      "beach_toy/kjoafi"
+    ]
+  },
+  "binding_sha256": "acf96f37118cc2219eddeddee9823edbea54d80aa97b2b2c4c2742b0d0e28465"
+}

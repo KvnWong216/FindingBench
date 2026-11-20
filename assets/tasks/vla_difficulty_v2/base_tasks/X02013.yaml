@@ -1,0 +1,116 @@
+task_id: X02013
+family: place_on
+scene: Pomaria_2_int
+source:
+  official_activity: installing_a_modem#0
+  official_activities_with_same_subgoal:
+  - installing_a_modem#0
+  official_subgoal: (ontop modem.n.01 cabinet.n.01)
+  reuse: official sub-goal re-used as the task goal
+  scene: BEHAVIOR-1K Pomaria_2_int
+  object: BEHAVIOR-1K modem/axqxsv
+start:
+  name: start_bedroom_0_1
+  room: bedroom_0
+  x: -2.07
+  y: -0.9
+  yaw: 1.528
+target:
+  entity: target_obj
+  category: modem
+  model: axqxsv
+  noun: modem
+  colour_estimate: blue
+goal:
+- kind: on_top
+  entity: target_obj
+  receptacle: bottom_cabinet_no_top_qohxjq_1
+place_hints:
+- - -0.022
+  - 3.002
+  - 0.0
+- - -0.072
+  - 2.952
+  - 0.0
+- - -0.122
+  - 3.105
+  - 0.0
+- - -0.172
+  - 3.461
+  - -0.14
+background_objects: []
+background_placements: []
+available_spatial_levels:
+- S2
+- S3
+missing_spatial_levels:
+- S1
+initial_states: {}
+spatial:
+  S2:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bookcase_vgzdul_0
+    room: bedroom_0
+    location_phrase: the bookcase next to the bed in the bedroom
+    grasp_hints:
+    - - -1.985
+      - -1.169
+      - -1.571
+    - - -1.935
+      - -1.119
+      - -1.571
+    - - -2.136
+      - -1.119
+      - -1.387
+    - - -1.885
+      - -1.069
+      - -1.642
+    extra_ops_vs_S1:
+    - search behind occluders
+    s2_kind: occluded
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    task_scope: cross_room
+  S3:
+    placement:
+      entity: target_obj
+      relation: on_top
+      receptacle: bottom_cabinet_no_top_qohxjq_0
+    room: bathroom_0
+    location_phrase: the corner cabinet next to the sinks in the bathroom
+    grasp_hints:
+    - - -0.142
+      - 2.658
+      - -1.199
+    - - -0.293
+      - 2.708
+      - -1.073
+    - - -0.494
+      - 2.708
+      - -0.908
+    - - -0.092
+      - 2.708
+      - -1.272
+    extra_ops_vs_S1:
+    - cross-room navigation
+    probe_visibility_from_start:
+      px: 0
+      delta_e: null
+    task_scope: cross_room
+    route_from_start_steps: 8
+language:
+  L1:
+    S2: Go to the bookcase next to the bed in the bedroom, pick up the modem on it.
+      Then put it on the cabinet between the two sinks in the bathroom.
+    S3: Leave the bedroom, go to the corner cabinet next to the sinks in the bathroom,
+      pick up the modem on it. Then put it on the cabinet between the two sinks in
+      the bathroom.
+  L2: Put the modem on the cabinet between the two sinks in the bathroom.
+  L3: I'm installing a modem. The modem should end up on the cabinet between the two
+    sinks in the bathroom -- could you take care of it?
+l3_ambiguity_check:
+  object_category_unique_in_scene: true
+  note: the only movable task object is the target; L3 names it

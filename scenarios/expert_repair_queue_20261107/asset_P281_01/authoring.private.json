@@ -1,0 +1,296 @@
+{
+  "id": "asset_P281_01",
+  "family": "semantic_P281",
+  "scene": "Beechwood_1_int",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_P281_01/scenario.yaml",
+  "scenario_sha256": "842ec48821cd6f084bbe1d49411943046febb33c8f5a2ef47f2a75cfe53b4e3c",
+  "instruction": "Bring the DVD from the television-room media storage to the table in front of you in the television room for checking the movie collection.",
+  "target_key": "dvd/lggrfa",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "television_room_0",
+  "destination_room": "television_room_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 11,
+  "distractor_count": 8,
+  "source_survey_sha256": "e6788ca8219b4da8643d87d4deebe4595aa9d5f15520af27b74393574b33a410",
+  "route": {
+    "start": [
+      2.2,
+      -4.7,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        2.2,
+        -4.7
+      ],
+      [
+        2.3000000000000003,
+        -4.7
+      ],
+      [
+        2.4000000000000004,
+        -4.7
+      ],
+      [
+        2.4000000000000004,
+        -4.6000000000000005
+      ],
+      [
+        2.4000000000000004,
+        -4.5
+      ]
+    ],
+    "length_m": 0.4,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 60,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "bottom_cabinet_jhymlr_0",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "inserted_furniture": [
+    {
+      "name": "search_storage",
+      "category": "bottom_cabinet",
+      "model": "jrhgeu",
+      "floor": "floors_esoefs_0",
+      "position_xy": [
+        2.6,
+        -3.2
+      ],
+      "aabb": [
+        [
+          2.432855239868164,
+          -3.5422879791259767,
+          0.002
+        ],
+        [
+          2.767144760131836,
+          -2.8577120208740237,
+          0.6866599731445313
+        ]
+      ],
+      "room": "television_room_0"
+    },
+    {
+      "name": "delivery_surface",
+      "category": "breakfast_table",
+      "model": "iaritq",
+      "floor": "floors_esoefs_0",
+      "position_xy": [
+        2.6,
+        -5.6000000000000005
+      ],
+      "aabb": [
+        [
+          2.248999710083008,
+          -5.95054623413086,
+          0.002
+        ],
+        [
+          2.9510002899169923,
+          -5.249453765869141,
+          0.7510009155273437
+        ]
+      ],
+      "room": "television_room_0"
+    }
+  ],
+  "layout_preflight": {
+    "status": "heuristic_fit",
+    "findings": [
+      {
+        "receptacle": "search_storage",
+        "volume_extents_m": {
+          "meta__base_link_fillable_0_0_link#component:0": [
+            0.23922629249095917,
+            0.18965983357072802,
+            0.5851681912193236
+          ],
+          "meta__base_link_fillable_0_0_link#component:1": [
+            0.23877585313392102,
+            0.19861903381347656,
+            0.5853487684532628
+          ],
+          "meta__base_link_fillable_0_0_link#component:2": [
+            0.23817441952228546,
+            0.189000270903126,
+            0.5853966732025147
+          ]
+        },
+        "native_links": {
+          "meta__base_link_fillable_0_0_link#component:0": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:1": "meta__base_link_fillable_0_0_link",
+          "meta__base_link_fillable_0_0_link#component:2": "meta__base_link_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet/jrhgeu",
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "encrypted_asset_sha256": "70d166224352a46e63c008e4d1b5af6bec5bfdfc27f6b21dad220cca350bc871",
+          "metadata_sha256": "838fad16a0dc49e7be965c08b9de0d54b477a05592b32eb05d6519a940331708",
+          "root_orientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_04": "meta__base_link_fillable_0_0_link",
+          "item_01": "meta__base_link_fillable_0_0_link",
+          "item_03": "meta__base_link_fillable_0_0_link",
+          "item_05": "meta__base_link_fillable_0_0_link",
+          "item_02": "meta__base_link_fillable_0_0_link",
+          "item_00": "meta__base_link_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_04": "meta__base_link_fillable_0_0_link#component:1",
+          "item_01": "meta__base_link_fillable_0_0_link#component:0",
+          "item_03": "meta__base_link_fillable_0_0_link#component:2",
+          "item_05": "meta__base_link_fillable_0_0_link#component:0",
+          "item_02": "meta__base_link_fillable_0_0_link#component:0",
+          "item_00": "meta__base_link_fillable_0_0_link#component:2"
+        }
+      },
+      {
+        "receptacle": "bottom_cabinet_jhymlr_0",
+        "volume_extents_m": {
+          "meta__link_0_fillable_0_0_link": [
+            0.3690562164382971,
+            0.7573553242106245,
+            0.11265514719966996
+          ],
+          "meta__link_1_fillable_0_0_link": [
+            0.36905622737742516,
+            0.7573416696328519,
+            0.11265509558625308
+          ],
+          "meta__link_2_fillable_0_0_link": [
+            0.3690502820278986,
+            0.7573406978732227,
+            0.05737970478521934
+          ],
+          "meta__link_3_fillable_0_0_link": [
+            0.36905617415401193,
+            0.7573552286801519,
+            0.11265516092746888
+          ],
+          "meta__link_4_fillable_0_0_link": [
+            0.3690561632148855,
+            0.7573416471219165,
+            0.11265512304185177
+          ],
+          "meta__link_5_fillable_0_0_link": [
+            0.36905023974343654,
+            0.7573406978732227,
+            0.0573797014843318
+          ]
+        },
+        "native_links": {
+          "meta__link_0_fillable_0_0_link": "meta__link_0_fillable_0_0_link",
+          "meta__link_1_fillable_0_0_link": "meta__link_1_fillable_0_0_link",
+          "meta__link_2_fillable_0_0_link": "meta__link_2_fillable_0_0_link",
+          "meta__link_3_fillable_0_0_link": "meta__link_3_fillable_0_0_link",
+          "meta__link_4_fillable_0_0_link": "meta__link_4_fillable_0_0_link",
+          "meta__link_5_fillable_0_0_link": "meta__link_5_fillable_0_0_link"
+        },
+        "geometry_source": "offline_asset_hint",
+        "geometry_provenance": {
+          "asset": "bottom_cabinet/jhymlr",
+          "scale": [
+            1.7858814001083374,
+            2.450115442276001,
+            1.8425140380859375
+          ],
+          "encrypted_asset_sha256": "9efdb08a982275bda4a5bd52c778037078e74869caf588eb0c7150d9a1dec2e0",
+          "metadata_sha256": "64d362b09d91494d02da79b46ac2ed7ffa2d8edebf0432612cf7ecdc222c2b03",
+          "root_orientation": [
+            -5.4779033234808594e-05,
+            -6.198947630764451e-06,
+            1.0,
+            -9.103063121074229e-07
+          ],
+          "coordinates": "size_only_not_world_positions",
+          "physical_validation_required": true
+        },
+        "status": "heuristic_fit",
+        "assignment": {
+          "item_06": "meta__link_0_fillable_0_0_link",
+          "item_08": "meta__link_5_fillable_0_0_link",
+          "item_07": "meta__link_2_fillable_0_0_link"
+        },
+        "component_allocation": {
+          "item_06": "meta__link_0_fillable_0_0_link",
+          "item_08": "meta__link_5_fillable_0_0_link",
+          "item_07": "meta__link_2_fillable_0_0_link"
+        }
+      }
+    ],
+    "prefer_alternative_layout": false,
+    "assignments": {
+      "item_04": "meta__base_link_fillable_0_0_link",
+      "item_01": "meta__base_link_fillable_0_0_link",
+      "item_03": "meta__base_link_fillable_0_0_link",
+      "item_05": "meta__base_link_fillable_0_0_link",
+      "item_02": "meta__base_link_fillable_0_0_link",
+      "item_00": "meta__base_link_fillable_0_0_link",
+      "item_06": "meta__link_0_fillable_0_0_link",
+      "item_08": "meta__link_5_fillable_0_0_link",
+      "item_07": "meta__link_2_fillable_0_0_link"
+    },
+    "physical_validation_required": true
+  },
+  "rejected_layout_candidates": [],
+  "parent_task_id": "P281",
+  "tier": "short",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P281_01",
+    "parent_task_id": "P281",
+    "before_instruction": "Find the case labeled Star Valley DVD among television-room media storage and put it below the television; choose the DVD edition.",
+    "after_instruction": "Bring the DVD from the television-room media storage to the table in front of you in the television room for checking the movie collection.",
+    "reason": "Explicit native-asset adaptation for the same household activity. Original requirement retained below for audit; No verified native texture/model binding establishes the requested marking for Star Valley DVD. Native categories are only candidates; required subtype, markings, quantity, or reference appearance remain unverified: Star Valley DVD. Revised task uses the available physical item and a compiler-supported delivery surface in the original destination room; unsupported identity, exact-fit, state or placement claims are not made.",
+    "target_asset": "dvd/lggrfa",
+    "target_assets": [
+      "dvd/lggrfa"
+    ]
+  },
+  "binding_sha256": "bd10890d58a359074640cde80bad23ecba8f117d144edec08a2c827e8437ff35"
+}

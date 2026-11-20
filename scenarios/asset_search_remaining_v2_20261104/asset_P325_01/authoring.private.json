@@ -1,0 +1,154 @@
+{
+  "id": "asset_P325_01",
+  "family": "semantic_P325",
+  "scene": "Wainscott_0_int",
+  "scenario": "scenarios/asset_search_remaining_v2_20261104/asset_P325_01/scenario.yaml",
+  "scenario_sha256": "3921fd563b9cb70da00003d0986dbe7a71bcc8dde5fb0da477982b99af76dd2d",
+  "instruction": "Find the digital camera matching the sample on the table in front of you in the living room in the living room among the bedroom electronics and put it beside that sample for collection.",
+  "target_key": "digital_camera/tymxet",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bedroom_0",
+  "destination_room": "living_room_2",
+  "source_receptacle": "bottom_cabinet_dajebq_0",
+  "destination_receptacle": "coffee_table_dnsjnv_0",
+  "object_count": 11,
+  "distractor_count": 9,
+  "source_survey_sha256": "bfc3f55c9661a7a599b91007a0d13bfe6624ef15110725894b31404980af12ee",
+  "route": {
+    "start": [
+      -3.2,
+      -2.9000000000000004,
+      3.141592653589793
+    ],
+    "path_xy": [
+      [
+        -3.2,
+        -2.9000000000000004
+      ],
+      [
+        -3.1,
+        -2.9000000000000004
+      ],
+      [
+        -3.0,
+        -2.9000000000000004
+      ],
+      [
+        -2.9000000000000004,
+        -2.9000000000000004
+      ],
+      [
+        -2.8000000000000003,
+        -2.9000000000000004
+      ],
+      [
+        -2.7,
+        -2.9000000000000004
+      ],
+      [
+        -2.6,
+        -2.9000000000000004
+      ],
+      [
+        -2.5,
+        -2.9000000000000004
+      ],
+      [
+        -2.4000000000000004,
+        -2.9000000000000004
+      ],
+      [
+        -2.4000000000000004,
+        -3.0
+      ],
+      [
+        -2.3000000000000003,
+        -3.0
+      ],
+      [
+        -2.2,
+        -3.0
+      ],
+      [
+        -2.2,
+        -3.1
+      ],
+      [
+        -2.1,
+        -3.1
+      ],
+      [
+        -2.1,
+        -3.2
+      ],
+      [
+        -2.1,
+        -3.3000000000000003
+      ],
+      [
+        -2.1,
+        -3.4000000000000004
+      ],
+      [
+        -2.1,
+        -3.5
+      ],
+      [
+        -2.0,
+        -3.5
+      ]
+    ],
+    "length_m": 1.8,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 64,
+    "destination_approach_count": 14,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "comparison_sample",
+    "required_negative_0",
+    "bottom_cabinet_dajebq_0"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate",
+  "reference_entity": "comparison_sample",
+  "inserted_furniture": [],
+  "parent_task_id": "P325",
+  "tier": "long",
+  "physics_status": "pending",
+  "adaptation": {
+    "id": "asset_P325_01",
+    "parent_task_id": "P325",
+    "before_instruction": "Find the digital camera with a tag reading Loan from Noor among bedroom cabinet electronics and put it on the entryway console.",
+    "after_instruction": "Find the digital camera matching the sample on the table in front of you in the living room in the living room among the bedroom electronics and put it beside that sample for collection.",
+    "reason": "Retains matching-based retrieval through a physical same-native-model sample on the delivery surface. Any original cross-object compatibility, photo or consumable-state requirement is explicitly replaced with visible product/shape matching. Original source and destination rooms preserved; forced native distractor creates a real competing selection. Layout revision uses a surveyed feasible geometry pair: bedroom/cabinet -> entryway/table becomes bedroom/cabinet -> living_room/table. Native target models, quantities, reference criteria and distractors are unchanged. Cross-room transport remains explicit. The task location is deliberately revised because the original combination has no established safe route and storage/delivery geometry in the current scene inventory.",
+    "target_asset": "digital_camera/tymxet",
+    "target_assets": [
+      "digital_camera/tymxet"
+    ]
+  },
+  "binding_sha256": "2808ed865a8a2619d5fb218de73f5c68b2a5bf7796e93bbd83cc4108a9d6b19e"
+}

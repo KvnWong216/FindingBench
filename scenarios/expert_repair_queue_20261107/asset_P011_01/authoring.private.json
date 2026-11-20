@@ -1,0 +1,155 @@
+{
+  "id": "asset_P011_01",
+  "family": "semantic_P011",
+  "scene": "grocery_store_convenience",
+  "scenario": "scenarios/expert_repair_queue_20261107/asset_P011_01/scenario.yaml",
+  "scenario_sha256": "1c37a4026f183a6e911ff5707bf5e43256827283a6b0a857072a6fe4d67ca518",
+  "instruction": "Find the makeup mirror in the cupboards in this bathroom and put it on the cabinet in front of you.",
+  "target_key": "makeup_mirror/vtccbu",
+  "target_entities": [
+    "item_00"
+  ],
+  "target_count": 1,
+  "source_room": "bathroom_0",
+  "destination_room": "bathroom_0",
+  "source_receptacle": "search_storage",
+  "destination_receptacle": "delivery_surface",
+  "object_count": 9,
+  "distractor_count": 8,
+  "source_survey_sha256": "a2c547e08ae7b260e95d8b48eef0027668b5c06f7c674406f7ebc43f7ad37672",
+  "route": {
+    "start": [
+      12.600000000000001,
+      -9.4,
+      -1.5707963267948966
+    ],
+    "path_xy": [
+      [
+        12.600000000000001,
+        -9.4
+      ],
+      [
+        12.600000000000001,
+        -9.5
+      ],
+      [
+        12.700000000000001,
+        -9.5
+      ],
+      [
+        12.8,
+        -9.5
+      ],
+      [
+        12.9,
+        -9.5
+      ],
+      [
+        13.0,
+        -9.5
+      ],
+      [
+        13.100000000000001,
+        -9.5
+      ],
+      [
+        13.100000000000001,
+        -9.600000000000001
+      ],
+      [
+        13.200000000000001,
+        -9.600000000000001
+      ],
+      [
+        13.200000000000001,
+        -9.700000000000001
+      ],
+      [
+        13.3,
+        -9.700000000000001
+      ],
+      [
+        13.3,
+        -9.8
+      ],
+      [
+        13.3,
+        -9.9
+      ],
+      [
+        13.3,
+        -10.0
+      ],
+      [
+        13.3,
+        -10.100000000000001
+      ],
+      [
+        13.3,
+        -10.200000000000001
+      ],
+      [
+        13.3,
+        -10.3
+      ],
+      [
+        13.3,
+        -10.4
+      ],
+      [
+        13.3,
+        -10.5
+      ],
+      [
+        13.3,
+        -10.600000000000001
+      ],
+      [
+        13.3,
+        -10.700000000000001
+      ],
+      [
+        13.3,
+        -10.8
+      ],
+      [
+        13.3,
+        -10.9
+      ],
+      [
+        13.3,
+        -11.0
+      ]
+    ],
+    "length_m": 2.3,
+    "grid_m": 0.1,
+    "base_radius_m": 0.38355339059327376,
+    "endpoint_free_patch_radius_m": 0.2,
+    "source_approach_count": 1,
+    "destination_approach_count": 58,
+    "provenance": "frozen native survey; all-yaw base disc; live replay and arm IK still required"
+  },
+  "status": "static_screened_physics_pending",
+  "human_reference_steps": null,
+  "required_gates": [
+    "fresh_native_initialization",
+    "stable_dense_layout",
+    "target_CHECK_identifiability",
+    "all_yaw_live_navigation_and_tolerant_endpoints",
+    "reachable_open_grasp_place",
+    "initial_goal_false",
+    "human_completion"
+  ],
+  "restoration_entities": [
+    "item_01",
+    "item_02",
+    "item_03",
+    "item_04",
+    "item_05",
+    "item_06",
+    "item_07",
+    "item_08",
+    "search_storage"
+  ],
+  "restoration_scoring": "Separate continuous diagnostic; no restoration instruction or hard success predicate"
+}
