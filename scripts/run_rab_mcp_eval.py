@@ -273,7 +273,7 @@ async def run_evaluation(cfg: dict) -> dict:
                     )
                     reset_wall_s = time.monotonic() - t0
                     episode_id = reset_payload["episode_id"]
-                    obs = reset_payload["observation"]
+                    obs = reset_payload.get("reset") or reset_payload["observation"]
                     curr_images = reset_imgs
                     (ep_dir / "step_0000.png").write_bytes(curr_images[0])
 
