@@ -824,8 +824,11 @@ class Skills:
                 result=dict(id=ident,feedback=self.public_feedback,terminal=self.done,
                             planning_step=self.counter,episode_status=self.episode_status,**extras)
                 if self.output:
-                    save(self.output/'actions'/f'{self.counter:04}.json',dict(raw=raw,result=result,private_error=detail,
-                          physx_steps=self.world.steps,measurements=self.details))
+                    private_record=dict(raw=raw,result=result,private_error=detail,
+                          physx_steps=self.world.steps,measurements=self.details)
+                    if 'restoration' not in result:
+                        private_record['restoration']=self.restoration()
+                    save(self.output/'actions'/f'{self.counter:04}.json',private_record)
                 self.observation_dirty=True
         actual=self.view()
         camera.position,camera.yaw,camera.pitch,camera.zoom=actual.position,actual.yaw,actual.pitch,actual.zoom

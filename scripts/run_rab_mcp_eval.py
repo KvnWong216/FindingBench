@@ -239,13 +239,14 @@ async def run_evaluation(cfg: dict) -> dict:
                 **os.environ,
                 "CUDA_VISIBLE_DEVICES": "0",
                 "RUMMAGEBENCH_MCP_GPU": "0",
-                "RUMMAGEBENCH_RAB_LOG_DIR": str(sessions_dir),
+                "FINDINGBENCH_RAB_MCP_OUT": str(sessions_dir),
                 "PYTHONPATH": str(ROOT / "src") + os.pathsep + str(ROOT / "scripts"),
             },
         )
 
         episode_results = []
         t_eval_start = time.monotonic()
+        step_budget = int(cfg["max_planning_steps"])
 
         async with stdio_client(server_params) as (read, write):
             async with ClientSession(read, write) as session:
@@ -254,13 +255,13 @@ async def run_evaluation(cfg: dict) -> dict:
                 for task_id in cfg["episodes"]:
                     ep_dir = out_dir / "episodes" / task_id
                     ep_dir.mkdir(parents=True, exist_ok=True)
-                    print(f"[eval] Starting episode {task_id} (budget={cfg['max_planning_steps']} steps)...", flush=True)
+                    print(f"[eval] Starting episode {task_id} (budget={step_budget} steps)...", flush=True)
 
                     t0 = time.monotonic()
                     reset_payload, reset_imgs = parse_mcp_result(
                         await session.call_tool(
                             "reset_episode",
-                            {"scenario_id": task_id, "seed": int(cfg["seed"]), "max_planning_steps": int(cfg["max_planning_steps"])},
+                            {"scenario_id": task_id},
                         )
                     )
                     reset_wall_s = time.monotonic() - t0
@@ -357,20 +358,26 @@ async def run_evaluation(cfg: dict) -> dict:
                         }
                         action_logs.append(step_record)
                         print(
-                            f"  [{task_id} step {obs['planning_step']:02d}] {parsed_action.get('skill')} -> {feedback['code']} | status={episode_status} (model={m_dt:.2f}s, sim={a_dt:.2f}s)",
+                            f"  [{task_id} step {obs['planning_step']:02d}/{step_budget}] {parsed_action.get('skill')} -> {feedback['code']} | status={episode_status} (model={m_dt:.2f}s, sim={a_dt:.2f}s)",
                             flush=True,
                         )
+                        if not terminal and obs["planning_step"] >= step_budget:
+                            terminal = True
+                            episode_status = "FAIL_MAX_STEPS"
 
                     # Read private simulator logs & restoration score from session log dir
-                    private_dir = sessions_dir / f"{task_id}_{episode_id}" / "actions"
+                    matches = sorted(sessions_dir.glob(f"*_{task_id}_{episode_id[:8]}"))
+                    private_dir = (matches[-1] / "worker_trace" / "actions") if matches else None
                     private_actions = []
                     restoration_score = None
-                    if private_dir.is_dir():
+                    if private_dir and private_dir.is_dir():
                         for pfile in sorted(private_dir.glob("*.json")):
                             pa = json.loads(pfile.read_text())
                             private_actions.append(pa)
                             if "restoration" in pa.get("result", {}):
                                 restoration_score = pa["result"]["restoration"]
+                            elif "restoration" in pa:
+                                restoration_score = pa["restoration"]
 
                     # Compute restoration if episode ended via FAIL_MAX_STEPS without REPORT_DONE
                     ep_total_wall_s = reset_wall_s + model_wall_total_s + tool_wall_total_s
