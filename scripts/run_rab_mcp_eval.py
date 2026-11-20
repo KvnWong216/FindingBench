@@ -100,7 +100,13 @@ def ensure_vlm_server(model_key: str, endpoint: str, profile: dict) -> subproces
     py_bin = Path(f"/home/ubuntu/miniforge3/envs/{env_name}/bin/python")
     server_script = ROOT / "scripts" / ("serve_extended_vlm.py" if env_name != "ygbench-vlm" else "serve_local_vlm.py")
     cmd = [str(py_bin), "-u", str(server_script), "--model", model_key, "--port", str(port)]
-    env = dict(os.environ, CUDA_VISIBLE_DEVICES="0", PYTORCH_CUDA_ALLOC_CONF="expandable_segments:True")
+    env = dict(
+        os.environ,
+        CUDA_VISIBLE_DEVICES="0",
+        PYTORCH_CUDA_ALLOC_CONF="expandable_segments:True",
+        HF_HUB_OFFLINE="1",
+        TRANSFORMERS_OFFLINE="1",
+    )
     proc = subprocess.Popen(cmd, cwd=str(ROOT), env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
     deadline = time.monotonic() + 240.0
     while time.monotonic() < deadline:
