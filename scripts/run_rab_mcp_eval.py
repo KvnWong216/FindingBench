@@ -213,7 +213,12 @@ def classify_episode_failure(ep_record: dict) -> dict:
 
 
 async def run_evaluation(cfg: dict) -> dict:
-    out_dir = ROOT / cfg["out_dir"]
+    workspace_root = Path(os.environ.get("RUMMAGEBENCH_ROOT", "/home/ubuntu/ygwang/FindingBench")).resolve()
+    if not (ROOT / "runs/rab_dense_serial_20261119").exists() and (workspace_root / "runs/rab_dense_serial_20261119").exists():
+        asset_root = workspace_root
+    else:
+        asset_root = ROOT
+    out_dir = asset_root / cfg["out_dir"]
     out_dir.mkdir(parents=True, exist_ok=True)
     sessions_dir = out_dir / "mcp_sessions"
     sessions_dir.mkdir(parents=True, exist_ok=True)
@@ -239,6 +244,8 @@ async def run_evaluation(cfg: dict) -> dict:
                 **os.environ,
                 "CUDA_VISIBLE_DEVICES": "0",
                 "RUMMAGEBENCH_MCP_GPU": "0",
+                "RUMMAGEBENCH_ROOT": str(asset_root),
+                "FINDINGBENCH_RAB_RELEASE": str(asset_root / "runs/rab_dense_serial_20261119"),
                 "FINDINGBENCH_RAB_MCP_OUT": str(sessions_dir),
                 "PYTHONPATH": str(ROOT / "src") + os.pathsep + str(ROOT / "scripts"),
             },
