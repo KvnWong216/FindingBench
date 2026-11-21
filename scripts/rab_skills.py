@@ -680,7 +680,9 @@ class Skills:
         except Refused as e:
             raise Refused(e.code,e.reason or 'ARM_IK_TARGET_FAILED')
         self.motion=dict(kind='grasp',body=row['body'],side=side,ik_path=ik_path,
-                         object_pose=origin.tolist(),target=target.tolist(),pre=pre.tolist())
+                         object_pose=origin.tolist(),box=box.tolist(),
+                         in_open_drawer=bool(in_open_drawer),
+                         target=target.tolist(),pre=pre.tolist())
         # IK + collision check passed -> standardized realization
         self.held=(row,side)
         self.trace['grasped'].add(row['body'])
@@ -755,7 +757,8 @@ class Skills:
         new_pose[1]+=float(point[1]-center_xy[1])
         new_pose[2]+=float(point[2]+.008-bottom_z)
         self.motion=dict(kind='place',body=row['body'],side=place_side,ik_path=ik_path,
-                         release_pose=new_pose.tolist(),high=high.tolist(),point=point.tolist())
+                         release_pose=new_pose.tolist(),box=box.tolist(),
+                         high=high.tolist(),point=point.tolist())
         self.set_body_pose(row['body'],new_pose,disable_gravity=False)
         self.world.step(65)
         support=self.support(row)

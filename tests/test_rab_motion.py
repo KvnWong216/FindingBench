@@ -83,3 +83,69 @@ def test_recorder_png_fallback(tmp_path):
     seg = json.loads((tmp_path / "demo/segments.jsonl").read_text())
     assert len(rows) == 3 and rows[0]["skill"] == "MOVE_TO" and seg["frames"] == 3
     assert len(list((tmp_path / "demo/frames/chase").glob("*.png"))) == 3
+
+
+def test_rot_error_vec_exact_on_known_rotations():
+    from scipy.spatial.transform import Rotation
+    r0 = Rotation.from_euler("xyz", [0.2, -0.4, 0.7]).as_matrix()
+    for axis, angle_rad in [([1, 0, 0], 0.5), ([0, 1, 0], 1e-7), ([0, 0, 1], math.pi - 1e-6), ([1, 2, -1], 1.2)]:
+        u = np.asarray(axis, float) / np.linalg.norm(axis)
+        r1 = Rotation.from_rotvec(u * angle_rad).as_matrix() @ r0
+        err = M.rot_error_vec(r1, r0)
+        assert abs(np.linalg.norm(err) - angle_rad) < 1e-4
+        # Applying exp([err]_x) @ r0 recovers r1
+        rec = Rotation.from_rotvec(err).as_matrix() @ r0
+        assert np.allclose(rec, r1, atol=1e-4)
+
+
+def test_gripper_frame_orthonormal_and_avoids_180_flip():
+    R1 = M.gripper_frame([0, 0, -1], [1, 0, 0])
+    assert abs(np.linalg.det(R1) - 1.0) < 1e-9
+    assert np.allclose(R1.T @ R1, np.eye(3), atol=1e-9)
+    assert np.allclose(R1[:, 2], [0, 0, -1], atol=1e-9)  # local +Z is approach
+    # Flip pinch by 180 deg around Z; passing R1 as cur_R must keep +X branch (no flip)
+    R_keep = M.gripper_frame([0, 0, -1], [-1, 0, 0], cur_R=R1)
+    assert np.allclose(R_keep, R1, atol=1e-9)
+    # Passing flipped cur_R must pick the flipped branch
+    R_flipped = np.column_stack((-R1[:, 0], -R1[:, 1], R1[:, 2]))
+    assert np.allclose(M.gripper_frame([0, 0, -1], [1, 0, 0], cur_R=R_flipped), R_flipped, atol=1e-9)
+
+
+def test_plan_grasp_top_down_drawer_and_flat_items():
+    # Elongated remote (4 cm wide along X, 16 cm long along Y, 2 cm tall) inside a drawer
+    box = [[0.98, -0.08, 0.50], [1.02, 0.08, 0.52]]
+    gp = M.plan_grasp_pose(box, [1.0, 0.0, 0.51, 0, 0, 0, 1], [0.4, 0.0, 0.0], 0.0, in_open_drawer=True)
+    assert gp.mode == "top_down"
+    assert np.allclose(gp.rotmat[:, 2], [0, 0, -1], atol=1e-6)  # straight vertical down
+    assert abs(abs(gp.rotmat[0, 0]) - 1.0) < 1e-6  # pinches along narrow 4 cm X axis
+    assert abs(gp.pinch_width_m - 0.04) < 1e-4
+    assert gp.pre_pos[2] > gp.grasp_pos[2] + 0.12
+    assert gp.q_open > gp.q_close >= M.GRIP_JOINT_MIN
+
+
+def test_plan_grasp_side_tall_bottle_and_calibrated_jaw():
+    # Tall soda can (6.6 cm diameter, 14 cm tall) on open counter in front of robot
+    box = [[0.967, -0.033, 0.75], [1.033, 0.033, 0.89]]
+    gp = M.plan_grasp_pose(box, [1.0, 0.0, 0.82, 0, 0, 0, 1], [0.4, 0.0, 0.0], 0.0, in_open_drawer=False)
+    assert gp.mode == "side"
+    assert gp.rotmat[0, 2] > 0.9  # approaches forward along +X
+    assert gp.rotmat[2, 2] < -0.1  # slight downward pitch
+    assert abs(abs(gp.rotmat[1, 0]) - 1.0) < 1e-6  # fingers pinch horizontally across ±Y
+    assert gp.pre_pos[0] < gp.grasp_pos[0] - 0.08  # pre-grasp backed off toward robot
+    assert gp.lift_pos[2] > gp.grasp_pos[2] + 0.08  # vertical lift
+    # Adaptive jaw width monotonic: thin marker < soda can < wide box
+    q_thin = M.gripper_close_angle(0.02)
+    q_can = M.gripper_close_angle(0.066)
+    q_wide = M.gripper_close_angle(0.11)
+    assert M.GRIP_JOINT_MIN <= q_thin < q_can < q_wide <= M.GRIP_JOINT_MAX_CLOSE
+
+
+def test_plan_place_pose_vertical_descent_and_clearance():
+    box = [[0.0, 0.0, 0.0], [0.07, 0.07, 0.14]]
+    pp = M.plan_place_pose(box, [1.0, 0.0, 0.75], [0.4, 0.0, 0.0], 0.0)
+    assert pp.mode == "side"
+    assert abs(pp.pre_pos[0] - pp.place_pos[0]) < 1e-9  # straight vertical descent
+    assert pp.pre_pos[2] > pp.place_pos[2] + 0.08
+    assert pp.lift_pos[2] > pp.place_pos[2] and pp.lift_pos[0] < pp.place_pos[0]
+    assert pp.q_open > pp.q_close
+
