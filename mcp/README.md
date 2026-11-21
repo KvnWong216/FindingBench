@@ -30,3 +30,18 @@
 
 - **Antigravity 插件**：已安装至 `~/.gemini/config/plugins/findingbench-rab/`。
 - **通用 MCP 客户端配置**：直接复制 [mcp_config.example.json](file:///home/ubuntu/ygwang/FindingBench/mcp/mcp_config.example.json) 中的 `findingbench-rab` 配置项即可。
+
+## Continuous-motion demo replay (optional)
+
+Set `FINDINGBENCH_RAB_MOTION=replay` in the MCP server environment (default `discrete`).
+Game mechanics are unchanged: every skill is validated and realized exactly as in discrete mode,
+refused skills are never animated and return the same failure. After an `EXECUTED` physical skill,
+the already-computed trajectory (A* waypoints for `MOVE_TO`/`TURN`, DLS-IK iterates for `GRASP`/`PLACE`,
+drive sweep + animation-only handle IK for `OPEN`/`CLOSE`) is replayed kinematically from the
+pre-action state, recorded, and the authoritative post-action state is restored.
+
+Evaluator-private outputs in `<session>/worker_trace/demo/`: `episode_chase.mp4`, `episode_head.mp4`,
+`trajectory.jsonl` (per-frame base pose, full DOF vector, attached object, drive targets),
+`segments.jsonl` (decision -> frame range), `meta.json`.
+Knobs: `FINDINGBENCH_RAB_DEMO_FPS` (20), `FINDINGBENCH_RAB_DEMO_CAMERAS` (`chase,head`),
+`FINDINGBENCH_RAB_DEMO_HOLD_S` (0.3). Equivalence check: `scripts/rab_motion_equivalence.py`.

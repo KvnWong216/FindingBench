@@ -116,6 +116,15 @@ class Skills:
         # Evaluator-private interaction trace used ONLY for deterministic
         # terminal-failure attribution (never returned across the MCP boundary).
         self.trace=dict(grasped=set(),checked=set(),opened=set(),placed=[])
+        # Optional continuous-motion demo replay (FINDINGBENCH_RAB_MOTION=replay).
+        # Replays the A*/IK trajectories computed by the discrete mechanics after
+        # a skill succeeds; never changes outcomes, feedback or final state.
+        self.motion={}
+        self.director=None
+        import os
+        if os.environ.get('FINDINGBENCH_RAB_MOTION','discrete').lower()=='replay':
+            from rab_motion_replay import ReplayDirector
+            self.director=ReplayDirector(self,out=(self.output/'demo') if self.output else None)
 
     def target_rows(self):
         return [r for r in self.world.rows if r.get('target')]
@@ -324,6 +333,7 @@ class Skills:
                 hits=self.world.rays([p[0],p[1],p[2]+z],[math.cos(theta),math.sin(theta),0],.38,ignore=(ROBOT,))
                 if hits:
                     raise Refused('UNSAFE',f'TURN_RADIAL_CLEARANCE_BLOCKED:z={z:.2f}:dist={hits[0]["distance"]:.3f}:hit={hits[0]["path"]}')
+        self.motion=dict(kind='base',poses=[(*map(float,p),float(yaw)),(*map(float,p),float(angle(yaw+amount)))])
         self.teleport_base(p,angle(yaw+amount))
 
     def free_stand(self,xy):
@@ -408,15 +418,19 @@ class Skills:
         route=self.route(p,points)
         if not route:
             raise Refused('UNSAFE','NAV_NO_CLEAR_ROUTE')
+        poses=[(*map(float,p),float(initial_yaw))]
         for point in route:
             p,yaw=self.base()
             if not self.clear_base(p,point):
                 raise Refused('UNSAFE','NAV_SEGMENT_CLEARANCE_BLOCKED')
             direction=math.atan2(point[1]-p[1],point[0]-p[0])
             self.teleport_base(point,direction)
+            poses.append((*map(float,point[:3]),float(direction)))
         now,yaw=self.base()
         desired=math.atan2(target[1]-now[1],target[0]-now[0]) if not floor else initial_yaw
         self.teleport_base(now,desired)
+        poses.append((*map(float,now[:3]),float(desired)))
+        self.motion=dict(kind='base',poses=poses)
         final,_=self.base()
         self.details.update(start_base_xyz_m=list(map(float,route_origin)),end_base_xyz_m=final.tolist(),
                             planned_waypoints=len(route),terminal_error_m=float(np.linalg.norm(final[:2]-route[-1][:2])),
@@ -566,6 +580,16 @@ class Skills:
         # Verify kinematic reachability using native articulation Jacobians,
         # then restore the robot's ready arm configuration (FindingBench contract:
         # IK + collision check -> direct primitive realization).
+        return self._ik_solve(position,side,tolerance=tolerance)[0]
+
+    def _ik_solve(self,position,side='r',*,tolerance=.040,record=None):
+        """Damped-least-squares IK; returns (error_m, joint iterates).
+
+        The iterates (start configuration, optional torso seed, every DLS step)
+        are only collected when ``record`` is true (motion replay); the solver
+        arithmetic and the restored robot state are identical either way.
+        """
+        record=self.director is not None if record is None else record
         robot=self.world.mobile.view
         jmeta=robot.shared_metatype
         arm=list(self.joints.RIGHT_ARM if side=='r' else self.joints.LEFT_ARM)
@@ -579,6 +603,7 @@ class Skills:
         idx=np.array([0],np.uint32)
         saved_q=robot.get_dof_positions().copy()
         saved_t=robot.get_dof_position_targets().copy()
+        path=[saved_q[0].copy()] if record else []
         try:
             if float(position[2])<.45:
                 seed_q=saved_q.copy()
@@ -594,11 +619,13 @@ class Skills:
                 robot.set_dof_positions(seed_q,idx)
                 robot.set_dof_position_targets(seed_t,idx)
                 self.world.step(2,sync=True)
+                if record:
+                    path.append(seed_q[0].copy())
             for _ in range(135):
                 pose=self.world.pose(ROBOT+'/'+link)
                 err=np.asarray(position)-pose[:3]
                 if np.linalg.norm(err)<=tolerance:
-                    return float(np.linalg.norm(err))
+                    return float(np.linalg.norm(err)),path
                 jac=robot.get_jacobians()[0]
                 i=links.index(link)-(1 if jac.shape[0]==len(links)-1 else 0)
                 offset=jac.shape[-1]-len(self.names)
@@ -609,6 +636,8 @@ class Skills:
                 robot.set_dof_positions(q,idx)
                 robot.set_dof_position_targets(q,idx)
                 self.world.step(1,sync=True)
+                if record:
+                    path.append(q[0].copy())
             pose=self.world.pose(ROBOT+'/'+link)
             err=float(np.linalg.norm(np.asarray(position)-pose[:3]))
             raise Refused('OUT_OF_CAPABILITY',f'ARM_IK_TARGET_FAILED:err={err:.4f}:pos={list(map(float,position))}:hand={list(map(float,pose[:3]))}')
@@ -647,9 +676,11 @@ class Skills:
             self.arm_path_clear(hand,pre,tuple(allowed))
             self.arm_path_clear(pre,target,tuple(allowed))
         try:
-            ik_err=self.ik_reachable(target,side)
+            ik_err,ik_path=self._ik_solve(target,side)
         except Refused as e:
             raise Refused(e.code,e.reason or 'ARM_IK_TARGET_FAILED')
+        self.motion=dict(kind='grasp',body=row['body'],side=side,ik_path=ik_path,
+                         object_pose=origin.tolist(),target=target.tolist(),pre=pre.tolist())
         # IK + collision check passed -> standardized realization
         self.held=(row,side)
         self.trace['grasped'].add(row['body'])
@@ -711,7 +742,7 @@ class Skills:
         high=point+np.array([0.,0.,.08])
         self.arm_path_clear(hand,high,(row['body'],))
         try:
-            ik_err=self.ik_reachable(high,place_side)
+            ik_err,ik_path=self._ik_solve(high,place_side)
         except Refused as e:
             raise Refused(e.code,e.reason or 'ARM_IK_PLACE_FAILED')
         # Compute object placement transform above clicked support surface
@@ -723,6 +754,8 @@ class Skills:
         new_pose[0]+=float(point[0]-center_xy[0])
         new_pose[1]+=float(point[1]-center_xy[1])
         new_pose[2]+=float(point[2]+.008-bottom_z)
+        self.motion=dict(kind='place',body=row['body'],side=place_side,ik_path=ik_path,
+                         release_pose=new_pose.tolist(),high=high.tolist(),point=point.tolist())
         self.set_body_pose(row['body'],new_pose,disable_gravity=False)
         self.world.step(65)
         support=self.support(row)
@@ -816,7 +849,12 @@ class Skills:
                 if (key in self.world.opened)==(skill=='OPEN'):
                     raise Refused('INVALID_ACTION','PRECONDITION_ALREADY_OPEN' if skill=='OPEN'
                                   else 'PRECONDITION_ALREADY_CLOSED')
+                drive=self.world.drives[key][0]
+                before_target=float(drive.GetTargetPositionAttr().Get() or 0.)
                 self.details.update(native_joint=key,**self.world.swing(key,skill=='OPEN'))
+                self.motion=dict(kind='articulate',key=key,opening=skill=='OPEN',
+                                 handle=list(map(float,hit['position'])),
+                                 drive_from=before_target,drive_to=float(drive.GetTargetPositionAttr().Get() or 0.))
                 if skill=='OPEN':
                     self.trace['opened'].add(key)
             elif skill=='GRASP' and self.held:
@@ -850,6 +888,8 @@ class Skills:
                 result=dict(id=ident,feedback=feedback,terminal=True,planning_step=self.counter,
                             episode_status=getattr(self,'episode_status','FAIL_MAX_STEPS'))
             else:
+                self.motion={}
+                pre=self.director.snapshot(raw) if self.director else None
                 try:
                     extras=self.act(raw)
                     code='EXECUTED'
@@ -866,6 +906,13 @@ class Skills:
                     # never to the agent, by the offline metrics.
                     detail='INFRA_EXCEPTION:'+traceback.format_exc()
                     print(detail,flush=True)
+                if self.director:
+                    # Visual-only replay of the already-executed A*/IK trajectory.
+                    # Refused actions are never animated; errors here cannot change
+                    # the public feedback, the episode status or the world state.
+                    replay=self.director.replay(self.counter+1,raw,code,pre,self.motion)
+                    if replay:
+                        self.details['motion_replay']=replay
                 self.counter+=1
                 if self.done:
                     # REPORT_DONE set self.done = True inside self.act(raw)
@@ -877,6 +924,8 @@ class Skills:
                     self.details['terminal_attribution']=self.terminal_attribution(False,False)
                 else:
                     self.episode_status='RUNNING'
+                if self.done and self.director:
+                    self.director.close()
                 self.frame=uuid4().hex
                 self.public_feedback=dict(code=code,message=FEEDBACK_MESSAGES.get(PublicActionFeedback(code),'Executed'))
                 result=dict(id=ident,feedback=self.public_feedback,terminal=self.done,
