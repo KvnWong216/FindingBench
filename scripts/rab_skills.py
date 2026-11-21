@@ -105,9 +105,11 @@ class Skills:
         self.held=None
         self.output=args.run_output
         if self.output:
+            from rab_feedback import feedback_mode
             self.output.mkdir(parents=True)
             save(self.output/'manifest.json',dict(id=task['id'],scene_sha256=world.episode['scene_sha256'],
-                 protocol='findingbench_rab_pinhole_v1', executor='rab_physx',horizon=self.horizon))
+                 protocol='findingbench_rab_pinhole_v1', feedback_mode=feedback_mode(),
+                 executor='rab_physx',horizon=self.horizon))
         self.receipt=receipt
         self.observation_dirty=True
         self.public_feedback=None
@@ -885,9 +887,12 @@ class Skills:
             self.details={}
             extras={}
             if self.done:
+                from rab_feedback import format_public_feedback
                 code='INVALID_ACTION'
                 detail='EPISODE_ALREADY_TERMINATED'
-                feedback=dict(code=code,message=FEEDBACK_MESSAGES.get(PublicActionFeedback(code),'Invalid action'))
+                raw_skill=raw.get('skill') if isinstance(raw,dict) else None
+                feedback=format_public_feedback(code,detail,skill=raw_skill,
+                         default_message=FEEDBACK_MESSAGES.get(PublicActionFeedback(code),'Invalid action'))
                 result=dict(id=ident,feedback=feedback,terminal=True,planning_step=self.counter,
                             episode_status=getattr(self,'episode_status','FAIL_MAX_STEPS'))
             else:
@@ -929,8 +934,11 @@ class Skills:
                     self.episode_status='RUNNING'
                 if self.done and self.director:
                     self.director.close()
+                from rab_feedback import format_public_feedback
                 self.frame=uuid4().hex
-                self.public_feedback=dict(code=code,message=FEEDBACK_MESSAGES.get(PublicActionFeedback(code),'Executed'))
+                raw_skill=raw.get('skill') if isinstance(raw,dict) else None
+                self.public_feedback=format_public_feedback(code,detail,skill=raw_skill,
+                         default_message=FEEDBACK_MESSAGES.get(PublicActionFeedback(code),'Executed'))
                 result=dict(id=ident,feedback=self.public_feedback,terminal=self.done,
                             planning_step=self.counter,episode_status=self.episode_status,**extras)
                 if self.output:

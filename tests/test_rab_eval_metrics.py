@@ -82,3 +82,51 @@ def test_incomplete_episode_excluded_from_sr(tmp_path):
                                               "terminal": False}, "private_error": None}))
     r = M.aggregate(M.load_episode(d) for d in M.find_episodes(tmp_path))
     assert r["episodes"]["incomplete_infra"] == 1 and r["core"]["SR"] is None
+
+
+def test_proprioceptive_feedback_coverage_and_zero_hint_invariant():
+    import re
+    import rab_feedback as F
+
+    # Every error prototype (plus infra) has an explicit proprioceptive mapping.
+    all_protos = set(M.PROTOTYPE_TO_CAPABILITY) | set(M.INFRA_PROTOTYPES)
+    assert all_protos <= set(F.PROPRIOCEPTIVE_BY_ERROR)
+
+    forbidden = ("please", "try ", "move ", "click ", "open ", "close ", "remove ", "first", "should", "instead", "/world/")
+    all_msgs = [msg for _, msg in F.PROPRIOCEPTIVE_BY_ERROR.values()] + list(F.SKILL_MESSAGE_OVERRIDES.values())
+    for msg in all_msgs:
+        low = msg.lower()
+        assert not re.search(r"\d", msg), f"Numeric measurement leaked in public feedback: {msg!r}"
+        for bad in forbidden:
+            assert bad not in low, f"Directive/leakage token {bad!r} in public feedback: {msg!r}"
+
+    # Mode switch: four_class_v1 omits detail_code; proprioceptive_v2 adds neutral detail_code
+    fb_v1 = F.format_public_feedback("OUT_OF_CAPABILITY", "GRASP_TOO_FAR:dist=1.42", skill="GRASP",
+                                     default_message="Legacy", mode="four_class_v1")
+    assert fb_v1 == {"code": "OUT_OF_CAPABILITY", "message": "Legacy"}
+    fb_v2 = F.format_public_feedback("OUT_OF_CAPABILITY", "GRASP_TOO_FAR:dist=1.42", skill="GRASP",
+                                     default_message="Legacy", mode="proprioceptive_v2")
+    assert fb_v2 == {"code": "OUT_OF_CAPABILITY", "detail_code": "OUT_OF_REACH",
+                     "message": "Target point is out of reach."}
+    fb_ok = F.format_public_feedback("EXECUTED", None, skill="REPORT_DONE",
+                                     default_message="Action executed.", mode="proprioceptive_v2")
+    assert fb_ok == {"code": "EXECUTED", "detail_code": None, "message": "Action executed."}
+
+
+def test_task_funnel_and_rser(tmp_path):
+    _write_episode(tmp_path, "ep_repeats", [
+        ("OPEN", "INVALID_ACTION", "CLICK_NON_ARTICULATED"),
+        ("OPEN", "INVALID_ACTION", "CLICK_NON_ARTICULATED"),       # consecutive repeat #1
+        ("MOVE_TO", "UNSAFE", "NAV_NO_CLEAR_ROUTE"),
+        ("MOVE_TO", "UNSAFE", "NAV_SEGMENT_CLEARANCE_BLOCKED"),    # same detail_code NAV_BLOCKED -> repeat #2
+        ("GRASP", "OUT_OF_CAPABILITY", "GRASP_TOO_FAR:dist=1.2"),
+        ("REPORT_DONE", "EXECUTED", None),
+    ], {"status": "FAIL_FALSE_COMPLETION", "attr": "PREMATURE_DONE", "res": 1.0})
+    r = M.aggregate(M.load_episode(d) for d in M.find_episodes(tmp_path))
+    assert r["task_funnel"]["stage2_articulation"]["errors"] == 2
+    assert r["task_funnel"]["stage2_articulation"]["detail_codes"] == {"NO_ARTICULATION_HIT": 2}
+    assert r["task_funnel"]["stage1_navigation"]["detail_codes"] == {"NAV_BLOCKED": 2}
+    assert r["rser"]["repeat_errors"] == 2 and r["rser"]["refused_calls"] == 5
+    assert r["core"]["RSER"] == 0.4
+    assert r["rser"]["by_detail_code"] == {"NO_ARTICULATION_HIT": 1, "NAV_BLOCKED": 1}
+

@@ -34,6 +34,8 @@ from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any, Iterable
 
+from rab_feedback import TASK_STAGES, detail_for
+
 PHYSICAL_SKILLS = ("MOVE_TO", "TURN", "OPEN", "CLOSE", "GRASP", "PLACE")
 POINT_SKILLS = ("MOVE_TO", "CHECK", "OPEN", "CLOSE", "GRASP", "PLACE")
 ALL_SKILLS = ("VIEW", "TURN", "MOVE_TO", "CHECK", "OPEN", "CLOSE", "GRASP", "PLACE", "REPORT_DONE")
@@ -143,10 +145,15 @@ def load_episode(actions_dir: Path) -> dict[str, Any]:
     calls, terminal = [], None
     for rec in records:
         result = rec.get("result") or {}
-        code = (result.get("feedback") or {}).get("code", "UNKNOWN")
+        fb = result.get("feedback") or {}
+        code = fb.get("code", "UNKNOWN")
         raw = rec.get("raw") if isinstance(rec.get("raw"), dict) else {}
+        skill = str(raw.get("skill", "UNPARSEABLE"))
         proto = prototype_of(code, rec.get("private_error"))
-        calls.append(dict(skill=str(raw.get("skill", "UNPARSEABLE")), code=code, prototype=proto,
+        detail_code = fb.get("detail_code")
+        if detail_code is None and code != "EXECUTED":
+            detail_code, _ = detail_for(code, proto if proto != f"UNLABELED_{code}" else rec.get("private_error"), skill=skill)
+        calls.append(dict(skill=skill, code=code, prototype=proto, detail_code=detail_code,
                           capability=capability_of(proto), step=result.get("planning_step")))
         if result.get("terminal") and terminal is None:
             measurements = rec.get("measurements") or {}
@@ -237,6 +244,40 @@ def aggregate(episodes: Iterable[dict[str, Any]]) -> dict[str, Any]:
         for label, n in term_counts.most_common()
     }
 
+    # ---- task-stage funnel & repeat-same-error rate (RSER) ----------------
+    task_funnel = {}
+    for stage_key, stage_name, stage_skills in TASK_STAGES:
+        s_calls = [c for c in agent_calls if c["skill"] in stage_skills]
+        s_exec = sum(c["code"] == "EXECUTED" for c in s_calls)
+        s_fail = [c for c in s_calls if c["code"] != "EXECUTED"]
+        s_details = Counter(c["detail_code"] for c in s_fail if c.get("detail_code"))
+        task_funnel[stage_key] = dict(
+            stage=stage_name,
+            skills=list(stage_skills),
+            called=len(s_calls),
+            executed=s_exec,
+            errors=len(s_fail),
+            eff=_ratio(s_exec, len(s_calls)),
+            share_of_failures=_ratio(len(s_fail), len(refused)),
+            detail_codes=dict(s_details.most_common()),
+        )
+
+    repeat_counts: Counter[str] = Counter()
+    for ep in episodes:
+        ep_agent = [c for c in ep["calls"] if c["capability"] != "infra"]
+        for prev, cur in zip(ep_agent, ep_agent[1:]):
+            if prev["code"] != "EXECUTED" and cur["code"] != "EXECUTED":
+                d_prev, d_cur = prev.get("detail_code"), cur.get("detail_code")
+                if d_prev and d_prev == d_cur:
+                    repeat_counts[d_cur] += 1
+    total_repeats = sum(repeat_counts.values())
+    rser = dict(
+        repeat_errors=total_repeats,
+        refused_calls=len(refused),
+        rate=_ratio(total_repeats, len(refused)),
+        by_detail_code=dict(repeat_counts.most_common()),
+    )
+
     steps_succ = [e["terminal"]["steps"] for e in success if e["terminal"]["steps"] is not None]
     steps_all = [e["terminal"]["steps"] for e in valid if e["terminal"]["steps"] is not None]
     res = [e["terminal"]["restoration"] for e in valid if e["terminal"]["restoration"] is not None]
@@ -252,6 +293,7 @@ def aggregate(episodes: Iterable[dict[str, Any]]) -> dict[str, Any]:
             EFF_phys=_ratio(n_exec_phys, len(phys)),
             EFF_all=_ratio(n_exec_all, len(agent_calls)),
             RES=round(sum(res) / len(res), 4) if res else None,
+            RSER=rser["rate"],
         ),
         calls=dict(total=len(calls), agent=len(agent_calls), physical=len(phys),
                    refused=len(refused), infra_excluded=infra_calls),
@@ -259,6 +301,8 @@ def aggregate(episodes: Iterable[dict[str, Any]]) -> dict[str, Any]:
                            eff=_ratio(skill_exec.get(s, 0), skill_called[s]),
                            failures=dict(skill_proto.get(s, {})))
                    for s in sorted(skill_called)},
+        task_funnel=task_funnel,
+        rser=rser,
         layer_a=layer_a,
         layer_b=layer_b,
         incomplete_paths=incomplete,
@@ -279,8 +323,8 @@ def _pct(v: float | None) -> str:
 def to_markdown(reports: dict[str, dict[str, Any]]) -> str:
     out = ["# FindingBench RAB v1 — Evaluation Report", "",
            "## Core orthogonal metrics", "",
-           "| Run | Episodes | SR ↑ (95% CI) | ST_succ ↓ | ST_all | EFF_phys ↑ | EFF_all | RES ↑ |",
-           "|---|---|---|---|---|---|---|---|"]
+           "| Run | Episodes | SR ↑ (95% CI) | ST_succ ↓ | ST_all | EFF_phys ↑ | EFF_all | RES ↑ | RSER ↓ |",
+           "|---|---|---|---|---|---|---|---|---|"]
     for label, r in reports.items():
         c, e = r["core"], r["episodes"]
         ci = c["SR_ci95"]
@@ -288,10 +332,21 @@ def to_markdown(reports: dict[str, dict[str, Any]]) -> str:
         out.append(f"| {label} | {e['valid']} (+{e['incomplete_infra']} infra) | {_pct(c['SR'])}{ci_s} | "
                    f"{c['ST_succ'] if c['ST_succ'] is not None else '—'} | "
                    f"{c['ST_all'] if c['ST_all'] is not None else '—'} | {_pct(c['EFF_phys'])} | "
-                   f"{_pct(c['EFF_all'])} | {_pct(c['RES'])} |")
+                   f"{_pct(c['EFF_all'])} | {_pct(c['RES'])} | {_pct(c.get('RSER'))} |")
     for label, r in reports.items():
+        rser = r.get("rser") or {}
+        rep_s = ", ".join(f"`{k}`×{v}" for k, v in (rser.get("by_detail_code") or {}).items()) or "—"
         out += ["", f"## {label}", "",
-                "### Layer A — skill-level error prototypes → brain capability", "",
+                "### Task-Stage Funnel (task-centric proprioceptive breakdown)", "",
+                f"Repeat-Same-Error Rate (RSER): {_pct(rser.get('rate'))} "
+                f"({rser.get('repeat_errors', 0)}/{rser.get('refused_calls', 0)}; repeats: {rep_s})", "",
+                "| Task stage | Called | Executed | EFF | Share of failures | Proprioceptive detail codes |",
+                "|---|---|---|---|---|---|"]
+        for st in (r.get("task_funnel") or {}).values():
+            dc = ", ".join(f"`{k}`×{v}" for k, v in st["detail_codes"].items()) or "—"
+            out.append(f"| {st['stage']} | {st['called']} | {st['executed']} | {_pct(st['eff'])} | "
+                       f"{_pct(st['share_of_failures'])} | {dc} |")
+        out += ["", "### Layer A — skill-level error prototypes → brain capability", "",
                 f"Agent calls: {r['calls']['agent']} · refused: {r['calls']['refused']} · "
                 f"infra excluded: {r['calls']['infra_excluded']}", "",
                 "| Brain capability | Errors | Rate / all calls | Share of failures | Axis score | Prototypes (n>0) |",
