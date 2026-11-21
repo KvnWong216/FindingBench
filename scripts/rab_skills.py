@@ -113,6 +113,45 @@ class Skills:
         self.public_feedback=None
         self.inspection=None
         self.details={}
+        # Evaluator-private interaction trace used ONLY for deterministic
+        # terminal-failure attribution (never returned across the MCP boundary).
+        self.trace=dict(grasped=set(),checked=set(),opened=set(),placed=[])
+
+    def target_rows(self):
+        return [r for r in self.world.rows if r.get('target')]
+
+    def terminal_attribution(self,reported,success):
+        """Deterministic Layer-B attribution of the episode outcome.
+
+        Every label is computed from simulator ground truth plus the private
+        interaction trace; no visibility / "seen" judgement is involved.
+        """
+        if success:
+            return 'SUCCESS'
+        targets=self.target_rows()
+        target_bodies={r['body'] for r in targets}
+        destination={p['support'] for p in self.world.episode['delivery']['placements']}
+        on_destination=[r for r in targets if self.support(r) in destination]
+        if reported:
+            if self.held and self.held[0]['body'] in target_bodies:
+                return 'TARGET_NOT_RELEASED'
+            if targets and len(on_destination)==len(targets):
+                return 'TARGET_UNSTABLE'
+            if on_destination:
+                return 'PARTIAL_DELIVERY'
+            if any(not p['target'] and p['support'] in destination for p in self.trace['placed']):
+                return 'WRONG_TARGET_DELIVERED'
+            if target_bodies & self.trace['grasped']:
+                return 'WRONG_DESTINATION'
+            if self.trace['grasped']-target_bodies:
+                return 'WRONG_TARGET_MANIPULATED'
+            return 'PREMATURE_DONE'
+        if target_bodies & (self.trace['grasped']|self.trace['checked']):
+            return 'TARGET_ENGAGED_NOT_DELIVERED'
+        target_zones={r.get('zone') for r in targets if r.get('zone') in self.world.drives}
+        if target_zones & self.trace['opened']:
+            return 'CONTAINER_OPENED_TARGET_NOT_ENGAGED'
+        return 'TARGET_NEVER_ENGAGED'
 
     def base(self):
         from scipy.spatial.transform import Rotation
@@ -470,7 +509,7 @@ class Skills:
             q[0,ix]=np.clip(measured+np.clip(d,-.08,.08),lim[:,0],lim[:,1])
             robot.set_dof_position_targets(q,idx)
             self.world.step(5,sync=False)
-        raise Refused('OUT_OF_CAPABILITY')
+        raise Refused('OUT_OF_CAPABILITY','ARM_REACH_FAILED')
 
     def grip(self,opened,side):
         robot=self.world.mobile.view
@@ -492,7 +531,7 @@ class Skills:
         for extra in (np.zeros(3),np.array([0,0,.03]),np.array([0,0,-.025])):
             hits=self.world.rays(np.asarray(start)+extra,v/d,d,ignore=(ROBOT,*allowed))
             if hits:
-                raise Refused('UNSAFE','hand path blocked by '+hits[0]['path'])
+                raise Refused('UNSAFE','HAND_PATH_BLOCKED:hit='+hits[0]['path'])
 
     def set_body_pose(self,body,pose,*,disable_gravity=None):
         import omni.physics.tensors
@@ -581,15 +620,16 @@ class Skills:
 
     def grasp(self,row):
         if self.held:
-            raise Refused('INVALID_ACTION')
+            raise Refused('INVALID_ACTION','PRECONDITION_HAND_OCCUPIED')
         p,yaw=self.base()
         box=self.bounds(row)
         origin=self.world.pose(row['body']).copy()
         target=box.mean(axis=0)
-        if np.linalg.norm(target[:2]-p[:2])>.92:
-            raise Refused('OUT_OF_CAPABILITY')
+        reach=float(np.linalg.norm(target[:2]-p[:2]))
+        if reach>.92:
+            raise Refused('OUT_OF_CAPABILITY',f'GRASP_TOO_FAR:dist={reach:.3f}')
         if np.min(np.ptp(box,axis=0))>.16:
-            raise Refused('UNSAFE')
+            raise Refused('UNSAFE',f'UNSAFE_OVERSIZED_GRASP:min_extent={float(np.min(np.ptp(box,axis=0))):.3f}')
         side='l' if np.dot(target[:2]-p[:2],[-math.sin(yaw),math.cos(yaw)])>.06 else 'r'
         path=f'{ROBOT}/gripper_{side}_center_link'
         toward=np.r_[math.cos(yaw),math.sin(yaw),0.]
@@ -612,9 +652,11 @@ class Skills:
             raise Refused(e.code,e.reason or 'ARM_IK_TARGET_FAILED')
         # IK + collision check passed -> standardized realization
         self.held=(row,side)
+        self.trace['grasped'].add(row['body'])
         self.sync_held()
         final=self.world.pose(row['body'])[:3]
         self.details.update(grasp_body=row['body'],lift_m=float(final[2]-origin[2]),
+                            grasp_is_target=bool(row.get('target')),
                             native_gripper=side,ik_error_m=ik_err,
                             realization='ik_collision_validated_direct')
 
@@ -650,18 +692,19 @@ class Skills:
 
     def place(self,hit):
         if not self.held:
-            raise Refused('INVALID_ACTION')
+            raise Refused('INVALID_ACTION','PRECONDITION_HAND_EMPTY')
         if hit['normal'][2]<.8:
-            raise Refused('INVALID_ACTION')
+            raise Refused('INVALID_ACTION',f'CLICK_NON_HORIZONTAL_SURFACE:nz={float(hit["normal"][2]):.3f}')
         row,side=self.held
         selected_support=self.world.item(hit)
         if selected_support is row:
-            raise Refused('INVALID_ACTION','cannot place an object on itself')
+            raise Refused('INVALID_ACTION','PLACE_ON_SELF')
         requested=selected_support['body'] if selected_support else hit['path']
         point=np.asarray(hit['position'],float)
         p,yaw=self.base()
-        if np.linalg.norm(point[:2]-p[:2])>.92:
-            raise Refused('OUT_OF_CAPABILITY')
+        reach=float(np.linalg.norm(point[:2]-p[:2]))
+        if reach>.92:
+            raise Refused('OUT_OF_CAPABILITY',f'PLACE_TOO_FAR:dist={reach:.3f}')
         place_side='l' if np.dot(point[:2]-p[:2],[-math.sin(yaw),math.cos(yaw)])>.06 else 'r'
         path=f'{ROBOT}/gripper_{place_side}_center_link'
         hand=self.world.pose(path)[:3]
@@ -690,8 +733,9 @@ class Skills:
         if support!=requested or error>.12:
             # Roll back to held state if target support failed settle check
             self.sync_held()
-            raise Refused('UNSAFE','released object did not settle on the chosen support')
+            raise Refused('UNSAFE',f'UNSAFE_PLACEMENT_UNSTABLE:support_match={support==requested}:err={error:.3f}')
         row['support']=support
+        self.trace['placed'].append(dict(body=row['body'],support=support,target=bool(row.get('target'))))
         self.held=None
 
     def restoration(self):
@@ -723,7 +767,7 @@ class Skills:
 
     def act(self,raw):
         if self.done:
-            raise Refused('INVALID_ACTION')
+            raise Refused('INVALID_ACTION','EPISODE_ALREADY_TERMINATED')
         action=self.adapter.validate_python(raw)
         skill=action.skill
         self.inspection=None
@@ -737,16 +781,17 @@ class Skills:
             self.zoom=1.
         elif skill=='REPORT_DONE':
             self.done=True
-            targets=[r for r in self.world.rows if r['target']]
+            targets=self.target_rows()
             destination={p['support'] for p in self.world.episode['delivery']['placements']}
             before=[self.world.pose(r['body']) for r in targets]
             self.world.step(30)
             success=bool(targets and not self.held and all(self.support(r) in destination and
                 math.dist(p[:3],self.world.pose(r['body'])[:3])<.012 for p,r in zip(before,targets)))
+            self.details.update(terminal_attribution=self.terminal_attribution(True,success))
             return dict(success=success,restoration=self.restoration())
         else:
             if action.point.frame_id!=self.frame:
-                raise Refused('INVALID_ACTION')
+                raise Refused('INVALID_ACTION','STALE_FRAME_ID')
             cam=self.view()
             angle_fov=math.degrees(2*math.atan(math.tan(math.radians(self.args.fov/2))/self.zoom))
             hit=self.world.hit(cam,[action.point.x,action.point.y],angle_fov,self.args.width/self.args.height,actor=True)
@@ -759,21 +804,31 @@ class Skills:
                 self.zoom=1.
             elif skill=='CHECK' and item:
                 self.inspection=self.check(item)
+                self.trace['checked'].add(item['body'])
+                self.details.update(check_body=item['body'],check_is_target=bool(item.get('target')))
             elif skill in ('OPEN','CLOSE'):
                 key=self.world.joint(hit)
                 if key is None:
-                    raise Refused('INVALID_ACTION')
-                if np.linalg.norm(np.asarray(hit['position'])[:2]-self.base()[0][:2])>.94:
-                    raise Refused('OUT_OF_CAPABILITY')
+                    raise Refused('INVALID_ACTION','CLICK_NON_ARTICULATED')
+                reach=float(np.linalg.norm(np.asarray(hit['position'])[:2]-self.base()[0][:2]))
+                if reach>.94:
+                    raise Refused('OUT_OF_CAPABILITY',f'ARTICULATION_TOO_FAR:dist={reach:.3f}')
                 if (key in self.world.opened)==(skill=='OPEN'):
-                    raise Refused('INVALID_ACTION')
+                    raise Refused('INVALID_ACTION','PRECONDITION_ALREADY_OPEN' if skill=='OPEN'
+                                  else 'PRECONDITION_ALREADY_CLOSED')
                 self.details.update(native_joint=key,**self.world.swing(key,skill=='OPEN'))
+                if skill=='OPEN':
+                    self.trace['opened'].add(key)
+            elif skill=='GRASP' and self.held:
+                raise Refused('INVALID_ACTION','PRECONDITION_HAND_OCCUPIED')
             elif skill=='GRASP' and item:
                 self.grasp(item)
             elif skill=='PLACE':
                 self.place(hit)
+            elif skill in ('CHECK','GRASP'):
+                raise Refused('INVALID_ACTION','CLICK_NON_INTERACTABLE')
             else:
-                raise Refused('INVALID_ACTION')
+                raise Refused('INVALID_ACTION','UNSUPPORTED_SKILL')
         return {}
 
     def tick(self,camera):
@@ -803,11 +858,13 @@ class Skills:
                     detail=e.reason
                 except ValueError as e:
                     code='INVALID_ACTION'
-                    detail=str(e)
+                    detail='SCHEMA_INVALID:'+str(e).replace('\n',' ')[:400]
                 except Exception:
                     import traceback
                     code='UNSAFE'
-                    detail=traceback.format_exc()
+                    # Harness/runtime exception: attributed to infrastructure,
+                    # never to the agent, by the offline metrics.
+                    detail='INFRA_EXCEPTION:'+traceback.format_exc()
                     print(detail,flush=True)
                 self.counter+=1
                 if self.done:
@@ -817,6 +874,7 @@ class Skills:
                     self.done=True
                     self.episode_status='FAIL_MAX_STEPS'
                     extras=dict(success=False,restoration=self.restoration())
+                    self.details['terminal_attribution']=self.terminal_attribution(False,False)
                 else:
                     self.episode_status='RUNNING'
                 self.frame=uuid4().hex
