@@ -88,12 +88,19 @@ class Skills:
     def __init__(self,args,task,state,world,renderer,camera,receipt):
         from pydantic import TypeAdapter
         from rummagebench.core.public_types import PUBLIC_SKILLS, PublicAction
-        from arena_api import bimanual as joints
+        from rab_embodiment import embodiment_prior_mode, public_embodiment_spec
         self.adapter=TypeAdapter(PublicAction)
+        self.emb=world.embodiment
+        self.robot_prim=world.robot_prim
         self.names=list(world.mobile.view.shared_metatype.dof_names)
-        self.joints=joints
+        self.joints=None
+        if self.emb.name=='agibot_g1':
+            from arena_api import bimanual as joints
+            self.joints=joints
         self.library=PUBLIC_SKILLS
+        self.embodiment_spec=public_embodiment_spec(self.emb)
         self.args,self.task,self.state,self.world,self.renderer=args,task,state,world,renderer
+        self._crouch_dz=0.
         self.yaw=0.
         self.pitch=-12.
         self.zoom=1.
@@ -109,6 +116,7 @@ class Skills:
             self.output.mkdir(parents=True)
             save(self.output/'manifest.json',dict(id=task['id'],scene_sha256=world.episode['scene_sha256'],
                  protocol='findingbench_rab_pinhole_v1', feedback_mode=feedback_mode(),
+                 robot_embodiment=self.emb.name, embodiment_prior=embodiment_prior_mode(),
                  executor='rab_physx',horizon=self.horizon))
         self.receipt=receipt
         self.observation_dirty=True
@@ -168,12 +176,25 @@ class Skills:
         from scipy.spatial.transform import Rotation
         value=self.world.mobile.pose()
         direction=Rotation.from_quat(value[3:]).apply([1,0,0])
-        return value[:3],math.atan2(direction[1],direction[0])
+        floor_xyz=np.array([float(value[0]),float(value[1]),
+                            float(value[2])-(self.emb.pelvis_z_offset-self._crouch_dz)],float)
+        return floor_xyz,math.atan2(direction[1],direction[0])
 
     def view(self):
+        p,base_yaw=self.base()
+        if self.emb.camera_local_offset is not None:
+            fwd,left,up=self.emb.camera_local_offset
+            cy,sy=math.cos(base_yaw),math.sin(base_yaw)
+            pos=[float(p[0])+fwd*cy-left*sy,
+                 float(p[1])+fwd*sy+left*cy,
+                 float(p[2])+up]
+            cam_yaw=(math.degrees(base_yaw)+self.yaw+180)%360-180
+            cam_pitch=float(np.clip(self.pitch,-89.,89.))
+            cam=FlightCamera(pos,cam_yaw,cam_pitch)
+            cam.zoom=self.zoom
+            return cam
         from rab_spectator import home
         cam=home(self.world.stage)
-        p,base_yaw=self.base()
         # Apply the base's live PhysX XY offset relative to its initial spawn
         # position so the head camera retains its exact USD local offset on the robot.
         if not hasattr(self,'_spawn_base_xy'):
@@ -182,7 +203,8 @@ class Skills:
         dx=float(p[0])-self._spawn_base_xy[0]
         dy=float(p[1])-self._spawn_base_xy[1]
         cam.position=[self._spawn_cam_pos[0]+dx,self._spawn_cam_pos[1]+dy,self._spawn_cam_pos[2]]
-        head_yaw=float(self.world.mobile.view.get_dof_positions()[0,self.names.index('idx11_head_joint1')]) if 'idx11_head_joint1' in self.names else 0.
+        hj=self.emb.head_yaw_joint
+        head_yaw=float(self.world.mobile.view.get_dof_positions()[0,self.names.index(hj)]) if (hj and hj in self.names) else 0.
         cam.yaw=(math.degrees(base_yaw+head_yaw)+self.yaw+180)%360-180
         cam.pitch=float(np.clip(self.pitch,-89.,89.))
         cam.zoom=self.zoom
@@ -194,6 +216,8 @@ class Skills:
         payload=dict(instruction=self.task['instruction'],frame_id=self.frame,
                      image_png_b64=encoded(rgb),planning_step=self.counter,max_planning_steps=self.horizon,
                      skill_library=self.library,feedback=self.public_feedback,inspection_view=self.inspection)
+        if self.embodiment_spec is not None:
+            payload['embodiment_spec']=self.embodiment_spec
         with self.state.condition:
             self.state.observation=payload
         self.observation_dirty=False
@@ -208,14 +232,14 @@ class Skills:
             return False
         v=v/d
         side=np.array([-v[1],v[0]])
-        for u in (-.40,-.22,0,.22,.40):
-            for z in (.13,.3,.53,.78,1.05,1.35):
-                for hit in self.world.rays([*(start[:2]+side*u+v*.05),start[2]+z],[*v,0],d+.30,ignore=(ROBOT,)):
+        for u in self.emb.clear_base_lateral:
+            for z in self.emb.clear_base_z_bands:
+                for hit in self.world.rays([*(start[:2]+side*u+v*.05),start[2]+z],[*v,0],d+.30,ignore=(self.robot_prim,)):
                     return False
         for f in np.linspace(0,1, max(3,int(d/.20)+1)):
             for u in (-.24,.24):
                 point=start[:2]+d*f*v+side*u
-                ground=self.world.rays([*point,start[2]+.12],[0,0,-1],.32,ignore=(ROBOT,))
+                ground=self.world.rays([*point,start[2]+.12],[0,0,-1],.32,ignore=(self.robot_prim,))
                 if not ground or ground[0]['normal'][2]<.8 or abs(ground[0]['position'][2]-start[2])>.075:
                     return False
         return True
@@ -283,20 +307,21 @@ class Skills:
         if abs(abs(amount)-progress)>(.075 if index==0 else .10):
             raise Refused('UNSAFE',f'BASE_MOTION_SHORTFALL:{kind}:wanted={amount:.4f}:actual={progress:.4f}')
 
-    def teleport_base(self,xyz,yaw):
+    def teleport_base(self,xyz,yaw,*,crouch_dz=0.,pitch=0.,dof_positions=None,dof_targets=None):
         from scipy.spatial.transform import Rotation
         mobile=self.world.mobile
-        from arena_api.mobile_base import ZERO
+        zero=getattr(mobile,'ZERO',{'base_linear_x':0.,'base_angular_z':0.})
         if any(abs(v)>1e-8 for v in mobile.previous.values()):
-            mobile.apply(dict(ZERO))
+            mobile.apply(dict(zero))
             self.world.step(1)
         # omni.physics.tensors ArticulationView root transforms use [x,y,z,qx,qy,qz,qw] (XYZW),
         # while USD Gf.Quatf takes (w, Vec3f(x,y,z)). Passing W-first to set_root_transforms
         # previously rolled the robot sideways/upside-down for 2 PhysX steps (and left it
         # permanently inverted near yaw=0).
-        q_xyzw=Rotation.from_euler('z',float(yaw)).as_quat()
+        root_z=float(xyz[2])+self.emb.pelvis_z_offset-float(crouch_dz)
+        q_xyzw=Rotation.from_euler('ZY',[float(yaw),float(pitch)]).as_quat()
         qx,qy,qz,qw=float(q_xyzw[0]),float(q_xyzw[1]),float(q_xyzw[2]),float(q_xyzw[3])
-        root=np.array([[float(xyz[0]),float(xyz[1]),float(xyz[2]),qx,qy,qz,qw]],np.float32)
+        root=np.array([[float(xyz[0]),float(xyz[1]),root_z,qx,qy,qz,qw]],np.float32)
         idx=np.array([0],np.uint32)
         for jnt in mobile.joints.values():
             jnt.GetJointEnabledAttr().Set(False)
@@ -306,36 +331,43 @@ class Skills:
         mobile.flush()
         mobile.view.set_root_transforms(root,idx)
         mobile.view.set_root_velocities(np.zeros((1,6),np.float32),idx)
-        mobile.anchor.GetLocalPos0Attr().Set(mobile.Gf.Vec3f(float(xyz[0]),float(xyz[1]),float(xyz[2])))
+        if dof_positions is not None:
+            mobile.view.set_dof_positions(dof_positions,idx)
+            mobile.view.set_dof_velocities(np.zeros_like(dof_positions),idx)
+            mobile.view.set_dof_position_targets(dof_positions if dof_targets is None else dof_targets,idx)
+        mobile.anchor.GetLocalPos0Attr().Set(mobile.Gf.Vec3f(float(xyz[0]),float(xyz[1]),root_z))
         mobile.anchor.GetLocalRot0Attr().Set(mobile.Gf.Quatf(qw,mobile.Gf.Vec3f(qx,qy,qz)))
         mobile.anchor.GetJointEnabledAttr().Set(True)
         mobile.flush()
         mobile.mode='anchor'
-        mobile.previous=dict(ZERO)
+        mobile.previous=dict(zero)
+        self._crouch_dz=float(crouch_dz)
         mobile.verify()
         self.world.step(2,sync=True)
         pose=mobile.pose()
-        up_z=float(Rotation.from_quat(pose[3:]).apply([0,0,1])[2])
+        expected_up=Rotation.from_euler('ZY',[float(yaw),float(pitch)]).apply([0,0,1])
+        measured_up=Rotation.from_quat(pose[3:]).apply([0,0,1])
+        up_align=float(np.dot(expected_up,measured_up))
         _,measured_yaw=self.base()
-        if up_z<.99 or abs(angle(measured_yaw-float(yaw)))>.05:
-            raise RuntimeError(f'Base teleport orientation mismatch: up_z={up_z:.3f} yaw={measured_yaw:.3f} want={float(yaw):.3f}')
+        if up_align<.985 or (abs(pitch)<1e-4 and abs(angle(measured_yaw-float(yaw)))>.05):
+            raise RuntimeError(f'Base teleport orientation mismatch: up_align={up_align:.3f} yaw={measured_yaw:.3f} want={float(yaw):.3f}')
 
     def turn(self,amount):
         if abs(amount)<.015:
             return
         p,yaw=self.base()
-        for z in (.17,.4,.7,1.1):
+        for z in self.emb.turn_z_bands:
             for theta in np.arange(0,2*math.pi,math.pi/8):
-                hits=self.world.rays([p[0],p[1],p[2]+z],[math.cos(theta),math.sin(theta),0],.38,ignore=(ROBOT,))
+                hits=self.world.rays([p[0],p[1],p[2]+z],[math.cos(theta),math.sin(theta),0],self.emb.turn_clearance_r,ignore=(self.robot_prim,))
                 if hits:
                     raise Refused('UNSAFE',f'TURN_RADIAL_CLEARANCE_BLOCKED:z={z:.2f}:dist={hits[0]["distance"]:.3f}:hit={hits[0]["path"]}')
         self.motion=dict(kind='base',poses=[(*map(float,p),float(yaw)),(*map(float,p),float(angle(yaw+amount)))])
         self.teleport_base(p,angle(yaw+amount))
 
     def free_stand(self,xy):
-        for z in (.17,.4,.7,1.1):
+        for z in self.emb.turn_z_bands:
             for theta in np.arange(0,2*math.pi,math.pi/8):
-                if self.world.rays([float(xy[0]),float(xy[1]),float(xy[2])+z],[math.cos(theta),math.sin(theta),0],.39,ignore=(ROBOT,)):
+                if self.world.rays([float(xy[0]),float(xy[1]),float(xy[2])+z],[math.cos(theta),math.sin(theta),0],self.emb.free_stand_r,ignore=(self.robot_prim,)):
                     return False
         return True
 
@@ -409,8 +441,9 @@ class Skills:
             points=[target]
         else:
             theta=math.atan2(p[1]-target[1],p[0]-target[0])
+            radii=(.42,.48,.53,.58,.64,.70,.76) if self.emb.name=='unitree_g1' else (.48,.53,.58,.64,.70,.76,.82)
             points=[np.r_[target[:2]+r*np.array([math.cos(theta+a),math.sin(theta+a)]),p[2]]
-                    for r in (.48,.53,.58,.64,.70,.76,.82) for a in (0,-.35,.35,-.7,.7,-1.05,1.05,-1.4,1.4,-1.75,1.75,-2.1,2.1)]
+                    for r in radii for a in (0,-.35,.35,-.7,.7,-1.05,1.05,-1.4,1.4,-1.75,1.75,-2.1,2.1)]
         route=self.route(p,points)
         if not route:
             raise Refused('UNSAFE','NAV_NO_CLEAR_ROUTE')
@@ -491,28 +524,38 @@ class Skills:
             for _,attr,value in reversed(touched):
                 attr.Set(value)
 
+    def ee_world(self,side):
+        from scipy.spatial.transform import Rotation
+        pose=self.world.pose(self.emb.ee_link_path(side))
+        off=self.emb.ee_offset(side)
+        if np.any(off):
+            r_world=Rotation.from_quat(pose[3:]).apply(off)
+            return pose[:3]+r_world,pose,r_world
+        return pose[:3].copy(),pose,np.zeros(3)
+
     def arm(self,position, side='r', *, tolerance=.022):
         # Native articulation Jacobians and position drives; no pose setter.
         robot=self.world.mobile.view
         jmeta=robot.shared_metatype
-        arm=list(self.joints.RIGHT_ARM if side=='r' else self.joints.LEFT_ARM)
-        for body_j in ('idx01_body_joint1','idx02_body_joint2'):
-            if body_j in self.names and body_j not in arm:
-                arm.append(body_j)
+        arm=[j for j in self.emb.arm_joints(side) if j in self.names]
         ix=[self.names.index(x) for x in arm]
-        link=f'gripper_{side}_center_link'
+        link=self.emb.ee_link(side)
         links=list(jmeta.link_names)
         lim=robot.get_dof_limits()[0,ix]
         idx=np.array([0],np.uint32)
         for _ in range(135):
-            pose=self.world.pose(ROBOT+'/'+link)
-            err=np.asarray(position)-pose[:3]
+            ee_pos,_,r_world=self.ee_world(side)
+            err=np.asarray(position)-ee_pos
             if np.linalg.norm(err)<=tolerance:
                 return
             jac=robot.get_jacobians()[0]
             i=links.index(link)-(1 if jac.shape[0]==len(links)-1 else 0)
             offset=jac.shape[-1]-len(self.names)
-            j=jac[i,:3,:][:,np.array(ix)+offset]
+            cols=np.array(ix)+offset
+            j=jac[i,:3,:][:,cols]
+            if np.any(r_world):
+                rx=np.array([[0.,-r_world[2],r_world[1]],[r_world[2],0.,-r_world[0]],[-r_world[1],r_world[0],0.]])
+                j=j-rx@jac[i,3:6,:][:,cols]
             d=j.T@np.linalg.solve(j@j.T+np.eye(3)*.018**2,err)
             q=robot.get_dof_position_targets()
             measured=robot.get_dof_positions()[0,ix]
@@ -523,13 +566,19 @@ class Skills:
 
     def grip(self,opened,side):
         robot=self.world.mobile.view
-        grip=1 if side=='r' else 0
-        outer=self.joints.GRIPPERS[grip]
-        from arena_api.robot_profiles import INNER
         q=robot.get_dof_position_targets()
-        value=.64 if opened else .01
-        q[0,self.names.index(outer)]=value
-        q[0,self.names.index(INNER[grip])]=-value
+        if self.emb.name=='unitree_g1':
+            from rab_embodiment import dex3_hand_targets
+            for name,val in dex3_hand_targets(side,1. if opened else 0.).items():
+                if name in self.names:
+                    q[0,self.names.index(name)]=val
+        else:
+            grip=1 if side=='r' else 0
+            outer=self.joints.GRIPPERS[grip]
+            from arena_api.robot_profiles import INNER
+            value=.64 if opened else .01
+            q[0,self.names.index(outer)]=value
+            q[0,self.names.index(INNER[grip])]=-value
         robot.set_dof_position_targets(q,np.array([0],np.uint32))
         self.world.step(35)
     
@@ -539,7 +588,7 @@ class Skills:
         if d<.005:
             return
         for extra in (np.zeros(3),np.array([0,0,.03]),np.array([0,0,-.025])):
-            hits=self.world.rays(np.asarray(start)+extra,v/d,d,ignore=(ROBOT,*allowed))
+            hits=self.world.rays(np.asarray(start)+extra,v/d,d,ignore=(self.robot_prim,*allowed))
             if hits:
                 raise Refused('UNSAFE','HAND_PATH_BLOCKED:hit='+hits[0]['path'])
 
@@ -569,7 +618,7 @@ class Skills:
         # so it stays stationary in air during multi-step drawer opening/closing).
         pose=self.world.pose(row['body']).copy()
         pose[:3]=[float(p[0]),float(p[1]),float(p[2]+2.40)]
-        row['support']=ROBOT
+        row['support']=self.robot_prim
         self.set_body_pose(row['body'],pose,disable_gravity=True)
 
     def ik_reachable(self,position,side='r',*,tolerance=.040):
@@ -581,28 +630,88 @@ class Skills:
     def _ik_solve(self,position,side='r',*,tolerance=.040,record=None):
         """Damped-least-squares IK; returns (error_m, joint iterates).
 
-        The iterates (start configuration, optional torso seed, every DLS step)
+        The iterates (start configuration, optional torso/crouch seed, every DLS step)
         are only collected when ``record`` is true (motion replay); the solver
         arithmetic and the restored robot state are identical either way.
         """
         record=self.director is not None if record is None else record
         robot=self.world.mobile.view
         jmeta=robot.shared_metatype
-        arm=list(self.joints.RIGHT_ARM if side=='r' else self.joints.LEFT_ARM)
-        for body_j in ('idx01_body_joint1','idx02_body_joint2'):
-            if body_j in self.names and body_j not in arm:
-                arm.append(body_j)
+        arm=[j for j in self.emb.arm_joints(side) if j in self.names]
         ix=[self.names.index(x) for x in arm]
-        link=f'gripper_{side}_center_link'
+        link=self.emb.ee_link(side)
         links=list(jmeta.link_names)
         lim=robot.get_dof_limits()[0,ix]
         idx=np.array([0],np.uint32)
         saved_q=robot.get_dof_positions().copy()
         saved_t=robot.get_dof_position_targets().copy()
+        saved_base=self.base()
         saved_items={r['body']:self.world.pose(r['body']).copy() for r in self.world.rows}
         path=[saved_q[0].copy()] if record else []
+        crouched=False
         try:
-            if float(position[2])<.45:
+            if self.emb.supports_crouch:
+                from rab_embodiment import compute_g1_crouch
+                # Measure front knee clearance so crouching never rams furniture
+                cy,sy=math.cos(saved_base[1]),math.sin(saved_base[1])
+                fwd_clear=1.0
+                for z_off in (.18,.26,.34):
+                    for lat in (-.14,0.,.14):
+                        ox=float(saved_base[0][0])-lat*sy
+                        oy=float(saved_base[0][1])+lat*cy
+                        hits=self.world.rays([ox,oy,float(saved_base[0][2])+z_off],[cy,sy,0.],.45,ignore=(self.robot_prim,))
+                        if hits:
+                            fwd_clear=min(fwd_clear,float(hits[0]['distance']))
+                max_knee_x=max(0.,fwd_clear-.04)
+                crouch_dz,pelvis_pitch,crouch_j=compute_g1_crouch(float(position[2]),floor_z=float(saved_base[0][2]),max_knee_x=max_knee_x)
+                # If front furniture restricts forward knee bend, try a small hip-hinge squat
+                # stepping the pelvis back slightly (if clear behind) so knees stay behind toes.
+                crouch_base_xy=saved_base[0].copy()
+                if crouch_dz<.14 and float(position[2])-float(saved_base[0][2])<.62:
+                    back_hits=self.world.rays([float(saved_base[0][0]),float(saved_base[0][1]),float(saved_base[0][2])+.50],[-cy,-sy,0.],.35,ignore=(self.robot_prim,))
+                    back_clear=float(back_hits[0]['distance']) if back_hits else .35
+                    if back_clear>.22:
+                        shift=min(.12,back_clear-.12)
+                        crouch_base_xy[0]-=shift*cy
+                        crouch_base_xy[1]-=shift*sy
+                        crouch_dz,pelvis_pitch,crouch_j=compute_g1_crouch(float(position[2]),floor_z=float(saved_base[0][2]),max_knee_x=max_knee_x+shift)
+                if crouch_dz>0. or pelvis_pitch>0. or crouch_j:
+                    seed_q=saved_q.copy()
+                    seed_t=saved_t.copy()
+                    all_lim=robot.get_dof_limits()[0]
+                    for jname,jval in crouch_j.items():
+                        if jname in self.names:
+                            ji=self.names.index(jname)
+                            v=float(np.clip(jval,all_lim[ji,0],all_lim[ji,1]))
+                            seed_q[0,ji]=v
+                            seed_t[0,ji]=v
+                    if crouch_dz>0. or pelvis_pitch>0.:
+                        try:
+                            crouched=True
+                            self.teleport_base(crouch_base_xy,saved_base[1],crouch_dz=crouch_dz,
+                                               pitch=pelvis_pitch,dof_positions=seed_q,dof_targets=seed_t)
+                        except RuntimeError:
+                            # Front obstacle contacted knee; retry pure hip-hinge bow without knee drop
+                            _,bow_pitch,bow_j=compute_g1_crouch(float(position[2]),floor_z=float(saved_base[0][2]),max_knee_x=0.)
+                            bow_q=saved_q.copy()
+                            for jname,jval in bow_j.items():
+                                if jname in self.names:
+                                    ji=self.names.index(jname)
+                                    bow_q[0,ji]=float(np.clip(jval,all_lim[ji,0],all_lim[ji,1]))
+                            try:
+                                self.teleport_base(saved_base[0],saved_base[1],crouch_dz=0.,
+                                                   pitch=bow_pitch,dof_positions=bow_q,dof_targets=bow_q)
+                            except RuntimeError:
+                                crouched=False
+                                self.teleport_base(saved_base[0],saved_base[1],crouch_dz=0.,pitch=0.,
+                                                   dof_positions=saved_q,dof_targets=saved_t)
+                    else:
+                        robot.set_dof_positions(seed_q,idx)
+                        robot.set_dof_position_targets(seed_t,idx)
+                        self.world.step(2,sync=True)
+                    if record:
+                        path.append(robot.get_dof_positions()[0].copy())
+            elif float(position[2])<.45:
                 seed_q=saved_q.copy()
                 seed_t=saved_t.copy()
                 if 'idx01_body_joint1' in self.names:
@@ -619,14 +728,18 @@ class Skills:
                 if record:
                     path.append(seed_q[0].copy())
             for _ in range(135):
-                pose=self.world.pose(ROBOT+'/'+link)
-                err=np.asarray(position)-pose[:3]
+                ee_pos,_,r_world=self.ee_world(side)
+                err=np.asarray(position)-ee_pos
                 if np.linalg.norm(err)<=tolerance:
                     return float(np.linalg.norm(err)),path
                 jac=robot.get_jacobians()[0]
                 i=links.index(link)-(1 if jac.shape[0]==len(links)-1 else 0)
                 offset=jac.shape[-1]-len(self.names)
-                j=jac[i,:3,:][:,np.array(ix)+offset]
+                cols=np.array(ix)+offset
+                j=jac[i,:3,:][:,cols]
+                if np.any(r_world):
+                    rx=np.array([[0.,-r_world[2],r_world[1]],[r_world[2],0.,-r_world[0]],[-r_world[1],r_world[0],0.]])
+                    j=j-rx@jac[i,3:6,:][:,cols]
                 d=j.T@np.linalg.solve(j@j.T+np.eye(3)*.018**2,err)
                 q=robot.get_dof_positions().copy()
                 q[0,ix]=np.clip(q[0,ix]+np.clip(d,-.12,.12),lim[:,0],lim[:,1])
@@ -635,16 +748,24 @@ class Skills:
                 self.world.step(1,sync=True)
                 if record:
                     path.append(q[0].copy())
-            pose=self.world.pose(ROBOT+'/'+link)
-            err=float(np.linalg.norm(np.asarray(position)-pose[:3]))
-            raise Refused('OUT_OF_CAPABILITY',f'ARM_IK_TARGET_FAILED:err={err:.4f}:pos={list(map(float,position))}:hand={list(map(float,pose[:3]))}')
+            ee_pos,_,_=self.ee_world(side)
+            err=float(np.linalg.norm(np.asarray(position)-ee_pos))
+            raise Refused('OUT_OF_CAPABILITY',f'ARM_IK_TARGET_FAILED:err={err:.4f}:pos={list(map(float,position))}:hand={list(map(float,ee_pos))}')
         finally:
-            robot.set_dof_positions(saved_q,idx)
-            robot.set_dof_velocities(np.zeros_like(saved_q),idx)
-            robot.set_dof_position_targets(saved_t,idx)
-            # Restore any scene item nudged by the live PhysX IK feasibility probe
-            # so a refused grasp/place never disturbs objects in the room.
-            moved={b:p0 for b,p0 in saved_items.items() if float(np.linalg.norm(self.world.pose(b)[:3]-p0[:3]))>.001}
+            if crouched:
+                self.teleport_base(saved_base[0],saved_base[1],crouch_dz=0.,pitch=0.,
+                                   dof_positions=saved_q,dof_targets=saved_t)
+            else:
+                robot.set_dof_positions(saved_q,idx)
+                robot.set_dof_velocities(np.zeros_like(saved_q),idx)
+                robot.set_dof_position_targets(saved_t,idx)
+            # Restore any scene item nudged (translated or tilted) by the live PhysX IK probe
+            # so a refused or completed probe never disturbs bystander objects in the room.
+            moved={}
+            for b,p0 in saved_items.items():
+                cur=self.world.pose(b)
+                if float(np.linalg.norm(cur[:3]-p0[:3]))>.0005 or abs(float(np.dot(cur[3:],p0[3:])))<.9999:
+                    moved[b]=p0
             if moved:
                 import omni.physics.tensors
                 sview=omni.physics.tensors.create_simulation_view('numpy',self.world.sid.ToLongInt())
@@ -663,9 +784,9 @@ class Skills:
         origin=self.world.pose(row['body']).copy()
         target=box.mean(axis=0)
         reach=float(np.linalg.norm(target[:2]-p[:2]))
-        if reach>.92:
+        if reach>self.emb.reach_radius_m:
             raise Refused('OUT_OF_CAPABILITY',f'GRASP_TOO_FAR:dist={reach:.3f}')
-        if np.min(np.ptp(box,axis=0))>.16:
+        if np.min(np.ptp(box,axis=0))>self.emb.max_grasp_extent_m:
             raise Refused('UNSAFE',f'UNSAFE_OVERSIZED_GRASP:min_extent={float(np.min(np.ptp(box,axis=0))):.3f}')
         pref='l' if np.dot(target[:2]-p[:2],[-math.sin(yaw),math.cos(yaw)])>.06 else 'r'
         toward=np.r_[math.cos(yaw),math.sin(yaw),0.]
@@ -678,8 +799,7 @@ class Skills:
         last_err=None
         chosen=None
         for cand in (pref,'r' if pref=='l' else 'l'):
-            path=f'{ROBOT}/gripper_{cand}_center_link'
-            hand=self.world.pose(path)[:3]
+            hand,_,_=self.ee_world(cand)
             try:
                 if in_open_drawer:
                     # Verify vertical reach from above the open drawer cavity down to target
@@ -715,7 +835,7 @@ class Skills:
         p=self.world.pose(row['body'])[:3]
         center_xy=box.mean(axis=0)[:2] if box is not None else p[:2]
         bottom_z=float(box[0,2]) if box is not None else float(p[2])
-        for h in self.world.rays([*center_xy,bottom_z+.026],[0,0,-1],.14,ignore=(ROBOT,row['body'],row['body'].split('/Model',1)[0])):
+        for h in self.world.rays([*center_xy,bottom_z+.026],[0,0,-1],.14,ignore=(self.robot_prim,row['body'],row['body'].split('/Model',1)[0])):
             if h['normal'][2]>.75:
                 beneath=self.world.item(h)
                 if beneath:
@@ -729,7 +849,7 @@ class Skills:
         z_key=row.get('zone')
         if z_key in self.world.drives:
             drawer_body=self.world.drives[z_key][2]
-            for h in self.world.rays([*center_xy,float(p[2])+.045],[0,0,-1],.18,ignore=(ROBOT,row['body'],row['body'].split('/Model',1)[0])):
+            for h in self.world.rays([*center_xy,float(p[2])+.045],[0,0,-1],.18,ignore=(self.robot_prim,row['body'],row['body'].split('/Model',1)[0])):
                 if h['normal'][2]>.75:
                     beneath=self.world.item(h)
                     if beneath:
@@ -753,15 +873,14 @@ class Skills:
         point=np.asarray(hit['position'],float)
         p,yaw=self.base()
         reach=float(np.linalg.norm(point[:2]-p[:2]))
-        if reach>.92:
+        if reach>self.emb.reach_radius_m:
             raise Refused('OUT_OF_CAPABILITY',f'PLACE_TOO_FAR:dist={reach:.3f}')
         pref='l' if np.dot(point[:2]-p[:2],[-math.sin(yaw),math.cos(yaw)])>.06 else 'r'
         high=point+np.array([0.,0.,.08])
         last_err=None
         chosen=None
         for cand in (pref,'r' if pref=='l' else 'l'):
-            path=f'{ROBOT}/gripper_{cand}_center_link'
-            hand=self.world.pose(path)[:3]
+            hand,_,_=self.ee_world(cand)
             try:
                 self.arm_path_clear(hand,high,(row['body'],))
                 ik_err,ik_path=self._ik_solve(high,cand)
@@ -873,7 +992,7 @@ class Skills:
                 if key is None:
                     raise Refused('INVALID_ACTION','CLICK_NON_ARTICULATED')
                 reach=float(np.linalg.norm(np.asarray(hit['position'])[:2]-self.base()[0][:2]))
-                if reach>.94:
+                if reach>self.emb.articulation_reach_m:
                     raise Refused('OUT_OF_CAPABILITY',f'ARTICULATION_TOO_FAR:dist={reach:.3f}')
                 if (key in self.world.opened)==(skill=='OPEN'):
                     raise Refused('INVALID_ACTION','PRECONDITION_ALREADY_OPEN' if skill=='OPEN'

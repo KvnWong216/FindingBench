@@ -49,6 +49,7 @@ PUBLIC_OBSERVATION_KEYS = (
     "planning_step",
     "max_planning_steps",
     "skill_library",
+    "embodiment_spec",
     "feedback",
 )
 
@@ -104,7 +105,11 @@ def _strip_public_observation(obs: dict[str, Any]) -> tuple[dict[str, Any], byte
     if not isinstance(obs, dict) or not obs.get("image_png_b64"):
         raise RuntimeError("Worker returned observation without primary RGB image")
     scene_png = base64.b64decode(obs["image_png_b64"])
-    public_meta: dict[str, Any] = {k: obs.get(k) for k in PUBLIC_OBSERVATION_KEYS}
+    public_meta: dict[str, Any] = {}
+    for k in PUBLIC_OBSERVATION_KEYS:
+        if k == "embodiment_spec" and obs.get(k) is None:
+            continue
+        public_meta[k] = obs.get(k)
     public_meta["protocol"] = PROTOCOL_VERSION
 
     insp = obs.get("inspection_view")
@@ -246,8 +251,12 @@ class RabWorkerHandle:
             "physics_receipt_path": task["physics_receipt"],
             "physics_receipt_sha256": resolved["physics_receipt_sha256"],
             "executor": "rab_physx_pinhole_v1",
+            "robot_embodiment": os.environ.get("FINDINGBENCH_RAB_ROBOT", "unitree_g1"),
+            "embodiment_prior": os.environ.get("FINDINGBENCH_RAB_EMBODIMENT_PRIOR", "text"),
+            "feedback_mode": os.environ.get("FINDINGBENCH_RAB_FEEDBACK_MODE", "four_class_v1"),
             "rab_skills_sha256": _digest(_repo_root() / "scripts/rab_skills.py"),
             "rab_edit_sha256": _digest(_repo_root() / "scripts/rab_edit.py"),
+            "rab_embodiment_sha256": _digest(_repo_root() / "scripts/rab_embodiment.py"),
             "horizon": 120,
             "determinism_policy": "frozen_usd_scene_and_physx_60hz_cpu_dynamics_no_runtime_seed",
             "gpu_id": self.gpu_id,

@@ -200,7 +200,7 @@ class ReplayDirector:
             w.step(physics_steps, sync=True)
         if self._attached:
             body, rel = self._attached
-            grip = w.pose(f"{ROBOT}/gripper_{self._side}_center_link")
+            grip = w.pose(self.sk.emb.ee_link_path(self._side))
             self._apply_poses({body: compose(grip, rel)})
             w.step(0, sync=True)  # push the new transform to USD for rendering
         rec = self._recorder()
@@ -229,14 +229,20 @@ class ReplayDirector:
 
     def _with_gripper(self, q: np.ndarray, side: str, value: float) -> np.ndarray:
         q = np.array(q, float, copy=True)
+        if self.sk.emb.name == "unitree_g1":
+            from rab_embodiment import dex3_hand_targets
+            openness = float(np.clip((float(value) - GRIP_CLOSED) / max(1e-6, GRIP_OPEN - GRIP_CLOSED), 0.0, 1.0))
+            for name, jval in dex3_hand_targets(side, openness).items():
+                if name in self.sk.names:
+                    q[..., self.sk.names.index(name)] = jval
+            return q
         outer, inner = self._gripper_ix(side)
         q[..., outer], q[..., inner] = value, -value
         return q
 
     def _arm_weights(self, side: str) -> np.ndarray:
         w = np.zeros(len(self.sk.names))
-        arm = list(self.sk.joints.RIGHT_ARM if side == "r" else self.sk.joints.LEFT_ARM)
-        for name in arm + ["idx01_body_joint1", "idx02_body_joint2"]:
+        for name in self.sk.emb.arm_joints(side):
             if name in self.sk.names:
                 w[self.sk.names.index(name)] = 1.
         return w
@@ -261,12 +267,10 @@ class ReplayDirector:
         """
         robot = self.robot
         jmeta = robot.shared_metatype
-        arm = list(self.sk.joints.RIGHT_ARM if side == "r" else self.sk.joints.LEFT_ARM)
-        for body_j in ("idx01_body_joint1", "idx02_body_joint2"):
-            if body_j in self.sk.names and body_j not in arm:
-                arm.append(body_j)
+        arm = [j for j in self.sk.emb.arm_joints(side) if j in self.sk.names]
         ix = [self.sk.names.index(x) for x in arm]
-        link = f"gripper_{side}_center_link"
+        link = self.sk.emb.ee_link(side)
+        link_path = self.sk.emb.ee_link_path(side)
         links = list(jmeta.link_names)
         lim = robot.get_dof_limits()[0, ix]
         idx = np.array([0], np.uint32)
@@ -292,7 +296,7 @@ class ReplayDirector:
                 self.world.step(2, sync=True)
                 path.append(seed[0].copy())
             for _ in range(max_iters):
-                pose = self.world.pose(ROBOT + "/" + link)
+                pose = self.world.pose(link_path)
                 e_pos = target_p - pose[:3]
                 pos_err = float(np.linalg.norm(e_pos))
                 if target_R is not None and w_rot > 0.:
@@ -320,7 +324,7 @@ class ReplayDirector:
                 robot.set_dof_position_targets(q, idx)
                 self.world.step(1, sync=True)
                 path.append(q[0].copy())
-            pose = self.world.pose(ROBOT + "/" + link)
+            pose = self.world.pose(link_path)
             pos_err = float(np.linalg.norm(target_p - pose[:3]))
             rot_err = float(np.linalg.norm(rot_error_vec(target_R, quat_to_rotmat(pose[3:])))) if target_R is not None else 0.
             raise ValueError(f"ik6d_failed:pos={pos_err:.4f}:rot={rot_err:.3f}")
@@ -357,7 +361,7 @@ class ReplayDirector:
     def _plan_grasp_6d(self, plan: dict, pre: dict, side: str):
         """Solve a 4-stage 6-DoF grasp (ready -> pre -> grasp -> lift) with graceful fallback."""
         p, yaw = self.sk.base()
-        cur_R = quat_to_rotmat(self.world.pose(f"{ROBOT}/gripper_{side}_center_link")[3:])
+        cur_R = quat_to_rotmat(self.world.pose(self.sk.emb.ee_link_path(side))[3:])
         box = plan.get("box")
         if box is None:
             t = np.asarray(plan["target"], float)
@@ -406,7 +410,7 @@ class ReplayDirector:
                                           weights=self._arm_weights(side)), "approach_grasp")
             goal = p_approach[-1]
             self._play_joints(blend(goal, self._with_gripper(goal, side, gp.q_close), self.fps, .35), "close_gripper")
-            grip = self.world.pose(f"{ROBOT}/gripper_{side}_center_link")
+            grip = self.world.pose(self.sk.emb.ee_link_path(side))
             rel = relative(grip, np.asarray(plan["object_pose"], float))
             self._attach(plan["body"], rel)
             self._carry_meta = dict(body=plan["body"], mode=gp.mode, q_open=gp.q_open,
@@ -426,7 +430,7 @@ class ReplayDirector:
         self._play_joints(reach, "reach")
         goal = reach[-1] if len(reach) else path[-1]
         self._play_joints(blend(goal, self._with_gripper(goal, side, gp.q_close), self.fps, .35), "close_gripper")
-        grip = self.world.pose(f"{ROBOT}/gripper_{side}_center_link")
+        grip = self.world.pose(self.sk.emb.ee_link_path(side))
         rel = relative(grip, np.asarray(plan["object_pose"], float))
         self._attach(plan["body"], rel)
         self._carry_meta = dict(body=plan["body"], mode=gp.mode, q_open=gp.q_open,
@@ -440,7 +444,7 @@ class ReplayDirector:
         q0 = pre["q"][0]
         release = np.asarray(plan["release_pose"], float)
         p, yaw = self.sk.base()
-        cur_R = quat_to_rotmat(self.world.pose(f"{ROBOT}/gripper_{side}_center_link")[3:])
+        cur_R = quat_to_rotmat(self.world.pose(self.sk.emb.ee_link_path(side))[3:])
         box = plan.get("box")
         if box is None:
             pt = np.asarray(plan["point"], float)
@@ -502,7 +506,7 @@ class ReplayDirector:
         # Fallback: reuse validated 3-DoF IK path from rab_skills.py
         info.setdefault("degraded", []).append("place_6dof_fallback_to_3dof")
         carry = np.r_[0., 0., -.03, 0., 0., 0., 1.]
-        grip = self.world.pose(f"{ROBOT}/gripper_{side}_center_link")
+        grip = self.world.pose(self.sk.emb.ee_link_path(side))
         carry[3:] = relative(grip, release)[3:]
         self._attach(plan["body"], carry)
         path = [self._with_gripper(q, side, q_close) for q in plan["ik_path"]]
@@ -528,7 +532,7 @@ class ReplayDirector:
         p, yaw = sk.base()
         side = self._side = "l" if np.dot(handle[:2] - p[:2], [-math.sin(yaw), math.cos(yaw)]) > .06 else "r"
         toward = np.r_[math.cos(yaw), math.sin(yaw), 0.]
-        cur_R = quat_to_rotmat(w.pose(f"{ROBOT}/gripper_{side}_center_link")[3:])
+        cur_R = quat_to_rotmat(w.pose(self.sk.emb.ee_link_path(side))[3:])
         # Align fingertip +Z toward the drawer/door handle with horizontal pinch axis.
         handle_R = gripper_frame(toward, [0., 0., 1.], cur_R=cur_R)
         q0 = pre["q"][0]

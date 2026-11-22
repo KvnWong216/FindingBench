@@ -78,45 +78,60 @@ class NativeWorld:
             if initial:
                 self.opened.add(key)
             self.drives[key]=(drive,target,body,path,angular)
+        from rab_embodiment import (
+            UnitreeMobileController,
+            apply_unitree_ready_pose,
+            get_embodiment,
+            swap_stage_to_unitree_g1,
+        )
+        self.embodiment = get_embodiment() if mobile else get_embodiment('agibot_g1')
+        self.robot_prim = self.embodiment.robot_prim
         self.mobile=None
-        anchor=UsdPhysics.FixedJoint(stage.GetPrimAtPath(BASE+'/FixedJoint'))
-        world=UsdGeom.XformCache().GetLocalToWorldTransform(stage.GetPrimAtPath(BASE))
-        if anchor:
-            anchor.CreateLocalPos0Attr(Gf.Vec3f(world.ExtractTranslation()))
-            anchor.CreateLocalRot0Attr(Gf.Quatf(world.ExtractRotationQuat()))
-        if mobile:
-            from sys import path as module_path
-            from rab_skills import NATIVE_SOURCE
-            module_path.insert(0,str(NATIVE_SOURCE))
-            from arena_api.mobile_base_native import Controller
-            from short_tasks.agent_probe_v1 import robot_parameter_alignment
-            robot_parameter_alignment.apply(stage)
-            self.mobile=Controller(stage)
+        if mobile and self.embodiment.name == 'unitree_g1':
+            swap_stage_to_unitree_g1(stage)
+            self.mobile = UnitreeMobileController(stage, self.embodiment)
+        else:
+            anchor=UsdPhysics.FixedJoint(stage.GetPrimAtPath(BASE+'/FixedJoint'))
+            world=UsdGeom.XformCache().GetLocalToWorldTransform(stage.GetPrimAtPath(BASE))
+            if anchor:
+                anchor.CreateLocalPos0Attr(Gf.Vec3f(world.ExtractTranslation()))
+                anchor.CreateLocalRot0Attr(Gf.Quatf(world.ExtractRotationQuat()))
+            if mobile:
+                from sys import path as module_path
+                from rab_skills import NATIVE_SOURCE
+                module_path.insert(0,str(NATIVE_SOURCE))
+                from arena_api.mobile_base_native import Controller
+                from short_tasks.agent_probe_v1 import robot_parameter_alignment
+                robot_parameter_alignment.apply(stage)
+                self.mobile=Controller(stage)
         from pxr import UsdGeom
         from rab_build_search import bounds
         bbox=UsdGeom.BBoxCache(0,['default','render','proxy','guide'])
-        self.spawn_box=bounds(bbox,stage.GetPrimAtPath(ROBOT))
+        self.spawn_box=bounds(bbox,stage.GetPrimAtPath(self.robot_prim))
         self.attach()
         self.step(1 if self.mobile else 75)
         if self.mobile:
             self.mobile.bind()
-            from rab_skills import NATIVE_SOURCE
-            from arena_api.robot_profiles import FOLLOWERS
-            robot=self.mobile.view
-            names=list(robot.shared_metatype.dof_names)
-            ready=load(NATIVE_SOURCE/'layout_task_activation_v1/task_scene_registration_v1/recorded_ready_pose_042_v1.json')['targets_rad']
-            target=robot.get_dof_positions().copy()
-            limits=robot.get_dof_limits()[0]
-            for name,value in {**ready,**{k:-ready[v] for k,v in FOLLOWERS.items()}}.items():
-                j=names.index(name)
-                if not limits[j,0]-1e-6<=value<=limits[j,1]+1e-6:
-                    raise ValueError('RAB ready pose outside native robot limits: '+name)
-                target[0,j]=value
-            idx=np.array([0],np.uint32)
-            robot.set_dof_positions(target,idx)
-            robot.set_dof_velocities(np.zeros_like(target),idx)
-            robot.set_dof_position_targets(target,idx)
-            self.step(45)
+            if self.embodiment.name == 'unitree_g1':
+                apply_unitree_ready_pose(self)
+            else:
+                from rab_skills import NATIVE_SOURCE
+                from arena_api.robot_profiles import FOLLOWERS
+                robot=self.mobile.view
+                names=list(robot.shared_metatype.dof_names)
+                ready=load(NATIVE_SOURCE/'layout_task_activation_v1/task_scene_registration_v1/recorded_ready_pose_042_v1.json')['targets_rad']
+                target=robot.get_dof_positions().copy()
+                limits=robot.get_dof_limits()[0]
+                for name,value in {**ready,**{k:-ready[v] for k,v in FOLLOWERS.items()}}.items():
+                    j=names.index(name)
+                    if not limits[j,0]-1e-6<=value<=limits[j,1]+1e-6:
+                        raise ValueError('RAB ready pose outside native robot limits: '+name)
+                    target[0,j]=value
+                idx=np.array([0],np.uint32)
+                robot.set_dof_positions(target,idx)
+                robot.set_dof_velocities(np.zeros_like(target),idx)
+                robot.set_dof_position_targets(target,idx)
+                self.step(45)
 
     def attach(self):
         self.sid=self.cache.Insert(self.stage)
@@ -158,7 +173,7 @@ class NativeWorld:
 
     def hit(self,camera,xy,fov,aspect,*,ignore=(),actor=False):
         o,d=screen_ray(camera,xy,fov,aspect)
-        hits=self.rays(o,d,ignore=(*ignore,ROBOT) if actor else ignore)
+        hits=self.rays(o,d,ignore=(*ignore,self.robot_prim) if actor else ignore)
         if not hits:
             raise ValueError('没有点到场景表面；请换个角度再试')
         return hits[0]
@@ -219,7 +234,7 @@ class NativeWorld:
         return dict(travel=travel,unit='deg' if angular else 'm',max_item_drift_m=maximum)
 
     def floor(self,xy,max_z):
-        for h in self.rays([*xy,max_z],[0,0,-1],limit=3.,ignore=(ROBOT,)):
+        for h in self.rays([*xy,max_z],[0,0,-1],limit=3.,ignore=(self.robot_prim,)):
             if h['normal'][2]>.8:
                 return h
         raise ValueError('找不到水平承托面；请点在台面、抽屉底或层板附近')

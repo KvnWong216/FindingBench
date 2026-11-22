@@ -189,10 +189,10 @@ def run(args, task):
             else:
                 from rab_skills import Skills
                 from pxr import UsdGeom
-                # The RAB head camera is recessed in the head geometry during
+                # The head camera is recessed in the head geometry during
                 # wide virtual gaze. Suppress own-body rendering in this
                 # sensor, matching point rays which ignore the robot.
-                UsdGeom.Imageable(stage.GetPrimAtPath('/World/Robot')).MakeInvisible()
+                UsdGeom.Imageable(stage.GetPrimAtPath(world.robot_prim)).MakeInvisible()
                 report['mode']='rab_skills'
                 state.editor=Skills(args,task,state,world,renderer,camera,receipt)
         before=None if world else usd_world_fingerprint(stage)
