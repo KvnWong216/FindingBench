@@ -9,6 +9,9 @@ Core orthogonal metrics
     ST        mean planning steps over successful episodes (ST_all also given)
     EFF_phys  EXECUTED / called over physical skills
               {MOVE_TO, TURN, OPEN, CLOSE, GRASP, PLACE}  (EFF_all also given)
+    LAT       mean inter-step agent inference latency (s/step, lower is better),
+              measured between consecutive skill calls after subtracting
+              simulator execution wall time (step_wall_s / obs_wall_s).
     RES       mean terminal restoration score (auxiliary, never folded into SR)
 
 Failure analysis (all labels deterministic, read from simulator records)
@@ -137,6 +140,70 @@ def find_episodes(root: Path) -> list[Path]:
     return sorted({p.parent for p in root.rglob("actions/0001.json")})
 
 
+def _load_inter_step_timing(trace_dir: Path) -> dict[str, Any] | None:
+    """Compute exact inter-step agent inference latencies from sibling mcp_private_events.jsonl.
+
+    For each ``act`` event k (returned at ``t_k`` after simulator execution ``step_wall_s_k``),
+    the agent submitted action k at ``t_k - step_wall_s_k`` after receiving the previous
+    observation at ``t_{k-1}``. Subtracting any intermediate ``observe`` simulator wall times
+    yields the pure agent thinking/inference latency Δt_think,k (seconds, lower is better).
+    """
+    ev_path = trace_dir.parent / "mcp_private_events.jsonl"
+    if not ev_path.is_file():
+        return None
+    think_s: list[float] = []
+    sim_s: list[float] = []
+    by_skill_think: dict[str, list[float]] = defaultdict(list)
+    prev_return_ts: float | None = None
+    pending_obs_sim = 0.0
+    load_s: float | None = None
+    for raw_line in ev_path.read_text(encoding="utf-8").splitlines():
+        raw_line = raw_line.strip()
+        if not raw_line:
+            continue
+        ev = json.loads(raw_line)
+        kind = ev.get("event")
+        ts = ev.get("timestamp")
+        if kind == "reset_episode":
+            load_s = float(ev["load_wall_s"]) if ev.get("load_wall_s") is not None else None
+            prev_return_ts = float(ts) if ts is not None else None
+            pending_obs_sim = 0.0
+        elif kind == "observe":
+            obs_w = ev.get("obs_wall_s") or ev.get("wall_s") or 0.0
+            pending_obs_sim += float(obs_w)
+        elif kind == "act":
+            step_w = float(ev.get("step_wall_s") or 0.0)
+            sim_s.append(step_w)
+            if prev_return_ts is not None and ts is not None:
+                submit_ts = float(ts) - step_w
+                dt = max(0.0, submit_ts - prev_return_ts - pending_obs_sim)
+                think_s.append(dt)
+                sk = str((ev.get("raw_action") or {}).get("skill", "UNKNOWN"))
+                by_skill_think[sk].append(dt)
+            if ts is not None:
+                prev_return_ts = float(ts)
+            pending_obs_sim = 0.0
+    if not think_s and not sim_s:
+        return None
+    return dict(
+        think_s=think_s,
+        sim_s=sim_s,
+        by_skill_think={k: v for k, v in by_skill_think.items()},
+        load_s=load_s,
+    )
+
+
+def _percentile(values: list[float], p: float) -> float | None:
+    if not values:
+        return None
+    s = sorted(values)
+    idx = (len(s) - 1) * p
+    lo = int(math.floor(idx))
+    hi = min(len(s) - 1, lo + 1)
+    frac = idx - lo
+    return round(s[lo] + (s[hi] - s[lo]) * frac, 3)
+
+
 def load_episode(actions_dir: Path) -> dict[str, Any]:
     trace_dir = actions_dir.parent
     manifest_path = trace_dir / "manifest.json"
@@ -164,8 +231,9 @@ def load_episode(actions_dir: Path) -> dict[str, Any]:
                 steps=result.get("planning_step"),
                 attribution=measurements.get("terminal_attribution"),
             )
+    timing = _load_inter_step_timing(trace_dir)
     return dict(task_id=manifest.get("id", trace_dir.parent.name), path=str(trace_dir),
-                calls=calls, terminal=terminal)
+                calls=calls, terminal=terminal, timing=timing)
 
 
 # ---------------------------------------------------------------------------
@@ -282,6 +350,37 @@ def aggregate(episodes: Iterable[dict[str, Any]]) -> dict[str, Any]:
     steps_all = [e["terminal"]["steps"] for e in valid if e["terminal"]["steps"] is not None]
     res = [e["terminal"]["restoration"] for e in valid if e["terminal"]["restoration"] is not None]
 
+    # ---- inter-step agent inference latency (LAT, s/step, lower is better) -
+    all_think: list[float] = []
+    all_sim: list[float] = []
+    ep_think_totals: list[float] = []
+    skill_think: dict[str, list[float]] = defaultdict(list)
+    for ep in episodes:
+        tm = ep.get("timing")
+        if not tm:
+            continue
+        ts = tm.get("think_s") or []
+        ss = tm.get("sim_s") or []
+        all_think.extend(ts)
+        all_sim.extend(ss)
+        if ts:
+            ep_think_totals.append(sum(ts))
+        for sk, vals in (tm.get("by_skill_think") or {}).items():
+            skill_think[sk].extend(vals)
+    lat_mean = round(sum(all_think) / len(all_think), 3) if all_think else None
+    lat_p50 = _percentile(all_think, 0.50)
+    lat_p95 = _percentile(all_think, 0.95)
+    sim_mean = round(sum(all_sim) / len(all_sim), 3) if all_sim else None
+    latency = dict(
+        agent_think_mean_s=lat_mean,
+        agent_think_p50_s=lat_p50,
+        agent_think_p95_s=lat_p95,
+        agent_think_total_mean_per_ep_s=round(sum(ep_think_totals) / len(ep_think_totals), 2) if ep_think_totals else None,
+        sim_step_mean_s=sim_mean,
+        n_steps_timed=len(all_think),
+        by_skill_mean_s={sk: round(sum(v) / len(v), 3) for sk, v in sorted(skill_think.items()) if v},
+    )
+
     return dict(
         episodes=dict(total=len(episodes), valid=len(valid), success=len(success),
                       failed=len(failed), incomplete_infra=len(incomplete)),
@@ -292,9 +391,11 @@ def aggregate(episodes: Iterable[dict[str, Any]]) -> dict[str, Any]:
             ST_all=round(sum(steps_all) / len(steps_all), 2) if steps_all else None,
             EFF_phys=_ratio(n_exec_phys, len(phys)),
             EFF_all=_ratio(n_exec_all, len(agent_calls)),
+            LAT=lat_mean,
             RES=round(sum(res) / len(res), 4) if res else None,
             RSER=rser["rate"],
         ),
+        latency=latency,
         calls=dict(total=len(calls), agent=len(agent_calls), physical=len(phys),
                    refused=len(refused), infra_excluded=infra_calls),
         per_skill={s: dict(called=skill_called[s], executed=skill_exec.get(s, 0),
@@ -308,7 +409,11 @@ def aggregate(episodes: Iterable[dict[str, Any]]) -> dict[str, Any]:
         incomplete_paths=incomplete,
         per_episode=[dict(task_id=e["task_id"], path=e["path"], **(e["terminal"] or {}),
                           calls=len(e["calls"]),
-                          refused=sum(c["code"] != "EXECUTED" for c in e["calls"]))
+                          refused=sum(c["code"] != "EXECUTED" for c in e["calls"]),
+                          lat_mean_s=(round(sum(e["timing"]["think_s"]) / len(e["timing"]["think_s"]), 3)
+                                      if e.get("timing") and e["timing"].get("think_s") else None),
+                          lat_p50_s=(_percentile(e["timing"]["think_s"], 0.50)
+                                     if e.get("timing") and e["timing"].get("think_s") else None))
                      for e in episodes],
     )
 
@@ -320,11 +425,15 @@ def _pct(v: float | None) -> str:
     return "—" if v is None else f"{100 * v:.1f}%"
 
 
+def _sec(v: float | None) -> str:
+    return "—" if v is None else f"{v:.2f}s"
+
+
 def to_markdown(reports: dict[str, dict[str, Any]]) -> str:
     out = ["# FindingBench RAB v1 — Evaluation Report", "",
            "## Core orthogonal metrics", "",
-           "| Run | Episodes | SR ↑ (95% CI) | ST_succ ↓ | ST_all | EFF_phys ↑ | EFF_all | RES ↑ | RSER ↓ |",
-           "|---|---|---|---|---|---|---|---|---|"]
+           "| Run | Episodes | SR ↑ (95% CI) | ST_succ ↓ | ST_all | EFF_phys ↑ | EFF_all | LAT ↓ (s/step) | RES ↑ | RSER ↓ |",
+           "|---|---|---|---|---|---|---|---|---|---|"]
     for label, r in reports.items():
         c, e = r["core"], r["episodes"]
         ci = c["SR_ci95"]
@@ -332,11 +441,19 @@ def to_markdown(reports: dict[str, dict[str, Any]]) -> str:
         out.append(f"| {label} | {e['valid']} (+{e['incomplete_infra']} infra) | {_pct(c['SR'])}{ci_s} | "
                    f"{c['ST_succ'] if c['ST_succ'] is not None else '—'} | "
                    f"{c['ST_all'] if c['ST_all'] is not None else '—'} | {_pct(c['EFF_phys'])} | "
-                   f"{_pct(c['EFF_all'])} | {_pct(c['RES'])} | {_pct(c.get('RSER'))} |")
+                   f"{_pct(c['EFF_all'])} | {_sec(c.get('LAT'))} | {_pct(c['RES'])} | {_pct(c.get('RSER'))} |")
     for label, r in reports.items():
         rser = r.get("rser") or {}
+        lat = r.get("latency") or {}
         rep_s = ", ".join(f"`{k}`×{v}" for k, v in (rser.get("by_detail_code") or {}).items()) or "—"
+        lat_line = (
+            f"Inter-step Agent Inference Latency (LAT): mean **{_sec(lat.get('agent_think_mean_s'))}/step** · "
+            f"p50 {_sec(lat.get('agent_think_p50_s'))} · p95 {_sec(lat.get('agent_think_p95_s'))} · "
+            f"total think {_sec(lat.get('agent_think_total_mean_per_ep_s'))}/ep "
+            f"(sim step mean {_sec(lat.get('sim_step_mean_s'))}, n={lat.get('n_steps_timed', 0)})"
+        )
         out += ["", f"## {label}", "",
+                lat_line, "",
                 "### Task-Stage Funnel (task-centric proprioceptive breakdown)", "",
                 f"Repeat-Same-Error Rate (RSER): {_pct(rser.get('rate'))} "
                 f"({rser.get('repeat_errors', 0)}/{rser.get('refused_calls', 0)}; repeats: {rep_s})", "",

@@ -130,3 +130,33 @@ def test_task_funnel_and_rser(tmp_path):
     assert r["core"]["RSER"] == 0.4
     assert r["rser"]["by_detail_code"] == {"NO_ARTICULATION_HIT": 1, "NAV_BLOCKED": 1}
 
+
+def test_inter_step_agent_latency(tmp_path):
+    _write_episode(tmp_path, "ep_timed", [
+        ("VIEW", "EXECUTED", None),
+        ("MOVE_TO", "EXECUTED", None),
+        ("GRASP", "OUT_OF_CAPABILITY", "GRASP_TOO_FAR:dist=1.1"),
+    ], {"status": "FAIL_MAX_STEPS", "attr": "TARGET_NEVER_ENGAGED", "res": 1.0})
+    ep_root = tmp_path / "ep_timed"
+    # Sibling mcp_private_events.jsonl next to worker_trace/
+    events = [
+        {"event": "reset_episode", "timestamp": 1000.0, "load_wall_s": 12.0},
+        # Step 1 submitted at 1004.0, sim took 0.5s -> returned at 1004.5 => think = 4.0s
+        {"event": "act", "planning_step": 1, "raw_action": {"skill": "VIEW"}, "step_wall_s": 0.5, "timestamp": 1004.5},
+        # Intermediate observe took 0.3s sim
+        {"event": "observe", "obs_wall_s": 0.3, "timestamp": 1006.8},
+        # Step 2 submitted at 1010.8, sim took 0.7s -> returned at 1011.5 => think = (1010.8 - 1004.5 - 0.3) = 6.0s
+        {"event": "act", "planning_step": 2, "raw_action": {"skill": "MOVE_TO"}, "step_wall_s": 0.7, "timestamp": 1011.5},
+        # Step 3 submitted at 1019.5, sim took 1.0s -> returned at 1020.5 => think = 8.0s
+        {"event": "act", "planning_step": 3, "raw_action": {"skill": "GRASP"}, "step_wall_s": 1.0, "timestamp": 1020.5},
+    ]
+    (ep_root / "mcp_private_events.jsonl").write_text("\n".join(json.dumps(e) for e in events) + "\n")
+    r = M.aggregate(M.load_episode(d) for d in M.find_episodes(tmp_path))
+    assert r["core"]["LAT"] == 6.0
+    assert r["latency"]["agent_think_mean_s"] == 6.0
+    assert r["latency"]["agent_think_p50_s"] == 6.0
+    assert r["latency"]["agent_think_total_mean_per_ep_s"] == 18.0
+    assert r["latency"]["n_steps_timed"] == 3
+    assert "LAT ↓ (s/step)" in M.to_markdown({"m": r})
+
+
