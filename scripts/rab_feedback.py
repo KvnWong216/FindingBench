@@ -36,6 +36,7 @@ PROPRIOCEPTIVE_BY_ERROR: dict[str, tuple[str, str]] = {
     "ARM_IK_PLACE_FAILED": ("IK_INFEASIBLE", "No feasible arm configuration for the selected point."),
     "ARM_REACH_FAILED": ("IK_INFEASIBLE", "No feasible arm configuration for the selected point."),
     "HAND_PATH_BLOCKED": ("ARM_PATH_OBSTRUCTED", "Arm path to the selected point is obstructed."),
+    "ARTICULATION_BLOCKED": ("ARTICULATION_OBSTRUCTED", "Articulated motion blocked or disturbed nearby objects."),
     "UNSAFE_OVERSIZED_GRASP": ("OBJECT_EXCEEDS_GRIPPER", "Object size exceeds gripper capacity."),
     "CLICK_NON_HORIZONTAL_SURFACE": ("SURFACE_NOT_LEVEL", "Surface at the selected point is not horizontal."),
     "PLACE_ON_SELF": ("INVALID_SUPPORT", "Selected point cannot serve as a placement support."),

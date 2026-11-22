@@ -54,8 +54,8 @@ CAPABILITIES: dict[str, dict[str, Any]] = {
         name="Collision & Safety Clearance",
         prototypes=("NAV_NO_CLEAR_ROUTE", "NAV_SEGMENT_CLEARANCE_BLOCKED",
                     "TURN_RADIAL_CLEARANCE_BLOCKED", "BASE_MOTION_SHORTFALL",
-                    "HAND_PATH_BLOCKED"),
-        eligible=("MOVE_TO", "TURN", "GRASP", "PLACE"),
+                    "HAND_PATH_BLOCKED", "ARTICULATION_BLOCKED"),
+        eligible=("MOVE_TO", "TURN", "OPEN", "CLOSE", "GRASP", "PLACE"),
     ),
     "physical": dict(
         name="Physical Affordance & Stability",

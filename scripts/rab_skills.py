@@ -290,11 +290,13 @@ class Skills:
         if any(abs(v)>1e-8 for v in mobile.previous.values()):
             mobile.apply(dict(ZERO))
             self.world.step(1)
-        # Note: mobile.pose() returns [x, y, z, qw, qx, qy, qz] (w-first), whereas
-        # Rotation.as_quat() returns [qx, qy, qz, qw] (w-last).
+        # omni.physics.tensors ArticulationView root transforms use [x,y,z,qx,qy,qz,qw] (XYZW),
+        # while USD Gf.Quatf takes (w, Vec3f(x,y,z)). Passing W-first to set_root_transforms
+        # previously rolled the robot sideways/upside-down for 2 PhysX steps (and left it
+        # permanently inverted near yaw=0).
         q_xyzw=Rotation.from_euler('z',float(yaw)).as_quat()
         qx,qy,qz,qw=float(q_xyzw[0]),float(q_xyzw[1]),float(q_xyzw[2]),float(q_xyzw[3])
-        root=np.array([[float(xyz[0]),float(xyz[1]),float(xyz[2]),qw,qx,qy,qz]],np.float32)
+        root=np.array([[float(xyz[0]),float(xyz[1]),float(xyz[2]),qx,qy,qz,qw]],np.float32)
         idx=np.array([0],np.uint32)
         for jnt in mobile.joints.values():
             jnt.GetJointEnabledAttr().Set(False)
@@ -312,19 +314,11 @@ class Skills:
         mobile.previous=dict(ZERO)
         mobile.verify()
         self.world.step(2,sync=True)
-        # Verify whether set_root_transforms expects [qw,qx,qy,qz] or [qx,qy,qz,qw]
+        pose=mobile.pose()
+        up_z=float(Rotation.from_quat(pose[3:]).apply([0,0,1])[2])
         _,measured_yaw=self.base()
-        if abs(angle(measured_yaw-float(yaw)))>.05:
-            root_alt=np.array([[float(xyz[0]),float(xyz[1]),float(xyz[2]),qx,qy,qz,qw]],np.float32)
-            mobile.anchor.GetJointEnabledAttr().Set(False)
-            mobile.flush()
-            mobile.view.set_root_transforms(root_alt,idx)
-            mobile.view.set_root_velocities(np.zeros((1,6),np.float32),idx)
-            mobile.anchor.GetLocalPos0Attr().Set(mobile.Gf.Vec3f(float(xyz[0]),float(xyz[1]),float(xyz[2])))
-            mobile.anchor.GetLocalRot0Attr().Set(mobile.Gf.Quatf(qw,mobile.Gf.Vec3f(qx,qy,qz)))
-            mobile.anchor.GetJointEnabledAttr().Set(True)
-            mobile.flush()
-            self.world.step(2,sync=True)
+        if up_z<.99 or abs(angle(measured_yaw-float(yaw)))>.05:
+            raise RuntimeError(f'Base teleport orientation mismatch: up_z={up_z:.3f} yaw={measured_yaw:.3f} want={float(yaw):.3f}')
 
     def turn(self,amount):
         if abs(amount)<.015:
@@ -605,6 +599,7 @@ class Skills:
         idx=np.array([0],np.uint32)
         saved_q=robot.get_dof_positions().copy()
         saved_t=robot.get_dof_position_targets().copy()
+        saved_items={r['body']:self.world.pose(r['body']).copy() for r in self.world.rows}
         path=[saved_q[0].copy()] if record else []
         try:
             if float(position[2])<.45:
@@ -612,12 +607,12 @@ class Skills:
                 seed_t=saved_t.copy()
                 if 'idx01_body_joint1' in self.names:
                     j1=self.names.index('idx01_body_joint1')
-                    seed_q[0,j1]=.02
-                    seed_t[0,j1]=.02
+                    seed_q[0,j1]=.0
+                    seed_t[0,j1]=.0
                 if 'idx02_body_joint2' in self.names:
                     j2=self.names.index('idx02_body_joint2')
-                    seed_q[0,j2]=.65
-                    seed_t[0,j2]=.65
+                    seed_q[0,j2]=.95
+                    seed_t[0,j2]=.95
                 robot.set_dof_positions(seed_q,idx)
                 robot.set_dof_position_targets(seed_t,idx)
                 self.world.step(2,sync=True)
@@ -647,6 +642,17 @@ class Skills:
             robot.set_dof_positions(saved_q,idx)
             robot.set_dof_velocities(np.zeros_like(saved_q),idx)
             robot.set_dof_position_targets(saved_t,idx)
+            # Restore any scene item nudged by the live PhysX IK feasibility probe
+            # so a refused grasp/place never disturbs objects in the room.
+            moved={b:p0 for b,p0 in saved_items.items() if float(np.linalg.norm(self.world.pose(b)[:3]-p0[:3]))>.001}
+            if moved:
+                import omni.physics.tensors
+                sview=omni.physics.tensors.create_simulation_view('numpy',self.world.sid.ToLongInt())
+                for b,p0 in moved.items():
+                    actor=sview.create_rigid_body_view(b)
+                    if actor.count==1:
+                        actor.set_transforms(np.asarray([p0],np.float32),idx)
+                        actor.set_velocities(np.zeros((1,6),np.float32),idx)
             self.world.step(2,sync=True)
 
     def grasp(self,row):
@@ -661,8 +667,7 @@ class Skills:
             raise Refused('OUT_OF_CAPABILITY',f'GRASP_TOO_FAR:dist={reach:.3f}')
         if np.min(np.ptp(box,axis=0))>.16:
             raise Refused('UNSAFE',f'UNSAFE_OVERSIZED_GRASP:min_extent={float(np.min(np.ptp(box,axis=0))):.3f}')
-        side='l' if np.dot(target[:2]-p[:2],[-math.sin(yaw),math.cos(yaw)])>.06 else 'r'
-        path=f'{ROBOT}/gripper_{side}_center_link'
+        pref='l' if np.dot(target[:2]-p[:2],[-math.sin(yaw),math.cos(yaw)])>.06 else 'r'
         toward=np.r_[math.cos(yaw),math.sin(yaw),0.]
         z_key=row.get('zone')
         in_open_drawer=z_key in self.world.opened and z_key in self.world.drives
@@ -670,17 +675,27 @@ class Skills:
         allowed=[row['body']]
         if in_open_drawer:
             allowed.append(self.world.drives[z_key][2])
-        hand=self.world.pose(path)[:3]
-        if in_open_drawer:
-            # Verify vertical reach from above the open drawer cavity down to target
-            self.arm_path_clear(pre,target,tuple(allowed))
-        else:
-            self.arm_path_clear(hand,pre,tuple(allowed))
-            self.arm_path_clear(pre,target,tuple(allowed))
-        try:
-            ik_err,ik_path=self._ik_solve(target,side)
-        except Refused as e:
-            raise Refused(e.code,e.reason or 'ARM_IK_TARGET_FAILED')
+        last_err=None
+        chosen=None
+        for cand in (pref,'r' if pref=='l' else 'l'):
+            path=f'{ROBOT}/gripper_{cand}_center_link'
+            hand=self.world.pose(path)[:3]
+            try:
+                if in_open_drawer:
+                    # Verify vertical reach from above the open drawer cavity down to target
+                    self.arm_path_clear(pre,target,tuple(allowed))
+                else:
+                    self.arm_path_clear(hand,pre,tuple(allowed))
+                    self.arm_path_clear(pre,target,tuple(allowed))
+                ik_err,ik_path=self._ik_solve(target,cand)
+                chosen=(cand,ik_err,ik_path)
+                break
+            except Refused as e:
+                if last_err is None:
+                    last_err=e
+        if chosen is None:
+            raise Refused(last_err.code,last_err.reason or 'ARM_IK_TARGET_FAILED')
+        side,ik_err,ik_path=chosen
         self.motion=dict(kind='grasp',body=row['body'],side=side,ik_path=ik_path,
                          object_pose=origin.tolist(),box=box.tolist(),
                          in_open_drawer=bool(in_open_drawer),
@@ -740,15 +755,24 @@ class Skills:
         reach=float(np.linalg.norm(point[:2]-p[:2]))
         if reach>.92:
             raise Refused('OUT_OF_CAPABILITY',f'PLACE_TOO_FAR:dist={reach:.3f}')
-        place_side='l' if np.dot(point[:2]-p[:2],[-math.sin(yaw),math.cos(yaw)])>.06 else 'r'
-        path=f'{ROBOT}/gripper_{place_side}_center_link'
-        hand=self.world.pose(path)[:3]
+        pref='l' if np.dot(point[:2]-p[:2],[-math.sin(yaw),math.cos(yaw)])>.06 else 'r'
         high=point+np.array([0.,0.,.08])
-        self.arm_path_clear(hand,high,(row['body'],))
-        try:
-            ik_err,ik_path=self._ik_solve(high,place_side)
-        except Refused as e:
-            raise Refused(e.code,e.reason or 'ARM_IK_PLACE_FAILED')
+        last_err=None
+        chosen=None
+        for cand in (pref,'r' if pref=='l' else 'l'):
+            path=f'{ROBOT}/gripper_{cand}_center_link'
+            hand=self.world.pose(path)[:3]
+            try:
+                self.arm_path_clear(hand,high,(row['body'],))
+                ik_err,ik_path=self._ik_solve(high,cand)
+                chosen=(cand,ik_err,ik_path)
+                break
+            except Refused as e:
+                if last_err is None:
+                    last_err=e
+        if chosen is None:
+            raise Refused(last_err.code,last_err.reason or 'ARM_IK_PLACE_FAILED')
+        place_side,ik_err,ik_path=chosen
         # Compute object placement transform above clicked support surface
         pose=self.world.pose(row['body']).copy()
         box=self.bounds(row)
@@ -856,7 +880,11 @@ class Skills:
                                   else 'PRECONDITION_ALREADY_CLOSED')
                 drive=self.world.drives[key][0]
                 before_target=float(drive.GetTargetPositionAttr().Get() or 0.)
-                self.details.update(native_joint=key,**self.world.swing(key,skill=='OPEN'))
+                try:
+                    swing_res=self.world.swing(key,skill=='OPEN')
+                except ValueError as e:
+                    raise Refused('UNSAFE',f'ARTICULATION_BLOCKED:{e}')
+                self.details.update(native_joint=key,**swing_res)
                 self.motion=dict(kind='articulate',key=key,opening=skill=='OPEN',
                                  handle=list(map(float,hit['position'])),
                                  drive_from=before_target,drive_to=float(drive.GetTargetPositionAttr().Get() or 0.))
