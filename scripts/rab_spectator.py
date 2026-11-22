@@ -148,6 +148,13 @@ def run(args, task):
         os.environ.setdefault('OMNI_KIT_ACCEPT_EULA','YES')
         # Native plugins create thousands of watchers in a large release.
         os.environ.setdefault('PXR_WORK_THREAD_LIMIT','4')
+        # Preload conda env's warp 1.12+ BEFORE SimulationApp prepends Isaac Sim's
+        # older bundled omni.warp.core extension (required by NVLabs cuRoboV2-Fast).
+        if args.skills:
+            try:
+                import warp as _wp  # noqa: F401
+            except Exception:
+                pass
         from isaacsim import SimulationApp
         app=SimulationApp(dict(headless=True,width=args.width,height=args.height,multi_gpu=False,
                limit_cpu_threads=8,extra_args=['--/log/level=error']))

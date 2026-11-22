@@ -111,12 +111,21 @@ class Skills:
         self.episode_status='RUNNING'
         self.held=None
         self.output=args.run_output
+        from rab_curobo import UnitreeCuRoboSolver, selected_ik_backend
+        self.ik_backend=selected_ik_backend(self.emb.name)
+        self.curobo=None
+        if self.ik_backend=='curobo':
+            self.curobo=UnitreeCuRoboSolver()
+            import os as _os
+            want_6d=_os.environ.get('FINDINGBENCH_RAB_MOTION','discrete').lower()=='replay'
+            self.curobo.warmup(('r','l'),include_6d=want_6d)
         if self.output:
             from rab_feedback import feedback_mode
             self.output.mkdir(parents=True)
             save(self.output/'manifest.json',dict(id=task['id'],scene_sha256=world.episode['scene_sha256'],
                  protocol='findingbench_rab_pinhole_v1', feedback_mode=feedback_mode(),
                  robot_embodiment=self.emb.name, embodiment_prior=embodiment_prior_mode(),
+                 ik_backend=self.ik_backend,
                  executor='rab_physx',horizon=self.horizon))
         self.receipt=receipt
         self.observation_dirty=True
@@ -627,15 +636,71 @@ class Skills:
         # IK + collision check -> direct primitive realization).
         return self._ik_solve(position,side,tolerance=tolerance)[0]
 
-    def _ik_solve(self,position,side='r',*,tolerance=.040,record=None):
-        """Damped-least-squares IK; returns (error_m, joint iterates).
+    def _compute_crouch_plan(self,position,saved_base):
+        from rab_embodiment import compute_g1_crouch
+        cy,sy=math.cos(saved_base[1]),math.sin(saved_base[1])
+        fwd_clear=1.0
+        for z_off in (.18,.26,.34):
+            for lat in (-.14,0.,.14):
+                ox=float(saved_base[0][0])-lat*sy
+                oy=float(saved_base[0][1])+lat*cy
+                hits=self.world.rays([ox,oy,float(saved_base[0][2])+z_off],[cy,sy,0.],.45,ignore=(self.robot_prim,))
+                if hits:
+                    fwd_clear=min(fwd_clear,float(hits[0]['distance']))
+        max_knee_x=max(0.,fwd_clear-.04)
+        crouch_dz,pelvis_pitch,crouch_j=compute_g1_crouch(float(position[2]),floor_z=float(saved_base[0][2]),max_knee_x=max_knee_x)
+        crouch_base_xy=saved_base[0].copy()
+        if crouch_dz<.14 and float(position[2])-float(saved_base[0][2])<.62:
+            back_hits=self.world.rays([float(saved_base[0][0]),float(saved_base[0][1]),float(saved_base[0][2])+.50],[-cy,-sy,0.],.35,ignore=(self.robot_prim,))
+            back_clear=float(back_hits[0]['distance']) if back_hits else .35
+            if back_clear>.22:
+                shift=min(.12,back_clear-.12)
+                crouch_base_xy[0]-=shift*cy
+                crouch_base_xy[1]-=shift*sy
+                crouch_dz,pelvis_pitch,crouch_j=compute_g1_crouch(float(position[2]),floor_z=float(saved_base[0][2]),max_knee_x=max_knee_x+shift)
+        return crouch_base_xy,crouch_dz,pelvis_pitch,crouch_j
 
-        The iterates (start configuration, optional torso/crouch seed, every DLS step)
-        are only collected when ``record`` is true (motion replay); the solver
-        arithmetic and the restored robot state are identical either way.
+    def _ik_solve(self,position,side='r',*,tolerance=.040,record=None):
+        """IK feasibility solver; uses cuRoboV2-Fast GPU IK when enabled, else live-PhysX DLS-IK.
+
+        Returns ``(error_m, joint_iterates)``.
         """
+        import time as _time
         record=self.director is not None if record is None else record
         robot=self.world.mobile.view
+        saved_q=robot.get_dof_positions().copy()
+        saved_base=self.base()
+
+        # Fast GPU path (NVLabs cuRoboV2-Fast): zero PhysX ticks, zero bystander nudging
+        if self.ik_backend=='curobo' and self.curobo is not None:
+            from scipy.spatial.transform import Rotation
+            t_start=_time.monotonic()
+            crouch_base_xy,crouch_dz,pelvis_pitch,crouch_j=self._compute_crouch_plan(position,saved_base)
+            pelvis_pos=np.array([float(crouch_base_xy[0]),float(crouch_base_xy[1]),
+                                 float(crouch_base_xy[2])+self.emb.pelvis_z_offset-float(crouch_dz)],float)
+            pelvis_R=Rotation.from_euler('ZY',[float(saved_base[1]),float(pelvis_pitch)]).as_matrix()
+            seed_map={jn:float(saved_q[0,i]) for i,jn in enumerate(self.names)}
+            seed_map.update(crouch_j)
+            ok,err,sol_map,solve_ms=self.curobo.solve_ik_3d(
+                side,np.asarray(position,float),pelvis_pos,pelvis_R,
+                tolerance=tolerance,seed_joint_map=seed_map,
+            )
+            self.details.update(ik_backend='curobo',ik_solve_ms=round(solve_ms,2),
+                                ik_total_ms=round((_time.monotonic()-t_start)*1000.,2))
+            if not ok:
+                raise Refused('OUT_OF_CAPABILITY',f'ARM_IK_TARGET_FAILED:err={err:.4f}:pos={list(map(float,position))}:backend=curobo')
+            path=[]
+            if record:
+                q_goal=saved_q[0].copy()
+                all_lim=robot.get_dof_limits()[0]
+                for jname,jval in {**crouch_j,**sol_map}.items():
+                    if jname in self.names:
+                        ji=self.names.index(jname)
+                        q_goal[ji]=float(np.clip(jval,all_lim[ji,0],all_lim[ji,1]))
+                path=[saved_q[0].copy(),q_goal]
+            return float(err),path
+
+        t_start=_time.monotonic()
         jmeta=robot.shared_metatype
         arm=[j for j in self.emb.arm_joints(side) if j in self.names]
         ix=[self.names.index(x) for x in arm]
@@ -643,38 +708,14 @@ class Skills:
         links=list(jmeta.link_names)
         lim=robot.get_dof_limits()[0,ix]
         idx=np.array([0],np.uint32)
-        saved_q=robot.get_dof_positions().copy()
         saved_t=robot.get_dof_position_targets().copy()
-        saved_base=self.base()
         saved_items={r['body']:self.world.pose(r['body']).copy() for r in self.world.rows}
         path=[saved_q[0].copy()] if record else []
         crouched=False
         try:
             if self.emb.supports_crouch:
                 from rab_embodiment import compute_g1_crouch
-                # Measure front knee clearance so crouching never rams furniture
-                cy,sy=math.cos(saved_base[1]),math.sin(saved_base[1])
-                fwd_clear=1.0
-                for z_off in (.18,.26,.34):
-                    for lat in (-.14,0.,.14):
-                        ox=float(saved_base[0][0])-lat*sy
-                        oy=float(saved_base[0][1])+lat*cy
-                        hits=self.world.rays([ox,oy,float(saved_base[0][2])+z_off],[cy,sy,0.],.45,ignore=(self.robot_prim,))
-                        if hits:
-                            fwd_clear=min(fwd_clear,float(hits[0]['distance']))
-                max_knee_x=max(0.,fwd_clear-.04)
-                crouch_dz,pelvis_pitch,crouch_j=compute_g1_crouch(float(position[2]),floor_z=float(saved_base[0][2]),max_knee_x=max_knee_x)
-                # If front furniture restricts forward knee bend, try a small hip-hinge squat
-                # stepping the pelvis back slightly (if clear behind) so knees stay behind toes.
-                crouch_base_xy=saved_base[0].copy()
-                if crouch_dz<.14 and float(position[2])-float(saved_base[0][2])<.62:
-                    back_hits=self.world.rays([float(saved_base[0][0]),float(saved_base[0][1]),float(saved_base[0][2])+.50],[-cy,-sy,0.],.35,ignore=(self.robot_prim,))
-                    back_clear=float(back_hits[0]['distance']) if back_hits else .35
-                    if back_clear>.22:
-                        shift=min(.12,back_clear-.12)
-                        crouch_base_xy[0]-=shift*cy
-                        crouch_base_xy[1]-=shift*sy
-                        crouch_dz,pelvis_pitch,crouch_j=compute_g1_crouch(float(position[2]),floor_z=float(saved_base[0][2]),max_knee_x=max_knee_x+shift)
+                crouch_base_xy,crouch_dz,pelvis_pitch,crouch_j=self._compute_crouch_plan(position,saved_base)
                 if crouch_dz>0. or pelvis_pitch>0. or crouch_j:
                     seed_q=saved_q.copy()
                     seed_t=saved_t.copy()
@@ -731,6 +772,7 @@ class Skills:
                 ee_pos,_,r_world=self.ee_world(side)
                 err=np.asarray(position)-ee_pos
                 if np.linalg.norm(err)<=tolerance:
+                    self.details.update(ik_backend='dls',ik_total_ms=round((_time.monotonic()-t_start)*1000.,2))
                     return float(np.linalg.norm(err)),path
                 jac=robot.get_jacobians()[0]
                 i=links.index(link)-(1 if jac.shape[0]==len(links)-1 else 0)
@@ -750,6 +792,7 @@ class Skills:
                     path.append(q[0].copy())
             ee_pos,_,_=self.ee_world(side)
             err=float(np.linalg.norm(np.asarray(position)-ee_pos))
+            self.details.update(ik_backend='dls',ik_total_ms=round((_time.monotonic()-t_start)*1000.,2))
             raise Refused('OUT_OF_CAPABILITY',f'ARM_IK_TARGET_FAILED:err={err:.4f}:pos={list(map(float,position))}:hand={list(map(float,ee_pos))}')
         finally:
             if crouched:

@@ -260,12 +260,46 @@ class ReplayDirector:
                      seed_q: np.ndarray | None = None, pos_tol: float = .025,
                      rot_tol: float = .16, w_rot: float = .25, max_iters: int = 140,
                      damp: float = .024, step_clip: float = .10) -> tuple[float, float, list[np.ndarray]]:
-        """Animation-only 6-DoF weighted DLS-IK using the full 6-row Articulation Jacobian.
+        """Animation-only 6-DoF IK using cuRoboV2-Fast GPU IK when available, else weighted DLS-IK.
 
         Returns ``(pos_err_m, rot_err_rad, joint_iterates)`` and always restores the
         robot's joint state before returning. Raises ``ValueError`` if tolerances are not met.
         """
         robot = self.robot
+        target_p = np.asarray(position, float)
+        target_R = None if rotmat is None else np.asarray(rotmat, float)
+
+        # Fast GPU 6-DoF cuRoboV2-Fast path (zero PhysX stepping during planning!)
+        if getattr(self.sk, "ik_backend", "dls") == "curobo" and getattr(self.sk, "curobo", None) is not None:
+            from scipy.spatial.transform import Rotation
+            q_base = robot.get_dof_positions()[0].copy() if seed_q is None else np.asarray(seed_q, float).reshape(-1).copy()
+            saved_base = self.sk.base()
+            if self.sk.emb.supports_crouch:
+                crouch_xy, crouch_dz, pelvis_pitch, crouch_j = self.sk._compute_crouch_plan(target_p, saved_base)
+            else:
+                crouch_xy, crouch_dz, pelvis_pitch, crouch_j = saved_base[0], 0.0, 0.0, {}
+            pelvis_pos = np.array([
+                float(crouch_xy[0]),
+                float(crouch_xy[1]),
+                float(crouch_xy[2]) + self.sk.emb.pelvis_z_offset - float(crouch_dz),
+            ], float)
+            pelvis_R = Rotation.from_euler("ZY", [float(saved_base[1]), float(pelvis_pitch)]).as_matrix()
+            seed_map = {jn: float(q_base[i]) for i, jn in enumerate(self.sk.names)}
+            seed_map.update(crouch_j)
+            ok, pos_err, rot_err, sol_map, _ = self.sk.curobo.solve_ik_6d(
+                side, target_p, target_R if (target_R is not None and w_rot > 0.) else None,
+                pelvis_pos, pelvis_R, pos_tol=pos_tol, rot_tol=rot_tol, seed_joint_map=seed_map,
+            )
+            if not ok:
+                raise ValueError(f"curobo_ik6d_failed:pos={pos_err:.4f}:rot={rot_err:.3f}")
+            q_sol = q_base.copy()
+            all_lim = robot.get_dof_limits()[0]
+            for jname, jval in {**crouch_j, **sol_map}.items():
+                if jname in self.sk.names:
+                    ji = self.sk.names.index(jname)
+                    q_sol[ji] = float(np.clip(jval, all_lim[ji, 0], all_lim[ji, 1]))
+            return pos_err, rot_err, [q_base, q_sol]
+
         jmeta = robot.shared_metatype
         arm = [j for j in self.sk.emb.arm_joints(side) if j in self.sk.names]
         ix = [self.sk.names.index(x) for x in arm]
@@ -276,8 +310,6 @@ class ReplayDirector:
         idx = np.array([0], np.uint32)
         saved_q = robot.get_dof_positions().copy()
         saved_t = robot.get_dof_position_targets().copy()
-        target_p = np.asarray(position, float)
-        target_R = None if rotmat is None else np.asarray(rotmat, float)
         try:
             q_start = saved_q.copy() if seed_q is None else np.asarray(seed_q, np.float32).reshape(1, -1).copy()
             robot.set_dof_positions(q_start, idx)
