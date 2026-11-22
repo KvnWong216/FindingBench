@@ -68,7 +68,9 @@ class SkillHandler(Handler):
                 ident=uuid4().hex
                 self.state.commands.append((ident,action))
                 self.state.reply_id=ident
-                ok=self.state.condition.wait_for(lambda:self.state.result and self.state.result['id']==ident or self.state.stopped,timeout=120)
+                import os as _os
+                act_timeout=420 if _os.environ.get('FINDINGBENCH_RAB_MOTION','discrete').lower()=='replay' else 200
+                ok=self.state.condition.wait_for(lambda:self.state.result and self.state.result['id']==ident or self.state.stopped,timeout=act_timeout)
                 out=self.state.result
             if not ok or self.state.stopped:
                 return self.reply({'error':'action deadline; check /state'},code=504)
@@ -115,10 +117,9 @@ class Skills:
         self.ik_backend=selected_ik_backend(self.emb.name)
         self.curobo=None
         if self.ik_backend=='curobo':
-            self.curobo=UnitreeCuRoboSolver()
-            import os as _os
-            want_6d=_os.environ.get('FINDINGBENCH_RAB_MOTION','discrete').lower()=='replay'
-            self.curobo.warmup(('r','l'),include_6d=want_6d)
+            # Lazy-init cuRobo on first manipulation call so CUDA graph capture / Triton
+            # never contends with Kit Vulkan RTX shader compilation during reset_episode.
+            self.curobo=UnitreeCuRoboSolver(embodiment_name=self.emb.name)
         if self.output:
             from rab_feedback import feedback_mode
             self.output.mkdir(parents=True)
@@ -450,7 +451,7 @@ class Skills:
             points=[target]
         else:
             theta=math.atan2(p[1]-target[1],p[0]-target[0])
-            radii=(.42,.48,.53,.58,.64,.70,.76) if self.emb.name=='unitree_g1' else (.48,.53,.58,.64,.70,.76,.82)
+            radii=(.42,.48,.53,.58,.64,.70,.76) if self.emb.supports_crouch else (.48,.53,.58,.64,.70,.76,.82)
             points=[np.r_[target[:2]+r*np.array([math.cos(theta+a),math.sin(theta+a)]),p[2]]
                     for r in radii for a in (0,-.35,.35,-.7,.7,-1.05,1.05,-1.4,1.4,-1.75,1.75,-2.1,2.1)]
         route=self.route(p,points)
@@ -576,7 +577,12 @@ class Skills:
     def grip(self,opened,side):
         robot=self.world.mobile.view
         q=robot.get_dof_position_targets()
-        if self.emb.name=='unitree_g1':
+        if self.emb.gripper_type=='dex1':
+            from rab_embodiment import dex1_hand_targets
+            for name,val in dex1_hand_targets(side,1. if opened else 0.).items():
+                if name in self.names:
+                    q[0,self.names.index(name)]=val
+        elif self.emb.gripper_type=='dex3':
             from rab_embodiment import dex3_hand_targets
             for name,val in dex3_hand_targets(side,1. if opened else 0.).items():
                 if name in self.names:
@@ -600,6 +606,21 @@ class Skills:
             hits=self.world.rays(np.asarray(start)+extra,v/d,d,ignore=(self.robot_prim,*allowed))
             if hits:
                 raise Refused('UNSAFE','HAND_PATH_BLOCKED:hit='+hits[0]['path'])
+
+    def arm_reach_clear(self,hand,goal,allowed):
+        """Check direct hand->goal ray; for targets above resting hand height (e.g. countertops/shelves
+        on 1.32m Unitree G1), allow natural vertical lift at body followed by horizontal reach."""
+        hand_a=np.asarray(hand,float)
+        goal_a=np.asarray(goal,float)
+        try:
+            self.arm_path_clear(hand_a,goal_a,allowed)
+            return
+        except Refused:
+            if float(goal_a[2]-hand_a[2])<=.04:
+                raise
+        via=np.array([float(hand_a[0]),float(hand_a[1]),float(goal_a[2])+.02],float)
+        self.arm_path_clear(hand_a,via,allowed)
+        self.arm_path_clear(via,goal_a,allowed)
 
     def set_body_pose(self,body,pose,*,disable_gravity=None):
         import omni.physics.tensors
@@ -630,6 +651,21 @@ class Skills:
         row['support']=self.robot_prim
         self.set_body_pose(row['body'],pose,disable_gravity=True)
 
+    def _all_dynamic_bodies(self):
+        if not hasattr(self,'_cached_dyn_bodies'):
+            from pxr import UsdPhysics
+            drv_bodies={d[2] for d in self.world.drives.values()}
+            found={r['body'] for r in self.world.rows}
+            for prim in self.world.stage.Traverse():
+                p=str(prim.GetPath())
+                if (not p.startswith('/World/') or p.startswith('/World/Background/')
+                        or prefix(p,self.robot_prim) or prefix(p,'/World/Robot')
+                        or any(prefix(p,db) for db in drv_bodies)):
+                    continue
+                if prim.HasAPI(UsdPhysics.RigidBodyAPI):
+                    found.add(p)
+            self._cached_dyn_bodies=sorted(found)
+        return self._cached_dyn_bodies
     def ik_reachable(self,position,side='r',*,tolerance=.040):
         # Verify kinematic reachability using native articulation Jacobians,
         # then restore the robot's ready arm configuration (FindingBench contract:
@@ -709,7 +745,12 @@ class Skills:
         lim=robot.get_dof_limits()[0,ix]
         idx=np.array([0],np.uint32)
         saved_t=robot.get_dof_position_targets().copy()
-        saved_items={r['body']:self.world.pose(r['body']).copy() for r in self.world.rows}
+        saved_items={}
+        for b in self._all_dynamic_bodies():
+            try:
+                saved_items[b]=self.world.pose(b).copy()
+            except ValueError:
+                pass
         path=[saved_q[0].copy()] if record else []
         crouched=False
         try:
@@ -814,7 +855,7 @@ class Skills:
                 sview=omni.physics.tensors.create_simulation_view('numpy',self.world.sid.ToLongInt())
                 for b,p0 in moved.items():
                     actor=sview.create_rigid_body_view(b)
-                    if actor.count==1:
+                    if getattr(actor,'_backend',None) is not None and actor.count==1:
                         actor.set_transforms(np.asarray([p0],np.float32),idx)
                         actor.set_velocities(np.zeros((1,6),np.float32),idx)
             self.world.step(2,sync=True)
@@ -848,7 +889,7 @@ class Skills:
                     # Verify vertical reach from above the open drawer cavity down to target
                     self.arm_path_clear(pre,target,tuple(allowed))
                 else:
-                    self.arm_path_clear(hand,pre,tuple(allowed))
+                    self.arm_reach_clear(hand,pre,tuple(allowed))
                     self.arm_path_clear(pre,target,tuple(allowed))
                 ik_err,ik_path=self._ik_solve(target,cand)
                 chosen=(cand,ik_err,ik_path)
@@ -925,7 +966,7 @@ class Skills:
         for cand in (pref,'r' if pref=='l' else 'l'):
             hand,_,_=self.ee_world(cand)
             try:
-                self.arm_path_clear(hand,high,(row['body'],))
+                self.arm_reach_clear(hand,high,(row['body'],))
                 ik_err,ik_path=self._ik_solve(high,cand)
                 chosen=(cand,ik_err,ik_path)
                 break
@@ -1142,6 +1183,10 @@ class Skills:
         camera.position,camera.yaw,camera.pitch,camera.zoom=actual.position,actual.yaw,actual.pitch,actual.zoom
         if self.observation_dirty:
             rgb=self.renderer.capture(camera)
+            if self.curobo is not None and not getattr(self,'_curobo_warmed',False):
+                # Warm up 3D cuRobo IK right AFTER the first Vulkan RTX frame renders cleanly
+                self._curobo_warmed=True
+                self.curobo.warmup(('r','l'),include_6d=False)
             self.observe(rgb)
         if result:
             with self.state.condition:

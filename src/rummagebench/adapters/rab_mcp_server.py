@@ -137,14 +137,17 @@ class RabWorkerHandle:
         release_dir: Path,
         out_root: Path,
         gpu_id: int = 0,
-        startup_timeout_s: float = 240.0,
-        request_timeout_s: float = 150.0,
+        startup_timeout_s: float = 300.0,
+        request_timeout_s: float | None = None,
         worker_command: list[str] | None = None,
     ) -> None:
         self.release_dir = Path(release_dir).resolve()
         self.out_root = Path(out_root).resolve()
         self.gpu_id = int(gpu_id)
         self.startup_timeout_s = float(startup_timeout_s)
+        if request_timeout_s is None:
+            is_replay = os.environ.get("FINDINGBENCH_RAB_MOTION", "discrete").strip().lower() == "replay"
+            request_timeout_s = 450.0 if is_replay else 220.0
         self.request_timeout_s = float(request_timeout_s)
         self.worker_command = worker_command
 
@@ -553,8 +556,9 @@ def _get_handle() -> RabWorkerHandle:
         release = Path(os.environ.get("FINDINGBENCH_RAB_RELEASE", root / "runs/rab_lived_in_20261120"))
         out_root = Path(os.environ.get("FINDINGBENCH_RAB_MCP_OUT", root / "runs/rab_mcp_sessions"))
         gpu_id = int(os.environ.get("RUMMAGEBENCH_MCP_GPU", os.environ.get("CUDA_VISIBLE_DEVICES", "0").split(",")[0] or "0"))
-        startup_timeout = float(os.environ.get("FINDINGBENCH_RAB_STARTUP_TIMEOUT", "240"))
-        request_timeout = float(os.environ.get("FINDINGBENCH_RAB_REQUEST_TIMEOUT", "150"))
+        is_replay = os.environ.get("FINDINGBENCH_RAB_MOTION", "discrete").strip().lower() == "replay"
+        startup_timeout = float(os.environ.get("FINDINGBENCH_RAB_STARTUP_TIMEOUT", "300"))
+        request_timeout = float(os.environ.get("FINDINGBENCH_RAB_REQUEST_TIMEOUT", "450" if is_replay else "220"))
         worker_cmd_env = os.environ.get("FINDINGBENCH_RAB_FAKE_WORKER_CMD")
         worker_cmd = json.loads(worker_cmd_env) if worker_cmd_env else None
         _RAB_HANDLE = RabWorkerHandle(

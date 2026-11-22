@@ -87,8 +87,8 @@ class NativeWorld:
         self.embodiment = get_embodiment() if mobile else get_embodiment('agibot_g1')
         self.robot_prim = self.embodiment.robot_prim
         self.mobile=None
-        if mobile and self.embodiment.name == 'unitree_g1':
-            swap_stage_to_unitree_g1(stage)
+        if mobile and self.embodiment.name.startswith('unitree_g1'):
+            swap_stage_to_unitree_g1(stage, self.embodiment)
             self.mobile = UnitreeMobileController(stage, self.embodiment)
         else:
             anchor=UsdPhysics.FixedJoint(stage.GetPrimAtPath(BASE+'/FixedJoint'))
@@ -112,7 +112,7 @@ class NativeWorld:
         self.step(1 if self.mobile else 75)
         if self.mobile:
             self.mobile.bind()
-            if self.embodiment.name == 'unitree_g1':
+            if self.embodiment.name.startswith('unitree_g1'):
                 apply_unitree_ready_pose(self)
             else:
                 from rab_skills import NATIVE_SOURCE

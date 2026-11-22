@@ -1,8 +1,16 @@
 """Run FindingBench RAB v1 evaluation strictly through the stdio MCP contract.
 
-Driven by a committed JSON config file (`configs/benchmarks/eval_config.json`) so
-that OpenResearch (`orx`) experiment nodes share the exact same `--run-command`
-and vary only committed configuration/code on each `orx/<slug>` branch.
+Supports full-scale 1,000-episode evaluation with:
+- Unitree G1 (Dex1-1 2-finger parallel gripper default) / Dex3 / AgiBot G1 switching
+- Static Embodiment Prior (`embodiment_spec`) forwarding in public observations
+- NVLabs cuRoboV2-Fast GPU IK + proprioceptive_v2 physical feedback
+- Both local HTTP VLM servers (`api_type="local_vlm"`) and OpenAI-compatible
+  `/v1/chat/completions` endpoints (`api_type="openai_chat"`, e.g. vLLM / SGLang /
+  OpenRouter / LiteLLM / OpenAI / Gemini / Anthropic gateways)
+- `--episodes all` + `--shard idx/total` + `--resume` checkpointing
+- Per-episode crash isolation + automatic MCP session restart
+- Automatic v2 metrics aggregation (`SR`, `ST`, `EFF_phys`, `EFF_all`, `LAT`,
+  `RES`, `RSER`, Layer A 5-axis capabilities, Layer B terminal attribution)
 """
 from __future__ import annotations
 
@@ -10,13 +18,13 @@ import argparse
 import asyncio
 import base64
 from collections import Counter
-import hashlib
 import json
 import os
 from pathlib import Path
 import subprocess
 import sys
 import time
+import traceback
 import urllib.error
 import urllib.request
 
@@ -27,6 +35,8 @@ from mcp.types import ImageContent, TextContent
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT / "src") not in sys.path:
     sys.path.insert(0, str(ROOT / "src"))
+if str(ROOT / "scripts") not in sys.path:
+    sys.path.insert(0, str(ROOT / "scripts"))
 
 from rummagebench.agents.policy_adapter import PolicyInfrastructureError, parse_action  # noqa: E402
 
@@ -72,9 +82,10 @@ DIAGNOSTIC RESTORATION & SAFETY REMINDER:
 """
 
 
-def request_json(url: str, body: dict | None = None, timeout: int = 300) -> dict:
+def request_json(url: str, body: dict | None = None, *, headers: dict | None = None, timeout: int = 300) -> dict:
     data = None if body is None else json.dumps(body).encode("utf-8")
-    req = urllib.request.Request(url, data=data, headers={"Content-Type": "application/json"})
+    req_headers = {"Content-Type": "application/json", **(headers or {})}
+    req = urllib.request.Request(url, data=data, headers=req_headers)
     try:
         with urllib.request.urlopen(req, timeout=timeout) as resp:
             result = json.load(resp)
@@ -88,7 +99,65 @@ def request_json(url: str, body: dict | None = None, timeout: int = 300) -> dict
     return result
 
 
-def ensure_vlm_server(model_key: str, endpoint: str, profile: dict) -> subprocess.Popen | None:
+def call_model_endpoint(
+    api_type: str,
+    endpoint: str,
+    model_id: str,
+    prompt: str,
+    images_payload: list[dict],
+    *,
+    max_new_tokens: int = 512,
+    seed: int = 0,
+    temperature: float = 0.0,
+    api_key: str | None = None,
+    timeout: int = 300,
+) -> dict:
+    """Unified VLM query supporting local `/generate` and OpenAI `/v1/chat/completions`."""
+    if api_type == "openai_chat":
+        content = [{"type": "text", "text": prompt}]
+        for im in images_payload:
+            content.append({"type": "text", "text": im["label"]})
+            content.append({
+                "type": "image_url",
+                "image_url": {"url": f"data:image/png;base64,{im['image_png_b64']}"},
+            })
+        url = endpoint if endpoint.endswith("/chat/completions") else (endpoint.rstrip("/") + "/v1/chat/completions")
+        headers = {"Authorization": f"Bearer {api_key}"} if api_key else {}
+        body = {
+            "model": model_id,
+            "messages": [{"role": "user", "content": content}],
+            "max_tokens": int(max_new_tokens),
+            "temperature": float(temperature),
+            "seed": int(seed),
+        }
+        res = request_json(url, body, headers=headers, timeout=timeout)
+        choice = (res.get("choices") or [{}])[0]
+        msg = choice.get("message") or {}
+        text = msg.get("content") or ""
+        if isinstance(text, list):
+            text = "\n".join(part.get("text", "") for part in text if isinstance(part, dict))
+        usage = res.get("usage") or {}
+        return {
+            "text": str(text),
+            "input_tokens": int(usage.get("prompt_tokens", 0)),
+            "output_tokens": int(usage.get("completion_tokens", 0)),
+        }
+
+    return request_json(
+        endpoint.rstrip("/") + "/generate",
+        {
+            "model": model_id,
+            "prompt": prompt,
+            "image_png_b64": images_payload[0]["image_png_b64"],
+            "images": images_payload,
+            "max_new_tokens": int(max_new_tokens),
+            "seed": int(seed),
+        },
+        timeout=timeout,
+    )
+
+
+def ensure_vlm_server(model_key: str, endpoint: str, profile: dict, *, gpu: str = "0") -> subprocess.Popen | None:
     try:
         health = request_json(endpoint + "/health", timeout=5)
         if health.get("model_id") == profile["model_id"]:
@@ -102,7 +171,7 @@ def ensure_vlm_server(model_key: str, endpoint: str, profile: dict) -> subproces
     cmd = [str(py_bin), "-u", str(server_script), "--model", model_key, "--port", str(port)]
     env = dict(
         os.environ,
-        CUDA_VISIBLE_DEVICES="0",
+        CUDA_VISIBLE_DEVICES=str(gpu),
         PYTORCH_CUDA_ALLOC_CONF="expandable_segments:True",
         HF_HUB_OFFLINE="1",
         TRANSFORMERS_OFFLINE="1",
@@ -152,6 +221,8 @@ def build_pinhole_prompt(obs: dict, history: list[dict], history_steps: int, pro
         "feedback": obs.get("feedback"),
         "inspection_view": obs.get("inspection_view"),
     }
+    if obs.get("embodiment_spec") is not None:
+        public_obs["embodiment_spec"] = obs["embodiment_spec"]
     trimmed = history[-history_steps:] if history_steps > 0 else []
     return (
         header
@@ -172,7 +243,6 @@ def classify_episode_failure(ep_record: dict) -> dict:
     codes = Counter(a.get("feedback", {}).get("code") for a in actions)
     skills = Counter((a.get("action") or {}).get("skill") for a in actions)
 
-    # Low-level attribution
     low_cat = "NONE_OBSERVED"
     for pa in private_actions:
         res_code = pa.get("result", {}).get("feedback", {}).get("code")
@@ -191,7 +261,6 @@ def classify_episode_failure(ep_record: dict) -> dict:
                 low_cat = "L5_OTHER_PHYSICAL_REFUSAL"
             break
 
-    # High-level attribution
     if ep_record.get("status") == "FAIL_FALSE_COMPLETION":
         if skills.get("GRASP", 0) == 0:
             high_cat = "H1_PREMATURE_REPORT_DONE_WITHOUT_GRASP"
@@ -212,215 +281,319 @@ def classify_episode_failure(ep_record: dict) -> dict:
     return {"high_level_category": high_cat, "low_level_category": low_cat}
 
 
-async def run_evaluation(cfg: dict) -> dict:
-    workspace_root = Path(os.environ.get("RUMMAGEBENCH_ROOT", "/home/ubuntu/ygwang/FindingBench")).resolve()
-    if not (ROOT / "runs/rab_lived_in_20261120").exists() and (workspace_root / "runs/rab_lived_in_20261120").exists():
-        asset_root = workspace_root
+def resolve_episode_list(cfg: dict, release_dir: Path, shard: str | None = None) -> list[str]:
+    raw_eps = cfg["episodes"]
+    if raw_eps == "all":
+        manifest = json.loads((release_dir / "combined_manifest.json").read_text())
+        episodes = [t["id"] for t in manifest["tasks"]]
     else:
-        asset_root = ROOT
+        episodes = list(raw_eps)
+    sl = cfg.get("episode_slice")
+    if isinstance(sl, list) and len(sl) == 2:
+        episodes = episodes[int(sl[0]) : int(sl[1])]
+    if shard:
+        idx_s, tot_s = shard.split("/", 1)
+        idx, tot = int(idx_s), int(tot_s)
+        if not (0 <= idx < tot):
+            raise ValueError(f"Invalid --shard {shard!r}; expected 0 <= idx < total")
+        episodes = [ep for i, ep in enumerate(episodes) if i % tot == idx]
+    return episodes
+
+
+async def _run_single_episode(
+    session: ClientSession,
+    task_id: str,
+    cfg: dict,
+    *,
+    api_type: str,
+    endpoint: str,
+    model_id: str,
+    api_key: str | None,
+    ep_dir: Path,
+    sessions_dir: Path,
+) -> dict:
+    step_budget = int(cfg["max_planning_steps"])
+    ep_dir.mkdir(parents=True, exist_ok=True)
+    t0 = time.monotonic()
+    reset_payload, reset_imgs = parse_mcp_result(
+        await session.call_tool("reset_episode", {"scenario_id": task_id})
+    )
+    reset_wall_s = time.monotonic() - t0
+    episode_id = reset_payload["episode_id"]
+    obs = reset_payload.get("reset") or reset_payload["observation"]
+    curr_images = reset_imgs
+    (ep_dir / "step_0000.png").write_bytes(curr_images[0])
+
+    history: list[dict] = []
+    action_logs: list[dict] = []
+    model_wall_total_s = 0.0
+    tool_wall_total_s = 0.0
+    input_tokens_total = 0
+    output_tokens_total = 0
+    terminal = False
+    episode_status = "RUNNING"
+
+    while not terminal:
+        prompt = build_pinhole_prompt(
+            obs,
+            history,
+            int(cfg.get("history_steps", 60)),
+            cfg.get("prompt_mode", "default_natural"),
+        )
+        img_b64 = base64.b64encode(curr_images[0]).decode("ascii")
+        images_payload = [
+            {
+                "label": f"Image 1: Current pinhole RGB camera view; frame_id={obs['frame_id']}",
+                "image_png_b64": img_b64,
+            }
+        ]
+        if len(curr_images) > 1 and obs.get("inspection_view"):
+            images_payload.append(
+                {
+                    "label": "Image 2: Isolated 4-view CHECK inspection sheet (not point-selectable)",
+                    "image_png_b64": base64.b64encode(curr_images[1]).decode("ascii"),
+                }
+            )
+
+        t_m0 = time.monotonic()
+        gen = call_model_endpoint(
+            api_type,
+            endpoint,
+            model_id,
+            prompt,
+            images_payload,
+            max_new_tokens=int(cfg.get("max_new_tokens", 512)),
+            seed=int(cfg.get("seed", 0)),
+            temperature=float(cfg.get("temperature", 0.0)),
+            api_key=api_key,
+            timeout=int(cfg.get("model_timeout_s", 300)),
+        )
+        m_dt = time.monotonic() - t_m0
+        model_wall_total_s += m_dt
+        input_tokens_total += int(gen.get("input_tokens", 0))
+        output_tokens_total += int(gen.get("output_tokens", 0))
+
+        raw_text = gen.get("text", "")
+        parsed_action = parse_action(raw_text)
+        if not isinstance(parsed_action, dict) or "skill" not in parsed_action:
+            parsed_action = {"skill": "VIEW", "yaw": 999.0, "pitch": 0.0}
+
+        t_a0 = time.monotonic()
+        act_payload, act_imgs = parse_mcp_result(
+            await session.call_tool("act", {"action": parsed_action})
+        )
+        a_dt = time.monotonic() - t_a0
+        tool_wall_total_s += a_dt
+
+        feedback = act_payload["feedback"]
+        terminal = bool(act_payload["terminal"])
+        episode_status = act_payload["episode_status"]
+        obs = act_payload["observation"]
+        curr_images = act_imgs
+
+        (ep_dir / f"step_{obs['planning_step']:04d}.png").write_bytes(curr_images[0])
+        if len(curr_images) > 1:
+            (ep_dir / f"step_{obs['planning_step']:04d}_check.png").write_bytes(curr_images[1])
+
+        history.append({"action": parsed_action, "feedback": feedback})
+        step_record = {
+            "step": obs["planning_step"],
+            "raw_model_text": raw_text,
+            "action": parsed_action,
+            "feedback": feedback,
+            "episode_status": episode_status,
+            "terminal": terminal,
+            "model_wall_s": round(m_dt, 4),
+            "tool_wall_s": round(a_dt, 4),
+            "input_tokens": gen.get("input_tokens"),
+            "output_tokens": gen.get("output_tokens"),
+        }
+        action_logs.append(step_record)
+        fb_tag = feedback.get("detail_code") or feedback["code"]
+        print(
+            f"  [{task_id} step {obs['planning_step']:02d}/{step_budget}] "
+            f"{parsed_action.get('skill')} -> {fb_tag} | status={episode_status} "
+            f"(think={m_dt:.2f}s, sim={a_dt:.2f}s)",
+            flush=True,
+        )
+        if not terminal and obs["planning_step"] >= step_budget:
+            terminal = True
+            episode_status = "FAIL_MAX_STEPS"
+
+    matches = sorted(sessions_dir.glob(f"*_{task_id}_{episode_id[:8]}"))
+    private_dir = (matches[-1] / "worker_trace" / "actions") if matches else None
+    private_actions = []
+    restoration_score = None
+    if private_dir and private_dir.is_dir():
+        for pfile in sorted(private_dir.glob("*.json")):
+            pa = json.loads(pfile.read_text())
+            private_actions.append(pa)
+            if "restoration" in pa.get("result", {}):
+                restoration_score = pa["result"]["restoration"]
+            elif "restoration" in pa:
+                restoration_score = pa["restoration"]
+
+    ep_total_wall_s = reset_wall_s + model_wall_total_s + tool_wall_total_s
+    ep_summary = {
+        "task_id": task_id,
+        "episode_id": episode_id,
+        "instruction": obs["instruction"],
+        "valid": True,
+        "status": episode_status,
+        "success": episode_status == "SUCCESS",
+        "planning_steps_used": obs["planning_step"],
+        "max_planning_steps": obs["max_planning_steps"],
+        "restoration_score": restoration_score,
+        "timing": {
+            "reset_wall_s": round(reset_wall_s, 4),
+            "model_wall_s": round(model_wall_total_s, 4),
+            "mean_inter_step_lat_s": round(model_wall_total_s / max(1, len(action_logs)), 4),
+            "tool_sim_wall_s": round(tool_wall_total_s, 4),
+            "episode_total_wall_s": round(ep_total_wall_s, 4),
+        },
+        "tokens": {
+            "input_tokens": input_tokens_total,
+            "output_tokens": output_tokens_total,
+        },
+        "feedback_counts": dict(Counter(a["feedback"]["code"] for a in action_logs)),
+        "skill_counts": dict(Counter((a["action"] or {}).get("skill") for a in action_logs)),
+        "actions": action_logs,
+        "private_actions": private_actions,
+    }
+    ep_summary["failure_taxonomy"] = classify_episode_failure(ep_summary)
+    (ep_dir / "episode_report.json").write_text(json.dumps(ep_summary, indent=2, ensure_ascii=False) + "\n")
+    return ep_summary
+
+
+async def run_evaluation(cfg: dict, *, resume: bool = False, shard: str | None = None) -> dict:
+    workspace_root = Path(os.environ.get("RUMMAGEBENCH_ROOT", "/home/ubuntu/ygwang/FindingBench")).resolve()
+    asset_root = workspace_root if not (ROOT / "runs/rab_lived_in_20261120").exists() else ROOT
+    release_dir = Path(cfg.get("release_dir") or (asset_root / "runs/rab_lived_in_20261120")).resolve()
     out_dir = asset_root / cfg["out_dir"]
+    if shard:
+        out_dir = out_dir / f"shard_{shard.replace('/', '_of_')}"
     out_dir.mkdir(parents=True, exist_ok=True)
     sessions_dir = out_dir / "mcp_sessions"
     sessions_dir.mkdir(parents=True, exist_ok=True)
 
-    profiles = json.loads((ROOT / "configs/models/local_vlm.json").read_text())["models"]
+    api_type = cfg.get("api_type", "local_vlm")
     model_key = cfg["model"]
-    profile = profiles[model_key]
     endpoint = cfg["endpoint"].rstrip("/")
+    api_key = os.environ.get(cfg.get("api_key_env", "OPENAI_API_KEY"))
 
     vlm_proc = None
-    if cfg.get("auto_serve_vlm", True):
-        print(f"[eval] Ensuring local VLM server for {model_key} at {endpoint}...", flush=True)
-        vlm_proc = ensure_vlm_server(model_key, endpoint, profile)
+    sim_gpu = str(cfg.get("sim_gpu", os.environ.get("RUMMAGEBENCH_MCP_GPU", "0")))
+    vlm_gpu = str(cfg.get("vlm_gpu", sim_gpu))
+
+    if api_type == "local_vlm":
+        profiles = json.loads((ROOT / "configs/models/local_vlm.json").read_text())["models"]
+        profile = profiles[model_key]
+        model_id = profile["model_id"]
+        revision = profile.get("revision", "local")
+        if cfg.get("auto_serve_vlm", True):
+            print(f"[eval] Ensuring local VLM server for {model_key} at {endpoint}...", flush=True)
+            vlm_proc = ensure_vlm_server(model_key, endpoint, profile, gpu=vlm_gpu)
+        health = request_json(endpoint + "/health", timeout=10)
+        print(f"[eval] Connected to local VLM server: {health.get('model_id')} on {health.get('gpu')}", flush=True)
+    else:
+        model_id = cfg.get("model_id", model_key)
+        revision = cfg.get("revision", "api")
+        print(f"[eval] Using OpenAI-compatible chat endpoint: {endpoint} (model={model_id})", flush=True)
+
+    robot_emb = cfg.get("robot_embodiment", os.environ.get("FINDINGBENCH_RAB_ROBOT", "unitree_g1"))
+    emb_prior = cfg.get("embodiment_prior", os.environ.get("FINDINGBENCH_RAB_EMBODIMENT_PRIOR", "text"))
+    ik_backend = cfg.get("ik_backend", os.environ.get("FINDINGBENCH_RAB_IK_BACKEND", "auto"))
+    fb_mode = cfg.get("feedback_mode", os.environ.get("FINDINGBENCH_RAB_FEEDBACK_MODE", "proprioceptive_v2"))
+    motion_mode = cfg.get("motion_mode", os.environ.get("FINDINGBENCH_RAB_MOTION", "discrete"))
+
+    server_params = StdioServerParameters(
+        command=str(ROOT / "mcp/run_findingbench_rab_mcp.sh"),
+        args=[],
+        cwd=str(ROOT),
+        env={
+            **os.environ,
+            "CUDA_VISIBLE_DEVICES": sim_gpu,
+            "RUMMAGEBENCH_MCP_GPU": sim_gpu,
+            "RUMMAGEBENCH_ROOT": str(asset_root),
+            "FINDINGBENCH_RAB_RELEASE": str(release_dir),
+            "FINDINGBENCH_RAB_MCP_OUT": str(sessions_dir),
+            "FINDINGBENCH_RAB_ROBOT": robot_emb,
+            "FINDINGBENCH_RAB_EMBODIMENT_PRIOR": emb_prior,
+            "FINDINGBENCH_RAB_IK_BACKEND": ik_backend,
+            "FINDINGBENCH_RAB_FEEDBACK_MODE": fb_mode,
+            "FINDINGBENCH_RAB_MOTION": motion_mode,
+            "PYTHONPATH": str(ROOT / "src") + os.pathsep + str(ROOT / "scripts"),
+        },
+    )
+
+    episodes = resolve_episode_list(cfg, release_dir, shard=shard)
+    use_resume = bool(resume or cfg.get("resume", False))
+    step_budget = int(cfg["max_planning_steps"])
 
     try:
-        health = request_json(endpoint + "/health", timeout=10)
-        print(f"[eval] Connected to VLM server: {health.get('model_id')} on {health.get('gpu')}", flush=True)
+        episode_results: list[dict] = []
+        pending: list[str] = []
+        for task_id in episodes:
+            rep_path = out_dir / "episodes" / task_id / "episode_report.json"
+            if use_resume and rep_path.is_file():
+                try:
+                    cached = json.loads(rep_path.read_text())
+                    if cached.get("valid"):
+                        print(f"[eval] Resuming: skipping completed {task_id} ({cached.get('status')})", flush=True)
+                        episode_results.append(cached)
+                        continue
+                except Exception:
+                    pass
+            pending.append(task_id)
 
-        server_params = StdioServerParameters(
-            command=sys.executable,
-            args=["-m", "rummagebench.cli", "serve-mcp", "--backend", "rab"],
-            env={
-                **os.environ,
-                "CUDA_VISIBLE_DEVICES": "0",
-                "RUMMAGEBENCH_MCP_GPU": "0",
-                "RUMMAGEBENCH_ROOT": str(asset_root),
-                "FINDINGBENCH_RAB_RELEASE": str(asset_root / "runs/rab_lived_in_20261120"),
-                "FINDINGBENCH_RAB_MCP_OUT": str(sessions_dir),
-                "PYTHONPATH": str(ROOT / "src") + os.pathsep + str(ROOT / "scripts"),
-            },
-        )
-
-        episode_results = []
         t_eval_start = time.monotonic()
-        step_budget = int(cfg["max_planning_steps"])
-
-        async with stdio_client(server_params) as (read, write):
-            async with ClientSession(read, write) as session:
-                await session.initialize()
-
-                for task_id in cfg["episodes"]:
-                    ep_dir = out_dir / "episodes" / task_id
-                    ep_dir.mkdir(parents=True, exist_ok=True)
-                    print(f"[eval] Starting episode {task_id} (budget={step_budget} steps)...", flush=True)
-
-                    t0 = time.monotonic()
-                    reset_payload, reset_imgs = parse_mcp_result(
-                        await session.call_tool(
-                            "reset_episode",
-                            {"scenario_id": task_id},
-                        )
-                    )
-                    reset_wall_s = time.monotonic() - t0
-                    episode_id = reset_payload["episode_id"]
-                    obs = reset_payload.get("reset") or reset_payload["observation"]
-                    curr_images = reset_imgs
-                    (ep_dir / "step_0000.png").write_bytes(curr_images[0])
-
-                    history: list[dict] = []
-                    action_logs: list[dict] = []
-                    model_wall_total_s = 0.0
-                    tool_wall_total_s = 0.0
-                    input_tokens_total = 0
-                    output_tokens_total = 0
-                    terminal = False
-                    episode_status = "RUNNING"
-
-                    while not terminal:
-                        step_idx = obs["planning_step"]
-                        prompt = build_pinhole_prompt(
-                            obs,
-                            history,
-                            int(cfg.get("history_steps", 60)),
-                            cfg.get("prompt_mode", "default_natural"),
-                        )
-                        img_b64 = base64.b64encode(curr_images[0]).decode("ascii")
-                        images_payload = [
-                            {
-                                "label": f"Image 1: Current pinhole RGB camera view; frame_id={obs['frame_id']}",
-                                "image_png_b64": img_b64,
-                            }
-                        ]
-                        if len(curr_images) > 1 and obs.get("inspection_view"):
-                            images_payload.append(
-                                {
-                                    "label": "Image 2: Isolated 4-view CHECK inspection sheet (not point-selectable)",
-                                    "image_png_b64": base64.b64encode(curr_images[1]).decode("ascii"),
-                                }
-                            )
-
-                        t_m0 = time.monotonic()
-                        gen = request_json(
-                            endpoint + "/generate",
-                            {
-                                "model": profile["model_id"],
-                                "prompt": prompt,
-                                "image_png_b64": img_b64,
-                                "images": images_payload,
-                                "max_new_tokens": int(cfg.get("max_new_tokens", 512)),
-                                "seed": int(cfg.get("seed", 0)),
-                            },
-                            timeout=300,
-                        )
-                        m_dt = time.monotonic() - t_m0
-                        model_wall_total_s += m_dt
-                        input_tokens_total += int(gen.get("input_tokens", 0))
-                        output_tokens_total += int(gen.get("output_tokens", 0))
-
-                        raw_text = gen.get("text", "")
-                        parsed_action = parse_action(raw_text)
-                        if not isinstance(parsed_action, dict) or "skill" not in parsed_action:
-                            # Malformed output is submitted as an invalid skill so the step is charged fairly
-                            parsed_action = {"skill": "VIEW", "yaw": 999.0, "pitch": 0.0}
-
-                        t_a0 = time.monotonic()
-                        act_payload, act_imgs = parse_mcp_result(
-                            await session.call_tool("act", {"action": parsed_action})
-                        )
-                        a_dt = time.monotonic() - t_a0
-                        tool_wall_total_s += a_dt
-
-                        feedback = act_payload["feedback"]
-                        terminal = bool(act_payload["terminal"])
-                        episode_status = act_payload["episode_status"]
-                        obs = act_payload["observation"]
-                        curr_images = act_imgs
-
-                        (ep_dir / f"step_{obs['planning_step']:04d}.png").write_bytes(curr_images[0])
-                        if len(curr_images) > 1:
-                            (ep_dir / f"step_{obs['planning_step']:04d}_check.png").write_bytes(curr_images[1])
-
-                        history.append({"action": parsed_action, "feedback": feedback})
-                        step_record = {
-                            "step": obs["planning_step"],
-                            "raw_model_text": raw_text,
-                            "action": parsed_action,
-                            "feedback": feedback,
-                            "episode_status": episode_status,
-                            "terminal": terminal,
-                            "model_wall_s": round(m_dt, 4),
-                            "tool_wall_s": round(a_dt, 4),
-                            "input_tokens": gen.get("input_tokens"),
-                            "output_tokens": gen.get("output_tokens"),
-                        }
-                        action_logs.append(step_record)
+        idx_p = 0
+        while idx_p < len(pending):
+            async with stdio_client(server_params) as (read, write):
+                async with ClientSession(read, write) as session:
+                    await session.initialize()
+                    while idx_p < len(pending):
+                        task_id = pending[idx_p]
+                        ep_dir = out_dir / "episodes" / task_id
                         print(
-                            f"  [{task_id} step {obs['planning_step']:02d}/{step_budget}] {parsed_action.get('skill')} -> {feedback['code']} | status={episode_status} (model={m_dt:.2f}s, sim={a_dt:.2f}s)",
+                            f"[eval] [{len(episode_results) + 1}/{len(episodes)}] Starting {task_id} "
+                            f"(budget={step_budget}, robot={robot_emb}, ik={ik_backend}, fb={fb_mode})...",
                             flush=True,
                         )
-                        if not terminal and obs["planning_step"] >= step_budget:
-                            terminal = True
-                            episode_status = "FAIL_MAX_STEPS"
+                        try:
+                            ep_summary = await _run_single_episode(
+                                session,
+                                task_id,
+                                cfg,
+                                api_type=api_type,
+                                endpoint=endpoint,
+                                model_id=model_id,
+                                api_key=api_key,
+                                ep_dir=ep_dir,
+                                sessions_dir=sessions_dir,
+                            )
+                            episode_results.append(ep_summary)
+                            idx_p += 1
+                        except Exception as exc:
+                            err_trace = traceback.format_exc()
+                            print(f"[eval] INFRA ERROR on {task_id}, restarting MCP session:\n{err_trace}", flush=True)
+                            fail_rec = {
+                                "task_id": task_id,
+                                "valid": False,
+                                "status": "INFRA_ERROR",
+                                "success": False,
+                                "error": str(exc),
+                                "traceback": err_trace,
+                            }
+                            ep_dir.mkdir(parents=True, exist_ok=True)
+                            (ep_dir / "episode_report.json").write_text(json.dumps(fail_rec, indent=2) + "\n")
+                            episode_results.append(fail_rec)
+                            idx_p += 1
+                            break  # Re-open a fresh MCP stdio session for remaining tasks
 
-                    # Read private simulator logs & restoration score from session log dir
-                    matches = sorted(sessions_dir.glob(f"*_{task_id}_{episode_id[:8]}"))
-                    private_dir = (matches[-1] / "worker_trace" / "actions") if matches else None
-                    private_actions = []
-                    restoration_score = None
-                    if private_dir and private_dir.is_dir():
-                        for pfile in sorted(private_dir.glob("*.json")):
-                            pa = json.loads(pfile.read_text())
-                            private_actions.append(pa)
-                            if "restoration" in pa.get("result", {}):
-                                restoration_score = pa["result"]["restoration"]
-                            elif "restoration" in pa:
-                                restoration_score = pa["restoration"]
-
-                    # Compute restoration if episode ended via FAIL_MAX_STEPS without REPORT_DONE
-                    ep_total_wall_s = reset_wall_s + model_wall_total_s + tool_wall_total_s
-                    ep_summary = {
-                        "task_id": task_id,
-                        "episode_id": episode_id,
-                        "instruction": obs["instruction"],
-                        "valid": True,
-                        "status": episode_status,
-                        "success": episode_status == "SUCCESS",
-                        "planning_steps_used": obs["planning_step"],
-                        "max_planning_steps": obs["max_planning_steps"],
-                        "restoration_score": restoration_score,
-                        "timing": {
-                            "reset_wall_s": round(reset_wall_s, 4),
-                            "model_wall_s": round(model_wall_total_s, 4),
-                            "tool_sim_wall_s": round(tool_wall_total_s, 4),
-                            "episode_total_wall_s": round(ep_total_wall_s, 4),
-                        },
-                        "tokens": {
-                            "input_tokens": input_tokens_total,
-                            "output_tokens": output_tokens_total,
-                        },
-                        "feedback_counts": dict(Counter(a["feedback"]["code"] for a in action_logs)),
-                        "skill_counts": dict(Counter((a["action"] or {}).get("skill") for a in action_logs)),
-                        "actions": action_logs,
-                        "private_actions": private_actions,
-                    }
-                    ep_summary["failure_taxonomy"] = classify_episode_failure(ep_summary)
-                    (ep_dir / "episode_report.json").write_text(json.dumps(ep_summary, indent=2, ensure_ascii=False) + "\n")
-                    episode_results.append(ep_summary)
-
-        # Aggregate benchmark v1 metrics
-        valid_eps = [e for e in episode_results if e["valid"]]
-        succ_eps = [e for e in valid_eps if e["success"]]
-        rest_scores = [e["restoration_score"] for e in valid_eps if e["restoration_score"] is not None]
+        valid_eps = [e for e in episode_results if e.get("valid")]
+        succ_eps = [e for e in valid_eps if e.get("success")]
+        rest_scores = [e["restoration_score"] for e in valid_eps if e.get("restoration_score") is not None]
         sr = len(succ_eps) / len(valid_eps) if valid_eps else 0.0
         st_wall_s = (
             sum(e["timing"]["episode_total_wall_s"] for e in succ_eps) / len(succ_eps)
@@ -434,17 +607,31 @@ async def run_evaluation(cfg: dict) -> dict:
         )
         mean_restoration = sum(rest_scores) / len(rest_scores) if rest_scores else None
 
+        # Compute full v2 deterministic metrics (SR, ST, EFF_phys, LAT, RES, RSER, Layer A/B)
+        import rab_eval_metrics as M
+
+        ep_dirs = M.find_episodes(sessions_dir)
+        v2_report = M.aggregate(M.load_episode(d) for d in ep_dirs) if ep_dirs else None
+        if v2_report is not None:
+            (out_dir / "metrics_v2.json").write_text(json.dumps(v2_report, indent=2, ensure_ascii=False) + "\n")
+            (out_dir / "metrics_v2.md").write_text(M.to_markdown({model_key: v2_report}))
+
         summary = {
-            "schema": "findingbench.rab_v1_eval_summary.v1",
+            "schema": "findingbench.rab_v1_eval_summary.v2",
             "experiment_id": cfg["experiment_id"],
             "description": cfg.get("description", ""),
             "protocol": "findingbench_rab_pinhole_v1",
+            "robot_embodiment": robot_emb,
+            "embodiment_prior": emb_prior,
+            "ik_backend": ik_backend,
+            "feedback_mode": fb_mode,
+            "motion_mode": motion_mode,
             "model": model_key,
-            "model_id": profile["model_id"],
-            "revision": profile["revision"],
+            "model_id": model_id,
+            "revision": revision,
             "prompt_mode": cfg.get("prompt_mode", "default_natural"),
             "history_steps": cfg.get("history_steps", 60),
-            "max_planning_steps": cfg["max_planning_steps"],
+            "max_planning_steps": step_budget,
             "seed": cfg["seed"],
             "metrics": {
                 "attempted_episodes": len(episode_results),
@@ -454,12 +641,13 @@ async def run_evaluation(cfg: dict) -> dict:
                 "SR": round(sr, 4),
                 "ST_wall_s": round(st_wall_s, 4) if st_wall_s is not None else None,
                 "ST_steps": round(st_steps, 4) if st_steps is not None else None,
-                "mean_steps_all_valid": round(sum(e["planning_steps_used"] for e in valid_eps) / len(valid_eps), 4) if valid_eps else None,
-                "mean_wall_s_all_valid": round(sum(e["timing"]["episode_total_wall_s"] for e in valid_eps) / len(valid_eps), 4) if valid_eps else None,
-                "mean_model_wall_s": round(sum(e["timing"]["model_wall_s"] for e in valid_eps) / len(valid_eps), 4) if valid_eps else None,
-                "mean_tool_sim_wall_s": round(sum(e["timing"]["tool_sim_wall_s"] for e in valid_eps) / len(valid_eps), 4) if valid_eps else None,
+                "EFF_phys": v2_report["core"]["EFF_phys"] if v2_report else None,
+                "EFF_all": v2_report["core"]["EFF_all"] if v2_report else None,
+                "LAT_s_per_step": v2_report["core"]["LAT"] if v2_report else None,
+                "RSER": v2_report["core"]["RSER"] if v2_report else None,
                 "Restoration_mean": round(mean_restoration, 4) if mean_restoration is not None else None,
             },
+            "metrics_v2": v2_report,
             "failure_taxonomy_counts": {
                 "high_level": dict(Counter(e["failure_taxonomy"]["high_level_category"] for e in valid_eps)),
                 "low_level": dict(Counter(e["failure_taxonomy"]["low_level_category"] for e in valid_eps)),
@@ -473,7 +661,6 @@ async def run_evaluation(cfg: dict) -> dict:
         (out_dir / "summary.json").write_text(json.dumps(summary, indent=2, ensure_ascii=False) + "\n")
         print("\n=== EVALUATION SUMMARY ===", flush=True)
         print(json.dumps(summary["metrics"], indent=2, ensure_ascii=False), flush=True)
-        print("Failure Taxonomy:", json.dumps(summary["failure_taxonomy_counts"], indent=2, ensure_ascii=False), flush=True)
         return summary
     finally:
         if vlm_proc is not None:
@@ -488,9 +675,11 @@ async def run_evaluation(cfg: dict) -> dict:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", type=Path, default=ROOT / "configs/benchmarks/eval_config.json")
+    parser.add_argument("--resume", action="store_true", help="Skip already completed valid episodes")
+    parser.add_argument("--shard", type=str, default=None, help="Optional shard spec i/N (e.g. 0/4)")
     args = parser.parse_args()
     cfg = json.loads(args.config.resolve().read_text())
-    asyncio.run(run_evaluation(cfg))
+    asyncio.run(run_evaluation(cfg, resume=args.resume, shard=args.shard))
     return 0
 
 

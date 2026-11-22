@@ -63,16 +63,21 @@ async def run(args) -> list[dict]:
 
             print("[episode 1] taxonomy sweep", flush=True)
             res = _payload(await s.call_tool("reset_episode", {"scenario_id": args.scenario}))
-            f = res["reset"]["frame_id"]
-            r = await act("place_empty_hand", {"skill": "PLACE", "point": pt(f, .51, .65)}); f = r["observation"]["frame_id"]
+            obs0 = res["reset"]
+            is_unitree = str((obs0.get("embodiment_spec") or {}).get("embodiment_id", "")).startswith("unitree_g1") or os.environ.get("FINDINGBENCH_RAB_ROBOT", "unitree_g1").startswith("unitree")
+            view_cfg = {"yaw": 0.0, "pitch": -18.0, "zoom": 1.0} if is_unitree else {"yaw": -27.5, "pitch": -60.0, "zoom": 1.0}
+            cx, cy = (0.60, 0.62) if is_unitree else (0.42, 0.48)
+            px, py = (0.67, 0.77) if is_unitree else (0.51, 0.65)
+            f = obs0["frame_id"]
+            r = await act("place_empty_hand", {"skill": "PLACE", "point": pt(f, px, py)}); f = r["observation"]["frame_id"]
             r = await act("grasp_upper_frame", {"skill": "GRASP", "point": pt(f, .50, .04)}); f = r["observation"]["frame_id"]
-            r = await act("view_down", {"skill": "VIEW", "yaw": -27.5, "pitch": -60.0, "zoom": 1.0}); f = r["observation"]["frame_id"]
-            r = await act("check_can", {"skill": "CHECK", "point": pt(f, .42, .48)}); f = r["observation"]["frame_id"]
-            r = await act("open_non_articulated", {"skill": "OPEN", "point": pt(f, .42, .48)}); f_prev, f = f, r["observation"]["frame_id"]
-            r = await act("grasp_stale_frame", {"skill": "GRASP", "point": pt(f_prev, .42, .48)}); f = r["observation"]["frame_id"]
-            r = await act("grasp_can", {"skill": "GRASP", "point": pt(f, .42, .48)}); f = r["observation"]["frame_id"]
-            r = await act("grasp_hand_occupied", {"skill": "GRASP", "point": pt(f, .42, .48)}); f = r["observation"]["frame_id"]
-            r = await act("place_can", {"skill": "PLACE", "point": pt(f, .51, .65)}); f = r["observation"]["frame_id"]
+            r = await act("view_down", {"skill": "VIEW", **view_cfg}); f = r["observation"]["frame_id"]
+            r = await act("check_can", {"skill": "CHECK", "point": pt(f, cx, cy)}); f = r["observation"]["frame_id"]
+            r = await act("open_non_articulated", {"skill": "OPEN", "point": pt(f, cx, cy)}); f_prev, f = f, r["observation"]["frame_id"]
+            r = await act("grasp_stale_frame", {"skill": "GRASP", "point": pt(f_prev, cx, cy)}); f = r["observation"]["frame_id"]
+            r = await act("grasp_can", {"skill": "GRASP", "point": pt(f, cx, cy)}); f = r["observation"]["frame_id"]
+            r = await act("grasp_hand_occupied", {"skill": "GRASP", "point": pt(f, cx, cy)}); f = r["observation"]["frame_id"]
+            r = await act("place_can", {"skill": "PLACE", "point": pt(f, px, py)}); f = r["observation"]["frame_id"]
             await act("report_done", {"skill": "REPORT_DONE"})
 
             print("[episode 2] premature REPORT_DONE", flush=True)

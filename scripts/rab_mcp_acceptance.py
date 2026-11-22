@@ -142,7 +142,7 @@ async def run(args: argparse.Namespace) -> int:
             res1, imgs1 = _parse_mcp_response(await session.call_tool("reset_episode", {"scenario_id": args.scenario}))
             reset_s = time.monotonic() - t0
             obs = res1["reset"]
-            assert set(obs.keys()) == EXPECTED_OBS_KEYS, f"Unexpected keys: {set(obs.keys())}"
+            assert set(obs.keys()) - {"embodiment_spec"} == EXPECTED_OBS_KEYS, f"Unexpected keys: {set(obs.keys())}"
             assert set(obs["skill_library"]) == EXPECTED_SKILLS
             assert obs["planning_step"] == 0 and obs["max_planning_steps"] == 120
             assert obs["protocol"] == "findingbench_rab_pinhole_v1"
@@ -167,11 +167,16 @@ async def run(args: argparse.Namespace) -> int:
             assert len(imgs_again) == 1 and imgs_again[0]["sha256"] == imgs1[0]["sha256"]
             report["checks"].append({"check": "observe_idempotent_no_step_or_physics_advance"})
 
+            is_unitree = str((obs.get("embodiment_spec") or {}).get("embodiment_id", "")).startswith("unitree_g1") or os.environ.get("FINDINGBENCH_RAB_ROBOT", "unitree_g1").startswith("unitree")
+            view_cfg = {"yaw": 0.0, "pitch": -18.0, "zoom": 1.0} if is_unitree else {"yaw": -27.5, "pitch": -60.0, "zoom": 1.0}
+            can_xy = (0.60, 0.62) if is_unitree else (0.42, 0.48)
+            place_xy = (0.67, 0.77) if is_unitree else (0.51, 0.65)
+
             # 5. act(VIEW)
             act_view, imgs_view = _parse_mcp_response(
                 await session.call_tool(
                     "act",
-                    {"action": {"skill": "VIEW", "yaw": -27.5, "pitch": -60.0, "zoom": 1.0}},
+                    {"action": {"skill": "VIEW", **view_cfg}},
                 )
             )
             assert act_view["feedback"]["code"] == "EXECUTED" and act_view["planning_step"] == 1
@@ -188,11 +193,11 @@ async def run(args: argparse.Namespace) -> int:
                 }
             )
 
-            # 6. act(CHECK) on visible can at (0.42, 0.48)
+            # 6. act(CHECK) on visible can
             act_check, imgs_check = _parse_mcp_response(
                 await session.call_tool(
                     "act",
-                    {"action": {"skill": "CHECK", "point": {"frame_id": frame1, "x": 0.42, "y": 0.48}}},
+                    {"action": {"skill": "CHECK", "point": {"frame_id": frame1, "x": can_xy[0], "y": can_xy[1]}}},
                 )
             )
             assert act_check["feedback"]["code"] == "EXECUTED" and act_check["planning_step"] == 2
@@ -220,7 +225,7 @@ async def run(args: argparse.Namespace) -> int:
                     {
                         "action": {
                             "skill": "GRASP",
-                            "point": {"frame_id": check_meta["frame_id"], "x": 0.42, "y": 0.48},
+                            "point": {"frame_id": check_meta["frame_id"], "x": can_xy[0], "y": can_xy[1]},
                         }
                     },
                 )
@@ -240,7 +245,7 @@ async def run(args: argparse.Namespace) -> int:
             act_grasp, imgs_grasp = _parse_mcp_response(
                 await session.call_tool(
                     "act",
-                    {"action": {"skill": "GRASP", "point": {"frame_id": frame3, "x": 0.42, "y": 0.48}}},
+                    {"action": {"skill": "GRASP", "point": {"frame_id": frame3, "x": can_xy[0], "y": can_xy[1]}}},
                 )
             )
             assert act_grasp["feedback"]["code"] == "EXECUTED" and act_grasp["planning_step"] == 4
@@ -258,7 +263,7 @@ async def run(args: argparse.Namespace) -> int:
             act_place, imgs_place = _parse_mcp_response(
                 await session.call_tool(
                     "act",
-                    {"action": {"skill": "PLACE", "point": {"frame_id": frame4, "x": 0.51, "y": 0.65}}},
+                    {"action": {"skill": "PLACE", "point": {"frame_id": frame4, "x": place_xy[0], "y": place_xy[1]}}},
                 )
             )
             assert act_place["feedback"]["code"] == "EXECUTED" and act_place["planning_step"] == 5
@@ -346,13 +351,14 @@ async def run(args: argparse.Namespace) -> int:
                 )
                 assert o262["feedback"]["code"] == "EXECUTED"
                 (img_dir / "F262_fridge_opened.png").write_bytes(imgs_o262[0]["bytes"])
+                close_x = 0.25 if is_unitree else 0.5
                 c262, imgs_c262 = _parse_mcp_response(
                     await session.call_tool(
                         "act",
                         {
                             "action": {
                                 "skill": "CLOSE",
-                                "point": {"frame_id": o262["observation"]["frame_id"], "x": 0.5, "y": 0.5},
+                                "point": {"frame_id": o262["observation"]["frame_id"], "x": close_x, "y": 0.5},
                             }
                         },
                     )
