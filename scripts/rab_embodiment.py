@@ -236,8 +236,8 @@ UNITREE_G1_CONFIG = EmbodimentConfig(
         "height_m": 1.32,
         "eye_camera_height_m": 1.27,
         "body_footprint_radius_m": 0.34,
-        "nominal_arm_reach_m": 0.82,
-        "hand_grasp_span_m": 0.12,
+        "nominal_arm_reach_m": 0.84,
+        "hand_grasp_span_m": 0.14,
         "torso_and_posture": (
             "Bipedal humanoid with 3-DoF waist (yaw/roll/pitch) and automatic crouching "
             "for low workspaces; standing vertical reach up to ~1.60 m."

@@ -63,3 +63,11 @@ def test_world_to_pelvis_roundtrip():
     p_l, R_l = C._world_to_pelvis(p_w, R_w, pelvis_pos, pelvis_R)
     assert np.allclose(pelvis_pos + pelvis_R @ p_l, p_w, atol=1e-9)
     assert np.allclose(pelvis_R @ R_l, R_w, atol=1e-9)
+
+
+def test_shared_solver_cache_and_methods():
+    for attr in ("warmup", "solve_ik_3d", "solve_ik_6d", "plan_pose_trajectory"):
+        assert callable(getattr(C.UnitreeCuRoboSolver, attr, None))
+    s1 = C.get_shared_curobo_solver("unitree_g1")
+    s2 = C.get_shared_curobo_solver("unitree_g1")
+    assert s1 is s2

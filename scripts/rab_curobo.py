@@ -356,6 +356,7 @@ class UnitreeCuRoboSolver:
             if include_6d:
                 self._get_ik(s, six_dof=True, track_mode=False)
                 self._get_ik(s, six_dof=True, track_mode=True)
+        self.is_warmed = True
         return time.monotonic() - t0
 
     def solve_ik_3d(
@@ -493,3 +494,16 @@ class UnitreeCuRoboSolver:
             pos_np = pos_np[0]
         waypoints = [{jn: float(row[i]) for i, jn in enumerate(mp.joint_names)} for row in pos_np]
         return True, waypoints, plan_ms
+
+
+_SHARED_CUROBO_SOLVERS: dict[str, UnitreeCuRoboSolver] = {}
+
+
+def get_shared_curobo_solver(embodiment_name: str = "unitree_g1") -> UnitreeCuRoboSolver:
+    """Return a process-cached cuRobo solver so hot stage reloads reuse compiled CUDA graphs."""
+    solver = _SHARED_CUROBO_SOLVERS.get(embodiment_name)
+    if solver is None:
+        solver = UnitreeCuRoboSolver(embodiment_name=embodiment_name)
+        solver.is_warmed = False
+        _SHARED_CUROBO_SOLVERS[embodiment_name] = solver
+    return solver

@@ -143,7 +143,8 @@ def run(args, task):
     report=dict(task=task, scene_sha256=episode['scene_sha256'], revision=revision,
                 status='loading', _started=start, mode='rab_usd', physics_tick=0)
     print(f'RAB {task["id"]} · http://{args.host}:{args.port} · loading',flush=True)
-    app=world=renderer=None
+    app=None
+    runtime=dict(world=None,renderer=None,stage=None,start_time=0.)
     try:
         os.environ.setdefault('OMNI_KIT_ACCEPT_EULA','YES')
         # Native plugins create thousands of watchers in a large release.
@@ -182,40 +183,79 @@ def run(args, task):
         stage.SetEditTarget(stage.GetSessionLayer())
         timeline=omni.timeline.get_timeline_interface()
         timeline.stop()
-        start_time=timeline.get_current_time()
-        renderer=Renderer(stage,args.width,args.height,args.fov)
+        runtime['start_time']=timeline.get_current_time()
+        runtime['stage']=stage
+        runtime['renderer']=Renderer(stage,args.width,args.height,args.fov)
         camera=home(stage)
         report['home']=camera.home
         if args.edit or args.skills:
             from rab_edit import NativeWorld
-            world=NativeWorld(stage,episode,mobile=args.skills)
+            runtime['world']=NativeWorld(stage,episode,mobile=args.skills)
             if args.edit:
                 from rab_edit import Editor
-                state.editor=Editor(args,task,state,world,member,revision)
+                state.editor=Editor(args,task,state,runtime['world'],member,revision)
                 report['mode']='rab_editor'
             else:
                 from rab_skills import Skills
+                from rab_spectator_data import select
                 from pxr import UsdGeom
                 # The head camera is recessed in the head geometry during
                 # wide virtual gaze. Suppress own-body rendering in this
                 # sensor, matching point rays which ignore the robot.
-                UsdGeom.Imageable(stage.GetPrimAtPath(world.robot_prim)).MakeInvisible()
+                UsdGeom.Imageable(stage.GetPrimAtPath(runtime['world'].robot_prim)).MakeInvisible()
                 report['mode']='rab_skills'
-                state.editor=Skills(args,task,state,world,renderer,camera,receipt)
-        before=None if world else usd_world_fingerprint(stage)
+                state.editor=Skills(args,task,state,runtime['world'],runtime['renderer'],camera,receipt)
+
+                def reload_stage(new_task_query, run_output=None, rab_edits=None):
+                    edits_path=Path(rab_edits).resolve() if rab_edits else args.rab_edits.resolve()
+                    new_task=select(args.asset_run,str(new_task_query),base=edits_path)
+                    new_ep,new_rec,_,new_rev=current(args.asset_run,new_task,edits_path)
+                    if runtime['world'] is not None:
+                        runtime['world'].close()
+                        runtime['world']=None
+                    if runtime['renderer'] is not None:
+                        try:
+                            runtime['renderer'].close()
+                        except Exception:
+                            pass
+                        runtime['renderer']=None
+                    ctx.close_stage()
+                    if not ctx.open_stage(new_ep['scene']):
+                        raise ValueError(f'Could not open RAB scene for {new_task["id"]}')
+                    st=ctx.get_stage()
+                    st.SetEditTarget(st.GetSessionLayer())
+                    timeline.stop()
+                    runtime['start_time']=timeline.get_current_time()
+                    runtime['stage']=st
+                    rend=Renderer(st,args.width,args.height,args.fov)
+                    cam0=home(st)
+                    wld=NativeWorld(st,new_ep,mobile=True)
+                    UsdGeom.Imageable(st.GetPrimAtPath(wld.robot_prim)).MakeInvisible()
+                    args.run_output=Path(run_output) if run_output else None
+                    args.rab_edits=edits_path
+                    state.task=new_task
+                    new_skills=Skills(args,new_task,state,wld,rend,cam0,new_rec)
+                    runtime['world']=wld
+                    runtime['renderer']=rend
+                    state.editor=new_skills
+                    report.update(task=new_task,scene_sha256=new_ep['scene_sha256'],revision=new_rev,physics_tick=0)
+                    return new_skills
+
+                state.reload_stage=reload_stage
+        before=None if runtime['world'] else usd_world_fingerprint(stage)
         def audit(full):
-            if timeline.is_playing() or timeline.get_current_time()!=start_time:
+            if timeline.is_playing() or timeline.get_current_time()!=runtime['start_time']:
                 raise RuntimeError('Unexpected Kit timeline advance')
-            if full and before and usd_world_fingerprint(stage)!=before:
+            if full and before and usd_world_fingerprint(runtime['stage'])!=before:
                 raise RuntimeError('Spectator changed the RAB world')
         def capture(c):
-            if world:
-                report['physics_tick']=world.steps
-            return renderer.capture(c)
+            if runtime['world']:
+                report['physics_tick']=runtime['world'].steps
+            return runtime['renderer'].capture(c)
         run_flight(args,state,report,camera,capture,audit)
         report['timeline_time_unchanged']=True
         if before:
-            report['world_unchanged']=usd_world_fingerprint(stage)==before
+            report['world_unchanged']=usd_world_fingerprint(runtime['stage'])==before
     except Exception as e:
         report.update(status='failed',error=str(e))
         with state.condition:
@@ -227,14 +267,14 @@ def run(args, task):
             state.condition.notify_all()
         server.shutdown()
         server.server_close()
-        if world:
-            world.close()
+        if runtime['world']:
+            runtime['world'].close()
         if args.smoke_output:
             report.pop('_started',None)
             save(args.smoke_output/'report.json',report)
-        if renderer:
+        if runtime['renderer']:
             try:
-                renderer.close()
+                runtime['renderer'].close()
             except Exception as e:
                 print(f'Render product cleanup: {e}', flush=True)
         if app:

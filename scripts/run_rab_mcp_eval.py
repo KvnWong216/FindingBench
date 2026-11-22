@@ -18,6 +18,7 @@ import argparse
 import asyncio
 import base64
 from collections import Counter
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -39,6 +40,14 @@ if str(ROOT / "scripts") not in sys.path:
     sys.path.insert(0, str(ROOT / "scripts"))
 
 from rummagebench.agents.policy_adapter import PolicyInfrastructureError, parse_action  # noqa: E402
+from rab_agent_memory import (  # noqa: E402
+    build_dynamic_step_prompt,
+    build_static_episode_prefix,
+    build_visual_memory_strip,
+    parse_memory_and_action,
+    resize_scene_image,
+    short_action_signature,
+)
 
 RAB_PINHOLE_PROMPT_V1 = """You control a mobile manipulation robot in a household room using its current pinhole RGB camera image and public feedback.
 Complete the user's household instruction, then call REPORT_DONE. Return exactly ONE JSON action object per turn.
@@ -106,14 +115,31 @@ def call_model_endpoint(
     prompt: str,
     images_payload: list[dict],
     *,
-    max_new_tokens: int = 512,
+    static_prefix: str | None = None,
+    enable_cache_control: bool = False,
+    max_new_tokens: int = 384,
     seed: int = 0,
     temperature: float = 0.0,
     api_key: str | None = None,
     timeout: int = 300,
 ) -> dict:
-    """Unified VLM query supporting local `/generate` and OpenAI `/v1/chat/completions`."""
+    """Unified VLM query supporting local `/generate` and prefix-cache-aligned `/v1/chat/completions`."""
     if api_type == "openai_chat":
+        messages: list[dict] = []
+        if static_prefix:
+            if enable_cache_control:
+                messages.append({
+                    "role": "system",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": static_prefix,
+                            "cache_control": {"type": "ephemeral"},
+                        }
+                    ],
+                })
+            else:
+                messages.append({"role": "system", "content": static_prefix})
         content = [{"type": "text", "text": prompt}]
         for im in images_payload:
             content.append({"type": "text", "text": im["label"]})
@@ -121,11 +147,12 @@ def call_model_endpoint(
                 "type": "image_url",
                 "image_url": {"url": f"data:image/png;base64,{im['image_png_b64']}"},
             })
+        messages.append({"role": "user", "content": content})
         url = endpoint if endpoint.endswith("/chat/completions") else (endpoint.rstrip("/") + "/v1/chat/completions")
         headers = {"Authorization": f"Bearer {api_key}"} if api_key else {}
         body = {
             "model": model_id,
-            "messages": [{"role": "user", "content": content}],
+            "messages": messages,
             "max_tokens": int(max_new_tokens),
             "temperature": float(temperature),
             "seed": int(seed),
@@ -137,17 +164,26 @@ def call_model_endpoint(
         if isinstance(text, list):
             text = "\n".join(part.get("text", "") for part in text if isinstance(part, dict))
         usage = res.get("usage") or {}
+        pt_details = usage.get("prompt_tokens_details") or {}
+        cached_tokens = int(
+            pt_details.get("cached_tokens")
+            or usage.get("prompt_cache_hit_tokens")
+            or usage.get("cache_read_input_tokens")
+            or 0
+        )
         return {
             "text": str(text),
             "input_tokens": int(usage.get("prompt_tokens", 0)),
+            "cached_input_tokens": cached_tokens,
             "output_tokens": int(usage.get("completion_tokens", 0)),
         }
 
+    full_prompt = f"{static_prefix}\n\n{prompt}" if static_prefix else prompt
     return request_json(
         endpoint.rstrip("/") + "/generate",
         {
             "model": model_id,
-            "prompt": prompt,
+            "prompt": full_prompt,
             "image_png_b64": images_payload[0]["image_png_b64"],
             "images": images_payload,
             "max_new_tokens": int(max_new_tokens),
@@ -286,6 +322,12 @@ def resolve_episode_list(cfg: dict, release_dir: Path, shard: str | None = None)
     if raw_eps == "all":
         manifest = json.loads((release_dir / "combined_manifest.json").read_text())
         episodes = [t["id"] for t in manifest["tasks"]]
+    elif raw_eps == "core200":
+        core_path = ROOT / "configs/benchmarks/rab_v1_core200.json"
+        episodes = list(json.loads(core_path.read_text())["episodes"])
+    elif isinstance(raw_eps, str) and raw_eps.startswith("@"):
+        sub_path = (ROOT / raw_eps[1:]).resolve() if not Path(raw_eps[1:]).is_absolute() else Path(raw_eps[1:])
+        episodes = list(json.loads(sub_path.read_text())["episodes"])
     else:
         episodes = list(raw_eps)
     sl = cfg.get("episode_slice")
@@ -313,6 +355,14 @@ async def _run_single_episode(
     sessions_dir: Path,
 ) -> dict:
     step_budget = int(cfg["max_planning_steps"])
+    memory_mode = str(cfg.get("memory_mode", "scratchpad_visual_k2"))
+    prompt_mode = str(cfg.get("prompt_mode", "default_natural"))
+    history_steps = int(cfg.get("history_steps", 120))
+    max_memory_chars = int(cfg.get("max_memory_chars", 600))
+    visual_memory_frames = int(cfg.get("visual_memory_frames", 2))
+    scene_image_max_width = int(cfg.get("scene_image_max_width", 960))
+    enable_cache_control = bool(cfg.get("enable_cache_control", False))
+
     ep_dir.mkdir(parents=True, exist_ok=True)
     t0 = time.monotonic()
     reset_payload, reset_imgs = parse_mcp_result(
@@ -324,36 +374,84 @@ async def _run_single_episode(
     curr_images = reset_imgs
     (ep_dir / "step_0000.png").write_bytes(curr_images[0])
 
+    # Build the 100% step-invariant prefix ONCE per episode for prefix-cache alignment
+    static_prefix: str | None = None
+    static_prefix_sha256: str | None = None
+    if memory_mode != "legacy_json":
+        static_prefix = build_static_episode_prefix(
+            obs["instruction"],
+            int(obs["max_planning_steps"]),
+            obs.get("embodiment_spec"),
+            prompt_mode=prompt_mode,
+            memory_mode=memory_mode,
+        )
+        static_prefix_sha256 = hashlib.sha256(static_prefix.encode("utf-8")).hexdigest()
+
     history: list[dict] = []
+    visual_ring: list[tuple[int, str, bytes]] = []
+    working_memory = ""
     action_logs: list[dict] = []
     model_wall_total_s = 0.0
     tool_wall_total_s = 0.0
     input_tokens_total = 0
+    cached_input_tokens_total = 0
     output_tokens_total = 0
     terminal = False
     episode_status = "RUNNING"
 
     while not terminal:
-        prompt = build_pinhole_prompt(
-            obs,
-            history,
-            int(cfg.get("history_steps", 60)),
-            cfg.get("prompt_mode", "default_natural"),
-        )
-        img_b64 = base64.b64encode(curr_images[0]).decode("ascii")
+        visual_strip_bytes: bytes | None = None
+        if memory_mode == "scratchpad_visual_k2" and visual_ring and visual_memory_frames > 0:
+            visual_strip_bytes = build_visual_memory_strip(
+                visual_ring,
+                max_frames=visual_memory_frames,
+            )
+
+        if memory_mode == "legacy_json":
+            prompt = build_pinhole_prompt(obs, history, history_steps, prompt_mode)
+        else:
+            prompt = build_dynamic_step_prompt(
+                obs,
+                history,
+                working_memory,
+                memory_mode=memory_mode,
+                history_steps=history_steps,
+                has_visual_strip=visual_strip_bytes is not None,
+            )
+
+        primary_png = resize_scene_image(curr_images[0], max_width=scene_image_max_width)
         images_payload = [
             {
-                "label": f"Image 1: Current pinhole RGB camera view; frame_id={obs['frame_id']}",
-                "image_png_b64": img_b64,
+                "label": (
+                    f"Image 1: Current pinhole RGB camera view "
+                    f"(SELECTABLE: point.frame_id={obs['frame_id']}, x/y normalized in [0,1])"
+                ),
+                "image_png_b64": base64.b64encode(primary_png).decode("ascii"),
             }
         ]
         if len(curr_images) > 1 and obs.get("inspection_view"):
             images_payload.append(
                 {
-                    "label": "Image 2: Isolated 4-view CHECK inspection sheet (not point-selectable)",
+                    "label": (
+                        f"Image {len(images_payload) + 1}: Isolated 4-view CHECK inspection sheet "
+                        "(NOT point-selectable)"
+                    ),
                     "image_png_b64": base64.b64encode(curr_images[1]).decode("ascii"),
                 }
             )
+        if visual_strip_bytes is not None:
+            images_payload.append(
+                {
+                    "label": (
+                        f"Image {len(images_payload) + 1}: Short-term visual memory strip of previous views "
+                        "(spatial context ONLY — NOT point-selectable)"
+                    ),
+                    "image_png_b64": base64.b64encode(visual_strip_bytes).decode("ascii"),
+                }
+            )
+
+        prev_step_idx = int(obs["planning_step"])
+        prev_scene_png = curr_images[0]
 
         t_m0 = time.monotonic()
         gen = call_model_endpoint(
@@ -362,7 +460,9 @@ async def _run_single_episode(
             model_id,
             prompt,
             images_payload,
-            max_new_tokens=int(cfg.get("max_new_tokens", 512)),
+            static_prefix=static_prefix,
+            enable_cache_control=enable_cache_control,
+            max_new_tokens=int(cfg.get("max_new_tokens", 384)),
             seed=int(cfg.get("seed", 0)),
             temperature=float(cfg.get("temperature", 0.0)),
             api_key=api_key,
@@ -371,12 +471,25 @@ async def _run_single_episode(
         m_dt = time.monotonic() - t_m0
         model_wall_total_s += m_dt
         input_tokens_total += int(gen.get("input_tokens", 0))
+        cached_input_tokens_total += int(gen.get("cached_input_tokens", 0))
         output_tokens_total += int(gen.get("output_tokens", 0))
 
         raw_text = gen.get("text", "")
-        parsed_action = parse_action(raw_text)
+        if memory_mode == "legacy_json":
+            parsed_action = parse_action(raw_text)
+        else:
+            parsed_action, working_memory = parse_memory_and_action(
+                raw_text,
+                working_memory,
+                max_memory_chars=max_memory_chars,
+            )
         if not isinstance(parsed_action, dict) or "skill" not in parsed_action:
             parsed_action = {"skill": "VIEW", "yaw": 999.0, "pitch": 0.0}
+
+        # Push pre-action frame + chosen action tag into the visual memory ring
+        visual_ring.append((prev_step_idx, short_action_signature(parsed_action), prev_scene_png))
+        if len(visual_ring) > max(4, visual_memory_frames + 1):
+            visual_ring = visual_ring[-max(4, visual_memory_frames + 1) :]
 
         t_a0 = time.monotonic()
         act_payload, act_imgs = parse_mcp_result(
@@ -399,6 +512,7 @@ async def _run_single_episode(
         step_record = {
             "step": obs["planning_step"],
             "raw_model_text": raw_text,
+            "working_memory": working_memory,
             "action": parsed_action,
             "feedback": feedback,
             "episode_status": episode_status,
@@ -406,6 +520,7 @@ async def _run_single_episode(
             "model_wall_s": round(m_dt, 4),
             "tool_wall_s": round(a_dt, 4),
             "input_tokens": gen.get("input_tokens"),
+            "cached_input_tokens": gen.get("cached_input_tokens", 0),
             "output_tokens": gen.get("output_tokens"),
         }
         action_logs.append(step_record)
@@ -438,6 +553,8 @@ async def _run_single_episode(
         "task_id": task_id,
         "episode_id": episode_id,
         "instruction": obs["instruction"],
+        "memory_mode": memory_mode,
+        "static_prefix_sha256": static_prefix_sha256,
         "valid": True,
         "status": episode_status,
         "success": episode_status == "SUCCESS",
@@ -453,6 +570,8 @@ async def _run_single_episode(
         },
         "tokens": {
             "input_tokens": input_tokens_total,
+            "cached_input_tokens": cached_input_tokens_total,
+            "uncached_input_tokens": max(0, input_tokens_total - cached_input_tokens_total),
             "output_tokens": output_tokens_total,
         },
         "feedback_counts": dict(Counter(a["feedback"]["code"] for a in action_logs)),
@@ -616,6 +735,10 @@ async def run_evaluation(cfg: dict, *, resume: bool = False, shard: str | None =
             (out_dir / "metrics_v2.json").write_text(json.dumps(v2_report, indent=2, ensure_ascii=False) + "\n")
             (out_dir / "metrics_v2.md").write_text(M.to_markdown({model_key: v2_report}))
 
+        total_in_tok = sum(int(e.get("tokens", {}).get("input_tokens", 0)) for e in valid_eps)
+        total_cached_tok = sum(int(e.get("tokens", {}).get("cached_input_tokens", 0)) for e in valid_eps)
+        total_out_tok = sum(int(e.get("tokens", {}).get("output_tokens", 0)) for e in valid_eps)
+
         summary = {
             "schema": "findingbench.rab_v1_eval_summary.v2",
             "experiment_id": cfg["experiment_id"],
@@ -626,11 +749,13 @@ async def run_evaluation(cfg: dict, *, resume: bool = False, shard: str | None =
             "ik_backend": ik_backend,
             "feedback_mode": fb_mode,
             "motion_mode": motion_mode,
+            "memory_mode": cfg.get("memory_mode", "scratchpad_visual_k2"),
+            "scene_image_max_width": int(cfg.get("scene_image_max_width", 960)),
             "model": model_key,
             "model_id": model_id,
             "revision": revision,
             "prompt_mode": cfg.get("prompt_mode", "default_natural"),
-            "history_steps": cfg.get("history_steps", 60),
+            "history_steps": cfg.get("history_steps", 120),
             "max_planning_steps": step_budget,
             "seed": cfg["seed"],
             "metrics": {
@@ -646,6 +771,9 @@ async def run_evaluation(cfg: dict, *, resume: bool = False, shard: str | None =
                 "LAT_s_per_step": v2_report["core"]["LAT"] if v2_report else None,
                 "RSER": v2_report["core"]["RSER"] if v2_report else None,
                 "Restoration_mean": round(mean_restoration, 4) if mean_restoration is not None else None,
+                "total_input_tokens": total_in_tok,
+                "total_cached_input_tokens": total_cached_tok,
+                "total_output_tokens": total_out_tok,
             },
             "metrics_v2": v2_report,
             "failure_taxonomy_counts": {

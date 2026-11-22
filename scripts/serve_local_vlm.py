@@ -86,8 +86,8 @@ def main():
                 decoding_seed=int(data.get('decoding_seed',3407)) if official_qwen else int(data['seed'])
                 set_seed(decoding_seed)
                 items=data.get('images') or [dict(label='Image',image_png_b64=data['image_png_b64'])]
-                if not isinstance(items,list) or not 1 <= len(items) <= 2:
-                    raise ValueError('expected one primary image and at most one detail')
+                if not isinstance(items,list) or not 1 <= len(items) <= 4:
+                    raise ValueError('expected 1..4 images (primary scene + optional CHECK card + optional visual memory)')
                 pictures=[Image.open(io.BytesIO(base64.b64decode(x['image_png_b64'],validate=True))).convert('RGB') for x in items]
                 messages=hf_messages(text_messages(data),pictures,[x['label'] for x in items])
                 inputs=processor.apply_chat_template(messages,tokenize=True,add_generation_prompt=True,

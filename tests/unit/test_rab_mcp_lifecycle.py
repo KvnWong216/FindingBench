@@ -86,8 +86,22 @@ class H(BaseHTTPRequestHandler):
         return self.reply({"error": "not found"}, 404)
 
     def do_POST(self):
+        route = urlsplit(self.path).path
         size = int(self.headers.get("Content-Length", 0))
         act = json.loads(self.rfile.read(size))
+        if route == "/reset":
+            if args.mode == "fail_hot_reset":
+                return self.reply({"ok": False, "error": "simulated hot reset error"}, 500)
+            args.task = act["task"]
+            STATE.update({
+                "frame_id": "frame_0000",
+                "step": 0,
+                "done": False,
+                "status": "RUNNING",
+                "feedback": None,
+                "inspection": None,
+            })
+            return self.reply({"id": uuid4().hex, "ok": True, "task_id": args.task})
         if STATE["done"]:
             return self.reply({
                 "id": uuid4().hex,
@@ -259,3 +273,62 @@ def test_rab_worker_startup_failure_and_hang_cleanup(tmp_path):
         handle_hang.reset("F251")
     assert handle_hang.process is None
     assert handle_hang.tmpdir is None
+
+
+def test_rab_worker_hot_reload_and_periodic_recycle(tmp_path):
+    root = Path(__file__).resolve().parents[2]
+    release = root / "runs/rab_dense_serial_20261119"
+    fake_script = tmp_path / "fake_worker.py"
+    fake_script.write_text(FAKE_WORKER_SCRIPT)
+
+    handle = rab_mcp_server.RabWorkerHandle(
+        release_dir=release,
+        out_root=tmp_path / "out_hot",
+        gpu_id=0,
+        startup_timeout_s=10.0,
+        request_timeout_s=5.0,
+        worker_command=[sys.executable, "-u", str(fake_script)],
+        hot_reload=True,
+        max_episodes_per_worker=2,
+    )
+    try:
+        r1, _ = handle.reset("F251")
+        pid1 = handle.process.pid
+        assert r1["task_id"] == "rab_F251"
+        assert handle.worker_episodes_served == 1
+
+        # Episode 2 reuses the exact same worker process via POST /reset (hot_reload)
+        r2, _ = handle.reset("F262")
+        assert r2["task_id"] == "rab_F262"
+        assert r2["episode_id"] != r1["episode_id"]
+        assert r2["reset"]["planning_step"] == 0
+        assert handle.process.pid == pid1
+        assert handle.worker_episodes_served == 2
+
+        # Episode 3 hits max_episodes_per_worker=2 -> cleanly recycles worker process
+        r3, _ = handle.reset("F251")
+        assert r3["task_id"] == "rab_F251"
+        assert handle.process.pid != pid1
+        assert handle.worker_episodes_served == 1
+    finally:
+        handle.stop()
+
+    # Fallback test: if POST /reset fails (HTTP 500), handle seamlessly falls back to cold spawn
+    handle_fb = rab_mcp_server.RabWorkerHandle(
+        release_dir=release,
+        out_root=tmp_path / "out_fb",
+        gpu_id=0,
+        startup_timeout_s=10.0,
+        request_timeout_s=5.0,
+        worker_command=[sys.executable, "-u", str(fake_script), "--mode", "fail_hot_reset"],
+        hot_reload=True,
+        max_episodes_per_worker=10,
+    )
+    try:
+        handle_fb.reset("F251")
+        pid_a = handle_fb.process.pid
+        r_b, _ = handle_fb.reset("F262")
+        assert r_b["task_id"] == "rab_F262"
+        assert handle_fb.process.pid != pid_a
+    finally:
+        handle_fb.stop()

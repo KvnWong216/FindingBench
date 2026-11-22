@@ -311,9 +311,11 @@ async def run(args: argparse.Namespace) -> int:
             )
 
             # 12. Same-ID reset_episode(F251) -> fresh episode_id & planning_step=0
+            t_same0 = time.monotonic()
             res_same, imgs_same = _parse_mcp_response(
                 await session.call_tool("reset_episode", {"scenario_id": args.scenario})
             )
+            same_reset_s = time.monotonic() - t_same0
             assert res_same["episode_id"] != ep1_id
             assert res_same["reset"]["planning_step"] == 0
             import numpy as np
@@ -325,6 +327,7 @@ async def run(args: argparse.Namespace) -> int:
                 {
                     "check": "same_id_reset_clean_state_and_consistent_initial_png",
                     "new_episode_id": res_same["episode_id"],
+                    "reset_wall_s": round(same_reset_s, 3),
                     "initial_png_mae_255": round(mae, 4),
                     "exact_sha256_match": imgs_same[0]["sha256"] == imgs1[0]["sha256"],
                 }
@@ -332,9 +335,11 @@ async def run(args: argparse.Namespace) -> int:
 
             # 13. Cross-ID reset_episode(F262) -> refrigerator OPEN & CLOSE
             if args.include_fridge:
+                t_cross0 = time.monotonic()
                 res_f262, imgs_f262 = _parse_mcp_response(
                     await session.call_tool("reset_episode", {"scenario_id": "F262"})
                 )
+                cross_reset_s = time.monotonic() - t_cross0
                 assert res_f262["task_id"] == "rab_F262"
                 v262, _ = _parse_mcp_response(
                     await session.call_tool(
@@ -369,6 +374,7 @@ async def run(args: argparse.Namespace) -> int:
                     {
                         "check": "cross_id_reset_F262_and_fridge_OPEN_CLOSE",
                         "episode_id": res_f262["episode_id"],
+                        "reset_wall_s": round(cross_reset_s, 3),
                         "opened_png_sha256": imgs_o262[0]["sha256"],
                         "closed_png_sha256": imgs_c262[0]["sha256"],
                     }

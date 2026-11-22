@@ -55,18 +55,40 @@ class SkillHandler(Handler):
         return super().do_GET()
 
     def do_POST(self):
-        if urlsplit(self.path).path!='/action':
+        route=urlsplit(self.path).path
+        if route not in ('/action','/reset'):
             return self.reply({'error':'not found'},code=404)
         try:
             size=int(self.headers.get('Content-Length',0))
-            if not 0<size<=4096:
-                raise ValueError('Invalid action size')
-            action=json.loads(self.rfile.read(size))
+            max_sz=8192 if route=='/reset' else 4096
+            if not 0<size<=max_sz:
+                raise ValueError('Invalid payload size')
+            payload=json.loads(self.rfile.read(size))
+            if route=='/reset':
+                if not isinstance(payload,dict) or not payload.get('task'):
+                    raise ValueError('Reset requires {"task": "<scenario_id>"}')
+                with self.state.condition:
+                    if not hasattr(self.state,'reload_stage') or self.state.commands or self.state.reply_id is not None:
+                        return self.reply({'error':'reload unavailable or command outstanding'},code=409)
+                    ident=uuid4().hex
+                    self.state.observation=None
+                    self.state.result=None
+                    self.state.status['error']=None
+                    self.state.commands.append((ident,dict(__hot_reset__=True,**payload)))
+                    self.state.reply_id=ident
+                    ok=self.state.condition.wait_for(lambda:self.state.result and self.state.result['id']==ident or self.state.stopped,timeout=180)
+                    out=self.state.result
+                if not ok or self.state.stopped or not out:
+                    return self.reply({'error':'reset deadline; check /state'},code=504)
+                if not out.get('ok'):
+                    return self.reply(out,code=500)
+                return self.reply(out)
+
             with self.state.condition:
                 if not self.state.observation or self.state.commands or self.state.reply_id is not None:
                     return self.reply({'error':'not ready or action outstanding'},code=409)
                 ident=uuid4().hex
-                self.state.commands.append((ident,action))
+                self.state.commands.append((ident,payload))
                 self.state.reply_id=ident
                 import os as _os
                 act_timeout=420 if _os.environ.get('FINDINGBENCH_RAB_MOTION','discrete').lower()=='replay' else 200
@@ -113,16 +135,18 @@ class Skills:
         self.episode_status='RUNNING'
         self.held=None
         self.output=args.run_output
-        from rab_curobo import UnitreeCuRoboSolver, selected_ik_backend
+        from rab_curobo import get_shared_curobo_solver, selected_ik_backend
         self.ik_backend=selected_ik_backend(self.emb.name)
         self.curobo=None
+        self._curobo_warmed=False
         if self.ik_backend=='curobo':
-            # Lazy-init cuRobo on first manipulation call so CUDA graph capture / Triton
-            # never contends with Kit Vulkan RTX shader compilation during reset_episode.
-            self.curobo=UnitreeCuRoboSolver(embodiment_name=self.emb.name)
+            # Reuse process-cached cuRobo solver across hot stage reloads so CUDA graphs
+            # compile once per worker process rather than once per episode.
+            self.curobo=get_shared_curobo_solver(self.emb.name)
+            self._curobo_warmed=bool(getattr(self.curobo,'is_warmed',False))
         if self.output:
             from rab_feedback import feedback_mode
-            self.output.mkdir(parents=True)
+            self.output.mkdir(parents=True,exist_ok=True)
             save(self.output/'manifest.json',dict(id=task['id'],scene_sha256=world.episode['scene_sha256'],
                  protocol='findingbench_rab_pinhole_v1', feedback_mode=feedback_mode(),
                  robot_embodiment=self.emb.name, embodiment_prior=embodiment_prior_mode(),
@@ -1114,6 +1138,33 @@ class Skills:
         result=None
         if pair:
             ident,raw=pair
+            if isinstance(raw,dict) and raw.get('__hot_reset__'):
+                if self.director:
+                    try:
+                        self.director.close()
+                    except Exception:
+                        pass
+                try:
+                    new_skills=self.state.reload_stage(raw['task'],raw.get('run_output'),raw.get('rab_edits'))
+                    new_skills.hinge_start={k:new_skills.world.pose(r[2]) for k,r in new_skills.world.drives.items()}
+                    actual=new_skills.view()
+                    camera.position,camera.yaw,camera.pitch,camera.zoom=actual.position,actual.yaw,actual.pitch,actual.zoom
+                    rgb=new_skills.renderer.capture(camera)
+                    if new_skills.curobo is not None and not getattr(new_skills,'_curobo_warmed',False):
+                        new_skills._curobo_warmed=True
+                        new_skills.curobo.warmup(('r','l'),include_6d=False)
+                    new_skills.observe(rgb)
+                    res_reset=dict(id=ident,ok=True,task_id=new_skills.task['id'])
+                except Exception as exc:
+                    import traceback
+                    traceback.print_exc()
+                    res_reset=dict(id=ident,ok=False,error=str(exc))
+                    self.state.status['error']=str(exc)
+                with self.state.condition:
+                    self.state.result=res_reset
+                    self.state.reply_id=None
+                    self.state.condition.notify_all()
+                return
             detail=None
             self.details={}
             extras={}

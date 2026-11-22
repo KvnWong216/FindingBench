@@ -140,6 +140,8 @@ class RabWorkerHandle:
         startup_timeout_s: float = 300.0,
         request_timeout_s: float | None = None,
         worker_command: list[str] | None = None,
+        hot_reload: bool | None = None,
+        max_episodes_per_worker: int | None = None,
     ) -> None:
         self.release_dir = Path(release_dir).resolve()
         self.out_root = Path(out_root).resolve()
@@ -150,6 +152,13 @@ class RabWorkerHandle:
             request_timeout_s = 450.0 if is_replay else 220.0
         self.request_timeout_s = float(request_timeout_s)
         self.worker_command = worker_command
+        if hot_reload is None:
+            env_hot = os.environ.get("FINDINGBENCH_RAB_HOT_RELOAD", "1").strip().lower()
+            hot_reload = (worker_command is None) and env_hot not in ("0", "false", "no", "off")
+        self.hot_reload = bool(hot_reload)
+        if max_episodes_per_worker is None:
+            max_episodes_per_worker = int(os.environ.get("FINDINGBENCH_RAB_WORKER_MAX_EPISODES", "50"))
+        self.max_episodes_per_worker = max(1, int(max_episodes_per_worker))
 
         self.episode_uuid: str | None = None
         self.task_id: str | None = None
@@ -159,6 +168,8 @@ class RabWorkerHandle:
         self.tmpdir: Path | None = None
         self.episode_dir: Path | None = None
         self.log_file = None
+        self.log_path: Path | None = None
+        self.worker_episodes_served: int = 0
         self.episode_status: str = "NO_EPISODE"
         self.planning_step: int = 0
         self.max_planning_steps: int = 120
@@ -169,6 +180,7 @@ class RabWorkerHandle:
     def stop(self) -> None:
         proc = self.process
         self.process = None
+        self.worker_episodes_served = 0
         if proc is not None and proc.poll() is None:
             try:
                 os.killpg(proc.pid, signal.SIGTERM)
@@ -185,6 +197,7 @@ class RabWorkerHandle:
             except Exception:
                 pass
             self.log_file = None
+        self.log_path = None
         if self.tmpdir is not None and self.tmpdir.exists():
             shutil.rmtree(self.tmpdir, ignore_errors=True)
             self.tmpdir = None
@@ -219,7 +232,6 @@ class RabWorkerHandle:
             raise ValueError(
                 "RAB native PhysX worker uses deterministic initial USD snapshot poses and does not accept a runtime random seed parameter; omit `seed`."
             )
-        self.stop()
         resolved = _resolve_rab_task(self.release_dir, scenario_id)
         task = resolved["task"]
         episode = resolved["episode"]
@@ -227,7 +239,6 @@ class RabWorkerHandle:
         self.episode_uuid = uuid4().hex
         self.task_id = task["id"]
         self.parent_task_id = task["parent_task_id"]
-        self.port = _free_local_port()
 
         ts = time.strftime("%Y%m%d_%H%M%S")
         self.episode_dir = self.out_root / f"{ts}_{self.task_id}_{self.episode_uuid[:8]}"
@@ -235,8 +246,6 @@ class RabWorkerHandle:
         skill_output_dir = self.episode_dir / "worker_trace"
         empty_edits_dir = self.episode_dir / "empty_rab_edits"
         empty_edits_dir.mkdir(parents=True, exist_ok=True)
-
-        self.tmpdir = Path(tempfile.mkdtemp(prefix=f"rab_mcp_{self.task_id}_"))
 
         private_manifest = {
             "schema": "findingbench.rab_mcp_episode.v1",
@@ -270,6 +279,73 @@ class RabWorkerHandle:
         (self.episode_dir / "private_manifest.json").write_text(
             json.dumps(private_manifest, indent=2, ensure_ascii=False) + "\n"
         )
+
+        # Attempt in-process stage hot-reload on an already-running SimulationApp worker
+        can_hot = (
+            self.hot_reload
+            and self.process is not None
+            and self.process.poll() is None
+            and self.port is not None
+            and self.worker_episodes_served < self.max_episodes_per_worker
+        )
+        if can_hot:
+            t_hot = time.monotonic()
+            try:
+                code, res = self._http_post(
+                    "/reset",
+                    {
+                        "task": self.task_id,
+                        "run_output": str(skill_output_dir),
+                        "rab_edits": str(empty_edits_dir),
+                    },
+                    timeout=min(self.startup_timeout_s, 180.0),
+                )
+                if code == 200 and res.get("ok"):
+                    obs_resp = self._http_get("/observation", timeout=15.0)
+                    if obs_resp.get("ready") and isinstance(obs_resp.get("observation"), dict):
+                        hot_s = time.monotonic() - t_hot
+                        self.worker_episodes_served += 1
+                        if self.log_path is not None and self.log_path.exists():
+                            ep_log_link = self.episode_dir / "worker.log"
+                            if not ep_log_link.exists():
+                                try:
+                                    ep_log_link.symlink_to(self.log_path)
+                                except OSError:
+                                    pass
+                        public_meta, scene_png, _, _ = _strip_public_observation(obs_resp["observation"])
+                        self.episode_status = "RUNNING"
+                        self.planning_step = int(public_meta["planning_step"])
+                        self.max_planning_steps = int(public_meta["max_planning_steps"])
+                        self.last_public_obs = public_meta
+                        self.last_scene_png = scene_png
+                        self.last_check_png = None
+                        reset_payload = {
+                            "ok": True,
+                            "episode_id": self.episode_uuid,
+                            "task_id": self.task_id,
+                            "episode_status": self.episode_status,
+                            "reset": public_meta,
+                        }
+                        self._append_private_event(
+                            {
+                                "event": "reset_episode",
+                                "reset_mode": "hot_reload",
+                                "worker_episodes_served": self.worker_episodes_served,
+                                "episode_id": self.episode_uuid,
+                                "task_id": self.task_id,
+                                "load_wall_s": round(hot_s, 4),
+                                "frame_id": public_meta["frame_id"],
+                                "scene_png_sha256": hashlib.sha256(scene_png).hexdigest(),
+                            }
+                        )
+                        return reset_payload, scene_png
+                logger.warning("Hot reset returned HTTP %s (%s); falling back to cold worker spawn", code, res)
+            except Exception as exc:
+                logger.warning("Hot reset failed (%s); falling back to cold worker spawn", exc)
+
+        self.stop()
+        self.port = _free_local_port()
+        self.tmpdir = Path(tempfile.mkdtemp(prefix=f"rab_mcp_{self.task_id}_"))
 
         env = dict(os.environ)
         env["CUDA_VISIBLE_DEVICES"] = str(self.gpu_id)
@@ -311,7 +387,8 @@ class RabWorkerHandle:
                 str(skill_output_dir),
             ]
 
-        self.log_file = (self.episode_dir / "worker.log").open("w", encoding="utf-8")
+        self.log_path = self.episode_dir / "worker.log"
+        self.log_file = self.log_path.open("w", encoding="utf-8")
         t0 = time.monotonic()
         self.process = subprocess.Popen(
             cmd,
@@ -352,6 +429,7 @@ class RabWorkerHandle:
             )
 
         load_s = time.monotonic() - t0
+        self.worker_episodes_served = 1
         public_meta, scene_png, _, _ = _strip_public_observation(raw_obs)
         self.episode_status = "RUNNING"
         self.planning_step = int(public_meta["planning_step"])
@@ -370,6 +448,8 @@ class RabWorkerHandle:
         self._append_private_event(
             {
                 "event": "reset_episode",
+                "reset_mode": "cold_spawn",
+                "worker_episodes_served": self.worker_episodes_served,
                 "episode_id": self.episode_uuid,
                 "task_id": self.task_id,
                 "load_wall_s": round(load_s, 4),
