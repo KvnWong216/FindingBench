@@ -331,9 +331,51 @@ class ReplayDirector:
             return compose(ee_pose, t_pinch)
         return ee_pose
 
+    def _chase_flight_camera(self):
+        """Wall-aware spring-arm 3rd-person camera so tight rooms never clip outside walls."""
+        from spectator import FlightCamera
+
+        p, yaw = self.sk.base()
+        fx, fy = math.cos(yaw), math.sin(yaw)
+        sx, sy = -fy, fx
+        look = np.array([float(p[0]) + 0.22 * fx, float(p[1]) + 0.22 * fy, float(p[2]) + 0.96], float)
+        candidates = (
+            (2.2, 0.38, 1.82),
+            (1.45, 1.15, 1.75),
+            (1.45, -1.15, 1.75),
+            (0.85, 1.45, 1.70),
+            (0.85, -1.45, 1.70),
+        )
+        best_eye = None
+        best_clear = -1.0
+        for back, side_off, h in candidates:
+            want = np.array(
+                [float(p[0]) - back * fx + side_off * sx, float(p[1]) - back * fy + side_off * sy, float(p[2]) + h],
+                float,
+            )
+            ray = want - look
+            dist = float(np.linalg.norm(ray))
+            if dist < 1e-4:
+                continue
+            u = ray / dist
+            hits = self.world.rays(look.tolist(), u.tolist(), dist, ignore=(self.sk.robot_prim, "/World/Robot"))
+            clear = float(hits[0]["distance"]) - 0.16 if hits else dist
+            if clear >= dist - 1e-3:
+                best_eye = want
+                break
+            if clear > best_clear:
+                best_clear = clear
+                best_eye = look + max(0.45, clear) * u
+        if best_eye is None:
+            pos, yaw_deg, pitch = chase_camera(p, yaw)
+            return FlightCamera(pos, yaw_deg, pitch)
+        v = look - best_eye
+        yaw_deg = math.degrees(math.atan2(float(v[1]), float(v[0])))
+        pitch_deg = math.degrees(math.atan2(float(v[2]), max(1e-4, math.hypot(float(v[0]), float(v[1])))))
+        return FlightCamera(best_eye.tolist(), yaw_deg, pitch_deg)
+
     def _images(self) -> dict[str, np.ndarray]:
         from pxr import UsdGeom
-        from spectator import FlightCamera
 
         out = {}
         stage = self.world.stage
@@ -346,9 +388,7 @@ class ReplayDirector:
             try:
                 if img_api is not None:
                     img_api.MakeVisible()
-                p, yaw = self.sk.base()
-                pos, yaw_deg, pitch = chase_camera(p, yaw)
-                out["chase"] = self.sk.renderer.capture(FlightCamera(pos, yaw_deg, pitch))
+                out["chase"] = self.sk.renderer.capture(self._chase_flight_camera())
             finally:
                 if vis_attr is not None and saved_vis is not None:
                     vis_attr.Set(saved_vis)
