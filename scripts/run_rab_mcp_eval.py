@@ -202,7 +202,16 @@ def ensure_vlm_server(model_key: str, endpoint: str, profile: dict, *, gpu: str 
         pass
     port = int(endpoint.rsplit(":", 1)[-1].split("/")[0])
     env_name = profile.get("environment", "ygbench-vlm")
-    py_bin = Path(f"/home/ubuntu/miniforge3/envs/{env_name}/bin/python")
+    conda_roots = [
+        Path(os.environ["CONDA_EXE"]).resolve().parents[1] if os.environ.get("CONDA_EXE") else None,
+        Path.home() / "miniforge3",
+        Path.home() / "miniconda3",
+        Path("/home/ubuntu/miniforge3"),
+    ]
+    py_bin = next(
+        (r / "envs" / env_name / "bin" / "python" for r in conda_roots if r and (r / "envs" / env_name / "bin" / "python").is_file()),
+        Path(sys.executable),
+    )
     server_script = ROOT / "scripts" / ("serve_extended_vlm.py" if env_name != "ygbench-vlm" else "serve_local_vlm.py")
     cmd = [str(py_bin), "-u", str(server_script), "--model", model_key, "--port", str(port)]
     env = dict(
@@ -585,7 +594,9 @@ async def _run_single_episode(
 
 
 async def run_evaluation(cfg: dict, *, resume: bool = False, shard: str | None = None) -> dict:
-    workspace_root = Path(os.environ.get("RUMMAGEBENCH_ROOT", "/home/ubuntu/ygwang/FindingBench")).resolve()
+    default_root = Path("/home/ubuntu/ygwang/FindingBench")
+    fallback_root = default_root.resolve() if default_root.exists() else ROOT
+    workspace_root = Path(os.environ.get("RUMMAGEBENCH_ROOT", str(fallback_root))).resolve()
     asset_root = workspace_root if not (ROOT / "runs/rab_lived_in_20261120").exists() else ROOT
     release_dir = Path(cfg.get("release_dir") or (asset_root / "runs/rab_lived_in_20261120")).resolve()
     out_dir = asset_root / cfg["out_dir"]

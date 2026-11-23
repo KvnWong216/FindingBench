@@ -1,3 +1,41 @@
+# FindingBench (RAB v1)
+
+**Embodiment-Grounded Interactive Household Rummaging & Object-Search Benchmark** (`protocol: findingbench_rab_pinhole_v1`).
+
+- **1,000 Lived-In USD/PhysX Episodes across 50 Household Layouts** (`runs/rab_lived_in_20261120`), audited at **0 physical compatibility defects** (`scripts/rab_audit_dataset_g1.py`), plus an unbiased 20% proportional stratified subset **`FindingBench-Core-200`** ([`configs/benchmarks/rab_v1_core200.json`](configs/benchmarks/rab_v1_core200.json)).
+- **Default Robot Embodiment**: **Unitree G1 (29-DoF bipedal humanoid) + official SimReady Dex1-1 2-finger parallel-jaw gripper** (`FINDINGBENCH_RAB_ROBOT=unitree_g1`, switchable to `unitree_g1_dex3` or `agibot_g1`), with static zero-hint `embodiment_spec` prior (`scripts/rab_embodiment.py`).
+- **NVLabs cuRoboV2-Fast GPU IK & Continuous Sub-Skill Demo Replay**: Pelvis-rooted 10-DoF (3 waist + 7 arm) CUDA-graph IK (`scripts/rab_curobo.py`, 10×–60× faster than live-PhysX DLS) and causally equivalent 30 fps bipedal/bimanual replay (`FINDINGBENCH_RAB_MOTION=discrete|replay`, `scripts/rab_motion_replay.py`).
+- **Zero-Hint Proprioceptive-v2 Feedback & Deterministic v2 Metrics**: 4-class + 16-subcode factual proprioceptive feedback (`scripts/rab_feedback.py`) and 100% deterministic `SR`, `ST`, `EFF_phys`, `LAT` (inter-step agent latency), `RES`, `RSER`, and Layer A/B failure attribution (`scripts/rab_eval_metrics.py`, [`docs/rab_metrics_and_eval_v2.md`](docs/rab_metrics_and_eval_v2.md)).
+- **Scalable Low-Quota Evaluation**: **3-Tier Self-Maintained Agentic Memory** (`scratchpad_visual_k2`: model-authored working scratchpad + compact trace + $O(1)$ `K=2` visual memory strip) + **100% Prefix-Cache-Aligned System Prompt** (`scripts/rab_agent_memory.py`) + **Persistent Hot-Worker Stage Reload (`POST /reset`, ~2.8s/episode)** (`scripts/run_rab_mcp_eval.py`).
+
+## Quickstart (FindingBench RAB v1)
+
+```bash
+conda activate ygbench
+
+# 1. Run CPU + protocol + memory unit tests (45 tests)
+pytest tests/test_rab_*.py tests/unit/test_rab_mcp_lifecycle.py tests/unit/test_policy_adapter.py -q
+
+# 2. Run live Isaac Sim + cuRoboV2 + Hot-Reload 13-check MCP acceptance test
+CUDA_VISIBLE_DEVICES=0 python -u scripts/rab_mcp_acceptance.py --out /tmp/rab_acceptance.json
+
+# 3. Run local VLM or OpenAI-compatible API evaluation (supports --shard i/N and --resume)
+python -u scripts/run_rab_mcp_eval.py --config configs/benchmarks/eval_config.json --resume
+python -u scripts/run_rab_mcp_eval.py --config configs/benchmarks/eval_core200_api.json --resume
+
+# 4. Interactive scene spectator / editor / human play UI
+python scripts/spectator.py --task F251
+python scripts/spectator.py --skills --task F251
+```
+
+Key documentation:
+- [`docs/rab_benchmark_v1_contract.md`](docs/rab_benchmark_v1_contract.md) — Public/private MCP protocol contract (`findingbench_rab_pinhole_v1`)
+- [`docs/rab_metrics_and_eval_v2.md`](docs/rab_metrics_and_eval_v2.md) — Orthogonal metrics (`SR`, `ST`, `EFF_phys`, `LAT`, `RES`, `RSER`), `proprioceptive_v2`, 3-tier memory & hot-reload architecture
+- [`docs/rab_spectator_skills.md`](docs/rab_spectator_skills.md) — Spectator, scene editor, and native RAB skill execution
+
+<details>
+<summary>Historical Migration & Legacy BEHAVIOR Notes (2026-09 — 2026-11-18)</summary>
+
 **RAB 1K 已成为默认数据。** [RAB 巡检、编辑和技能说明](docs/rab_spectator_skills.md)。`python scripts/spectator.py --task F251` 巡检，`--edit --task P136` 编辑，`python scripts/play_data.py F251` 打开机器人技能界面。以下 BEHAVIOR 命令是历史记录。
 
 RAB 1K 已完成 1,000/1,000 个 USD 场景及 PhysX 初始化验收。最终清单及独立核验在 `runs/rab_migration_20261118/search_build_v3/release/`，参见 [交接记录](HANDOFF.md)。完整技能闭环待评估。
@@ -523,3 +561,5 @@ world's affordances* is exactly what Level 3 measures.
 - World-collision fidelity depends on the exported USD colliders
   (approximation level recorded per body: mesh BVH / exact primitive /
   AABB fallback).
+
+</details>
