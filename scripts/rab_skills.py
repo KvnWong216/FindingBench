@@ -266,12 +266,14 @@ class Skills:
             return False
         v=v/d
         side=np.array([-v[1],v[0]])
+        fwd_margin=min(.30,float(self.emb.free_stand_r))
+        foot_u=min(.24,max(.14,float(self.emb.free_stand_r)-.04))
         for u in self.emb.clear_base_lateral:
             for z in self.emb.clear_base_z_bands:
-                for hit in self.world.rays([*(start[:2]+side*u+v*.05),start[2]+z],[*v,0],d+.30,ignore=(self.robot_prim,)):
+                for hit in self.world.rays([*(start[:2]+side*u+v*.05),start[2]+z],[*v,0],max(.01,d-.05+fwd_margin),ignore=(self.robot_prim,)):
                     return False
         for f in np.linspace(0,1, max(3,int(d/.20)+1)):
-            for u in (-.24,.24):
+            for u in (-foot_u,foot_u):
                 point=start[:2]+d*f*v+side*u
                 ground=self.world.rays([*point,start[2]+.12],[0,0,-1],.32,ignore=(self.robot_prim,))
                 if not ground or ground[0]['normal'][2]<.8 or abs(ground[0]['position'][2]-start[2])>.075:
@@ -415,7 +417,10 @@ class Skills:
                 return [end]
         # Lazy, geometric A*: queries go to live native collision geometry.
         # Limit the planning graph, and verify every shortcut again.
-        stride=.36
+        compact=self.emb.free_stand_r<.30
+        stride=.24 if compact else .36
+        max_exp=1600 if compact else 850
+        max_grid=50 if compact else 34
         home=np.asarray(start,float)
         origin=(0,0)
         directions=((-1,0),(0,-1),(0,1),(1,0),(-1,-1),(-1,1),(1,-1),(1,1))
@@ -429,7 +434,7 @@ class Skills:
         parents={}
         edges={}
         expanded=0
-        while heap and expanded<850:
+        while heap and expanded<max_exp:
             _,length,node=heappop(heap)
             if length!=scores.get(node):
                 continue
@@ -452,7 +457,7 @@ class Skills:
                     return result
             for dx,dy in directions:
                 nxt=node[0]+dx,node[1]+dy
-                if max(abs(nxt[0]),abs(nxt[1]))>34:
+                if max(abs(nxt[0]),abs(nxt[1]))>max_grid:
                     continue
                 nl=length+stride*math.hypot(dx,dy)
                 if nl>=scores.get(nxt,float('inf')):
@@ -475,7 +480,7 @@ class Skills:
             points=[target]
         else:
             theta=math.atan2(p[1]-target[1],p[0]-target[0])
-            radii=(.42,.48,.53,.58,.64,.70,.76) if self.emb.supports_crouch else (.48,.53,.58,.64,.70,.76,.82)
+            radii=(.34,.40,.46,.52,.58,.64,.70,.76) if self.emb.supports_crouch else (.48,.53,.58,.64,.70,.76,.82)
             points=[np.r_[target[:2]+r*np.array([math.cos(theta+a),math.sin(theta+a)]),p[2]]
                     for r in radii for a in (0,-.35,.35,-.7,.7,-1.05,1.05,-1.4,1.4,-1.75,1.75,-2.1,2.1)]
         route=self.route(p,points)
@@ -621,13 +626,21 @@ class Skills:
         robot.set_dof_position_targets(q,np.array([0],np.uint32))
         self.world.step(35)
     
-    def arm_path_clear(self,start,end,allowed):
-        v=np.asarray(end)-start
-        d=float(np.linalg.norm(v))
-        if d<.005:
+    def arm_path_clear(self,start,end,allowed,*,min_end_z=None):
+        start_a=np.asarray(start,float)
+        end_a=np.asarray(end,float)
+        if np.linalg.norm(end_a-start_a)<.005:
             return
         for extra in (np.zeros(3),np.array([0,0,.03]),np.array([0,0,-.025])):
-            hits=self.world.rays(np.asarray(start)+extra,v/d,d,ignore=(self.robot_prim,*allowed))
+            s_pt=start_a+extra
+            e_pt=end_a+extra
+            if min_end_z is not None and e_pt[2]<float(min_end_z):
+                e_pt=np.array([e_pt[0],e_pt[1],float(min_end_z)],float)
+            seg=e_pt-s_pt
+            seg_d=float(np.linalg.norm(seg))
+            if seg_d<.005:
+                continue
+            hits=self.world.rays(s_pt,seg/seg_d,seg_d,ignore=(self.robot_prim,*allowed))
             if hits:
                 raise Refused('UNSAFE','HAND_PATH_BLOCKED:hit='+hits[0]['path'])
 
@@ -897,10 +910,12 @@ class Skills:
         if np.min(np.ptp(box,axis=0))>self.emb.max_grasp_extent_m:
             raise Refused('UNSAFE',f'UNSAFE_OVERSIZED_GRASP:min_extent={float(np.min(np.ptp(box,axis=0))):.3f}')
         pref='l' if np.dot(target[:2]-p[:2],[-math.sin(yaw),math.cos(yaw)])>.06 else 'r'
-        toward=np.r_[math.cos(yaw),math.sin(yaw),0.]
+        d_xy=target[:2]-p[:2]
+        toward=np.r_[d_xy/max(1e-4,float(np.linalg.norm(d_xy))),0.]
         z_key=row.get('zone')
         in_open_drawer=z_key in self.world.opened and z_key in self.world.drives
         pre=target-.10*toward+(.14 if in_open_drawer else .065)*np.array([0.,0.,1.])
+        min_z=float(box[0,2])+.005
         allowed=[row['body']]
         if in_open_drawer:
             allowed.append(self.world.drives[z_key][2])
@@ -911,10 +926,10 @@ class Skills:
             try:
                 if in_open_drawer:
                     # Verify vertical reach from above the open drawer cavity down to target
-                    self.arm_path_clear(pre,target,tuple(allowed))
+                    self.arm_path_clear(pre,target,tuple(allowed),min_end_z=min_z)
                 else:
                     self.arm_reach_clear(hand,pre,tuple(allowed))
-                    self.arm_path_clear(pre,target,tuple(allowed))
+                    self.arm_path_clear(pre,target,tuple(allowed),min_end_z=min_z)
                 ik_err,ik_path=self._ik_solve(target,cand)
                 chosen=(cand,ik_err,ik_path)
                 break

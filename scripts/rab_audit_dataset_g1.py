@@ -222,7 +222,7 @@ def main() -> int:
                     if box[0, 2] < sz + 1.35:
                         dx = max(float(box[0, 0]) - sx, 0.0, sx - float(box[1, 0]))
                         dy = max(float(box[0, 1]) - sy, 0.0, sy - float(box[1, 1]))
-                        if (dx * dx + dy * dy) ** 0.5 < 0.24:
+                        if (dx * dx + dy * dy) ** 0.5 < UNITREE_G1_CONFIG.free_stand_r:
                             issues_by_type["spawn_overlaps_placed_item"].append({
                                 "task_id": tid,
                                 "layout_id": lid,

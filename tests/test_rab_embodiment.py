@@ -45,6 +45,10 @@ def test_default_embodiment_is_unitree_g1_dex1(monkeypatch):
     assert cfg.ee_link("r") == "right_wrist_yaw_link"
     assert cfg.ee_link_path("r") == "/World/UnitreeG1/Geometry/right_wrist_yaw_link"
     assert math.isclose(cfg.pelvis_z_offset, G1_PELVIS_STANDING_Z, abs_tol=1e-6)
+    assert math.isclose(cfg.free_stand_r, 0.22, abs_tol=1e-6)
+    assert math.isclose(cfg.turn_clearance_r, 0.22, abs_tol=1e-6)
+    assert math.isclose(max(cfg.clear_base_lateral), 0.22, abs_tol=1e-6)
+    assert math.isclose(cfg.public_spec["body_footprint_radius_m"], 0.22, abs_tol=1e-6)
     assert UNITREE_G1_DEX1_USD.is_file()
 
 

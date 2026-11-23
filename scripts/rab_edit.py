@@ -66,7 +66,7 @@ class NativeWorld:
             prim=stage.GetPrimAtPath(path)
             joint=UsdPhysics.Joint(prim)
             angular=prim.IsA(UsdPhysics.RevoluteJoint)
-            target=(-60 if key=='left' else 60) if angular else .15
+            target=(-88 if key=='left' else 88) if angular else .15
             drive=UsdPhysics.DriveAPI.Apply(prim,'angular' if angular else 'linear')
             drive.CreateTypeAttr('force')
             drive.CreateStiffnessAttr(1100. if angular else 4000.)
