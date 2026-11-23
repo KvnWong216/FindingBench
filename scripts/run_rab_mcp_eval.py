@@ -380,6 +380,8 @@ async def _run_single_episode(
     reset_wall_s = time.monotonic() - t0
     episode_id = reset_payload["episode_id"]
     obs = reset_payload.get("reset") or reset_payload["observation"]
+    effective_budget = min(step_budget, int(obs["max_planning_steps"]))
+    obs["max_planning_steps"] = effective_budget
     curr_images = reset_imgs
     (ep_dir / "step_0000.png").write_bytes(curr_images[0])
 
@@ -389,7 +391,7 @@ async def _run_single_episode(
     if memory_mode != "legacy_json":
         static_prefix = build_static_episode_prefix(
             obs["instruction"],
-            int(obs["max_planning_steps"]),
+            effective_budget,
             obs.get("embodiment_spec"),
             prompt_mode=prompt_mode,
             memory_mode=memory_mode,
@@ -511,6 +513,7 @@ async def _run_single_episode(
         terminal = bool(act_payload["terminal"])
         episode_status = act_payload["episode_status"]
         obs = act_payload["observation"]
+        obs["max_planning_steps"] = effective_budget
         curr_images = act_imgs
 
         (ep_dir / f"step_{obs['planning_step']:04d}.png").write_bytes(curr_images[0])
@@ -743,7 +746,26 @@ async def run_evaluation(cfg: dict, *, resume: bool = False, shard: str | None =
         import rab_eval_metrics as M
 
         ep_dirs = M.find_episodes(sessions_dir)
-        v2_report = M.aggregate(M.load_episode(d) for d in ep_dirs) if ep_dirs else None
+        loaded_eps = []
+        for d in ep_dirs:
+            ep = M.load_episode(d)
+            if ep["terminal"] is None and len(ep["calls"]) >= step_budget:
+                exec_skills = {c["skill"] for c in ep["calls"] if c["code"] == "EXECUTED"}
+                if "GRASP" in exec_skills:
+                    attr = "TARGET_ENGAGED_NOT_DELIVERED"
+                elif "OPEN" in exec_skills:
+                    attr = "CONTAINER_OPENED_TARGET_NOT_ENGAGED"
+                else:
+                    attr = "TARGET_NEVER_ENGAGED"
+                ep["terminal"] = {
+                    "status": "FAIL_MAX_STEPS",
+                    "success": False,
+                    "restoration": None,
+                    "steps": len(ep["calls"]),
+                    "attribution": attr,
+                }
+            loaded_eps.append(ep)
+        v2_report = M.aggregate(loaded_eps) if loaded_eps else None
         if v2_report is not None:
             (out_dir / "metrics_v2.json").write_text(json.dumps(v2_report, indent=2, ensure_ascii=False) + "\n")
             (out_dir / "metrics_v2.md").write_text(M.to_markdown({model_key: v2_report}))
