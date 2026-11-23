@@ -652,6 +652,8 @@ async def run_evaluation(cfg: dict, *, resume: bool = False, shard: str | None =
             "FINDINGBENCH_RAB_IK_BACKEND": ik_backend,
             "FINDINGBENCH_RAB_FEEDBACK_MODE": fb_mode,
             "FINDINGBENCH_RAB_MOTION": motion_mode,
+            "FINDINGBENCH_RAB_HOT_RELOAD": os.environ.get("FINDINGBENCH_RAB_HOT_RELOAD", "1"),
+            "FINDINGBENCH_RAB_STOP_ON_TERMINAL": os.environ.get("FINDINGBENCH_RAB_STOP_ON_TERMINAL", "0"),
             "PYTHONPATH": str(ROOT / "src") + os.pathsep + str(ROOT / "scripts"),
         },
     )
