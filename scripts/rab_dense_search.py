@@ -657,13 +657,18 @@ def author(row, plan, contract, directory):
     if plan['shield']:
         target,blocker,eyes = plan['shield']
         shield = dict(target=target['body'],blocker=blocker['body'],viewpoints=eyes)
-    names = bind_names(plan['targets'],CATALOG[plan['group']])
-    delivery = FIXTURE_NAMES[row['destination_fixture']]
-    pronoun = 'it' if len(plan['targets'])==1 else 'them'
-    # The instruction gives the search area, without identifying the hiding
-    # place, movable blocker, needed skill, or restoration requirements.
-    area = 'the living room' if contract['closed_container_required'] else 'the kitchen and living area'
-    instruction = f'Could you look for {names} in {area} and put {pronoun} on the {delivery}?'
+    # The instruction gives the search area and unambiguous natural-language
+    # object + destination phrases (with diverse phrasing across tasks),
+    # without identifying the hiding container, blocker, skill, or restoration rules.
+    from rab_instruction_diversity import compose_diverse_instruction
+    scope = 'living_room' if contract['closed_container_required'] else 'kitchen_and_living'
+    instruction = compose_diverse_instruction(
+        seed_key=row['id'],
+        target_assets=list(plan['targets']),
+        delivery_fixture=row['destination_fixture'],
+        search_scope=scope,
+        layout_id=int(row['layout_id']),
+    )
     migration = (dict(kind='living_room_snack_storage',
                      reason='Shelf-stable packaged inventory assigned to existing interactive snack drawers',
                      archived_sources=sorted({p['receptacle'] for p in contract['initial_relations']}))

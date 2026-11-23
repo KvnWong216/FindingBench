@@ -323,16 +323,18 @@ def main():
                 dest=folder/f'attempt_{attempt+1:02d}'
                 episode=author(row,plan,contract,dest)
                 names,match,rewrite=RECIPES[ident]
+                from rab_instruction_diversity import compose_diverse_instruction
                 if match:
                     sample=next(r for r in plan['records'] if r.get('comparison_sample'))
                     episode['comparison_sample_body']=sample['body']
-                    amount='a juice bottle' if len(names)==1 else 'two juice bottles'
-                    pronoun='it' if len(names)==1 else 'them'
-                    delivery=FIXTURE_NAMES[row['destination_fixture']]
-                    episode['instruction']=(f'Find {amount} in the kitchen fridge matching the bottle on the '
-                        f'{delivery}, and bring {pronoun} back to that table.')
-                else:
-                    episode['instruction']=episode['instruction'].replace('in the living room','in the kitchen fridge')
+                episode['instruction']=compose_diverse_instruction(
+                    seed_key=ident,
+                    target_assets=list(names),
+                    delivery_fixture=row['destination_fixture'],
+                    search_scope='kitchen_fridge',
+                    layout_id=int(row['layout_id']),
+                    comparison_match=bool(match),
+                )
                 episode['arrangement']=dict(kind='articulated_refrigerator',articulations={side:
                     f'{FRIDGE}/{side}_door_hinge' for side in ('left','right')},shield=None)
                 episode['search_storage_migration']=dict(kind='rab_refrigerator',rewrite=rewrite,

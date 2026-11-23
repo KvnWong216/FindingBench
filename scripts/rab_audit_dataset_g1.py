@@ -275,13 +275,16 @@ def main() -> int:
                         "min_extent_m": round(b_min, 4),
                     })
 
-        # Check delivery surface heights & natural-language destination disambiguation
-        delivery_cfg = ep.get("delivery") or {}
-        if delivery_cfg.get("fixture") == "counter" and "white kitchen counter" not in instr.lower():
-            issues_by_type["ambiguous_counter_destination_prompt"].append({
+        # Check delivery surface heights & natural-language instruction precision/diversity
+        from rab_instruction_diversity import verify_episode_instruction
+        inst_errs = verify_episode_instruction(ep, instr)
+        if inst_errs:
+            issues_by_type["instruction_disambiguation_violation"].append({
                 "task_id": tid,
+                "errors": inst_errs,
                 "instruction": instr,
             })
+        delivery_cfg = ep.get("delivery") or {}
         placements = delivery_cfg.get("placements") or []
         if not placements:
             issues_by_type["no_delivery_placements"].append({"task_id": tid})
