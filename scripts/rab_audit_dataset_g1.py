@@ -275,8 +275,14 @@ def main() -> int:
                         "min_extent_m": round(b_min, 4),
                     })
 
-        # Check delivery surface heights from `bounds_m`
-        placements = (ep.get("delivery") or {}).get("placements") or []
+        # Check delivery surface heights & natural-language destination disambiguation
+        delivery_cfg = ep.get("delivery") or {}
+        if delivery_cfg.get("fixture") == "counter" and "white kitchen counter" not in instr.lower():
+            issues_by_type["ambiguous_counter_destination_prompt"].append({
+                "task_id": tid,
+                "instruction": instr,
+            })
+        placements = delivery_cfg.get("placements") or []
         if not placements:
             issues_by_type["no_delivery_placements"].append({"task_id": tid})
         for pl in placements:

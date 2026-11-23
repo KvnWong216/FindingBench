@@ -17,7 +17,7 @@ import traceback
 DRAWER = '/World/Assets/CoffeeTable/black_box_1'
 JOINT = DRAWER + '_slide'
 DRAWERS = {'drawer':DRAWER, 'drawer_alt':'/World/Assets/CoffeeTable/black_box_3'}
-FIXTURE_NAMES = {'coffee':'coffee table', 'side':'small side table', 'counter':'kitchen counter'}
+FIXTURE_NAMES = {'coffee':'coffee table', 'side':'small side table', 'counter':'white kitchen counter'}
 SNACK_DRAWER_GROUPS = (
     {'coke_c3','sprite_c1','grapefruit_can','starbucks','gatorade_m','gatorade_t','good2grow','water_bottle'},
     {'pring_bbq','honeymaid','oreo_gf','zbar_t','skit_littles','chomps_r','coffee_bag'},

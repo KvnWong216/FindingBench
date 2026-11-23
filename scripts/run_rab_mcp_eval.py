@@ -74,6 +74,7 @@ PUBLIC SKILL LIBRARY (9 skills, protocol: findingbench_rab_pinhole_v1):
    - Grasps a visible movable object within reach after passing kinematic reachability (IK) and collision checks.
 8. PLACE: {"skill":"PLACE","point":{"frame_id":"CURRENT_FRAME_ID","x":0.5,"y":0.5}}
    - Places the currently held object onto the clicked horizontal support surface within reach.
+   - Match the exact destination furniture described in the instruction (including visual attributes such as color, size, or table/counter type) before calling REPORT_DONE.
 9. REPORT_DONE: {"skill":"REPORT_DONE"}
    - Terminates the episode and triggers task evaluation.
 

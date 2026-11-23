@@ -54,7 +54,7 @@ FIXTURES = {
     'coffee': ('/World/Assets/CoffeeTable/Mesh', 'coffee table', 'living room'),
     'side': ('/World/Assets/SmallCoffeeTable', 'small side table', 'living room'),
     'shelf': ('/World/Assets/ShelvingUnit', 'pantry shelf', 'pantry'),
-    'counter': ('/World/Background/Shell/CounterTop_17', 'kitchen counter', 'kitchen'),
+    'counter': ('/World/Background/Shell/CounterTop_17', 'white kitchen counter', 'kitchen'),
 }
 ALLOWED = {
     'pantry': ('shelf', 'counter', 'coffee'),
