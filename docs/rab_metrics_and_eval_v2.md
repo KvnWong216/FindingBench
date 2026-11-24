@@ -1,8 +1,8 @@
-# FindingBench RAB v1 — Metrics, Proprioceptive Feedback & Scalable Memory Evaluation (v2)
+# RummageBench — Metrics, Proprioceptive Feedback & Scalable Memory Evaluation (v2)
 
 > [!IMPORTANT]
 > **Core Research Positioning ("Complete Cerebellum, Bottlenecked Brain")**
-> FindingBench encapsulates low-level motor execution (**Cerebellum**) into physically grounded skill primitives backed by Isaac Sim / PhysX 60 Hz dynamics, NVLabs cuRoboV2-Fast GPU IK, and multi-band ray clearance validation. Any skill refusal or episode failure directly reflects a high-level **Brain (VLM / Agent)** bottleneck — spatial reach misjudgment, collision/occlusion oversight, affordance misgrounding, visual misidentification, or working-memory decay.
+> RummageBench encapsulates low-level motor execution (**Cerebellum**) into physically grounded skill primitives backed by Isaac Sim / PhysX 60 Hz dynamics, NVLabs cuRoboV2-Fast GPU IK, and multi-band ray clearance validation. Any skill refusal or episode failure directly reflects a high-level **Brain (VLM / Agent)** bottleneck — spatial reach misjudgment, collision/occlusion oversight, affordance misgrounding, visual misidentification, or working-memory decay.
 >
 > Every metric and failure label is **100% deterministic** from simulator traces (`zero LLM-as-a-judge`).
 
@@ -54,4 +54,4 @@ Implemented in [`scripts/rab_agent_memory.py`](../scripts/rab_agent_memory.py), 
 2. **Tier 2 — Lossless Compact Action & Proprioceptive Trace**: Compresses steps `1..t` into ~14 tokens/step (`#03 OPEN(0.490,0.550) -> OUT_OF_CAPABILITY[OUT_OF_REACH]`), stripping stale historical `frame_id`s.
 3. **Tier 3 — $O(1)$ Short-Term Visual Memory Strip**: Resizes primary pinhole RGB to `960x540` (preserving normalized `[0,1]` coordinates) and attaches a single `772x238` side-by-side thumbnail strip of frames `t-2` and `t-1` (explicitly marked non-selectable).
 4. **100% Prefix-Cache-Aligned System Prompt**: Keeps `9 skills + coordinate rules + static embodiment_spec + episode instruction` byte-identical across steps `0..T`, cutting effective billed tokens on a 50-step episode to **~79.7k tokens** (`~73x` cheaper than multi-turn coding-agent swarms and `2.68x` cheaper than unsplit legacy JSON while adding full multimodal memory).
-5. **Persistent Hot-Worker Stage Reload (`POST /reset`) & `FindingBench-Core-200`**: Reuses the live `SimulationApp` + compiled `UnitreeCuRoboSolver` CUDA graphs across up to 50 consecutive episodes, reducing `reset_episode` from `~105s` cold boot to **`2.6s–3.1s` (`34x–40x` speedup)**. [`configs/benchmarks/rab_v1_core200.json`](../configs/benchmarks/rab_v1_core200.json) provides an exact 20% proportional stratified 200-episode split (`4 tasks x 50 layouts`).
+5. **Persistent Hot-Worker Stage Reload (`POST /reset`) & `RummageBench-Core-200`**: Reuses the live `SimulationApp` + compiled `UnitreeCuRoboSolver` CUDA graphs across up to 50 consecutive episodes, reducing `reset_episode` from `~105s` cold boot to **`2.6s–3.1s` (`34x–40x` speedup)**. [`configs/benchmarks/rab_v1_core200.json`](../configs/benchmarks/rab_v1_core200.json) provides an exact 20% proportional stratified 200-episode split (`4 tasks x 50 layouts`).

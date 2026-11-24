@@ -1,14 +1,14 @@
-# FindingBench (RAB v1)
+# RummageBench (RAB v1)
 
 **Embodiment-Grounded Interactive Household Rummaging & Object-Search Benchmark** (`protocol: findingbench_rab_pinhole_v1`).
 
-- **1,000 Lived-In USD/PhysX Episodes across 50 Household Layouts** (`runs/rab_lived_in_20261120`), audited at **0 physical compatibility defects** (`scripts/rab_audit_dataset_g1.py`), plus an unbiased 20% proportional stratified subset **`FindingBench-Core-200`** ([`configs/benchmarks/rab_v1_core200.json`](configs/benchmarks/rab_v1_core200.json)).
+- **1,000 Lived-In USD/PhysX Episodes across 50 Household Layouts** (`runs/rab_lived_in_20261120`), audited at **0 physical compatibility defects** (`scripts/rab_audit_dataset_g1.py`), plus an unbiased 20% proportional stratified subset **`RummageBench-Core-200`** ([`configs/benchmarks/rab_v1_core200.json`](configs/benchmarks/rab_v1_core200.json)).
 - **Default Robot Embodiment**: **Unitree G1 (29-DoF bipedal humanoid) + official SimReady Dex1-1 2-finger parallel-jaw gripper** (`FINDINGBENCH_RAB_ROBOT=unitree_g1`, switchable to `unitree_g1_dex3` or `agibot_g1`), with static zero-hint `embodiment_spec` prior (`scripts/rab_embodiment.py`).
 - **NVLabs cuRoboV2-Fast GPU IK & Continuous Sub-Skill Demo Replay**: Pelvis-rooted 10-DoF (3 waist + 7 arm) CUDA-graph IK (`scripts/rab_curobo.py`, 10×–60× faster than live-PhysX DLS) and causally equivalent 30 fps bipedal/bimanual replay (`FINDINGBENCH_RAB_MOTION=discrete|replay`, `scripts/rab_motion_replay.py`).
 - **Zero-Hint Proprioceptive-v2 Feedback & Deterministic v2 Metrics**: 4-class + 16-subcode factual proprioceptive feedback (`scripts/rab_feedback.py`) and 100% deterministic `SR`, `ST`, `EFF_phys`, `LAT` (inter-step agent latency), `RES`, `RSER`, and Layer A/B failure attribution (`scripts/rab_eval_metrics.py`, [`docs/rab_metrics_and_eval_v2.md`](docs/rab_metrics_and_eval_v2.md)).
 - **Scalable Low-Quota Evaluation**: **3-Tier Self-Maintained Agentic Memory** (`scratchpad_visual_k2`: model-authored working scratchpad + compact trace + $O(1)$ `K=2` visual memory strip) + **100% Prefix-Cache-Aligned System Prompt** (`scripts/rab_agent_memory.py`) + **Persistent Hot-Worker Stage Reload (`POST /reset`, ~2.8s/episode)** (`scripts/run_rab_mcp_eval.py`).
 
-## Quickstart (FindingBench RAB v1)
+## Quickstart (RummageBench)
 
 ```bash
 conda activate ygbench
@@ -86,7 +86,7 @@ Embodiment-grounded interactive object-search benchmark built on
 end-to-end successful execution, which entangles high-level decision quality
 with low-level execution noise. RummageBench is a *diagnostic* benchmark:
 
-> **FindingBench abstracts away motor execution while preserving
+> **RummageBench abstracts away motor execution while preserving
 > embodiment-level physical constraints.**
 
 The admissible action space is dynamically grounded from the robot's REAL
@@ -106,7 +106,7 @@ but a skill only EXISTS in the action space if at least one interaction
 configuration satisfies semantic preconditions, state preconditions, URDF-IK,
 joint limits and configuration-space collision constraints.
 
-**FindingBench evaluates configuration-level physical feasibility, not
+**RummageBench evaluates configuration-level physical feasibility, not
 trajectory-level executability.** No RRT/OMPL/CuRobo, no motion planning, no
 controller simulation: the feasibility question is "does at least one
 collision-free interaction configuration exist?", and the answer is derived
@@ -368,7 +368,7 @@ BFS-reachable state.
 Exact FULL-INFORMATION oracle depth is supported; exact partial-observation
 optimal cost is future work (no belief-space solver yet).
 
-## FindingBench Core v0.1 — FROZEN
+## RummageBench Core v0.1 — FROZEN
 
 Validated 2026-09 on the simulator host against all ten freeze criteria:
 URDF cross-validation pass, production pinocchio knife_search runs, q-based

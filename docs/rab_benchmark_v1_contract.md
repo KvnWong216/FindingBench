@@ -1,4 +1,4 @@
-# FindingBench RAB Benchmark v1 Protocol & Contract Draft (`findingbench_rab_pinhole_v1`)
+# RummageBench RAB Benchmark v1 Protocol & Contract Draft (`findingbench_rab_pinhole_v1`)
 
 - **Version**: `v1-draft-20261120`
 - **Status**: Draft established; items requiring pre-freeze empirical verification are explicitly marked `[PENDING FREEZE]`.
@@ -10,7 +10,7 @@
 
 ## 1. Scientific Problem & Two-Layer Boundary
 
-FindingBench decouples **high-level interactive search planning** from **low-level embodied execution** via a fixed public skill interface (`findingbench_rab_pinhole_v1`):
+RummageBench decouples **high-level interactive search planning** from **low-level embodied execution** via a fixed public skill interface (`findingbench_rab_pinhole_v1`):
 1. **High-Level Policy ($\pi_H$)**: Observes only the natural-language household request, the current ego pinhole RGB frame (`frame_id`), the auxiliary 4-view `CHECK` card (when invoked), and public action-feedback history. It outputs one structured skill invocation per step.
 2. **Low-Level Executor ($\mathcal{E}_L$)**: Grounds normalized 2D image coordinates (`[0, 1]`, top-left origin) into 3D scene rays, verifies reachability, collision/clearance, and state preconditions, and drives native PhysX actuation (mobile base A* + velocity ramp, articulated drawer/refrigerator joint drives, bimanual Jacobian arm + gripper drives).
 
