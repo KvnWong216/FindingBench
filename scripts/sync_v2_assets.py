@@ -71,6 +71,24 @@ def download_from_hf(repo_id: str, filename: str, token: str | None) -> Path:
         return out_dir / filename
 
 
+def download_from_url(base_url: str, filename: str, expected_sha: str | None = None) -> Path:
+    import urllib.request
+
+    out_dir = ROOT / ".cache" / "v2_bundle"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    dst = out_dir / filename
+    if dst.is_file() and expected_sha and sha256_file(dst) == expected_sha:
+        print(f"[sync] Cached {filename} matches SHA-256; reusing.")
+        return dst
+    url = base_url.rstrip("/") + "/" + filename
+    print(f"[sync] Downloading {url} ...")
+    tmp = dst.with_suffix(dst.suffix + ".part")
+    with urllib.request.urlopen(url, timeout=120) as resp, tmp.open("wb") as out:
+        shutil.copyfileobj(resp, out, length=1024 * 1024)
+    tmp.replace(dst)
+    return dst
+
+
 def extract_tar_zst(archive: Path, dest: Path) -> None:
     if shutil.which("zstd"):
         subprocess.run(["tar", "-I", "zstd -d", "-xf", str(archive), "-C", str(dest)], check=True)
@@ -205,6 +223,7 @@ def verify_layout(target_root: Path) -> bool:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description="Download/extract and relocate RummageBench v2 heavy USD/robot assets.")
+    ap.add_argument("--from-url", default=None, help="Download archives + SHA256SUMS from LAN/HTTP base URL (e.g. http://10.24.1.237:8095/assets).")
     ap.add_argument("--from-dir", type=Path, default=None, help="Extract from a local bundle directory containing the 4 .tar.zst archives + SHA256SUMS (skips Hugging Face download).")
     ap.add_argument("--repo", default=DEFAULT_REPO, help="Hugging Face dataset repo ID.")
     ap.add_argument("--token", default=os.environ.get("HF_TOKEN"), help="Optional HF access token.")
@@ -217,7 +236,13 @@ def main() -> int:
 
     if not args.relocate_only:
         src_dir = args.from_dir.resolve() if args.from_dir else None
-        sums_path = (src_dir / "SHA256SUMS") if src_dir else download_from_hf(args.repo, "SHA256SUMS", args.token)
+        if args.from_url:
+            sums_path = download_from_url(args.from_url, "SHA256SUMS")
+        elif src_dir:
+            sums_path = src_dir / "SHA256SUMS"
+        else:
+            sums_path = download_from_hf(args.repo, "SHA256SUMS", args.token)
+
         expected = {}
         if sums_path.is_file():
             for line in sums_path.read_text(encoding="utf-8").splitlines():
@@ -226,7 +251,9 @@ def main() -> int:
                     expected[Path(parts[-1]).name] = parts[0]
 
         for name in ARCHIVES:
-            if src_dir:
+            if args.from_url:
+                local_arc = download_from_url(args.from_url, name, expected.get(name))
+            elif src_dir:
                 local_arc = src_dir / name
                 if not local_arc.is_file():
                     raise FileNotFoundError(f"Archive not found in --from-dir: {local_arc}")

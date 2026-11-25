@@ -9,36 +9,30 @@
 | Layer | Location | What's Inside | Size |
 | :--- | :--- | :--- | :--- |
 | **Source Code, Configs & Docs** | GitHub [`KvnWong216/FindingBench`](https://github.com/KvnWong216/FindingBench) (`main`) | MCP harness, Unitree G1 `curobo` bridge, `rummagebench_v2_*` build/audit/vis scripts, `Core-120` & paid-API configs (`eval_v2_core120_api.json`), `sync_v2_assets.py`, `docs/` | Git repo |
-| **Research Portal, History & Interactive Kanban** | OpenResearch (`orx`) — live `https://openresearch.sh/p/...` + [`RummageBench.orx`](../RummageBench.orx) | Docs `01`–`06`, interactive HTML dashboard, 18 high-res figures/contact sheets, full experiment tree (`Baseline v2`, `Ablation 1a/1b`, `Scale-Up 1c`), session transcripts | `~36 MB` |
-| **Runtime USD/Robot Binary Closure** | Source server: `runs/rummagebench_v2_release_bundle/` (or HF Hub once uploaded) | Exact **4,057-file** texture-inclusive USD closure (`v2` 1,000 cases, 60 layouts, architectural shells, object USDs/textures, `inspect100`, `diversity_report/embeddings.npz`), plus `assets/robots/unitree_g1`, `references/curobo`, `references/RobotAgentBench` | `1.95 GB` compressed (`~4.6 GB` unpacked) |
+| **Research Portal, History & Interactive Kanban** | OpenResearch (`orx`) — **[Online Link](https://www.autoarxiv.org/p/279z42FCuDrb)** · LAN Portal **`http://10.24.1.237:8095/`** · [`RummageBench.orx`](http://10.24.1.237:8095/RummageBench.orx) | Docs `01`–`06`, interactive HTML dashboard, 17 high-res figures/contact sheets, full experiment tree (`Baseline v2`, `Ablation 1a/1b`, `Scale-Up 1c`), session transcripts | `~40 MB` |
+| **Runtime USD/Robot Binary Closure** | LAN HTTP (`http://10.24.1.237:8095/assets/`) or server dir (`runs/rummagebench_v2_release_bundle/`) | Exact **4,057-file** texture-inclusive USD closure (`v2` 1,000 cases, 60 layouts, architectural shells, object USDs/textures, `inspect100`, `diversity_report/embeddings.npz`), plus `assets/robots/unitree_g1`, `references/curobo`, `references/RobotAgentBench` | `1.95 GB` compressed (`~4.6 GB` unpacked) |
 
 ---
 
 ## 2. One-Shot Collaborator Onboarding (Zero Info Gap)
 
-### Step A — Clone Code & Open Research Context
+### Step A — Open LAN Portal or Import OpenResearch Context
+- **Fastest browser view (Docs `01`–`06`, Interactive Dashboard, 100-Scene Gallery, Figures `fig1..fig4`, `.orx` & assets)**: open **`http://10.24.1.237:8095/`**
+- **OpenResearch Cloud Link (with Experiment Tree & Chats)**: **`https://www.autoarxiv.org/p/279z42FCuDrb`** (or run `orx project import https://www.autoarxiv.org/p/279z42FCuDrb --path ~/RummageBench_collab`)
+
 ```bash
-# 1. Codebase (GitHub)
+# Clone GitHub repo directly on your workstation
 git clone git@github.com:KvnWong216/FindingBench.git RummageBench
 cd RummageBench
-
-# 2. (Optional, recommended) Import OpenResearch workspace with full docs 01-06 + experiment tree
-orx project import <openresearch.sh link OR RummageBench.orx> --path ~/RummageBench_collab
-cd ~/RummageBench_collab && orx up
 ```
 
-### Step B — Pull Heavy USD & Robot Binary Assets (`1.95 GB` Exact Closure)
-Copy the 4 verified `.tar.zst` archives + `SHA256SUMS` from the workstation (`runs/rummagebench_v2_release_bundle/`) — e.g. via `rsync`/`scp` (or Hugging Face repo if configured):
+### Step B — Pull Heavy USD & Robot Binary Assets (`1.95 GB` Exact Closure over LAN)
+Run one command inside `ygbench` — it streams the 4 `.tar.zst` archives from `http://10.24.1.237:8095/assets`, verifies SHA-256 checksums, extracts cleanly, and automatically relocates all embedded USD/JSON paths to your local checkout directory:
 ```bash
 conda activate ygbench
-
-# Copy bundle from workstation (or download from HF if hosted)
-rsync -avP ubuntu@<workstation-ip>:/home/ubuntu/ygwang/FindingBench/runs/rummagebench_v2_release_bundle/ ./v2_bundle/
-
-# Verify SHA-256, unpack all 4 archives cleanly, and auto-relocate embedded USD/JSON paths to your checkout path
-python scripts/sync_v2_assets.py --from-dir ./v2_bundle
+python scripts/sync_v2_assets.py --from-url http://10.24.1.237:8095/assets
 ```
-*(No unused legacy assets needed: `sync_v2_assets.py` checks SHA-256, extracts the exact 4,057 USD/texture files + `unitree_g1` + `references/{curobo,RobotAgentBench}`, and uses `pxr.Sdf.Layer` to rewrite embedded paths cleanly to your local repo root and refresh `scene_sha256`.)*
+*(Offline fallback via `rsync`: `rsync -avP ubuntu@10.24.1.237:/home/ubuntu/ygwang/FindingBench/runs/rummagebench_v2_release_bundle/ ./v2_bundle/ && python scripts/sync_v2_assets.py --from-dir ./v2_bundle`)*
 
 ### Step C — Verify Your Environment & Run Paid LLM Eval on `Core-120`
 ```bash

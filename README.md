@@ -18,8 +18,8 @@
 ```bash
 conda activate ygbench
 
-# 1. Pull & relocate heavy USD scenes + Unitree G1 + cuRobo/RAB assets (if not already present locally)
-python scripts/sync_v2_assets.py --from-dir ./v2_bundle   # or --verify-only on the authoring workstation
+# 1. Pull & relocate heavy USD scenes + Unitree G1 + cuRobo/RAB assets over LAN (if not already present locally)
+python scripts/sync_v2_assets.py --from-url http://10.24.1.237:8095/assets   # or --verify-only on the authoring workstation
 
 # 2. Run CPU + protocol + memory unit tests (45 tests)
 pytest tests/test_rab_*.py tests/unit/test_rab_mcp_lifecycle.py tests/unit/test_policy_adapter.py -q
