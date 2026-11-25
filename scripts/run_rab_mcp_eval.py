@@ -335,9 +335,14 @@ def resolve_episode_list(cfg: dict, release_dir: Path, shard: str | None = None)
     elif raw_eps == "core200":
         core_path = ROOT / "configs/benchmarks/rab_v1_core200.json"
         episodes = list(json.loads(core_path.read_text())["episodes"])
+    elif raw_eps == "v2_core120":
+        core_path = ROOT / "configs/benchmarks/rummagebench_v2_core120.json"
+        doc = json.loads(core_path.read_text())
+        episodes = list(doc.get("task_ids") or [e["id"] if isinstance(e, dict) else e for e in doc["episodes"]])
     elif isinstance(raw_eps, str) and raw_eps.startswith("@"):
         sub_path = (ROOT / raw_eps[1:]).resolve() if not Path(raw_eps[1:]).is_absolute() else Path(raw_eps[1:])
-        episodes = list(json.loads(sub_path.read_text())["episodes"])
+        doc = json.loads(sub_path.read_text())
+        episodes = list(doc.get("task_ids") or [e["id"] if isinstance(e, dict) else e for e in doc["episodes"]])
     else:
         episodes = list(raw_eps)
     sl = cfg.get("episode_slice")
@@ -602,7 +607,12 @@ async def run_evaluation(cfg: dict, *, resume: bool = False, shard: str | None =
     fallback_root = default_root.resolve() if default_root.exists() else ROOT
     workspace_root = Path(os.environ.get("RUMMAGEBENCH_ROOT", str(fallback_root))).resolve()
     asset_root = workspace_root if not (ROOT / "runs/rab_lived_in_20261120").exists() else ROOT
-    release_dir = Path(cfg.get("release_dir") or (asset_root / "runs/rab_lived_in_20261120")).resolve()
+    raw_release = cfg.get("release_dir")
+    if raw_release:
+        cand = Path(raw_release)
+        release_dir = cand.resolve() if (cand.is_absolute() or (ROOT / cand).exists()) else (asset_root / cand).resolve()
+    else:
+        release_dir = (asset_root / "runs/rab_lived_in_20261120").resolve()
     out_dir = asset_root / cfg["out_dir"]
     if shard:
         out_dir = out_dir / f"shard_{shard.replace('/', '_of_')}"

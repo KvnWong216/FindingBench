@@ -62,11 +62,36 @@ class NativeWorld:
         settings=PhysxSchema.PhysxSceneAPI.Apply(phys)
         settings.CreateEnableGPUDynamicsAttr(False)
         settings.CreateTimeStepsPerSecondAttr(60)
+        art_targets = episode['arrangement'].get('articulation_targets', {})
+        art_min_travel = episode['arrangement'].get('articulation_min_travel', {})
+        self.min_travel = {}
         for key,path in episode['arrangement'].get('articulations',{}).items():
             prim=stage.GetPrimAtPath(path)
             joint=UsdPhysics.Joint(prim)
             angular=prim.IsA(UsdPhysics.RevoluteJoint)
-            target=(-88 if key=='left' else 88) if angular else .15
+            if key in art_targets:
+                target=float(art_targets[key])
+            elif angular:
+                rev=UsdPhysics.RevoluteJoint(prim)
+                lo=rev.GetLowerLimitAttr().Get()
+                hi=rev.GetUpperLimitAttr().Get()
+                if key in ('left','right'):
+                    target=-88. if key=='left' else 88.
+                elif lo is not None and hi is not None and math.isfinite(lo) and math.isfinite(hi):
+                    target=float(lo*.92 if abs(lo)>abs(hi) else hi*.92)
+                else:
+                    target=75.
+            else:
+                pris=UsdPhysics.PrismaticJoint(prim)
+                lo=pris.GetLowerLimitAttr().Get()
+                hi=pris.GetUpperLimitAttr().Get()
+                if key in ('drawer','drawer_alt') or key.startswith('black_box_'):
+                    target=.15
+                elif lo is not None and hi is not None and math.isfinite(lo) and math.isfinite(hi) and max(abs(lo),abs(hi))>.05:
+                    target=float(hi*.88 if abs(hi)>=abs(lo) else lo*.88)
+                else:
+                    target=.18
+            self.min_travel[key]=float(art_min_travel.get(key, min(45., abs(target)*.55) if angular else min(.10, abs(target)*.55)))
             drive=UsdPhysics.DriveAPI.Apply(prim,'angular' if angular else 'linear')
             drive.CreateTypeAttr('force')
             drive.CreateStiffnessAttr(1100. if angular else 4000.)
@@ -223,7 +248,8 @@ class NativeWorld:
                 p=(matrix(p)*matrix(start).GetInverse()).ExtractTranslation()
                 q=(matrix(q)*matrix(end).GetInverse()).ExtractTranslation()
             maximum=max(maximum,math.dist(p[:3],q[:3]))
-        if travel<(45. if angular else .10) or maximum>.05:
+        req_travel=getattr(self,'min_travel',{}).get(key, 45. if angular else .10)
+        if travel<req_travel or maximum>.05:
             sweep(target,old)
             raise ValueError(f'门或抽屉没有走完行程，或里面的物品移动太多；请先清理挡住的物体'
                              f'（实测行程 {travel:.3f} {"°" if angular else "m"}，物品最大偏移 {maximum*100:.1f} cm）')

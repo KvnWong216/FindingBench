@@ -1,34 +1,43 @@
-# RummageBench (RAB v1)
+# RummageBench (v2, `findingbench_rab_pinhole_v1`)
 
-**Embodiment-Grounded Interactive Household Rummaging & Object-Search Benchmark** (`protocol: findingbench_rab_pinhole_v1`).
+**Embodiment-Grounded Interactive Household & Commercial Rummaging Benchmark** (`protocol: findingbench_rab_pinhole_v1`).
 
-- **1,000 Lived-In USD/PhysX Episodes across 50 Household Layouts** (`runs/rab_lived_in_20261120`), audited at **0 physical compatibility defects** (`scripts/rab_audit_dataset_g1.py`), plus an unbiased 20% proportional stratified subset **`RummageBench-Core-200`** ([`configs/benchmarks/rab_v1_core200.json`](configs/benchmarks/rab_v1_core200.json)).
-- **Default Robot Embodiment**: **Unitree G1 (29-DoF bipedal humanoid) + official SimReady Dex1-1 2-finger parallel-jaw gripper** (`FINDINGBENCH_RAB_ROBOT=unitree_g1`, switchable to `unitree_g1_dex3` or `agibot_g1`), with static zero-hint `embodiment_spec` prior (`scripts/rab_embodiment.py`).
-- **NVLabs cuRoboV2-Fast GPU IK & Continuous Sub-Skill Demo Replay**: Pelvis-rooted 10-DoF (3 waist + 7 arm) CUDA-graph IK (`scripts/rab_curobo.py`, 10×–60× faster than live-PhysX DLS) and causally equivalent 30 fps bipedal/bimanual replay (`FINDINGBENCH_RAB_MOTION=discrete|replay`, `scripts/rab_motion_replay.py`).
-- **Zero-Hint Proprioceptive-v2 Feedback & Deterministic v2 Metrics**: 4-class + 16-subcode factual proprioceptive feedback (`scripts/rab_feedback.py`) and 100% deterministic `SR`, `ST`, `EFF_phys`, `LAT` (inter-step agent latency), `RES`, `RSER`, and Layer A/B failure attribution (`scripts/rab_eval_metrics.py`, [`docs/rab_metrics_and_eval_v2.md`](docs/rab_metrics_and_eval_v2.md)).
-- **Scalable Low-Quota Evaluation**: **3-Tier Self-Maintained Agentic Memory** (`scratchpad_visual_k2`: model-authored working scratchpad + compact trace + $O(1)$ `K=2` visual memory strip) + **100% Prefix-Cache-Aligned System Prompt** (`scripts/rab_agent_memory.py`) + **Persistent Hot-Worker Stage Reload (`POST /reset`, ~2.8s/episode)** (`scripts/run_rab_mcp_eval.py`).
+> **For Collaborators (Zero-Gap Onboarding):** Read [`docs/RummageBench_Zero_Gap_Handoff.md`](docs/RummageBench_Zero_Gap_Handoff.md) first — it links code, the `1.95 GB` compressed 4,057-file USD/robot asset bundle (`scripts/sync_v2_assets.py`), the OpenResearch (`orx`) portal, and one-command paid API evaluation.
 
-## Quickstart (RummageBench)
+- **`RummageBench v2` (`runs/rummagebench_v2_20261124`)**: **1,000 USD/PhysX episodes** across **60 base layouts** (`50` residential homes + `10` commercial convenience marts), **6 scene archetypes (`S1–S6`)**, **10 container families / 38 search fixtures** (max family share **`13.6%`**, `H_norm = 0.9953` vs. `87.2%` collapse in `v1`), **6 cognitive paradigms (`P1–P6`)**, `600` in-prior / `400` cross-zone misplaced targets, `8` lighting temps (`2750K–6400K`) × `12` PBR palettes (**`932 / 1,000` unique domain-randomized scenes**), and stratified **`Core-120`** ([`configs/benchmarks/rummagebench_v2_core120.json`](configs/benchmarks/rummagebench_v2_core120.json)).
+- **TPT-Bench & Qwen3-VL Non-Collapse Verified**: Visual ViT `eRank = 78.80` (`n=100`) / `140.54` (`n=200`), Centered Vendi `37.91`, vocabulary `257 -> 737` (`2.87x`), semantic `eRank = 164.88` — see [`docs/RummageBench_v2_Diversity_NonCollapse.md`](docs/RummageBench_v2_Diversity_NonCollapse.md).
+- **Default Robot Embodiment**: **Unitree G1 (29-DoF bipedal humanoid) + official SimReady Dex1-1 2-finger parallel-jaw gripper** (`FINDINGBENCH_RAB_ROBOT=unitree_g1`, switchable to `unitree_g1_dex3`), with static zero-hint `embodiment_spec` prior (`scripts/rab_embodiment.py`).
+- **NVLabs cuRoboV2-Fast GPU IK & Continuous Sub-Skill Demo Replay**: Pelvis-rooted 10-DoF (3 waist + 7 arm) CUDA-graph IK (`scripts/rab_curobo.py`) and causally equivalent 30 fps bipedal/bimanual replay (`FINDINGBENCH_RAB_MOTION=discrete|replay`, `scripts/rab_motion_replay.py`).
+- **Zero-Hint Proprioceptive-v2 Feedback & Deterministic Diagnostics**: 4-class + 16-subcode factual proprioceptive feedback (`scripts/rab_feedback.py`) and 100% deterministic `SR`, `ST`, `EFF_phys`, `LAT`, `RES`, `RSER`, and Layer A/B failure attribution (`scripts/rab_eval_metrics.py`, [`docs/rab_metrics_and_eval_v2.md`](docs/rab_metrics_and_eval_v2.md)).
+- **Scalable Low-Quota Evaluation**: **3-Tier Self-Maintained Agentic Memory** (`scratchpad_visual_k2`) + **100% Prefix-Cache-Aligned System Prompt** + **Persistent Hot-Worker Stage Reload (`POST /reset`, ~2.8s/episode)** (`scripts/run_rab_mcp_eval.py`).
+
+![RummageBench v2 18 Representative Scenes across 6 Archetypes](docs/figures/hero_18_diverse_archetypes.jpg)
+
+## Quickstart (RummageBench v2)
 
 ```bash
 conda activate ygbench
 
-# 1. Run CPU + protocol + memory unit tests (45 tests)
+# 1. Pull & relocate heavy USD scenes + Unitree G1 + cuRobo/RAB assets (if not already present locally)
+python scripts/sync_v2_assets.py --from-dir ./v2_bundle   # or --verify-only on the authoring workstation
+
+# 2. Run CPU + protocol + memory unit tests (45 tests)
 pytest tests/test_rab_*.py tests/unit/test_rab_mcp_lifecycle.py tests/unit/test_policy_adapter.py -q
 
-# 2. Run live Isaac Sim + cuRoboV2 + Hot-Reload 13-check MCP acceptance test
-CUDA_VISIBLE_DEVICES=0 python -u scripts/rab_mcp_acceptance.py --out /tmp/rab_acceptance.json
+# 3. Run paid OpenAI-compatible / Gemini frontier model on RummageBench v2 Core-120 (--shard i/N & --resume supported)
+export GEMINI_API_KEY="YOUR_KEY"
+python -u scripts/run_rab_mcp_eval.py --config configs/benchmarks/eval_v2_core120_api.json --resume
 
-# 3. Run local VLM or OpenAI-compatible API evaluation (supports --shard i/N and --resume)
-python -u scripts/run_rab_mcp_eval.py --config configs/benchmarks/eval_config.json --resume
-python -u scripts/run_rab_mcp_eval.py --config configs/benchmarks/eval_core200_api.json --resume
-
-# 4. Interactive scene spectator / editor / human play UI
-python scripts/spectator.py --task F251
-python scripts/spectator.py --skills --task F251
+# 4. Inspect v2 scenes visually in 3D spectator / skills mode
+FINDINGBENCH_RAB_RELEASE=runs/rummagebench_v2_20261124 python scripts/spectator.py --task rb_U283
+FINDINGBENCH_RAB_RELEASE=runs/rummagebench_v2_20261124 python scripts/spectator.py --skills --task rb_P327
 ```
 
 Key documentation:
+- [`docs/RummageBench_Zero_Gap_Handoff.md`](docs/RummageBench_Zero_Gap_Handoff.md) — Complete collaborator handoff, asset closure sync & onboarding checklist
+- [`docs/RummageBench_v2_Diversity_NonCollapse.md`](docs/RummageBench_v2_Diversity_NonCollapse.md) — Quantitative diversity & visual/semantic non-collapse report + 4 figures (`fig1`–`fig4`)
+- [`docs/RummageBench_Collaborator_Guide.md`](docs/RummageBench_Collaborator_Guide.md) — Plain-language architecture walkthrough (brain/cerebellum wall, 9 skills, causal replay sandwich, rollback)
+- [`docs/RummageBench_Literature_and_Design_Philosophy.md`](docs/RummageBench_Literature_and_Design_Philosophy.md) — 29-paper comparison & 4 design philosophy axes
 - [`docs/rab_benchmark_v1_contract.md`](docs/rab_benchmark_v1_contract.md) — Public/private MCP protocol contract (`findingbench_rab_pinhole_v1`)
 - [`docs/rab_metrics_and_eval_v2.md`](docs/rab_metrics_and_eval_v2.md) — Orthogonal metrics (`SR`, `ST`, `EFF_phys`, `LAT`, `RES`, `RSER`), `proprioceptive_v2`, 3-tier memory & hot-reload architecture
 - [`docs/rab_spectator_skills.md`](docs/rab_spectator_skills.md) — Spectator, scene editor, and native RAB skill execution

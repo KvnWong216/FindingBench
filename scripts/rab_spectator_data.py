@@ -65,12 +65,20 @@ def list_tasks(directory):
     for i, item in enumerate(rows, 1):
         if item['status'] != 'accepted_dense_initialization':
             raise ValueError(f'Non-admitted RAB task in release: {item["id"]}')
-        e = load(item['episode'])
+        ep_path = Path(item['episode'])
+        if not ep_path.exists():
+            ep_path = Path(directory) / 'cases' / item['id'] / 'episode.json'
+        rec_path = Path(item['physics_receipt'])
+        if not rec_path.exists():
+            rec_path = Path(directory) / 'cases' / item['id'] / 'native_validation.json'
+        e = load(ep_path)
         if item['id'] != e['id']:
             raise ValueError('RAB episode ID mismatch')
+        lid = e.get('layout_id')
+        scene_label = e.get('layout_name') or (f'RAB layout {lid:02}' if isinstance(lid, int) else f'RAB layout {lid}')
         tasks.append(dict(id=e['id'], parent_task_id=e['parent_task_id'], instruction=e['instruction'],
-                          scene=f'RAB layout {e["layout_id"]:02}', index=i, backend='rab',
-                          episode_path=item['episode'], physics_receipt=item['physics_receipt']))
+                          scene=scene_label, index=i, backend='rab',
+                          episode_path=str(ep_path), physics_receipt=str(rec_path)))
     return tasks
 
 
@@ -90,7 +98,11 @@ def select(directory, query, base=DEFAULT_OVERLAYS):
 
 def current(directory, task, base=DEFAULT_OVERLAYS):
     original = load(task['episode_path'])
-    if digest(original['scene']) != original['scene_sha256']:
+    scene_path = Path(original['scene'])
+    if not scene_path.exists():
+        scene_path = Path(task['episode_path']).parent / scene_path.name
+        original['scene'] = str(scene_path)
+    if digest(scene_path) != original['scene_sha256']:
         raise ValueError('RAB source USD hash mismatch')
     member = edits_root(base, directory) / task['id']
     pointer = member / 'current.json'

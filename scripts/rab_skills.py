@@ -173,6 +173,57 @@ class Skills:
     def target_rows(self):
         return [r for r in self.world.rows if r.get('target')]
 
+    def _destination_roots(self):
+        deliv=self.world.episode.get('delivery',{})
+        roots={p['support'] for p in deliv.get('placements',[]) if p.get('support')}
+        roots.update(deliv.get('accepted_supports',()))
+        return roots
+
+    def _on_destination(self,sup):
+        if not sup:
+            return False
+        roots=self._destination_roots()
+        return sup in roots or any(prefix(sup,r) for r in roots)
+
+    def _drives_for_zone(self,z_key):
+        if not z_key:
+            return []
+        if z_key in self.world.drives:
+            return [z_key]
+        if z_key.startswith('fridge_bin_') or z_key=='fridge_interior_shelves':
+            return [k for k in ('fridge_right','fridge_left') if k in self.world.drives]
+        if z_key.startswith('cupboard_') or z_key=='range_oven_cavity':
+            return sorted(k for k in self.world.drives if k.startswith(z_key+'_d'))
+        if z_key=='microwave_cavity':
+            return ['microwave_door'] if 'microwave_door' in self.world.drives else []
+        if z_key=='airfryer_basket':
+            return ['airfryer_tray'] if 'airfryer_tray' in self.world.drives else []
+        if z_key=='pantry_shelf':
+            return ['pantry_door'] if 'pantry_door' in self.world.drives else []
+        if z_key=='entry_flap_cabinet':
+            return ['entry_pack_flap'] if 'entry_pack_flap' in self.world.drives else []
+        if z_key=='cargo_trunk_bay':
+            return ['cargo_trunk_tailgate'] if 'cargo_trunk_tailgate' in self.world.drives else []
+        return []
+
+    def _support_matches(self,observed,requested):
+        if not observed or not requested:
+            return False
+        if observed==requested or prefix(observed,requested) or prefix(requested,observed):
+            return True
+        if observed.endswith('_SolidTopGuide') or requested.endswith('_SolidTopGuide'):
+            obs_p=observed[:-len('_SolidTopGuide')] if observed.endswith('_SolidTopGuide') else observed
+            req_p=requested[:-len('_SolidTopGuide')] if requested.endswith('_SolidTopGuide') else requested
+            if prefix(obs_p,req_p) or prefix(req_p,obs_p):
+                return True
+        if observed.startswith('/World/Assets/') and requested.startswith('/World/Assets/'):
+            o_parts=observed.split('/')
+            r_parts=requested.split('/')
+            if len(o_parts)>=4 and len(r_parts)>=4 and o_parts[3]==r_parts[3] and o_parts[3]!='Task5PackStation':
+                if not any('TierCollider_' in s for s in (observed,requested)):
+                    return True
+        return self._on_destination(observed) and self._on_destination(requested)
+
     def terminal_attribution(self,reported,success):
         """Deterministic Layer-B attribution of the episode outcome.
 
@@ -183,8 +234,7 @@ class Skills:
             return 'SUCCESS'
         targets=self.target_rows()
         target_bodies={r['body'] for r in targets}
-        destination={p['support'] for p in self.world.episode['delivery']['placements']}
-        on_destination=[r for r in targets if self.support(r) in destination]
+        on_destination=[r for r in targets if self._on_destination(self.support(r))]
         if reported:
             if self.held and self.held[0]['body'] in target_bodies:
                 return 'TARGET_NOT_RELEASED'
@@ -192,7 +242,7 @@ class Skills:
                 return 'TARGET_UNSTABLE'
             if on_destination:
                 return 'PARTIAL_DELIVERY'
-            if any(not p['target'] and p['support'] in destination for p in self.trace['placed']):
+            if any(not p['target'] and self._on_destination(p['support']) for p in self.trace['placed']):
                 return 'WRONG_TARGET_DELIVERED'
             if target_bodies & self.trace['grasped']:
                 return 'WRONG_DESTINATION'
@@ -201,8 +251,8 @@ class Skills:
             return 'PREMATURE_DONE'
         if target_bodies & (self.trace['grasped']|self.trace['checked']):
             return 'TARGET_ENGAGED_NOT_DELIVERED'
-        target_zones={r.get('zone') for r in targets if r.get('zone') in self.world.drives}
-        if target_zones & self.trace['opened']:
+        target_drive_keys={dk for r in targets for dk in self._drives_for_zone(r.get('zone'))}
+        if target_drive_keys & self.trace['opened']:
             return 'CONTAINER_OPENED_TARGET_NOT_ENGAGED'
         return 'TARGET_NEVER_ENGAGED'
 
@@ -913,12 +963,13 @@ class Skills:
         d_xy=target[:2]-p[:2]
         toward=np.r_[d_xy/max(1e-4,float(np.linalg.norm(d_xy))),0.]
         z_key=row.get('zone')
-        in_open_drawer=z_key in self.world.opened and z_key in self.world.drives
+        opened_drives=[k for k in self._drives_for_zone(z_key) if k in self.world.opened]
+        in_open_drawer=bool(opened_drives)
         pre=target-.10*toward+(.14 if in_open_drawer else .065)*np.array([0.,0.,1.])
         min_z=float(box[0,2])+.005
         allowed=[row['body']]
-        if in_open_drawer:
-            allowed.append(self.world.drives[z_key][2])
+        for dk in opened_drives:
+            allowed.append(self.world.drives[dk][2])
         last_err=None
         chosen=None
         for cand in (pref,'r' if pref=='l' else 'l'):
@@ -965,13 +1016,15 @@ class Skills:
                     return beneath['body']
                 if '/Box_1/Object_4/' in h['path']:
                     continue
+                if h['path'].endswith('_SolidTopGuide'):
+                    return h['path'][:-len('_SolidTopGuide')]
                 return h['path']
         # For items resting inside a drawer where BBox bottom_z is within a few
         # millimeters of the drawer floor collider, cast from slightly higher and
         # resolve stacked items inside the drawer first.
-        z_key=row.get('zone')
-        if z_key in self.world.drives:
-            drawer_body=self.world.drives[z_key][2]
+        drive_keys=self._drives_for_zone(row.get('zone'))
+        if drive_keys:
+            drawer_bodies=[self.world.drives[k][2] for k in drive_keys]
             for h in self.world.rays([*center_xy,float(p[2])+.045],[0,0,-1],.18,ignore=(self.robot_prim,row['body'],row['body'].split('/Model',1)[0])):
                 if h['normal'][2]>.75:
                     beneath=self.world.item(h)
@@ -979,7 +1032,7 @@ class Skills:
                         return beneath['body']
                     if '/Box_1/Object_4/' in h['path']:
                         continue
-                    if prefix(h['path'],drawer_body) or prefix(h['body'],drawer_body):
+                    if any(prefix(h['path'],db) or prefix(h['body'],db) for db in drawer_bodies):
                         return h['path']
         return None
 
@@ -1031,13 +1084,14 @@ class Skills:
         self.world.step(65)
         support=self.support(row)
         error=float(np.linalg.norm(self.bounds(row).mean(axis=0)[:2]-point[:2]))
+        sup_ok=self._support_matches(support,requested)
         self.details.update(place_body=row['body'],observed_support=support,intended_support=requested,
-                            placement_error_m=error,ik_error_m=ik_err,
+                            support_match=sup_ok,placement_error_m=error,ik_error_m=ik_err,
                             realization='ik_collision_validated_direct')
-        if support!=requested or error>.12:
+        if not sup_ok or error>.12:
             # Roll back to held state if target support failed settle check
             self.sync_held()
-            raise Refused('UNSAFE',f'UNSAFE_PLACEMENT_UNSTABLE:support_match={support==requested}:err={error:.3f}')
+            raise Refused('UNSAFE',f'UNSAFE_PLACEMENT_UNSTABLE:support_match={sup_ok}:err={error:.3f}')
         row['support']=support
         self.trace['placed'].append(dict(body=row['body'],support=support,target=bool(row.get('target'))))
         self.held=None
@@ -1086,10 +1140,9 @@ class Skills:
         elif skill=='REPORT_DONE':
             self.done=True
             targets=self.target_rows()
-            destination={p['support'] for p in self.world.episode['delivery']['placements']}
             before=[self.world.pose(r['body']) for r in targets]
             self.world.step(30)
-            success=bool(targets and not self.held and all(self.support(r) in destination and
+            success=bool(targets and not self.held and all(self._on_destination(self.support(r)) and
                 math.dist(p[:3],self.world.pose(r['body'])[:3])<.012 for p,r in zip(before,targets)))
             self.details.update(terminal_attribution=self.terminal_attribution(True,success))
             return dict(success=success,restoration=self.restoration())

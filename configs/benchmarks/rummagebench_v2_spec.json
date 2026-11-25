@@ -1,0 +1,181 @@
+{
+  "schema": "rummagebench.v2_dataset_spec.v2",
+  "benchmark_name": "RummageBench",
+  "target_venue": "ICML 2027",
+  "core_thesis": "Complete Cerebellum, Bottlenecked Brain: Isolating Multimodal Foundation Model Epistemic Foraging, Working Memory, and Spatial Grounding Bottlenecks from Low-Level Humanoid Control Noise via Pure Rummaging Across Diverse Multi-Domain Scenes",
+  "task_carrier": "pure_rummage",
+  "total_episodes": 1000,
+  "base_layouts_count": 60,
+  "residential_architectural_layouts": 50,
+  "commercial_supermarket_layouts": 10,
+  "pilot_subset_episodes": 20,
+  "inspection_10pct_episodes": 100,
+  "core_eval_subset_episodes": 200,
+  "gpt6_source_bank": "runs/rab_migration_20261118/behavior_recipe_backup/prompts.csv",
+  "max_single_container_family_share": 0.12,
+  "max_single_kitchen_cabinet_share": 0.02,
+  "spatial_prior_split": {
+    "in_prior_semantic_zone": 600,
+    "out_of_prior_cross_zone_misplaced": 400
+  },
+  "scene_archetypes": [
+    {
+      "id": "S1_commercial_supermarket_aisles",
+      "quota": 150,
+      "layout_pool": "SM_01..SM_10 (standalone supermarket_v1.usd retail shells + multi-aisle gondolas)",
+      "description": "Standalone 8.6m x 8.0m commercial supermarket & convenience store with parallel gondola shelves, 5-tier industrial racks, refrigerated beverage cooler, stockroom sliding cabinet, checkout counter, shopping cart, and hand basket."
+    },
+    {
+      "id": "S2_culinary_kitchen_and_appliance_hub",
+      "quota": 200,
+      "layout_pool": "ID_01..ID_50 (6 floorplan geometries x 28 world-geometry variants)",
+      "description": "Multi-cabinet culinary kitchen & dining hub wiring 10+ distinct modular base/upper cupboards (BP_Kitchen7/8/9/10/22, RightEnd300, RightWallBase400, CornerGapBase300_A/B, WindowEndBase400_01), glass-door Range Oven (RightRange600/Oven_Door), double-door Refrigerator, Microwave, and Air Fryer."
+    },
+    {
+      "id": "S3_bedroom_and_private_study_suite",
+      "quota": 170,
+      "layout_pool": "ID_01..ID_50 reconfigured with twin NightStands, StudyCredenza, study desk, framed paintings & warm bedside lighting",
+      "description": "Bedroom & private study suite featuring twin modern nightstands, 2-tier walnut/oak study credenza & dresser shelf, study desk, framed canvas/wall art, potted plants, and warm 2750K-3300K reading lamps."
+    },
+    {
+      "id": "S4_living_salon_and_media_lounge",
+      "quota": 180,
+      "layout_pool": "ID_01..ID_50 featuring GrandPianoAndBench17, Fireplace, 4-drawer CoffeeTable, Sofa & TvTable",
+      "description": "Living salon, music room, and media lounge with randomized sofa upholstery, area rugs, wallpaper, grand piano corner, media console, 4-sided coffee table drawers, and tray/cloth surface occluders."
+    },
+    {
+      "id": "S5_entryway_mudroom_and_parcel_station",
+      "quota": 150,
+      "layout_pool": "ID_01..ID_50 entryway & utility sorting zone",
+      "description": "Entryway mudroom & parcel station with CoatRack, hinged-flap Task5PackStation cabinet, middle cubby, ToteBagContainer, wicker basket, cardboard parcel boxes, and dual sorting bins."
+    },
+    {
+      "id": "S6_cargo_trunk_and_garage_rack_bay",
+      "quota": 150,
+      "layout_pool": "ID_01..ID_50 outfitted with raised hinged-tailgate CargoTrunkBay + 5-tier industrial garage rack",
+      "description": "Rear-hatch cargo trunk & garage utility loadout bay featuring a raised walled CargoTrunkBay (z=0.46m) with hinged tailgate flap, 5-tier heavy-duty industrial rack, tote bag, and storage crates."
+    }
+  ],
+  "domain_randomization_axes": {
+    "lighting_profiles": [
+      "warm_evening_2750K",
+      "golden_hour_3300K",
+      "cozy_lamp_spot_3500K",
+      "soft_indoor_3900K",
+      "neutral_daylight_4400K",
+      "crisp_morning_5200K",
+      "overcast_studio_5800K",
+      "commercial_fluorescent_6400K"
+    ],
+    "material_palettes": [
+      "nordic_ivory_oak",
+      "sage_mist_walnut",
+      "charcoal_slate_marble",
+      "navy_coastal_pine",
+      "terracotta_warm_stone",
+      "olive_brass_beech",
+      "dusty_blue_ash",
+      "espresso_cream_quartz",
+      "pebble_gray_granite",
+      "sand_linen_teak",
+      "blush_clay_travertine",
+      "commercial_retail_bright"
+    ]
+  },
+  "robot_spawn_zones": [
+    "entryway_facing_living",
+    "kitchen_sink_worktop",
+    "kitchen_island_or_bistro",
+    "pantry_or_aisle_threshold",
+    "living_sofa_or_study_flank",
+    "piano_trunk_or_checkout_corner"
+  ],
+  "container_and_occlusion_families": [
+    {
+      "id": "refrigerator_multibin",
+      "quota": 110,
+      "zone": "kitchen_and_cooler",
+      "mechanism": "revolute_double_door_and_4_bins"
+    },
+    {
+      "id": "kitchen_cabinet_and_oven",
+      "quota": 110,
+      "zone": "kitchen_multi_cupboard_and_oven",
+      "mechanism": "10_distinct_cupboards_and_range_oven_door"
+    },
+    {
+      "id": "countertop_appliances",
+      "quota": 100,
+      "zone": "kitchen_and_deli",
+      "mechanism": "microwave_hinged_cavity_and_airfryer_tray"
+    },
+    {
+      "id": "pantry_sliding_and_deep_shelf",
+      "quota": 110,
+      "zone": "pantry_and_supermarket_gondola",
+      "mechanism": "sliding_pantry_door_and_5tier_gondola_deep_stock"
+    },
+    {
+      "id": "deep_bins_and_bags_layered",
+      "quota": 100,
+      "zone": "entryway_living_and_supermarket_cart",
+      "mechanism": "tote_bag_wicker_basket_and_shopping_cart_layered"
+    },
+    {
+      "id": "entryway_study_and_trunk_storage",
+      "quota": 110,
+      "zone": "entryway_bedroom_study_and_trunk",
+      "mechanism": "flap_cabinet_cargo_trunk_nightstand_and_credenza"
+    },
+    {
+      "id": "cloth_and_tray_cover_occlusion",
+      "quota": 90,
+      "zone": "living_dining_and_study",
+      "mechanism": "removable_tray_tablecloth_and_newspaper_cover"
+    },
+    {
+      "id": "furniture_blind_spots",
+      "quota": 90,
+      "zone": "living_media_and_bedroom",
+      "mechanism": "active_viewpoint_circumvention"
+    },
+    {
+      "id": "kitchen_worktop_clutter",
+      "quota": 90,
+      "zone": "kitchen_and_checkout",
+      "mechanism": "dense_lateral_blocker_cluster"
+    },
+    {
+      "id": "coffee_table_four_drawers",
+      "quota": 90,
+      "zone": "living_room",
+      "mechanism": "four_sided_prismatic_drawers"
+    }
+  ],
+  "cognitive_rummage_paradigms": [
+    {
+      "id": "P1_situational_functional",
+      "quota": 420
+    },
+    {
+      "id": "P2_visual_sample_matching",
+      "quota": 210
+    },
+    {
+      "id": "P3_multi_item_and_count",
+      "quota": 150
+    },
+    {
+      "id": "P4_fine_grained_label_check",
+      "quota": 90
+    },
+    {
+      "id": "P5_set_completion_missing_item",
+      "quota": 65
+    },
+    {
+      "id": "P6_contrastive_negative_foil",
+      "quota": 65
+    }
+  ]
+}
